@@ -9,9 +9,9 @@ image::https://zenodo.org/badge/DOI/10.5281/zenodo.13341126.svg[DOI, link=https:
 
 .GitHub Information
 --
-image:https://img.shields.io/github/v/release/numpex/deliverable.template[GitHub Release]
-image:https://img.shields.io/github/actions/workflow/status/numpex/deliverable.template/latex.yml[GitHub Actions Workflow Status]
-image:https://img.shields.io/github/downloads/numpex/deliverable.template/total[GitHub Downloads (all assets, all releases)]
+image:https://img.shields.io/github/v/release/numpex/exa-ma-d7.1[GitHub Release]
+image:https://img.shields.io/github/actions/workflow/status/numpex/exa-ma-d7.1/latex.yml[GitHub Actions Workflow Status]
+image:https://img.shields.io/github/downloads/numpex/exa-ma-d7.1/total[GitHub Downloads (all assets, all releases)]
 --
 
 == Introduction
@@ -24,7 +24,7 @@ This style is based on the deliverable template provided by the European project
 
 Create a repository for your deliverable and use this repo as template.
 
-.Create a new repository from deliverable.template
+.Create a new repository from exa-ma-d7.1
 image::graphics/create-repo-from-template.png[]
 
 The basic structure of a deliverable formatted according with these
@@ -99,7 +99,7 @@ styles should be (minimally):
 
 == Further details
 
-See deliverable.template.tex/deliverable.template.pdf in this directory.
+See exa-ma-d7.1.tex/exa-ma-d7.1.pdf in this directory.
 
 If you have any thoughts on how to improve this style, feel free to
 implement them and share your results. The same goes for bug fixes.

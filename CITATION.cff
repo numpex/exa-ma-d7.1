@@ -6,25 +6,18 @@ authors:
   orcid: 'https://orcid.org/0000-0003-2287-2961'
   affiliation: "University of Strasbourg"
   email: christophe.prudhomme@cemosis.fr
-title: "numpex/deliverable.template - Template repository for deliverables"
-version: 1.0.2
+title: "numpex/exa-ma-d7.1 - Benchmarking Analysis Report"
+version: 0.0.1
 abstract: >
-  This repository contains a LaTeX style for deliverables in
-  the context of the French initiative for Exascale
-  computing NumPEx.
-
-  This style is based on the deliverable template provided
-  by the European project Hyperride.
+  This repository contains the deliverable D7.1 for the Benchmarking Analysis Report 
+  of the Exa-MA project. 
 keywords:
-  - Deliverable
-  - Template
-  - NumPEx
+  - HPC
+  - Exascale
+  - Benchmarking
 license: CC-BY-4.0
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.13341126
 date-released: 2024-08-19
-url: "https://github.com/numpex/deliverable.template"
+url: "https://github.com/numpex/exa-ma-d7.1"
 references:
   - type: grant
     title: Exa-MA — Methods and Algorithms for Exascale

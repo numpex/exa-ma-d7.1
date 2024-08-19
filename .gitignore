@@ -15,10 +15,10 @@ article.template.pdf
 *.idx
 *.ilg
 *.ind
-deliverable.template.chl
-deliverable.template.lof
-deliverable.template.lot
-deliverable.template.pdf
+exa-ma-d7.1.chl
+exa-ma-d7.1.lof
+exa-ma-d7.1.lot
+exa-ma-d7.1.pdf
 *.chl
 *.lof
 *.lot
