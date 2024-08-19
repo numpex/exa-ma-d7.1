@@ -15,11 +15,11 @@ article.template.pdf
 *.idx
 *.ilg
 *.ind
-deliverable.chl
-deliverable.lof
-deliverable.lot
-deliverable.pdf
 deliverable.template.chl
 deliverable.template.lof
 deliverable.template.lot
 deliverable.template.pdf
+*.chl
+*.lof
+*.lot
+*.pdf
