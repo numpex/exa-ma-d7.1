@@ -1,0 +1,215 @@
+%% numpex.sty
+%%
+%% Style file for documents of the embeddia project (adapted from fracas.sty)
+%%
+%%			History:
+%%			03/07/94 - MP, created
+%%			20th April, 00 - JC adapted to mpiro
+%%			4th Dec, 01 - CM adapted to magicster
+%%			16th  Nov 04, - OL adapted to Talk
+%%			Wed Nov 17 14:38:29 2004 TB: various fixes
+%%			Thu Jan 17 07: JA: adapted to i2home
+%%          Fri May 19 SL: adapted to embeddia
+%%			2020/05/18 Adaptations for ERIGrid 2.0 (TS)
+%%			2020/10/27 Adaptations for hyperride (TS)
+%%          2024/08/17 Adaptations for numpex (TS)
+
+%%%%%%%%%%%%%%%%%%%%%
+% package description
+%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{numpex}[2024/08/17 numpex style sheet v1.0]
+% packages and includes
+\usepackage{istprog}
+\RequirePackage{a4wide}	% A4
+\usepackage{etoolbox}
+\usepackage{tocloft} 	% formatting of the table of contents.
+\usepackage[linktocpage=true]{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	filecolor=black,      
+	citecolor=black,
+	urlcolor=blue,
+	pdftitle=\deliv@stitle,
+	pdfauthor=\deliv@authors,
+	pdfsubject=NumPEX Exa-MA Project Deliverable,
+	pdfkeywords=\deliv@keywords,
+	pdfcreator=pdflatex,
+	pdfproducer=Overleaf,
+}
+\usepackage[
+	type={CC},
+	modifier={by},
+	version={4.0},
+	imagewidth={6em},
+]{doclicense}
+
+\AtBeginDocument{\apptocmd{\thebibliography}{\csname phantomsection\endcsname\addcontentsline{toc}{section}{\bibname}}{}{}}
+% \input{a4wide.sty}
+\typeout{Document Style `NumPEx' <17 August, 2024>.}
+
+\def\deliv@checkmark{ x }
+\DeclareOption{checkmark}{\def\deliv@checkmark{$\underline{\checkmark}$}}
+%\ExecuteOptions{checkmark}
+\ProcessOptions
+
+%%%%%%%%%%%%%%%%%%%%
+% Project references
+%%%%%%%%%%%%%%%%%%%%
+
+\ProjectRefNo{ANR-22-EXNU-0002}
+\ProjectFP{France 2030}
+\ProjectAcronym{Exa-MA}
+\ProjectFullTitle{Methods and Algorithms at Exascale}
+\ProjectInstrument{PEPR}
+\ProjectStartDuration{1 Septembre 2023 / 60 Months}
+\Security{Public}
+
+% \partners{ 
+% \textbf{AIT Austrian Institute of Technology} \\
+% }
+
+% \webAddress{https://numpex.eu}
+% \principalContact{ERIGrid 2.0 Project Co-ordinator \\
+% Dr.\ Gerhard Jambrich \\
+% AIT Austrian Institute of Technology \\
+% Electric Energy Systems -- Center for Energy \\
+% Giefinggasse 2 \\
+% 1210 Vienna, Austria \\
+% gerhard.jambrich@ait.ac.at \\
+% Phone +43 664 88335404 -- Fax +43 50550 6390
+% }
+
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage{colortbl}
+\usepackage{geometry}
+\usepackage{wallpaper}
+\usepackage[format=hang,font={small,it}]{caption}
+\usepackage{sfmath}
+\usepackage{apacite}
+\pagestyle{fancy}
+\usepackage[absolute]{textpos}
+\usepackage{array}	% tabs
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\definecolor{numpexblack}{RGB}{0,0,0}
+\definecolor{numpexblue}{RGB}{42,46,128}
+\definecolor{numpexfont}{RGB}{54,54,54}
+\definecolor{numpexred}{RGB}{250,40,35}
+\definecolor{numpexgray}{RGB}{127,127,127}
+\definecolor{numpexlightgray}{RGB}{219,219,219}
+\definecolor{numpexlightergray}{RGB}{237,237,237}
+
+\geometry{a4paper,top=2.50cm,left=2.50cm,right=2.50cm,bottom=3.30cm,headsep=0.50cm,footskip=0.75cm}
+\setlength{\parindent}{0pt}
+\usepackage[parfill]{parskip}
+
+%% title page
+%% 
+\usepackage{istcover}
+
+% toc design
+\def\settableofcontents{%
+\renewcommand{\cftsubsecfont}{\small}
+\renewcommand{\cftsecfont}{\normalsize}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\cfttoctitlefont}{\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}
+\setlength{\cftbeforetoctitleskip}{-0.4cm}
+\setlength{\cftaftertoctitleskip}{3mm}
+\setlength{\cftbeforesecskip}{2mm}
+\setlength{\cftbeforesubsecskip}{0.5mm}
+\setlength{\cftsecindent}{0mm}
+\setlength{\cftsubsecindent}{4mm}
+\setlength{\cftsubsubsecindent}{8mm}
+\renewcommand{\cftsecpagefont}{\normalsize}
+\renewcommand{\cftsubsecpagefont}{\small}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsubsecleader}{\small\cftdotfill{\cftsubsecdotsep}}
+\renewcommand{\cftsecdotsep}{0.5}
+\renewcommand{\cftsubsecdotsep}{0.5}
+\renewcommand{\cftsubsubsecdotsep}{0.5}
+\addtolength{\cftsecnumwidth}{-2mm}
+\addtolength{\cftsubsecnumwidth}{-3mm}
+\addtolength{\cftsubsubsecnumwidth}{-5mm}
+\cftsetpnumwidth{5mm}
+}
+
+% lof design
+\def\setlistoffigures{%
+\renewcommand{\cftfigfont}{\small}	
+\renewcommand{\cftfigpagefont}{\small}	
+\setlength{\cftfigindent}{0mm}	
+\setlength{\cftbeforeloftitleskip}{-0.4cm}
+\setlength{\cftafterloftitleskip}{3mm}
+\renewcommand{\cftloftitlefont}{\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}
+\renewcommand{\cftfigleader}{\small\cftdotfill{\cftfigdotsep}}
+\renewcommand{\cftfigdotsep}{\cftdotsep}
+\renewcommand{\cftdotsep}{0.5}
+\renewcommand*\cftfigpresnum{Figure~}
+\settowidth{\cftfignumwidth}{\cftfigpresnum}
+\addtolength{\cftfignumwidth}{5mm}
+\renewcommand{\cftfigaftersnum}{:~}
+}
+
+% lot design
+\def\setlistoftables{%
+\renewcommand{\cfttabfont}{\small}	
+\renewcommand{\cfttabpagefont}{\small}	
+\setlength{\cfttabindent}{0mm}
+\setlength{\cftbeforelottitleskip}{-0.4cm}
+\setlength{\cftafterlottitleskip}{3mm}
+\renewcommand{\cftlottitlefont}{\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}
+\renewcommand{\cfttableader}{\small\cftdotfill{\cfttabdotsep}}
+\renewcommand{\cfttabdotsep}{\cftdotsep}
+\renewcommand{\cftdotsep}{0.5}
+\renewcommand*\cfttabpresnum{Table~}
+\settowidth{\cfttabnumwidth}{\cfttabpresnum}
+\addtolength{\cfttabnumwidth}{5mm}
+\renewcommand{\cfttabaftersnum}{:~}
+}
+
+\logo{\includegraphics[scale=0.465]{graphics/logo-numpex-exama-vector.png}}
+
+\newcommand{\ignore}[1]{}
+
+% subsubsections processing
+\setcounter{secnumdepth}{3}	% numbering until subsubsections
+\setcounter{tocdepth}{2}	% toc depth
+
+\setcounter{topnumber}{20}
+\renewcommand{\topfraction}{.99}
+
+\setcounter{bottomnumber}{20}
+\renewcommand{\bottomfraction}{.99}
+
+\setcounter{totalnumber}{30}
+
+\renewcommand{\textfraction}{0}
+\renewcommand{\floatpagefraction}{0}
+
+% font
+% \usepackage[scaled]{uarial}
+% \usepackage[scaled]{helvet}
+\renewcommand*\rmdefault{phv}
+\renewcommand*\sfdefault{phv}
+\renewcommand*{\familydefault}{\rmdefault}
+\usepackage[T1]{fontenc}
+
+% sections as chapters
+\renewcommand*\thesection{\arabic{section}}
+
+\makeatletter
+    \def\thebibliography#1{\section*{References\@mkboth
+      {REFERENCES}{REFERENCES}}\list
+      {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+	\advance\leftmargin\labelsep
+	\usecounter{enumi}}
+	\def\newblock{\hskip .11em plus .33em minus .07em}
+	\sloppy\clubpenalty4000\widowpenalty4000
+	\sfcode`\.=1000\relax}
+\makeatother
+
+\endinput

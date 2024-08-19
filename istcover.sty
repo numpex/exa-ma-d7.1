@@ -1,0 +1,150 @@
+%% istcover.sty
+%%
+%% Cover page for ERIGrid 2.0 deliverables (adapted from EMBEDDIA, TALK, FRACAS and TRINDI)
+%%
+%%
+%%			History:
+%%			03/21/94 - MP, created (from urcstitlepage.sty and
+%%					   DYANA titlepage)
+%%			03/27/94 - MP, added ftp directory and email address
+%%			03/28/94 - RC, added HCRC
+%%			20 April 98 -- RC, adapted to TRINDI
+%%			30 APRIL 98 -- RC, adapted distribution data
+%%			Thu Feb 24 17:54:25 2000 JC adapted to M-PIRO
+%%			Wed Apr	 5 16:51:40 2000 JC generalized for IST
+%%			Tue Dec	 4 10:22:54 2001 CM changed copyright date
+%%			Tue Nov 16 2004 OL changed copyright date, logos, etc for TALK
+%%			Wed Nov 17 14:36:44 2004 TB added empty pagestyle for overflow page
+%%										(deliverable identification sheet)
+%%			2019/05/31 Adaptations for Embeddia 
+%%			2020/05/18 Adaptations for ERIGrid 2.0 (TS)
+%%			2020/10/27 Adaptations for numpex (TS)
+%% $Id: istcover.sty,v 1.2 2007/01/05 12:05:33 olemon Exp $
+
+%%
+%% makefront
+%% Frontpage content
+%%
+\def\makefront{
+  \newpage
+  \newgeometry{top=8.5mm,left=8.5mm,right=15mm,bottom=-14mm}
+  % shadowed frame
+  \ThisCenterWallPaper{1}{graphics/numpex-cover-bkg}
+  %	\global\@topnum\z@ % prevents figures from going at top of page
+  \thispagestyle{empty} % so we get no page number on title page
+  \setcounter{footnote}{0}
+  
+  \begingroup
+  % \renewcommand{\shadowsize}{2pt}
+  % \renewcommand{\shadowsize}{1pt}
+  % \shadowbox{%
+  % \begin{minipage}{\textwidth}
+  % redefine \@makefnmark so footnote marks take zero space
+  % (this make centering look better)
+  \def\thefootnote{\fnsymbol{footnote}}
+  \def\@makefnmark{\hbox to 0pt{$^{\@thefnmark}$\hss}}
+  \null
+  
+  % Titles block
+  \vspace*{34mm}
+  \hspace*{14mm}
+  \begin{minipage}{.85\linewidth}
+	\begin{center}
+		{\fontsize{16}{20}\bf \color{numpexblue} Methods and Algorithms at Exascale} \\[10ex]
+    	\textit{Work Package \deliv@wp} \\[.6ex]
+    	{\fontsize{14}{16}\bf \deliv@wpname} \\[10ex]
+    	\textit{Deliverable \deliv@number} \\[.6ex]
+		{\fontsize{14}{16}\bf \deliv@name} \\[10ex]    	
+    \end{center}
+  \end{minipage}
+
+	\begin{textblock*}{1.00\linewidth}(2.50cm,18cm)
+		\begin{tabular}{p{.21\linewidth}p{.64\linewidth}}
+			\textit{Funding Instrument:} & France 2030\\
+			\textit{Call:} & PEPR \\
+			\textit{Call Topic:} & Exascale computing  \\
+			& \\
+			\textit{Project Start:} & 1 Janvier 2023 \\
+			\textit{Project Duration:} & 48 months \\
+			& \\
+			\textit{Beneficiary in Charge:} & \deliv@owner \\
+			& \\
+			\ifx\doi@number\empty
+			\else
+			\textit{Document Identifier:} & doi:\href{https://doi.org/\doi@number}{\doi@number}
+			\fi 
+			\\
+		\end{tabular} 	
+	\end{textblock*}
+
+	\begin{textblock*}{0.85\linewidth}(2.50cm,24cm)	
+		{\fontsize{9}{11}\selectfont
+	  	\setlength{\parindent}{0pt}
+		\def\arraystretch{1.25}			
+		\arrayrulecolor{numpexgray}
+			\begin{tabular}[t]{!{\color{numpexgray}\vrule}p{4em}!{\color{numpexgray}\vrule}p{.8\linewidth}!{\color{numpexgray}\vrule}p{2em}!{\color{numpexgray}\vrule}}
+				\rowcolor{numpexgray}\multicolumn{3}{c}
+				{\rule{0pt}{2.5ex}\color{white}\bf Dissemination Level \rule[-1ex]{0pt}{2.5ex}}
+				\\
+				\rowcolor{white}
+				PU & Public & \istTestDisseminationLevel{PU} \\
+				\rowcolor{numpexlightergray}
+				PP &  Restricted to other programme participants (including the
+				Commission Services)
+				& \istTestDisseminationLevel{PP} \\
+				\rowcolor{white}
+				RE &  Restricted to a group specified by the Consortium (including the Commission Services)
+				& \istTestDisseminationLevel{RE} \\
+				\rowcolor{numpexlightergray}
+				CO &
+				Confidential, only for members of the Consortium (including the Commission Services)
+				& \istTestDisseminationLevel{CO} \\
+				\hline
+			\end{tabular}
+		}
+	\end{textblock*}
+
+  \endgroup
+
+  \clearpage
+  \restoregeometry
+  % reset footnote counter
+  \setcounter{footnote}{0}
+  % clean up title page macros
+  % Not yet!
+  % \let\maketitle\relax
+  % \gdef\@thanks{}\gdef\@author{}\gdef\@title{}
+  % \gdef\@funding{}\gdef\@techrepdept{}\gdef\@techrepname{}\gdef\@techrepnum{}
+  % \let\thanks\relax
+
+  % margins
+}
+%end of makefront
+
+
+%%
+%% \makeback
+%% Back page of the cover
+%% 
+\def\makeback{
+	\clearpage
+	\newgeometry{a4paper,top=2.50cm,left=2.50cm,right=2.50cm,bottom=3.30cm,headsep=0.50cm,footskip=-0.77cm}	
+	\vspace*{-0.05cm}
+	\istdis	  %%%%% see istprog.sty
+    \istmakechangelog
+}
+
+%%
+%% \makecover
+%% cover page (front + back)
+%%
+\def\makecover{
+	\makefront
+	\makeback
+}
+
+\newcommand\Thickvrule[1]{%
+	\multicolumn{1}{!{\vrule width 2pt}c!{\vrule width 1pt}}{#1}%
+}
+
+\endinput

@@ -1,0 +1,10 @@
+*~
+*.aux
+*.log
+*.blg
+*.dvi
+*.out
+*#
+*_region_.*
+.git*
+.svn*

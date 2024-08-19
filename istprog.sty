@@ -1,0 +1,340 @@
+%% $Id: istprog.sty,v 1.1 2006/10/17 11:13:53 poller Exp $
+%%			History:
+%%			Tue Dec  4 10:26:29 2001:  CM tweaked to stop tables messing up
+%%			Tue Dec  4 10:35:09 2001:  CM hacked again to fix page height
+%%			Tue Nov  16         2004:  OL various changes for TALK
+%%			Wed Nov 17 15:05:09 2004:  TB more changes for TALK
+%%			2014/01/10 Adaptations for Metalogue
+%%			2019/05/31 Adaptations for Embeddia
+%%			2020/05/18 Adaptations for ERIGrid 2.0 (TS)
+%%			2020/05/18 Adaptations for numpex (TS)
+%%			2025/08/18 Adaptations for NUMPEX (TS)
+\ProvidesPackage{istprog}
+%\usepackage{xstring}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{stringstrings}
+\usepackage{ifthen}
+\usepackage{amssymb}
+
+% table of content alias
+\newcommand{\maketoc}{
+	\thispagestyle{empty}\pagenumbering{roman}\tableofcontents\newpage\pagenumbering{arabic}
+}
+
+% redefine elements styles
+\@ifclassloaded{report}{
+	\renewcommand{\section}{\@startsection {section}{1}{\z@}%
+          {-3.5ex \@plus -1ex \@minus -.2ex}%
+          {2.3ex \@plus.2ex}%
+          {\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}%
+	}
+
+\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+	          {-3.5ex \@plus -1ex \@minus -.2ex}%
+                  {2.3ex \@plus.2ex}
+		{\normalfont\fontsize{14}{18}\sffamily\bfseries\color{numpexblue}}}
+
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@}%
+	          {-3.5ex \@plus -1ex \@minus -.2ex}%
+                  {2.3ex \@plus.2ex}
+		{\normalfont\fontsize{12}{16}\sffamily\bfseries\color{numpexblue}}}
+
+% \renewcommand{\paragraph}{\@startsection{paragraph}{4}{\z@}%
+             % {3.25ex \@plus1ex \ at minus.2ex}%
+             % {-1em}%
+             % {\normalfont\normalsize\sffamily\bfseries}}
+}
+
+%%% Deliverable information sheet.
+
+\newcommand{\GetDeliverableID}{%
+\capitalizewords[e]{\deliv@stitle}
+\alphabetic[e]{\thestring}
+\edef\deliv@captitle{\thestring}
+\testmatchingchar{\deliv@status}{1}{d}
+\proj@acronym-\convertchar{\deliv@number}{.}{}-\noblanks{\deliv@captitle}-\deliv@status\ifmatchingchar{-\deliv@version}\else{}\fi
+%\IfBeginWith{\deliv@status}{d}{-\deliv@version}{}
+}
+
+% istdis project refs
+\newcommand{\istdis}{
+  {\fontsize{12}{15}\bf\color{numpexblue}Deliverable Information}\\[1.5ex] 
+  \setlength{\parindent}{0pt}
+  \def\arraystretch{1.25}
+  \arrayrulecolor{numpexgray}
+  {\fontsize{9}{11}\selectfont
+  \begin{tabular}[t]{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
+    \rowcolor{numpexgray}\multicolumn{2}{c}
+    {\rule{0pt}{2.5ex}\color{white}\bf Document Administrative Information} \\
+    \rowcolor{white}
+    Project Acronym: & \proj@acronym \\
+    \rowcolor{numpexlightergray}
+    Project Number: & \proj@ref@no \\
+    \rowcolor{white}
+    Deliverable Number: & \deliv@number\\
+    \rowcolor{numpexlightergray}
+    Deliverable Full Title: & \parbox{\linewidth}{\deliv@name} \\
+    \rowcolor{white}
+    Deliverable Short Title: & \deliv@stitle \\
+    \rowcolor{numpexlightergray}
+    Document Identifier: & \GetDeliverableID{} \\
+    \rowcolor{white}
+    Beneficiary in Charge: & \deliv@owner \\
+    \rowcolor{numpexlightergray}
+    Report Version: & \deliv@version \\
+    \rowcolor{white}
+    Contractual Date: & \deliv@contrdate \\
+	\rowcolor{numpexlightergray}
+    Report Submission Date: & \deliv@actdate \\
+    \rowcolor{white}
+    Dissemination Level: & \deliv@disslevel \\
+    \rowcolor{numpexlightergray}
+    Nature: & \deliv@type \\
+    \rowcolor{white}
+    Lead Author(s): & \deliv@authors \\
+    \rowcolor{numpexlightergray}
+    Co-author(s):& \deliv@FPauthors \\
+    \rowcolor{white}
+	Keywords: & \deliv@keywords \\
+    \rowcolor{numpexlightergray}
+    Status: & \deliv@status@table \\
+    \hline
+  \end{tabular}
+}\\[3ex]
+}
+
+\newcommand{\istmakechangelog} {%
+  \InputIfFileExists {\jobname.chl}{}{%
+  \ClassWarning{france2030proposal}{Change log not complete yet. Recompile to include all data.}}%
+}%
+
+\newcommand{\writechlog}{
+	% create chlog table on auxiliary lwp file
+	\setcounter{@row}{0} \newwrite\chlogfile
+	\immediate\openout\chlogfile=\jobname.chl
+	\immediate\write\chlogfile{%
+		{\noexpand\fontsize{12}{15}\noexpand\bf\noexpand\color{numpexblue}Change Log}\noexpand\\[1.5ex] 
+		\noexpand\setlength{\noexpand\parindent}{0pt}
+		\noexpand\def\noexpand\arraystretch{1.00}
+		\noexpand\def\noexpand\clinecolor{numpexgray}
+		\noexpand\begin{tabular}[t]{!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.12\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.10\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.3\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.364\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}}
+			\noexpand\rowcolor{numpexgray}
+			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Date &
+			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Version & 
+			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Author/Editor & 
+			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Summary of Changes Made \noexpand\arrayrulecolor{numpexgray}\noexpand\def\noexpand\clinecolor{numpexgray}\noexpand\\ \noexpand\hline}
+		\whiledo{\value{@row}<\value{@changecount}}{%
+			\stepcounter{@row}
+			\ifodd\value{@row}\def\shadeofgray{white}\else\def\shadeofgray{numpexlightergray}\fi
+			\immediate\write\chlogfile{%
+				\noexpand\rowcolor{\shadeofgray}\noexpand\footnotesize\csname @changedate\arabic{@row}\endcsname &
+				\noexpand\footnotesize\csname @changeversion\arabic{@row}\endcsname &
+				\noexpand\footnotesize\csname @changeauthor\arabic{@row}\endcsname &
+				\noexpand\footnotesize\csname @changesummary\arabic{@row}\endcsname \noexpand\\
+			}
+		}
+	\immediate\write\chlogfile{\noexpand\hline \noexpand\end{tabular}}
+	\closeout\chlogfile
+}
+
+\AtEndDocument{%
+ \writechlog 
+  }
+
+% disclaimer
+\newcommand{\makedisclaimer}{
+	\cleardoublepage
+	\thispagestyle{empty}
+	\ThisCenterWallPaper{1}{graphics/numpex-cover-bkg}
+	
+	\vspace*{5cm}
+
+    {\fontsize{12}{15}\bf\color{numpexblue}Consortium}\\[2ex] 
+	{\includegraphics[width=0.98\linewidth,page=2]{graphics/numpex-cover-bkg.pdf}}\\[1ex]
+
+	{\fontsize{12}{15}\bf\color{numpexblue}Disclaimer}\\[2ex] 
+	{\small All information provided reflects the status of the \projacronym{} project at the time of writing and may be subject to change.
+	
+	Neither the \projacronym{} Consortium as a whole nor any single party within the \projacronym{} Consortium warrant that the information contained in this document is capable of use, nor that the use of such information is free from risk. 
+  Neither the \projacronym{} Consortium as a whole nor any single party within the \projacronym{} Consortium accepts any liability for loss or damage suffered by any person using the information.
+	
+	This document does not represent the opinion of the French National Research Agency, and the French National Research Agency is not responsible for any use that might be made of its content.
+  }\\[1ex]
+
+	\renewcommand{\doclicenseLongText}{\textcopyright~\the\year~by the authors, the \projacronym{} Consortium. \doclicenseText}
+
+	{\fontsize{12}{15}\bf\color{numpexblue}Copyright Notice}\\[2.0ex] 
+	\ifthenelse{\equal{\deliv@disslevel}{PU}}
+	{\vspace*{-3.0ex}\small\doclicenseLicense}
+	{\small\textcopyright~\the\year~by the authors, the \numpex{} Consortium.}
+}
+\makeatletter
+\def\ProjectRefNo#1{\gdef\proj@ref@no{#1}\gdef\projrefno{#1}}
+\def\ProjectFP#1{\gdef\proj@fp{#1}}
+\def\ProjectAcronym#1{\gdef\proj@acronym{#1}\gdef\projacronym{#1}}
+
+\def\ProjectFullTitle#1{\gdef\proj@title{#1}\gdef\projtitle{#1}}
+\def\ProjectInstrument#1{\gdef\proj@instrument{#1}}
+\def\ProjectStartDuration#1{\gdef\proj@start@duration{#1}}
+\def\Security#1{\gdef\deliv@security{#1}}
+\def\ContractualDate#1{\gdef\deliv@contrdate{#1}}
+\def\ActualDate#1{\gdef\deliv@actdate{#1}}
+\def\delivNumber#1{\gdef\deliv@number{#1}}
+\def\delivName#1{\gdef\deliv@name{#1}}
+\def\doiNumber#1{\gdef\doi@number{#1}}
+\def\delivShortTile#1{\gdef\deliv@stitle{#1}}
+\def\delivType#1{\gdef\deliv@type{#1}}
+\def\delivStatus#1{%
+  %\StrLeft{#1}{1}[\firstchar]%
+  %\edef\temparg{\firstchar}%
+  \substring[e]{#1}{1}{2}
+  \def\temparg{\thestring}%
+  \edef\tempf{\detokenize{f}}% final
+  \edef\temps{\detokenize{s}}% submitted
+  \if\temparg\tempf%
+  {\gdef\deliv@status{final}%
+    \gdef\deliv@status@table{\underline{~~~} draft, \underline{\deliv@checkmark} final, \underline{~~~} submitted}}
+  \else %
+    \if\temparg\temps%
+     {\gdef\deliv@status{submitted}%
+       \gdef\deliv@status@table{\underline{~~~} draft, \underline{~~~} final, \underline{\deliv@checkmark} submitted}}
+     \else
+     {\gdef\deliv@status{draft}%
+       \gdef\deliv@status@table{\underline{\deliv@checkmark} draft, \underline{~~~} final, \underline{~~~} submitted}}
+     \fi
+  \fi%
+  % \ifthenelse{\equal{#1}{f}}%\or\equal{\lowercase{#1}}{\string final}}%
+  % {\gdef\deliv@status{final}%
+  %  \gdef\deliv@status@table{\_ draft, $\underline{\checkmark}$ final, \_ submitted (tick one)}}%
+  %  {\gdef\deliv@status{\lowercase{#1}}%
+  %   \gdef\deliv@status@table{$\underline{\checkmark}$ draft, \_ final, \_ submitted (tick one)}}%
+}
+\def\delivVersion#1{\gdef\deliv@version{#1}\gdef\delivversion{#1}}
+\def\NumberOfPages#1{\gdef\deliv@pages{#1}}
+\def\delivMonth#1{\gdef\deliv@month{#1}}
+\def\delivYear#1{\gdef\deliv@year{#1}}
+\def\delivDissLevel#1{\gdef\deliv@disslevel{#1}}
+
+\def\delivWP#1{\gdef\deliv@wp{#1}}
+\def\delivWPName#1{\gdef\deliv@wpname{#1}}
+\def\delivTask#1{\gdef\deliv@task{#1}}
+\def\delivResponsible#1{\gdef\deliv@owner{#1}}
+\def\delivOtherContributors#1{\gdef\deliv@others{#1}}
+\def\delivAuthor#1{\gdef\deliv@authors{#1}\author{#1}}
+\def\delivFPAuthor#1{\gdef\deliv@FPauthors{#1}\author{#1}}
+\def\delivProjectOfficer#1{\gdef\deliv@officer{#1}}
+\def\delivKeywords#1{\gdef\deliv@keywords{#1}}
+\def\delivAbstract#1{\gdef\deliv@abstract{#1}}
+\def\delivExecSummary#1{\gdef\deliv@abstract{#1}}
+\def\delivExecSummary#1{\gdef\deliv@abstract{#1}}
+
+
+\newcounter{@changecount}
+\setcounter{@changecount}{0}
+\newcounter{@row}
+\newcommand{\istChange}[4]{
+  \stepcounter{@changecount}%
+  \expandafter\xdef\csname%
+  @changedate\arabic{@changecount}\endcsname{#1}
+  \expandafter\xdef\csname%
+  @changeversion\arabic{@changecount}\endcsname{#2}
+  \expandafter\xdef\csname%
+  @changeauthor\arabic{@changecount}\endcsname{\detokenize{#3}}
+  \expandafter\xdef\csname%
+  @changesummary\arabic{@changecount}\endcsname{\detokenize{#4}}
+}
+
+%%% Headers and footers
+
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\fancyplain{}{}}
+\chead{\fancyplain{}{
+	\begin{tabular}{m{0.25\linewidth} m{0.47\linewidth} m{0.25\linewidth}}
+		{\footnotesize Exa-MA} & 
+		\centering{\footnotesize{\deliv@stitle}} 
+		& 
+		\makebox[0.24\textwidth][r]{\includegraphics[width=0.18\linewidth]{graphics/logo-numpex-exama-vector.png}} \\
+		\hline
+	\end{tabular}
+}}
+\rhead{\fancyplain{}{}}
+\lfoot{\fancyplain{}{}}
+\cfoot{\fancyplain{}{
+	\begin{tabular}{m{0.25\linewidth} m{0.47\linewidth} m{0.25\linewidth}}
+%		\hline
+		{\footnotesize Deliverable \deliv@number} & 
+		\ifx\doi@number\empty
+		\else
+		\centering {\footnotesize doi:\href{https://doi.org/\doi@number}{\doi@number}} 
+		\fi
+		& 
+		\makebox[0.24\textwidth][r]{\footnotesize{\thepage{} of \pageref{LastPage}}} \\
+	\end{tabular}
+}}
+\rfoot{\fancyplain{}{}}
+
+% Some reasonable defaults. 
+
+\Security{??}
+\ContractualDate{}
+\ActualDate{\today{}}
+\delivNumber{Dn.n}
+\delivName{??}
+\delivType{??}
+
+\delivWP{??}
+\delivWPName{??}
+\delivResponsible{??}
+\delivOtherContributors{??}
+\delivAuthor{??}
+\delivProjectOfficer{??}
+\delivKeywords{??}
+\delivAbstract{??}
+
+\ProjectRefNo{ANR-22-EXNU-0002}
+\ProjectAcronym{Exa-MA}
+\ProjectFullTitle{Methods and Algorithms at Exascale}
+\Security{Restricted}
+\ContractualDate{\_\_\_\_ \_\_\_\_\_ 202\_}
+\delivMonth{Month}
+\delivYear{202x}
+\ActualDate{\_\_\_\_\_\_ 202\_}
+\delivNumber{Dn.n}
+\delivName{[Title as appears in the DoA]}
+\delivShortTile{Report Short Title Here}
+\delivDissLevel{PP}
+\delivType{[Report, Prototype, Other]}
+\delivStatus{d}
+\delivWP{WPx} % Workpackage x
+\delivWPName{[Title as appears in DoA]} % WP name
+\delivResponsible{[Responsible partner]} 
+\delivOtherContributors{[List of partners contributed to the deliverable]} 
+\delivVersion{\today}
+\delivAuthor{[List of individuals contributed to the deliverable]}
+\delivFPAuthor{...}
+
+\delivOtherContributors{All partners}
+\delivProjectOfficer{Project officer}
+
+\delivKeywords{[List of free keywords relevant to the deliverable]}
+
+\delivDissLevel{CO}
+\delivTask{Tn.n}
+\delivVersion{0.0}
+\NumberOfPages{\pageref{LastPage(excluding front matter)}}
+
+\newcommand{\istTestDisseminationLevel}[1]{%
+  \ifthenelse{\equal{\deliv@disslevel}{#1}}
+  {~~\checkmark}
+  {}
+}
+
+%% Stuff for other than in the identification page
+
+\def\partners#1{\gdef\proj@partners{#1}}
+\def\webAddress#1{\gdef\proj@web{#1}}
+\def\principalContact#1{\gdef\proj@contact{#1}}
+\def\logo#1{\gdef\proj@logo{#1}}
+\makeatother
+\endinput

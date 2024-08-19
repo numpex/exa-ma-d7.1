@@ -1,0 +1,32 @@
+cff-version: 1.2.0 
+message: If you use this software, please cite it as below.
+authors:
+- family-names: Prud'homme
+  given-names: Christophe
+  orcid: 'https://orcid.org/0000-0003-2287-2961'
+  affiliation: "University of Strasbourg"
+  email: christophe.prudhomme@cemosis.fr
+title: "numpex/deliverable.template - Template repository for deliverables"
+version: 1.0.2
+abstract: >
+  This repository contains a LaTeX style for deliverables in
+  the context of the French initiative for Exascale
+  computing NumPEx.
+
+  This style is based on the deliverable template provided
+  by the European project Hyperride.
+keywords:
+  - Deliverable
+  - Template
+  - NumPEx
+license: CC-BY-4.0
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.13341126
+date-released: 2024-08-19
+url: "https://github.com/numpex/deliverable.template"
+references:
+  - type: grant
+    title: Exa-MA — Methods and Algorithms for Exascale
+    institution: French National Research Agency
+    number: ANR-22-EXNU-0002
