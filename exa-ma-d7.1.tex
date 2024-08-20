@@ -13,11 +13,12 @@
 \usepackage{anyfontsize}	% fonts
 \usepackage{lipsum}
 \usepackage{cleveref}
+\usepackage{standalone} 
 \usepackage[printonlyused]{acronym}
 \hypersetup{
-	pdftitle={[Title as appears in the DoA]},
+	pdftitle={Benchmarking analysis report},
 	pdfauthor={[Names of co-authors (partners short names)]},
-	pdfkeywords={[List of free keywords relevant to the deliverable]},
+	pdfkeywords={HPC, Exascale, Benchmarking},
 }
 
 \graphicspath{ {graphics/} }
@@ -49,28 +50,29 @@
 \ProjectRefNo{ANR-22-EXNU-0002}
 
 % Work Package Number and Title (according to DoA)
-\delivWP{WPx} 
-\delivWPName{[Title as appears in the DoA]} 
+\delivWP{WP7}
+ \delivWPName{Showroom, Benchmarking and Co-Design coordination}
 
 % Deliverable Number and Title (according to DoA)
-\delivNumber{Dx.y}
-\delivName{[Title as appears in the DoA]}
+\delivNumber{D7.1}
+
+\delivName{Benchmarking Analysis Report}
 
 % DOI Number (will be provided by the coordinator)
-\doiNumber{10.5281/zenodo.5115579} % leave empty if no DOI Number is provided
+\doiNumber{} % leave empty if no DOI Number is provided
 
 % Deliverable Short Title
-\delivShortTile{[Short title for deliverable document]}
+\delivShortTile{BAR}
 
 % Deliverable Responsible Partner
 \delivResponsible{UNISTRA} 
 
 % Deliverable Version, Contractual and Actual Date, Dissemination Level, Type
-\delivVersion{vn.n}
-\ContractualDate{dd/mm/yyyy}
+\delivVersion{v0.1}
+\ContractualDate{15/10/2024}
 \ActualDate{dd/mm/yyyy}
 \delivDissLevel{PU} % PU, PP, RE, CO
-\delivType{[Report, Prototype, Other]}
+\delivType{Report}
 
 % List of Main Authors (usually from the responsible partner)
 \delivAuthor{[Names of co-authors (partners short names)]}
@@ -79,7 +81,8 @@
 \delivFPAuthor{[Names of co-authors (partners short names)]}
 
 % Provision of Keywords (about 5-10)
-\delivKeywords{[List of free keywords relevant to the deliverable]}
+\delivKeywords{HPC, Exascale, Benchmarking, Software}
+
 
 % Deliverable Status
 \delivStatus{d} %% d = draft, f = final, s = submitted
@@ -88,7 +91,7 @@
 %%% Change Log
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\istChange{dd/mm/yyyy}{v1.0}{Name (Partner short name)}{Draft report template}
+\istChange{20/08/2024}{v0.1}{Prud'homme Christophe (UNISTRA)}{Draft report template}
 \istChange{}{}{}{}
 
 
@@ -135,10 +138,24 @@
 %%% Deliverable Content
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\chapter[]{Introduction}
 \input{sections/summary}
 \input{sections/introduction}
-\input{sections/guidelines}
+\chapter{WP1: Discretization}
+%\input{sections/guidelines}
+%\input{sections/benchmarking}
+
+\chapter{WP2: ML and Model order reduction}
+
+\chapter{WP3: Solvers}
+
+\chapter{WP4: Inverse Problems}
+
+\chapter{WP5: Optimization}
+
+\chapter{WP6: uncertainty Quantification}
+
+\chapter{Conclusions}
 \input{sections/conclusions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
