@@ -1,17 +1,17 @@
 \usepackage[%
-        shash={8d19ec5},
-        lhash={8d19ec57a427154a08f68960d5a98d8ae25364d6},
+        shash={4417656},
+        lhash={4417656d152ff0254b64d1c4d57897d174cdbee6},
         authname={Christophe Prud'homme},
         authemail={christophe.prudhomme@cemosis.fr},
         authsdate={2024-08-21},
-        authidate={2024-08-21 19:08:33 +0200},
-        authudate={1724260113},
+        authidate={2024-08-21 19:16:09 +0200},
+        authudate={1724260569},
         commname={Christophe Prud'homme},
         commemail={christophe.prudhomme@cemosis.fr},
         commsdate={2024-08-21},
-        commidate={2024-08-21 19:08:33 +0200},
-        commudate={1724260113},
-        refnames={ (HEAD -> 1-setup-initial-version, tag: v0.0.1, origin/1-setup-initial-version)},
+        commidate={2024-08-21 19:16:09 +0200},
+        commudate={1724260569},
+        refnames={ (HEAD -> 1-setup-initial-version, tag: v0.0.1)},
         firsttagdescribe={v0.0.1},
-        reltag={v0.0.1-0-g8d19ec5}
+        reltag={v0.0.1-0-g4417656}
     ]{gitexinfo}
