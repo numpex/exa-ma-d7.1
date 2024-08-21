@@ -15,6 +15,7 @@
 \usepackage{cleveref}
 \usepackage{standalone} 
 \usepackage[printonlyused]{acronym}
+\usepackage{import}
 \hypersetup{
 	pdftitle={Benchmarking analysis report},
 	pdfauthor={[Names of co-authors (partners short names)]},
@@ -141,19 +142,9 @@
 \chapter[]{Introduction}
 \input{sections/summary}
 \input{sections/introduction}
-\chapter{WP1: Discretization}
-%\input{sections/guidelines}
-%\input{sections/benchmarking}
 
-\chapter{WP2: ML and Model order reduction}
-
-\chapter{WP3: Solvers}
-
-\chapter{WP4: Inverse Problems}
-
-\chapter{WP5: Optimization}
-
-\chapter{WP6: uncertainty Quantification}
+\import{chapters/}{software}
+\import{chapters/}{00-index}
 
 \chapter{Conclusions}
 \input{sections/conclusions}
