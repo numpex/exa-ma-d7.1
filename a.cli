@@ -60,7 +60,7 @@ create_release() {
     git tag -f -a "$VERSION" -m "Release $VERSION"
 
     # Push the changes and the tags
-    git push origin main --follow-tags
+    git push origin --follow-tags
 
     echo "Release $VERSION created and pushed successfully."
 }

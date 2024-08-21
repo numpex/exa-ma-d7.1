@@ -16,10 +16,23 @@
 \usepackage{standalone} 
 \usepackage[printonlyused]{acronym}
 \usepackage{import}
+
+\definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88} % RoyalBlue
 \hypersetup{
 	pdftitle={Benchmarking analysis report},
 	pdfauthor={[Names of co-authors (partners short names)]},
 	pdfkeywords={HPC, Exascale, Benchmarking},
+    bookmarksnumbered,bookmarksopen,linktocpage,
+    colorlinks=true,
+    citecolor=CustomBlue,
+    linkcolor=CustomBlue,
+    urlcolor=blue
+}
+
+\IfFileExists{.git/gitHeadInfo.gin}{
+    \usepackage[pcount,grumpy,mark,markifdirty]{gitinfo2}
+}{%
+    \usepackage[local,pcount,grumpy,mark,markifdirty]{gitinfo2}
 }
 
 \graphicspath{ {graphics/} }
