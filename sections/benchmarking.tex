@@ -82,9 +82,14 @@ Arm Map can visualize CPU-bound performance bottlenecks and assist in optimizing
 \subsection{PETSc \texttt{-log\_view} for PETSc-based Codes}
 \label{sec:methodology-tools-petsc}
 
-PETSc~\cite{balay_petsc_2024} provides a built-in profiling option via the \texttt{-log\_view} flag~\cite{balay_petsctao_2024}. 
+PETSc~\cite{balay_petsc_2024} provides built-in profiling options via the \texttt{-log\_view} flag~\cite{balay_petsctao_2024}. 
 This option enables users to gather detailed performance metrics such as function timings, memory usage, and communication patterns for codes based on the PETSc library. 
-It is particularly useful for profiling parallel solvers and understanding the performance impact of different preconditioners and solvers.
+
+For CPU-based codes, \texttt{-log\_view} captures the performance data related to CPU function calls and overall computation, including the performance of solvers, preconditioners, and communication overhead in parallel systems.
+
+For GPU-based codes, the \texttt{-log\_view\_gpu\_time} option is used to gather profiling information specifically for GPU activities. 
+This flag tracks kernel execution times, memory transfers between host and device, and other GPU-related performance metrics, allowing for in-depth analysis of GPU-accelerated PETSc applications.
+
 
 
 
