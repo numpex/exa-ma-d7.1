@@ -3,7 +3,83 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Guidelines
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Benchmarking Methodology}
+\label{chap:methodology}
 
+\section{Introduction}
+\label{sec:methodology-intro}
+
+This chapter describes the methodological aspects related to the benchmarking activities in the Exa-MA project. 
+This methodology covers the types of benchmarks performed, the presentation of results, the tools used for profiling and performance measurement, as well as the regression testing and packaging strategies to ensure reproducibility and portability of the code.
+
+\section{Types of Benchmarking}
+\label{sec:methodology-types}
+
+\subsection{Pure Performance Benchmarks}
+\label{sec:methodology-types-performance}
+Description of benchmarks based on computational performance, including metrics such as execution time and FLOPS.
+
+\subsection{Scalability Benchmarks}
+\label{sec:methodology-types-scalability}
+
+Discussion of scalability tests, including weak and strong scaling tests, and their relevance for exascale applications.
+
+\subsection{Energy Efficiency Benchmarks}
+\label{sec:methodology-types-energy}
+
+
+Methodologies for measuring energy efficiency, energy profiling tools, and associated metrics (e.g., energy consumption per operation).
+
+\section{Profiling and Performance Measurement Tools}
+\label{sec:methodology-tools}
+
+\subsection{Extrae}
+\label{sec:methodology-tools-extrae}
+\subsection{Score-P}
+\label{sec:methodology-tools-scorep}
+
+\subsection{TAU}
+\label{sec:methodology-tools-tau}
+
+\subsection{Vampir}
+\label{sec:methodology-tools-vampir}
+
+This section presents the tools used to collect profiling data and analyze the performance of codes. 
+A comparison of the advantages of each tool for different types of benchmarks is also provided.
+
+\section{Regression Testing and Verification}
+\label{sec:methodology-regression}
+
+\subsection{ReFrame}
+\label{sec:methodology-regression-reframe}
+
+Explanation of the regression testing strategy to ensure long-term stability and reliability of benchmarks on EuroHPC infrastructures.
+
+\section{Packaging and Containerization}
+\label{sec:methodology-packaging}
+
+\subsection{Spack}
+\label{sec:methodology-packaging-spack}
+
+
+\subsection{Containers}
+\label{sec:methodology-packaging-container}
+
+Methods of containerization to ensure the portability and reproducibility of benchmarking environments.
+The use of Docker and Singularity to encapsulate dependencies and simplify deployment on different infrastructures is discussed.
+
+\section{Presentation of Results}
+\label{sec:methodology-presentation}
+Standard formats for presenting benchmarking results, including performance graphs, comparative tables, and summary reports of performance tests.
+
+\section{Scalability and Hardware Environments}
+\label{sec:methodology-environments}
+Description of the hardware architectures used in the benchmarks (CPU, GPU, hybrid systems), along with tools for resource management.
+
+\section{Conclusion}
+\label{sec:methodology-conclusion}
+
+A summary of the key methodological points and recommendations for future iterations of benchmarking in the context of the Exa-MA project.
 
 
 
