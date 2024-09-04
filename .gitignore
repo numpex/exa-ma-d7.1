@@ -1,12 +1,12 @@
 _minted*
-*.aux
-*.bbl
-*.log
-*.blg
-*.out
-*.pyg
-*.fls
-*.synctex.gz
+**/*.aux
+**/*.bbl
+**/*.log
+**/*.blg
+**/*.out
+**/*.pyg
+**/*.fls
+**/*.synctex.gz
 main.pdf
 *.toc
 article.template.pdf
@@ -23,3 +23,4 @@ exa-ma-d7.1.pdf
 *.lof
 *.lot
 *.pdf
+.venv

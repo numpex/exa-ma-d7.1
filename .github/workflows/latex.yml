@@ -103,6 +103,8 @@ jobs:
             ./*.png
             ./a.cli
             ./*.sty
+            ./chapters*
+            ./software*
             ./exclude.txt
             ./sections*
             ./litterature*
