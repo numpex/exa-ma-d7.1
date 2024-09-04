@@ -47,7 +47,7 @@ software_list = [
     },
     {
         "categories": ["WP1"],
-        "name": "Samourai",
+        "name": "Samurai",
         "email": "loic.gouarin@polytechnique.edu",
         "architecture": "CPU",
         "repository": "https://github.com/hpc-maths/samurai"
