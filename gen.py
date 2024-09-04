@@ -46,6 +46,13 @@ software_list = [
         "repository": "https://gitlab.com/ffaucher/hawen"
     },
     {
+        "categories": ["WP1"],
+        "name": "Samourai",
+        "email": "loic.gouarin@polytechnique.edu",
+        "architecture": "CPU",
+        "repository": "https://github.com/hpc-maths/samurai"
+    },
+    {
         "categories": ["WP3"],
         "name": "HPDDM",
         "email": "pierre.joliv.et",
@@ -156,6 +163,8 @@ with open(f'chapters/software.tex', 'w') as software_index:
     software_index.write('\clearpage\n\chapter{Software}\n')
     software_index.write('\label{sec:software}\n')
     software_index.write('This chapter presents the software developed within Exa-MA. Each software is described in a dedicated section, with a focus on the features and the general mathematics, the main functionalities, the relevant publications and acknowledgments, and the contact persons.\n')
+    # sort software_list with respect to name in lexical order
+    software_list = sorted(software_list, key=lambda x: x['name'])
     for software in software_list:
         desc = template_desc.render(software=software)
         name = software['name']
