@@ -27,25 +27,66 @@ Discussion of scalability tests, including weak and strong scaling tests, and th
 \subsection{Energy Efficiency Benchmarks}
 \label{sec:methodology-types-energy}
 
-
 Methodologies for measuring energy efficiency, energy profiling tools, and associated metrics (e.g., energy consumption per operation).
 
 \section{Profiling and Performance Measurement Tools}
 \label{sec:methodology-tools}
 
-\subsection{Extrae}
+This section presents the tools used to collect profiling data and analyze the performance of codes. 
+A comparison of the advantages of each tool for different types of benchmarks is also provided.
+
+\subsection{Extrae for CPU Architectures}
 \label{sec:methodology-tools-extrae}
-\subsection{Score-P}
+
+\subsubsection{Score-P}
 \label{sec:methodology-tools-scorep}
+
+\begin{itemize}
+    \item CPU: Score-P is extensively used for CPU performance profiling, particularly in distributed memory systems using MPI, OpenMP, or hybrid programming models.
+    \item GPU: Score-P also supports GPU profiling, including CUDA and OpenCL applications. It can capture the performance of both the host (CPU) and the device (GPU), including offloading, kernel execution times, and memory transfers.
+\end{itemize}
+
 
 \subsection{TAU}
 \label{sec:methodology-tools-tau}
 
+\begin{itemize}
+    \item  CPU: TAU is widely used for profiling and tracing CPU-bound applications, with support for both shared and distributed memory parallelism (e.g., OpenMP, MPI).
+    \item GPU: TAU supports GPU profiling, particularly for CUDA-based applications. It collects performance metrics from both the host (CPU) and the device (GPU), allowing for a comprehensive analysis of hybrid codes. TAU supports CUDA, OpenCL, and OpenACC, making it suitable for GPU-accelerated applications.
+\end{itemize}
+
+
 \subsection{Vampir}
 \label{sec:methodology-tools-vampir}
 
-This section presents the tools used to collect profiling data and analyze the performance of codes. 
-A comparison of the advantages of each tool for different types of benchmarks is also provided.
+\begin{itemize}
+    \item CPU: Vampir is a popular tool for visualizing performance data collected from CPU-based applications, particularly those running in parallel using MPI and OpenMP.
+    \item GPU: Vampir can also visualize GPU-related performance data when combined with Score-P, as Score-P collects traces from both the CPU and the GPU. It can visualize events such as kernel execution, memory transfers, and CUDA API calls.
+\end{itemize}
+
+
+\subsection{Nsight for GPU Architectures}
+\label{sec:methodology-tools-nsight}
+
+Nsight\footnote{\url{https://developer.nvidia.com/nsight-systems}} is a set of tools developed by NVIDIA for profiling and debugging on GPU architectures. 
+It allows for a detailed performance analysis of CUDA-based codes, including metrics such as occupancy, execution time, and memory throughput.
+Nsight also provides visualizations that help pinpoint bottlenecks in GPU applications.
+
+\subsection{Arm Map for CPU Architectures}
+\label{sec:methodology-tools-armmap}
+
+Arm Map\footnote{\url{https://developer.arm.com/documentation/102732/latest/}} is a lightweight and highly scalable profiler designed specifically for CPU architectures. 
+It provides insights into time spent in computation, communication, and memory access. 
+Arm Map can visualize CPU-bound performance bottlenecks and assist in optimizing codes for multi-core CPU systems.
+
+\subsection{PETSc \texttt{-log\_view} for PETSc-based Codes}
+\label{sec:methodology-tools-petsc}
+
+PETSc provides a built-in profiling option via the \texttt{-log\_view} flag. 
+This option enables users to gather detailed performance metrics such as function timings, memory usage, and communication patterns for codes based on the PETSc library. 
+It is particularly useful for profiling parallel solvers and understanding the performance impact of different preconditioners and solvers.
+
+
 
 \section{Regression Testing and Verification}
 \label{sec:methodology-regression}
@@ -61,6 +102,7 @@ Explanation of the regression testing strategy to ensure long-term stability and
 \subsection{Spack}
 \label{sec:methodology-packaging-spack}
 
+Spack is a flexible package management tool used to simplify the installation of complex HPC software environments. It allows users to create and manage multiple versions of software libraries and applications, ensuring compatibility across different systems.
 
 \subsection{Containers}
 \label{sec:methodology-packaging-container}
@@ -74,14 +116,16 @@ Standard formats for presenting benchmarking results, including performance grap
 
 \section{Scalability and Hardware Environments}
 \label{sec:methodology-environments}
-Description of the hardware architectures used in the benchmarks (CPU, GPU, hybrid systems), along with tools for resource management.
+
+This section describes the hardware architectures used in the benchmarks:
+\begin{itemize}
+    \item \textbf{CPU Architectures:} Multi-core CPU systems (Intel, AMD, ARM) with associated performance metrics such as scalability, memory bandwidth, and computational throughput.
+    \item \textbf{GPU Architectures:} NVIDIA and AMD GPUs, focusing on metrics such as memory latency, occupancy, and computational throughput using CUDA or HIP.
+    \item \textbf{Hybrid Systems:} Systems combining both CPU and GPU architectures, analyzing the balance of workloads between the two and exploring tools that optimize for such hybrid environments.
+\end{itemize}
+Tools for resource management, such as job scheduling systems (e.g., SLURM), are also discussed in this section.
 
 \section{Conclusion}
 \label{sec:methodology-conclusion}
 
 A summary of the key methodological points and recommendations for future iterations of benchmarking in the context of the Exa-MA project.
-
-
-
-
-
