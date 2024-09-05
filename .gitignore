@@ -15,10 +15,11 @@ article.template.pdf
 *.idx
 *.ilg
 *.ind
-exa-ma-d7.1.chl
-exa-ma-d7.1.lof
-exa-ma-d7.1.lot
+*.chl
+*.lof
+*.lot
 exa-ma-d7.1.pdf
+*syntec*
 *.chl
 *.lof
 *.lot
