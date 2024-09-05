@@ -1,4 +1,39 @@
 
+@inproceedings{gamblin_spack_2015,
+	address = {Austin Texas},
+	title = {The {Spack} package manager: bringing order to {HPC} software chaos},
+	isbn = {978-1-4503-3723-6},
+	shorttitle = {The {Spack} package manager},
+	url = {https://dl.acm.org/doi/10.1145/2807591.2807623},
+	doi = {10.1145/2807591.2807623},
+	language = {en},
+	urldate = {2024-09-05},
+	booktitle = {Proceedings of the {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {ACM},
+	author = {Gamblin, Todd and LeGendre, Matthew and Collette, Michael R. and Lee, Gregory L. and Moody, Adam and De Supinski, Bronis R. and Futral, Scott},
+	month = nov,
+	year = {2015},
+	pages = {1--12},
+}
+
+@article{vallet_toward_2022,
+	title = {Toward practical transparent verifiable and long-term reproducible research using {Guix}},
+	volume = {9},
+	issn = {2052-4463},
+	url = {https://www.nature.com/articles/s41597-022-01720-9},
+	doi = {10.1038/s41597-022-01720-9},
+	abstract = {Abstract
+            Reproducibility crisis urge scientists to promote transparency which allows peers to draw same conclusions after performing identical steps from hypothesis to results. Growing resources are developed to open the access to methods, data and source codes. Still, the computational environment, an interface between data and source code running analyses, is not addressed. Environments are usually described with software and library names associated with version labels or provided as an opaque container image. This is not enough to describe the complexity of the dependencies on which they rely to operate on. We describe this issue and illustrate how open tools like Guix can be used by any scientist to share their environment and allow peers to reproduce it. Some steps of research might not be fully reproducible, but at least, transparency for computation is technically addressable. These tools should be considered by scientists willing to promote transparency and open science.},
+	language = {en},
+	number = {1},
+	urldate = {2024-09-05},
+	journal = {Scientific Data},
+	author = {Vallet, Nicolas and Michonneau, David and Tournier, Simon},
+	month = oct,
+	year = {2022},
+	pages = {597},
+}
+
 @article{hecht_new_2012,
 	title = {New development in {FreeFem}++},
 	volume = {20},
@@ -238,17 +273,4 @@ Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0
 	month = jul,
 	year = {2024},
 	doi = {10.5281/ZENODO.591797},
-}
-
-@misc{ootomo_dgemm_2024,
-	title = {{DGEMM} on {Integer} {Matrix} {Multiplication} {Unit}},
-	url = {http://arxiv.org/abs/2306.11975},
-	abstract = {Deep learning hardware achieves high throughput and low power consumption by reducing computing precision and specializing in matrix multiplication. For machine learning inference, fixed-point value computation is commonplace, where the input and output values and the model parameters are quantized. Thus, many processors are now equipped with fast integer matrix multiplication units (IMMU). It is of significant interest to find a way to harness these IMMUs to improve the performance of HPC applications while maintaining accuracy. We focus on the Ozaki scheme, which computes a high-precision matrix multiplication by using lower-precision computing units, and show the advantages and disadvantages of using IMMU. The experiment using integer Tensor Cores shows that we can compute double-precision matrix multiplication faster than cuBLAS and an existing Ozaki scheme implementation on FP16 Tensor Cores on NVIDIA consumer GPUs. Furthermore, we demonstrate accelerating a quantum circuit simulation by up to 4.33 while maintaining the FP64 accuracy.},
-	urldate = {2024-06-28},
-	publisher = {arXiv},
-	author = {Ootomo, Hiroyuki and Ozaki, Katsuhisa and Yokota, Rio},
-	month = mar,
-	year = {2024},
-	note = {arXiv:2306.11975 [cs]},
-	keywords = {Computer Science - Distributed, Parallel, and Cluster Computing},
 }
