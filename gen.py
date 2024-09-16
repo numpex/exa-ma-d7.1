@@ -170,7 +170,7 @@ def normalize_languages(lang_string):
     for lang in languages:
         if 'C++' in lang:
             # Consolidate all C++ variations
-            normalized_languages.append('C++')
+            normalized_languages.append(lang)
         else:
             normalized_languages.append(lang)
     return normalized_languages
