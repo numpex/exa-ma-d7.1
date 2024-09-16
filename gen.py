@@ -13,8 +13,7 @@ sheet_name = 'Software'
 # Assuming the data starts from the first row and first column, and ends at column 'X' (24th) and row 46
 df = pd.read_excel(file_path, sheet_name=sheet_name,engine='openpyxl')
 
-benchmarked_software = df[df['Benchmarked'].isin(
-    ['Yes', 'CPU', 'GPU', 'CPU, GPU', 'GPU, CPU'])]
+benchmarked_software = df[df['Benchmarked'].str.contains('CPU|GPU|HYBRID', na=False)]
 
 # replace # in Languages with Sharp
 benchmarked_software['Languages'] = benchmarked_software['Languages'].str.replace(
