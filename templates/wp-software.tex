@@ -1,16 +1,45 @@
 \section{Software: \VAR{software.name}}
 \label{sec:\VAR{wp}:\VAR{software.name}:software}
 
-\begin{itemize}
-    \item \textbf{Contact Email(s):} \VAR{software.email}
-    \item \textbf{Supported Architecture(s):} \VAR{software.architecture}
-    \item \textbf{Repository Link:} \href{\VAR{software.repository}}{\VAR{software.repository}}
-\end{itemize}
+\begin{table}[h!]
+    \centering
+    { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
+        \rowcolor{white}\textbf{Consortium} & \VAR{software.Consortium} \\
+        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \VAR{software.Partner} \\
+        \rowcolor{white}\textbf{Contact Emails} & \VAR{software.Emails} \\
+        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \VAR{software.Benchmarked} \\
+        \rowcolor{white}\textbf{Repository} & \href{\VAR{software.Repository}}{\VAR{software.Repository}} \\
+        \rowcolor{numpexlightergray}\textbf{License} & \VAR{software.License} \\
+        \bottomrule
+    \end{tabular}
+    }}
+    \caption{\VAR{wp}: \VAR{software.name} Information}
+\end{table}
 
 \subsection{Software Overview}
 \label{sec:\VAR{wp}:\VAR{software.name}:summary}
 
 Provide a brief overview of the software with respect to \VAR{wp}.
+
+\begin{table}[h!]
+    \centering
+    { 
+        \setlength{\parindent}{0pt}
+        \def\arraystretch{1.25}
+        \arrayrulecolor{numpexgray}
+        {
+            \fontsize{9}{11}\selectfont
+            \VAR{software.WP}
+        }
+    }
+    \caption{\VAR{wp}: \VAR{software.name} Features}
+\end{table}
+
 
 \subsection{Parallel Capabilities}
 \label{sec:\VAR{wp}:\VAR{software.name}:performances}

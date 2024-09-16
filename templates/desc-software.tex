@@ -3,11 +3,25 @@
 
 
 
-\begin{itemize}
-    \item \textbf{Contact Email(s):} \VAR{software.email}
-    \item \textbf{Supported Architecture(s):} \VAR{software.architecture}
-    \item \textbf{Repository Link:} \href{\VAR{software.repository}}{\VAR{software.repository}}
-\end{itemize}
+\begin{table}[h!]
+    \centering
+    { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
+        \rowcolor{white}\textbf{Consortium} & \VAR{software.Consortium} \\
+        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \VAR{software.Partner} \\
+        \rowcolor{white}\textbf{Contact Emails} & \VAR{software.Emails} \\
+        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \VAR{software.Benchmarked} \\
+        \rowcolor{white}\textbf{Repository} & \href{\VAR{software.Repository}}{\VAR{software.Repository}} \\
+        \rowcolor{numpexlightergray}\textbf{License} & \VAR{software.License} \\
+        \bottomrule
+    \end{tabular}
+    }}
+    \caption{\VAR{software.name} Information}
+\end{table}
 
 \subsection{Software summary}
 \label{sec:\VAR{software.name}:summary}
@@ -19,18 +33,58 @@
 \label{sec:\VAR{software.name}:purpose}
 \VAR{software.purpose | default('Purpose not available.')}
 
+\subsection{Programming and Computational Environment}
+\label{sec:\VAR{wp}:\VAR{software.name}:environment_capabilities}
+
+
+The following table summarizes these aspects for \VAR{software.name}, providing a  view of its programming and computational capabilities.
+
+\begin{table}[h!]
+    \centering
+    {
+    \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
+        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
+        \rowcolor{white}Languages  & \VAR{software.Languages} & Programming languages and language standards supported by the software \\
+        \rowcolor{numpexlightergray}Parallelism  & \VAR{software.Parallelism} & Parallel computing methods and frameworks utilized by the software.\\
+        \rowcolor{white}Data Formats  & \VAR{software.Data} & Data formats that the software can handle or produce.\\
+        \rowcolor{numpexlightergray}Resilience  & \VAR{software.Resilience} & Fault tolerance and recovery mechanisms employed by the software.\\
+        \rowcolor{white}DevOps & \VAR{software.CI} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
+        \rowcolor{numpexlightergray}Packaging  & \VAR{software.Packaging} & Software packaging and distribution.\\
+        \rowcolor{white}Testing  & \VAR{software.Tests} & Testing methodologies employed to ensure software quality and correctness.\\
+        \rowcolor{numpexlightergray}Containerization  & \VAR{software.Containers} & Container technologies used to package and deploy the software.\\
+        \rowcolor{white}Interfaces  & \VAR{software.Interfaces} & List of software \VAR{software.name} has interfaces with.\\
+        \bottomrule
+    \end{tabular}
+    }}
+    \caption{\VAR{software.name} programming and computational environment}
+\end{table}
+
 
 
 \subsection{Mathematics}
 \label{sec:\VAR{software.name}:mathematics}
 \VAR{software.mathematics | default('Mathematics not available.')}
 
+In this section, provide a summary the mathematics used in the software.
+
 
 \subsection{Relevant Publications}
 \label{sec:\VAR{software.name}:publications}
 
+Here is a list of relevant publications related to the software:
+
+
 \subsection{Acknowledgements}
 \label{sec::\VAR{software.name}:acknowledgements}
+
+The software has been developed with the support of the following funding agencies and institutions: 
+
+
+
 
 \VAR{software.acknowledgements | default('Acknowledgements not available.')}
 
