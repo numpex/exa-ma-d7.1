@@ -2,25 +2,68 @@
 \chapter{Software}
 \label{sec:software}
 
-    This chapter presents the software developed within Exa-MA, focusing on features, mathematics, functionalities, publications, acknowledgments, and contact details.
+This chapter presents the software developed within Exa-MA, focusing on features, mathematics, functionalities, publications, acknowledgments, and contact details.
 
-    First, we present some general statistics about the software identified for Exa-MA that will present some benchmarking results. 
-    Other software (new or existing) will be included in the future version of this document.
-    
-        \paragraph{Architectures}
-        The following pie chart~\ref{fig:arch} shows the distribution of hardware architectures used.
-        \begin{figure}[H]
+First, we present some general statistics about the software identified for Exa-MA that will present some benchmarking results. 
+Other software (new or existing) will be included in the future versions of this document.
+
+In the context of the D7.1 deliverable, it is essential to clarify the supported features across different hardware configurations, specifically CPUs, GPUs, and hybrid setups. 
+The following classification describes the architectural capabilities that will be benchmarked:
+
+\paragraph{CPU Only}
+Software that will exclusively run on CPU architectures (e.g., CGAL, Freefem++, Feel++, Manta). Benchmarks for these codes will only target CPU architectures.
+
+\paragraph{GPU Only}
+Software that will exclusively run on GPU architectures (e.g., Zellij). Benchmarks for these codes will focus solely on GPU architectures.
+
+\paragraph{CPU or GPU}
+Software that can run on either CPU or GPU but not both simultaneously (e.g., PyTorch, SciMba). In this case, benchmarks will be performed on both CPU and GPU, but no single run will execute on both architectures simultaneously. Some benchmarks may be CPU-only, others GPU-only, depending on the software's capabilities.
+
+\paragraph{CPU and GPU}
+Software that supports simultaneous execution on both CPU and GPU during a single simulation run (e.g., TRUST). Benchmarks in this category will involve executing components on both CPU and GPU, ensuring that at least one computational component runs on each architecture.
+
+\paragraph{Explanation of Benchmarking Criteria}
+\begin{itemize}
+    \item \textbf{CPU Only:} If selected, benchmarks will be performed exclusively on CPU architectures.
+    \item \textbf{GPU Only:} If selected, benchmarks will focus exclusively on GPU architectures.
+    \item \textbf{CPU and GPU:} If selected, benchmarks will involve simultaneous execution on CPU and GPU within the same run.
+    \item \textbf{CPU or GPU:} If selected, benchmarks will involve execution on either CPU or GPU, but not simultaneously. Some benchmarks will target CPU, others GPU, depending on the computational components.
+\end{itemize}
+
+
+
+\section{General Statistics}
+\label{sec:software:statistics}
+
+In this section, we provide an overview of the key characteristics and technological choices for the software developed and benchmarked within Exa-MA. 
+These statistics offer insights into the diversity of hardware architectures, programming languages, and parallel computing technologies utilized across the different software packages. 
+
+The aim is to highlight the widespread usage of various technologies, demonstrating both the flexibility and the breadth of approaches within the project. 
+Additionally, the DevOps practices employed, such as continuous integration, testing, and deployment, are presented to underscore the commitment to ensuring quality, reliability, and maintainability of the software developed under Exa-MA.
+
+The following subsections provide detailed breakdowns of the different aspects of the software involved in the project, from supported architectures and programming languages to specific parallelism technologies, data formats, and DevOps strategies. 
+It helps to assess the readiness of the software for large-scale simulations and benchmarks in exascale computing environments.
+
+
+\subsection{Architectures}
+
+The following pie chart~\ref{fig:arch} shows the distribution of hardware architectures used.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow}, sum=auto]{13/CPU, 7/GPU, 1/Hybrid}
+\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{5/CPU or GPU, 7/CPU Only, 2/CPU and GPU, 1/GPU Only}
 \end{tikzpicture}
-\caption{Distribution of hardware architectures}
+\caption{Distribution of bemchmarked hardware architectures}
 \label{fig:arch}
 \end{figure}
 
-        \paragraph{Programming Languages}
-        The following pie chart~\ref{fig:languages} shows the distribution of programming languages used, highlighting the variety of computational solutions employed.
-        \begin{figure}[H]
+
+\subsection{Programming Languages}
+
+The following pie chart~\ref{fig:languages} shows the distribution of programming languages used, highlighting the variety of computational solutions employed.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
 \pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta}, sum=auto]{11/C++, 1/C\#, 3/C, 4/Fortran, 2/C++17, 4/Python, 1/C++20, 1/C++14}
@@ -29,20 +72,28 @@
 \label{fig:languages}
 \end{figure}
 
-        \paragraph{Parallelism Technology}
-        The pie chart~\ref{fig:parallelism} below represents the parallelism techniques used in Exa-MA software selected for this document.
-        \begin{figure}[H]
+
+\subsection{Parallelism Technology}
+
+
+The pie chart~\ref{fig:parallelism} below represents the parallelism techniques used in Exa-MA software selected for this document.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{7/Multithread, 13/MPI, 6/GPU, 1/Parallelism - C++, 1/Task based, 1/Chapel}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{7/Multithread, 13/MPI, 7/GPU, 1/Parallelism - C++, 1/Task based, 1/Chapel}
 \end{tikzpicture}
 \caption{Distribution of parallelism technologies}
 \label{fig:parallelism}
 \end{figure}
 
-        \paragraph{Data Formats}
-        The chart~\ref{fig:data} shows the supported data formats, for flexibility and compatibility in data handling, supported by Exa-MA software selected for this document.
-        \begin{figure}[H]
+
+
+\subsection{Data Formats}
+
+The chart~\ref{fig:data} shows the supported data formats, for flexibility and compatibility in data handling, supported by Exa-MA software selected for this document.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
 \pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta, peach, lavender}, sum=auto]{2/XML, 5/HDF5, 2/JSON, 2/Ensight, 5/None, 1/YAML, 1/Data-management system, 6/VTK, 6/in-house format, 4/Gmsh and associated formats, 2/MED, 1/MFront}
@@ -51,20 +102,26 @@
 \label{fig:data}
 \end{figure}
 
-        \paragraph{DevOps - CI/CD}
-        The pie chart~\ref{fig:devops-cicd} below displays the support of continuous integration and deployment practices as well as continuous benchmarking, showcasing systematic software updates, quality maintenance and performance regression.
-        \begin{figure}[H]
+
+\subsection{DevOps - CI/CD}
+
+The pie chart~\ref{fig:devops-cicd} below displays the support of continuous integration and deployment practices as well as continuous benchmarking, showcasing systematic software updates, quality maintenance and performance regression.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{11/Continuous Integration, 1/Continuous Benchmarking, 1/Continuous Delivery, 4/None}
+\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{11/Continuous Integration, 1/Continuous Benchmarking, 2/Continuous Delivery, 4/None}
 \end{tikzpicture}
 \caption{Distribution of DevOps CI/CD/CD}
 \label{fig:devops-cicd}
 \end{figure}
 
-        \paragraph{DevOps - Packaging}
-        The next chart~\ref{fig:devops-packaging} shows different packaging methods used, which help in the distribution and management of software.
-        \begin{figure}[H]
+
+\subsection{DevOps - Packaging}
+
+The next chart~\ref{fig:devops-packaging} shows different packaging methods used, which help in the distribution and management of software.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
 \pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{10/None, 5/Debian-based, 2/Fedora, 2/Spack, 1/GUIX, 1/Other}
@@ -73,9 +130,12 @@
 \label{fig:devops-packaging}
 \end{figure}
 
-        \paragraph{DevOps - Containers}
-        The pie chart~\ref{fig:devops-containers} displays the use of container technologies, which help encapsulate the software to run reliably in various environments.
-        \begin{figure}[H]
+
+\subsection{DevOps - Containers}
+
+The pie chart~\ref{fig:devops-containers} displays the use of container technologies, which help encapsulate the software to run reliably in various environments.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
 \pie[text=legend, color={red, orange, yellow}, sum=auto]{12/None, 2/Apptainer/Singularity, 2/Docker}
@@ -84,23 +144,28 @@
 \label{fig:devops-containers}
 \end{figure}
 
-        \paragraph{DevOps - Testing}
-        The following pie chart~\ref{fig:devops-testing} details the testing practices adopted, illustrating the commitment to software reliability and functionality.
-        \begin{figure}[H]
+
+\subsection{DevOps - Testing}
+
+The following pie chart~\ref{fig:devops-testing} details the testing practices adopted, illustrating the commitment to software reliability and functionality.
+
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{8/Unit, 7/Verification, 3/Validation, 6/None}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue}, sum=auto]{8/Unit, 7/Verification, 3/Validation, 6/None, 1/Functional}
 \end{tikzpicture}
 \caption{Distribution of DevOps Testing}
 \label{fig:devops-testing}
 \end{figure}
+
+
 \input{software/arcane-framework/arcane-framework.tex}
 \input{software/cgal/cgal.tex}
 \input{software/composyx/composyx.tex}
 \input{software/feelpp/feelpp.tex}
 \input{software/freefempp/freefempp.tex}
 \input{software/hawen/hawen.tex}
-\input{software/hpdomain-decomposition-methods/hpdomain-decomposition-methods.tex}
+\input{software/hpddm/hpddm.tex}
 \input{software/mahyco/mahyco.tex}
 \input{software/manta/manta.tex}
 \input{software/mmg-parmmg/mmg-parmmg.tex}
@@ -109,3 +174,4 @@
 \input{software/scimba/scimba.tex}
 \input{software/trust-platform/trust-platform.tex}
 \input{software/zellij/zellij.tex}
+
