@@ -1,30 +1,159 @@
 %!TEX root = ../exa-ma-d7.1.tex
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Guidelines
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{Benchmarking Methodology}
-\label{chap:methodology}
+\label{chap:comprehensive-methodology}
 
 \section{Introduction}
-\label{sec:methodology-intro}
+\label{sec:comprehensive-methodology-intro}
 
-This chapter describes the methodological aspects related to the benchmarking activities in the Exa-MA project. 
-This methodology covers the types of benchmarks performed, the presentation of results, the tools used for profiling and performance measurement, as well as the regression testing and packaging strategies to ensure reproducibility and portability of the code.
+This chapter outlines a comprehensive methodology for benchmarking, testing, and validating the software developed within the \exama project. It covers the essential processes involved in ensuring that the software is optimized for exascale performance while maintaining accuracy, reliability, and efficiency across diverse hardware architectures, including CPUs, GPUs, and hybrid systems.
 
-\section{Types of Benchmarking}
+The methodology integrates several core components:
+\begin{itemize}
+    \item \textbf{Testing and Validation:} A structured process for non-regression testing, verification, and validation, ensuring that new software iterations do not degrade performance or introduce errors, while validating enhancements in real-world scenarios.
+    \item \textbf{Benchmarking Strategy:} A phased benchmarking approach designed to measure the performance, scalability, and energy efficiency of the software, from baseline performance to optimized scalability testing.
+    \item \textbf{Profiling and Measurement:} The use of advanced profiling and performance measurement tools like Extrae, Score-P, TAU, Vampir, and Nsight to gather detailed insights into software performance across different architectures.
+    \item \textbf{Continuous Integration and Deployment (CI/CD):} The integration of continuous benchmarking and regression testing into a CI/CD pipeline ensures reproducibility, portability, and sustained high-performance across different HPC systems.
+    \item \textbf{Containerization and Packaging:} The use of packaging and containerization technologies such as Spack, Guix-HPC, Docker, and Apptainer/Singularity enables reproducible and portable execution environments across various hardware platforms, simplifying deployment and reproducibility of the benchmarks.
+\end{itemize}
+
+Through this methodology, the \exama project aims to ensure that its software is exascale-ready, meeting performance and scalability expectations while maintaining scientific rigor. The following sections will delve into the key objectives, types of benchmarking, tools, and processes of this benchmarking framework.
+
+\section{Methodology}
+\label{sec:bench:methodology}
+
+
+\subsection{Key Objectives}
+\label{sec:key-objectives}
+
+The objectives of the Work Package 7 are designed to 
+\begin{itemize}
+    \item \textbf{Developing Software:} Ensure that the software developed in the \exama project is optimized for exascale environments, from simple to advanced cases.
+    \item \textbf{Testing and Benchmarking:} Implement comprehensive benchmarking processes to verify that the software meets exascale capabilities and tackles identified computational challenges.
+    \item \textbf{Delivering Software Packages:} Deliver software in a standardized and reproducible form, integrating CI/CD/CB practices as proposed by \exadi.
+    \item \textbf{Coordinating Co-Design:} Collaborate with \exadi and across \exama work packages to integrate co-design efforts for efficient development.
+    \item \textbf{Creating a Showroom:} Establish a showroom of \exama results, presenting real-world achievements and use cases.
+    \item \textbf{Building Training Material:} Develop educational resources based on the results and methodologies adopted in the \exama project, promoting knowledge transfer.
+\end{itemize}
+Setting up and executing an efficient benchmarking and testing methdology is an important part of the activity. 
+The key objectives are:
+\begin{itemize}
+    \item \textbf{Performance and Scalability:} Evaluate how well software scales and performs across different architectures, from CPUs to GPUs and hybrid environments.
+    \item \textbf{Energy Efficiency:} Measure energy consumption and optimize for energy-efficient performance, which is critical in exascale computing.
+    \item \textbf{Reproducibility and Portability:} Ensure that benchmarks and software executions can be reproduced and run across different HPC systems.
+    \item \textbf{Non-Regression:} Guarantee that future software iterations do not regress in performance or accuracy.
+    \item \textbf{Validation and Verification:} Verify that software behaves correctly and validate its performance in real-world use cases.
+\end{itemize}
+
+\subsection{Testing Processes and Non-Regression Strategies}
+\label{sec:testing-processes}
+
+In the context of exascale computing, it is critical to ensure that new developments do not degrade the performance or functionality of existing software. To this end, the \exama project follows three main processes:
+
+\subsubsection{Non-Regression Testing}
+\label{sec:non-regression}
+
+The goal of non-regression testing is to guarantee that the results produced by a specific version of the software are identical to those of previous versions, at least for functionalities that should remain unaffected by new developments.
+
+\paragraph{Process:}
+\begin{itemize}
+    \item Ensure identical results on unchanged code paths or configurations.
+    \item Perform these tests on simple cases that involve a limited subset of the software sources, referred to as elementary tests.
+    \item Maintain consistency in the outcomes, ensuring that simple functionalities behave as expected across updates unless justified otherwise.
+\end{itemize}
+
+\subsubsection{Verification}
+\label{sec:verification}
+
+Verification tests aim to confirm that optimizations or algorithmic improvements do not lead to unacceptable deviations from known solutions.
+
+\paragraph{Process:}
+\begin{itemize}
+    \item Measure the absence of drift in consolidated solutions, especially after performance optimizations.
+    \item Apply elementary or level 1 integrated tests, involving few additional software sources.
+    \item Introduce an acceptance criterion based on relative deviations in results.
+\end{itemize}
+
+\subsubsection{Validation}
+\label{sec:validation}
+
+Validation tests ensure that new methods or algorithms proposed within \exama deliver meaningful improvements in real-world, production-level scenarios.
+
+\paragraph{Process:}
+\begin{itemize}
+    \item Evaluate the proposed algorithm in a realistic or representative configuration of the target scientific problem.
+    \item Integrate validation cases with well-defined criteria to measure the contribution of the new method, whether in terms of accuracy, performance, or scalability.
+\end{itemize}
+
+\subsection{Demonstrator Framework}
+\label{sec:demonstrators}
+
+Each demonstrator in the \exama project must be comprehensively documented and subjected to the following criteria:
+
+\subsubsection{Demonstrator Details}
+\begin{itemize}
+    \item \textbf{Name and Description:} Briefly describe the demonstrator, including its scientific significance and the computational barriers it seeks to overcome.
+    \item \textbf{Software Components:} List the software tools involved and the challenges faced, including bottlenecks (memory, algorithms, data management).
+    \item \textbf{Associated Work Packages:} Identify the work packages relevant to the demonstrator.
+\end{itemize}
+
+\subsubsection{Test Classification}
+Each demonstrator must define a set of tests:
+\begin{itemize}
+    \item \textbf{Test Name:} Specify the name and type of the test (non-regression, verification, or validation).
+    \item \textbf{Hardware Platform:} CPU, GPU, or hybrid system.
+    \item \textbf{Outputs and Tolerances:} Define the expected outputs and the acceptable deviations from the reference solution.
+\end{itemize}
+
+\paragraph{Demonstrator Levels:}
+\begin{itemize}
+    \item \textbf{Level 1:} Involves one or two work packages (WP1, WP2, etc.).
+    \item \textbf{Level 2:} Spans three or four work packages.
+    \item \textbf{Level 3:} Covers the entire scope of \exama, potentially involving all work packages.
+\end{itemize}
+
+\subsection{Containerization and Software Packaging}
+\label{sec:containerization}
+
+To ensure reproducibility and simplify the deployment process, each demonstrator will be packaged using container technologies like Docker, Apptainer, Spack, or Guix-HPC. The process is as follows:
+
+\paragraph{Container Image:}
+Each demonstrator will have its own container image containing:
+\begin{itemize}
+    \item The operating system and necessary dependencies.
+    \item Instructions for retrieving the demonstrator source code.
+    \item Compilation and installation commands for the demonstrator.
+    \item Execution of tests to verify correct behavior.
+\end{itemize}
+
+This approach ensures that software can be deployed in a variety of environments without worrying about system-specific dependencies, simplifying both testing and scaling efforts.
+
+\subsection{Reproducibility and Sustainability}
+\label{sec:reproducibility}
+
+One of the core principles of the \exama project is ensuring long-term reproducibility and sustainability of the software solutions produced. This is achieved through the following processes:
+\begin{itemize}
+    \item CI/CD pipelines.
+    \item Continuous benchmarking and regression testing on new hardware platforms.
+    \item Ensuring that the new methods provide measurable improvements over time.
+    \item Cross-verification of software across multiple \exama and \numpex work packages.
+\end{itemize}
+
+\subsection{Conclusion}
+\label{sec:comprehensive-methodology-conclusion}
+
+This chapter has presented a detailed methodology for benchmarking, testing, and validating software developed within \exama. It builds on core principles such as non-regression, verification, and validation, while incorporating modern CI/CD, packaging and containerization practices and continuous benchmarking. 
+This is an initial version that will certainly evolve. 
+\exama will implement it during the coming month and report its success in the next version of the deliverable.
+Future versions of this methodology will evolve based on the experiences gained through ongoing development and real-world application of the \exama software.
+
+\section{Concretization and Technologies}
+\label{sec:benchmark:technologies}
+
+We now turn to some concrete technologies that will help executing the Methodology.
+
+\subsection{Types of Benchmarking}
 \label{sec:methodology-types}
-
-\subsection{Architectures}
-
-In the context of the D7.1 deliverable, it is essential to clarify the supported features across different hardware configurations, specifically CPUs, GPUs, and hybrid setups. 
-The following classification describes the architectural capabilities that will be benchmarked:
-
-\paragraph{CPU Only}
-Software that will exclusively run on CPU architectures (e.g., CGAL, Freefem++, Feel++, Manta). Benchmarks for these codes will only target CPU architectures.
-
-\paragraph{GPU Only}
-Software that will exclusively run on GPU architectures (e.g., Zellij). Benchmarks for these codes will focus solely on GPU architectures.
 
 \paragraph{CPU or GPU}
 Software that can run on either CPU or GPU but not both simultaneously (e.g., PyTorch, SciMba). In this case, benchmarks will be performed on both CPU and GPU, but no single run will execute on both architectures simultaneously. Some benchmarks may be CPU-only, others GPU-only, depending on the software's capabilities.
@@ -33,36 +162,40 @@ Software that can run on either CPU or GPU but not both simultaneously (e.g., Py
 Software that supports simultaneous execution on both CPU and GPU during a single simulation run (e.g., TRUST). Benchmarks in this category will involve executing components on both CPU and GPU, ensuring that at least one computational component runs on each architecture.
 
 \paragraph{Explanation of Benchmarking Criteria}
-\begin{itemize}
-    \item \textbf{CPU Only:} If selected, benchmarks will be performed exclusively on CPU architectures.
-    \item \textbf{GPU Only:} If selected, benchmarks will focus exclusively on GPU architectures.
-    \item \textbf{CPU and GPU:} If selected, benchmarks will involve simultaneous execution on CPU and GPU within the same run.
-    \item \textbf{CPU or GPU:} If selected, benchmarks will involve execution on either CPU or GPU, but not simultaneously. Some benchmarks will target CPU, others GPU, depending on the computational components.
-\end{itemize}
+\begin{description}
+    \item[Pure Performance Benchmarks] Description of benchmarks based on computational performance, including metrics such as execution time and FLOPS.
 
+    \item[Scalability Benchmarks] Discussion of scalability tests, including weak and strong scaling tests, and their relevance for exascale applications.
+    \item[Energy Efficiency Benchmarks]Methodologies for measuring energy efficiency, energy profiling tools, and associated metrics (e.g., energy consumption per operation).
+    \item[Hybrid Benchmarks] Strategies for benchmarking hybrid CPU-GPU codes, including tools for profiling and performance measurement.
+    
+\end{description}
 
-\subsection{Pure Performance Benchmarks}
-\label{sec:methodology-types-performance}
-Description of benchmarks based on computational performance, including metrics such as execution time and FLOPS.
-
-\subsection{Scalability Benchmarks}
-\label{sec:methodology-types-scalability}
-
-Discussion of scalability tests, including weak and strong scaling tests, and their relevance for exascale applications.
-
-\subsection{Energy Efficiency Benchmarks}
-\label{sec:methodology-types-energy}
-
-Methodologies for measuring energy efficiency, energy profiling tools, and associated metrics (e.g., energy consumption per operation).
-
-\section{Profiling and Performance Measurement Tools}
+\subsection{Profiling and Performance Measurement Tools}
 \label{sec:methodology-tools}
-
 This section presents the tools used to collect profiling data and analyze the performance of codes. 
+
 A comparison of the advantages of each tool for different types of benchmarks is also provided.
 
-\subsection{Extrae for CPU Architectures}
+
+
+\subsubsection{Extrae for CPU Architectures}
 \label{sec:methodology-tools-extrae}
+
+\textbf{Extrae} is a performance analysis tool developed by the Barcelona Supercomputing Center (BSC) designed to instrument and profile parallel applications. 
+It is particularly useful for applications using MPI, OpenMP, CUDA, OpenCL, or hybrid programming models. 
+Extrae collects detailed execution traces of an application, which can then be visualized and analyzed using tools like Paraver or Vampir~\ref{sec:methodology-tools-vampir}.
+ This helps developers identify performance bottlenecks, communication inefficiencies, and parallelization issues.
+
+The key features of Extrae include:
+
+\begin{itemize}
+  \item \textbf{Support for Multiple Programming Models:} Extrae can instrument applications using MPI, OpenMP, CUDA, OpenCL, pthreads, and combinations thereof.
+  \item \textbf{Detailed Tracing:} Captures function calls, communication events, synchronization points, and hardware counters.
+  \item \textbf{Customization:} Users can specify what events to trace and which metrics to collect through configuration files.
+  \item \textbf{Integration with Visualization Tools:} Generates trace files compatible with Paraver and Vampir for in-depth analysis.
+\end{itemize}
+
 
 \subsubsection{Score-P}
 \label{sec:methodology-tools-scorep}
@@ -73,7 +206,7 @@ A comparison of the advantages of each tool for different types of benchmarks is
 \end{itemize}
 
 
-\subsection{TAU}
+\subsubsection{TAU}
 \label{sec:methodology-tools-tau}
 
 \begin{itemize}
@@ -82,7 +215,7 @@ A comparison of the advantages of each tool for different types of benchmarks is
 \end{itemize}
 
 
-\subsection{Vampir}
+\subsubsection{Vampir}
 \label{sec:methodology-tools-vampir}
 
 \begin{itemize}
@@ -91,21 +224,21 @@ A comparison of the advantages of each tool for different types of benchmarks is
 \end{itemize}
 
 
-\subsection{Nsight for GPU Architectures}
+\subsubsection{Nsight for GPU Architectures}
 \label{sec:methodology-tools-nsight}
 
 Nsight\footnote{\url{https://developer.nvidia.com/nsight-systems}} is a set of tools developed by NVIDIA for profiling and debugging on GPU architectures. 
 It allows for a detailed performance analysis of CUDA-based codes, including metrics such as occupancy, execution time, and memory throughput.
 Nsight also provides visualizations that help pinpoint bottlenecks in GPU applications.
 
-\subsection{Arm Map for CPU Architectures}
+\subsubsection{Arm Map for CPU Architectures}
 \label{sec:methodology-tools-armmap}
 
 Arm Map\footnote{\url{https://developer.arm.com/documentation/102732/latest/}} is a lightweight and highly scalable profiler designed specifically for CPU architectures. 
 It provides insights into time spent in computation, communication, and memory access. 
 Arm Map can visualize CPU-bound performance bottlenecks and assist in optimizing codes for multi-core CPU systems.
 
-\subsection{PETSc \texttt{-log\_view} for PETSc-based Codes}
+\subsubsection{PETSc \texttt{-log\_view} for PETSc-based Codes}
 \label{sec:methodology-tools-petsc}
 
 PETSc~\cite{balay_petsc_2024} provides built-in profiling options via the \texttt{-log\_view} flag~\cite{balay_petsctao_2024}. 
@@ -119,10 +252,10 @@ This flag tracks kernel execution times, memory transfers between host and devic
 
 
 
-\section{Regression Testing and Verification}
+\subsection{Regression Testing and Verification}
 \label{sec:methodology-regression}
 
-\subsection{ReFrame}
+\subsubsection{ReFrame}
 \label{sec:methodology-regression-reframe}
 
 
@@ -157,31 +290,39 @@ The test structure in ReFrame consists of the following key components:
 ReFrame ensures reproducibility, scalability, and portability in Exa-MA benchmarking efforts, making it thus a central tool in managing the project’s performance evaluation across various supercomputing resources.
 
 
-\section{Packaging and Containerization}
+\subsection{Packaging and Containerization}
 \label{sec:methodology-packaging}
 
-\subsection{Spack}
+\subsubsection{Spack}
 \label{sec:methodology-packaging-spack}
 
 Spack~\cite{gamblin_spack_2015} is a flexible package management tool used to simplify the installation of complex HPC software environments. It allows users to create and manage multiple versions of software libraries and applications, ensuring compatibility across different systems.
 
-\subsection{Guix-HPC}
+\subsubsection{Guix-HPC}
 \label{sec:methodology-packaging-guix-hpc}
 
 Guix-HPC~\cite{vallet_toward_2022}, an advanced package management system tailored for HPC environments. Guix-HPC ensures reproducibility and scalability by providing a declarative environment specification. By using Guix, we can control software dependencies and build environments across different HPC systems, ensuring that benchmarks and experiments can be replicated with exact configurations.
 
 
-\subsection{Containers}
+\subsubsection{Containers}
 \label{sec:methodology-packaging-container}
 
 Methods of containerization to ensure the portability and reproducibility of benchmarking environments.
 The use of Docker and Singularity to encapsulate dependencies and simplify deployment on different infrastructures is discussed.
 
-\section{Presentation of Results}
+\subsection{Presentation of Results}
 \label{sec:methodology-presentation}
-Standard formats for presenting benchmarking results, including performance graphs, comparative tables, and summary reports of performance tests.
 
-\section{Scalability and Hardware Environments}
+The presentation of benchmarking results is critical for clearly communicating performance metrics and insights derived from the analysis. Standard formats for presenting these results include the following:
+
+\paragraph{Performance Graphs:} Performance graphs such as line plots, bar charts, and scatter plots are used to visualize key metrics like execution time, floating-point operations per second (FLOPS), memory usage, and scalability (e.g., strong and weak scaling). These graphs provide a visual comparison of the software's performance across different architectures (CPU, GPU, or hybrid setups), problem sizes, and parallel configurations. Graphs may also be used to display energy efficiency metrics, such as power consumption over time or energy-to-solution.
+
+\paragraph{Comparative Tables:} Comparative tables are employed to present side-by-side comparisons of different software versions or configurations. These tables can include metrics such as execution time, memory usage, cache utilization, FLOPS, and energy consumption. Comparative tables offer a quick overview of how different systems, algorithms, or configurations perform under the same conditions.
+
+\paragraph{Summary Reports:} Summary reports encapsulate the key findings of the benchmarking activities. These reports include both qualitative and quantitative evaluations of performance, scalability, and energy efficiency. A summary report typically includes a discussion of bottlenecks, identified challenges, and opportunities for optimization. Additionally, tables and graphs from the benchmarking process are integrated into the report for the analysis of the results.
+
+
+\subsection{Scalability and Hardware Environments}
 \label{sec:methodology-environments}
 
 This section describes the hardware architectures used in the benchmarks:
@@ -190,9 +331,16 @@ This section describes the hardware architectures used in the benchmarks:
     \item \textbf{GPU Architectures:} NVIDIA and AMD GPUs, focusing on metrics such as memory latency, occupancy, and computational throughput using CUDA or HIP.
     \item \textbf{Hybrid Systems:} Systems combining both CPU and GPU architectures, analyzing the balance of workloads between the two and exploring tools that optimize for such hybrid environments.
 \end{itemize}
-Tools for resource management, such as job scheduling systems (e.g., SLURM), are also discussed in this section.
+Tools for resource management, such as job scheduling systems (e.g., SLURM), are also discussed.
 
 \section{Conclusion}
-\label{sec:methodology-conclusion}
+\label{sec:Technology-conclusion}
 
-A summary of the key methodological points and recommendations for future iterations of benchmarking in the context of the Exa-MA project.
+In this chapter, we have introduced the practical tools, methodologies, and technologies essential for executing the benchmarking activities within the \exama project. 
+The systematic categorization of software into CPU-only, GPU-only, or hybrid CPU-GPU execution modes allows for targeted benchmarking strategies that reflect the diverse architectures available in modern high-performance computing (HPC) environments and the software identified in \exama.
+
+We further detailed the phased benchmarking approach, which moves from baseline performance evaluation to optimization and scalability testing. The use of specialized tools such as Extrae, Score-P, TAU, Vampir, and Nsight ensures comprehensive performance profiling across different architectures. Additionally, regression testing frameworks like ReFrame provide a consistent and scalable solution for ensuring reproducibility across a variety of systems.
+
+Lastly, the packaging and containerization strategies, supported by tools like Spack, Guix-HPC, Docker, and Apptainer/Singularity, will play a key role in maintaining portability, reproducibility, and long-term sustainability of the software environments and enable continuous benchmarking on HPC Systems.
+
+Together, these technologies and methodologies create a robust framework for evaluating and optimizing the exascale readiness of software developed in the \exama project. This approach not only ensures high performance but also prepares the project for future advancements in HPC infrastructures.
