@@ -569,6 +569,7 @@ for index,software in benchmarked_software.iterrows():
     # Loop through all categories for the current software
     for wpindex in range(1,7):
         category = f'WP{wpindex}'
+        print(f"category: {category}")
         if is_benchmarked_in(category,software):
             software_json = json.loads(software.to_json())
             software_json['name'] = software['Software']

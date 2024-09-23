@@ -65,26 +65,49 @@ Provide a brief overview of the software with respect to WP3.
     \item describe the parallel computation environment: type of architecture and super computer used.
     \item describe the parallel capabilities of the software
     \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries and middleware in the Exa-MA framework.
+    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
 \end{itemize}
+
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:MANTA:metrics}
 
-In this section, provide a summary of the initial performance metrics of the software with respect to WP3.
-You can list one or more benchmarks and their associated results, the challenges , bottlenecks and the expectations for future versions of the software.
+This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
-
+\begin{itemize}
+    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+        \begin{itemize}
+            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+            \item Output dataset format and key results.
+            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+            \item DOI or permanent link for accessing the dataset.
+        \end{itemize}
+    \item \textbf{Open Data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+\end{itemize}
 
 \subsubsection{Benchmark \#1}
 \begin{itemize}
-    \item describe the benchmark
-    \item \textbf{Benchmarking Tools Used:} Describe the tools used for parallel benchmarking and the metrics mesured
-    \item \textbf{Results Summary:} Results summary not available.
-    \item \textbf{Challenges Identified:} No challenges identified.
+    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+    \item \textbf{Input/Output Dataset Description:}
+        \begin{itemize}
+            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+        \end{itemize}
+    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
-\subsection{12 months roadmap}
+\subsection{12-Month Roadmap}
 \label{sec:WP3:MANTA:roadmap}
 
-Describe the planned improvements  for the software in the context of WP3 and Exa-MA for the year to come that will be adressed in the next version of this deliverable.
+In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+\begin{itemize}
+    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open data initiatives.
+    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+\end{itemize}

@@ -1,23 +1,28 @@
 %!TEX root = ../exa-ma-d7.1.tex
 
 \chapter{Benchmarking Methodology}
-\label{chap:comprehensive-methodology}
+\label{chap:methodology}
 
 \section{Introduction}
-\label{sec:comprehensive-methodology-intro}
+\label{sec:methodology-intro}
 
-This chapter outlines a comprehensive methodology for benchmarking, testing, and validating the software developed within the \exama project. It covers the essential processes involved in ensuring that the software is optimized for exascale performance while maintaining accuracy, reliability, and efficiency across diverse hardware architectures, including CPUs, GPUs, and hybrid systems.
+This chapter outlines a methodology for benchmarking, testing, and validating the software developed within the \exama project. 
+It focuses not only on ensuring exascale performance but also on establishing reproducibility through open data, permanent links (DOIs), and long-term results retention in public repositories such as Zenodo. 
 
 The methodology integrates several core components:
 \begin{itemize}
     \item \textbf{Testing and Validation:} A structured process for non-regression testing, verification, and validation, ensuring that new software iterations do not degrade performance or introduce errors, while validating enhancements in real-world scenarios.
     \item \textbf{Benchmarking Strategy:} A phased benchmarking approach designed to measure the performance, scalability, and energy efficiency of the software, from baseline performance to optimized scalability testing.
-    \item \textbf{Profiling and Measurement:} The use of advanced profiling and performance measurement tools like Extrae, Score-P, TAU, Vampir, and Nsight to gather detailed insights into software performance across different architectures.
-    \item \textbf{Continuous Integration and Deployment (CI/CD):} The integration of continuous benchmarking and regression testing into a CI/CD pipeline ensures reproducibility, portability, and sustained high-performance across different HPC systems.
+    \item \textbf{Data Management and Reproducibility:} Incorporation of input/output dataset descriptions, open data access with DOIs, and proper documentation of datasets in repositories like Zenodo to ensure reproducibility.
+    \item \textbf{Profiling and Measurement:} The use of advanced profiling and performance measurement tools such as Extrae, Score-P, TAU, Vampir, and Nsight to gather detailed insights into software performance across different architectures.
     \item \textbf{Containerization and Packaging:} The use of packaging and containerization technologies such as Spack, Guix-HPC, Docker, and Apptainer/Singularity enables reproducible and portable execution environments across various hardware platforms, simplifying deployment and reproducibility of the benchmarks.
+    \item \textbf{Continuous Integration and Deployment (CI/CD):} The integration of continuous benchmarking and regression testing into a CI/CD pipeline ensures reproducibility, portability, and sustained high-performance across different HPC systems.
 \end{itemize}
 
-Through this methodology, the \exama project aims to ensure that its software is exascale-ready, meeting performance and scalability expectations while maintaining scientific rigor. The following sections will delve into the key objectives, types of benchmarking, tools, and processes of this benchmarking framework.
+Through this methodology proposal, the \exama project aims to ensure that its software is exascale-ready, while establishing strong foundations for long-term data management, ensuring performance metrics and results are accessible, reusable, and traceable for future research.
+
+
+
 
 \section{Methodology}
 \label{sec:bench:methodology}
@@ -29,7 +34,7 @@ Through this methodology, the \exama project aims to ensure that its software is
 The objectives of the Work Package 7 are designed to 
 \begin{itemize}
     \item \textbf{Developing Software:} Ensure that the software developed in the \exama project is optimized for exascale environments, from simple to advanced cases.
-    \item \textbf{Testing and Benchmarking:} Implement comprehensive benchmarking processes to verify that the software meets exascale capabilities and tackles identified computational challenges.
+    \item \textbf{Testing and Benchmarking:} Implement benchmarking processes to verify that the software meets exascale capabilities and tackles identified computational challenges.
     \item \textbf{Delivering Software Packages:} Deliver software in a standardized and reproducible form, integrating CI/CD/CB practices as proposed by \exadi.
     \item \textbf{Coordinating Co-Design:} Collaborate with \exadi and across \exama work packages to integrate co-design efforts for efficient development.
     \item \textbf{Creating a Showroom:} Establish a showroom of \exama results, presenting real-world achievements and use cases.
@@ -48,7 +53,15 @@ The key objectives are:
 \subsection{Testing Processes and Non-Regression Strategies}
 \label{sec:testing-processes}
 
-In the context of exascale computing, it is critical to ensure that new developments do not degrade the performance or functionality of existing software. To this end, the \exama project follows three main processes:
+In the context of exascale computing, \exama needs to ensure that new developments do not degrade the performance or functionality of existing software.
+To this end, the \exama project follows three main processes:
+
+\begin{itemize}
+    \item \textbf{Non-Regression Testing:} Ensures that new software versions do not regress in performance or accuracy compared to previous versions.
+    \item \textbf{Verification:} Confirms that optimizations or algorithmic improvements do not lead to unacceptable deviations from known solutions.
+    \item \textbf{Validation:} Validates that new methods or algorithms proposed within \exama deliver meaningful improvements in real-world, production-level scenarios.
+\end{itemize}
+
 
 \subsubsection{Non-Regression Testing}
 \label{sec:non-regression}
@@ -88,7 +101,7 @@ Validation tests ensure that new methods or algorithms proposed within \exama de
 \subsection{Demonstrator Framework}
 \label{sec:demonstrators}
 
-Each demonstrator in the \exama project must be comprehensively documented and subjected to the following criteria:
+Each demonstrator in the \exama project must be documented and subjected to the following criteria:
 
 \subsubsection{Demonstrator Details}
 \begin{itemize}
@@ -140,7 +153,7 @@ One of the core principles of the \exama project is ensuring long-term reproduci
 \end{itemize}
 
 \subsection{Conclusion}
-\label{sec:comprehensive-methodology-conclusion}
+\label{sec:methodology-conclusion}
 
 This chapter has presented a detailed methodology for benchmarking, testing, and validating software developed within \exama. It builds on core principles such as non-regression, verification, and validation, while incorporating modern CI/CD, packaging and containerization practices and continuous benchmarking. 
 This is an initial version that will certainly evolve. 
@@ -211,7 +224,7 @@ The key features of Extrae include:
 
 \begin{itemize}
     \item CPU: TAU is widely used for profiling and tracing CPU-bound applications, with support for both shared and distributed memory parallelism (e.g., OpenMP, MPI).
-    \item GPU: TAU supports GPU profiling, particularly for CUDA-based applications. It collects performance metrics from both the host (CPU) and the device (GPU), allowing for a comprehensive analysis of hybrid codes. TAU supports CUDA, OpenCL, and OpenACC, making it suitable for GPU-accelerated applications.
+    \item GPU: TAU supports GPU profiling, particularly for CUDA-based applications. It collects performance metrics from both the host (CPU) and the device (GPU), allowing for an analysis of hybrid codes. TAU supports CUDA, OpenCL, and OpenACC, making it suitable for GPU-accelerated applications.
 \end{itemize}
 
 
@@ -276,7 +289,7 @@ ReFrame's core functionality is centered around its modular, Python-based archit
 
 
 The proposal is to use ReFrame  to benchmark the project's software and libraries on a variety of HPC systems. 
-The framework’s ability to provide system-independent test logic is crucial in this respect, as the project aims to deploy and benchmark  on multiple heterogeneous HPC systems. 
+The framework's ability to provide system-independent test logic is crucial in this respect, as the project aims to deploy and benchmark  on multiple heterogeneous HPC systems. 
 This ensures consistent benchmarking across platforms with varying architectures, compilers, and parallel frameworks.
 
 The test structure in ReFrame consists of the following key components:
@@ -287,7 +300,7 @@ The test structure in ReFrame consists of the following key components:
     \item \textbf{Post-Processing:} ReFrame provides built-in support for result collection and validation. Benchmark results are parsed and stored in a standardized format, facilitating consistent performance reporting across different HPC environments.
 \end{itemize}
 
-ReFrame ensures reproducibility, scalability, and portability in Exa-MA benchmarking efforts, making it thus a central tool in managing the project’s performance evaluation across various supercomputing resources.
+ReFrame ensures reproducibility, scalability, and portability in Exa-MA benchmarking efforts, making it thus a central tool in managing the project's performance evaluation across various supercomputing resources.
 
 
 \subsection{Packaging and Containerization}
@@ -313,7 +326,7 @@ The use of Docker and Singularity to encapsulate dependencies and simplify deplo
 \subsection{Presentation of Results}
 \label{sec:methodology-presentation}
 
-The presentation of benchmarking results is critical for clearly communicating performance metrics and insights derived from the analysis. Standard formats for presenting these results include the following:
+The presentation of benchmarking results is important for clearly communicating performance metrics and insights derived from their analysis. Standard formats for presenting these results include the following:
 
 \paragraph{Performance Graphs:} Performance graphs such as line plots, bar charts, and scatter plots are used to visualize key metrics like execution time, floating-point operations per second (FLOPS), memory usage, and scalability (e.g., strong and weak scaling). These graphs provide a visual comparison of the software's performance across different architectures (CPU, GPU, or hybrid setups), problem sizes, and parallel configurations. Graphs may also be used to display energy efficiency metrics, such as power consumption over time or energy-to-solution.
 
@@ -339,8 +352,26 @@ Tools for resource management, such as job scheduling systems (e.g., SLURM), are
 In this chapter, we have introduced the practical tools, methodologies, and technologies essential for executing the benchmarking activities within the \exama project. 
 The systematic categorization of software into CPU-only, GPU-only, or hybrid CPU-GPU execution modes allows for targeted benchmarking strategies that reflect the diverse architectures available in modern high-performance computing (HPC) environments and the software identified in \exama.
 
-We further detailed the phased benchmarking approach, which moves from baseline performance evaluation to optimization and scalability testing. The use of specialized tools such as Extrae, Score-P, TAU, Vampir, and Nsight ensures comprehensive performance profiling across different architectures. Additionally, regression testing frameworks like ReFrame provide a consistent and scalable solution for ensuring reproducibility across a variety of systems.
+We further detailed the phased benchmarking approach, which moves from baseline performance evaluation to optimization and scalability testing. The use of specialized tools such as Extrae, Score-P, TAU, Vampir, and Nsight ensures performance profiling across different architectures. Additionally, regression testing frameworks like ReFrame provide a consistent and scalable solution for ensuring reproducibility across a variety of systems.
 
 Lastly, the packaging and containerization strategies, supported by tools like Spack, Guix-HPC, Docker, and Apptainer/Singularity, will play a key role in maintaining portability, reproducibility, and long-term sustainability of the software environments and enable continuous benchmarking on HPC Systems.
 
 Together, these technologies and methodologies create a robust framework for evaluating and optimizing the exascale readiness of software developed in the \exama project. This approach not only ensures high performance but also prepares the project for future advancements in HPC infrastructures.
+
+\subsection{FAIR Data Principles}
+\label{sec:fair-data-principles}
+
+The proposed benchmarking methodology for the \exama project already aligns with many aspects of the \textbf{FAIR} data principles, ensuring that benchmark results and datasets are \textbf{Findable}, \textbf{Accessible}, and \textbf{Reusable}:
+\begin{itemize}
+    \item \textbf{Findable}: The use of permanent identifiers like DOIs for datasets and benchmark results ensures that they are easy to locate in public repositories like Zenodo.
+    \item \textbf{Accessible}: Hosting datasets in open-access repositories ensures that data can be retrieved by researchers and stakeholders at any time.
+    \item \textbf{Reusable}: Detailed documentation, dataset descriptions, and the use of clear licensing ensure that data can be reused in future research.
+\end{itemize}
+
+However, for the \exama project to be fully compliant with the \textbf{Interoperability} aspect of FAIR, additional focus would be needed on:
+\begin{itemize}
+    \item Supporting standard data formats (e.g., HDF5, NetCDF) to ensure compatibility across different systems and software. The statistics in section~\ref{fig:data} show the distribution of data formats used in the project.
+    \item Providing rich metadata to describe both input and output data, enabling seamless integration and reuse across multiple platforms.
+\end{itemize}
+
+By implementing these extra measures, the \exama project can enable benchmarks and data to be shared between different software, facilitating collaborative work and extending the impact of the benchmarking activities.
