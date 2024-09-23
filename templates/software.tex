@@ -7,6 +7,29 @@ This chapter presents the software developed within Exa-MA, focusing on features
 First, we present some general statistics about the software identified for Exa-MA that will present some benchmarking results. 
 Other software (new or existing) will be included in the future versions of this document.
 
+In the context of the D7.1 deliverable, it is essential to clarify the supported features across different hardware configurations, specifically CPUs, GPUs, and hybrid setups. 
+The following classification describes the architectural capabilities that will be benchmarked:
+
+\paragraph{CPU Only}
+Software that will exclusively run on CPU architectures (e.g., CGAL, Freefem++, Feel++, Manta). Benchmarks for these codes will only target CPU architectures.
+
+\paragraph{GPU Only}
+Software that will exclusively run on GPU architectures (e.g., Zellij). Benchmarks for these codes will focus solely on GPU architectures.
+
+\paragraph{CPU or GPU}
+Software that can run on either CPU or GPU but not both simultaneously (e.g., PyTorch, SciMba). In this case, benchmarks will be performed on both CPU and GPU, but no single run will execute on both architectures simultaneously. Some benchmarks may be CPU-only, others GPU-only, depending on the software's capabilities.
+
+\paragraph{CPU and GPU}
+Software that supports simultaneous execution on both CPU and GPU during a single simulation run (e.g., TRUST). Benchmarks in this category will involve executing components on both CPU and GPU, ensuring that at least one computational component runs on each architecture.
+
+\paragraph{Explanation of Benchmarking Criteria}
+\begin{itemize}
+    \item \textbf{CPU Only:} If selected, benchmarks will be performed exclusively on CPU architectures.
+    \item \textbf{GPU Only:} If selected, benchmarks will focus exclusively on GPU architectures.
+    \item \textbf{CPU and GPU:} If selected, benchmarks will involve simultaneous execution on CPU and GPU within the same run.
+    \item \textbf{CPU or GPU:} If selected, benchmarks will involve execution on either CPU or GPU, but not simultaneously. Some benchmarks will target CPU, others GPU, depending on the computational components.
+\end{itemize}
+
 
 \section{General Statistics}
 \label{sec:software:statistics}
