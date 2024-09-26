@@ -51,7 +51,7 @@ The following pie chart~\ref{fig:arch} shows the distribution of hardware archit
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{10/CPU Only, 5/CPU or GPU, 1/CPU and GPU, 2/GPU Only}
+\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{9/CPU Only, 5/CPU or GPU, 1/CPU and GPU, 2/GPU Only}
 \end{tikzpicture}
 \caption{Distribution of bemchmarked hardware architectures}
 \label{fig:arch}
@@ -65,7 +65,7 @@ The following pie chart~\ref{fig:languages} shows the distribution of programmin
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta}, sum=auto]{11/C++, 1/C\#, 3/C, 4/Fortran, 2/C++17, 4/Python, 1/C++20, 1/C++14}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta}, sum=auto]{11/C++, 1/C\#, 2/C, 3/Fortran, 2/C++17, 4/Python, 1/C++20, 1/C++14}
 \end{tikzpicture}
 \caption{Distribution of programming languages}
 \label{fig:languages}
@@ -80,7 +80,7 @@ The pie chart~\ref{fig:parallelism} below represents the parallelism techniques 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{7/Multithread, 13/MPI, 7/GPU, 1/Parallelism - C++, 1/Task based, 1/Chapel}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{7/Multithread, 12/MPI, 7/GPU, 1/Parallelism - C++, 1/Task based, 1/Chapel}
 \end{tikzpicture}
 \caption{Distribution of parallelism technologies}
 \label{fig:parallelism}
@@ -95,7 +95,7 @@ The chart~\ref{fig:data} shows the supported data formats, for flexibility and c
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta, peach, lavender}, sum=auto]{2/XML, 5/HDF5, 2/JSON, 2/Ensight, 5/None, 1/YAML, 1/Data-management system, 6/VTK, 6/in-house format, 4/Gmsh and associated formats, 2/MED, 1/MFront}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta, peach, lavender}, sum=auto]{2/XML, 5/HDF5, 2/JSON, 2/Ensight, 5/None, 1/YAML, 1/Data-management system, 6/VTK, 5/in-house format, 4/Gmsh and associated formats, 2/MED, 1/MFront}
 \end{tikzpicture}
 \caption{Distribution of data formats}
 \label{fig:data}
@@ -124,7 +124,7 @@ The pie chart~\ref{fig:devops-cicd} below displays the support of continuous int
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{11/Continuous Integration, 1/Continuous Benchmarking, 2/Continuous Delivery, 4/None}
+\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{10/Continuous Integration, 1/Continuous Benchmarking, 2/Continuous Delivery, 4/None}
 \end{tikzpicture}
 \caption{Distribution of DevOps CI/CD/CD}
 \label{fig:devops-cicd}
@@ -138,7 +138,7 @@ The next chart~\ref{fig:devops-packaging} shows different packaging methods used
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{10/None, 5/Debian-based, 2/Fedora, 2/Spack, 1/GUIX, 1/Other}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{9/None, 5/Debian-based, 2/Fedora, 2/Spack, 1/GUIX, 1/Other}
 \end{tikzpicture}
 \caption{Distribution of DevOps Packaging}
 \label{fig:devops-packaging}
@@ -152,7 +152,7 @@ The pie chart~\ref{fig:devops-containers} displays the use of container technolo
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow}, sum=auto]{12/None, 2/Apptainer/Singularity, 2/Docker}
+\pie[text=legend, color={red, orange, yellow}, sum=auto]{11/None, 2/Apptainer/Singularity, 2/Docker}
 \end{tikzpicture}
 \caption{Distribution of DevOps Containers}
 \label{fig:devops-containers}
@@ -166,7 +166,7 @@ The following pie chart~\ref{fig:devops-testing} details the testing practices a
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue}, sum=auto]{8/Unit, 7/Verification, 3/Validation, 6/None, 1/Functional}
+\pie[text=legend, color={red, orange, yellow, lime, skyblue}, sum=auto]{8/Unit, 7/Verification, 3/Validation, 5/None, 1/Functional}
 \end{tikzpicture}
 \caption{Distribution of DevOps Testing}
 \label{fig:devops-testing}
@@ -182,7 +182,6 @@ The following pie chart~\ref{fig:devops-testing} details the testing practices a
 \input{software/hpddm/hpddm.tex}
 \input{software/mahyco/mahyco.tex}
 \input{software/manta/manta.tex}
-\input{software/mmg-parmmg/mmg-parmmg.tex}
 \input{software/pbb/pbb.tex}
 \input{software/samurai/samurai.tex}
 \input{software/scimba/scimba.tex}
