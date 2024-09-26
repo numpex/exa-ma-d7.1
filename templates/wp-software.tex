@@ -15,6 +15,7 @@
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \VAR{software.Benchmarked} \\
         \rowcolor{white}\textbf{Repository} & \href{\VAR{software.Repository}}{\VAR{software.Repository}} \\
         \rowcolor{numpexlightergray}\textbf{License} & \VAR{software.License} \\
+        \rowcolor{white}\textbf{Bottlenecks roadmap} & \VAR{software.Bottlenecks} \\
         \bottomrule
     \end{tabular}
     }}
@@ -24,7 +25,7 @@
 \subsection{Software Overview}
 \label{sec:\VAR{wp}:\VAR{software.name}:summary}
 
-Provide a brief overview of the software with respect to \VAR{wp}.
+In the table~\ref{tab:\VAR{wp}:\VAR{software.name}:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -38,6 +39,7 @@ Provide a brief overview of the software with respect to \VAR{wp}.
         }
     }
     \caption{\VAR{wp}: \VAR{software.name} Features}
+    \label{tab:\VAR{wp}:\VAR{software.name}:features}
 \end{table}
 
 
@@ -68,7 +70,7 @@ This section provides a summary of initial performance benchmarks performed in t
             \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
             \item DOI or permanent link for accessing the dataset.
         \end{itemize}
-    \item \textbf{Open Data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
     \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
@@ -92,7 +94,28 @@ This section provides a summary of initial performance benchmarks performed in t
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open data initiatives.
+    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
     \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{itemize}
+
+In the table~\ref{tab:\VAR{wp}:\VAR{software.name}:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+
+\begin{table}[h!]
+    \centering
+    
+    
+
+    \centering
+    { 
+        \setlength{\parindent}{0pt}
+        \def\arraystretch{1.25}
+        \arrayrulecolor{numpexgray}
+        {
+            \fontsize{9}{11}\selectfont
+            \VAR{bottlenecks}
+        }
+    }
+    \caption{\VAR{wp}: \VAR{software.name} plan with Respect to Relevant Bottlenecks}
+    \label{tab:\VAR{wp}:\VAR{software.name}:bottlenecks}
+\end{table}

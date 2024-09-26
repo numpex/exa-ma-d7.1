@@ -6,14 +6,18 @@
 \section{Introduction}
 \label{sec:methodology-intro}
 
+
 This chapter outlines a methodology for benchmarking, testing, and validating the software developed within the \exama project. 
-It focuses not only on ensuring exascale performance but also on establishing reproducibility through open data, permanent links (DOIs), and long-term results retention in public repositories such as Zenodo. 
+As we move towards exascale computing, several bottlenecks (from \ac{B1} to \ac{B13}) must be addressed, including \ac{B1}, \ac{B2}, \ac{B3}, \ac{B6}, \ac{B7} and \ac{B11}. 
+The methodology proposed in this chapter addresses these challenges with a focus on performance, scalability, energy efficiency, and reproducibility. 
+
+Indeed \ac{exama} focuses not only on ensuring exascale performance but also on establishing reproducibility through open-data, permanent links (DOIs), and long-term results retention in public repositories such as Zenodo. 
 
 The methodology integrates several core components:
 \begin{itemize}
     \item \textbf{Testing and Validation:} A structured process for non-regression testing, verification, and validation, ensuring that new software iterations do not degrade performance or introduce errors, while validating enhancements in real-world scenarios.
     \item \textbf{Benchmarking Strategy:} A phased benchmarking approach designed to measure the performance, scalability, and energy efficiency of the software, from baseline performance to optimized scalability testing.
-    \item \textbf{Data Management and Reproducibility:} Incorporation of input/output dataset descriptions, open data access with DOIs, and proper documentation of datasets in repositories like Zenodo to ensure reproducibility.
+    \item \textbf{Data Management and Reproducibility:} Incorporation of input/output dataset descriptions, open-data access with DOIs, and proper documentation of datasets in repositories like Zenodo to ensure reproducibility.
     \item \textbf{Profiling and Measurement:} The use of advanced profiling and performance measurement tools such as Extrae, Score-P, TAU, Vampir, and Nsight to gather detailed insights into software performance across different architectures.
     \item \textbf{Containerization and Packaging:} The use of packaging and containerization technologies such as Spack, Guix-HPC, Docker, and Apptainer/Singularity enables reproducible and portable execution environments across various hardware platforms, simplifying deployment and reproducibility of the benchmarks.
     \item \textbf{Continuous Integration and Deployment (CI/CD):} The integration of continuous benchmarking and regression testing into a CI/CD pipeline ensures reproducibility, portability, and sustained high-performance across different HPC systems.
@@ -40,15 +44,17 @@ The objectives of the Work Package 7 are designed to
     \item \textbf{Creating a Showroom:} Establish a showroom of \exama results, presenting real-world achievements and use cases.
     \item \textbf{Building Training Material:} Develop educational resources based on the results and methodologies adopted in the \exama project, promoting knowledge transfer.
 \end{itemize}
-Setting up and executing an efficient benchmarking and testing methdology is an important part of the activity. 
-The key objectives are:
+Setting up and executing an efficient benchmarking and testing methdology is an important part of the activity and is a critical enabler for \ac{B10}.
+The key objectives associated with the corresponding bottlenecks are:
 \begin{itemize}
-    \item \textbf{Performance and Scalability:} Evaluate how well software scales and performs across different architectures, from CPUs to GPUs and hybrid environments.
-    \item \textbf{Energy Efficiency:} Measure energy consumption and optimize for energy-efficient performance, which is critical in exascale computing.
-    \item \textbf{Reproducibility and Portability:} Ensure that benchmarks and software executions can be reproduced and run across different HPC systems.
-    \item \textbf{Non-Regression:} Guarantee that future software iterations do not regress in performance or accuracy.
-    \item \textbf{Validation and Verification:} Verify that software behaves correctly and validate its performance in real-world use cases.
+    \item \textbf{Performance and Scalability (\ac{B2},  \ac{B7}):} Evaluate how well software scales and performs across different architectures, from CPUs to GPUs and hybrid environments.
+    \item \textbf{Energy Efficiency (\ac{B1}):} Measure energy consumption and optimize for energy-efficient performance, which is critical in exascale computing.
+    \item \textbf{Reproducibility and Portability (\ac{B6}, \ac{B11}):} Ensure that benchmarks and software executions can be reproduced and run across different HPC systems.
+    \item \textbf{Non-Regression (\ac{B1},\ac{B2},\ac{B6},\ac{B7},\ac{B9},\ac{B10},\ac{B11}):} Guarantee that future software iterations do not regress in performance or accuracy.
+    \item \textbf{Validation and Verification (\ac{B1},\ac{B2},\ac{B6},\ac{B7},\ac{B8},\ac{B9},\ac{B10},\ac{B11},\ac{B12},\ac{B13}):} Verify that software behaves correctly and validate its performance in real-world use cases.
 \end{itemize}
+
+
 
 \subsection{Testing Processes and Non-Regression Strategies}
 \label{sec:testing-processes}
@@ -97,6 +103,32 @@ Validation tests ensure that new methods or algorithms proposed within \exama de
     \item Evaluate the proposed algorithm in a realistic or representative configuration of the target scientific problem.
     \item Integrate validation cases with well-defined criteria to measure the contribution of the new method, whether in terms of accuracy, performance, or scalability.
 \end{itemize}
+
+\subsection{Data Management and I/O Bottlenecks}
+\label{sec:data-management}
+
+As we advance towards exascale computing, efficiently managing massive datasets becomes a critical challenge. I/O bottlenecks are closely linked to several key issues, including \ac{B6}, \ac{B9}, \ac{B10}, and \ac{B11}. 
+These bottlenecks arise from both offensive I/O (e.g., data analysis and compression) and defensive I/O (e.g., fault tolerance and resilience against failure).
+
+To address these challenges, our methodology includes the following strategies:
+\begin{itemize}
+    \item Leveraging high-performance parallel file systems to enhance data throughput and reduce I/O latency across distributed architectures.
+    \item Employing advanced data compression techniques to reduce the size of datasets without sacrificing accuracy, thus speeding up data movement and analysis.
+    \item Implementing fault tolerance mechanisms to ensure data integrity and resilience in the face of hardware or software failures.
+    \item Integrating efficient I/O scheduling and buffering techniques to avoid I/O becoming a performance bottleneck during large-scale simulations.
+\end{itemize}
+
+Our benchmarks will assess not only computational performance but also how efficiently data is read, written, and transferred across the system. This will help ensure that I/O does not become a limiting factor for scalability and performance. The analysis of I/O performance will be carried out under varying workloads to test both offensive and defensive I/O strategies, providing insights into the resilience and reproducibility of the system across different HPC environments.
+
+\subsection{Fault Tolerance Strategy}
+\label{sec:fault-tolerance-strategy}
+
+As we transition towards exascale computing, ensuring fault tolerance is very important to maintain the resilience and reliability of both the system and the scientific applications that run on it. The increasing scale and complexity of exascale systems introduce challenges related to hardware failures, software errors, and data integrity issues that could disrupt large-scale computations. To address these challenges, \ac{exama} will develop a  strategy that incorporates fault tolerance at multiple levels, including application design, data management, and build upon solutions from system architecture.
+
+The general approach will be to ensure that applications can continue to operate in the presence of failures by employing techniques such as \textbf{Checkpoint/Restart} for state preservation, failure detection, and system recovery. Beyond traditional fault tolerance methods, \ac{exama} aims to integrate advanced mechanisms that allow for more granular error handling, reducing the need for full system restarts and improving the overall efficiency and robustness of computations.
+
+The strategy will also include leveraging fault-tolerant I/O frameworks and resilient data storage solutions to ensure that data integrity is maintained across all phases of computation, from input/output operations to long-term storage. Through these efforts, \ac{exama} seeks to provide a fault-tolerant infrastructure capable of sustaining exascale workloads under increasingly challenging conditions.
+
 
 \subsection{Demonstrator Framework}
 \label{sec:demonstrators}
@@ -302,6 +334,19 @@ The test structure in ReFrame consists of the following key components:
 
 ReFrame ensures reproducibility, scalability, and portability in Exa-MA benchmarking efforts, making it thus a central tool in managing the project's performance evaluation across various supercomputing resources.
 
+\subsection{Fault Tolerance Mechanisms}
+\label{sec:fault-tolerance}
+
+As we move towards exascale computing, ensuring fault tolerance becomes critical to maintaining system resilience and data integrity in the face of hardware or software failures. However, currently, only a limited number of software tools within \ac{exama} support traditional \textbf{Checkpoint/Restart} techniques, which periodically save the application state to enable recovery from failures. This limitation presents a bottleneck in achieving full fault tolerance across all systems. 
+
+HDF5 has been adopted by various software within the \exama project as a standard data format for managing large-scale datasets, see pie chart~\ref{fig:data}. Its robust parallel I/O capabilities, combined with fault-tolerant extensions, make it a key framework for ensuring data integrity and resilience at exascale. We should leverage the fault-tolerant features of \textbf{HDF5}, such as its fault-tolerant parallel I/O extensions~\cite{koziol_extreme_2012}, to address potential failures during data read and write operations in our benchmarks and applications.
+
+Looking forward, \ac{exama} aims to integrate more advanced fault tolerance mechanisms over the course of the project. These will include cutting-edge technologies such as \textbf{OpenMPI-ULFM} (User-Level Failure Mitigation)~\cite{open_mpi_documentation_team_user_2024,fault_tolerance_working_group_mpi_forum_user_2024} and the \textbf{FTI} (Fault Tolerance Interface)~\cite{bautista-gomez_fti_2011,fti_documentation_team_fti_2024} which provide more sophisticated failure detection and recovery capabilities in MPI applications. These technologies will allow for fine-grained error handling and recovery without requiring a complete restart of the system.
+
+
+In addition, future developments will explore scalable checkpointing solutions like \textbf{SCR} (Scalable Checkpoint/Restart)~\cite{laboratory_llnl_scalable_2024}, which optimize checkpointing by utilizing local storage and reduce I/O overhead, thus improving recovery times. Depending on the availability, we might explore supporting resilient data management systems such as \textbf{ZFS} (Zettabyte File System)~\cite{project_zfs_2024} or \textbf{DAOS} (Distributed Asynchronous Object Storage)~\cite{liang_daos_2020}.
+
+
 
 \subsection{Packaging and Containerization}
 \label{sec:methodology-packaging}
@@ -346,32 +391,23 @@ This section describes the hardware architectures used in the benchmarks:
 \end{itemize}
 Tools for resource management, such as job scheduling systems (e.g., SLURM), are also discussed.
 
+
 \section{Conclusion}
 \label{sec:Technology-conclusion}
 
-In this chapter, we have introduced the practical tools, methodologies, and technologies essential for executing the benchmarking activities within the \exama project. 
-The systematic categorization of software into CPU-only, GPU-only, or hybrid CPU-GPU execution modes allows for targeted benchmarking strategies that reflect the diverse architectures available in modern high-performance computing (HPC) environments and the software identified in \exama.
+This chapter outlines a methodology for benchmarking, testing, and validating the software developed within the \exama project. By addressing key bottlenecks such as \ac{B2} (interconnect technology), \ac{B3} (memory technology), \ac{B6} (data management), \ac{B7} (exascale algorithms), and \ac{B11} (reproducibility), the methodology focuses on scalability, performance, reproducibility, and fault tolerance, which are critical for exascale readiness.
 
-We further detailed the phased benchmarking approach, which moves from baseline performance evaluation to optimization and scalability testing. The use of specialized tools such as Extrae, Score-P, TAU, Vampir, and Nsight ensures performance profiling across different architectures. Additionally, regression testing frameworks like ReFrame provide a consistent and scalable solution for ensuring reproducibility across a variety of systems.
 
-Lastly, the packaging and containerization strategies, supported by tools like Spack, Guix-HPC, Docker, and Apptainer/Singularity, will play a key role in maintaining portability, reproducibility, and long-term sustainability of the software environments and enable continuous benchmarking on HPC Systems.
 
-Together, these technologies and methodologies create a robust framework for evaluating and optimizing the exascale readiness of software developed in the \exama project. This approach not only ensures high performance but also prepares the project for future advancements in HPC infrastructures.
 
-\subsection{FAIR Data Principles}
-\label{sec:fair-data-principles}
+We presented a phased benchmarking strategy that integrates testing, validation, profiling, and continuous integration to ensure that the software is ready for exascale environments. The testing processes, including non-regression, verification, and validation, emphasize maintaining performance integrity across updates and ensuring that new algorithmic improvements lead to meaningful progress.
 
-The proposed benchmarking methodology for the \exama project already aligns with many aspects of the \textbf{FAIR} data principles, ensuring that benchmark results and datasets are \textbf{Findable}, \textbf{Accessible}, and \textbf{Reusable}:
-\begin{itemize}
-    \item \textbf{Findable}: The use of permanent identifiers like DOIs for datasets and benchmark results ensures that they are easy to locate in public repositories like Zenodo.
-    \item \textbf{Accessible}: Hosting datasets in open-access repositories ensures that data can be retrieved by researchers and stakeholders at any time.
-    \item \textbf{Reusable}: Detailed documentation, dataset descriptions, and the use of clear licensing ensure that data can be reused in future research.
-\end{itemize}
+The benchmarking strategy involves comprehensive testing across \textbf{CPU}, \textbf{GPU}, and \textbf{hybrid} CPU-GPU architectures to ensure that software can scale efficiently. This includes separate tests for CPU and GPU performance, as well as hybrid configurations where workloads are distributed across both architectures. 
 
-However, for the \exama project to be fully compliant with the \textbf{Interoperability} aspect of FAIR, additional focus would be needed on:
-\begin{itemize}
-    \item Supporting standard data formats (e.g., HDF5, NetCDF) to ensure compatibility across different systems and software. The statistics in section~\ref{fig:data} show the distribution of data formats used in the project.
-    \item Providing rich metadata to describe both input and output data, enabling seamless integration and reuse across multiple platforms.
-\end{itemize}
+Data management and I/O strategies (\ac{B6}, \ac{B9}, \ac{B10}, \ac{B11}) were also highlighted to address I/O bottlenecks and ensure efficient handling of large datasets, leveraging fault-tolerant mechanisms for data integrity. As the project progresses, more advanced fault tolerance strategies may be integrated to ensure resilience against hardware or software failures.
 
-By implementing these extra measures, the \exama project can enable benchmarks and data to be shared between different software, facilitating collaborative work and extending the impact of the benchmarking activities.
+In the Concretization and Technologies section, key tools for benchmarking, such as Extrae, Score-P, and Vampir, were introduced along with packaging and containerization technologies like Spack and Docker, which ensure portability and reproducibility across diverse HPC environments. 
+
+Finally, this methodology aligns with the \ac{FAIR} data principles, ensuring that benchmark results and datasets are \textbf{Findable}, \textbf{Accessible}, and \textbf{Reusable}. However, full \textbf{Interoperability} is certainly not yet ready. Additional efforts will focus on supporting standard data formats associated with rich metadata. By implementing these extra measures, the \exama project can then enable benchmarks and  their data to be shared between different software, facilitating collaborative work and, hence, extending the impact of the benchmarking activities.
+
+Future versions of this methodology will evolve based on ongoing testing and real-world applications of the \ac{exama} software.

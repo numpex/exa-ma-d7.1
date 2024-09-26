@@ -87,10 +87,40 @@ def check_tests(entry):
     return res if res else 'None'
 
 
-def generate_latex_table(desc, input_string):
-    # Split the input string by comma
-    items = [item.strip() for item in input_string.split(',')]
+def check_bottlenecks(entry):
+    bottleneck_entries = ['B1 - Energy Efficiency',
+                     'B2 - Interconnect Technology',
+                     'B3 - Memory Technology',
+                     'B4 - Scalable System Software',
+                     'B5 - Programming Systems',
+                     'B6 - Data Management',
+                     'B7 - Exascale Algorithms',
+                     'B8 - Discovery, Design, and Decision Algorithms',
+                     'B9 - Resilience, Robustness, and Accuracy',
+                     'B10 - Scientific Productivity',
+                     'B11 - Reproducibility and Replicability of Computation',
+                     'B12 - Pre/Post Processing and In-Situ Processing',
+                     'B13 - Integration of Uncertainties into Core Calculations]',
+    ]
+    if (entry['Bottlenecks'] == 'None') or pd.isnull(entry['Bottlenecks']):
+        return 'None'
+    print(entry['Bottlenecks'])
+    do = entry['Bottlenecks'].replace('\n', ' ').replace('"','')  # Clean up
+    found_keywords = [keyword for keyword in bottleneck_entries if keyword in do]
+    res = ', '.join(keywords.replace('Test - ', '')
+                    for keywords in found_keywords)
+    # print(f"{entry['Software']} :  {do} --> {res}")
+    return res if res else 'None'
 
+
+def generate_latex_table(desc, input_string, strip=True):
+
+    # Split the input string by comma
+    if strip:
+        items = [item.strip() for item in input_string.split(',')]
+    else:
+        items = [input_string]
+    items.sort()
     # Start the LaTeX table
     latex_code = '\\begin{tabular}{!{\\color{numpexgray}\\vrule}p{.25\\linewidth}!{\\color{numpexgray}\\vrule}p{.6885\\linewidth}!{\\color{numpexgray}\\vrule}}\n'
     latex_code += '    \n'
@@ -112,11 +142,13 @@ def generate_latex_table(desc, input_string):
     return latex_code
 
 
-def generate_latex_table_simple(input_string):
+def generate_latex_table_simple(input_string, strip=True):
     if pd.isnull(input_string):
         items = ['None']
-    else:
+    elif strip:
         items = [item.strip() for item in input_string.split(',')]
+    else:
+        items = [input_string]
     items.sort()
     latex_code = '\\begin{tabular}{l}\n'
     for index, item in enumerate(items):
@@ -130,6 +162,8 @@ benchmarked_software['CI'] = benchmarked_software.apply(lambda row: check_ci(row
 benchmarked_software['Packaging'] = benchmarked_software.apply(lambda row: check_packaging(row), axis=1)
 benchmarked_software['Containers'] = benchmarked_software.apply(lambda row: check_containers(row), axis=1)
 benchmarked_software['Tests'] = benchmarked_software.apply(lambda row: check_tests(row), axis=1)
+benchmarked_software['Bottlenecks'] = benchmarked_software.apply(
+    lambda row: check_bottlenecks(row), axis=1)
 
 
 def normalize_archs(arch_string):
@@ -247,6 +281,24 @@ def normalize_parallelism(parallelism_string):
     return normalized_technologies
 
 
+def normalize_resilience(resilience_string):
+    # Split the string by commas and strip spaces
+    technologies = [tech.strip() for tech in resilience_string.split(',')]
+    normalized_technologies = []
+    for tech in technologies:
+        tech = tech.split('-')[0]
+        # Normalize specific parallelism technologies
+        if 'CHECKPOINT RESTART' in tech.upper():
+            normalized_technologies.append('Checkpoint/Restart')
+        elif 'ULFM' in tech.upper():
+            normalized_technologies.append('ULFM')
+        elif 'FTI' in tech.upper():
+            normalized_technologies.append('FTI')
+        else:
+            normalized_technologies.append(tech)  # Default case if no matches
+    return normalized_technologies
+
+
 def normalize_devops(devops_string):
     categories = {
         'CI/CD': [],
@@ -323,6 +375,8 @@ print(archs_freq)
 languages_freq = count_frequencies(stats_software,'Languages')
 parallelism_freq = count_frequencies(stats_software,'Parallelism')
 data_freq = count_frequencies(stats_software,'Data')
+resilience_freq = count_frequencies(stats_software, 'Resilience')
+
 devops_cicd_freq = count_frequencies(stats_software, 'DevOps CI/CD')
 devops_packaging_freq = count_frequencies(stats_software, 'DevOps Packaging')
 devops_containers_freq = count_frequencies(stats_software, 'DevOps Containers')
@@ -357,6 +411,8 @@ arch_chart = tikz_pie_chart(archs_freq, "Benchmarked Architectures", caption="Di
 languages_chart = tikz_pie_chart(languages_freq, "Languages", caption="Distribution of programming languages", label="languages")
 parallelism_chart = tikz_pie_chart(parallelism_freq, "Parallelism", caption="Distribution of parallelism technologies", label="parallelism")  
 data_chart = tikz_pie_chart(data_freq, "Data", caption="Distribution of data formats", label="data")
+resilience_chart = tikz_pie_chart(
+    resilience_freq, "Resilience", caption="Distribution of Resilience strategies", label="resilience")
 devops_cicd_chart = tikz_pie_chart(
     devops_cicd_freq, "DevOps", caption="Distribution of DevOps CI/CD/CD", label="devops-cicd")
 devops_packaging_chart = tikz_pie_chart(
@@ -544,6 +600,7 @@ software_list['arch_chart'] = arch_chart
 software_list['languages_chart'] = languages_chart
 software_list['parallelism_chart'] = parallelism_chart
 software_list['data_chart'] = data_chart
+software_list['resilience_chart'] = resilience_chart
 software_list['devops_cicd_chart'] = devops_cicd_chart
 software_list['devops_packaging_chart'] = devops_packaging_chart
 software_list['devops_containers_chart'] = devops_containers_chart
@@ -554,7 +611,7 @@ software_list["software"] = ""
 for index,software in benchmarked_software.iterrows():
     software_json = json.loads(software.to_json())
     software_json['name'] = software['Software']
-    for column_name in ['Emails','Consortium', 'Partner', 'License', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience','Interfaces']:
+    for column_name in ['Emails','Consortium', 'Partner', 'License', 'Bottlenecks', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'Resilience', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience','Interfaces']:
         software_json[column_name] = generate_latex_table_simple(
             input_string=software[column_name])
     desc = template_desc.render(software= software_json)
@@ -575,12 +632,14 @@ for index,software in benchmarked_software.iterrows():
             software_json['name'] = software['Software']
             software_json['WP'] = generate_latex_table(
                 desc="Features", input_string=software[category])
-            for column_name in ['Emails', 'Consortium', 'Partner', 'License', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience', 'Interfaces']:
+            software_json['BottlenecksT'] = generate_latex_table(
+                desc="Bottlenecks", input_string=software['Bottlenecks'])
+            for column_name in ['Emails', 'Consortium', 'Partner', 'License', 'Bottlenecks', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'Resilience', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience', 'Interfaces']:
                 software_json[column_name] = generate_latex_table_simple(
                     input_string=software[column_name])
             software_json['Emails'] = generate_latex_table_simple(
                 input_string=software['Emails'])
-            wp = template_wp.render(software=software_json,wp=category)
+            wp = template_wp.render(software=software_json,wp=category,bottlenecks=software_json['BottlenecksT'])
             # Ensure the category has an entry in the dictionary
             if category not in latex_content_per_category:
                 latex_content_per_category[category] = []

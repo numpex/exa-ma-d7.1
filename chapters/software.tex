@@ -51,7 +51,7 @@ The following pie chart~\ref{fig:arch} shows the distribution of hardware archit
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{5/CPU or GPU, 7/CPU Only, 2/CPU and GPU, 1/GPU Only}
+\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{10/CPU Only, 5/CPU or GPU, 1/CPU and GPU, 2/GPU Only}
 \end{tikzpicture}
 \caption{Distribution of bemchmarked hardware architectures}
 \label{fig:arch}
@@ -100,6 +100,21 @@ The chart~\ref{fig:data} shows the supported data formats, for flexibility and c
 \caption{Distribution of data formats}
 \label{fig:data}
 \end{figure}
+
+
+\subsection{Resilience}
+
+The pie chart~\ref{fig:resilience} below shows the resilience mechanisms used in Exa-MA software selected for this document.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\pie[text=legend, color={red}, sum=auto]{6/Checkpoint restart}
+\end{tikzpicture}
+\caption{Distribution of Resilience strategies}
+\label{fig:resilience}
+\end{figure}
+
 
 
 \subsection{DevOps - CI/CD}

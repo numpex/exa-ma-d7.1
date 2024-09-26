@@ -26,6 +26,12 @@ CPU Only\\
 OSS:: GPL v*\\
 OSS:: LGPL v*\\
 \end{tabular} \\
+        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+B10 - Scientific Productivity\\
+B11 - Reproducibility and Replicability of Computation\\
+B6 - Data Management\\
+B7 - Exascale Algorithms\\
+\end{tabular} \\
         \bottomrule
     \end{tabular}
     }}
@@ -35,7 +41,7 @@ OSS:: LGPL v*\\
 \subsection{Software Overview}
 \label{sec:WP1:CGAL:summary}
 
-Provide a brief overview of the software with respect to WP1.
+In the table~\ref{tab:WP1:CGAL:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -54,6 +60,7 @@ Provide a brief overview of the software with respect to WP1.
         }
     }
     \caption{WP1: CGAL Features}
+    \label{tab:WP1:CGAL:features}
 \end{table}
 
 
@@ -84,7 +91,7 @@ This section provides a summary of initial performance benchmarks performed in t
             \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
             \item DOI or permanent link for accessing the dataset.
         \end{itemize}
-    \item \textbf{Open Data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
     \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
@@ -108,7 +115,36 @@ This section provides a summary of initial performance benchmarks performed in t
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open data initiatives.
+    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
     \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{itemize}
+
+In the table~\ref{tab:WP1:CGAL:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+
+\begin{table}[h!]
+    \centering
+    
+    
+
+    \centering
+    { 
+        \setlength{\parindent}{0pt}
+        \def\arraystretch{1.25}
+        \arrayrulecolor{numpexgray}
+        {
+            \fontsize{9}{11}\selectfont
+            \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
+    
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
+    
+\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
+\rowcolor{white}    B6 - Data Management & provide short description here \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\end{tabular}
+        }
+    }
+    \caption{WP1: CGAL plan with Respect to Relevant Bottlenecks}
+    \label{tab:WP1:CGAL:bottlenecks}
+\end{table}
