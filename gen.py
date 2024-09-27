@@ -407,7 +407,7 @@ def tikz_pie_chart(data, title, caption, label):
     chart += "\\end{figure}\n"
     return chart
 
-arch_chart = tikz_pie_chart(archs_freq, "Benchmarked Architectures", caption="Distribution of bemchmarked hardware architectures", label="arch")
+arch_chart = tikz_pie_chart(archs_freq, "Benchmarked Architectures", caption="Distribution of benchmarked hardware architectures", label="arch")
 languages_chart = tikz_pie_chart(languages_freq, "Languages", caption="Distribution of programming languages", label="languages")
 parallelism_chart = tikz_pie_chart(parallelism_freq, "Parallelism", caption="Distribution of parallelism technologies", label="parallelism")  
 data_chart = tikz_pie_chart(data_freq, "Data", caption="Distribution of data formats", label="data")
