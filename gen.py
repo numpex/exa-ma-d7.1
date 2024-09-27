@@ -87,10 +87,40 @@ def check_tests(entry):
     return res if res else 'None'
 
 
-def generate_latex_table(desc, input_string):
-    # Split the input string by comma
-    items = [item.strip() for item in input_string.split(',')]
+def check_bottlenecks(entry):
+    bottleneck_entries = ['B1 - Energy Efficiency',
+                     'B2 - Interconnect Technology',
+                     'B3 - Memory Technology',
+                     'B4 - Scalable System Software',
+                     'B5 - Programming Systems',
+                     'B6 - Data Management',
+                     'B7 - Exascale Algorithms',
+                     'B8 - Discovery, Design, and Decision Algorithms',
+                     'B9 - Resilience, Robustness, and Accuracy',
+                     'B10 - Scientific Productivity',
+                     'B11 - Reproducibility and Replicability of Computation',
+                     'B12 - Pre/Post Processing and In-Situ Processing',
+                     'B13 - Integration of Uncertainties into Core Calculations]',
+    ]
+    if (entry['Bottlenecks'] == 'None') or pd.isnull(entry['Bottlenecks']):
+        return 'None'
+    print(entry['Bottlenecks'])
+    do = entry['Bottlenecks'].replace('\n', ' ').replace('"','')  # Clean up
+    found_keywords = [keyword for keyword in bottleneck_entries if keyword in do]
+    res = ', '.join(keywords.replace('Test - ', '')
+                    for keywords in found_keywords)
+    # print(f"{entry['Software']} :  {do} --> {res}")
+    return res if res else 'None'
 
+
+def generate_latex_table(desc, input_string, strip=True):
+
+    # Split the input string by comma
+    if strip:
+        items = [item.strip() for item in input_string.split(',')]
+    else:
+        items = [input_string]
+    items.sort()
     # Start the LaTeX table
     latex_code = '\\begin{tabular}{!{\\color{numpexgray}\\vrule}p{.25\\linewidth}!{\\color{numpexgray}\\vrule}p{.6885\\linewidth}!{\\color{numpexgray}\\vrule}}\n'
     latex_code += '    \n'
@@ -112,11 +142,13 @@ def generate_latex_table(desc, input_string):
     return latex_code
 
 
-def generate_latex_table_simple(input_string):
+def generate_latex_table_simple(input_string, strip=True):
     if pd.isnull(input_string):
         items = ['None']
-    else:
+    elif strip:
         items = [item.strip() for item in input_string.split(',')]
+    else:
+        items = [input_string]
     items.sort()
     latex_code = '\\begin{tabular}{l}\n'
     for index, item in enumerate(items):
@@ -130,14 +162,17 @@ benchmarked_software['CI'] = benchmarked_software.apply(lambda row: check_ci(row
 benchmarked_software['Packaging'] = benchmarked_software.apply(lambda row: check_packaging(row), axis=1)
 benchmarked_software['Containers'] = benchmarked_software.apply(lambda row: check_containers(row), axis=1)
 benchmarked_software['Tests'] = benchmarked_software.apply(lambda row: check_tests(row), axis=1)
+benchmarked_software['Bottlenecks'] = benchmarked_software.apply(
+    lambda row: check_bottlenecks(row), axis=1)
 
 
 def normalize_archs(arch_string):
     # Define a dictionary to map various input forms to standardized forms
     arch_map = {
-        'CPU': ['CPU'],
-        'GPU': ['GPU'],
-        'Hybrid': ['HYBRID'],
+        'CPU Only': ['CPU ONLY'],
+        'GPU Only': ['GPU ONLY'],
+        'CPU or GPU': ['CPU OR GPU'],
+        'CPU and GPU': ['CPU AND GPU'],
         'Indirect': ['INDIRECT'],
         'Not Yet Benchmarked': ['NOT YET']
     }
@@ -149,6 +184,7 @@ def normalize_archs(arch_string):
     # Normalize each architecture entry
     for arch in archs:
         found = False
+        print(f"arch: {arch}\n")
         # Check each category for a match
         for standard, variations in arch_map.items():
             if arch in variations:
@@ -245,6 +281,24 @@ def normalize_parallelism(parallelism_string):
     return normalized_technologies
 
 
+def normalize_resilience(resilience_string):
+    # Split the string by commas and strip spaces
+    technologies = [tech.strip() for tech in resilience_string.split(',')]
+    normalized_technologies = []
+    for tech in technologies:
+        tech = tech.split('-')[0]
+        # Normalize specific parallelism technologies
+        if 'CHECKPOINT RESTART' in tech.upper():
+            normalized_technologies.append('Checkpoint/Restart')
+        elif 'ULFM' in tech.upper():
+            normalized_technologies.append('ULFM')
+        elif 'FTI' in tech.upper():
+            normalized_technologies.append('FTI')
+        else:
+            normalized_technologies.append(tech)  # Default case if no matches
+    return normalized_technologies
+
+
 def normalize_devops(devops_string):
     categories = {
         'CI/CD': [],
@@ -317,9 +371,12 @@ def count_frequencies(df,column,debug=False):
     return Counter(items)
 
 archs_freq = count_frequencies(stats_software,'Benchmarked')
+print(archs_freq)
 languages_freq = count_frequencies(stats_software,'Languages')
 parallelism_freq = count_frequencies(stats_software,'Parallelism')
 data_freq = count_frequencies(stats_software,'Data')
+resilience_freq = count_frequencies(stats_software, 'Resilience')
+
 devops_cicd_freq = count_frequencies(stats_software, 'DevOps CI/CD')
 devops_packaging_freq = count_frequencies(stats_software, 'DevOps Packaging')
 devops_containers_freq = count_frequencies(stats_software, 'DevOps Containers')
@@ -350,10 +407,12 @@ def tikz_pie_chart(data, title, caption, label):
     chart += "\\end{figure}\n"
     return chart
 
-arch_chart = tikz_pie_chart(archs_freq, "Architectures", caption="Distribution of hardware architectures", label="arch")
+arch_chart = tikz_pie_chart(archs_freq, "Benchmarked Architectures", caption="Distribution of benchmarked hardware architectures", label="arch")
 languages_chart = tikz_pie_chart(languages_freq, "Languages", caption="Distribution of programming languages", label="languages")
 parallelism_chart = tikz_pie_chart(parallelism_freq, "Parallelism", caption="Distribution of parallelism technologies", label="parallelism")  
 data_chart = tikz_pie_chart(data_freq, "Data", caption="Distribution of data formats", label="data")
+resilience_chart = tikz_pie_chart(
+    resilience_freq, "Resilience", caption="Distribution of Resilience strategies", label="resilience")
 devops_cicd_chart = tikz_pie_chart(
     devops_cicd_freq, "DevOps", caption="Distribution of DevOps CI/CD/CD", label="devops-cicd")
 devops_packaging_chart = tikz_pie_chart(
@@ -519,7 +578,7 @@ env = Environment(
 # Load template from file
 template_desc = env.get_template('templates/desc-software.tex')
 template_wp = env.get_template('templates/wp-software.tex')
-
+template_soft = env.get_template('templates/software.tex')
 # for software in software_list:
 #     rendered = template.render(software=software)
 # 
@@ -536,123 +595,65 @@ os.makedirs('software',exist_ok=True)
 
 # Dictionary to store LaTeX content per category
 latex_content_per_category = {}
-with open(f'chapters/software.tex', 'w') as software_index:
-    software_index.write('\clearpage\n\chapter{Software}\n')
-    software_index.write('\label{sec:software}\n')
-    software_index.write(
-    """
-    This chapter presents the software developed within Exa-MA, focusing on features, mathematics, functionalities, publications, acknowledgments, and contact details.
+software_list = dict()
+software_list['arch_chart'] = arch_chart
+software_list['languages_chart'] = languages_chart
+software_list['parallelism_chart'] = parallelism_chart
+software_list['data_chart'] = data_chart
+software_list['resilience_chart'] = resilience_chart
+software_list['devops_cicd_chart'] = devops_cicd_chart
+software_list['devops_packaging_chart'] = devops_packaging_chart
+software_list['devops_containers_chart'] = devops_containers_chart
+software_list['devops_testing_chart'] = devops_testing_chart
+software_list["software"] = ""
+# sort software_list with respect to name in lexical order
+#software_list = sorted(software_list, key=lambda x: x['name'])
+for index,software in benchmarked_software.iterrows():
+    software_json = json.loads(software.to_json())
+    software_json['name'] = software['Software']
+    for column_name in ['Emails','Consortium', 'Partner', 'License', 'Bottlenecks', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'Resilience', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience','Interfaces']:
+        software_json[column_name] = generate_latex_table_simple(
+            input_string=software[column_name])
+    desc = template_desc.render(software= software_json)
+    name = software['Software']
+    prefix = software_prefix(software)
+    os.makedirs(f'software/{prefix}', exist_ok=True)
+    software_json['prefix'] = prefix
+    software_list["software"] += '\input{software/'+f'{prefix}/{prefix}.tex'+'}\n'
+    
+    with open(f'software/{prefix}/{prefix}.tex', 'w') as f:
+        f.write(desc)
+    # Loop through all categories for the current software
+    for wpindex in range(1,7):
+        category = f'WP{wpindex}'
+        print(f"category: {category}")
+        if is_benchmarked_in(category,software):
+            software_json = json.loads(software.to_json())
+            software_json['name'] = software['Software']
+            software_json['WP'] = generate_latex_table(
+                desc="Features", input_string=software[category])
+            software_json['BottlenecksT'] = generate_latex_table(
+                desc="Bottlenecks", input_string=software['Bottlenecks'])
+            for column_name in ['Emails', 'Consortium', 'Partner', 'License', 'Bottlenecks', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'Resilience', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience', 'Interfaces']:
+                software_json[column_name] = generate_latex_table_simple(
+                    input_string=software[column_name])
+            software_json['Emails'] = generate_latex_table_simple(
+                input_string=software['Emails'])
+            wp = template_wp.render(software=software_json,wp=category,bottlenecks=software_json['BottlenecksT'])
+            # Ensure the category has an entry in the dictionary
+            if category not in latex_content_per_category:
+                latex_content_per_category[category] = []
+            # Append the rendered content to the category
+            software_json['wp'] = wp
+            #print(software['rendered'])
+            latex_content_per_category[category].append(software_json)
+            os.makedirs(f'software/{prefix}/{category}', exist_ok=True)
+            with open(f'software/{prefix}/{category}/{category}.tex', 'w') as f:
+                f.write(wp)
+            print(f"- Generated LaTeX file for {name} in category {category}: software/{prefix}/{category}/{category}.tex")
 
-    First, we present some general statistics about the software identified for Exa-MA that will present some benchmarking results. 
-    Other software (new or existing) will be included in the future version of this document.
-    """)
-
-    software_index.write(
-        """
-        \paragraph{Architectures}
-        The following pie chart~\\ref{fig:arch} shows the distribution of hardware architectures used.
-        """)
-    software_index.write(arch_chart)
-    # Programming Languages Pie Chart
-    software_index.write(
-        """
-        \paragraph{Programming Languages}
-        The following pie chart~\\ref{fig:languages} shows the distribution of programming languages used, highlighting the variety of computational solutions employed.
-        """)
-    software_index.write(languages_chart)
-
-    # Parallelism Techniques Pie Chart
-    software_index.write(
-        """
-        \paragraph{Parallelism Technology}
-        The pie chart~\\ref{fig:parallelism} below represents the parallelism techniques used in Exa-MA software selected for this document.
-        """)
-    software_index.write(parallelism_chart)
-
-    # Data Formats Pie Chart
-    software_index.write(
-        """
-        \paragraph{Data Formats}
-        The chart~\\ref{fig:data} shows the supported data formats, for flexibility and compatibility in data handling, supported by Exa-MA software selected for this document.
-        """)
-    software_index.write(data_chart)
-
-    # DevOps - CI/CD Pie Chart
-    software_index.write(
-        """
-        \paragraph{DevOps - CI/CD}
-        The pie chart~\\ref{fig:devops-cicd} below displays the support of continuous integration and deployment practices as well as continuous benchmarking, showcasing systematic software updates, quality maintenance and performance regression.
-        """)
-    software_index.write(devops_cicd_chart)
-
-    # DevOps - Packaging Pie Chart
-    software_index.write(
-        """
-        \paragraph{DevOps - Packaging}
-        The next chart~\\ref{fig:devops-packaging} shows different packaging methods used, which help in the distribution and management of software.
-        """)
-    software_index.write(devops_packaging_chart)
-
-    # DevOps - Containers Pie Chart
-    software_index.write(
-        """
-        \paragraph{DevOps - Containers}
-        The pie chart~\\ref{fig:devops-containers} displays the use of container technologies, which help encapsulate the software to run reliably in various environments.
-        """)
-    software_index.write(devops_containers_chart)
-
-    # DevOps - Testing Pie Chart
-    software_index.write(
-        """
-        \paragraph{DevOps - Testing}
-        The following pie chart~\\ref{fig:devops-testing} details the testing practices adopted, illustrating the commitment to software reliability and functionality.
-        """)
-    software_index.write(devops_testing_chart)
-
-    # sort software_list with respect to name in lexical order
-    software_list = sorted(software_list, key=lambda x: x['name'])
-    for index,software in benchmarked_software.iterrows():
-        software_json = json.loads(software.to_json())
-        software_json['name'] = software['Software']
-        for column_name in ['Emails','Consortium', 'Partner', 'License', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience','Interfaces']:
-            software_json[column_name] = generate_latex_table_simple(
-               input_string=software[column_name])
-
-        desc = template_desc.render(software= software_json)
-        name = software['Software']
-        prefix = software_prefix(software)
-        os.makedirs(f'software/{prefix}', exist_ok=True)
-        software_json['prefix'] = prefix
-        software_index.write('\input{software/'+f'{prefix}/{prefix}.tex'+'}\n')
-        
-        with open(f'software/{prefix}/{prefix}.tex', 'w') as f:
-            f.write(desc)
-        # Loop through all categories for the current software
-        for wpindex in range(1,7):
-            category = f'WP{wpindex}'
-            if is_benchmarked_in(category,software):
-                software_json = json.loads(software.to_json())
-                software_json['name'] = software['Software']
-                software_json['WP'] = generate_latex_table(
-                    desc="Features", input_string=software[category])
-                for column_name in ['Emails', 'Consortium', 'Partner', 'License', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience', 'Interfaces']:
-                    software_json[column_name] = generate_latex_table_simple(
-                        input_string=software[column_name])
-                software_json['Emails'] = generate_latex_table_simple(
-                    input_string=software['Emails'])
-                wp = template_wp.render(software=software_json,wp=category)
-                # Ensure the category has an entry in the dictionary
-                if category not in latex_content_per_category:
-                    latex_content_per_category[category] = []
-                # Append the rendered content to the category
-                software_json['wp'] = wp
-                #print(software['rendered'])
-                latex_content_per_category[category].append(software_json)
-                os.makedirs(f'software/{prefix}/{category}', exist_ok=True)
-                with open(f'software/{prefix}/{category}/{category}.tex', 'w') as f:
-                    f.write(wp)
-                print(f"- Generated LaTeX file for {name} in category {category}: software/{prefix}/{category}/{category}.tex")
-
+with open('chapters/software.tex', 'w') as f:
+    f.write(template_soft.render(software=software_list))
 
 # sort latex_content_per_category with respect to category in lexical order
 latex_content_per_category = dict(sorted(latex_content_per_category.items()))

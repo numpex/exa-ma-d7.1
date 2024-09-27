@@ -48,143 +48,58 @@ It helps to assess the readiness of the software for large-scale simulations and
 
 The following pie chart~\ref{fig:arch} shows the distribution of hardware architectures used for the benchmarks.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{9/CPU Only, 5/CPU or GPU, 1/CPU and GPU, 2/GPU Only}
-\end{tikzpicture}
-\caption{Distribution of benchmarked hardware architectures}
-\label{fig:arch}
-\end{figure}
-
+\VAR{software.arch_chart}
 
 \subsection{Programming Languages}
 
 The following pie chart~\ref{fig:languages} shows the distribution of programming languages used, highlighting the variety of computational solutions employed.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta}, sum=auto]{11/C++, 1/C\#, 2/C, 3/Fortran, 2/C++17, 4/Python, 1/C++20, 1/C++14}
-\end{tikzpicture}
-\caption{Distribution of programming languages}
-\label{fig:languages}
-\end{figure}
-
+\VAR{software.languages_chart}
 
 \subsection{Parallelism Technology}
 
 
 The pie chart~\ref{fig:parallelism} below represents the parallelism techniques used in Exa-MA software selected for this document.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{7/Multithread, 12/MPI, 7/GPU, 1/Parallelism - C++, 1/Task based, 1/Chapel}
-\end{tikzpicture}
-\caption{Distribution of parallelism technologies}
-\label{fig:parallelism}
-\end{figure}
-
+\VAR{software.parallelism_chart}
 
 
 \subsection{Data Formats}
 
 The chart~\ref{fig:data} shows the supported data formats, for flexibility and compatibility in data handling, supported by Exa-MA software selected for this document.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink, cyan, magenta, peach, lavender}, sum=auto]{2/XML, 5/HDF5, 2/JSON, 2/Ensight, 5/None, 1/YAML, 1/Data-management system, 6/VTK, 5/in-house format, 4/Gmsh and associated formats, 2/MED, 1/MFront}
-\end{tikzpicture}
-\caption{Distribution of data formats}
-\label{fig:data}
-\end{figure}
-
+\VAR{software.data_chart}
 
 \subsection{Resilience}
 
 The pie chart~\ref{fig:resilience} below shows the resilience mechanisms used in Exa-MA software selected for this document.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red}, sum=auto]{6/Checkpoint restart}
-\end{tikzpicture}
-\caption{Distribution of Resilience strategies}
-\label{fig:resilience}
-\end{figure}
-
+\VAR{software.resilience_chart}
 
 
 \subsection{DevOps - CI/CD}
 
 The pie chart~\ref{fig:devops-cicd} below displays the support of continuous integration and deployment practices as well as continuous benchmarking, showcasing systematic software updates, quality maintenance and performance regression.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime}, sum=auto]{10/Continuous Integration, 1/Continuous Benchmarking, 2/Continuous Delivery, 4/None}
-\end{tikzpicture}
-\caption{Distribution of DevOps CI/CD/CD}
-\label{fig:devops-cicd}
-\end{figure}
-
+\VAR{software.devops_cicd_chart}
 
 \subsection{DevOps - Packaging}
 
 The next chart~\ref{fig:devops-packaging} shows different packaging methods used, which help in the distribution and management of software.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue, pink}, sum=auto]{9/None, 5/Debian-based, 2/Fedora, 2/Spack, 1/GUIX, 1/Other}
-\end{tikzpicture}
-\caption{Distribution of DevOps Packaging}
-\label{fig:devops-packaging}
-\end{figure}
-
+\VAR{software.devops_packaging_chart}
 
 \subsection{DevOps - Containers}
 
 The pie chart~\ref{fig:devops-containers} displays the use of container technologies, which help encapsulate the software to run reliably in various environments.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow}, sum=auto]{11/None, 2/Apptainer/Singularity, 2/Docker}
-\end{tikzpicture}
-\caption{Distribution of DevOps Containers}
-\label{fig:devops-containers}
-\end{figure}
-
+\VAR{software.devops_containers_chart}
 
 \subsection{DevOps - Testing}
 
 The following pie chart~\ref{fig:devops-testing} details the testing practices adopted, illustrating the commitment to software reliability and functionality.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}
-\pie[text=legend, color={red, orange, yellow, lime, skyblue}, sum=auto]{8/Unit, 7/Verification, 3/Validation, 5/None, 1/Functional}
-\end{tikzpicture}
-\caption{Distribution of DevOps Testing}
-\label{fig:devops-testing}
-\end{figure}
+\VAR{software.devops_testing_chart}
 
-
-\input{software/arcane-framework/arcane-framework.tex}
-\input{software/cgal/cgal.tex}
-\input{software/composyx/composyx.tex}
-\input{software/feelpp/feelpp.tex}
-\input{software/freefempp/freefempp.tex}
-\input{software/hawen/hawen.tex}
-\input{software/hpddm/hpddm.tex}
-\input{software/mahyco/mahyco.tex}
-\input{software/manta/manta.tex}
-\input{software/pbb/pbb.tex}
-\input{software/samurai/samurai.tex}
-\input{software/scimba/scimba.tex}
-\input{software/trust-platform/trust-platform.tex}
-\input{software/zellij/zellij.tex}
+\VAR{software.software}
 

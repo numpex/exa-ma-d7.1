@@ -1,4 +1,234 @@
 
+
+@misc{wikipedia_contributors_zfs_2024,
+	title = {{ZFS}},
+	url = {https://en.wikipedia.org/wiki/ZFS},
+	abstract = {ZFS is a combined file system and logical volume manager designed by Sun Microsystems. It is known for its data integrity, support for high storage capacities, and protection against data corruption. This Wikipedia entry provides an overview of its history, features, and applications.},
+	author = {{Wikipedia contributors}},
+	year = {2024},
+}
+
+@book{project_zfs_2024,
+	title = {{ZFS} {Administration} {Guide}},
+	url = {https://openzfs.github.io/openzfs-docs/man/master/8/zfs.8.html},
+	abstract = {The ZFS administration guide provides detailed documentation on managing ZFS, a robust file system and volume manager for high-performance computing environments. It covers various commands for managing file systems, snapshots, and data integrity.},
+	author = {Project, OpenZFS},
+	year = {2024},
+}
+
+@inproceedings{liang_daos_2020,
+	address = {Berlin, Heidelberg},
+	title = {{DAOS}: {A} {Scale}-{Out} {High} {Performance} {Storage} {Stack} for {Storage} {Class} {Memory}},
+	isbn = {978-3-030-48841-3},
+	url = {https://doi.org/10.1007/978-3-030-48842-0_3},
+	doi = {10.1007/978-3-030-48842-0_3},
+	abstract = {The Distributed Asynchronous Object Storage (DAOS) is an open source scale-out storage system that is designed from the ground up to support Storage Class Memory (SCM) and NVMe storage in user space. Its advanced storage API enables the native support of structured, semi-structured and unstructured data models, overcoming the limitations of traditional POSIX based parallel filesystem. For HPC workloads, DAOS provides direct MPI-IO and HDF5 support as well as POSIX access for legacy applications. In this paper we present the architecture of the DAOS storage engine and its high-level application interfaces. We also describe initial performance results of DAOS for IO500 benchmarks.},
+	booktitle = {Supercomputing {Frontiers}: 6th {Asian} {Conference}, {SCFA} 2020, {Singapore}, {February} 24–27, 2020, {Proceedings}},
+	publisher = {Springer-Verlag},
+	author = {Liang, Zhen and Lombardi, Johann and Chaarawi, Mohamad and Hennecke, Michael},
+	year = {2020},
+	note = {event-place: Singapore, Singapore},
+	keywords = {DAOS, Distributed storage system, NVMe, Parallel filesystem, Persistent memory, RAFT, SCM, SWIM},
+	pages = {40--54},
+}
+
+@misc{laboratory_llnl_scalable_2024,
+	title = {Scalable {Checkpoint}/{Restart} for {MPI} ({SCR})},
+	url = {https://computing.llnl.gov/projects/scalable-checkpoint-restart-for-mpi},
+	abstract = {The Scalable Checkpoint/Restart (SCR) library enables efficient, scalable checkpointing of MPI applications. This project from LLNL focuses on reducing checkpoint overhead to improve resilience in high-performance computing environments.},
+	author = {Laboratory (LLNL), Lawrence Livermore National},
+	year = {2024},
+}
+
+@misc{fault_tolerance_working_group_mpi_forum_user_2024,
+	title = {User {Level} {Failure} {Mitigation} ({ULFM})},
+	url = {https://fault-tolerance.org/},
+	abstract = {The User Level Failure Mitigation (ULFM) proposal is developed by the MPI Forum’s Fault Tolerance Working Group to support the continued operation of MPI programs after crash (node failures) have impacted the execution. The key principle is that no MPI call (point-to-point, collective, RMA, IO, …) can block indefinitely after a failure, but must either succeed or raise an MPI error. In addition the design is centered around user needs and flexibility, the API should allow varied fault tolerant models to be built as external libraries.},
+	author = {{Fault Tolerance Working Group, MPI Forum}},
+	year = {2024},
+	keywords = {fault tolerance, resilience},
+}
+
+@book{fti_documentation_team_fti_2024,
+	title = {{FTI}: {Fault} {Tolerance} {Interface} - {Examples}},
+	url = {https://fault-tolerance-interface.readthedocs.io/en/latest/examples.html},
+	abstract = {This webpage provides examples of how to use the Fault Tolerance Interface (FTI) for implementing fault tolerance in HPC applications. The examples demonstrate checkpointing, recovery, and handling failures with FTI.},
+	author = {{FTI Documentation Team}},
+	year = {2024},
+	keywords = {fault tolerance, resilience},
+}
+
+@inproceedings{koziol_extreme_2012,
+	title = {Extreme {I}/{O} {Scaling} with {HDF5}},
+	url = {https://cscads.rice.edu/HDF5-CScADS.pdf},
+	booktitle = {{XSEDE} 12 - {Extreme} {Scaling} {Workshop}},
+	publisher = {The HDF Group},
+	author = {Koziol, Quincey},
+	year = {2012},
+}
+
+@inproceedings{bautista-gomez_fti_2011,
+	address = {New York, NY, USA},
+	series = {{SC} '11},
+	title = {{FTI}: high performance fault tolerance interface for hybrid systems},
+	isbn = {978-1-4503-0771-0},
+	url = {https://doi.org/10.1145/2063384.2063427},
+	doi = {10.1145/2063384.2063427},
+	abstract = {Large scientific applications deployed on current petascale systems expend a significant amount of their execution time dumping checkpoint files to remote storage. New fault tolerant techniques will be critical to efficiently exploit post-petascale systems. In this work, we propose a low-overhead high-frequency multi-level checkpoint technique in which we integrate a highly-reliable topology-aware Reed-Solomon encoding in a three-level checkpoint scheme. We efficiently hide the encoding time using one Fault-Tolerance dedicated thread per node. We implement our technique in the Fault Tolerance Interface FTI. We evaluate the correctness of our performance model and conduct a study of the reliability of our library. To demonstrate the performance of FTI, we present a case study of the Mw9.0 Tohoku Japan earthquake simulation with SPECFEM3D on TSUBAME2.0. We demonstrate a checkpoint overhead as low as 8\% on sustained 0.1 petaflops runs (1152 GPUs) while checkpointing at high frequency.},
+	booktitle = {Proceedings of 2011 {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {Association for Computing Machinery},
+	author = {Bautista-Gomez, Leonardo and Tsuboi, Seiji and Komatitsch, Dimitri and Cappello, Franck and Maruyama, Naoya and Matsuoka, Satoshi},
+	year = {2011},
+	note = {event-place: Seattle, Washington},
+}
+
+@misc{open_mpi_documentation_team_user_2024,
+	title = {User {Level} {Failure} {Mitigation} ({ULFM}) in {Open} {MPI}},
+	url = {https://docs.open-mpi.org/en/v5.0.x/features/ulfm.html},
+	abstract = {This chapter documents the features and options specific to the User Level Failure Mitigation (ULFM) Open MPI implementation. The ULFM proposal is developed by the MPI Forum’s Fault Tolerance Working Group to support the continued operation of MPI programs after failures, both hard and soft, have impacted execution. No MPI call can block indefinitely after a failure, and errors are not necessarily fatal, as the MPI implementation makes a best effort to maintain the execution environment.},
+	author = {{Open MPI Documentation Team}},
+	year = {2024},
+	keywords = {fault tolerance, resilience},
+}
+
+@inproceedings{ouertatani_accelerated_2024,
+	address = {Lugano, Switzerland},
+	title = {Accelerated {NAS} via pretrained ensembles and multi-fidelity {Bayesian} {Optimization}},
+	url = {https://hal.science/hal-04611343},
+	booktitle = {33rd {International} {Conference} on {Artificial} {Neural} {Networks} ({ICANN})},
+	author = {Ouertatani, Houssem and Maxim, Cristian and Niar, Smail and Talbi, El-Ghazali},
+	month = sep,
+	year = {2024},
+	keywords = {Deep Ensembles, Multi-fidelity BO, Neural Architecture Search},
+}
+
+@unpublished{beuzeville_deterministic_2024,
+	title = {Deterministic and probabilistic backward error analysis of neural networks in floating-point arithmetic},
+	url = {https://hal.science/hal-04663142},
+	author = {Beuzeville, Théo and Buttari, Alfredo and Gratton, Serge and Mary, Theo},
+	month = jul,
+	year = {2024},
+	keywords = {artificial neural networks, backward error, error analysis, floating-point arithmetic, probabilistic error analysis, rounding errors},
+}
+
+@unpublished{buttari_modular_2024,
+	title = {A modular framework for the backward error analysis of {GMRES}},
+	url = {https://hal.science/hal-04525918},
+	author = {Buttari, Alfredo and Higham, Nicholas J and Mary, Théo and Vieublé, Bastien},
+	month = mar,
+	year = {2024},
+	keywords = {Computer arithmetic, GMRES, Iterative solvers, Linear system of equations, Rounding error analysis},
+}
+
+@article{saigre_model_2024,
+	title = {Model order reduction and sensitivity analysis for complex heat transfer simulations inside the human eyeball},
+	url = {https://hal.science/hal-04361954},
+	doi = {10.1002/cnm.3864},
+	journal = {International Journal for Numerical Methods in Biomedical Engineering},
+	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela},
+	month = sep,
+	year = {2024},
+	note = {Publisher: John Wiley and Sons},
+	keywords = {Heat transfer, Mathematical and computational ophthalmology, Sensitivity analysis, Uncertainty qualification, Validation, real-time model order reduction},
+	pages = {e3864},
+}
+
+@unpublished{aghili_accelerating_2024,
+	title = {Accelerating the convergence of {Newton}'s method for nonlinear elliptic {PDEs} using {Fourier} neural operators},
+	url = {https://hal.science/hal-04440076},
+	author = {Aghili, Joubine and Hild, Romain and Michel-Dansac, Victor and Vigon, Vincent and Franck, Emmanuel},
+	month = feb,
+	year = {2024},
+	keywords = {Fourier neural operators, Neural operators, Newton's method, Nonlinear elliptic PDEs},
+}
+
+@article{pham_numerical_2024,
+	title = {Numerical investigation of stabilization in the {Hybridizable} {Discontinuous} {Galerkin} method for linear anisotropic elastic equation},
+	url = {https://hal.science/hal-04503407},
+	doi = {10.1016/j.cma.2024.117080},
+	journal = {Computer Methods in Applied Mechanics and Engineering},
+	author = {Pham, Ha and Faucher, Florian and Barucq, Hélène},
+	month = jun,
+	year = {2024},
+	note = {Publisher: Elsevier},
+	pages = {117080},
+}
+
+@unpublished{mary_error_2024,
+	title = {Error analysis of matrix multiplication with narrow range floating-point arithmetic},
+	url = {https://hal.science/hal-04671474},
+	author = {Mary, Théo and Mikaitis, Mantas},
+	month = aug,
+	year = {2024},
+	keywords = {GPUs, floating-point arithmetic, matrix multiplication, mixed precision, multiword arithmetic, overflow, reduced precision, rounding error analysis, scaling, underflow},
+}
+
+@unpublished{mary_error_2024-1,
+	title = {Error analysis of the {Gram} low-rank approximation (and why it is not as unstable as one may think)},
+	url = {https://hal.science/hal-04554516},
+	author = {Mary, Théo},
+	month = apr,
+	year = {2024},
+	keywords = {Gram matrix, eigenvalue decomposition, finite precision arithmetic, iterative refinement, low-rank approximation, mixed precision, rounding error analysis, singular value decomposition},
+}
+
+@unpublished{prudhomme_ktirio_2024,
+	title = {Ktirio {Urban} {Building}: {A} {Computational} {Framework} for {City} {Energy} {Simulations} {Enhanced} by {CI}/{CD} {Innovations} on {EuroHPC} {Systems}},
+	url = {https://hal.science/hal-04590586},
+	author = {Prud'Homme, Christophe and Chabannes, Vincent and Berti, Luca and Maslek, Maryam and Pincon, Philippe and Cladellas, Javier and Diallo, Abdoulaye},
+	month = may,
+	year = {2024},
+	keywords = {City Energy Simulation, HPC, HPC HPCOps Urban building City Energy Simulation, HPCOps, Urban building},
+}
+
+@misc{noauthor_notitle_nodate,
+}
+
+@misc{belieres--frendo_volume-preserving_2024,
+	title = {Volume-preserving geometric shape optimization of the {Dirichlet} energy using variational neural networks},
+	url = {http://arxiv.org/abs/2407.19064},
+	abstract = {In this work, we explore the numerical solution of geometric shape optimization problems using neural network-based approaches. This involves minimizing a numerical criterion that includes solving a partial differential equation with respect to a domain, often under geometric constraints like constant volume. Our goal is to develop a proof of concept using a flexible and parallelizable methodology to tackle these problems. We focus on a prototypal problem: minimizing the so-called Dirichlet energy with respect to the domain under a volume constraint, involving a Poisson equation in \${\textbackslash}mathbb R{\textasciicircum}2\$. We use physics-informed neural networks (PINN) to approximate the Poisson equation's solution on a given domain and represent the shape through a neural network that approximates a volume-preserving transformation from an initial shape to an optimal one. These processes are combined in a single optimization algorithm that minimizes the Dirichlet energy. One of the significant advantages of this approach is its parallelizable nature, which makes it easy to handle the addition of parameters. Additionally, it does not rely on shape derivative or adjoint calculations. Our approach is tested on Dirichlet and Robin boundary conditions, parametric right-hand sides, and extended to Bernoulli-type free boundary problems. The source code for solving the shape optimization problem is open-source and freely available.},
+	urldate = {2024-09-17},
+	publisher = {arXiv},
+	author = {Bélières--Frendo, Amaury and Franck, Emmanuel and Michel-Dansac, Victor and Privat, Yannick},
+	month = aug,
+	year = {2024},
+	note = {arXiv:2407.19064 [cs, math]},
+	keywords = {Mathematics - Numerical Analysis, Mathematics - Optimization and Control},
+}
+
+@book{the_cgal_project_cgal_2024,
+	edition = {5.6.1},
+	title = {{CGAL} {User} and {Reference} {Manual}},
+	url = {https://doc.cgal.org/5.6.1/Manual/packages.html},
+	publisher = {CGAL Editorial Board},
+	author = {{The CGAL Project}},
+	year = {2024},
+}
+
+@incollection{alliez_3d_2024,
+	edition = {5.6.1},
+	title = {{3D} {Alpha} {Wrapping}},
+	url = {https://doc.cgal.org/5.6.1/Manual/packages.html#PkgAlphaWrap3},
+	booktitle = {{CGAL} {User} and {Reference} {Manual}},
+	publisher = {CGAL Editorial Board},
+	author = {Alliez, Pierre and Cohen-Steiner, David and Hemmer, Michael and Portaneri, Cédric and Rouxel-Labbé, Mael},
+	year = {2024},
+}
+
+@article{hecht_new_2012,
+	title = {New development in {FreeFem}++},
+	volume = {20},
+	issn = {1570-2820},
+	url = {https://freefem.org/},
+	number = {3-4},
+	journal = {Journal of Numerical Mathematics},
+	author = {Hecht, F.},
+	year = {2012},
+	mrnumber = {3043640},
+	pages = {251--265},
+}
+
 @inproceedings{gamblin_spack_2015,
 	address = {Austin Texas},
 	title = {The {Spack} package manager: bringing order to {HPC} software chaos},
@@ -32,19 +262,6 @@
 	month = oct,
 	year = {2022},
 	pages = {597},
-}
-
-@article{hecht_new_2012,
-	title = {New development in {FreeFem}++},
-	volume = {20},
-	issn = {1570-2820},
-	url = {https://freefem.org/},
-	number = {3-4},
-	journal = {Journal of Numerical Mathematics},
-	author = {Hecht, F.},
-	year = {2012},
-	mrnumber = {3043640},
-	pages = {251--265},
 }
 
 @techreport{adams_dakota_2022,
@@ -273,4 +490,32 @@ Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0
 	month = jul,
 	year = {2024},
 	doi = {10.5281/ZENODO.591797},
+}
+
+@misc{ootomo_dgemm_2024,
+	title = {{DGEMM} on {Integer} {Matrix} {Multiplication} {Unit}},
+	url = {http://arxiv.org/abs/2306.11975},
+	abstract = {Deep learning hardware achieves high throughput and low power consumption by reducing computing precision and specializing in matrix multiplication. For machine learning inference, fixed-point value computation is commonplace, where the input and output values and the model parameters are quantized. Thus, many processors are now equipped with fast integer matrix multiplication units (IMMU). It is of significant interest to find a way to harness these IMMUs to improve the performance of HPC applications while maintaining accuracy. We focus on the Ozaki scheme, which computes a high-precision matrix multiplication by using lower-precision computing units, and show the advantages and disadvantages of using IMMU. The experiment using integer Tensor Cores shows that we can compute double-precision matrix multiplication faster than cuBLAS and an existing Ozaki scheme implementation on FP16 Tensor Cores on NVIDIA consumer GPUs. Furthermore, we demonstrate accelerating a quantum circuit simulation by up to 4.33 while maintaining the FP64 accuracy.},
+	urldate = {2024-06-28},
+	publisher = {arXiv},
+	author = {Ootomo, Hiroyuki and Ozaki, Katsuhisa and Yokota, Rio},
+	month = mar,
+	year = {2024},
+	note = {arXiv:2306.11975 [cs]},
+	keywords = {Computer Science - Distributed, Parallel, and Cluster Computing},
+}
+
+@inproceedings{haidar_harnessing_2018,
+	address = {Dallas, TX, USA},
+	title = {Harnessing {GPU} {Tensor} {Cores} for {Fast} {FP16} {Arithmetic} to {Speed} up {Mixed}-{Precision} {Iterative} {Refinement} {Solvers}},
+	isbn = {978-1-5386-8384-2},
+	url = {https://ieeexplore.ieee.org/document/8665777/},
+	doi = {10.1109/SC.2018.00050},
+	urldate = {2024-06-28},
+	booktitle = {{SC18}: {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {IEEE},
+	author = {Haidar, Azzam and Tomov, Stanimire and Dongarra, Jack and Higham, Nicholas J.},
+	month = nov,
+	year = {2018},
+	pages = {603--613},
 }

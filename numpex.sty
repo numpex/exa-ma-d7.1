@@ -199,7 +199,10 @@
 \usepackage[T1]{fontenc}
 
 % sections as chapters
-\renewcommand*\thesection{\arabic{section}}
+%\renewcommand*\thesection{\arabic{section}}
+\renewcommand\thesection{\thechapter.\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
 
 \makeatletter
     \def\thebibliography#1{\section*{References\@mkboth

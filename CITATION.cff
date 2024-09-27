@@ -1,13 +1,73 @@
 cff-version: 1.2.0 
 message: If you use this software, please cite it as below.
 authors:
+- family-names: Alliez
+  given-names: Pierre
+  affiliation: "INRIA"
+  email: pierre.alliez@inria.fr
+- family-names: Chabannes
+  given-names: Vincent
+  affiliation: "University of Strasbourg"
+  email: vincent.chabannes@cemosis.fr
+- family-names: Faucher
+  given-names: Florian
+  affiliation: "INRIA"
+  email: florian.faucher@inria.fr
+- family-names: Franck
+  given-names: Emmanuel
+  affiliation: "INRIA"
+  email: emmanuel.franck@inria.fr
+- family-names: Georgiadis
+  given-names: Christos
+  affiliation: "INRIA"
+  email: christos.georgiadis@inria.fr
+- family-names: Gouarin
+  given-names: Loic
+  affiliation: "École Polytechnique"
+  email: lloic.gouarin@polytechnique.edu
+- family-names: Hecht
+  given-names: Frederic
+  affiliation: "Sorbonne Université"
+  email: frederic.hecht@sorbonne-universite.fr
+- family-names: Jamond
+  given-names: Olivier
+  affiliation: "CEA"
+  email: olivier.jamond@cea.fr
+- family-names: Jolivet
+  given-names: Pierre
+  affiliation: "Sorbonne Université"
+  email: pierre.jolivet@sorbonne-universite.fr
+- family-names: Jolivet
+  given-names: Pierre
+  affiliation: "CNRS"
+  email: pierre@joliv.et
+- family-names: Marait
+  given-names: Gilles
+  affiliation: "INRIA"
+  email: gilles.marait@inria.fr
+- family-names: Melab
+  given-names: Nouredine
+  affiliation: "University of Lille"
+  email: nouredine.melab@univ-lille.fr
+- family-names: Perlat
+  given-names: Jean-Philippe
+  affiliation: "CEA"
+  email: jean-philippe.perlat@cea.fr
 - family-names: Prud'homme
   given-names: Christophe
   orcid: 'https://orcid.org/0000-0003-2287-2961'
   affiliation: "University of Strasbourg"
   email: christophe.prudhomme@cemosis.fr
+- family-names: Talbi
+  given-names: El-Ghazali
+  affiliation: "University of Lille"
+  email: el-ghazali.talbi@univ-lille.fr
+- family-names: Tournier
+  given-names: Pierre-Henri
+  affiliation: "Sorbonne Université"
+  email: pierre-henri.tournier@sorbonne-universite.fr
 title: "numpex/exa-ma-d7.1 - Benchmarking Analysis Report"
-version: 0.0.1
+version: 0.0.6
 abstract: >
   This repository contains the deliverable D7.1 for the Benchmarking Analysis Report 
   of the Exa-MA project. 
@@ -16,7 +76,7 @@ keywords:
   - Exascale
   - Benchmarking
 license: CC-BY-4.0
-date-released: 2024-08-19
+date-released: 2024-09-27
 url: "https://github.com/numpex/exa-ma-d7.1"
 references:
   - type: grant
