@@ -23,11 +23,11 @@ jean-baptiste.blanchard@cea.fr\\
 rudy.chocat@cea.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-CPU Only\\
+CPU, GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://sourceforge.net/projects/uranie/}{https://sourceforge.net/projects/uranie/} \\
+        \rowcolor{white}\textbf{Repository} & \href{https://uranie.cea.fr}{https://uranie.cea.fr} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
-OSS:: LGPL v*\\
+OSS:: LGPL v4.9.0\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 None\\
@@ -40,13 +40,19 @@ None\\
 
 \subsection{Software summary}
 \label{sec:Uranie:summary}
-Detailed overview not available.
 
+Uranie platform is based on ROOT and has by consequence a lot of ROOT characteristics such as:
+\begin{itemize}
+    \item Interactive C++ interpreter (Cling) based on LLVM and Clang 
+    \item Python interface (PyROOT)
+    \item SQL database access 
+\end{itemize}
 
 
 \subsection{Purpose}
 \label{sec:Uranie:purpose}
-Purpose not available.
+
+Uranie (the version under discussion here being v4.9.0) is a software dedicated to perform studies on uncertainty propagation, sensitivity analysis and surrogate model generation and calibration, based on ROOT (the corresponding version being v6.32.00). The motivation for the development of Uranie is the VVUQ (Verification, Validation and Uncertainty Quantification) approach for conceiving a numerical model of real physical phenomena of interests.
 
 \subsection{Programming and Computational Environment}
 \label{sec::Uranie:environment_capabilities}
@@ -73,8 +79,7 @@ MPI\\
 Multithread\\
 \end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
-ASCII\\
-JSON\\
+SALOME format\\
 ROOT\\
 SQL\\
 \end{tabular} & Data formats that the software can handle or produce.\\
@@ -96,7 +101,10 @@ Verification\\
 None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
-Salome\\
+Salome \\
+Trust \\ 
+TrioCFD \\ 
+CASTEM
 \end{tabular} & List of software Uranie has interfaces with.\\
         \bottomrule
     \end{tabular}
