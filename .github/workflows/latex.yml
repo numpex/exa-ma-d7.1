@@ -80,7 +80,12 @@ jobs:
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
           git config --local user.name "${{ github.actor }}"
           git add references.bib
-          git commit -m "Update references.bib from Zotero"
+          if ! git diff --cached --quiet; then
+            git commit -m "Update references.bib from Zotero"
+            git push
+          else
+            echo "No changes in references.bib to commit."
+          fi
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
