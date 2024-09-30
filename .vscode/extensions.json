@@ -4,6 +4,7 @@
         "tecosaur.latex-utilities",
         "asciidoctor.asciidoctor-vscode",
         "redhat.vscode-yaml",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "mathematic.vscode-latex"
     ]
 }
