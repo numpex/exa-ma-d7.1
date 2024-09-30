@@ -46,7 +46,8 @@ Uranie platform is based on ROOT and has by cosnequence a lot of ROOT characteri
     \item Python interface (PyROOT)
     \item SQL database access 
 \end{itemize}
-Uranie is organized in different modules, each devoted to a specific task in the Uncertainty Quantification (UQ) framework. The modules devoted to Uncertainty Quantification (UQ) are listed in table \ref{tab:WP6:Uranie:features}  
+Uranie is organized in different modules, each devoted to a specific task in the Uncertainty Quantification (UQ) framework. 
+The modules devoted to Uncertainty Quantification (UQ) are listed in table \ref{tab:WP6:Uranie:features}  
 
 \begin{table}[h!]
     \centering
@@ -77,11 +78,19 @@ Uranie is organized in different modules, each devoted to a specific task in the
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item The parallel programming environment of URANIE leverages MPI, PTHREAD
+    and CUDA to exploit the full potential of parallel computing. 
+    On our platform, MPI is used to distribute simulations across different nodes,
+    ensuring efficient scalability and enabling the platform to handle complex, large-scale computations. It is mainly use for the lanching of external code.
+    On the other hand, CUDA use GPU's capabilities in Artificial Neural Network of URANIE.
+    URANIE use also LibSSH for launching code on diffrent cluster (in the module TLauncher).
+
+    \item The parallel computation environment of our platform is built on a HPC architecture designed to maximize computational power and efficiency
+    using both splited and shared memory parallelism. URANIE is used on CEA/TGCC supercomputers quch as IRESNE.
+
+    \item URANIE allows performing simulations in parrallel for uncertainty quantification.
+    \item \textbf{Scalability:} The scalability is constant because each the software distributes the simulation. if we add resource, they are devoted to run new simulations.
+    % \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
 \end{itemize}
 
 
