@@ -60,6 +60,7 @@ jobs:
     name: Build LaTeX Artifact
     env:
       VERSION: ${{ github.ref_name }}
+      ZOTERO_API_KEY: ${{ secrets.EXA_MA_ZOTERO_API_KEY }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -69,6 +70,17 @@ jobs:
       - name: Install hooks 
         run: |
           bash ./a.cli setup
+
+      - name: Update BibTeX references
+        run: |
+          bash ./a.cli update-bibtex
+
+      - name: Commit new references.bib
+        run: |
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --local user.name "${{ github.actor }}"
+          git add references.bib
+          git commit -m "Update references.bib from Zotero"
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
