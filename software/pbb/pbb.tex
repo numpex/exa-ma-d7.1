@@ -2,9 +2,9 @@
 \label{sec:pBB:software}
 
 
-
 \begin{table}[h!]
     \centering
+pBB is initially an implementation of a massively parallel Branch&Bound algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones. A new data structure named P3D-DFS is proposed for that purpose. In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see https://github.com/Guillaume-Helbecque). The Chapel language is used for the implementation of pBB meeting these genericity and productivity objectives. 
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
     \arrayrulecolor{numpexgray}
@@ -29,8 +29,9 @@ OSS: Cecill-*\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
+Productivity is first related to the different parallel levels of supercomputers including the inter-node, intra-node and GPU levels. In pBB, productivity is ensured using the PGAS-based design approach. The Chapel language is used for the implementation of PGAS. In this latter, the different parallel levels are unified. Second, pBB provides a data structure (P3D-DFS) that can be used in a productive way for different optimization problems.  
 B11 - Reproducibility and Replicability of Computation\\
-B6 - Data Management\\
+%B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
         \bottomrule
@@ -41,9 +42,7 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:pBB:summary}
-Detailed overview not available.
-
-
+%Detailed overview not available.
 
 \subsection{Purpose}
 \label{sec:pBB:purpose}
@@ -69,9 +68,9 @@ C++\\
 \end{tabular} & Programming languages and language standards supported by the software \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 Chapel\\
-GPU\\
+CUDA and HIP\\
 MPI\\
-Multithread\\
+OpenMP and PThreads\\
 \end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 None\\
@@ -100,28 +99,21 @@ None\\
     \caption{pBB programming and computational environment}
 \end{table}
 
-
-
 \subsection{Mathematics}
 \label{sec:pBB:mathematics}
 Mathematics not available.
 
 In this section, provide a summary the mathematics used in the software.
 
-
 \subsection{Relevant Publications}
 \label{sec:pBB:publications}
 
 Here is a list of relevant publications related to the software:
 
-
 \subsection{Acknowledgements}
 \label{sec::pBB:acknowledgements}
 
 The software has been developed with the support of the following funding agencies and institutions: 
-
-
-
 
 Acknowledgements not available.
 

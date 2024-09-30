@@ -1,8 +1,6 @@
 \section{Software: Zellij}
 \label{sec:Zellij:software}
 
-
-
 \begin{table}[h!]
     \centering
     { \setlength{\parindent}{0pt}
@@ -21,7 +19,7 @@ Inria Lille\\
 el-ghazali.talbi@univ-lille.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-GPU Only\\
+CPU only \\
 \end{tabular} \\
         \rowcolor{white}\textbf{Repository} & \href{https://github.com/ThomasFirmin/zellij}{https://github.com/ThomasFirmin/zellij} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
@@ -29,7 +27,7 @@ OSS: Cecill-*\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
-B11 - Reproducibility and Replicability of Computation\\
+B11 - Reproducibility and Replicability of Computation \\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
@@ -41,17 +39,33 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:Zellij:summary}
-Detailed overview not available.
 
+% Surligner l'aspect fractal 
+Zellij is a generic algorithmic framework which defines a unified view of fractal decomposition algorithms for continuous optimization. Fractals allow building a hierarchical decomposition of the decision space by using a self-similar geometrical object. 
+
+% Détailler les search components
+The proposed generic framework is made of five distinct and independent search components: fractal geometrical object, tree search, scoring, exploration and exploitation. 
+
+% Genericité - Instantiate popular algorithms from different communities machine learning SOO - global optimization DIRECT
+The genericity of the framework allowed the instantiation of popular algorithms from the optimization, machine learning and computational intelligence communities. Moreover, new optimization algorithms can be designed using various strategies of the search components. This shows the modularity of the proposed algorithmic framework.
 
 
 \subsection{Purpose}
 \label{sec:Zellij:purpose}
-Purpose not available.
+
+Zellij includes a particular class of optimization algorithms, which could be classified as \textit{divide-and-conquer} strategies based on hierarchical decomposition of the search space. This class of algorithms can overcome the dimensionality problem by creating flexible, scalable and massively parallel decomposition-based algorithms for high dimensional optimization problems.
+
+This software framework has been inspired by two distinct families of decomposition-based optimization algorithms. The first one is based on algorithms derived from Lipschitzian global optimization \cite{direct}, such as DIRECT and its various extensions (e.g. eDIRECT, BIRECT, HD-DIRECT) \cite{direct_survey}. The second one concerns metaheuristics based on fractal decomposition, such as FRACTOP \cite{fractop} and FDA \cite{fda1}.
+
+three main properties characterize \textit{Zellij}:
+\begin{itemize}
+\item \textbf{Generalization}: our goal is to build a framework which unifies and generalizes various popular fractal decomposition-based algorithms from different communities (e.g. global optimization, reinforcement learning, computational intelligence).
+\item \textbf{Modularity}: the framework must be as modular as possible, so one can easily develop new optimization algorithms using the fractal decomposition-based approach. 
+\item \textbf{Massively parallel}: a transparent and efficient parallel implementation of the algorithms on various architectures (e.g. multicores, GPUs) is carried out. The main challenge is the parallelization of the tree search component of the framework. Many parallel tree search algorithms can be considered.
+\end{itemize}
 
 \subsection{Programming and Computational Environment}
 \label{sec::Zellij:environment_capabilities}
-
 
 The following table summarizes these aspects for Zellij, providing a  view of its programming and computational capabilities.
 
@@ -65,7 +79,7 @@ The following table summarizes these aspects for Zellij, providing a  view of it
     \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
-Python\\
+Python \\
 \end{tabular} & Programming languages and language standards supported by the software \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 MPI\\
@@ -75,7 +89,7 @@ None\\
 \end{tabular} & Data formats that the software can handle or produce.\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 Checkpoint restart\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
+\end{tabular} & Fault tolerance and recovery mechanisms employed by the software. \\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 None\\
 \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
@@ -101,9 +115,12 @@ None\\
 
 \subsection{Mathematics}
 \label{sec:Zellij:mathematics}
-Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+Optimizing a non-linear, non-convex, derivative free, or a black-box function in a high dimensional continuous search space is a complex task. Commonly we consider a minimization problem for an objective function ${f: \mathcal{S} \subset \mathbb{R}^n \rightarrow \mathbb{R}}$:
+\begin{equation} \label{eq:minproblem}
+ \hat{x} \in \argmin_{x \in \mathcal{S}}f(x) 
+\end{equation}
+where $\hat{x}$ is the global optima, $f$ the objective function, and $\mathcal{S}$ a compact set made of inequalities (e.g. upper and lower bounds of the search space). 
 
 
 \subsection{Relevant Publications}
@@ -111,15 +128,11 @@ In this section, provide a summary the mathematics used in the software.
 
 Here is a list of relevant publications related to the software:
 
+Thomas Firmin, El-Ghazali Talbi, Massively Parallel Asynchronous Fractal Optimization. IEEE IPDPS Workshops PDCO (13th IEEE Workshop Parallel / Distributed Combinatorics and Optimization), pp.930-938, Florida, USA, 2023.
+
+Thomas Firmin, El-Ghazali Talbi, A Comparative Study of Fractal-Based Decomposition Optimization. OLA 6th Int. Conf. on Optimization and Learning, Malaga, Spain, Proceedings. Communications in Computer and Information Science 1824, Springer 2023, pp.3-20, May 2023.
 
 \subsection{Acknowledgements}
 \label{sec::Zellij:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
-
-
-
-
-Acknowledgements not available.
-
-
+The software has been developed with the support of the following funding agencies and institutions: Universiy of Lille and INRIA Lille.
