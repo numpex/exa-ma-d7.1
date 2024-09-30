@@ -13,7 +13,8 @@
 			"extensions": [
                 "james-yu.latex-workshop",
                 "tecosaur.latex-utilities",
-                "asciidoctor.asciidoctor-vscode"
+                "asciidoctor.asciidoctor-vscode",
+				"redhat.vscode-yaml"
 			]
 		}
 	}
