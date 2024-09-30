@@ -60,7 +60,7 @@ jobs:
     name: Build LaTeX Artifact
     env:
       VERSION: ${{ github.ref_name }}
-      ZOTERO_API_KEY: ${{ secrets.ZOTERO_API_KEY }}
+      ZOTERO_API_KEY: ${{ secrets.EXA_MA_ZOTERO_API_KEY }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
