@@ -189,7 +189,7 @@ The first family of benchmarks consists in well-known benchmarks in global optim
 
 \item \textbf{Benchmarking Tools Used:} 
 
-Those benchmarks are made of more than 24 functions with peculiar properties such as, separability, ill-conditioning, multi-modality and weak structured multi-modality. Each function has many different instances, and are available for many dimension sizes, $d \in  \{ 2,3,5,10,20,40, ... \}$$. \\
+Those benchmarks are made of more than 24 functions with peculiar properties such as, separability, ill-conditioning, multi-modality and weak structured multi-modality. Each function has many different instances, and are available for many dimension sizes, $d \in  \{ 2,3,5,10,20,40, ... \}$. 
 
 The following metrics have been used in our experiments:  measured are: execution time, budget, quality of solutions, speedup).
 
@@ -206,23 +206,23 @@ The following metrics have been used in our experiments:  measured are: executio
 \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
 \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+
 
 \item \textbf{Benchmarking Tools Used:} 
 
-Those benchmarks are made of more than 24 functions with peculiar properties such as, separability, ill-conditioning, multi-modality and weak structured multi-modality. Each function has many different instances, and are available for many dimension sizes, $d \in  \{ 2,3,5,10,20,40, ... \}$$. \\
+Those benchmarks are made of more than 24 functions with peculiar properties such as, separability, ill-conditioning, multi-modality and weak structured multi-modality. Each function has many different instances, and are available for many dimension sizes, $d \in  \{ 2,3,5,10,20,40, ... \}$. 
+\end{itemize}
 
 The following metrics have been used in our experiments:  measured are: execution time, budget, quality of solutions, speedup).
-
-\item \textbf{Input/Output Dataset Description:}
 \begin{itemize}
+\item \textbf{Input/Output Dataset Description:}
+
 
 \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
 
 \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
 
 \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-\end{itemize}
 
 \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
@@ -233,8 +233,10 @@ The following metrics have been used in our experiments:  measured are: executio
 \subsubsection{Benchmark \#2}
 \begin{itemize}
 \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+\end{itemize}
 
-The second family of benchmarks consists in well-known benchmarks from machine learning community (AutoML). The main characteristics of those problems in their black box and expensive objective functions.
+The second family of benchmarks consists in well-known benchmarks from machine learning community (AutoML). 
+The main characteristics of those problems in their black box and expensive objective functions.
 
 Automated Machine Learning (AutoML) consists in automating
 the application of machine-learning models to realworld
@@ -256,18 +258,16 @@ optimized, with a budget of 20000 calls.
 The budget was defined according to their computation time. These models were trained and tested on a given task of OpenML (supervised classification on car). We have selected these three models for their simplicity. They do not require any GPU, and the computation time is low compared to expensive DNN benchmarks, but higher compared to low-cost academic functions usually used to
 validate performances of continuous optimization algorithms.
 
-\item \textbf{Benchmarking Tools Used:} 
-
- \\
-
 The following metrics have been used in our experiments:  measured are: execution time, budget, quality of ML models, speedup).
 
-\item \textbf{Input/Output Dataset Description:}
 \begin{itemize}
+\item \textbf{Input/Output Dataset Description:}
+
 
 \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+\end{itemize}
 
-The HPBbench is available under the URL: https://www.automl.org/hpo-overview/hpo-benchmarks/hpobench/
+The HPBbench is available under the URL: \url{https://www.automl.org/hpo-overview/hpo-benchmarks/hpobench/}
 
 HPOBench aims at solving the aforementioned issues with the following contributions:
 
@@ -279,10 +279,10 @@ HPOBench aims at solving the aforementioned issues with the following contributi
 
 HPOBench currently contains more than 100 multi-fidelity benchmark problems with various properties: numerical and categorical configuration space, different difficulties, and complexities. Furthermore, HPOBench also provides the result of several popular HPO packages to make them easier to be compared with the new HPO algorithms. For more information, please check our HPOBench GitHub repository/
 
+\begin{itemize}
 \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
 
 \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-\end{itemize}
 
 \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
