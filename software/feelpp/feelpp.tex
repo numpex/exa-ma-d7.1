@@ -1,7 +1,5 @@
 \section{Software: Feel++}
-\label{sec:Feel++:software}
-
-
+\label{sec:Feelpp:software}
 
 \begin{table}[h!]
     \centering
@@ -12,7 +10,7 @@
     \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-Feel++ Consortium\\
+\Feelpp Consortium\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
 CNRS\\
@@ -42,26 +40,26 @@ B7 - Exascale Algorithms\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{Feel++ Information}
+    \caption{\Feelpp Information}
 \end{table}
 
 \subsection{Software summary}
-\label{sec:Feel++:summary}
-Detailed overview not available.
-
-
+\label{sec:Feelpp:summary}
+\Feelpp is a C++ framework for multiphysics simulations based on the finite element method. 
+It is designed to handle complex simulations in a wide variety of fields, including fluid dynamics, electromagnetism, and solid mechanics. 
+It focuses on high-performance computing and reproducibility in scientific computation.
 
 \subsection{Purpose}
-\label{sec:Feel++:purpose}
-Purpose not available.
+\label{sec:Feelpp:purpose}
+\Feelpp aims to provide a flexible and efficient environment for conducting finite element analysis in multiple scientific domains. 
+It allows for the rapid prototyping of numerical models and is built with parallel computing in mind to scale on modern HPC architectures.
 
 \subsection{Programming and Computational Environment}
-\label{sec::Feel++:environment_capabilities}
+\label{sec::Feelpp:environment_capabilities}
 
+The following table summarizes these aspects for \Feelpp, providing a view of its programming and computational capabilities.
 
-The following table summarizes these aspects for Feel++, providing a  view of its programming and computational capabilities.
-
-\begin{table}[h!]
+\begin{longtable}[h!]
     \centering
     {
     \setlength{\parindent}{0pt}
@@ -75,12 +73,12 @@ C++\\
 C++17\\
 C++20\\
 Python\\
-\end{tabular} & Programming languages and language standards supported by the software \\
+\end{tabular} & Feel++ is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance, safety features, and modern programming paradigms for high-performance computing applications. This allows Feel++ to leverage advanced language features such as constexpr, parallel algorithms, and enhanced lambda expressions, improving both code maintainability and computational efficiency. Additionally, Feel++ integrates with Python, enabling scripting capabilities and facilitating ease of use for rapid prototyping, automation, and integration with scientific workflows. This dual-language support provides flexibility for both performance-critical tasks and user-friendly interfaces. \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 MPI\\
 Parallelism - C++\\
 Task based\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
+\end{tabular} & Feel++ offers robust support for parallel computing, making it suitable for high-performance simulations. It utilizes MPI (Message Passing Interface) for distributed memory parallelism, enabling efficient communication between processes across different nodes in HPC environments. Additionally, Feel++ implements parallelism directly in C++, allowing fine-grained control over threading and parallel execution within shared memory systems. The framework also supports task-based parallelism thanks to specx, enabling the efficient execution of independent computational tasks, improving load balancing, and optimizing resource usage across heterogeneous computing architectures. This parallelism support ensures scalability and high performance in complex multiphysics simulations.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 Data-management system\\
 Ensight\\
@@ -88,13 +86,12 @@ Gmsh and associated formats\\
 HDF5\\
 JSON\\
 VTK\\
-VTK\\
 YAML\\
 in-house format\\
-\end{tabular} & Data formats that the software can handle or produce.\\
+\end{tabular} & Feel++ supports data management, including remote data management systems such as Girder and GitHub. It handles a variety of input and output formats, including Ensight, Gmsh, HDF5, JSON, VTK, YAML, and an in-house format. This flexibility enables Feel++ to align with the \textbf{FAIR} principles (Findable, Accessible, Interoperable, and Reusable), ensuring efficient data sharing and reuse across different platforms and tools.\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 Checkpoint restart\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
+\end{tabular} & Feel++ provides resilience support through checkpoint restart functionality. This allows simulations to save their state at specific points, enabling recovery from failures without restarting from the beginning. Binary in-house formats are used for fast restarts, ensuring minimal downtime and efficient continuation of long-running computations, especially on large-scale HPC systems.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Benchmarking\\
 Continuous Delivery\\
@@ -105,7 +102,7 @@ Debian\\
 Fedora\\
 Spack\\
 Ubuntu\\
-\end{tabular} & Software packaging and distribution.\\
+\end{tabular} & Feel++ is available in various packaging formats to ensure broad compatibility across different platforms. It is packaged for popular Linux distributions and HPC environments, with specific mirrors and repositories:\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 Unit\\
 Validation\\
@@ -122,36 +119,37 @@ MMG/ParMMG\\
 OpenTurns\\
 PETSc\\
 Salome\\
-\end{tabular} & List of software Feel++ has interfaces with.\\
+\end{tabular} & List of software \Feelpp has interfaces with.\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{Feel++ programming and computational environment}
-\end{table}
-
-
+    \caption{\Feelpp programming and computational environment}
+\end{longtable}
 
 \subsection{Mathematics}
-\label{sec:Feel++:mathematics}
-Mathematics not available.
-
-In this section, provide a summary the mathematics used in the software.
-
+\label{sec:Feelpp:mathematics}
+\Feelpp is based on the finite element method (FEM), which is used for solving partial differential equations (PDEs) in complex geometries. 
+It leverages advanced numerical techniques to ensure accuracy and scalability, including adaptive mesh refinement, domain decomposition, and error estimation.
 
 \subsection{Relevant Publications}
-\label{sec:Feel++:publications}
-
-Here is a list of relevant publications related to the software:
-
+\label{sec:Feelpp:publications}
+Relevant publications include:
+\begin{itemize}
+    \item \fullcite{prudhomme_feelppfeelpp_2024}
+    \item \fullcite{saigre_model_2024}
+    \item \fullcite{van_landeghem_mathematical_2024}
+    \item \fullcite{prudhomme_ktirio_2024}
+\end{itemize}
 
 \subsection{Acknowledgements}
-\label{sec::Feel++:acknowledgements}
-
-The software has been developed with the support of the following funding agencies and institutions: 
-
-
-
-
-Acknowledgements not available.
-
-
+\label{sec::Feelpp:acknowledgements}
+The software has been developed with the support of the following funding agencies and institutions through various research projects: 
+\begin{itemize}
+   \item Université de Strasbourg
+   \item CNRS
+   \item ANR
+   \item Région Grand Est
+   \item AMIES
+   \item European Commission
+   \item EuroHPC JU
+\end{itemize}
