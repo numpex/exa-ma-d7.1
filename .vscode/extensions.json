@@ -3,6 +3,7 @@
         "james-yu.latex-workshop",
         "tecosaur.latex-utilities",
         "asciidoctor.asciidoctor-vscode",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "github.vscode-github-actions"
     ]
 }
