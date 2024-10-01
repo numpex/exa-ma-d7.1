@@ -1,3 +1,4 @@
+%!TEX root = ../../exa-ma-d7.1.tex
 \section{Software: Feel++}
 \label{sec:Feelpp:software}
 
@@ -60,14 +61,28 @@ It allows for the rapid prototyping of numerical models and is built with parall
 The following table summarizes these aspects for \Feelpp, providing a view of its programming and computational capabilities.
 
 \begin{table}[h!]
-    \centering
+%%    \centering
     {
     \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
     \arrayrulecolor{numpexgray}
     {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
+    \begin{longtable}{lp{.3\textwidth}p{.5\textwidth}}
+        \rowcolor{gray}\textbf{\color{white}Category} & \textbf{\color{white}Details} & \textbf{\color{white}Description} \\
+        \hline
+        \endfirsthead % End of the first head (the header for the first page)
+        
+        \hline
+        \rowcolor{gray}\textbf{Category} & \textbf{Details} & \textbf{Description} \\
+        \hline
+        \endhead % End of the head (for all other pages)
+        
+        \hline
+        \endfoot % Footer for all but the last page
+        
+        \hline
+        \endlastfoot % Footer for the last page
+
         \rowcolor{white}Languages  & \begin{tabular}{l}
 C++\\
 C++17\\
@@ -121,10 +136,51 @@ PETSc\\
 Salome\\
 \end{tabular} & List of software \Feelpp has interfaces with.\\
         \bottomrule
-    \end{tabular}
+    \end{longtable}
     }}
     \caption{\Feelpp programming and computational environment}
 \end{table}
+
+
+\begin{longtable}{lp{0.3\textwidth}p{0.5\textwidth}}
+        \rowcolor{gray}\textbf{\color{white}Category} & \textbf{\color{white}Details} & \textbf{\color{white}Description} \\
+        \hline
+        \endfirsthead % End of the first head (the header for the first page)
+        
+        \hline
+        \rowcolor{gray}\textbf{Category} & \textbf{Details} & \textbf{Description} \\
+        \hline
+        \endhead % End of the head (for all other pages)
+        
+        \hline
+        \endfoot % Footer for all but the last page
+        
+        \hline
+        \endlastfoot % Footer for the last page
+    
+        \rowcolor{white}Languages  & C++, C++17, C++20, Python & Feel++ is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance and safety features for high-performance computing applications. It also integrates with Python for scripting capabilities. \\
+        
+        \rowcolor{numpexlightergray}Parallelism  & MPI, Parallelism - C++17 and after, Task based - C++ & Feel++ offers robust support for parallel computing, utilizing MPI for distributed memory parallelism and implementing task-based parallelism to improve load balancing and resource usage. \\
+        
+        \rowcolor{white}Data Formats  & JSON, YAML, HDF5, VTK, in-house format & Feel++ supports various data formats for efficient data sharing and reuse, aligning with the FAIR principles. \\
+        
+        \rowcolor{numpexlightergray}Resilience  & Checkpoint restart & Provides checkpoint restart functionality for fault tolerance and recovery, ensuring minimal downtime on large-scale HPC systems. \\
+        
+        \rowcolor{white}DevOps & Continuous Integration, Continuous Delivery, Continuous Benchmarking & Outlines the development practices including CI/CD to maintain high software quality. \\
+        
+        \rowcolor{numpexlightergray}Packaging  & Debian, Fedora, Spack, Ubuntu & Available in multiple packaging formats for compatibility across different platforms. \\
+        
+        \rowcolor{white}Testing  & Unit, Validation, Verification & Various testing methodologies employed to ensure software quality and correctness. \\
+        
+        \rowcolor{numpexlightergray}Containerization  & Docker, Singularity & Technologies used to package and deploy the software for consistency across different environments. \\
+        
+        \rowcolor{white}Interfaces  & Dymola/OpenModelica/FMU,\\ hpddm\\ MMG/ParMMG\\
+        OpenTurns\\
+        PETSc\\
+        Salome& Lists the software that Feel++ interfaces with for enhanced capabilities. \\
+
+    \end{longtable}
+    
 
 \subsection{Mathematics}
 \label{sec:Feelpp:mathematics}

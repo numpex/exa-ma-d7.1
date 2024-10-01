@@ -1,5 +1,6 @@
-\section{Software: Feel++}
-\label{sec:WP1:Feel++:software}
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{Software: \Feelpp}
+\label{sec:WP1:Feelpp:software}
 
 \begin{table}[h!]
     \centering
@@ -10,7 +11,7 @@
     \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-Feel++ Consortium\\
+\Feelpp Consortium\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
 CNRS\\
@@ -40,13 +41,13 @@ B7 - Exascale Algorithms\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{WP1: Feel++ Information}
+    \caption{WP1: \Feelpp Information}
 \end{table}
 
 \subsection{Software Overview}
-\label{sec:WP1:Feel++:summary}
+\label{sec:WP1:Feelpp:summary}
 
-In~\cref{tab:WP1:Feel++:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+In~\cref{tab:WP1:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -74,13 +75,13 @@ In~\cref{tab:WP1:Feel++:features} we provide a summary of the software features 
 \end{tabular}
         }
     }
-    \caption{WP1: Feel++ Features}
-    \label{tab:WP1:Feel++:features}
+    \caption{WP1: \Feelpp Features}
+    \label{tab:WP1:Feelpp:features}
 \end{table}
 
 
 \subsection{Parallel Capabilities}
-\label{sec:WP1:Feel++:performances}
+\label{sec:WP1:Feelpp:performances}
 
 
 \begin{itemize}
@@ -93,7 +94,7 @@ In~\cref{tab:WP1:Feel++:features} we provide a summary of the software features 
 
 
 \subsection{Initial Performance Metrics}
-\label{sec:WP1:Feel++:metrics}
+\label{sec:WP1:Feelpp:metrics}
 
 This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
@@ -111,7 +112,51 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
+\subsubsection{Benchmark \#1: Compute Distance Function}
+
+\paragraph{Description}
+This benchmark evaluates two methods for computing the distance function inside a three-dimensional box: 
+\begin{enumerate}
+    \item The \textbf{Level Set} method using the \textbf{Fast Marching Algorithm (FMA)}.
+    \item The \textbf{Ray Tracing} method.
+\end{enumerate}
+The objective is to compute the distance function at all vertices of a discretized box using both methods and verify whether they produce the same results. 
+The problem is discretized using an unstructured grid, and performance is assessed on a multi-core CPU architecture.
+
+The benchmark aims to compare the efficiency, accuracy, and computational cost of both approaches in terms of distance calculation within the 3D domain.
+
+\paragraph{Benchmarking Tools Used}
+The following tools were used for performance profiling and analysis:
+\begin{itemize}
+\item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time.
+\end{itemize}
+
+The key metrics measured include execution time, accuracy, memory usage, and floating-point operations (FLOPS) for both methods.
+
+\subsection{Input/Output Dataset Description}
+\begin{itemize}
+    \item \textbf{Input Data:} The input consists of a 3D uniform grid representing the box geometry, with approximately 1 million vertices. The level set function and ray tracing boundaries are initialized for the distance computation. The input data is stored in JSON format, and it can be accessed via DOI: \texttt{[Insert DOI]}.
+    
+    \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
+    
+    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, are stored in a Zenodo repository and can be accessed via DOI: \texttt{[Insert DOI]}.
+\end{itemize}
+
+\paragraph{Results Summary}
+The performance comparison between the two methods is summarized as follows:
+
+RESULTS here.
+
+\paragraph{Challenges Identified}
+The following challenges were encountered during the benchmarking process:
+\begin{itemize}
+    \item \textbf{Ray Tracing Bottlenecks:} 
+    \item \textbf{Parallelization Issues:} 
+    \item \textbf{Memory Usage:} 
+\end{itemize}
+
+Final analysis and persectives here.
+
 \begin{itemize}
     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
@@ -125,8 +170,66 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
+\subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
+
+\paragraph{Description}
+This benchmark evaluates the assembly of stiffness and linear elasticity finite element matrices in three dimensions using both continuous Galerkin (cG) and hybrid discontinuous Galerkin (hdG) methods using the \Feelpp toolboxes.
+The problem size consists of a mesh with tetrahedral elements, executed entirely on multi-core CPU architectures.
+The benchmark is designed to measure scalability, execution time, and computational efficiency across different material models, including isotropic and anisotropic materials.
+
+The objective of the benchmark is to assess performance in terms of assembly time, memory usage, and parallel efficiency for cG and hdG methods from low to high orders using CPU resources only.
+
+\paragraph{Benchmarking Tools Used}
+The following performance analysis tools were used:
+\begin{itemize}
+    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time and memory usage during the matrix assembly.
+\end{itemize}
+
+Metrics such as execution time, memory usage, and FLOPS were measured to compare the performance of the cG and hdG methods on CPU.
+
+\paragraph{Input/Output Dataset Description}
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists of a 3D tetrahedral mesh generated using the Gmsh format, with approximately 1 million elements. Material properties are defined in JSON format, covering both isotropic and anisotropic materials. 
+    
+    \item \textbf{Output Data:} The output includes performance logs, execution times, and memory usage reports. Output results are replicable by using the same mesh and material properties. 
+    
+    \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository, accessible through DOI: \texttt{[Insert DOI]}.
+\end{itemize}
+
+\paragraph{Results Summary}
+The benchmark results are summarized as follows:
+
+RESULTS here
+
+The results highlight that ... (ADD ANALYSIS)
+
+\paragraph{Challenges Identified}
+Several challenges were encountered during the benchmarking process:
+\begin{itemize}
+    \item \textbf{Memory Usage:} 
+    \item \textbf{Parallelization Inefficiencies:} 
+    \item \textbf{Cache and Memory Bottlenecks:} 
+\end{itemize}
+
+add extra analysis  and conclusion here.
+
+\subsubsection{Benchmark \#3: Thermo-Electric Coupling}
+
+Thermo Electric coupling in a complex geometry.
+
+\subsubsection{Benchmark \#4: HeatFluid Coupling}
+
+Steady Conjuguate Heat Transfer in a complex geometry. d 
+
+
+\subsubsection{Benchmark \#5: Contact Mechanics}
+
+\begin{itemize}
+    \item combine ray tracing, assembly, contact mechanics, time dependent 
+\end{itemize}
+
 \subsection{12-Month Roadmap}
-\label{sec:WP1:Feel++:roadmap}
+\label{sec:WP1:Feelpp:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
@@ -135,7 +238,7 @@ In this section, describe the roadmap for improving benchmarks and addressing th
     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{itemize}
 
-In~\cref{tab:WP1:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+In~\cref{tab:WP1:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
     \centering
@@ -162,6 +265,6 @@ In~\cref{tab:WP1:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap 
 \end{tabular}
         }
     }
-    \caption{WP1: Feel++ plan with Respect to Relevant Bottlenecks}
-    \label{tab:WP1:Feel++:bottlenecks}
+    \caption{WP1: \Feelpp plan with Respect to Relevant Bottlenecks}
+    \label{tab:WP1:Feelpp:bottlenecks}
 \end{table}
