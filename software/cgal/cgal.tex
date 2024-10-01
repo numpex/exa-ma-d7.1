@@ -43,16 +43,33 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:CGAL:summary}
-Detailed overview not available.
+%Detailed overview not available.
+
+CGAL (Computational Geometry Algorithms Library) is an open-source software project designed to provide 
+numerically reliable software components (algorithms and geometric data structures) for use in 2D, 3D, or arbitrary dimensions.
+These components include convex hulls, triangulations, Boolean operations, intersection calculations, mesh generation, 
+3D point cloud processing, and more. CGAL’s main design features, along with various components, are utilized in industrial 
+robotics and digital engineering simulations. For industrial applications, CGAL offers reliable, interoperable components 
+that save development time by eliminating the need to reinvent the wheel, allowing users to focus on the business specializations 
+that deliver the most value.
+
 
 
 
 \subsection{Purpose}
 \label{sec:CGAL:purpose}
-Purpose not available.
+%Purpose not available.
+
+The purpose of CGAL is to offer developers tools for solving complex geometric problems in the form of a C++ templated library. 
+CGAL is used in fields like CAD, robotics, and scientific computing, offering components for tasks like mesh generation, 
+spatial searching, and geometry processing. CGAL is available under a dual licensing scheme: for integration into other open-source software, 
+it is provided under LGPL or GPL licenses, depending on the component. For proprietary or commercial projects, 
+licenses can be purchased, with options tailored for academic, research, or industrial customers.
 
 \subsection{Programming and Computational Environment}
 \label{sec::CGAL:environment_capabilities}
+
+%christos todo 
 
 
 The following table summarizes these aspects for CGAL, providing a  view of its programming and computational capabilities.
@@ -106,25 +123,61 @@ None\\
 
 \subsection{Mathematics}
 \label{sec:CGAL:mathematics}
-Mathematics not available.
+%Mathematics not available.
+%
+%In this section, provide a summary the mathematics used in the software.
 
-In this section, provide a summary the mathematics used in the software.
+
+Numerical robustness is a fundamental concern in geometric computing, even more so than in other types of numerical methods. 
+In geometric algorithms, slight inaccuracies in numerical computations can lead to significant errors, such as incorrect topological 
+configurations or degeneracies that disrupt the algorithm's logic. 
+The CGAL offers a flexible and powerful solution to this problem by following the exact computation paradigm (\url{https://www.cgal.org/exact.html}),
+enabling users to avoid rounding errors and ensure robust algorithms.
+
+CGAL leverages generic programming, enabling the use of different components through a C++ templated environment. 
+This approach allows algorithms and data structures to be flexible and reusable across various geometric scenarios. 
+For instance, a 2D convex hull algorithm in CGAL can be applied to an arbitrary 3D plane by utilizing appropriate templated parameters. 
+This templated design ensures that developers can extend or customize components easily to 
+meet specific requirements.
 
 
 \subsection{Relevant Publications}
 \label{sec:CGAL:publications}
 
-Here is a list of relevant publications related to the software:
+%Here is a list of relevant publications related to the software:
+
+%christos todo: add items in zotero and cite them here (also links to CGAL packages)
+
+\url{https://inria.hal.science/hal-01071759}
+
+\url{https://inria.hal.science/hal-03688637}
 
 
 \subsection{Acknowledgements}
 \label{sec::CGAL:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
+%The software has been developed with the support of the following funding agencies and institutions: 
+%
+%
+%Acknowledgements not available.
+
+%\url{https://www.cgal.org/partners.html}
 
 
+CGAL has been originally funded by European Union's information technologies programme Esprit, by Project 21957 - CGAL, 
+with the project partners Utrecht University (The Netherlands), ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany), 
+INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg (Germany), Max-Planck-Institute Saarbruecken (Germany), 
+RISC Linz (Austria), and Tel-Aviv University (Israel).
 
+Following that, CGAL has been supported by several European Research Programs:
+\begin{itemize}
+\item GALIA - Project 28155 - GALIA.
+\item ECG -  Project IST-2000-26473 - ECG.
+\item ACS - Project IST-006413 - ACS
+\item Aim@Shape - Project IST NoE-506766
+\item GUDHI - FP7-IDEAS-ERC 339025
+\end{itemize}
 
-Acknowledgements not available.
+Commercial licenses to CGAL are provided by the GeometryFactory spin-off company.
 
 
