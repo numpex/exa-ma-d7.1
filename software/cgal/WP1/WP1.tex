@@ -52,8 +52,9 @@ strategies that can significantly enhance state-of-the-art performance.
 CGAL will serve as the foundational library providing the geometric computing building blocks to develop the 
 relevant discretization algorithms. The focus will be on robustness, geometric fidelity, and performance. 
 CGAL already provides a variety of algorithms for the manipulation of geometric data.
-In particular, we will focus on two packages for mesh generation given arbitrary input, 3D mesh generation and 3D alpha wrapping.
-% christos todo cite linkes to cgal packages here
+In particular, we will focus on two packages for mesh generation given arbitrary input, 
+3D mesh generation \cite{jamin_cgalmesh_2015,alliez_3d_2024} and 3D alpha wrapping \cite{portaneri_alpha_2022,alliez_3d_2024-1}.
+% christos-todo cite linkes to cgal packages here
 
 The 3D mesh generation package is based on Delaunay triangulation, ensuring the creation of high-quality meshes for complex geometric domains. 
 The algorithm guarantees that the mesh conforms accurately to the input surface, while respecting user-defined constraints on parameters 
@@ -109,6 +110,12 @@ In~\cref{tab:WP1:CGAL:features} we provide a summary of the software features re
 The 3D mesh generation package in CGAL supports multi-core shared-memory parallelism, 
 utilizing Intel's Thread Building Blocks (TBB).
 
+The 3D Alpha Wrapping algorithm is not parallelized and runs on a single thread.
+
+For future numerical experiments involving parallel algorithms, 
+we will use a server equipped with two 26-core Intel Xeon Gold 6230R CPUs clocked at 2.10 GHz,
+providing a total count of 104 threads, running on a 64-bit architecture, with 512 GB of RAM.
+
 %\url{https://doc.cgal.org/latest/Mesh_3/index.html#Mesh_3ParallelAlgorithms}
 
 
@@ -133,8 +140,8 @@ utilizing Intel's Thread Building Blocks (TBB).
 %    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 %\end{itemize}
 
-We provide initial performance benchmarks of the two relevant discretization algorithms.
-The benchmarks have been performed as part of the packages release.
+We provide initial performance metric of the two relevant discretization algorithms.
+The benchmarks have been performed as part of the packages release in CGAL.
 
 %\subsubsection{Benchmark \#1}
 %\begin{itemize}
@@ -154,21 +161,42 @@ The benchmarks have been performed as part of the packages release.
 \subsubsection{Benchmark \#1 - 3D Alpha Wrapping serial}
 
 
-%christos todo include figure
+The 3D alpha wrapping does not offer parallelization at its current stage of development.
+We provide in Figure \ref{WP1::CGAL::aw3} the complexity analysis from \cite{portaneri_alpha_2022} 
+on a single thread and a single model (fan model, available in GrabCad). The plots show 
+that the computational time correlates with the output mesh complexity (number of triangles).
+
+
+\begin{figure}[H]
+    \centering
+    %\includegraphics[width=0.6\textwidth]{figures/fan.png} %PLACEHOLDER christos-todo
+    \caption{Output complexity and time against alpha/offset parameters.
+\textbf{Top:} Input fan model, and few output meshes shown for increasing alpha pa-
+rameter. \textbf{Middle top:} Complexity of the output mesh in number of triangle
+facets. Middle bottom: Computational time in ms. \textbf{Bottom:} Computa-
+tional time against complexity of the output mesh. Each dot corresponds to
+one above combination of alpha/offset parameters. Taken directly from \cite{portaneri_alpha_2022}}
+\label{WP1::CGAL::aw3}
+\end{figure}
+
 
 
 \subsubsection{Benchmark \#2 - 3D Mesh Generation parallel}
 
-\url{https://doc.cgal.org/latest/Mesh_3/index.html#Mesh_3Parallel_performance_1}
+
+The speed-up charts in Figure \ref{WP1::CGAL::mg3parallel} are generated using the parallel version of the 3D meshing algorithm and were obtained 
+from the 3D mesh generation reference manual \cite{alliez_3d_2024}. 
+The machine used is a PC running Windows 7 64-bits with two 6-core Intel Xeon CPU X5660 clocked at 2.80 GHz with 32GB of RAM. 
+The program has been compiled with Microsoft Visual C++ 2012 in Release mode.
+The models used for this benchmark are publicly available in the CGAL Git repository, specifically in the 'demo' folder.
 
 
-We provide below speed-up charts generated using the parallel version of the meshing algorithms of CGAL 4.5. The machine used is a PC running Windows 7 64-bits with two 6-core Intel Xeon CPU X5660 clocked at 2.80 GHz with 32GB of RAM. The program has been compiled with Microsoft Visual C++ 2012 in Release mode.
-
-
-The models used for this benchmark are available in CGAL Data folder.
-
-
-%christos todo include figure
+\begin{figure}[H]
+    \centering
+    %\includegraphics[width=0.6\textwidth]{figures/refinement_speedup.png} %PLACEHOLDER christos-todo 
+    \caption{Facet refinement speed-up (left) and cell refinement speed-up (right), compared to the sequential version of the algorithm. Taken directly from \cite{alliez_3d_2024}}
+    \label{WP1::CGAL::mg3parallel}
+\end{figure}
 
 
 \subsection{12-Month Roadmap}
@@ -219,7 +247,7 @@ In~\cref{tab:WP1:CGAL:bottlenecks}, we briefly discuss the bottleneck roadmap as
     \label{tab:WP1:CGAL:bottlenecks}
 \end{table}
 
-%christos TODO 
+%christos-todo 
 %NOTES 
 
 %B10 Scientific Productivity : Provide scientists with tools to use exascale systems
