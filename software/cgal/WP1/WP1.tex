@@ -167,9 +167,9 @@ on a single thread and a single model (fan model, available in GrabCad). The plo
 that the computational time correlates with the output mesh complexity (number of triangles).
 
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
-    %\includegraphics[width=0.6\textwidth]{figures/fan.png} %PLACEHOLDER christos-todo
+    \includegraphics[width=0.6\textwidth]{graphics/cgal/fan.png} 
     \caption{Output complexity and time against alpha/offset parameters.
 \textbf{Top:} Input fan model, and few output meshes shown for increasing alpha pa-
 rameter. \textbf{Middle top:} Complexity of the output mesh in number of triangle
@@ -191,9 +191,9 @@ The program has been compiled with Microsoft Visual C++ 2012 in Release mode.
 The models used for this benchmark are publicly available in the CGAL Git repository, specifically in the 'demo' folder.
 
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
-    %\includegraphics[width=0.6\textwidth]{figures/refinement_speedup.png} %PLACEHOLDER christos-todo 
+    \includegraphics[width=0.6\textwidth]{graphics/cgal/refinement_speedup.png} 
     \caption{Facet refinement speed-up (left) and cell refinement speed-up (right), compared to the sequential version of the algorithm. Taken directly from \cite{alliez_3d_2024}}
     \label{WP1::CGAL::mg3parallel}
 \end{figure}
