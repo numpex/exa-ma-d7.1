@@ -38,8 +38,8 @@
             ]
         }
     ],
-    "latex-workshop.latex.autoBuild.run": "onFileChange",
-    "latex-workshop.latex.autoBuild.enabled": true,
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.autoBuild.enabled": false,
     "latex-workshop.latex.build.showOutput": "always",
     "latex-workshop.latex.outDir": "%DIR%"
 }
