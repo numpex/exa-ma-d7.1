@@ -1,5 +1,5 @@
 %!TEX root = ../../exa-ma-d7.1.tex
-\section{Software: Feel++}
+\section{Software: \Feelpp}
 \label{sec:Feelpp:software}
 
 \begin{table}[h!]
@@ -88,12 +88,12 @@ C++\\
 C++17\\
 C++20\\
 Python\\
-\end{tabular} & Feel++ is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance, safety features, and modern programming paradigms for high-performance computing applications. This allows Feel++ to leverage advanced language features such as constexpr, parallel algorithms, and enhanced lambda expressions, improving both code maintainability and computational efficiency. Additionally, Feel++ integrates with Python, enabling scripting capabilities and facilitating ease of use for rapid prototyping, automation, and integration with scientific workflows. This dual-language support provides flexibility for both performance-critical tasks and user-friendly interfaces. \\
+\end{tabular} & \Feelpp is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance, safety features, and modern programming paradigms for high-performance computing applications. This allows \Feelpp to leverage advanced language features such as constexpr, parallel algorithms, and enhanced lambda expressions, improving both code maintainability and computational efficiency. Additionally, \Feelpp integrates with Python, enabling scripting capabilities and facilitating ease of use for rapid prototyping, automation, and integration with scientific workflows. This dual-language support provides flexibility for both performance-critical tasks and user-friendly interfaces. \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 MPI\\
 Parallelism - C++\\
 Task based\\
-\end{tabular} & Feel++ offers robust support for parallel computing, making it suitable for high-performance simulations. It utilizes MPI (Message Passing Interface) for distributed memory parallelism, enabling efficient communication between processes across different nodes in HPC environments. Additionally, Feel++ implements parallelism directly in C++, allowing fine-grained control over threading and parallel execution within shared memory systems. The framework also supports task-based parallelism thanks to specx, enabling the efficient execution of independent computational tasks, improving load balancing, and optimizing resource usage across heterogeneous computing architectures. This parallelism support ensures scalability and high performance in complex multiphysics simulations.\\
+\end{tabular} & \Feelpp offers robust support for parallel computing, making it suitable for high-performance simulations. It utilizes MPI (Message Passing Interface) for distributed memory parallelism, enabling efficient communication between processes across different nodes in HPC environments. Additionally, \Feelpp implements parallelism directly in C++, allowing fine-grained control over threading and parallel execution within shared memory systems. The framework also supports task-based parallelism thanks to specx, enabling the efficient execution of independent computational tasks, improving load balancing, and optimizing resource usage across heterogeneous computing architectures. This parallelism support ensures scalability and high performance in complex multiphysics simulations.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 Data-management system\\
 Ensight\\
@@ -103,10 +103,10 @@ JSON\\
 VTK\\
 YAML\\
 in-house format\\
-\end{tabular} & Feel++ supports data management, including remote data management systems such as Girder and GitHub. It handles a variety of input and output formats, including Ensight, Gmsh, HDF5, JSON, VTK, YAML, and an in-house format. This flexibility enables Feel++ to align with the \textbf{FAIR} principles (Findable, Accessible, Interoperable, and Reusable), ensuring efficient data sharing and reuse across different platforms and tools.\\
+\end{tabular} & \Feelpp supports data management, including remote data management systems such as Girder and GitHub. It handles a variety of input and output formats, including Ensight, Gmsh, HDF5, JSON, VTK, YAML, and an in-house format. This flexibility enables \Feelpp to align with the \textbf{FAIR} principles (Findable, Accessible, Interoperable, and Reusable), ensuring efficient data sharing and reuse across different platforms and tools.\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 Checkpoint restart\\
-\end{tabular} & Feel++ provides resilience support through checkpoint restart functionality. This allows simulations to save their state at specific points, enabling recovery from failures without restarting from the beginning. Binary in-house formats are used for fast restarts, ensuring minimal downtime and efficient continuation of long-running computations, especially on large-scale HPC systems.\\
+\end{tabular} & \Feelpp provides resilience support through checkpoint restart functionality. This allows simulations to save their state at specific points, enabling recovery from failures without restarting from the beginning. Binary in-house formats are used for fast restarts, ensuring minimal downtime and efficient continuation of long-running computations, especially on large-scale HPC systems.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Benchmarking\\
 Continuous Delivery\\
@@ -117,7 +117,7 @@ Debian\\
 Fedora\\
 Spack\\
 Ubuntu\\
-\end{tabular} & Feel++ is available in various packaging formats to ensure broad compatibility across different platforms. It is packaged for popular Linux distributions and HPC environments, with specific mirrors and repositories:\\
+\end{tabular} & \Feelpp is available in various packaging formats to ensure broad compatibility across different platforms. It is packaged for popular Linux distributions and HPC environments, with specific mirrors and repositories:\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 Unit\\
 Validation\\
@@ -141,8 +141,9 @@ Salome\\
     \caption{\Feelpp programming and computational environment}
 \end{table}
 
-
-\begin{longtable}{lp{0.3\textwidth}p{0.5\textwidth}}
+            {\fontsize{9}{11}\selectfont
+\begin{longtable}{lp{0.3\textwidth}p    `'{0.5\textwidth}}
+        \caption{\Feelpp programming and computational environment}\label{tab:Feelpp:environment_capabilities} \\
         \rowcolor{gray}\textbf{\color{white}Category} & \textbf{\color{white}Details} & \textbf{\color{white}Description} \\
         \hline
         \endfirsthead % End of the first head (the header for the first page)
@@ -158,21 +159,48 @@ Salome\\
         \hline
         \endlastfoot % Footer for the last page
     
-        \rowcolor{white}Languages  & C++, C++17, C++20, Python & Feel++ is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance and safety features for high-performance computing applications. It also integrates with Python for scripting capabilities. \\
+        \rowcolor{white}Languages  & \begin{tabular}{l}
+                C++\\
+                C++17\\
+                C++20\\
+                Python\\
+                \end{tabular} & \Feelpp is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance and safety features for high-performance computing applications. It also integrates with Python for scripting capabilities. \\
         
-        \rowcolor{numpexlightergray}Parallelism  & MPI, Parallelism - C++17 and after, Task based - C++ & Feel++ offers robust support for parallel computing, utilizing MPI for distributed memory parallelism and implementing task-based parallelism to improve load balancing and resource usage. \\
+        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+                MPI\\
+                Parallelism - C++\\
+                Task based\\
+                \end{tabular} & \Feelpp offers robust support for parallel computing, utilizing MPI for distributed memory parallelism and implementing task-based parallelism to improve load balancing and resource usage. \\
         
-        \rowcolor{white}Data Formats  & JSON, YAML, HDF5, VTK, in-house format & Feel++ supports various data formats for efficient data sharing and reuse, aligning with the FAIR principles. \\
+        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+                Data-management system\\
+                Ensight\\
+                Gmsh and associated formats\\
+                HDF5\\
+                JSON\\
+                VTK\\
+                YAML\\
+                in-house format\\
+                \end{tabular} & \Feelpp supports various data formats for efficient data sharing and reuse, aligning with the FAIR principles. \\
         
-        \rowcolor{numpexlightergray}Resilience  & Checkpoint restart & Provides checkpoint restart functionality for fault tolerance and recovery, ensuring minimal downtime on large-scale HPC systems. \\
+        \rowcolor{numpexlightergray}Resilience  & Checkpoint restart & \Feelpp provides resilience support through checkpoint restart functionality. This allows simulations to save their state at specific points, enabling recovery from failures without restarting from the beginning. Binary in-house formats are used for fast restarts, ensuring minimal downtime and efficient continuation of long-running computations, especially on large-scale HPC systems.\\
         
-        \rowcolor{white}DevOps & Continuous Integration, Continuous Delivery, Continuous Benchmarking & \Feelpp is developped on GitHub and uses GitHub Actions workflows to ensure the quality of the developments. The main branch is protected and only accepted reviewed PR can be merged. \Feelpp is not only rebuilt by the CI but also tests are run.  Upon merge, a packaging workflow is trigerred to generate Debian-based packages as well as Docker and Apptainer images. Once Apptainer images are available, benchmarks are trigerred on super computer to check the performances, see~\cref{feelpp-ci} and~\cref{feelpp-cb} for a graphical representation.\\ 
+        \rowcolor{white}DevOps & \begin{tabular}{l} Continuous Benchmarking\\
+                Continuous Delivery\\
+                Continuous Integration\\
+                \end{tabular} & \Feelpp is developped on GitHub and uses GitHub Actions workflows to ensure the quality of the developments. The main branch is protected and only accepted reviewed PR can be merged. \Feelpp is not only rebuilt by the CI but also tests are run.  Upon merge, a packaging workflow is trigerred to generate Debian-based packages as well as Docker and Apptainer images. Once Apptainer images are available, benchmarks are trigerred on super computer to check the performances, see~\cref{feelpp-ci} and~\cref{feelpp-cb} for a graphical representation.\\ 
         
-        \rowcolor{numpexlightergray}Packaging  & Debian, Fedora, Spack, Ubuntu & Debian-based systems: Available via the APT repository at \href{https://apt.feelpp.org}{apt.feelpp.org}. Detailed installation instructions can be found in the documentation: \href{https://docs.feelpp.org/user/latest/install/index.html}{Feel++ Installation Guide}.
+        \rowcolor{numpexlightergray}Packaging  & Debian, Fedora, Spack, Ubuntu & Debian-based systems: Available via the APT repository at \href{https://apt.feelpp.org}{apt.feelpp.org}. Detailed installation instructions can be found in the documentation: \href{https://docs.feelpp.org/user/latest/install/index.html}{\Feelpp Installation Guide}.
         Fedora: Distributed via Docker images, simplifying deployment in containerized environments.
         Spack: Supported by Spack for high-performance computing environments, with a mirror available at \href{https://ghcr.io/feelpp/spack}{ghcr.io/feelpp/spack}.
         Ubuntu: Also available through the same APT repository for Debian-based systems.\\
-        \rowcolor{white}Testing  & Unit, Validation, Verification & Feel++ includes a comprehensive suite of nearly 1,000 tests executed via ctest. These tests correspond to applications run both sequentially and in parallel. In most cases, applications are tested in both modes; only on very rare occasions are they run exclusively in either sequential or parallel mode. Each application contains numerous tests that perform unit testing or verify expected mathematical properties. To detect excessive execution time regressions, timeouts are configured for the tests. Finally, some tests are mini-applications or benchmarks that perform verification or validation against reference results.\\        
+
+        \rowcolor{white}Testing  & \begin{tabular}{l}
+                Unit\\
+                Validation\\
+                Verification\\
+                \end{tabular} & \Feelpp includes a comprehensive suite of nearly 1,000 tests executed via ctest. These tests correspond to applications run both sequentially and in parallel. In most cases, applications are tested in both modes; only on very rare occasions are they run exclusively in either sequential or parallel mode. Each application contains numerous tests that perform unit testing or verify expected mathematical properties. To detect excessive execution time regressions, timeouts are configured for the tests. Finally, some tests are mini-applications or benchmarks that perform verification or validation against reference results.\\        
+
         \rowcolor{numpexlightergray}Containerization  & Docker, Singularity & \Feelpp supports Docker and Apptainer/Singularity containers built either from source or from Debian-based packages. Both container type images are stored on \url{https://ghcr.io/feelpp/feelpp}. Images with tags containing \texttt{-sif} appended are apptainer images, the other ones are docker images. \\
         
         \rowcolor{white}Interfaces  &\begin{tabular}{l}
@@ -186,7 +214,11 @@ Salome\\
                 Scimba
                 \end{tabular} & \Feelpp can easily be interfaced with various software thanks to the use of standard open formats and a flexible \Cpp design.\\
 
+               
     \end{longtable}
+    }
+
+
 
     The figure~\cref{fig:feelpp-ci} shows the \Feelpp Continuous Integration Workflow using GitHub Actions.
     \begin{figure}
@@ -213,8 +245,8 @@ It leverages advanced numerical techniques to ensure accuracy and scalability, i
 \label{sec:Feelpp:publications}
 Relevant publications include:
 \begin{itemize}
-    \item \fullcite{prudhomme_feelppfeelpp_2024}
-    \item \fullcite{saigre_model_2024}
+    \item \fullcite{prudhomme_feelppfeelpp_2024} is the last preview of the \Feelpp software. The documentation is available online at \url{https://docs.feelpp.org}.
+    \item \fullcite{saigre_model_2024} 
     \item \fullcite{van_landeghem_mathematical_2024}
     \item \fullcite{prudhomme_ktirio_2024}
 \end{itemize}
