@@ -134,7 +134,10 @@ The following table summarizes these aspects for Scimba, providing a  view of it
 
 % In this section, provide a summary the mathematics used in the software.
 
-This software solves partial differential equations of the form
+This software mainly uses physics-informed
+learning~\cite{KarKevLuPerWanYan2021}
+to solve partial differential equations.
+More specifically, it solves partial differential equations of the form
 \begin{equation*}
     \begin{cases}
         \mathcal{D}(u, x, t,; \mu) = 0,
@@ -151,7 +154,7 @@ $T$ the final time, and $\mathbb{M}$ the parameter space.
 The solution $u$ is approximated with a variety of physics-informed neural networks,
 which are trained to minimize the residual of the PDE,
 the boundary conditions and the initial conditions.
-The loss function reads:
+An example of a physics-informed loss function is:
 \begin{equation*}
     \begin{aligned}
     \mathcal{L} & =
@@ -168,7 +171,11 @@ The loss function reads:
     \mathrm{d}\mu \, \mathrm{d}x.
     \end{aligned}
 \end{equation*}
-Other data-driven methods are also available.
+Other data-driven methods
+(e.g. DeepONets~\cite{LuJinPanZhoKar2021})
+or numerical methods
+(e.g. Neural Galerkin~\cite{BruPehVan2024})
+are also available in Scimba.
 
 % \subsection{Relevant Publications}
 % \label{sec:Scimba:publications}
@@ -179,5 +186,8 @@ Other data-driven methods are also available.
 \subsection{Acknowledgements}
 \label{sec::Scimba:acknowledgements}
 
-The software has been developed with the support of Inria.
+Scimba has mainly been developed by Inria research scientists.
+Other contributors include students and researchers
+from the University of Strasbourg and CEA Cadarache.
+For the moment, no specific funding has been dedicated to Scimba.
 

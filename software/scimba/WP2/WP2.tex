@@ -88,7 +88,7 @@ In~\cref{tab:WP2:Scimba:features} we provide a summary of the software features 
 \label{sec:WP2:Scimba:performances}
 
 \begin{itemize}
-    \item Parallel programming environment :
+    \item Parallel programming environment:
           automatic parallelization tools called within \texttt{PyTorch}
           (e.g. GPU parallelization with CUDA or shared-memory parallelization with OpenMP)
     \item Parallel computation environment: computing servers of IRMA (Unistra),
@@ -169,10 +169,14 @@ In~\cref{tab:WP2:Scimba:bottlenecks}, we briefly discuss the bottleneck roadmap 
                 B10 - Scientific Productivity
                  & At the moment, each example needs to be run manually.
                 The roadmap includes a way to automatically
-                run relevant examples, based on input data.               \\
+                run relevant examples, based on input data.
+                Future developments will include continuous benchmarking,
+                in the form of a CI/CD pipeline.
+                Some unit tests are already available,
+                but their generalization is part of the roadmap.          \\
                 \rowcolor{numpexlightergray}
                 B11 - Reproducibility and Replicability of Computation
-                 & At he moment, input data is hard-coded in examples.
+                 & At the moment, input data is hard-coded in examples.
                 The roadmap includes a way to manage input data
                 (e.g. in \texttt{json} files)
                 and ensure reproducibility.                               \\
