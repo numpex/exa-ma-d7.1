@@ -41,5 +41,6 @@
     "latex-workshop.latex.autoBuild.run": "onSave",
     "latex-workshop.latex.autoBuild.enabled": true,
     "latex-workshop.latex.build.showOutput": "always",
-    "latex-workshop.latex.outDir": "%DIR%"
+    "latex-workshop.latex.outDir": "%DIR%",
+    "latex-workshop.message.badbox.show": "none"
 }

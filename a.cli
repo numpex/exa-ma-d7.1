@@ -24,7 +24,7 @@ parse_args() {
             --zotero-api-key) ZOTERO_API_KEY="$2"; shift ;;
             --zotero-group-id) ZOTERO_GROUP_ID="$2"; shift ;;
             --bibtex-file) BIBTEX_FILE="$2"; shift ;;
-            --help) 
+            --help)
                 echo "Usage: $0 [options] {setup|create|list|delete|update-bibtex} [version]"
                 echo "Options:"
                 echo "  --zotero-user-id    Zotero User ID"
@@ -155,7 +155,7 @@ update_bibtex() {
     echo "" > "$BIBTEX_FILE"
     while $has_more; do
         response=$(curl -s -H "Zotero-API-Key: $ZOTERO_API_KEY" "$URL&start=$start&limit=$limit")
-        
+
         if [ -z "$response" ]; then
             echo "No more items to fetch."
             has_more=false
