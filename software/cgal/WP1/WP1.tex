@@ -47,32 +47,26 @@ B7 - Exascale Algorithms\\
 The focus of WP1 is on revisiting discretization methodologies, particularly for large-scale models,
 that incorporate multiple phenomena and process couplings. The main tasks include mesh generation, adaptive refinement, 
 and the development of finite element frameworks. Additionally, emphasis is placed on creating parallelization 
-strategies that can significantly enhance state-of-the-art performance. 
+strategies that can significantly enhance scalability and overall performance of the algorithms. 
 
-CGAL will serve as the foundational library providing the geometric computing building blocks to develop the 
-relevant discretization algorithms. The focus will be on robustness, geometric fidelity, and performance. 
+CGAL will serve as the foundational library providing the geometric computing building blocks to develop some of the 
+relevant discretization algorithms. The focus will be on robustness, geometric fidelity and performance. 
 CGAL already provides a variety of algorithms for the manipulation of geometric data.
-In particular, we will focus on two packages for mesh generation given arbitrary input, 
-3D mesh generation \cite{jamin_cgalmesh_2015,alliez_3d_2024} and 3D alpha wrapping \cite{portaneri_alpha_2022,alliez_3d_2024-1}.
+In particular, we will focus on two components for mesh generation given a wide range of inputs: 3D mesh generation \cite{jamin_cgalmesh_2015,alliez_3d_2024} and 3D alpha wrapping \cite{portaneri_alpha_2022,alliez_3d_2024-1}.
 % christos-todo cite linkes to cgal packages here
 
-The 3D mesh generation package is based on Delaunay triangulation, ensuring the creation of high-quality meshes for complex geometric domains. 
-The algorithm guarantees that the mesh conforms accurately to the input surface, while respecting user-defined constraints on parameters 
-such as size, accuracy, and element quality. In addition to mesh generation, CGAL provides refinement strategies that adaptively improve 
-mesh quality, ensuring the resulting structure remains optimized as the domain's complexity grows.
+The 3D mesh generation package relies upon filtering and refinement of 3D Delaunay triangulations, ensuring the creation of high-quality isotropic tetrahedral meshes for complex geometric domains. 
+The algorithm guarantees that the mesh conforms accurately to the input surface, while respecting user-defined constraints on parameters such as size of elements, boundary approximation, and element quality. In addition to mesh generation, CGAL provides refinement strategies that adaptively improve mesh quality, while ensuring that the resulting structure remains optimized as the domain's complexity grows.
 
 
 
-Nowadays, real-life input data come from a variety of sources and are often ill-defined for accurate representation of the domain, 
-such as a point cloud obtained by scanning an entire city. 3D data are typically acquired through measurements followed by reconstruction, 
+Nowadays, real-world input data come from a variety of sources and sensors, and are often ill-defined for accurate representation of the domain, 
+such as a unorganized 3D point clouds obtained by scanning an entire city. 3D data are commonly acquired through measurements followed by shape reconstruction, 
 or generated through imperfect automated processes. Consequently, this data can exhibit a wide range of defects, including gaps, 
 missing elements, self-intersections, degeneracies like zero-volume structures, and non-manifold features, making accurate 
-and reliable geometric processing a challenge. 3D Alpha Wrapping offers a way to handle this kind of data by providing an algorithm 
-to create 3D triangulation strictly enclosing the input. The output is guaranteed to be a watertight and orientable surface triangle mesh, 
-regardless of the input quality.
+and reliable geometric processing a challenge. The 3D Alpha Wrapping component offers a way to deal with this kinds of data by providing an algorithm that creates a valid 3D triangulation that strictly encloses the input. The algorithm offers unconditional robustness to the input, i.e., the output is guaranteed to be a watertight and orientable surface triangle mesh, regardless of the input quality.
 
-
-In~\cref{tab:WP1:CGAL:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+Table~\cref{tab:WP1:CGAL:features} records a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -106,15 +100,12 @@ In~\cref{tab:WP1:CGAL:features} we provide a summary of the software features re
 %    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
 %\end{itemize}
 
+CGAL does not yet offer parallel implementation with distributed memory. Nevertheless, its 3D mesh generation package supports multi-core shared-memory parallelism, via Intel's Thread Building Blocks (TBB) library.
 
-The 3D mesh generation package in CGAL supports multi-core shared-memory parallelism, 
-utilizing Intel's Thread Building Blocks (TBB).
-
-The 3D Alpha Wrapping algorithm is not parallelized and runs on a single thread.
+The 3D Alpha Wrapping algorithm is not yet parallelized and runs on a single thread.
 
 For future numerical experiments involving parallel algorithms, 
-we will use a server equipped with two 26-core Intel Xeon Gold 6230R CPUs clocked at 2.10 GHz,
-providing a total count of 104 threads, running on a 64-bit architecture, with 512 GB of RAM.
+we will use a DELL precision workstation equipped with two 26-core Intel Xeon Gold 6230R CPUs clocked at 2.10 GHz, providing a total count of 104 threads, running on a 64-bit architecture, with 512 GB of RAM.
 
 %\url{https://doc.cgal.org/latest/Mesh_3/index.html#Mesh_3ParallelAlgorithms}
 
@@ -140,8 +131,7 @@ providing a total count of 104 threads, running on a 64-bit architecture, with 5
 %    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 %\end{itemize}
 
-We provide initial performance metric of the two relevant discretization algorithms.
-The benchmarks have been performed as part of the packages release in CGAL.
+We now provide initial performance metrics of the two relevant discretization algorithms. The benchmarks have been performed as part of the packages release in CGAL.
 
 %\subsubsection{Benchmark \#1}
 %\begin{itemize}
@@ -161,21 +151,15 @@ The benchmarks have been performed as part of the packages release in CGAL.
 \subsubsection{Benchmark \#1 - 3D Alpha Wrapping serial}
 
 
-The 3D alpha wrapping does not offer parallelization at its current stage of development.
-We provide in Figure \ref{WP1::CGAL::aw3} the complexity analysis from \cite{portaneri_alpha_2022} 
-on a single thread and a single model (fan model, available in GrabCad). The plots show 
-that the computational time correlates with the output mesh complexity (number of triangles).
+The 3D alpha wrapping does not offer parallelization at its current stage of development. We provide in Figure \ref{WP1::CGAL::aw3} the complexity analysis from \cite{portaneri_alpha_2022} on a single thread and a single 3D model (fan model, available in GrabCad). The plots confirms that the computational time correlates with the output mesh complexity (number of triangles).
 
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.6\textwidth]{graphics/cgal/fan.png} 
     \caption{Output complexity and time against alpha/offset parameters.
-\textbf{Top:} Input fan model, and few output meshes shown for increasing alpha pa-
-rameter. \textbf{Middle top:} Complexity of the output mesh in number of triangle
-facets. Middle bottom: Computational time in ms. \textbf{Bottom:} Computa-
-tional time against complexity of the output mesh. Each dot corresponds to
-one above combination of alpha/offset parameters. Taken directly from \cite{portaneri_alpha_2022}}
+\textbf{Top:} Input fan model, and few output meshes shown for increasing alpha parameter. \textbf{Middle top:} Complexity of the output mesh in number of triangle
+facets. Middle bottom: Computational time in ms. \textbf{Bottom:} Computational time against complexity of the output mesh. Each dot corresponds to one above combination of alpha/offset parameters. Figure taken from \cite{portaneri_alpha_2022}.}
 \label{WP1::CGAL::aw3}
 \end{figure}
 
@@ -184,17 +168,16 @@ one above combination of alpha/offset parameters. Taken directly from \cite{port
 \subsubsection{Benchmark \#2 - 3D Mesh Generation parallel}
 
 
-The speed-up charts in Figure \ref{WP1::CGAL::mg3parallel} are generated using the parallel version of the 3D meshing algorithm and were obtained 
-from the 3D mesh generation reference manual \cite{alliez_3d_2024}. 
+The speed-up charts in Figure \ref{WP1::CGAL::mg3parallel} are generated using the parallel version of the 3D meshing algorithm and were obtained from the 3D mesh generation reference manual \cite{alliez_3d_2024}. 
 The machine used is a PC running Windows 7 64-bits with two 6-core Intel Xeon CPU X5660 clocked at 2.80 GHz with 32GB of RAM. 
-The program has been compiled with Microsoft Visual C++ 2012 in Release mode.
+The program has been compiled with Microsoft Visual C++ 2012, in Release mode.
 The models used for this benchmark are publicly available in the CGAL Git repository, specifically in the 'demo' folder.
 
 
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.6\textwidth]{graphics/cgal/refinement_speedup.png} 
-    \caption{Facet refinement speed-up (left) and cell refinement speed-up (right), compared to the sequential version of the algorithm. Taken directly from \cite{alliez_3d_2024}}
+    \caption{Facet refinement speed-up (left) and cell refinement speed-up (right), compared to the sequential version of the algorithm. Figure taken from \cite{alliez_3d_2024}.}
     \label{WP1::CGAL::mg3parallel}
 \end{figure}
 
@@ -210,11 +193,9 @@ The models used for this benchmark are publicly available in the CGAL Git reposi
 %\end{itemize}
 
 
-Our current efforts focus on developing a feature-preserving, minimum-complexity version of Alpha Wrapping algorithm.
-The goal is two-fold: on the one hand it will ensure that the domain's features (such as corners, sharp creases and so on) are accurately represented
-on the output. On the other hand, obtaining a feature preserving mesh will enable us to obtain output with a minimal number of vertices
-required to enclose the domain, thus offering an improvement in performance even for the serial version of the algorithm. 
-Furthermore, generic parallelization schemes are currently under development in CGAL by GeometryFactory and IGN,
+Our current efforts focus on developing a feature-preserving, reduced-complexity version of the 3D Alpha Wrapping algorithm.
+The goal is two-fold: on the one hand it will ensure that the domain's features (such as corners, cusps or sharp creases) are accurately represented in the output. On the other hand, obtaining a feature preserving mesh also offers a means to obtain output with a reduced number of vertices required to enclose the inout domain, thus offering an improvement in performance even for the serial version of the algorithm. 
+Furthermore, more scalable parallelization schemes are currently under development in CGAL by GeometryFactory and IGN,
 possibly utilizing distributed memory paradigms. 
 
 
