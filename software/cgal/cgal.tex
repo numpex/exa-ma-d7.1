@@ -60,17 +60,15 @@ that deliver the most value.
 \label{sec:CGAL:purpose}
 %Purpose not available.
 
-The purpose of CGAL is to offer developers tools for solving complex geometric problems in the form of a C++ templated library. 
-CGAL is used in fields like CAD, robotics, and scientific computing, offering components for tasks like mesh generation, 
-spatial searching, and geometry processing. CGAL is available under a dual licensing scheme: for integration into other open-source software, 
-it is provided under LGPL or GPL licenses, depending on the component. For proprietary or commercial projects, 
-licenses can be purchased, with options tailored for academic, research, or industrial customers.
+The purpose of CGAL is to offer developers tools for solving complex geometric problems in the form of a C++ templated library. Both low level geometric data structures and algorithms are provided, in 2D, 3D and arbitrary dimensions. 
+CGAL is used in fields like CAD, robotics and scientific computing, offering components for tasks like mesh generation, spatial searching and geometry processing. CGAL is available under a dual licensing scheme. For integration into other open-source software, 
+it is provided under LGPL or GPL licenses, depending on the components. For proprietary or commercial projects, 
+licenses can be purchased from Geometry Factory, with options tailored for academic, research or industrial customers.
 
 \subsection{Programming and Computational Environment}
 \label{sec::CGAL:environment_capabilities}
 
 %christos-todo 
-
 
 The following table summarizes these aspects for CGAL, providing a  view of its programming and computational capabilities.
 
@@ -123,28 +121,21 @@ None\\
 
 \subsection{Mathematics}
 \label{sec:CGAL:mathematics}
-%Mathematics not available.
-%
-%In this section, provide a summary the mathematics used in the software.
 
+Numerical robustness is a fundamental concern in geometric computing, even more so than in other types of numerical methods due to the dual nature of many algorithmes (combinatorial and continuous). 
+In geometric algorithms, slight inaccuracies in numerical computations can lead to significant errors, such as incorrect topological configurations or degeneracies that disrupt the algorithm's logic. 
+The CGAL library offers a flexible and powerful solution to this problem by following the exact computation paradigm that leverages interval arithmetic as well as multiple precision arithmetic (\url{https://www.cgal.org/exact.html}). Such a paradigm enables users to avoid rounding errors and ensures robust algorithms.
 
-Numerical robustness is a fundamental concern in geometric computing, even more so than in other types of numerical methods. 
-In geometric algorithms, slight inaccuracies in numerical computations can lead to significant errors, such as incorrect topological 
-configurations or degeneracies that disrupt the algorithm's logic. 
-The CGAL offers a flexible and powerful solution to this problem by following the exact computation paradigm (\url{https://www.cgal.org/exact.html}),
-enabling users to avoid rounding errors and ensure robust algorithms.
-
-CGAL leverages generic programming, enabling the use of different components through a C++ templated environment. 
+CGAL leverages generic programming, enabling the use of different components through a versatile C++ templated environment. 
 This approach allows algorithms and data structures to be flexible and reusable across various geometric scenarios. 
-For instance, a 2D convex hull algorithm in CGAL can be applied to an arbitrary 3D plane by utilizing appropriate templated parameters. 
-This templated design ensures that developers can extend or customize components easily to 
-meet specific requirements.
+For instance, a 2D convex hull algorithm in CGAL can be applied to an arbitrary 3D plane by utilizing appropriate templated parameters. Similarly, the mesh simplification component can operate any mesh data structures as long as few interface functions are provided. 
+Such a templated design ensures that developers can extend or customize components easily to meet specific requirements.
 
 
 \subsection{Relevant Publications}
 \label{sec:CGAL:publications}
 
-Here is a list of relevant publications related to the software:
+The following publications are relevant for mesh generation components in the CGAL library:
 
 % christos-todo show full reference 
 
@@ -165,12 +156,9 @@ Here is a list of relevant publications related to the software:
 %\url{https://www.cgal.org/partners.html}
 
 
-CGAL has been originally funded by European Union's information technologies programme Esprit, by Project 21957 - CGAL, 
-with the project partners Utrecht University (The Netherlands), ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany), 
-INRIA Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg (Germany), Max-Planck-Institute Saarbruecken (Germany), 
-RISC Linz (Austria), and Tel-Aviv University (Israel).
+CGAL has been originally funded by European Union's information technologies programme Esprit, by Project 21957 - CGAL, with the project partners Utrecht University (The Netherlands), ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany), Inria Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria) and Tel-Aviv University (Israel).
 
-Following that, CGAL has been supported by several European Research Programs:
+After this project, the CGAL open source project has been supported by several European Research Programs:
 \begin{itemize}
 \item GALIA - Project 28155 - GALIA.
 \item ECG -  Project IST-2000-26473 - ECG.
@@ -179,6 +167,6 @@ Following that, CGAL has been supported by several European Research Programs:
 \item GUDHI - FP7-IDEAS-ERC 339025
 \end{itemize}
 
-Commercial licenses to CGAL are provided by the GeometryFactory spin-off company.
+Commercial licenses to CGAL are provided by the GeometryFactory company, a spin-off from Inria.
 
 
