@@ -1,5 +1,171 @@
 
 
+@misc{saigre_mesh_2024,
+	title = {Mesh and configuration files to perform coupled heat+fluid simulations on a realistic human eyeball geometry with {Feel}++},
+	copyright = {Creative Commons Attribution 4.0 International},
+	url = {https://zenodo.org/doi/10.5281/zenodo.13886143},
+	doi = {10.5281/ZENODO.13886143},
+	abstract = {Run the simulation
+
+With slurm
+
+Set up position and desired mesh in the `run.slurm` file. Then, submit the job with the following command:
+
+sbatch run.slurm
+
+Without slurm
+
+Run by hand the command of the run.slurm file.POSITION=prone      \# prone supine standingSOLVER\_TYPE=simple  \# simple lscMESH\_INDEX=M4       \# M1 M2 M3 M4 M5
+
+mpirun -np 128 feelpp\_toolbox\_heatfluid {\textbackslash}    --config-files eye-\$\{POSITION\}.cfg pc\_\$\{SOLVER\_TYPE\}.cfg {\textbackslash}    --heat-fluid.json.patch='\{ "op": "replace", "path": "/Meshes/heatfluid/Import/filename", "value": "\$cfgdir/mesh/Mr/'\$\{MESH\_INDEX\}'/Eye\_Mesh3D\_p\$np.json" \}' {\textbackslash}    --heat-fluid.scalability-save=1 --heat-fluid.heat.scalability-save=1 --heat-fluid.fluid.scalability-save=1
+
+Available meshes
+
+The meshes are available and are already partitioned for parallel computing:
+
+M0 : 1, 64, 128, 256, 384, 512, 640, 768M1 : 1, 64, 128, 256, 384, 512, 640, 768M2 : 1, 64, 128, 256, 384, 512, 640, 768M3 : 1, 64, 128, 256, 384, 512, 640, 768M4 : 1, 64, 128, 256, 384, 512, 640, 768M5 : 1, 64, 128, 256, 384, 512, 640, 768M6 : 128, 256, 384, 512, 640, 768},
+	urldate = {2024-10-04},
+	publisher = {Zenodo},
+	author = {Saigre, Thomas and Prud'homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
+	month = oct,
+	year = {2024},
+}
+
+@phdthesis{saigre_mathematical_2024,
+	address = {Strasbourg, France},
+	type = {{PhD} {Thesis}},
+	title = {Mathematical modeling, simulation, and order reduction of ocular fluid flows and their interactions: {Building} the digital twin of the eye},
+	abstract = {The human body is a complex system, and the human eye is no exception. Despite significant advancements in medical research, many questions regarding ocular pathologies remain unanswered. The use of mathematical and computational models has revealed intricate mechanisms underlying human physiology. Due to its special connection with the brain, the eye is considered a window into the brain, providing non-invasive access to a range of biological markers that can aid in diagnosing neurodegenerative diseases. Therefore, understanding the eye’s behavior, the diseases that affect it, and the potential treatments is crucial. This thesis focuses on the mathematical modeling and numerical simulation of ocular fluid dynamics within the human eye, particularly on heat transfer and aqueous humor flow. These methods must undergo validation with clinical data to ensure their reliability. Bio-physical models involve numerous parameters that may be patient-specific or influenced by external conditions. The objective of this sensitivity analysis is to understand how these parameters affect the eye’s behavior and how they can be used for disease diagnosis, potentially assisting clinicians in selecting the best treatment. Such a study requires numerous simulations, which can be computationally expensive for the complex models used in this thesis. To reduce this computational cost, we have developed model reduction methods that decrease the number of equations to solve while maintaining result accuracy. In the first part of the thesis, we present the geometric and bio-physical models of the eyeball concerning heat transfer. Next, we discuss the numerical discretization methods implemented to simulate this model. The third chapter introduces the model reduction techniques used to lower the computational cost of these simulations, particularly through the certified reduced basis method. The fourth chapter addresses a specific issue related to the study of pointwise quantities of interest within the framework of reduced bases for elliptic problems with a Dirac source term. In the fifth chapter, we present the sensitivity analysis results obtained from our models. Finally, the sixth chapter extends the initial thermal model by incorporating the flow of aqueous humor in the anterior and posterior chambers of the eye.},
+	school = {University of Strasbourg},
+	author = {Saigre, Thomas},
+	month = dec,
+	year = {2024},
+	note = {In preparation},
+	keywords = {aqueous humor, heat transfer, model reduction, ocular fluid dynamics, reduced basis method, sensitivity analysis},
+}
+
+@incollection{baudin_openturns_2016,
+	address = {Cham},
+	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
+	isbn = {978-3-319-11259-6},
+	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
+	booktitle = {Handbook of {Uncertainty} {Quantification}},
+	publisher = {Springer International Publishing},
+	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
+	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
+	year = {2016},
+	doi = {10.1007/978-3-319-11259-6_64-1},
+	pages = {1--38},
+}
+
+@misc{prudhomme_feelppfeelpp_2024,
+	title = {feelpp/feelpp: {Feel}++ {Release} {V111} preview.10},
+	copyright = {Creative Commons Attribution 4.0 International, GNU Lesser General Public License v3.0 or later, GNU General Public License v3.0 or later},
+	shorttitle = {feelpp/feelpp},
+	url = {https://zenodo.org/doi/10.5281/zenodo.591797},
+	abstract = {🎉 We're happy to share our developments as we approach the V111 release of Feel++. Following a refreshed naming strategy, we've moved to the -preview.x suffix from the conventional -alpha.x, -beta, or -rc labels. This change signifies our dedication to enhancing transparency and setting clear expectations for our pre-release versions.
+
+Each pre-release version of Feel++ undergoes a rigorous process, encompassing detailed reviews, extensive tests across varied scenarios, and careful packaging. Our commitment to delivering a high-quality, reliable experience is reflected in our comprehensive platform support strategy. Alongside offering support for the latest two Long-Term Support (LTS) versions of Ubuntu and the newest LTS version of Debian, we're excited to announce that Feel++ is now accessible to Windows users through the Windows Subsystem for Linux (WSL) and to Mac users via MacPorts, Homebrew, Docker and now Apptainer. This expansion of platform support is a testament to our commitment to making Feel++ as accessible and versatile as possible for our diverse user base.
+
+As we continue to refine and enhance Feel++, the V111 release promises to bring forward significant innovations and improvements. Stay tuned for further updates of Feel++.
+
+Packages
+
+
+
+📦 Ubuntu packages
+
+📦 Debian packages
+
+📦 Docker images
+
+
+docker pull ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy
+docker run ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy ls
+
+
+
+
+📦 Apptainer images
+
+
+apptainer pull -F oras://ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy-sif
+apptainer exec feelpp\_v0.111.0-preview.10-jammy-sif.sif feelpp\_toolbox\_fluid --version
+
+
+What's Changed
+
+Exciting New Features 🎉
+
+
+
+resolve 2231 : Support parts configuration in exporter by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2232
+
+resolves 1489 and 2175: enrich range object and simplify FunctionSpace by @prudhomm in https://github.com/feelpp/feelpp/pull/2176
+
+resolves 2191 and 2196: cleanup and python wrapper for forms and implement feelpp namespace package by @prudhomm in https://github.com/feelpp/feelpp/pull/2227
+
+resolves 2233: improve hdg toolbox, add new terms by @prudhomm in https://github.com/feelpp/feelpp/pull/2236
+
+resolves 2259: add script to get feelpp version and improve packaging workflow by @prudhomm in https://github.com/feelpp/feelpp/pull/2260
+
+
+HPC Changes
+
+
+
+resolves 2246: fix non blocking mpi communication for large scale communications by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2249
+
+
+Recent Publications using Feel++
+
+
+
+Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by CI/CD Innovations on EuroHPC Systems
+
+Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem
+
+2D Axisymmetric Modeling of the HTS Insert Nougat in a Background Magnetic Field Generated by Resistive Magnet
+
+
+Enjoy!
+
+Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0.111.0-preview.10},
+	urldate = {2024-09-04},
+	publisher = {Cemosis},
+	author = {Prud'homme, Christophe and Chabannes, Vincent and Saigre, Thomas and Trophime, Christophe and Berti, Luca and Samaké, Abdoulaye and Van Landeghem, Céline and Szopos, Marcela and Giraldi, Laetitia and Bertoluzza, Silvia and Maday, Yvon},
+	month = jul,
+	year = {2024},
+	doi = {10.5281/ZENODO.591797},
+}
+
+@misc{chabannes_3d_2024,
+	title = {A {3D} geometrical model and meshing procedures for the human eyeball},
+	copyright = {Creative Commons Attribution 4.0 International},
+	url = {https://zenodo.org/doi/10.5281/zenodo.13829740},
+	abstract = {What's Changed
+
+
+
+up README with author + sort cff by @prudhomm in https://github.com/feelpp/mesh.eye/pull/2
+
+
+New Contributors
+
+
+
+@prudhomm made their first contribution in https://github.com/feelpp/mesh.eye/pull/2
+
+
+Full Changelog: https://github.com/feelpp/mesh.eye/compare/1.0.0-preview.1...v1.0.0-preview.2},
+	urldate = {2024-10-04},
+	publisher = {Zenodo},
+	author = {Chabannes, Vincent and Prud'homme, Christophe and Saigre, Thomas and Lorenzo, Sala and Szopos, Marcela and Trophime, Christophe},
+	month = sep,
+	year = {2024},
+	doi = {10.5281/ZENODO.13829740},
+}
+
 @misc{noauthor_master-csmioverfitting-underfitting_nodate,
 	title = {master-csmi/overfitting-underfitting},
 	url = {https://github.com/master-csmi/overfitting-underfitting},
@@ -105,87 +271,6 @@
 	author = {Alliez, Pierre and Cohen-Steiner, David and Hemmer, Michael and Portaneri, Cédric and Rouxel-Labbé, Mael},
 	year = {2024},
 	keywords = {cgal},
-}
-
-@misc{prudhomme_feelppfeelpp_2024,
-	title = {feelpp/feelpp: {Feel}++ {Release} {V111} preview.10},
-	copyright = {Creative Commons Attribution 4.0 International, GNU Lesser General Public License v3.0 or later, GNU General Public License v3.0 or later},
-	shorttitle = {feelpp/feelpp},
-	url = {https://zenodo.org/doi/10.5281/zenodo.591797},
-	abstract = {🎉 We're happy to share our developments as we approach the V111 release of Feel++. Following a refreshed naming strategy, we've moved to the -preview.x suffix from the conventional -alpha.x, -beta, or -rc labels. This change signifies our dedication to enhancing transparency and setting clear expectations for our pre-release versions.
-
-Each pre-release version of Feel++ undergoes a rigorous process, encompassing detailed reviews, extensive tests across varied scenarios, and careful packaging. Our commitment to delivering a high-quality, reliable experience is reflected in our comprehensive platform support strategy. Alongside offering support for the latest two Long-Term Support (LTS) versions of Ubuntu and the newest LTS version of Debian, we're excited to announce that Feel++ is now accessible to Windows users through the Windows Subsystem for Linux (WSL) and to Mac users via MacPorts, Homebrew, Docker and now Apptainer. This expansion of platform support is a testament to our commitment to making Feel++ as accessible and versatile as possible for our diverse user base.
-
-As we continue to refine and enhance Feel++, the V111 release promises to bring forward significant innovations and improvements. Stay tuned for further updates of Feel++.
-
-Packages
-
-
-
-📦 Ubuntu packages
-
-📦 Debian packages
-
-📦 Docker images
-
-
-docker pull ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy
-docker run ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy ls
-
-
-
-
-📦 Apptainer images
-
-
-apptainer pull -F oras://ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy-sif
-apptainer exec feelpp\_v0.111.0-preview.10-jammy-sif.sif feelpp\_toolbox\_fluid --version
-
-
-What's Changed
-
-Exciting New Features 🎉
-
-
-
-resolve 2231 : Support parts configuration in exporter by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2232
-
-resolves 1489 and 2175: enrich range object and simplify FunctionSpace by @prudhomm in https://github.com/feelpp/feelpp/pull/2176
-
-resolves 2191 and 2196: cleanup and python wrapper for forms and implement feelpp namespace package by @prudhomm in https://github.com/feelpp/feelpp/pull/2227
-
-resolves 2233: improve hdg toolbox, add new terms by @prudhomm in https://github.com/feelpp/feelpp/pull/2236
-
-resolves 2259: add script to get feelpp version and improve packaging workflow by @prudhomm in https://github.com/feelpp/feelpp/pull/2260
-
-
-HPC Changes
-
-
-
-resolves 2246: fix non blocking mpi communication for large scale communications by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2249
-
-
-Recent Publications using Feel++
-
-
-
-Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by CI/CD Innovations on EuroHPC Systems
-
-Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem
-
-2D Axisymmetric Modeling of the HTS Insert Nougat in a Background Magnetic Field Generated by Resistive Magnet
-
-
-Enjoy!
-
-Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0.111.0-preview.10},
-	urldate = {2024-09-04},
-	publisher = {Cemosis},
-	author = {Prud'homme, Christophe and Chabannes, Vincent and Saigre, Thomas and Trophime, Christophe and Berti, Luca and Samaké, Abdoulaye and Van Landeghem, Céline and Szopos, Marcela and Giraldi, Laetitia and Bertoluzza, Silvia and Maday, Yvon},
-	month = jul,
-	year = {2024},
-	doi = {10.5281/ZENODO.591797},
 }
 
 @inproceedings{chabannes_high_2017,
@@ -607,49 +692,4 @@ Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0
 	author = {Adams, B. M. and Bohnhoff, W. J. and Dalbey, K. R. and Ebeida, M. S. and Eddy, J. P. and Eldred, M. S. and Hooper, R. W. and Hough, P. D. and Hu, K. T. and Jakeman, J. D. and Khalil, M. and Maupin, K. A. and Monschke, J. A. and Ridgway, E. M. and Rushdi, A. A. and Seidl, D. T. and Stephens, J. A. and Swiler, L. P. and Winokur, J. G.},
 	month = may,
 	year = {2022},
-}
-
-@article{faucher_hawen_2021,
-	title = {hawen: time-harmonic wave modeling and inversion using hybridizable discontinuous {Galerkin} discretization},
-	volume = {6},
-	copyright = {http://creativecommons.org/licenses/by/4.0/},
-	issn = {2475-9066},
-	shorttitle = {hawen},
-	url = {https://joss.theoj.org/papers/10.21105/joss.02699},
-	doi = {10.21105/joss.02699},
-	number = {57},
-	urldate = {2024-09-05},
-	journal = {Journal of Open Source Software},
-	author = {Faucher, Florian},
-	month = jan,
-	year = {2021},
-	pages = {2699},
-}
-
-@incollection{baudin_openturns_2016,
-	address = {Cham},
-	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
-	isbn = {978-3-319-11259-6},
-	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
-	booktitle = {Handbook of {Uncertainty} {Quantification}},
-	publisher = {Springer International Publishing},
-	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
-	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
-	year = {2016},
-	doi = {10.1007/978-3-319-11259-6_64-1},
-	pages = {1--38},
-}
-
-@incollection{baudin_openturns_2016-1,
-	address = {Cham},
-	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
-	isbn = {978-3-319-11259-6},
-	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
-	booktitle = {Handbook of {Uncertainty} {Quantification}},
-	publisher = {Springer International Publishing},
-	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
-	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
-	year = {2016},
-	doi = {10.1007/978-3-319-11259-6_64-1},
-	pages = {1--38},
 }

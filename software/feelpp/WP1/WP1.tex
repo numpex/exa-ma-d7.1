@@ -231,70 +231,16 @@ Thermo Electric coupling in a complex geometry.
 
 Steady Conjuguate Heat Transfer in a complex geometry.
 
-We present the model~\cite{saigre_coupled_2024} simulating the aqueous humor (AH) flow in the posterior and anterior chambers of the eye, coupled with the overall heat transfer in the eye~\cite{ooi_simulation_2008,kilgour_operator_2021}.
-In the spirit of~\cite{kilgour_operator_2021}, we make the following assumptions:
-the fluid is incompressible, and we neglect the effect of the cornea and the lens on the flow.
-We also operate under the Boussinesq approximation, meaning that while the fluid's density changes slightly with temperature, it remains virtually unaffected by pressure. These density variations influence the flow field only by generating buoyant forces.
 
-% % The Boussinesq approximation is used to account for the temperature dependence of the fluid density.
-We hence consider that the steady flow of AH is governed by the Navier-Stokes equations, coupled with the heat transfer:
-\begin{subequations}
-    \begin{alignat}{2}
-        \rho (\vct{u}\cdot\nabla \vct{u}) - \nabla \cdot \mat{\sigma} &= -\rho\beta(T-T_\text{ref})\vct{g} &\quad & \text{in $\Omega_\text{AH}$}, \label{eq:pbStokes:stokes}\\
-        \nabla\cdot \vct{u}                         &= 0            &      & \text{in $\Omega_\text{AH}$}, \label{eq:pbStokes:uncom}\\
-        \rho C_p \vct{u}\cdot\nabla T - k\nabla^2 T &= 0            &      & \text{in $\Omega$}, \label{eq:pbStokes:heat}
-    \end{alignat}%
-    \label{eq:pbStokes}
-\end{subequations}%
-%
-where $\mu$ [\si{\newton.\second\per\meter^2}] is the dynamic viscosity of the fluid, $\rho$ [\si{\kilogram\per\meter^3}] its density (both at reference temperature $T_\text{ref}$ [\si{\kelvin}]), $C_p$ [\si{\joule\per\kilogram\per\kelvin}] its specific heat, $k$ [\si{\watt\per\meter\per\kelvin}] its thermal conductivity.
-The quantity $T$ [\si{\kelvin}] is the temperature of the eye, while $p$ [\si{\pascal}] is the pressure of the aqueous humor fluid (also expressed in \si{\mmHg} in biologic contexts),
-and $\vct{u}$ [\si{\meter\per\second}] is its velocity.
-The behavior of the fluid is characterized by the constraint tensor $\mat{\sigma}$ defined as
-\begin{equation}
-    \mat{\sigma} = -p\mat{I} + 2\mu\mat{D}(\vct{u}),
-\end{equation}
-where $\mat{I}$ is the identity tensor, and $\mat{D}(\vct{u}) = \frac12\left(\nabla \vct{u} + \nabla \vct{u}^T\right)$ is the rate-of-deformation tensor.
 
-The right-hand side term in \Cref{eq:pbStokes:stokes} represents the gravitational force per unit volume, along with the Boussinesq approximation,
-utilized to account for the buoyancy effects due to temperature variations.
-The coefficient $\beta$ [\si{\kelvin^{-1}}] is the fluid volume expansion coefficient, and $\vct{g}$ [\si{\meter.\second^{-2}}] the gravitational acceleration vector.
-Depending on the position of the patient (standing, laying supine or prone respectively), $\vct{g}$ can be either vertical ($\vct{g}={\left[0, -g, 0\right]}^T$) or horizontal ($\vct{g}={\left[g, 0, 0\right]}^T$, $\vct{g}={\left[-g, 0, 0\right]}^T$ respectively), where $g$ is the gravitational acceleration.
-
-We impose the following boundary conditions for the fluid velocity:
-%
-\begin{alignat}{2}
-    \vct{u} &= \vct{0} &\quad & \text{on }\Gamma_C\cup \Gamma_I\cup \Gamma_L\cup\Gamma_\text{VH}\cup\Gamma_\text{Sc},
-    \label{eq:BcUp}
-\end{alignat}
-%
-that, together with \Cref{eq:pbStokes:stokes}, only incorporates thermal and postural mechanisms driving the AH flow.
-% The hydraulic pressure difference due to production and drainage of \mygls{AH} is not currently accounted for in the model since previous works \cite{ooi_simulation_2008,kumar_numerical_2006} already pointed out that buoyancy is observed to be the dominant source of the convective motion, regardless of the postural orientation.
-
-Moreover the heat transfer inside the eye is governed by the heat equation~\eqref{eq:pbStokes:heat}, with the following boundary conditions,
-taking into account the convective heat transfer with the surrounding tissues over a domain denoted as $\Gamma_\text{body}$; and the heat production due to the metabolism of the eye,
-as well as the heat transfer with the ambient air over a domain called $\Gamma_\text{amb}$:
-\begin{subequations}
-\begin{alignat}{2}
-    -k\textstyle\frac{\partial T}{\partial \vec{n}} &= h_\text{bl}(T-T_\text{bl}) &\quad & \text{on }\Gamma_\text{body}, \label{eq:BcT:BCTbody}\\
-    -k\textstyle\frac{\partial T}{\partial \vec{n}} &= \underbrace{h_\text{amb}(T-T_\text{amb})}_\textit{(i)} + \underbrace{\sigma\varepsilon(T^4-T_\text{amb}^4)}_\textit{(ii)}+ \underbrace{E\vphantom{(h_\text{amb})}}_\textit{(iii)} &\quad & \text{on }\Gamma_\text{amb}. \label{eq:BcT:BCTamb}
-\end{alignat}\label{eq:BcT}
-\end{subequations}
-
-Precisely, \Cref{eq:BcT:BCTbody} models the convective heat transfer between the eye and the surrounding body,
-where $h_\text{bl}$ [\si{\watt\per\meter\squared\per\kelvin}] is the heat transfer coefficient between the eye and the surrounding body, and $T_\text{bl}$ [\si{\kelvin}] is the blood temperature.
-On the other hand, \Cref{eq:BcT:BCTamb} models three types of exchanges that are involved between the eyeball and the ambient air:
-\begin{inparaenum}[\it (i)]
-    \item the convective heat transfer, where $h_\text{amb}$ [\si{\watt\per\meter\squared\per\kelvin}] is the heat transfer coefficient between the eye and the ambient air, and $T_\text{amb}$ [\si{\kelvin}] is the ambient temperature;
-    \item the radiative heat transfer, where $\sigma = \qty{5.67e-8}{\watt\per\meter\squared\per\kelvin^4}$ represents the Stefan-Boltzmann constant, and $\varepsilon$ [--] is the emissivity of the cornea; and
-    \item the loss of heat due to tear evaporation at the surface of the eye, where $E$ [\si{\watt\per\meter\squared}] is the evaporation rate of the tear film.
-\end{inparaenum}
+We present a model simulating the aqueous humor (AH) flow in the posterior and anterior chambers of the eye, coupled with the overall heat transfer in the eye, adapted from~\cite{ooi_simulation_2008,kilgour_operator_2021}.
+The full model description is available in~\cite{saigre_coupled_2024}.
 
 
 We generate a family of meshes to perform further analysis.
-To that extent, we build five meshes through the process described in \textbf{ADD CITATION}, denoted \texttt{Mr0} to \texttt{Mr5}, with an increasing number of elements.
+To that extent, we build five meshes through the process described in~\cite{chabannes_3d_2024}, denoted \texttt{Mr0} to \texttt{Mr6}, with an increasing number of elements.
 We present in \Cref{tab:coupled:mesh} the characteristics of these meshes.
-
+All these meshes, as weel as the configuration files necessary to run the simulations are available online~\cite{saigre_mesh_2024}.
 
 
 
@@ -315,13 +261,95 @@ We present in \Cref{tab:coupled:mesh} the characteristics of these meshes.
         \texttt{Mr3} & \pgfmathprintnumber{3.294835e-05} & \pgfmathprintnumber{9.592658e-04} & \pgfmathprintnumber{4.166619e-04} & \pgfmathprintnumber{1403433} & \pgfmathprintnumber{241831} & \pgfmathprintnumber{707532} & \pgfmathprintnumber{34304} \\
         \texttt{Mr4} & \pgfmathprintnumber{2.549458e-05} & \pgfmathprintnumber{5.293352e-04} & \pgfmathprintnumber{2.883913e-04} & \pgfmathprintnumber{6038645} & \pgfmathprintnumber{1027375} & \pgfmathprintnumber{1024008} & \pgfmathprintnumber{48534} \\
         \rowcolor{numpexlightergray}
-        \texttt{Mr5} & \pgfmathprintnumber{3.120124e-05} & \pgfmathprintnumber{1.501561e-04} & \pgfmathprintnumber{2.772105e-04} & \pgfmathprintnumber{43893359} & \pgfmathprintnumber{7374833} & \pgfmathprintnumber{4616967} & \pgfmathprintnumber{205342}
+        \texttt{Mr5} & \pgfmathprintnumber{3.120124e-05} & \pgfmathprintnumber{1.501561e-04} & \pgfmathprintnumber{2.772105e-04} & \pgfmathprintnumber{43893359} & \pgfmathprintnumber{7374833} & \pgfmathprintnumber{4616967} & \pgfmathprintnumber{205342} \\
+        \texttt{Mr6} & \pgfmathprintnumber{2.820610e-05} & \pgfmathprintnumber{9.940551e-07} & \pgfmathprintnumber{1.835537e-04} & \pgfmathprintnumber{150630096} & \pgfmathprintnumber{25200452} & \pgfmathprintnumber{14671089} & \pgfmathprintnumber{636943} \\
     \end{tabular}
     }}
     \caption{Characteristics of meshes used for the convergence study and number of degrees of freedom for temperature $T$, velocity $\vct{u}$, and pressure fields $p$, with the discretization $P_1\text{--}P_2P_1$.}%
     \label{tab:coupled:mesh}
 \end{table}
 
+
+\pgfplotstableread{\currfiledir/heatfluid-time-data.dat}\data
+
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Computational time [s]},
+            xtick={0,1,2,3,4,5,6,7,8,9,10}, xticklabels={1,2,4,8,16,32,64,128,256,512,640},
+            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymode=log,
+            % title={Computational time for the 3D case},
+        ]
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\data};
+        \addlegendentry{Mesh}
+
+
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\data};
+        \addlegendentry{Data Structures}
+
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=algebraic-nlsolve] {\data};
+        \addlegendentry{Solve}
+
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\data};
+        \addlegendentry{Assembly}
+
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y
+        ] table [x=x, y=exportResults] {\data};
+        \addlegendentry{Post process}
+
+        \end{axis}
+        \end{tikzpicture}
+    \caption{Computational time for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}.}
+\end{figure}
+
+\begin{figure}
+    \centering
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Relative computational time [\%]},
+            xtick={0,1,2,3,4,5,6,7,8,9,10}, xticklabels={1,2,4,8,16,32,64,128,256,512,640},
+            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymin=0, ymax=100,
+            % title={Relative computational time for the 3D case},
+        ]
+
+        % Compute the relative time for each component by dividing by the total time
+        % using the correct column names from the initial plot
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Mesh}
+
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Data Structures}
+
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Solve}
+
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Assembly}
+
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Post process}
+
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Relative time spent in each component of the computation for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}.}
+\end{figure}
 
 
 
