@@ -232,6 +232,11 @@ Thermo Electric coupling in a complex geometry.
 Steady Conjuguate Heat Transfer in a complex geometry.
 
 
+\emph{enlever tous les détails, et laisser les références, expliciter la liste de maillage et la machine où est faite le bench, et la mise en donnée (paramètrisation)}
+
+\emph{dans wp3: parler du préconditionner}
+
+
 
 We present a model simulating the aqueous humor (AH) flow in the posterior and anterior chambers of the eye, coupled with the overall heat transfer in the eye, adapted from~\cite{ooi_simulation_2008,kilgour_operator_2021}.
 The full model description is available in~\cite{saigre_coupled_2024}.
@@ -270,7 +275,7 @@ All these meshes, as weel as the configuration files necessary to run the simula
 \end{table}
 
 
-\pgfplotstableread{\currfiledir/heatfluid-time-data.dat}\data
+\pgfplotstableread{\currfiledir/data/heatfluid-time-data.dat}\data
 
 
 \begin{figure}
@@ -353,6 +358,54 @@ All these meshes, as weel as the configuration files necessary to run the simula
 
 
 
+
+\pgfplotstableread{\currfiledir/data/heatfluid-time-M4.dat}\dataMQuatre
+\pgfplotstableread{\currfiledir/data/heatfluid-time-M5.dat}\dataMCinq
+\pgfplotstableread{\currfiledir/data/heatfluid-time-M6.dat}\dataMSix
+
+
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Computational time [s]},
+            xtick={0,1,2,3,4,5}, xticklabels={128,256,384,512,640,768},
+            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymode=log,
+            % title={Computational time for the 3D case},
+        ]
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\dataMQuatre};
+        \addlegendentry{Mesh}
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMQuatre};
+        \addlegendentry{Data Structures}
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=algebraic-nlsolve] {\dataMQuatre};
+        \addlegendentry{Solve}
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMQuatre};
+        \addlegendentry{Assembly}
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=exportResults] {\dataMQuatre};
+        \addlegendentry{Post process}
+
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y, forget plot] table [x=x, y=initMesh] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y=algebraic-nlsolve] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMCinq};
+
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y, forget plot] table [x=x, y=initMesh] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y=algebraic-nlsolve] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMSix};
+
+
+        \end{axis}
+        \end{tikzpicture}
+    \caption{Computational time for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}, \texttt{Mr5} and \texttt{Mr6}.}
+\end{figure}
 
 
 \subsubsection{Benchmark \#5: Contact Mechanics}
