@@ -195,9 +195,9 @@ update_bibtex2() {
 
     # Define the URL to fetch BibTeX
     if [ -z "$ZOTERO_GROUP_ID" ]; then
-        URL="https://api.zotero.org/users/$ZOTERO_USER_ID/items?format=biblatex"
+        URL="https://api.zotero.org/users/$ZOTERO_USER_ID/items?format=bibtex"
     else
-        URL="https://api.zotero.org/groups/$ZOTERO_GROUP_ID/items?format=biblatex"
+        URL="https://api.zotero.org/groups/$ZOTERO_GROUP_ID/items?format=bibtex"
     fi
 
     start=0
