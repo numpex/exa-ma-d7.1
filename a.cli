@@ -218,7 +218,11 @@ update_bibtex2() {
             echo "Error fetching data: HTTP status $http_code"
             exit 1
         fi
-
+        if [ -z "$content" ]; then
+            echo "No more items to fetch."
+            has_more=false
+            break
+        fi
         # Append the content to the BibTeX file
         echo "$content" >> "$BIBTEX_FILE"
 
@@ -230,6 +234,7 @@ update_bibtex2() {
         else
             start=$((start + limit))
         fi
+        echo "start=$start, has_more=$has_more"
     done
 
     echo "BibTeX entries updated successfully in $BIBTEX_FILE."
