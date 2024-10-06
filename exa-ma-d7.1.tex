@@ -29,7 +29,6 @@
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \pgfplotsset{compat=newest}
-% \usepackage{subfigure}
 
 \definecolor{lightblue}{RGB}{173,216,230}
 \definecolor{darkgreen}{RGB}{0,100,0}
@@ -56,6 +55,13 @@
     citecolor=CustomBlue,
     linkcolor=CustomBlue,
     urlcolor=blue
+}
+
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
 }
 
 \IfFileExists{.git/gitHeadInfo.gin}{
