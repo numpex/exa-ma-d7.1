@@ -1,5 +1,442 @@
 
 
+@article{bruna_neural_2024,
+	title = {Neural {Galerkin} schemes with active learning for high-dimensional evolution equations},
+	volume = {496},
+	issn = {0021-9991},
+	doi = {10.1016/j.jcp.2023.112588},
+	journal = {Journal of Computational Physics},
+	author = {Bruna, J. and Peherstorfer, B. and Vanden-Eijnden, E.},
+	year = {2024},
+	note = {Publisher: Elsevier BV},
+	pages = {112588},
+}
+
+@article{lu_learning_2021,
+	title = {Learning nonlinear operators via {DeepONet} based on the universal approximation theorem of operators},
+	volume = {3},
+	issn = {2522-5839},
+	doi = {10.1038/s42256-021-00302-5},
+	number = {3},
+	journal = {Nat. Mach. Intell.},
+	author = {Lu, L. and Jin, P. and Pang, G. and Zhang, Z. and Karniadakis, G. E.},
+	year = {2021},
+	note = {Publisher: Springer Science and Business Media LLC},
+	pages = {218--229},
+}
+
+@article{karniadakis_physics-informed_2021,
+	title = {Physics-informed machine learning},
+	volume = {3},
+	issn = {2522-5820},
+	doi = {10.1038/s42254-021-00314-5},
+	number = {6},
+	journal = {Nat. Rev. Phys.},
+	author = {Karniadakis, G. E. and Kevrekidis, I. G. and Lu, L. and Perdikaris, P. and Wang, S. and Yang, L.},
+	year = {2021},
+	note = {Publisher: Springer Science and Business Media LLC},
+	pages = {422--440},
+}
+
+@misc{saigre_mesh_2024,
+	title = {Mesh and configuration files to perform coupled heat+fluid simulations on a realistic human eyeball geometry with {Feel}++},
+	copyright = {Creative Commons Attribution 4.0 International},
+	url = {https://zenodo.org/doi/10.5281/zenodo.13886143},
+	doi = {10.5281/ZENODO.13886143},
+	abstract = {Run the simulation
+
+With slurm
+
+Set up position and desired mesh in the `run.slurm` file. Then, submit the job with the following command:
+
+sbatch run.slurm
+
+Without slurm
+
+Run by hand the command of the run.slurm file.POSITION=prone      \# prone supine standingSOLVER\_TYPE=simple  \# simple lscMESH\_INDEX=M4       \# M1 M2 M3 M4 M5
+
+mpirun -np 128 feelpp\_toolbox\_heatfluid {\textbackslash}    --config-files eye-\$\{POSITION\}.cfg pc\_\$\{SOLVER\_TYPE\}.cfg {\textbackslash}    --heat-fluid.json.patch='\{ "op": "replace", "path": "/Meshes/heatfluid/Import/filename", "value": "\$cfgdir/mesh/Mr/'\$\{MESH\_INDEX\}'/Eye\_Mesh3D\_p\$np.json" \}' {\textbackslash}    --heat-fluid.scalability-save=1 --heat-fluid.heat.scalability-save=1 --heat-fluid.fluid.scalability-save=1
+
+Available meshes
+
+The meshes are available and are already partitioned for parallel computing:
+
+M0 : 1, 64, 128, 256, 384, 512, 640, 768M1 : 1, 64, 128, 256, 384, 512, 640, 768M2 : 1, 64, 128, 256, 384, 512, 640, 768M3 : 1, 64, 128, 256, 384, 512, 640, 768M4 : 1, 64, 128, 256, 384, 512, 640, 768M5 : 1, 64, 128, 256, 384, 512, 640, 768M6 : 128, 256, 384, 512, 640, 768},
+	urldate = {2024-10-04},
+	publisher = {Zenodo},
+	author = {Saigre, Thomas and Prud'homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
+	month = oct,
+	year = {2024},
+}
+
+@phdthesis{saigre_mathematical_2024,
+	address = {Strasbourg, France},
+	type = {{PhD} {Thesis}},
+	title = {Mathematical modeling, simulation, and order reduction of ocular fluid flows and their interactions: {Building} the digital twin of the eye},
+	abstract = {The human body is a complex system, and the human eye is no exception. Despite significant advancements in medical research, many questions regarding ocular pathologies remain unanswered. The use of mathematical and computational models has revealed intricate mechanisms underlying human physiology. Due to its special connection with the brain, the eye is considered a window into the brain, providing non-invasive access to a range of biological markers that can aid in diagnosing neurodegenerative diseases. Therefore, understanding the eye’s behavior, the diseases that affect it, and the potential treatments is crucial. This thesis focuses on the mathematical modeling and numerical simulation of ocular fluid dynamics within the human eye, particularly on heat transfer and aqueous humor flow. These methods must undergo validation with clinical data to ensure their reliability. Bio-physical models involve numerous parameters that may be patient-specific or influenced by external conditions. The objective of this sensitivity analysis is to understand how these parameters affect the eye’s behavior and how they can be used for disease diagnosis, potentially assisting clinicians in selecting the best treatment. Such a study requires numerous simulations, which can be computationally expensive for the complex models used in this thesis. To reduce this computational cost, we have developed model reduction methods that decrease the number of equations to solve while maintaining result accuracy. In the first part of the thesis, we present the geometric and bio-physical models of the eyeball concerning heat transfer. Next, we discuss the numerical discretization methods implemented to simulate this model. The third chapter introduces the model reduction techniques used to lower the computational cost of these simulations, particularly through the certified reduced basis method. The fourth chapter addresses a specific issue related to the study of pointwise quantities of interest within the framework of reduced bases for elliptic problems with a Dirac source term. In the fifth chapter, we present the sensitivity analysis results obtained from our models. Finally, the sixth chapter extends the initial thermal model by incorporating the flow of aqueous humor in the anterior and posterior chambers of the eye.},
+	school = {University of Strasbourg},
+	author = {Saigre, Thomas},
+	month = dec,
+	year = {2024},
+	note = {In preparation},
+	keywords = {aqueous humor, heat transfer, model reduction, ocular fluid dynamics, reduced basis method, sensitivity analysis},
+}
+
+@incollection{baudin_openturns_2016,
+	address = {Cham},
+	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
+	isbn = {978-3-319-11259-6},
+	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
+	booktitle = {Handbook of {Uncertainty} {Quantification}},
+	publisher = {Springer International Publishing},
+	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
+	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
+	year = {2016},
+	doi = {10.1007/978-3-319-11259-6_64-1},
+	pages = {1--38},
+}
+
+@misc{prudhomme_feelppfeelpp_2024,
+	title = {feelpp/feelpp: {Feel}++ {Release} {V111} preview.10},
+	copyright = {Creative Commons Attribution 4.0 International, GNU Lesser General Public License v3.0 or later, GNU General Public License v3.0 or later},
+	shorttitle = {feelpp/feelpp},
+	url = {https://zenodo.org/doi/10.5281/zenodo.591797},
+	abstract = {🎉 We're happy to share our developments as we approach the V111 release of Feel++. Following a refreshed naming strategy, we've moved to the -preview.x suffix from the conventional -alpha.x, -beta, or -rc labels. This change signifies our dedication to enhancing transparency and setting clear expectations for our pre-release versions.
+
+Each pre-release version of Feel++ undergoes a rigorous process, encompassing detailed reviews, extensive tests across varied scenarios, and careful packaging. Our commitment to delivering a high-quality, reliable experience is reflected in our comprehensive platform support strategy. Alongside offering support for the latest two Long-Term Support (LTS) versions of Ubuntu and the newest LTS version of Debian, we're excited to announce that Feel++ is now accessible to Windows users through the Windows Subsystem for Linux (WSL) and to Mac users via MacPorts, Homebrew, Docker and now Apptainer. This expansion of platform support is a testament to our commitment to making Feel++ as accessible and versatile as possible for our diverse user base.
+
+As we continue to refine and enhance Feel++, the V111 release promises to bring forward significant innovations and improvements. Stay tuned for further updates of Feel++.
+
+Packages
+
+
+
+📦 Ubuntu packages
+
+📦 Debian packages
+
+📦 Docker images
+
+
+docker pull ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy
+docker run ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy ls
+
+
+
+
+📦 Apptainer images
+
+
+apptainer pull -F oras://ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy-sif
+apptainer exec feelpp\_v0.111.0-preview.10-jammy-sif.sif feelpp\_toolbox\_fluid --version
+
+
+What's Changed
+
+Exciting New Features 🎉
+
+
+
+resolve 2231 : Support parts configuration in exporter by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2232
+
+resolves 1489 and 2175: enrich range object and simplify FunctionSpace by @prudhomm in https://github.com/feelpp/feelpp/pull/2176
+
+resolves 2191 and 2196: cleanup and python wrapper for forms and implement feelpp namespace package by @prudhomm in https://github.com/feelpp/feelpp/pull/2227
+
+resolves 2233: improve hdg toolbox, add new terms by @prudhomm in https://github.com/feelpp/feelpp/pull/2236
+
+resolves 2259: add script to get feelpp version and improve packaging workflow by @prudhomm in https://github.com/feelpp/feelpp/pull/2260
+
+
+HPC Changes
+
+
+
+resolves 2246: fix non blocking mpi communication for large scale communications by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2249
+
+
+Recent Publications using Feel++
+
+
+
+Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by CI/CD Innovations on EuroHPC Systems
+
+Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem
+
+2D Axisymmetric Modeling of the HTS Insert Nougat in a Background Magnetic Field Generated by Resistive Magnet
+
+
+Enjoy!
+
+Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0.111.0-preview.10},
+	urldate = {2024-09-04},
+	publisher = {Cemosis},
+	author = {Prud'homme, Christophe and Chabannes, Vincent and Saigre, Thomas and Trophime, Christophe and Berti, Luca and Samaké, Abdoulaye and Van Landeghem, Céline and Szopos, Marcela and Giraldi, Laetitia and Bertoluzza, Silvia and Maday, Yvon},
+	month = jul,
+	year = {2024},
+	doi = {10.5281/ZENODO.591797},
+}
+
+@misc{chabannes_3d_2024,
+	title = {A {3D} geometrical model and meshing procedures for the human eyeball},
+	copyright = {Creative Commons Attribution 4.0 International},
+	url = {https://zenodo.org/doi/10.5281/zenodo.13829740},
+	abstract = {What's Changed
+
+
+
+up README with author + sort cff by @prudhomm in https://github.com/feelpp/mesh.eye/pull/2
+
+
+New Contributors
+
+
+
+@prudhomm made their first contribution in https://github.com/feelpp/mesh.eye/pull/2
+
+
+Full Changelog: https://github.com/feelpp/mesh.eye/compare/1.0.0-preview.1...v1.0.0-preview.2},
+	urldate = {2024-10-04},
+	publisher = {Zenodo},
+	author = {Chabannes, Vincent and Prud'homme, Christophe and Saigre, Thomas and Lorenzo, Sala and Szopos, Marcela and Trophime, Christophe},
+	month = sep,
+	year = {2024},
+	doi = {10.5281/ZENODO.13829740},
+}
+
+@misc{noauthor_master-csmioverfitting-underfitting_nodate,
+	title = {master-csmi/overfitting-underfitting},
+	url = {https://github.com/master-csmi/overfitting-underfitting},
+	urldate = {2024-10-03},
+}
+
+@article{ooi_simulation_2008,
+	title = {Simulation of aqueous humor hydrodynamics in human eye heat transfer},
+	volume = {38},
+	copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
+	issn = {00104825},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S001048250700176X},
+	doi = {10.1016/j.compbiomed.2007.10.007},
+	language = {en},
+	number = {2},
+	urldate = {2024-10-03},
+	journal = {Computers in Biology and Medicine},
+	author = {Ooi, Ean-Hin and Ng, Eddie Yin-Kwee},
+	month = feb,
+	year = {2008},
+	pages = {252--262},
+}
+
+@incollection{kilgour_operator_2021,
+	address = {Cham},
+	title = {Operator {Splitting} for the {Simulation} of {Aqueous} {Humor} {Thermo}-{Fluid}-{Dynamics} in the {Anterior} {Chamber}},
+	volume = {343},
+	isbn = {978-3-030-63590-9 978-3-030-63591-6},
+	url = {https://link.springer.com/10.1007/978-3-030-63591-6_45},
+	language = {en},
+	urldate = {2024-10-03},
+	booktitle = {Recent {Developments} in {Mathematical}, {Statistical} and {Computational} {Sciences}},
+	publisher = {Springer International Publishing},
+	author = {Abdelhafid, Farah and Guidoboni, Giovanna and Okumura, Naoki and Koizumi, Noriko and Srinivas, Sangly P.},
+	editor = {Kilgour, D. Marc and Kunze, Herb and Makarov, Roman and Melnik, Roderick and Wang, Xu},
+	year = {2021},
+	doi = {10.1007/978-3-030-63591-6_45},
+	note = {Series Title: Springer Proceedings in Mathematics \& Statistics},
+	pages = {489--499},
+}
+
+@article{portaneri_alpha_2022,
+	title = {Alpha {Wrapping} with an {Offset}},
+	volume = {41},
+	url = {https://inria.hal.science/hal-03688637},
+	doi = {10.1145/3528223.3530152},
+	abstract = {Given an input 3D geometry such as a triangle soup or a point set, we address the problem of generating a watertight and orientable surface triangle mesh that strictly encloses the input. The output mesh is obtained by greedily refining and carving a 3D Delaunay triangulation on an offset surface of the input, while carving with empty balls of radius alpha. The proposed algorithm is controlled via two user-defined parameters: alpha and offset. Alpha controls the size of cavities or holes that cannot be traversed during carving, while offset controls the distance between the vertices of the output mesh and the input. Our algorithm is guaranteed to terminate and to yield a valid and strictly enclosing mesh, even for defect-laden inputs. Genericity is achieved using an abstract interface probing the input, enabling any geometry to be used, provided a few basic geometric queries can be answered. We benchmark the algorithm on large public datasets such as Thingi10k, and compare it to state-of-the-art approaches in terms of robustness, approximation, output complexity, speed, and peak memory consumption. Our implementation is available through the CGAL library.},
+	language = {en},
+	number = {4},
+	urldate = {2024-10-02},
+	journal = {ACM Transactions on Graphics},
+	author = {Portaneri, Cédric and Rouxel-Labbé, Mael and Hemmer, Michael and Cohen-Steiner, David and Alliez, Pierre},
+	month = jun,
+	year = {2022},
+	keywords = {cgal},
+	pages = {1},
+}
+
+@article{jamin_cgalmesh_2015,
+	title = {{CGALmesh}: a {Generic} {Framework} for {Delaunay} {Mesh} {Generation}},
+	volume = {41},
+	shorttitle = {{CGALmesh}},
+	url = {https://inria.hal.science/hal-01071759},
+	doi = {10.1145/2699463},
+	abstract = {CGALmesh is the mesh generation software package of the Computational Geometry Algorithm Library (CGAL). It generates isotropic simplicial meshes -- surface triangular meshes or volume tetrahedral meshes -- from input surfaces, 3D domains as well as 3D multi-domains, with or without sharp features. The underlying meshing algorithm relies on restricted Delaunay triangulations to approximate domains and surfaces, and on Delaunay refinement to ensure both approximation accuracy and mesh quality. CGALmesh provides guarantees on approximation quality as well as on the size and shape of the mesh elements. It provides four optional mesh optimization algorithms to further improve the mesh quality. A distinctive property of CGALmesh is its high flexibility with respect to the input domain representation. Such a flexibility is achieved through a careful software design, gathering into a single abstract concept, denoted by the oracle, all required interface features between the meshing engine and the input domain. We already provide oracles for domains defined by polyhedral and implicit surfaces.},
+	language = {en},
+	number = {4},
+	urldate = {2024-10-02},
+	journal = {ACM Transactions on Mathematical Software},
+	author = {Jamin, Clément and Alliez, Pierre and Yvinec, Mariette and Boissonnat, Jean-Daniel},
+	year = {2015},
+	keywords = {cgal},
+	pages = {24},
+}
+
+@book{the_cgal_project_cgal_2024,
+	edition = {5.6.1},
+	title = {{CGAL} {User} and {Reference} {Manual}},
+	url = {https://doc.cgal.org/5.6.1/Manual/packages.html},
+	publisher = {CGAL Editorial Board},
+	author = {{The CGAL Project}},
+	year = {2024},
+	keywords = {cgal},
+}
+
+@incollection{alliez_3d_2024,
+	edition = {6.0},
+	title = {{3D} mesh generation},
+	url = {https://doc.cgal.org/6.0/Manual/packages.html#PkgMesh3},
+	booktitle = {{CGAL} user and reference manual},
+	publisher = {CGAL Editorial Board},
+	author = {Alliez, Pierre and Jamin, Clément and Rineau, Laurent and Tayeb, Stéphane and Tournois, Jane and Yvinec, Mariette},
+	year = {2024},
+	keywords = {cgal},
+}
+
+@incollection{alliez_3d_2024-1,
+	edition = {5.6.1},
+	title = {{3D} {Alpha} {Wrapping}},
+	url = {https://doc.cgal.org/5.6.1/Manual/packages.html#PkgAlphaWrap3},
+	booktitle = {{CGAL} {User} and {Reference} {Manual}},
+	publisher = {CGAL Editorial Board},
+	author = {Alliez, Pierre and Cohen-Steiner, David and Hemmer, Michael and Portaneri, Cédric and Rouxel-Labbé, Mael},
+	year = {2024},
+	keywords = {cgal},
+}
+
+@inproceedings{chabannes_high_2017,
+	address = {Pittsburgh, PA, United States},
+	title = {High order finite element simulations for fluid dynamics validated by experimental data from the fda benchmark nozzle model},
+	url = {https://hal.science/hal-01429685},
+	booktitle = {5th {International} {Conference} on {Computational} and {Mathematical} {Biomedical} {Engineering} - {CMBE2017}},
+	author = {Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela and Tarabay, Ranine},
+	month = apr,
+	year = {2017},
+	keywords = {CFD, medical device, open source finite element software, validation},
+}
+
+@inproceedings{saigre_coupled_2024,
+	address = {Arlington (Virginia), United States},
+	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
+	url = {https://hal.science/hal-04558924},
+	booktitle = {{CMBE24}},
+	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
+	month = jun,
+	year = {2024},
+	keywords = {Thermo-fluid dynamics, finite element method, mathematical and computational ophthalmology, thermo-fluid dynamics},
+}
+
+@article{stewart_assessment_2012,
+	title = {Assessment of {CFD} {Performance} in {Simulations} of an {Idealized} {Medical} {Device}: {Results} of {FDA}’s {First} {Computational} {Interlaboratory} {Study}},
+	volume = {3},
+	issn = {1869-408X},
+	url = {http://dx.doi.org/10.1007/s13239-012-0087-5},
+	doi = {10.1007/s13239-012-0087-5},
+	number = {2},
+	journal = {Cardiovascular Engineering and Technology},
+	author = {Stewart, SandyF.C. and Paterson, EricG. and Burgreen, GregW. and Hariharan, Prasanna and Giarra, Matthew and Reddy, Varun and Day, StevenW. and Manning, KeefeB. and Deutsch, Steven and Berman, MichaelR. and Myers, MatthewR. and Malinauskas, RichardA.},
+	year = {2012},
+	keywords = {Blood damage, Computational fluid dynamics, Experimental validation, FDA, Medical devices},
+	pages = {139--160},
+}
+
+@article{hariharan_multilaboratory_2011,
+	title = {Multilaboratory {Particle} {Image} {Velocimetry} {Analysis} of the {FDA} {Benchmark} {Nozzle} {Model} to {Support} {Validation} of {Computational} {Fluid} {Dynamics} {Simulations}},
+	volume = {133},
+	issn = {0148-0731},
+	url = {http://dx.doi.org/10.1115/1.4003440},
+	doi = {doi: 10.1115/1.4003440},
+	journal = {Journal of Biomechanical Engineering},
+	author = {Hariharan, Prasanna and Giarra, Matthew and Reddy, Varun and Day, Steven W. and Manning, Keefe B. and Deutsch, Steven and Stewart, Sandy F. C. and Myers, Matthew R. and Berman, Michael R. and Burgreen, Greg W. and Paterson, Eric G. and Malinauskas, Richard A.},
+	month = feb,
+	year = {2011},
+	keywords = {FDA},
+}
+
+@article{feppon_f_null_2020,
+	title = {Null space gradient flows for constrained optimization with applications to shape optimization},
+	volume = {26},
+	url = {https://doi.org/10.1051/cocv/2020015},
+	doi = {10.1051/cocv/2020015},
+	journal = {ESAIM: COCV},
+	author = {{Feppon, F.} and {Allaire, G.} and {Dapogny, C.}},
+	year = {2020},
+	keywords = {multiphysics, shape optimisation},
+	pages = {90},
+}
+
+@article{feppon_shape_2019,
+	title = {Shape optimization of a coupled thermal fluid-structure problem in a level set mesh evolution framework},
+	volume = {76},
+	issn = {2254-3902},
+	doi = {10.1007/s40324-018-00185-4},
+	number = {3},
+	journal = {SeMA},
+	author = {Feppon, F. and Allaire, G. and Bordeu, F. and Cortial, J. and Dapogny, C.},
+	month = sep,
+	year = {2019},
+	note = {Publisher: Springer International Publishing},
+	keywords = {fsi, multiphysics, shape optimisation},
+	pages = {413--458},
+}
+
+@phdthesis{feppon_shape_2019-1,
+	type = {{PhD} {Thesis}},
+	title = {Shape and topology optimization of multiphysics systems},
+	school = {Thèse de doctorat de l'Universit'e Paris-Saclay pr'epar'ee à l”Ecole polytechnique},
+	author = {Feppon, Florian},
+	year = {2019},
+	keywords = {multiphysics, shape optimisation},
+}
+
+@misc{noauthor_iso_2017,
+	title = {{ISO} 10211:2017 - {Thermal} bridges in building construction — {Heat} flows and surface temperatures — {Detailed} calculations},
+	url = {https://www.iso.org/standard/65710.html},
+	year = {2017},
+	keywords = {building construction, detailed calculations, heat flows, surface temperatures, thermal bridges},
+}
+
+@book{advanced_micro_devices_inc_hip_2024,
+	edition = {Release 6.1.40091},
+	title = {{HIP} {Documentation}},
+	url = {https://rocm.docs.amd.com/projects/HIP/en/latest/index.html},
+	author = {{Advanced Micro Devices, Inc.}},
+	month = may,
+	year = {2024},
+	keywords = {AMD, GPU, HIP},
+}
+
+@book{advanced_micro_devices_inc_rocthrust_2024,
+	edition = {Release 3.0.1},
+	title = {{rocThrust} {Documentation}},
+	url = {https://rocm.docs.amd.com/projects/rocThrust/en/latest/index.html},
+	author = {{Advanced Micro Devices, Inc.}},
+	month = aug,
+	year = {2024},
+	keywords = {AMD, gpu, rocm},
+}
+
+@article{van_landeghem_mathematical_2024,
+	title = {Mathematical and computational framework for moving and colliding rigid bodies in a {Newtonian} fluid},
+	volume = {9},
+	issn = {2380288X, 23802898},
+	url = {https://www.intlpress.com/site/pub/pages/journals/items/amsa/content/vols/0009/0001/a002/},
+	doi = {10.4310/AMSA.2024.v9.n1.a2},
+	number = {1},
+	urldate = {2024-05-30},
+	journal = {Annals of Mathematical Sciences and Applications},
+	author = {Van Landeghem, Céline and Berti, Luca and Chabannes, Vincent and Chouippe, Agathe and Giraldi, Laetitia and Hoarau, Yannick and Prud’homme, Christophe},
+	year = {2024},
+	pages = {59--89},
+}
+
 @inproceedings{firmin_comparative_2023,
 	series = {Communications in {Computer} and {Information} {Science}},
 	title = {A {Comparative} {Study} of {Fractal}-{Based} {Decomposition} {Optimization}},
@@ -238,25 +675,6 @@
 	keywords = {Mathematics - Numerical Analysis, Mathematics - Optimization and Control},
 }
 
-@book{the_cgal_project_cgal_2024,
-	edition = {5.6.1},
-	title = {{CGAL} {User} and {Reference} {Manual}},
-	url = {https://doc.cgal.org/5.6.1/Manual/packages.html},
-	publisher = {CGAL Editorial Board},
-	author = {{The CGAL Project}},
-	year = {2024},
-}
-
-@incollection{alliez_3d_2024,
-	edition = {5.6.1},
-	title = {{3D} {Alpha} {Wrapping}},
-	url = {https://doc.cgal.org/5.6.1/Manual/packages.html#PkgAlphaWrap3},
-	booktitle = {{CGAL} {User} and {Reference} {Manual}},
-	publisher = {CGAL Editorial Board},
-	author = {Alliez, Pierre and Cohen-Steiner, David and Hemmer, Michael and Portaneri, Cédric and Rouxel-Labbé, Mael},
-	year = {2024},
-}
-
 @article{hecht_new_2012,
 	title = {New development in {FreeFem}++},
 	volume = {20},
@@ -285,278 +703,4 @@
 	month = nov,
 	year = {2015},
 	pages = {1--12},
-}
-
-@article{vallet_toward_2022,
-	title = {Toward practical transparent verifiable and long-term reproducible research using {Guix}},
-	volume = {9},
-	issn = {2052-4463},
-	url = {https://www.nature.com/articles/s41597-022-01720-9},
-	doi = {10.1038/s41597-022-01720-9},
-	abstract = {Abstract
-            Reproducibility crisis urge scientists to promote transparency which allows peers to draw same conclusions after performing identical steps from hypothesis to results. Growing resources are developed to open the access to methods, data and source codes. Still, the computational environment, an interface between data and source code running analyses, is not addressed. Environments are usually described with software and library names associated with version labels or provided as an opaque container image. This is not enough to describe the complexity of the dependencies on which they rely to operate on. We describe this issue and illustrate how open tools like Guix can be used by any scientist to share their environment and allow peers to reproduce it. Some steps of research might not be fully reproducible, but at least, transparency for computation is technically addressable. These tools should be considered by scientists willing to promote transparency and open science.},
-	language = {en},
-	number = {1},
-	urldate = {2024-09-05},
-	journal = {Scientific Data},
-	author = {Vallet, Nicolas and Michonneau, David and Tournier, Simon},
-	month = oct,
-	year = {2022},
-	pages = {597},
-}
-
-@techreport{adams_dakota_2022,
-	title = {Dakota, {A} {Multilevel} {Parallel} {Object}-{Oriented} {Framework} for {Design} {Optimization}, {Parameter} {Estimation}, {Uncertainty} {Quantification}, and {Sensitivity} {Analysis}: {Version} 6.16 {User}’s {Manual}},
-	number = {SAND2022-6171},
-	institution = {Sandia National Laboratories},
-	author = {Adams, B. M. and Bohnhoff, W. J. and Dalbey, K. R. and Ebeida, M. S. and Eddy, J. P. and Eldred, M. S. and Hooper, R. W. and Hough, P. D. and Hu, K. T. and Jakeman, J. D. and Khalil, M. and Maupin, K. A. and Monschke, J. A. and Ridgway, E. M. and Rushdi, A. A. and Seidl, D. T. and Stephens, J. A. and Swiler, L. P. and Winokur, J. G.},
-	month = may,
-	year = {2022},
-}
-
-@article{faucher_hawen_2021,
-	title = {hawen: time-harmonic wave modeling and inversion using hybridizable discontinuous {Galerkin} discretization},
-	volume = {6},
-	copyright = {http://creativecommons.org/licenses/by/4.0/},
-	issn = {2475-9066},
-	shorttitle = {hawen},
-	url = {https://joss.theoj.org/papers/10.21105/joss.02699},
-	doi = {10.21105/joss.02699},
-	number = {57},
-	urldate = {2024-09-05},
-	journal = {Journal of Open Source Software},
-	author = {Faucher, Florian},
-	month = jan,
-	year = {2021},
-	pages = {2699},
-}
-
-@incollection{baudin_openturns_2016,
-	address = {Cham},
-	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
-	isbn = {978-3-319-11259-6},
-	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
-	booktitle = {Handbook of {Uncertainty} {Quantification}},
-	publisher = {Springer International Publishing},
-	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
-	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
-	year = {2016},
-	doi = {10.1007/978-3-319-11259-6_64-1},
-	pages = {1--38},
-}
-
-@incollection{baudin_openturns_2016-1,
-	address = {Cham},
-	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
-	isbn = {978-3-319-11259-6},
-	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
-	booktitle = {Handbook of {Uncertainty} {Quantification}},
-	publisher = {Springer International Publishing},
-	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
-	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
-	year = {2016},
-	doi = {10.1007/978-3-319-11259-6_64-1},
-	pages = {1--38},
-}
-
-@misc{apptainer_contributors_apptainer_2024,
-	title = {Apptainer {User} {Documentation}},
-	url = {https://apptainer.org/docs},
-	author = {{Apptainer Contributors}},
-	year = {2024},
-}
-
-@book{slurm_development_team_slurm_2024,
-	title = {{SLURM} {Workload} {Manager}},
-	url = {https://slurm.schedmd.com/documentation.html},
-	author = {{SLURM Development Team}},
-	year = {2024},
-}
-
-@misc{karakasis_reframe-hpcreframe_2024,
-	title = {reframe-hpc/reframe: {ReFrame} 4.6.0},
-	url = {https://doi.org/10.5281/zenodo.11002528},
-	publisher = {Zenodo},
-	author = {Karakasis, Vasileios and Manitaras, Theofilos and Otero, Javier and Koutsaniti, Eirini and {jgp} and {rsarm} and Bignamini, Christopher and {victorusu} and Jocksch, Andreas and {kraushm} and {lucamar} and Keller, Sebastian and Omlin, Samuel and Kliavinek, Sergei and Mendonça, Henrique and Giordano, Mosè and {MarkLTurner} and {GiuseppeLoRe} and Grassano, Davide and Boissonneault, Maxime and Leak, Steve and Paipuri, Mahendra and {jfavre} and {Vanessasaurus} and Morrison, Jack and Moors, Sam and You, Zhi-Qiang and Sandgren, Ake and {brandon-biggs}},
-	month = apr,
-	year = {2024},
-	doi = {10.5281/zenodo.11002528},
-}
-
-@article{ballout_nonlinear_2024,
-	title = {Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem},
-	copyright = {Creative Commons Attribution 4.0 International},
-	url = {https://zenodo.org/doi/10.5281/zenodo.13336083},
-	doi = {10.5281/ZENODO.13336083},
-	abstract = {What's Changed
-
-
-
-add citation file by @prudhomm in https://github.com/feelpp/article.nl-c-rbm/pull/4
-
-
-Full Changelog: https://github.com/feelpp/article.nl-c-rbm/compare/v1.0.1...v1.1.0},
-	urldate = {2024-09-04},
-	author = {Ballout, Hassan and Maday, Yvon and Prud'homme, Christophe},
-	month = aug,
-	year = {2024},
-	note = {Publisher: Zenodo
-Version Number: v1.1.0},
-}
-
-@inproceedings{balay_efficient_1997,
-	title = {Efficient {Management} of {Parallelism} in {Object} {Oriented} {Numerical} {Software} {Libraries}},
-	booktitle = {Modern {Software} {Tools} in {Scientific} {Computing}},
-	publisher = {Birkhäuser Press},
-	author = {Balay, Satish and Gropp, William D. and McInnes, Lois Curfman and Smith, Barry F.},
-	editor = {Arge, E. and Bruaset, A. M. and Langtangen, H. P.},
-	year = {1997},
-	pages = {163--202},
-}
-
-@article{zhang_petscsf_2022,
-	title = {The {PetscSF} {Scalable} {Communication} {Layer}},
-	volume = {33},
-	number = {4},
-	journal = {IEEE Transactions on Parallel and Distributed Systems},
-	author = {Zhang, Junchao and Brown, Jed and Balay, Satish and Faibussowitsch, Jacob and Knepley, Matthew and Marin, Oana and Mills, Richard Tran and Munson, Todd and Smith, Barry F. and Zampini, Stefano},
-	year = {2022},
-	pages = {842--853},
-}
-
-@article{dalcin_parallel_2011,
-	title = {Parallel distributed computing using {Python}},
-	volume = {34},
-	issn = {0309-1708},
-	doi = {10.1016/j.advwatres.2011.04.013},
-	number = {9},
-	journal = {Advances in Water Resources},
-	author = {Dalcin, Lisandro D. and Paz, Rodrigo R. and Kler, Pablo A. and Cosimo, Alejandro},
-	year = {2011},
-	pages = {1124 -- 1139},
-}
-
-@techreport{balay_petsctao_2024,
-	title = {{PETSc}/{TAO} {Users} {Manual}},
-	number = {ANL-21/39 - Revision 3.21},
-	institution = {Argonne National Laboratory},
-	author = {Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Benson, Steven and Brown, Jed and Brune, Peter and Buschelman, Kris and Constantinescu, Emil and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Faibussowitsch, Jacob and Gropp, William D. and Hapla, Václav and Isaac, Tobin and Jolivet, Pierre and Karpeev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and Kong, Fande and Kruger, Scott and May, Dave A. and McInnes, Lois Curfman and Mills, Richard Tran and Mitchell, Lawrence and Munson, Todd and Roman, Jose E. and Rupp, Karl and Sanan, Patrick and Sarich, Jason and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong and Zhang, Junchao},
-	year = {2024},
-	doi = {10.2172/2205494},
-}
-
-@misc{balay_petsc_2024,
-	title = {{PETSc} {Web} page},
-	url = {https://petsc.org/},
-	author = {Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Benson, Steven and Brown, Jed and Brune, Peter and Buschelman, Kris and Constantinescu, Emil M. and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Faibussowitsch, Jacob and Gropp, William D. and Hapla, Václav and Isaac, Tobin and Jolivet, Pierre and Karpeev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and Kong, Fande and Kruger, Scott and May, Dave A. and McInnes, Lois Curfman and Mills, Richard Tran and Mitchell, Lawrence and Munson, Todd and Roman, Jose E. and Rupp, Karl and Sanan, Patrick and Sarich, Jason and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong and Zhang, Junchao},
-	year = {2024},
-}
-
-@misc{prudhomme_feelppfeelpp_2024,
-	title = {feelpp/feelpp: {Feel}++ {Release} {V111} preview.10},
-	copyright = {Creative Commons Attribution 4.0 International, GNU Lesser General Public License v3.0 or later, GNU General Public License v3.0 or later},
-	shorttitle = {feelpp/feelpp},
-	url = {https://zenodo.org/doi/10.5281/zenodo.591797},
-	abstract = {🎉 We're happy to share our developments as we approach the V111 release of Feel++. Following a refreshed naming strategy, we've moved to the -preview.x suffix from the conventional -alpha.x, -beta, or -rc labels. This change signifies our dedication to enhancing transparency and setting clear expectations for our pre-release versions.
-
-Each pre-release version of Feel++ undergoes a rigorous process, encompassing detailed reviews, extensive tests across varied scenarios, and careful packaging. Our commitment to delivering a high-quality, reliable experience is reflected in our comprehensive platform support strategy. Alongside offering support for the latest two Long-Term Support (LTS) versions of Ubuntu and the newest LTS version of Debian, we're excited to announce that Feel++ is now accessible to Windows users through the Windows Subsystem for Linux (WSL) and to Mac users via MacPorts, Homebrew, Docker and now Apptainer. This expansion of platform support is a testament to our commitment to making Feel++ as accessible and versatile as possible for our diverse user base.
-
-As we continue to refine and enhance Feel++, the V111 release promises to bring forward significant innovations and improvements. Stay tuned for further updates of Feel++.
-
-Packages
-
-
-
-📦 Ubuntu packages
-
-📦 Debian packages
-
-📦 Docker images
-
-
-docker pull ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy
-docker run ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy ls
-
-
-
-
-📦 Apptainer images
-
-
-apptainer pull -F oras://ghcr.io/feelpp/feelpp:v0.111.0-preview.10-jammy-sif
-apptainer exec feelpp\_v0.111.0-preview.10-jammy-sif.sif feelpp\_toolbox\_fluid --version
-
-
-What's Changed
-
-Exciting New Features 🎉
-
-
-
-resolve 2231 : Support parts configuration in exporter by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2232
-
-resolves 1489 and 2175: enrich range object and simplify FunctionSpace by @prudhomm in https://github.com/feelpp/feelpp/pull/2176
-
-resolves 2191 and 2196: cleanup and python wrapper for forms and implement feelpp namespace package by @prudhomm in https://github.com/feelpp/feelpp/pull/2227
-
-resolves 2233: improve hdg toolbox, add new terms by @prudhomm in https://github.com/feelpp/feelpp/pull/2236
-
-resolves 2259: add script to get feelpp version and improve packaging workflow by @prudhomm in https://github.com/feelpp/feelpp/pull/2260
-
-
-HPC Changes
-
-
-
-resolves 2246: fix non blocking mpi communication for large scale communications by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2249
-
-
-Recent Publications using Feel++
-
-
-
-Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by CI/CD Innovations on EuroHPC Systems
-
-Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem
-
-2D Axisymmetric Modeling of the HTS Insert Nougat in a Background Magnetic Field Generated by Resistive Magnet
-
-
-Enjoy!
-
-Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0.111.0-preview.10},
-	urldate = {2024-09-04},
-	publisher = {[object Object]},
-	author = {Prud'homme, Christophe and Chabannes, Vincent and Saigre, Thomas and Trophime, Christophe and Berti, Luca and Samaké, Abdoulaye and Van Landeghem, Céline and Szopos, Marcela and Giraldi, Laetitia and Bertoluzza, Silvia and Maday, Yvon},
-	month = jul,
-	year = {2024},
-	doi = {10.5281/ZENODO.591797},
-}
-
-@misc{ootomo_dgemm_2024,
-	title = {{DGEMM} on {Integer} {Matrix} {Multiplication} {Unit}},
-	url = {http://arxiv.org/abs/2306.11975},
-	abstract = {Deep learning hardware achieves high throughput and low power consumption by reducing computing precision and specializing in matrix multiplication. For machine learning inference, fixed-point value computation is commonplace, where the input and output values and the model parameters are quantized. Thus, many processors are now equipped with fast integer matrix multiplication units (IMMU). It is of significant interest to find a way to harness these IMMUs to improve the performance of HPC applications while maintaining accuracy. We focus on the Ozaki scheme, which computes a high-precision matrix multiplication by using lower-precision computing units, and show the advantages and disadvantages of using IMMU. The experiment using integer Tensor Cores shows that we can compute double-precision matrix multiplication faster than cuBLAS and an existing Ozaki scheme implementation on FP16 Tensor Cores on NVIDIA consumer GPUs. Furthermore, we demonstrate accelerating a quantum circuit simulation by up to 4.33 while maintaining the FP64 accuracy.},
-	urldate = {2024-06-28},
-	publisher = {arXiv},
-	author = {Ootomo, Hiroyuki and Ozaki, Katsuhisa and Yokota, Rio},
-	month = mar,
-	year = {2024},
-	note = {arXiv:2306.11975 [cs]},
-	keywords = {Computer Science - Distributed, Parallel, and Cluster Computing},
-}
-
-@inproceedings{haidar_harnessing_2018,
-	address = {Dallas, TX, USA},
-	title = {Harnessing {GPU} {Tensor} {Cores} for {Fast} {FP16} {Arithmetic} to {Speed} up {Mixed}-{Precision} {Iterative} {Refinement} {Solvers}},
-	isbn = {978-1-5386-8384-2},
-	url = {https://ieeexplore.ieee.org/document/8665777/},
-	doi = {10.1109/SC.2018.00050},
-	urldate = {2024-06-28},
-	booktitle = {{SC18}: {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
-	publisher = {IEEE},
-	author = {Haidar, Azzam and Tomov, Stanimire and Dongarra, Jack and Higham, Nicholas J.},
-	month = nov,
-	year = {2018},
-	pages = {603--613},
 }
