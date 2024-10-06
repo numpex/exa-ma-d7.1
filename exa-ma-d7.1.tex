@@ -4,7 +4,7 @@
 
 \documentclass[11pt]{report}
 
-\usepackage{numpex}		% numpex specific definitions and styles  
+\usepackage{numpex}		% numpex specific definitions and styles
 \usepackage[utf8]{inputenc}	% UTF8 package
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}		% common special chars
@@ -13,15 +13,23 @@
 \usepackage{anyfontsize}	% fonts
 \usepackage{lipsum}
 \usepackage{cleveref}
-\usepackage{standalone} 
+\usepackage{standalone}
 \usepackage[]{acronym}
 \usepackage{import}
 \usepackage{booktabs} % For nicer tables
-\usepackage{geometry} 
-\usepackage{tabularx} 
+\usepackage{geometry}
+\usepackage{tabularx,longtable}
+\usepackage{paralist} % For compactitem
+\usepackage{multirow} % For multirow in tables
 \usepackage{pgf-pie}  % For pie charts
 \usepackage{tikz}     % Required for drawing graphics
-\usepackage{xspace,float}    % Required for controlling the position of objects
+\usepackage{xspace,float,relsize}    % Required for controlling the position of objects
+\usepackage{siunitx}  % Required for typesetting units
+\usepackage{currfile} % Required for getting the current file name
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=newest}
+
 \definecolor{lightblue}{RGB}{173,216,230}
 \definecolor{darkgreen}{RGB}{0,100,0}
 \definecolor{pink}{RGB}{255,192,203}
@@ -30,16 +38,30 @@
 \definecolor{peach}{RGB}{255, 229, 180}
 \definecolor{lavender}{RGB}{230, 190, 255}
 
+\definecolor{customdarkblue}{HTML}{0C2472}
+\definecolor{customcyan}{HTML}{00BFFF}
+\definecolor{customorange}{HTML}{F1892C}
+\definecolor{customyellow}{HTML}{FFD700}
+\definecolor{custompurple}{HTML}{800080}
+\definecolor{customgreen}{HTML}{00FF00}
+
 \definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88} % RoyalBlue
 \hypersetup{
 	pdftitle={Benchmarking analysis report},
 	pdfauthor={[Names of co-authors (partners short names)]},
 	pdfkeywords={HPC, Exascale, Benchmarking},
-    bookmarksnumbered,bookmarksopen,linktocpage,
+    bookmarksnumbered,linktocpage,
     colorlinks=true,
     citecolor=CustomBlue,
     linkcolor=CustomBlue,
     urlcolor=blue
+}
+
+\makeatletter
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
 }
 
 \IfFileExists{.git/gitHeadInfo.gin}{
@@ -64,7 +86,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% URL style same as regular text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
+
 \urlstyle{same}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,7 +114,7 @@
 \delivShortTile{BAR}
 
 % Deliverable Responsible Partner
-\delivResponsible{UNISTRA} 
+\delivResponsible{UNISTRA}
 
 % Deliverable Version, Contractual and Actual Date, Dissemination Level, Type
 \delivVersion{v0.0.6}
@@ -132,7 +154,7 @@
 %%% Cover Page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makecover
+\makecover%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Table of Contents
@@ -140,7 +162,7 @@
 
 \clearpage
 \fancypagestyle{plain}{}
-\settableofcontents
+\settableofcontents%
 \tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -148,7 +170,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\setlistoffigures
+\setlistoffigures%
 \listoffigures
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,7 +178,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\setlistoftables
+\setlistoftables%
 \listoftables
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -202,7 +224,7 @@
 %%% Back Page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makedisclaimer
+\makedisclaimer%
 
 \end{document}
 
