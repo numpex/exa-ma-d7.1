@@ -4,24 +4,72 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\section*{Appendix A}
-\addcontentsline{toc}{section}{Appendix A}
-\label{sec:appendix-a}
+\appendix
+\section*{Appendix A. Computing Infrastructures}
+\addcontentsline{toc}{section}{Appendix A. Computing Infrastructures}
+\label{sec:app:architectures}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Section content, please change!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection*{Appendix A.1}
-\label{sec:appendix-a1}
-\addcontentsline{toc}{subsection}{Appendix A.1}
+\subsection*{EuroHPC JU}
+\label{sec:arch:eurohpc-ju}
+\addcontentsline{toc}{subsection}{EuroHPC JU}
 
-\lipsum[1]
+In the tables below the FLOPS are given in Petaflops, the storage in Petabytes and the rank is the position in the Top500 list.
 
-\subsection*{Appendix A.2}
-\label{sec:appendix-a2}
-\addcontentsline{toc}{subsection}{Appendix A.2}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l l l l l l l}
+    \toprule
+    \textbf{Name} & \textbf{Country} & \textbf{FLOPS} & \textbf{CPU} & \textbf{GPU} & \textbf{Storage} & \textbf{Rank} \\
+    \midrule
+    LUMI & Finland & 386 & AMD EPYC & AMD Instinct & 117 & 1 \\
+    LEONARDO & Italy & 249 & Intel & NVIDIA & 100+ & 2 \\
+    MARENOSTRUM 5 & Spain & 215 & Intel & NVIDIA/Intel & 248 & 3 \\
+    MELUXINA & Luxembourg & 12.81 & AMD & NVIDIA & 20 & - \\
+    KAROLINA & Czechia & 9.59 & AMD & NVIDIA & 1 & - \\
+    DISCOVERER & Bulgaria & 4.52 & AMD & None & 2 & - \\
+    VEGA & Slovenia & 6.92 & AMD & NVIDIA & 24 & - \\
+    DEUCALION & Portugal & 3.96 & ARM/AMD & NVIDIA & 11 & - \\
+    \bottomrule
+    \end{tabular}
+    \caption{EuroHPC Systems, Their Countries, and Features}
+    \end{table}
 
-\lipsum[1]
+    \subsection*{Genci (France)}
+\label{sec:arch:gaya}
+\addcontentsline{toc}{subsection}{Genci}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l l l l l l}
+    \toprule
+    \textbf{Name} & \textbf{FLOPS} & \textbf{CPU} & \textbf{GPU} & \textbf{Storage} & \textbf{Rank} \\
+    \midrule
+    CINES & 3.5 & Intel Xeon & None & Large-scale archiving & - \\
+    IDRIS (Jean Zay) & 28 & Intel Skylake & NVIDIA V100 & 50+ & - \\
+    TGCC (Joliot-Curie) & 22 & Intel Xeon & None & 100+ & - \\
+    \bottomrule
+    \end{tabular}
+    \caption{GENCI Systems and their Features}
+    \end{table}
+
+\subsection*{Unistra / IRMA / Gaya (France)}
+\label{sec:arch:gaya}
+\addcontentsline{toc}{subsection}{Gaya}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l l l l l l}
+    \toprule
+    \textbf{Name} & \textbf{Nodes} & \textbf{CPU} & \textbf{GPU} & \textbf{Storage} & \textbf{Rank} \\
+    \midrule
+    Gaya &  6(CPU) + 1 ( 3xGPU) & AMD EPYC & AMD & 0.1  & - \\
+    \bottomrule
+    \end{tabular}
+    \caption{EuroHPC Systems and their Features}
+    \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
