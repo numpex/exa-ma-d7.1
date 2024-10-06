@@ -1,3 +1,4 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
 \section{Software: CGAL}
 \label{sec:WP1:CGAL:software}
 
@@ -150,7 +151,8 @@ We now provide initial performance metrics of the two relevant discretization al
 \subsubsection{Benchmark \#1 - 3D Alpha Wrapping serial}
 
 
-The 3D alpha wrapping does not offer parallelization at its current stage of development. We provide in Figure \ref{WP1::CGAL::aw3} the complexity analysis from \cite{portaneri_alpha_2022} on a single 3D model (fan model, available in GrabCad) and using a single thread. The plots shows that the computational time correlates well with the output mesh complexity (number of triangles).
+The 3D alpha wrapping does not offer parallelization at its current stage of development. We provide in~\cref{WP1::CGAL::aw3} the complexity analysis from~\cite{portaneri_alpha_2022} on a single 3D model (fan model, available in GrabCad) and using a single thread. 
+The plots shows that the computational time correlates well with the output mesh complexity (number of triangles).
 
 
 \begin{figure}[htb]
@@ -158,7 +160,7 @@ The 3D alpha wrapping does not offer parallelization at its current stage of dev
     \includegraphics[width=0.6\textwidth]{graphics/cgal/fan.png} 
     \caption{Output complexity and time against alpha/offset parameters.
 \textbf{Top:} Input fan model, and few output meshes shown for increasing alpha parameter. \textbf{Middle top:} Complexity of the output mesh in number of triangle
-facets. Middle bottom: Computational time in ms. \textbf{Bottom:} Computational time against complexity of the output mesh. Each dot corresponds to one above combination of alpha/offset parameters. Figure taken from \cite{portaneri_alpha_2022}.}
+facets. Middle bottom: Computational time in ms. \textbf{Bottom:} Computational time against complexity of the output mesh. Each dot corresponds to one above combination of alpha/offset parameters.}
 \label{WP1::CGAL::aw3}
 \end{figure}
 
@@ -167,7 +169,7 @@ facets. Middle bottom: Computational time in ms. \textbf{Bottom:} Computational 
 \subsubsection{Benchmark \#2 - 3D Mesh Generation parallel}
 
 
-The speed-up charts in Figure \ref{WP1::CGAL::mg3parallel} are generated using the parallel version of the 3D meshing algorithm and were obtained from the 3D mesh generation reference manual \cite{alliez_3d_2024}. 
+The speed-up charts in~\cref{WP1::CGAL::mg3parallel} are generated using the parallel version of the 3D meshing algorithm and were obtained from the 3D mesh generation reference manual \cite{alliez_3d_2024}. 
 The machine used is a PC running Windows 7 64-bits with two 6-core Intel Xeon CPU X5660 clocked at 2.80 GHz with 32GB of RAM. 
 The program has been compiled with Microsoft Visual C++ 2012, in Release mode.
 The models used for this benchmark are publicly available in the CGAL Git repository, specifically in the 'demo' folder.
@@ -176,7 +178,7 @@ The models used for this benchmark are publicly available in the CGAL Git reposi
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.6\textwidth]{graphics/cgal/refinement_speedup.png} 
-    \caption{Facet refinement speed-up (left) and cell refinement speed-up (right), compared to the sequential version of the algorithm. Figure taken from \cite{alliez_3d_2024}.}
+    \caption{Facet refinement speed-up (left) and cell refinement speed-up (right), compared to the sequential version of the algorithm.}
     \label{WP1::CGAL::mg3parallel}
 \end{figure}
 
