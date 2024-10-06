@@ -1,10 +1,8 @@
 \section{Software: pBB}
 \label{sec:pBB:software}
 
-
 \begin{table}[h!]
     \centering
-pBB is initially an implementation of a massively parallel Branch\&Bound algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones. A new data structure named P3D-DFS is proposed for that purpose. In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see https://github.com/Guillaume-Helbecque). The Chapel language is used for the implementation of pBB meeting these genericity and productivity objectives. 
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
     \arrayrulecolor{numpexgray}
@@ -44,6 +42,8 @@ B7 - Exascale Algorithms\\
 \label{sec:pBB:summary}
 %Detailed overview not available.
 
+pBB is initially an implementation of a massively parallel Branch\&Bound algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones. A new data structure named distBag-DFS is proposed for that purpose. In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see https://github.com/Guillaume-Helbecque). The Chapel language is used for the implementation of pBB meeting these genericity and productivity objectives. 
+
 \subsection{Purpose}
 \label{sec:pBB:purpose}
 Purpose not available.
@@ -65,6 +65,7 @@ The following table summarizes these aspects for pBB, providing a  view of its p
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
 C++\\
+Chapel\\
 \end{tabular} & Programming languages and language standards supported by the software \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 Chapel\\
@@ -109,6 +110,10 @@ In this section, provide a summary the mathematics used in the software.
 \label{sec:pBB:publications}
 
 Here is a list of relevant publications related to the software:
+
+Guillaume Helbecque, Tiago Carneiro, Nouredine Melab, Jan Gmys, Pascal Bouvry. PGAS Data Structure for Unbalanced Tree-Based Algorithms at Scale. Computational Science – ICCS 2024. 2024. https://doi.org/10.1007/978-3-031-63759-9\_13
+
+Helbecque G, Gmys J, Melab N, Carneiro T, Bouvry P. Parallel distributed productivity-aware tree-search using Chapel. Concurrency Computat Pract Exper. 2023; 35(27):e7874. https://doi.org/10.1002/cpe.7874
 
 \subsection{Acknowledgements}
 \label{sec::pBB:acknowledgements}
