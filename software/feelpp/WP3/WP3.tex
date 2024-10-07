@@ -38,7 +38,7 @@ B2 - Interconnect Technology\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
+        \hline
     \end{tabular}
     }}
     \caption{WP3: \Feelpp Information}
@@ -63,6 +63,7 @@ In~\cref{tab:WP3:Feelpp:features} we provide the summary of the \Feelpp features
 
 \rowcolor{white}    algebraic multiphysics coupling & In \Feelpp, algebraic multiphysics coupling is achieved through the fieldsplit PETSc preconditioner. This allows the construction of block preconditioners, leveraging both PETSc’s built-in preconditioners and in-house preconditioners designed for specific applications, such as computational fluid dynamics (CFD) and magnetostatic problems. These preconditioners enhance the solver's performance for coupled systems by efficiently handling the interaction between different physical fields. \\
 \rowcolor{numpexlightergray}    domain decomposition methods & \Feelpp provides support for domain decomposition methods, such as hp-mortar methods. These methods utilize specialized preconditioners that exploit the structure of mortar elements to improve solver efficiency. The hp-mortar approach allows for flexible discretization and is particularly useful for non-conforming meshes and multi-domain problems, enhancing both scalability and accuracy in large-scale simulations. \\
+\hline
 \end{tabular}
         }
     }
@@ -203,6 +204,7 @@ In~\cref{tab:WP3:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap 
 \rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
 \rowcolor{white}    B6 - Data Management & provide short description here \\
 \rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\hline
 \end{tabular}
         }
     }
