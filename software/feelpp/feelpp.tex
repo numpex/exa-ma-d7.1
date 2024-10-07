@@ -188,7 +188,7 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
         \rowcolor{white}DevOps & \begin{tabular}{l} Continuous Benchmarking\\
                 Continuous Delivery\\
                 Continuous Integration\\
-                \end{tabular} & \Feelpp is developped on GitHub and uses GitHub Actions workflows to ensure the quality of the developments. The main branch is protected and only accepted reviewed PR can be merged. \Feelpp is not only rebuilt by the CI but also tests are run.  Upon merge, a packaging workflow is trigerred to generate Debian-based packages as well as Docker and Apptainer images. Once Apptainer images are available, benchmarks are trigerred on super computer to check the performances, see~\cref{feelpp-ci} and~\cref{feelpp-cb} for a graphical representation.\\ 
+                \end{tabular} & \Feelpp is developped on GitHub and uses GitHub Actions workflows to ensure the quality of the developments. The main branch is protected and only accepted reviewed PR can be merged. \Feelpp is not only rebuilt by the CI but also tests are run.  Upon merge, a packaging workflow is trigerred to generate Debian-based packages as well as Docker and Apptainer images. Once Apptainer images are available, benchmarks are trigerred on super computer to check the performances, see~\cref{fig:feelpp-ci} and~\cref{fig:feelpp-cb} for a graphical representation.\\ 
         
         \rowcolor{numpexlightergray}Packaging  & Debian, Fedora, Spack, Ubuntu & Debian-based systems: Available via the APT repository at \href{https://apt.feelpp.org}{apt.feelpp.org}. Detailed installation instructions can be found in the documentation: \href{https://docs.feelpp.org/user/latest/install/index.html}{\Feelpp Installation Guide}.
         Fedora: Distributed via Docker images, simplifying deployment in containerized environments.
@@ -245,7 +245,7 @@ The~\cref{fig:Feelpp:components} shows the main components of \Feelpp, including
 
 \begin{figure}
         \input{graphics/feelpp/feelpp-components.tikz}
-        \caption{\Feelpp Components}
+        \caption{Main dependencies of \Feelpp(bottom rows), its main Components as well as the flagship applications (top row).}
         \label{fig:Feelpp:components}
 \end{figure}
 
@@ -254,6 +254,7 @@ The~\cref{fig:Feelpp:components} shows the main components of \Feelpp, including
 Relevant publications include:
 
 \begin{description}
+        \item[\fullcite{prudhomme_feel_2012}] presents a detailed exploration of \Feelpp's design, focusing on its embedded variational language as a \ac{DSEL} and abstraction mechanisms that simplify the implementation of complex numerical methods. The framework is demonstrated with examples involving non-overlapping domain decomposition techniques and fictitious domain methods.
         \item[\fullcite{prudhomme_feelppfeelpp_2024}] is the last preview of the \Feelpp software. The documentation is available online at \url{https://docs.feelpp.org};
         \item[\fullcite{van_landeghem_mathematical_2024}] The paper \emph{Mathematical and computational framework for moving and colliding rigid bodies in a Newtonian fluid} (2024) presents a mathematical model and computational strategy to simulate the dynamics of moving and colliding rigid bodies within a Newtonian fluid. This work focuses on accurately modeling fluid-structure interactions as a step towards simulating micro-swimmers.
         \item[\fullcite{saigre_model_2024}] The paper \emph{Model Order Reduction and Sensitivity Analysis for Complex Heat Transfer Simulations Inside the Human Eyeball}, presents advanced computational methods to simulate heat transfer processes within the human eye. The authors use reduced-order modeling to improve the efficiency and accuracy of these simulations, contributing to better insights in biomedical engineering through advanced analysis and in particular sensitivity analysis.;
