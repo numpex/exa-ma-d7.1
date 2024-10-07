@@ -15,7 +15,7 @@
 Inria\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
-Inria CA\\
+Inria center at Universit\'e C\^ote d'Azur\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
 christos.georgiadis@inria.fr\\
@@ -43,7 +43,6 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:CGAL:summary}
-%Detailed overview not available.
 
 CGAL (Computational Geometry Algorithms Library) \cite{the_cgal_project_cgal_2024} is an open-source software project designed to provide 
 numerically reliable software components (algorithms and geometric data structures) for use in 2D, 3D, or arbitrary dimensions.
@@ -68,8 +67,6 @@ licenses can be purchased from Geometry Factory, with options tailored for acade
 \subsection{Programming and Computational Environment}
 \label{sec::CGAL:environment_capabilities}
 
-%christos-todo 
-
 The following table summarizes these aspects for CGAL, providing a  view of its programming and computational capabilities.
 
 \begin{table}[h!]
@@ -81,17 +78,17 @@ The following table summarizes these aspects for CGAL, providing a  view of its 
     {\fontsize{9}{11}\selectfont
     \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
-C++\\
+        \rowcolor{white} Languages  & \begin{tabular}{l}
+C++, header-only be default\\
 \end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
-Multithread\\
+        \rowcolor{numpexlightergray} Parallelism  & \begin{tabular}{l}
+CGAL requires a compiler supporting C++17 or later, and the Intel TBB library for multithreading.\\
 \end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
-None\\
+For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
 \end{tabular} & Data formats that the software can handle or produce.\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
-None\\
+None at the moment\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Integration\\
@@ -103,18 +100,21 @@ Spack\\
 Ubuntu\\
 \end{tabular} & Software packaging and distribution.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
-Unit\\
+On most operating systems, package managers offer CGAL and its essential third party dependencies.\\
 \end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-None\\
+CGAL uses a custom-tailored test suite running on 22 platforms combining Windows, Linux (Debian, Fedora, Ubuntu), macOS and different compilers (MSVC, Darwin, clang, gcc)\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
-None\\
+        \rowcolor{white} Interfaces  & \begin{tabular}{l}
+Apt-get  on Linux, and Homebrew on macOS.\\
 \end{tabular} & List of software CGAL has interfaces with.\\
+
+Essential third partie libraries: STL, Boost and MPFR. Optional libraries are listed 
+\url{https://doc.cgal.org/latest/Manual/thirdparty.html}{here}.
         \bottomrule
     \end{tabular}
     }}
-    \caption{CGAL programming and computational environment}
+    \caption{CGAL programming and computational environment.}
 \end{table}
 
 
