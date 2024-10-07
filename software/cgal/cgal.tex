@@ -81,13 +81,12 @@ The following table summarizes these aspects for CGAL, providing a  view of its 
         \rowcolor{white} Languages  & \begin{tabular}{l}
 C++, header-only be default\\
 \end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray} Parallelism  & \begin{tabular}{l}
-CGAL requires a compiler supporting C++17 or later, and the Intel TBB library for multithreading.\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
-For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
-\end{tabular} & Data formats that the software can handle or produce.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        \rowcolor{numpexlightergray} Parallelism  & Multithread
+ & Parallel computing methods and frameworks utilized by the software. CGAL requires a compiler supporting C++17 or later, and the Intel TBB library for multithreading.\\
+        \rowcolor{white}Data Formats  & 
+ & Data formats that the software can handle or produce. For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
+ \\
+\rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 None at the moment\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
@@ -99,18 +98,17 @@ Fedora\\
 Spack\\
 Ubuntu\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
-On most operating systems, package managers offer CGAL and its essential third party dependencies.\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-CGAL uses a custom-tailored test suite running on 22 platforms combining Windows, Linux (Debian, Fedora, Ubuntu), macOS and different compilers (MSVC, Darwin, clang, gcc)\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white} Interfaces  & \begin{tabular}{l}
-Apt-get  on Linux, and Homebrew on macOS.\\
-\end{tabular} & List of software CGAL has interfaces with.\\
+        \rowcolor{white}Testing  & 
 
-Essential third partie libraries: STL, Boost and MPFR. Optional libraries are listed 
-\url{https://doc.cgal.org/latest/Manual/thirdparty.html}{here}.
+ & On most operating systems, package managers offer CGAL and its essential third party dependencies. Testing methodologies employed to ensure software quality and correctness.\\
+        \rowcolor{numpexlightergray}Containerization  & 
+ & Container technologies used to package and deploy the software. CGAL uses a custom-tailored test suite running on 22 platforms combining Windows, Linux (Debian, Fedora, Ubuntu), macOS and different compilers (MSVC, Darwin, clang, gcc)\\
+        \rowcolor{white} Interfaces  & \begin{tabular}{l}
+Apt-get  on Linux, \\
+and Homebrew on macOS.\\
+\end{tabular} & List of software CGAL has interfaces with.\\
+& & Essential third partie libraries: STL, Boost and MPFR. Optional libraries are listed 
+\url{https://doc.cgal.org/latest/Manual/thirdparty.html}{here}.\\
         \bottomrule
     \end{tabular}
     }}
