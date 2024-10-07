@@ -151,11 +151,30 @@ This comparison highlights a significant reduction in the time required to assem
 Importantly, this efficiency does not compromise accuracy; the results from the reduced basis model are effectively sharp with respect to the high fidelity model.
 More detailed insights abouth these results are available in \cite{saigre_model_2024}.
 
-\textbf{TODO: NIRB}
+We present in \Cref{tab:feelpp:wp2:eye:nirb} the time of execution and associated speedup to run the NIRB method the bioheat transfer problem in the eye using $P_2$ discretization.
+The time of execution is measured for various elements:
+\begin{inparaenum}[\it (i)]
+    \item The fine snapshots $u_h^\mathcal{N}$, \emph{i.e.} the high-fidelity solution,
+    \item the coarse snapshots $u_H^\mathcal{N}$, \emph{i.e.} a high-fidelity solution on the coarse mesh,
+    \item the NIRB approximation without the rectification post-process $u_{Hh}^{N,\text{NoRect}}$, and
+    \item the NIRB approximation with the rectification post-process $u_{Hh}^{N,\text{Rect}}$. This last element is the final reduced solution.
+\end{inparaenum}
+%
+The gain of this second method is less significant than the RBM method, but it is still a significant improvement in terms of computational time.
+We remark that the problem scales well with the number of processors, as evidenced by the speedup obtained for the quantites computed.
 
 
 
 \begin{table}
+    \centering
+
+\end{table}
+
+
+\begin{table}
+    \centering
+
+    \begin{subtable}[b]{\textwidth}
     \centering
     {\setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -171,12 +190,38 @@ More detailed insights abouth these results are available in \cite{saigre_model_
         Problem size    & $\mathcal{N} = 207~845$  & \multicolumn{2}{c|}{$\mathcal{N} = 1~580~932$}                                        & $N = 10$ \\
         $t_\text{exec}$ & \qty{5.534}{\second}     & \qty{62.432}{\second}                    & \qty{10.76}{\second}                      & \qty{2.88e-04}{\second}\\
         \rowcolor{numpexlightergray}
-        speed-up        & 11.69                    & 1                                        & 5.80                                      & \qty{2.17e5}{}\\
+        speed-up        & 11.69                    & --                                        & 5.80                                      & \qty{2.17e5}{}\\
         \hline
     \end{tabular}
     }
     \caption{Times of execution of the finite element model for both $P_1$ and $P_2$ discretization against the computation time of the reduced solution and error bound.}
     \label{tab:feelpp:wp2:eye:rbm}
+    \end{subtable}
+
+
+    \begin{subtable}[b]{\textwidth}
+    \centering
+    \resizebox{\textwidth}{!}{\setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    \begin{tabular}{!{\color{numpexgray}\vrule}rl!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}
+        \multicolumn{2}{c}{\color{white}\bf Element computed} & \multicolumn{3}{c}{\color{white}\bf Computational time}  & \multicolumn{3}{c}{\color{white}\bf Speedup}\\
+        \rowcolor{numpexgray}
+        \multicolumn{2}{c}{}                                  & \color{white}\bf \texttt{np = 12} & \color{white}\bf \texttt{np = 64}   & \color{white}\bf \texttt{np = 128} & \color{white}\bf \texttt{np = 12} & \color{white}\bf \texttt{np = 12} & \color{white}\bf \texttt{np = 128} \\
+        \rowcolor{numpexlightergray}
+        Fine snapshots         & $u_h^\mathcal{N}$            & \qty{13.6}{\second}     & \qty{4.79}{\second} & \qty{2.38e+00}{\second} & --   & 2.84  & 5.71 \\
+        Coarse snapshots       & $u_H^\mathcal{N}$            & \qty{2.77e+00}{\second} & \qty{1.10}{\second} & \qty{0.859}{\second}    & 4.90 & 12.36 & 15.83 \\
+        \rowcolor{numpexlightergray}
+        NIRB w/o rectification & $u_{Hh}^{N,\text{NoRect}}$   & \qty{3.190}{\second}    & \qty{1.309}{\second} & \qty{1.0687}{\second}   & 4.26 & 10.39 & 12.73 \\
+        NIRB w/ rectification  & $u_{Hh}^{N,\text{Rect}}$     & \qty{3.203}{\second}    & \qty{1.311}{\second} & \qty{1.0691}{\second}   & 4.25 & 10.37 & 12.72 \\
+        \hline
+    \end{tabular}}
+    \caption{Time of execution and associated speedup to run the NIRB method for the 3D eye-model with $P_2$ discretization, mean over 64 parameters.}
+    \label{tab:feelpp:wp2:eye:nirb}
+    \end{subtable}
+    \caption{Execution times and speedup for the heat transfer problem in the eye using \ac{RB} and \ac{NIRB}.}
+    \label{tab:feelpp:wp2:eye}
 \end{table}
 
 
