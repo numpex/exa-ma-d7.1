@@ -47,7 +47,7 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Feelpp:summary}
 
-In~\cref{tab:WP1:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -229,24 +229,44 @@ Thermo Electric coupling in a complex geometry.
 \newcommand{\vct}[1]{\vec{#1}}
 \newcommand{\mat}[1]{\underline{\underline{#1}}}
 
-Steady Conjuguate Heat Transfer in a complex geometry.
+
+% \emph{enlever tous les détails, et laisser les références, expliciter la liste de maillage et la machine où est faite le bench, et la mise en donnée (paramètrisation)}
+
+% \emph{dans wp3: parler du préconditionner}
 
 
-\emph{enlever tous les détails, et laisser les références, expliciter la liste de maillage et la machine où est faite le bench, et la mise en donnée (paramètrisation)}
-
-\emph{dans wp3: parler du préconditionner}
-
-
-
-We present a model simulating the aqueous humor (AH) flow in the posterior and anterior chambers of the eye, coupled with the overall heat transfer in the eye, adapted from~\cite{ooi_simulation_2008,kilgour_operator_2021}.
+\paragraph{Description}
+This benchmark models the steady aqueous humor (AH) flow in the posterior and anterior chambers of the human eyeball, coupled with the overall heat transfer, adapted from~\cite{ooi_simulation_2008,kilgour_operator_2021}.
 The full model description is available in~\cite{saigre_coupled_2024}.
+It it run with the toolbox \texttt{heatfluid} of \Feelpp.
 
 
-We generate a family of meshes to perform further analysis.
-To that extent, we build five meshes through the process described in~\cite{chabannes_3d_2024}, denoted \texttt{Mr0} to \texttt{Mr6}, with an increasing number of elements.
-We present in \Cref{tab:coupled:mesh} the characteristics of these meshes.
-All these meshes, as weel as the configuration files necessary to run the simulations are available online~\cite{saigre_mesh_2024}.
+\paragraph{Benchmarking Tools Used}
 
+The following tools were used for performance profiling and analysis:
+\begin{itemize}
+    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time.
+    \item \textbf{Gaya}: the benchmark was performed on the Gaya supercomputer (see \Cref{sec:arch:gaya}).
+\end{itemize}
+
+The metrics measured are the execution time to:
+\begin{inparaenum}[\it (i)]
+    \item load and initialize the mesh that is already partitionned on the disk,
+    \item initialize the data structures,
+    \item solve the non-linear algebraic system, and
+    \item export the results.
+\end{inparaenum}
+
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists of a family of 3D tetrahedral meshes generated through the process described in~\cite{chabannes_3d_2024}, and denoted \texttt{Mr0} to \texttt{Mr6}, with an increasing number of elements.
+    \Cref{tab:feelpp:wp1:coupled:mesh} presents the characteristics of these meshes.
+    The input data also provides the configuration files necessary to run the simulations.
+    \item \textbf{Output Data:} The output includes the computed temperature, velocity, and pressure fields for each mesh, stored in HDF5 format, as weel as the time taken to perform each step of the simulation.
+    \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository \cite{saigre_mesh_2024}, accessible through DOI: \href{https://doi.org/10.5281/ZENODO.13886143}{10.5281/ZENODO.13886143}.
+\end{itemize}
 
 
 \begin{table}[h!]
@@ -256,8 +276,9 @@ All these meshes, as weel as the configuration files necessary to run the simula
     \arrayrulecolor{numpexgray}
     {\fontsize{9}{11}\selectfont
     \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\color{white}\bf M} & {\color{white}\bf $h_\text{min}$} & {\color{white}\bf $h_\text{max}$} & {\color{white}\bf $h_\text{mean}$} & {\color{white}\bf \# elements} & \multicolumn{3}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
-        \rowcolor{numpexgray} & & & & & {\color{white}\bf $T$} & {\color{white}\bf $\vct{u}$} & {\color{white}\bf $p$} \\
+        \rowcolor{numpexgray}
+        \multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties} & \multicolumn{3}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
+        \rowcolor{numpexgray}{\color{white}\bf Tag} & {\color{white}\bf $h_\text{min}$} & {\color{white}\bf $h_\text{max}$} & {\color{white}\bf $h_\text{mean}$} & {\color{white}\bf \# elements} & {\color{white}\bf $T$} & {\color{white}\bf $\vct{u}$} & {\color{white}\bf $p$} \\
         \texttt{Mr0} & \pgfmathprintnumber{1.247583e-04} & \pgfmathprintnumber{3.997611e-03} & \pgfmathprintnumber{9.227331e-04} & \pgfmathprintnumber{191939} & \pgfmathprintnumber{37470} & \pgfmathprintnumber{84966} & \pgfmathprintnumber{4615} \\
         \rowcolor{numpexlightergray}
         \texttt{Mr1} & \pgfmathprintnumber{1.367312e-04} & \pgfmathprintnumber{3.634717e-03} & \pgfmathprintnumber{7.717604e-04} & \pgfmathprintnumber{282030} & \pgfmathprintnumber{51753} & \pgfmathprintnumber{116709} & \pgfmathprintnumber{6155} \\
@@ -271,8 +292,19 @@ All these meshes, as weel as the configuration files necessary to run the simula
     \end{tabular}
     }}
     \caption{Characteristics of meshes used for the convergence study and number of degrees of freedom for temperature $T$, velocity $\vct{u}$, and pressure fields $p$, with the discretization $P_1\text{--}P_2P_1$.}%
-    \label{tab:coupled:mesh}
+    \label{tab:feelpp:wp1:coupled:mesh}
 \end{table}
+
+
+\paragraph{Results Summary}
+
+The results of the benchmark are summarized in~\Cref{fig:feelpp:wp1:coupled:time} and~\Cref{fig:feelpp:wp1:coupled:time-rel},
+showing the computational time and relative computational time for each component of the simulation, respectively.
+The restuls are presented for the three biggest meshed of the familly, namely \texttt{Mr4}, \texttt{Mr5}, and \texttt{Mr6}.
+Note that for \texttt{Mr6}, the sumulation was not completed on 1 node (128 cores) due to memory limitations.
+
+We observe that the resolution of the non-linear algebraic system is the most time-consuming part of the simulation, followed by the assembly of the linear system.
+Moreover, even though the relative time is globally similar when the number of cores is increased, we note a diminution of the absolute time for various components of the simulation, except for the Post process part, writing the results on the disk.
 
 \iffalse
 \pgfplotstableread{\currfiledir/data/heatfluid-time-data.dat}\data
@@ -364,13 +396,13 @@ All these meshes, as weel as the configuration files necessary to run the simula
     \centering
     \begin{tikzpicture}
         \begin{axis}[
-            width=\textwidth, height=8cm,
+            width=0.97\textwidth, height=8cm,
             xlabel={Nproc}, ylabel={Computational time [s]},
             xtick={0,1,2,3,4,5}, xticklabels={128,256,384,512,640,768},
-            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1},
             ymajorgrids=true, yminorgrids=true,
             bar width=7pt, ybar stacked,
-            ymode=log,
+            % ymode=log,
             % title={Computational time for the 3D case},
         ]
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\dataMQuatre};
@@ -403,6 +435,7 @@ All these meshes, as weel as the configuration files necessary to run the simula
         \end{axis}
         \end{tikzpicture}
     \caption{Computational time for the coupled heat-fluid testcase, performed on Gaya with the meshes \texttt{Mr4} (left), \texttt{Mr5} (middle) and \texttt{Mr6} (right).}
+    \label{fig:feelpp:wp1:coupled:time}
 \end{figure}
 
 
@@ -411,10 +444,10 @@ All these meshes, as weel as the configuration files necessary to run the simula
 
     \begin{tikzpicture}
         \begin{axis}[
-            width=\textwidth, height=8cm,
+            width=0.97\textwidth, height=8cm,
             xlabel={Nproc}, ylabel={Relative computational time [\%]},
             xtick={0,1,2,3,4,5}, xticklabels={128,256,384,512,640,768},
-            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1},
             ymajorgrids=true, yminorgrids=true,
             bar width=7pt, ybar stacked,
             ymin=0, ymax=100,
@@ -469,7 +502,18 @@ All these meshes, as weel as the configuration files necessary to run the simula
     \end{tikzpicture}
 
     \caption{Relative time spent in each component of the computation for the coupled heat-fluid testcase, performed on Gaya with the meshes \texttt{Mr4} (left), \texttt{Mr5} (middle) and \texttt{Mr6} (right).}
+    \label{fig:feelpp:wp1:coupled:time-rel}
 \end{figure}
+
+
+\paragraph{Challenges Identified}
+Several challenges were encountered during the benchmarking process:
+\begin{itemize}
+    \item \textbf{Memory Usage:}
+    \item \textbf{Parallelization Inefficiencies:}
+    \item \textbf{Cache and Memory Bottlenecks:}
+\end{itemize}
+
 
 
 \subsubsection{Benchmark \#5: Contact Mechanics}
@@ -488,7 +532,7 @@ In this section, describe the roadmap for improving benchmarks and addressing th
     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{itemize}
 
-In~\cref{tab:WP1:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+In~\Cref{tab:WP1:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
     \centering

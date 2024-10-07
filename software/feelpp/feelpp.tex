@@ -46,19 +46,19 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:Feelpp:summary}
-\Feelpp is a C++ framework for multiphysics simulations based on the finite element method. 
-It is designed to handle complex simulations in a wide variety of fields, including fluid dynamics, electromagnetism, and solid mechanics. 
+\Feelpp is a C++ framework for multiphysics simulations based on the finite element method.
+It is designed to handle complex simulations in a wide variety of fields, including fluid dynamics, electromagnetism, and solid mechanics.
 It focuses on high-performance computing and reproducibility in scientific computation.
 
 \subsection{Purpose}
 \label{sec:Feelpp:purpose}
-\Feelpp aims to provide a flexible and efficient environment for conducting finite element analysis in multiple scientific domains. 
+\Feelpp aims to provide a flexible and efficient environment for conducting finite element analysis in multiple scientific domains.
 It allows for the rapid prototyping of numerical models and is built with parallel computing in mind to scale on modern HPC architectures.
 
 \subsection{Programming and Computational Environment}
 \label{sec::Feelpp:environment_capabilities}
 
-The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Feelpp, providing a view of its programming and computational capabilities.
+The~\Cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Feelpp, providing a view of its programming and computational capabilities.
 
 %% \begin{table}[h!]
 %% %%    \centering
@@ -71,18 +71,18 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
 %%         \rowcolor{gray}\textbf{\color{white}Category} & \textbf{\color{white}Details} & \textbf{\color{white}Description} \\
 %%         \hline
 %%         \endfirsthead % End of the first head (the header for the first page)
-%%         
+%%
 %%         \hline
 %%         \rowcolor{gray}\textbf{Category} & \textbf{Details} & \textbf{Description} \\
 %%         \hline
 %%         \endhead % End of the head (for all other pages)
-%%         
+%%
 %%         \hline
 %%         \endfoot % Footer for all but the last page
-%%         
+%%
 %%         \hline
 %%         \endlastfoot % Footer for the last page
-%% 
+%%
 %%         \rowcolor{white}Languages  & \begin{tabular}{l}
 %% C++\\
 %% C++17\\
@@ -147,31 +147,31 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
         \rowcolor{gray}\textbf{\color{white}Category} & \textbf{\color{white}Details} & \textbf{\color{white}Description} \\
         \hline
         \endfirsthead % End of the first head (the header for the first page)
-        
+
         \hline
         \rowcolor{gray}\textbf{\color{white}Category} & \textbf{\color{white}Details} & \textbf{\color{white}Description} \\
         \hline
         \endhead % End of the head (for all other pages)
-        
+
         \hline
         \endfoot % Footer for all but the last page
-        
+
         \hline
         \endlastfoot % Footer for the last page
-    
+
         \rowcolor{white}Languages  & \begin{tabular}{l}
                 C++\\
                 C++17\\
                 C++20\\
                 Python\\
                 \end{tabular} & \Feelpp is primarily developed in C++ and supports modern C++ standards, including C++17 and C++20, which provide enhanced performance and safety features for high-performance computing applications. It also integrates with Python for scripting capabilities. \\
-        
+
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
                 MPI\\
                 Parallelism - C++\\
                 Task based\\
                 \end{tabular} & \Feelpp offers robust support for parallel computing, utilizing MPI for distributed memory parallelism and implementing task-based parallelism to improve load balancing and resource usage. \\
-        
+
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
                 Data-management system\\
                 Ensight\\
@@ -182,14 +182,14 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
                 YAML\\
                 in-house format\\
                 \end{tabular} & \Feelpp supports various data formats for efficient data sharing and reuse, aligning with the FAIR principles. \\
-        
+
         \rowcolor{numpexlightergray}Resilience  & Checkpoint restart & \Feelpp provides resilience support through checkpoint restart functionality. This allows simulations to save their state at specific points, enabling recovery from failures without restarting from the beginning. Binary in-house formats are used for fast restarts, ensuring minimal downtime and efficient continuation of long-running computations, especially on large-scale HPC systems.\\
-        
+
         \rowcolor{white}DevOps & \begin{tabular}{l} Continuous Benchmarking\\
                 Continuous Delivery\\
                 Continuous Integration\\
-                \end{tabular} & \Feelpp is developped on GitHub and uses GitHub Actions workflows to ensure the quality of the developments. The main branch is protected and only accepted reviewed PR can be merged. \Feelpp is not only rebuilt by the CI but also tests are run.  Upon merge, a packaging workflow is trigerred to generate Debian-based packages as well as Docker and Apptainer images. Once Apptainer images are available, benchmarks are trigerred on super computer to check the performances, see~\cref{feelpp-ci} and~\cref{feelpp-cb} for a graphical representation.\\ 
-        
+                \end{tabular} & \Feelpp is developped on GitHub and uses GitHub Actions workflows to ensure the quality of the developments. The main branch is protected and only accepted reviewed PR can be merged. \Feelpp is not only rebuilt by the CI but also tests are run.  Upon merge, a packaging workflow is trigerred to generate Debian-based packages as well as Docker and Apptainer images. Once Apptainer images are available, benchmarks are trigerred on super computer to check the performances, see~\Cref{feelpp-ci} and~\Cref{feelpp-cb} for a graphical representation.\\
+
         \rowcolor{numpexlightergray}Packaging  & Debian, Fedora, Spack, Ubuntu & Debian-based systems: Available via the APT repository at \href{https://apt.feelpp.org}{apt.feelpp.org}. Detailed installation instructions can be found in the documentation: \href{https://docs.feelpp.org/user/latest/install/index.html}{\Feelpp Installation Guide}.
         Fedora: Distributed via Docker images, simplifying deployment in containerized environments.
         Spack: Supported by Spack for high-performance computing environments, with a mirror available at \href{https://ghcr.io/feelpp/spack}{ghcr.io/feelpp/spack}.
@@ -199,10 +199,10 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
                 Unit\\
                 Validation\\
                 Verification\\
-                \end{tabular} & \Feelpp includes a comprehensive suite of nearly 1,000 tests executed via ctest. These tests correspond to applications run both sequentially and in parallel. In most cases, applications are tested in both modes; only on very rare occasions are they run exclusively in either sequential or parallel mode. Each application contains numerous tests that perform unit testing or verify expected mathematical properties. To detect excessive execution time regressions, timeouts are configured for the tests. Finally, some tests are mini-applications or benchmarks that perform verification or validation against reference results.\\        
+                \end{tabular} & \Feelpp includes a comprehensive suite of nearly 1,000 tests executed via ctest. These tests correspond to applications run both sequentially and in parallel. In most cases, applications are tested in both modes; only on very rare occasions are they run exclusively in either sequential or parallel mode. Each application contains numerous tests that perform unit testing or verify expected mathematical properties. To detect excessive execution time regressions, timeouts are configured for the tests. Finally, some tests are mini-applications or benchmarks that perform verification or validation against reference results.\\
 
         \rowcolor{numpexlightergray}Containerization  & Docker, Singularity & \Feelpp supports Docker and Apptainer/Singularity containers built either from source or from Debian-based packages. Both container type images are stored on \url{https://ghcr.io/feelpp/feelpp}. Images with tags containing \texttt{-sif} appended are apptainer images, the other ones are docker images. \\
-        
+
         \rowcolor{white}Interfaces  &\begin{tabular}{l}
                 Dymola/OpenModelica/FMU\\
                 hpddm\\
@@ -214,13 +214,13 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
                 Scimba
                 \end{tabular} & \Feelpp can easily be interfaced with various software thanks to the use of standard open formats and a flexible \Cpp design.\\
 
-               
+
     \end{longtable}
     }
 
 
 
-    The~\cref{fig:feelpp-ci} shows the \Feelpp Continuous Integration Workflow using GitHub Actions.
+    The~\Cref{fig:feelpp-ci} shows the \Feelpp Continuous Integration Workflow using GitHub Actions.
     \begin{figure}
         \centering
         \includegraphics[width=0.8\textwidth]{graphics/feelpp/feelpp-ci-workflow.png}
@@ -228,7 +228,7 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
         \label{fig:feelpp-ci}
     \end{figure}
 
-    The~\cref{fig:feelpp-cb} shows the \Feelpp Continuous Benchmarking Workflow using GitHub Actions and Reframe which is quite close to the methodology described in~\cref{sec:methodology-regression-reframe}.
+    The~\Cref{fig:feelpp-cb} shows the \Feelpp Continuous Benchmarking Workflow using GitHub Actions and Reframe which is quite close to the methodology described in~\Cref{sec:methodology-regression-reframe}.
     \begin{figure}
         \centering
         \includegraphics[width=0.8\textwidth]{graphics/feelpp/feelpp-cb-workflow.png}
@@ -238,10 +238,10 @@ The~\cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
 
 \subsection{Mathematics}
 \label{sec:Feelpp:mathematics}
-\Feelpp is based on the finite element method (FEM), which is used for solving partial differential equations (PDEs) in complex geometries. 
+\Feelpp is based on the finite element method (FEM), which is used for solving partial differential equations (PDEs) in complex geometries.
 It leverages advanced numerical techniques to ensure accuracy and scalability, including adaptive mesh refinement, domain decomposition, and error estimation.
 
-The~\cref{fig:Feelpp:components} shows the main components of \Feelpp, including the finite element method, mesh generation, solvers but also the components that will be tested in the benchmarks of this deliverable.
+The~\Cref{fig:Feelpp:components} shows the main components of \Feelpp, including the finite element method, mesh generation, solvers but also the components that will be tested in the benchmarks of this deliverable.
 
 \begin{figure}
         \input{graphics/feelpp/feelpp-components.tikz}
@@ -258,11 +258,12 @@ Relevant publications include:
         \item[\fullcite{van_landeghem_mathematical_2024}] The paper \emph{Mathematical and computational framework for moving and colliding rigid bodies in a Newtonian fluid} (2024) presents a mathematical model and computational strategy to simulate the dynamics of moving and colliding rigid bodies within a Newtonian fluid. This work focuses on accurately modeling fluid-structure interactions as a step towards simulating micro-swimmers.
         \item[\fullcite{saigre_model_2024}] The paper \emph{Model Order Reduction and Sensitivity Analysis for Complex Heat Transfer Simulations Inside the Human Eyeball}, presents advanced computational methods to simulate heat transfer processes within the human eye. The authors use reduced-order modeling to improve the efficiency and accuracy of these simulations, contributing to better insights in biomedical engineering through advanced analysis and in particular sensitivity analysis.;
         \item[\fullcite{prudhomme_ktirio_2024}] The paper \emph{Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by CI/CD Innovations on EuroHPC Systems} (2024) presents a high-performance computational framework designed to support the European Union's Horizon 2050 initiative by improving energy consumption in buildings at city scale and beyond. The framework, known as Ktirio Urban Building (KUB), leverages Continuous Integration/Continuous Deployment (CI/CD) innovations to streamline large-scale city energy simulations on EuroHPC JU supercomputers.
+        \item[\fullcite{saigre_coupled_2024}] The paper \emph{A coupled fluid-dynamics-heat transfer model for 3D simulations of the aqueous humor flow in the human eye} presents a coupled fluid-dynamics-heat transfer model to simulate the flow of aqueous humor in the human eye, providing insights into the impact of the postural orientation of the patient on the fluid dynamics and heat transfer processes within the eye.
 \end{description}
 
 \subsection{Acknowledgements}
 \label{sec::Feelpp:acknowledgements}
-The software has been developed with the support of the following funding agencies and institutions through various research projects: 
+The software has been developed with the support of the following funding agencies and institutions through various research projects:
 \begin{itemize}
    \item Université de Strasbourg
    \item CNRS
