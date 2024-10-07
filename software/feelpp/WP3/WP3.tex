@@ -1,5 +1,6 @@
-\section{Software: Feel++}
-\label{sec:WP3:Feel++:software}
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{Software: \Feelpp}
+\label{sec:WP3:Feelpp:software}
 
 \begin{table}[h!]
     \centering
@@ -10,7 +11,7 @@
     \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-Feel++ Consortium\\
+\Feelpp Consortium\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
 CNRS\\
@@ -40,13 +41,13 @@ B7 - Exascale Algorithms\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{WP3: Feel++ Information}
+    \caption{WP3: \Feelpp Information}
 \end{table}
 
 \subsection{Software Overview}
-\label{sec:WP3:Feel++:summary}
+\label{sec:WP3:Feelpp:summary}
 
-In~\cref{tab:WP3:Feel++:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+In~\cref{tab:WP3:Feelpp:features} we provide the summary of the \Feelpp features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -60,31 +61,27 @@ In~\cref{tab:WP3:Feel++:features} we provide a summary of the software features 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    algebraic multiphysics coupling & provide short description here \\
-\rowcolor{numpexlightergray}    domain decomposition methods & provide short description here \\
+\rowcolor{white}    algebraic multiphysics coupling & In \Feelpp, algebraic multiphysics coupling is achieved through the fieldsplit PETSc preconditioner. This allows the construction of block preconditioners, leveraging both PETSc’s built-in preconditioners and in-house preconditioners designed for specific applications, such as computational fluid dynamics (CFD) and magnetostatic problems. These preconditioners enhance the solver's performance for coupled systems by efficiently handling the interaction between different physical fields. \\
+\rowcolor{numpexlightergray}    domain decomposition methods & \Feelpp provides support for domain decomposition methods, such as hp-mortar methods. These methods utilize specialized preconditioners that exploit the structure of mortar elements to improve solver efficiency. The hp-mortar approach allows for flexible discretization and is particularly useful for non-conforming meshes and multi-domain problems, enhancing both scalability and accuracy in large-scale simulations. \\
 \end{tabular}
         }
     }
-    \caption{WP3: Feel++ Features}
-    \label{tab:WP3:Feel++:features}
+    \caption{WP3: \Feelpp Features}
+    \label{tab:WP3:Feelpp:features}
 \end{table}
 
 
 \subsection{Parallel Capabilities}
-\label{sec:WP3:Feel++:performances}
+\label{sec:WP3:Feelpp:performances}
 
-
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
-
+\begin{description}
+    \item[Parallel Environment:] MPI.
+    \item[Architectures] CPU Only: Gaya~\cref{sec:arch:gaya} and almost all JU systems~\cref{sec:arch:eurohpc-ju} except Marenostrum 5 and Deucalion.
+    \item[Scalability] Only Speedups are measured
+\end{description}
 
 \subsection{Initial Performance Metrics}
-\label{sec:WP3:Feel++:metrics}
+\label{sec:WP3:Feelpp:metrics}
 
 This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
@@ -102,22 +99,78 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+\subsubsection{Benchmark \#1: Laplacian and Linear Elasticity}
+\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+
+\paragraph{Input/Output Dataset Description:}
+\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+\subsubsection{Benchmark \#2: Heat flows and temperature surfaces}
+
+\fullcite{noauthor_iso_2017}
+\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+
+\paragraph{Input/Output Dataset Description:}
+\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+\subsubsection{Benchmark \#3: CFD FDA Benchmark}
+
+\fullcite{chabannes_high_2017}
+\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+
+\paragraph{Input/Output Dataset Description:}
+\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+\subsubsection{Benchmark \#4: Conjuguate heat transfer}
+
+\fullcite{saigre_coupled_2024}
+\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+
+\paragraph{Input/Output Dataset Description:}
+\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
 \subsection{12-Month Roadmap}
-\label{sec:WP3:Feel++:roadmap}
+\label{sec:WP3:Feelpp:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
@@ -126,7 +179,7 @@ In this section, describe the roadmap for improving benchmarks and addressing th
     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{itemize}
 
-In~\cref{tab:WP3:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+In~\cref{tab:WP3:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
     \centering
@@ -153,6 +206,6 @@ In~\cref{tab:WP3:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap 
 \end{tabular}
         }
     }
-    \caption{WP3: Feel++ plan with Respect to Relevant Bottlenecks}
-    \label{tab:WP3:Feel++:bottlenecks}
+    \caption{WP3: \Feelpp plan with Respect to Relevant Bottlenecks}
+    \label{tab:WP3:Feelpp:bottlenecks}
 \end{table}

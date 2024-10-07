@@ -1,5 +1,6 @@
-\section{Software: Feel++}
-\label{sec:WP2:Feel++:software}
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{Software: \Feelpp}
+\label{sec:WP2:Feelpp:software}
 
 \begin{table}[h!]
     \centering
@@ -10,7 +11,7 @@
     \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-Feel++ Consortium\\
+\Feelpp Consortium\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
 CNRS\\
@@ -40,13 +41,13 @@ B7 - Exascale Algorithms\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{WP2: Feel++ Information}
+    \caption{WP2: \Feelpp Information}
 \end{table}
 
 \subsection{Software Overview}
-\label{sec:WP2:Feel++:summary}
+\label{sec:WP2:Feelpp:summary}
 
-In~\cref{tab:WP2:Feel++:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+In~\cref{tab:WP2:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -69,13 +70,13 @@ In~\cref{tab:WP2:Feel++:features} we provide a summary of the software features 
 \end{tabular}
         }
     }
-    \caption{WP2: Feel++ Features}
-    \label{tab:WP2:Feel++:features}
+    \caption{WP2: \Feelpp Features}
+    \label{tab:WP2:Feelpp:features}
 \end{table}
 
 
 \subsection{Parallel Capabilities}
-\label{sec:WP2:Feel++:performances}
+\label{sec:WP2:Feelpp:performances}
 
 
 \begin{itemize}
@@ -88,7 +89,7 @@ In~\cref{tab:WP2:Feel++:features} we provide a summary of the software features 
 
 
 \subsection{Initial Performance Metrics}
-\label{sec:WP2:Feel++:metrics}
+\label{sec:WP2:Feelpp:metrics}
 
 This section provides a summary of initial performance benchmarks performed in the context of WP2. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
@@ -106,7 +107,7 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
+\subsubsection{Benchmark \#1: Heat transfer in the eye using \ac{RB} and \ac{NIRB}}
 \begin{itemize}
     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
@@ -120,8 +121,25 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
+\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors. In~\cite{saigre_mathematical_2024}, we extend the reduced order model to include non-intrusive reduced basis methods. The benchmark assesses the software's performance in simulating heat transfer in the eye using these two methods.
+
+\paragraph{Benchmarking Tools Used:} We used \Feelpp to monitor the time spent in the various section of the code, including the reduced basis generation and the non-intrusive reduced basis method. We measured the execution time, memory usage, and FLOPS to assess the software's performance.
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{description}
+    \item[Input Data:] Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+    \item[Output Data:] Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+    \item[Data Repository:] Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+\end{description}
+
+\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+
 \subsection{12-Month Roadmap}
-\label{sec:WP2:Feel++:roadmap}
+\label{sec:WP2:Feelpp:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
@@ -130,7 +148,7 @@ In this section, describe the roadmap for improving benchmarks and addressing th
     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{itemize}
 
-In~\cref{tab:WP2:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+In~\cref{tab:WP2:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
     \centering
@@ -157,6 +175,6 @@ In~\cref{tab:WP2:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap 
 \end{tabular}
         }
     }
-    \caption{WP2: Feel++ plan with Respect to Relevant Bottlenecks}
-    \label{tab:WP2:Feel++:bottlenecks}
+    \caption{WP2: \Feelpp plan with Respect to Relevant Bottlenecks}
+    \label{tab:WP2:Feelpp:bottlenecks}
 \end{table}

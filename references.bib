@@ -1,43 +1,175 @@
 
-@inproceedings{haidar_harnessing_2018,
-	location = {Dallas, {TX}, {USA}},
-	title = {Harnessing {GPU} Tensor Cores for Fast {FP}16 Arithmetic to Speed up Mixed-Precision Iterative Refinement Solvers},
-	isbn = {978-1-5386-8384-2},
-	url = {https://ieeexplore.ieee.org/document/8665777/},
-	doi = {10.1109/SC.2018.00050},
-	eventtitle = {{SC}18: International Conference for High Performance Computing, Networking, Storage and Analysis},
-	pages = {603--613},
-	booktitle = {{SC}18: International Conference for High Performance Computing, Networking, Storage and Analysis},
-	publisher = {{IEEE}},
-	author = {Haidar, Azzam and Tomov, Stanimire and Dongarra, Jack and Higham, Nicholas J.},
-	urldate = {2024-06-28},
-	date = {2018-11},
-	file = {Full Text:files/682/Haidar et al. - 2018 - Harnessing GPU Tensor Cores for Fast FP16 Arithmet.pdf:application/pdf},
+
+@article{saikali_highly_2019,
+	title = {Highly resolved large eddy simulations of a binary mixture flow in a cavity with two vents: {Influence} of the computational domain},
+	volume = {44},
+	issn = {03603199},
+	shorttitle = {Highly resolved large eddy simulations of a binary mixture flow in a cavity with two vents},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0360319918326521},
+	doi = {10.1016/j.ijhydene.2018.08.108},
+	language = {en},
+	number = {17},
+	urldate = {2024-10-06},
+	journal = {International Journal of Hydrogen Energy},
+	author = {Saikali, E. and Bernard-Michel, G. and Sergent, A. and Tenaud, C. and Salem, R.},
+	month = apr,
+	year = {2019},
+	keywords = {trust},
+	pages = {8856--8873},
 }
 
-@misc{ootomo_dgemm_2024,
-	title = {{DGEMM} on Integer Matrix Multiplication Unit},
-	url = {http://arxiv.org/abs/2306.11975},
-	abstract = {Deep learning hardware achieves high throughput and low power consumption by reducing computing precision and specializing in matrix multiplication. For machine learning inference, fixed-point value computation is commonplace, where the input and output values and the model parameters are quantized. Thus, many processors are now equipped with fast integer matrix multiplication units ({IMMU}). It is of significant interest to find a way to harness these {IMMUs} to improve the performance of {HPC} applications while maintaining accuracy. We focus on the Ozaki scheme, which computes a high-precision matrix multiplication by using lower-precision computing units, and show the advantages and disadvantages of using {IMMU}. The experiment using integer Tensor Cores shows that we can compute double-precision matrix multiplication faster than {cuBLAS} and an existing Ozaki scheme implementation on {FP}16 Tensor Cores on {NVIDIA} consumer {GPUs}. Furthermore, we demonstrate accelerating a quantum circuit simulation by up to 4.33 while maintaining the {FP}64 accuracy.},
-	number = {{arXiv}:2306.11975},
-	publisher = {{arXiv}},
-	author = {Ootomo, Hiroyuki and Ozaki, Katsuhisa and Yokota, Rio},
-	urldate = {2024-06-28},
-	date = {2024-03-30},
-	eprinttype = {arxiv},
-	eprint = {2306.11975 [cs]},
-	keywords = {Computer Science - Distributed, Parallel, and Cluster Computing},
-	file = {arXiv Fulltext PDF:files/685/Ootomo et al. - 2024 - DGEMM on Integer Matrix Multiplication Unit.pdf:application/pdf;arXiv.org Snapshot:files/686/2306.html:text/html},
+@article{angeli_wall-resolved_2022,
+	title = {Wall-{Resolved} {Large} {Eddy} {Simulations} of the {Transient} {Turbulent} {Fluid} {Mixing} in a {Closed} {System} {Replicating} a {Pressurized} {Thermal} {Shock}},
+	volume = {108},
+	issn = {1386-6184, 1573-1987},
+	url = {https://link.springer.com/10.1007/s10494-021-00272-z},
+	doi = {10.1007/s10494-021-00272-z},
+	language = {en},
+	number = {1},
+	urldate = {2024-10-06},
+	journal = {Flow, Turbulence and Combustion},
+	author = {Angeli, Pierre-Emmanuel},
+	month = jan,
+	year = {2022},
+	keywords = {trust},
+	pages = {43--75},
 }
 
-@software{prudhomme_feelppfeelpp_2024,
-	title = {feelpp/feelpp: Feel++ Release V111 preview.10},
-	rights = {Creative Commons Attribution 4.0 International, {GNU} Lesser General Public License v3.0 or later, {GNU} General Public License v3.0 or later},
-	url = {https://zenodo.org/doi/10.5281/zenodo.591797},
+@article{calvin_object-oriented_2002,
+	title = {An object-oriented approach to the design of fluid mechanics software},
+	volume = {36},
+	issn = {0764-583X, 1290-3841},
+	url = {http://www.esaim-m2an.org/10.1051/m2an:2002038},
+	doi = {10.1051/m2an:2002038},
+	number = {5},
+	urldate = {2024-10-06},
+	journal = {ESAIM: Mathematical Modelling and Numerical Analysis},
+	author = {Calvin, Christophe and Cueto, Olga and Emonot, Philippe},
+	month = sep,
+	year = {2002},
+	keywords = {trust},
+	pages = {907--921},
+}
+
+@article{chouly_explicit_2018,
+	title = {Explicit {Verlet} time-integration for a {Nitsche}-based approximation of elastodynamic contact problems},
+	volume = {5},
+	journal = {Advanced Modeling and Simulation in Engineering Sciences},
+	author = {Chouly, Franz and Renard, Yves},
+	year = {2018},
+	note = {Publisher: Springer},
+	pages = {1--38},
+}
+
+@misc{balay_petsc_2024,
+	title = {{PETSc} {Web} page},
+	url = {https://petsc.org/},
+	author = {Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Benson, Steven and Brown, Jed and Brune, Peter and Buschelman, Kris and Constantinescu, Emil M. and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Faibussowitsch, Jacob and Gropp, William D. and Hapla, Václav and Isaac, Tobin and Jolivet, Pierre and Karpeev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and Kong, Fande and Kruger, Scott and May, Dave A. and McInnes, Lois Curfman and Mills, Richard Tran and Mitchell, Lawrence and Munson, Todd and Roman, Jose E. and Rupp, Karl and Sanan, Patrick and Sarich, Jason and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong and Zhang, Junchao},
+	year = {2024},
+}
+
+@phdthesis{saigre_mathematical_2024,
+	address = {Strasbourg, France},
+	type = {{PhD}},
+	title = {Mathematical modeling, simulation, and order reduction of ocular fluid flows and their interactions: {Building} the digital twin of the eye},
+	author = {Saigre, Thomas},
+	month = dec,
+	year = {2024},
+	note = {In preparation},
+	keywords = {aqueous humor, heat transfer, model reduction, ocular fluid dynamics, reduced basis method, sensitivity analysis},
+}
+
+@article{bruna_neural_2024,
+	title = {Neural {Galerkin} schemes with active learning for high-dimensional evolution equations},
+	volume = {496},
+	issn = {0021-9991},
+	doi = {10.1016/j.jcp.2023.112588},
+	journal = {Journal of Computational Physics},
+	author = {Bruna, J. and Peherstorfer, B. and Vanden-Eijnden, E.},
+	year = {2024},
+	note = {Publisher: Elsevier BV},
+	pages = {112588},
+}
+
+@article{lu_learning_2021,
+	title = {Learning nonlinear operators via {DeepONet} based on the universal approximation theorem of operators},
+	volume = {3},
+	issn = {2522-5839},
+	doi = {10.1038/s42256-021-00302-5},
+	number = {3},
+	journal = {Nat. Mach. Intell.},
+	author = {Lu, L. and Jin, P. and Pang, G. and Zhang, Z. and Karniadakis, G. E.},
+	year = {2021},
+	note = {Publisher: Springer Science and Business Media LLC},
+	pages = {218--229},
+}
+
+@article{karniadakis_physics-informed_2021,
+	title = {Physics-informed machine learning},
+	volume = {3},
+	issn = {2522-5820},
+	doi = {10.1038/s42254-021-00314-5},
+	number = {6},
+	journal = {Nat. Rev. Phys.},
+	author = {Karniadakis, G. E. and Kevrekidis, I. G. and Lu, L. and Perdikaris, P. and Wang, S. and Yang, L.},
+	year = {2021},
+	note = {Publisher: Springer Science and Business Media LLC},
+	pages = {422--440},
+}
+
+@misc{saigre_mesh_2024,
+	title = {Mesh and configuration files to perform coupled heat+fluid simulations on a realistic human eyeball geometry with {Feel}++},
+	copyright = {Creative Commons Attribution 4.0 International},
+	url = {https://zenodo.org/doi/10.5281/zenodo.13886143},
+	doi = {10.5281/ZENODO.13886143},
+	abstract = {Run the simulation
+
+With slurm
+
+Set up position and desired mesh in the `run.slurm` file. Then, submit the job with the following command:
+
+sbatch run.slurm
+
+Without slurm
+
+Run by hand the command of the run.slurm file.POSITION=prone      \# prone supine standingSOLVER\_TYPE=simple  \# simple lscMESH\_INDEX=M4       \# M1 M2 M3 M4 M5
+
+mpirun -np 128 feelpp\_toolbox\_heatfluid {\textbackslash}    --config-files eye-\$\{POSITION\}.cfg pc\_\$\{SOLVER\_TYPE\}.cfg {\textbackslash}    --heat-fluid.json.patch='\{ "op": "replace", "path": "/Meshes/heatfluid/Import/filename", "value": "\$cfgdir/mesh/Mr/'\$\{MESH\_INDEX\}'/Eye\_Mesh3D\_p\$np.json" \}' {\textbackslash}    --heat-fluid.scalability-save=1 --heat-fluid.heat.scalability-save=1 --heat-fluid.fluid.scalability-save=1
+
+Available meshes
+
+The meshes are available and are already partitioned for parallel computing:
+
+M0 : 1, 64, 128, 256, 384, 512, 640, 768M1 : 1, 64, 128, 256, 384, 512, 640, 768M2 : 1, 64, 128, 256, 384, 512, 640, 768M3 : 1, 64, 128, 256, 384, 512, 640, 768M4 : 1, 64, 128, 256, 384, 512, 640, 768M5 : 1, 64, 128, 256, 384, 512, 640, 768M6 : 128, 256, 384, 512, 640, 768},
+	urldate = {2024-10-04},
+	publisher = {Zenodo},
+	author = {Saigre, Thomas and Prud'homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
+	month = oct,
+	year = {2024},
+}
+
+@incollection{baudin_openturns_2016,
+	address = {Cham},
+	title = {{OpenTURNS}: {An} {Industrial} {Software} for {Uncertainty} {Quantification} in {Simulation}},
+	isbn = {978-3-319-11259-6},
+	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
+	booktitle = {Handbook of {Uncertainty} {Quantification}},
+	publisher = {Springer International Publishing},
+	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
+	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
+	year = {2016},
+	doi = {10.1007/978-3-319-11259-6_64-1},
+	pages = {1--38},
+}
+
+@misc{prudhomme_feelppfeelpp_2024,
+	title = {feelpp/feelpp: {Feel}++ {Release} {V111} preview.10},
+	copyright = {Creative Commons Attribution 4.0 International, GNU Lesser General Public License v3.0 or later, GNU General Public License v3.0 or later},
 	shorttitle = {feelpp/feelpp},
+	url = {https://zenodo.org/doi/10.5281/zenodo.591797},
 	abstract = {🎉 We're happy to share our developments as we approach the V111 release of Feel++. Following a refreshed naming strategy, we've moved to the -preview.x suffix from the conventional -alpha.x, -beta, or -rc labels. This change signifies our dedication to enhancing transparency and setting clear expectations for our pre-release versions.
 
-Each pre-release version of Feel++ undergoes a rigorous process, encompassing detailed reviews, extensive tests across varied scenarios, and careful packaging. Our commitment to delivering a high-quality, reliable experience is reflected in our comprehensive platform support strategy. Alongside offering support for the latest two Long-Term Support ({LTS}) versions of Ubuntu and the newest {LTS} version of Debian, we're excited to announce that Feel++ is now accessible to Windows users through the Windows Subsystem for Linux ({WSL}) and to Mac users via {MacPorts}, Homebrew, Docker and now Apptainer. This expansion of platform support is a testament to our commitment to making Feel++ as accessible and versatile as possible for our diverse user base.
+Each pre-release version of Feel++ undergoes a rigorous process, encompassing detailed reviews, extensive tests across varied scenarios, and careful packaging. Our commitment to delivering a high-quality, reliable experience is reflected in our comprehensive platform support strategy. Alongside offering support for the latest two Long-Term Support (LTS) versions of Ubuntu and the newest LTS version of Debian, we're excited to announce that Feel++ is now accessible to Windows users through the Windows Subsystem for Linux (WSL) and to Mac users via MacPorts, Homebrew, Docker and now Apptainer. This expansion of platform support is a testament to our commitment to making Feel++ as accessible and versatile as possible for our diverse user base.
 
 As we continue to refine and enhance Feel++, the V111 release promises to bring forward significant innovations and improvements. Stay tuned for further updates of Feel++.
 
@@ -73,7 +205,7 @@ Exciting New Features 🎉
 
 resolve 2231 : Support parts configuration in exporter by @vincentchabannes in https://github.com/feelpp/feelpp/pull/2232
 
-resolves 1489 and 2175: enrich range object and simplify {FunctionSpace} by @prudhomm in https://github.com/feelpp/feelpp/pull/2176
+resolves 1489 and 2175: enrich range object and simplify FunctionSpace by @prudhomm in https://github.com/feelpp/feelpp/pull/2176
 
 resolves 2191 and 2196: cleanup and python wrapper for forms and implement feelpp namespace package by @prudhomm in https://github.com/feelpp/feelpp/pull/2227
 
@@ -82,7 +214,7 @@ resolves 2233: improve hdg toolbox, add new terms by @prudhomm in https://github
 resolves 2259: add script to get feelpp version and improve packaging workflow by @prudhomm in https://github.com/feelpp/feelpp/pull/2260
 
 
-{HPC} Changes
+HPC Changes
 
 
 
@@ -93,75 +225,623 @@ Recent Publications using Feel++
 
 
 
-Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by {CI}/{CD} Innovations on {EuroHPC} Systems
+Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by CI/CD Innovations on EuroHPC Systems
 
 Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem
 
-2D Axisymmetric Modeling of the {HTS} Insert Nougat in a Background Magnetic Field Generated by Resistive Magnet
+2D Axisymmetric Modeling of the HTS Insert Nougat in a Background Magnetic Field Generated by Resistive Magnet
 
 
 Enjoy!
 
 Full Changelog: https://github.com/feelpp/feelpp/compare/v0.111.0-preview.9...v0.111.0-preview.10},
-	version = {v0.111.0-preview.10},
+	urldate = {2024-09-04},
 	publisher = {Cemosis},
 	author = {Prud'homme, Christophe and Chabannes, Vincent and Saigre, Thomas and Trophime, Christophe and Berti, Luca and Samaké, Abdoulaye and Van Landeghem, Céline and Szopos, Marcela and Giraldi, Laetitia and Bertoluzza, Silvia and Maday, Yvon},
-	urldate = {2024-09-04},
-	date = {2024-07-15},
+	month = jul,
+	year = {2024},
 	doi = {10.5281/ZENODO.591797},
 }
 
-@misc{balay_petsc_2024,
-	title = {{PETSc} Web page},
-	url = {https://petsc.org/},
-	author = {Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Benson, Steven and Brown, Jed and Brune, Peter and Buschelman, Kris and Constantinescu, Emil M. and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Faibussowitsch, Jacob and Gropp, William D. and Hapla, Václav and Isaac, Tobin and Jolivet, Pierre and Karpeev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and Kong, Fande and Kruger, Scott and May, Dave A. and {McInnes}, Lois Curfman and Mills, Richard Tran and Mitchell, Lawrence and Munson, Todd and Roman, Jose E. and Rupp, Karl and Sanan, Patrick and Sarich, Jason and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong and Zhang, Junchao},
-	date = {2024},
+@misc{chabannes_3d_2024,
+	title = {A {3D} geometrical model and meshing procedures for the human eyeball},
+	copyright = {Creative Commons Attribution 4.0 International},
+	url = {https://zenodo.org/doi/10.5281/zenodo.13829740},
+	abstract = {What's Changed
+
+
+
+up README with author + sort cff by @prudhomm in https://github.com/feelpp/mesh.eye/pull/2
+
+
+New Contributors
+
+
+
+@prudhomm made their first contribution in https://github.com/feelpp/mesh.eye/pull/2
+
+
+Full Changelog: https://github.com/feelpp/mesh.eye/compare/1.0.0-preview.1...v1.0.0-preview.2},
+	urldate = {2024-10-04},
+	publisher = {Zenodo},
+	author = {Chabannes, Vincent and Prud'homme, Christophe and Saigre, Thomas and Lorenzo, Sala and Szopos, Marcela and Trophime, Christophe},
+	month = sep,
+	year = {2024},
+	doi = {10.5281/ZENODO.13829740},
 }
 
-@report{balay_petsctao_2024,
-	title = {{PETSc}/{TAO} Users Manual},
-	number = {{ANL}-21/39 - Revision 3.21},
-	institution = {Argonne National Laboratory},
-	author = {Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Benson, Steven and Brown, Jed and Brune, Peter and Buschelman, Kris and Constantinescu, Emil and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Faibussowitsch, Jacob and Gropp, William D. and Hapla, Václav and Isaac, Tobin and Jolivet, Pierre and Karpeev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and Kong, Fande and Kruger, Scott and May, Dave A. and {McInnes}, Lois Curfman and Mills, Richard Tran and Mitchell, Lawrence and Munson, Todd and Roman, Jose E. and Rupp, Karl and Sanan, Patrick and Sarich, Jason and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong and Zhang, Junchao},
-	date = {2024},
-	doi = {10.2172/2205494},
+@misc{noauthor_master-csmioverfitting-underfitting_nodate,
+	title = {master-csmi/overfitting-underfitting},
+	url = {https://github.com/master-csmi/overfitting-underfitting},
+	urldate = {2024-10-03},
 }
 
-@article{dalcin_parallel_2011,
-	title = {Parallel distributed computing using Python},
-	volume = {34},
-	issn = {0309-1708},
-	doi = {10.1016/j.advwatres.2011.04.013},
-	pages = {1124 -- 1139},
-	number = {9},
-	journaltitle = {Advances in Water Resources},
-	author = {Dalcin, Lisandro D. and Paz, Rodrigo R. and Kler, Pablo A. and Cosimo, Alejandro},
-	date = {2011},
+@article{ooi_simulation_2008,
+	title = {Simulation of aqueous humor hydrodynamics in human eye heat transfer},
+	volume = {38},
+	copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
+	issn = {00104825},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S001048250700176X},
+	doi = {10.1016/j.compbiomed.2007.10.007},
+	language = {en},
+	number = {2},
+	urldate = {2024-10-03},
+	journal = {Computers in Biology and Medicine},
+	author = {Ooi, Ean-Hin and Ng, Eddie Yin-Kwee},
+	month = feb,
+	year = {2008},
+	pages = {252--262},
 }
 
-@article{zhang_petscsf_2022,
-	title = {The {PetscSF} Scalable Communication Layer},
-	volume = {33},
-	pages = {842--853},
+@incollection{kilgour_operator_2021,
+	address = {Cham},
+	title = {Operator {Splitting} for the {Simulation} of {Aqueous} {Humor} {Thermo}-{Fluid}-{Dynamics} in the {Anterior} {Chamber}},
+	volume = {343},
+	isbn = {978-3-030-63590-9 978-3-030-63591-6},
+	url = {https://link.springer.com/10.1007/978-3-030-63591-6_45},
+	language = {en},
+	urldate = {2024-10-03},
+	booktitle = {Recent {Developments} in {Mathematical}, {Statistical} and {Computational} {Sciences}},
+	publisher = {Springer International Publishing},
+	author = {Abdelhafid, Farah and Guidoboni, Giovanna and Okumura, Naoki and Koizumi, Noriko and Srinivas, Sangly P.},
+	editor = {Kilgour, D. Marc and Kunze, Herb and Makarov, Roman and Melnik, Roderick and Wang, Xu},
+	year = {2021},
+	doi = {10.1007/978-3-030-63591-6_45},
+	note = {Series Title: Springer Proceedings in Mathematics \& Statistics},
+	pages = {489--499},
+}
+
+@article{portaneri_alpha_2022,
+	title = {Alpha {Wrapping} with an {Offset}},
+	volume = {41},
+	url = {https://inria.hal.science/hal-03688637},
+	doi = {10.1145/3528223.3530152},
+	abstract = {Given an input 3D geometry such as a triangle soup or a point set, we address the problem of generating a watertight and orientable surface triangle mesh that strictly encloses the input. The output mesh is obtained by greedily refining and carving a 3D Delaunay triangulation on an offset surface of the input, while carving with empty balls of radius alpha. The proposed algorithm is controlled via two user-defined parameters: alpha and offset. Alpha controls the size of cavities or holes that cannot be traversed during carving, while offset controls the distance between the vertices of the output mesh and the input. Our algorithm is guaranteed to terminate and to yield a valid and strictly enclosing mesh, even for defect-laden inputs. Genericity is achieved using an abstract interface probing the input, enabling any geometry to be used, provided a few basic geometric queries can be answered. We benchmark the algorithm on large public datasets such as Thingi10k, and compare it to state-of-the-art approaches in terms of robustness, approximation, output complexity, speed, and peak memory consumption. Our implementation is available through the CGAL library.},
+	language = {en},
 	number = {4},
-	journaltitle = {{IEEE} Transactions on Parallel and Distributed Systems},
-	author = {Zhang, Junchao and Brown, Jed and Balay, Satish and Faibussowitsch, Jacob and Knepley, Matthew and Marin, Oana and Mills, Richard Tran and Munson, Todd and Smith, Barry F. and Zampini, Stefano},
-	date = {2022},
+	urldate = {2024-10-02},
+	journal = {ACM Transactions on Graphics},
+	author = {Portaneri, Cédric and Rouxel-Labbé, Mael and Hemmer, Michael and Cohen-Steiner, David and Alliez, Pierre},
+	month = jun,
+	year = {2022},
+	keywords = {cgal},
+	pages = {1},
 }
 
-@inproceedings{balay_efficient_1997,
-	title = {Efficient Management of Parallelism in Object Oriented Numerical Software Libraries},
-	pages = {163--202},
-	booktitle = {Modern Software Tools in Scientific Computing},
-	publisher = {Birkhäuser Press},
-	author = {Balay, Satish and Gropp, William D. and {McInnes}, Lois Curfman and Smith, Barry F.},
-	editor = {Arge, E. and Bruaset, A. M. and Langtangen, H. P.},
-	date = {1997},
+@article{jamin_cgalmesh_2015,
+	title = {{CGALmesh}: a {Generic} {Framework} for {Delaunay} {Mesh} {Generation}},
+	volume = {41},
+	shorttitle = {{CGALmesh}},
+	url = {https://inria.hal.science/hal-01071759},
+	doi = {10.1145/2699463},
+	abstract = {CGALmesh is the mesh generation software package of the Computational Geometry Algorithm Library (CGAL). It generates isotropic simplicial meshes -- surface triangular meshes or volume tetrahedral meshes -- from input surfaces, 3D domains as well as 3D multi-domains, with or without sharp features. The underlying meshing algorithm relies on restricted Delaunay triangulations to approximate domains and surfaces, and on Delaunay refinement to ensure both approximation accuracy and mesh quality. CGALmesh provides guarantees on approximation quality as well as on the size and shape of the mesh elements. It provides four optional mesh optimization algorithms to further improve the mesh quality. A distinctive property of CGALmesh is its high flexibility with respect to the input domain representation. Such a flexibility is achieved through a careful software design, gathering into a single abstract concept, denoted by the oracle, all required interface features between the meshing engine and the input domain. We already provide oracles for domains defined by polyhedral and implicit surfaces.},
+	language = {en},
+	number = {4},
+	urldate = {2024-10-02},
+	journal = {ACM Transactions on Mathematical Software},
+	author = {Jamin, Clément and Alliez, Pierre and Yvinec, Mariette and Boissonnat, Jean-Daniel},
+	year = {2015},
+	keywords = {cgal},
+	pages = {24},
+}
+
+@book{the_cgal_project_cgal_2024,
+	edition = {5.6.1},
+	title = {{CGAL} {User} and {Reference} {Manual}},
+	url = {https://doc.cgal.org/5.6.1/Manual/packages.html},
+	publisher = {CGAL Editorial Board},
+	author = {{The CGAL Project}},
+	year = {2024},
+	keywords = {cgal},
+}
+
+@incollection{alliez_3d_2024,
+	edition = {6.0},
+	title = {{3D} mesh generation},
+	url = {https://doc.cgal.org/6.0/Manual/packages.html#PkgMesh3},
+	booktitle = {{CGAL} user and reference manual},
+	publisher = {CGAL Editorial Board},
+	author = {Alliez, Pierre and Jamin, Clément and Rineau, Laurent and Tayeb, Stéphane and Tournois, Jane and Yvinec, Mariette},
+	year = {2024},
+	keywords = {cgal},
+}
+
+@incollection{alliez_3d_2024-1,
+	edition = {5.6.1},
+	title = {{3D} {Alpha} {Wrapping}},
+	url = {https://doc.cgal.org/5.6.1/Manual/packages.html#PkgAlphaWrap3},
+	booktitle = {{CGAL} {User} and {Reference} {Manual}},
+	publisher = {CGAL Editorial Board},
+	author = {Alliez, Pierre and Cohen-Steiner, David and Hemmer, Michael and Portaneri, Cédric and Rouxel-Labbé, Mael},
+	year = {2024},
+	keywords = {cgal},
+}
+
+@inproceedings{chabannes_high_2017,
+	address = {Pittsburgh, PA, United States},
+	title = {High order finite element simulations for fluid dynamics validated by experimental data from the fda benchmark nozzle model},
+	url = {https://hal.science/hal-01429685},
+	booktitle = {5th {International} {Conference} on {Computational} and {Mathematical} {Biomedical} {Engineering} - {CMBE2017}},
+	author = {Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela and Tarabay, Ranine},
+	month = apr,
+	year = {2017},
+	keywords = {CFD, medical device, open source finite element software, validation},
+}
+
+@inproceedings{saigre_coupled_2024,
+	address = {Arlington (Virginia), United States},
+	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
+	url = {https://hal.science/hal-04558924},
+	booktitle = {{CMBE24}},
+	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
+	month = jun,
+	year = {2024},
+	keywords = {Thermo-fluid dynamics, finite element method, mathematical and computational ophthalmology, thermo-fluid dynamics},
+}
+
+@article{stewart_assessment_2012,
+	title = {Assessment of {CFD} {Performance} in {Simulations} of an {Idealized} {Medical} {Device}: {Results} of {FDA}’s {First} {Computational} {Interlaboratory} {Study}},
+	volume = {3},
+	issn = {1869-408X},
+	url = {http://dx.doi.org/10.1007/s13239-012-0087-5},
+	doi = {10.1007/s13239-012-0087-5},
+	number = {2},
+	journal = {Cardiovascular Engineering and Technology},
+	author = {Stewart, SandyF.C. and Paterson, EricG. and Burgreen, GregW. and Hariharan, Prasanna and Giarra, Matthew and Reddy, Varun and Day, StevenW. and Manning, KeefeB. and Deutsch, Steven and Berman, MichaelR. and Myers, MatthewR. and Malinauskas, RichardA.},
+	year = {2012},
+	keywords = {Blood damage, Computational fluid dynamics, Experimental validation, FDA, Medical devices},
+	pages = {139--160},
+}
+
+@article{hariharan_multilaboratory_2011,
+	title = {Multilaboratory {Particle} {Image} {Velocimetry} {Analysis} of the {FDA} {Benchmark} {Nozzle} {Model} to {Support} {Validation} of {Computational} {Fluid} {Dynamics} {Simulations}},
+	volume = {133},
+	issn = {0148-0731},
+	url = {http://dx.doi.org/10.1115/1.4003440},
+	doi = {doi: 10.1115/1.4003440},
+	journal = {Journal of Biomechanical Engineering},
+	author = {Hariharan, Prasanna and Giarra, Matthew and Reddy, Varun and Day, Steven W. and Manning, Keefe B. and Deutsch, Steven and Stewart, Sandy F. C. and Myers, Matthew R. and Berman, Michael R. and Burgreen, Greg W. and Paterson, Eric G. and Malinauskas, Richard A.},
+	month = feb,
+	year = {2011},
+	keywords = {FDA},
+}
+
+@article{feppon_f_null_2020,
+	title = {Null space gradient flows for constrained optimization with applications to shape optimization},
+	volume = {26},
+	url = {https://doi.org/10.1051/cocv/2020015},
+	doi = {10.1051/cocv/2020015},
+	journal = {ESAIM: COCV},
+	author = {{Feppon, F.} and {Allaire, G.} and {Dapogny, C.}},
+	year = {2020},
+	keywords = {multiphysics, shape optimisation},
+	pages = {90},
+}
+
+@article{feppon_shape_2019,
+	title = {Shape optimization of a coupled thermal fluid-structure problem in a level set mesh evolution framework},
+	volume = {76},
+	issn = {2254-3902},
+	doi = {10.1007/s40324-018-00185-4},
+	number = {3},
+	journal = {SeMA},
+	author = {Feppon, F. and Allaire, G. and Bordeu, F. and Cortial, J. and Dapogny, C.},
+	month = sep,
+	year = {2019},
+	note = {Publisher: Springer International Publishing},
+	keywords = {fsi, multiphysics, shape optimisation},
+	pages = {413--458},
+}
+
+@phdthesis{feppon_shape_2019-1,
+	type = {{PhD} {Thesis}},
+	title = {Shape and topology optimization of multiphysics systems},
+	school = {Thèse de doctorat de l'Universit'e Paris-Saclay pr'epar'ee à l”Ecole polytechnique},
+	author = {Feppon, Florian},
+	year = {2019},
+	keywords = {multiphysics, shape optimisation},
+}
+
+@misc{noauthor_iso_2017,
+	title = {{ISO} 10211:2017 - {Thermal} bridges in building construction — {Heat} flows and surface temperatures — {Detailed} calculations},
+	url = {https://www.iso.org/standard/65710.html},
+	year = {2017},
+	keywords = {building construction, detailed calculations, heat flows, surface temperatures, thermal bridges},
+}
+
+@book{advanced_micro_devices_inc_hip_2024,
+	edition = {Release 6.1.40091},
+	title = {{HIP} {Documentation}},
+	url = {https://rocm.docs.amd.com/projects/HIP/en/latest/index.html},
+	author = {{Advanced Micro Devices, Inc.}},
+	month = may,
+	year = {2024},
+	keywords = {AMD, GPU, HIP},
+}
+
+@book{advanced_micro_devices_inc_rocthrust_2024,
+	edition = {Release 3.0.1},
+	title = {{rocThrust} {Documentation}},
+	url = {https://rocm.docs.amd.com/projects/rocThrust/en/latest/index.html},
+	author = {{Advanced Micro Devices, Inc.}},
+	month = aug,
+	year = {2024},
+	keywords = {AMD, gpu, rocm},
+}
+
+@article{van_landeghem_mathematical_2024,
+	title = {Mathematical and computational framework for moving and colliding rigid bodies in a {Newtonian} fluid},
+	volume = {9},
+	issn = {2380288X, 23802898},
+	url = {https://www.intlpress.com/site/pub/pages/journals/items/amsa/content/vols/0009/0001/a002/},
+	doi = {10.4310/AMSA.2024.v9.n1.a2},
+	number = {1},
+	urldate = {2024-05-30},
+	journal = {Annals of Mathematical Sciences and Applications},
+	author = {Van Landeghem, Céline and Berti, Luca and Chabannes, Vincent and Chouippe, Agathe and Giraldi, Laetitia and Hoarau, Yannick and Prud’homme, Christophe},
+	year = {2024},
+	pages = {59--89},
+}
+
+@inproceedings{firmin_comparative_2023,
+	series = {Communications in {Computer} and {Information} {Science}},
+	title = {A {Comparative} {Study} of {Fractal}-{Based} {Decomposition} {Optimization}},
+	volume = {1824},
+	url = {https://doi.org/10.1007/978-3-031-34020-8\_1},
+	doi = {10.1007/978-3-031-34020-8_1},
+	booktitle = {Optimization and {Learning} - 6th {International} {Conference}, {OLA} 2023, {Malaga}, {Spain}, {May} 3-5, 2023, {Proceedings}},
+	publisher = {Springer},
+	author = {Firmin, Thomas and Talbi, El-Ghazali},
+	editor = {Dorronsoro, Bernabé and Chicano, Francisco and Danoy, Grégoire and Talbi, El-Ghazali},
+	year = {2023},
+	pages = {3--20},
+}
+
+@inproceedings{firmin_massively_2023,
+	title = {Massively {Parallel} {Asynchronous} {Fractal} {Optimization}},
+	doi = {10.1109/IPDPSW59300.2023.00151},
+	booktitle = {2023 {IEEE} {International} {Parallel} and {Distributed} {Processing} {Symposium} {Workshops} ({IPDPSW})},
+	author = {Firmin, Thomas and Talbi, El-Ghazali},
+	year = {2023},
+	keywords = {Asynchronous metaheuristic, Conferences, Continuous optimization, Distributed processing, Fractals, Hierarchical decomposition, Linear programming, Search problems, Software, Software algorithms},
+	pages = {930--938},
+}
+
+@article{blanchard_uranie_2019,
+	title = {The {Uranie} platform: an open-source software for optimisation, meta-modelling and uncertainty analysis},
+	volume = {5},
+	copyright = {© J.-B. Blanchard et al., published by EDP Sciences, 2019},
+	issn = {2491-9292},
+	shorttitle = {The {Uranie} platform},
+	url = {https://www.epj-n.org/articles/epjn/abs/2019/01/epjn180009/epjn180009.html},
+	doi = {10.1051/epjn/2018050},
+	abstract = {The high-performance computing resources and the constant improvement of both numerical simulation accuracy and the experimental measurements with which they are confronted bring a new compulsory step to strengthen the credence given to the simulation results: uncertainty quantification. This can have different meanings, according to the requested goals (rank uncertainty sources, reduce them, estimate precisely a critical threshold or an optimal working point), and it could request mathematical methods with greater or lesser complexity. This paper introduces the Uranie platform, an open-source framework developed at the Alternative Energies and Atomic Energy Commission (CEA), in the nuclear energy division, in order to deal with uncertainty propagation, surrogate models, optimisation issues, code calibration, etc. This platform benefits from both its dependencies and from personal developments, to offer an efficient data handling model, a C++ and Python interface, advanced graphi graphical tools, several parallelisation solutions, etc. These methods can then be applied to many kinds of code (considered as black boxes by Uranie) so to many fields of physics as well. In this paper, the example of thermal exchange between a plate-sheet and a fluid is introduced to show how Uranie can be used to perform a large range of analysis.},
+	language = {en},
+	urldate = {2024-09-30},
+	journal = {EPJ Nuclear Sciences \& Technologies},
+	author = {Blanchard, Jean-Baptiste and Damblin, Guillaume and Martinez, Jean-Marc and Arnaud, Gilles and Gaudier, Fabrice},
+	year = {2019},
+	pages = {4},
+}
+
+@misc{wikipedia_contributors_zfs_2024,
+	title = {{ZFS}},
+	url = {https://en.wikipedia.org/wiki/ZFS},
+	abstract = {ZFS is a combined file system and logical volume manager designed by Sun Microsystems. It is known for its data integrity, support for high storage capacities, and protection against data corruption. This Wikipedia entry provides an overview of its history, features, and applications.},
+	author = {{Wikipedia contributors}},
+	year = {2024},
+}
+
+@book{project_zfs_2024,
+	title = {{ZFS} {Administration} {Guide}},
+	url = {https://openzfs.github.io/openzfs-docs/man/master/8/zfs.8.html},
+	abstract = {The ZFS administration guide provides detailed documentation on managing ZFS, a robust file system and volume manager for high-performance computing environments. It covers various commands for managing file systems, snapshots, and data integrity.},
+	author = {Project, OpenZFS},
+	year = {2024},
+}
+
+@inproceedings{liang_daos_2020,
+	address = {Berlin, Heidelberg},
+	title = {{DAOS}: {A} {Scale}-{Out} {High} {Performance} {Storage} {Stack} for {Storage} {Class} {Memory}},
+	isbn = {978-3-030-48841-3},
+	url = {https://doi.org/10.1007/978-3-030-48842-0_3},
+	doi = {10.1007/978-3-030-48842-0_3},
+	abstract = {The Distributed Asynchronous Object Storage (DAOS) is an open source scale-out storage system that is designed from the ground up to support Storage Class Memory (SCM) and NVMe storage in user space. Its advanced storage API enables the native support of structured, semi-structured and unstructured data models, overcoming the limitations of traditional POSIX based parallel filesystem. For HPC workloads, DAOS provides direct MPI-IO and HDF5 support as well as POSIX access for legacy applications. In this paper we present the architecture of the DAOS storage engine and its high-level application interfaces. We also describe initial performance results of DAOS for IO500 benchmarks.},
+	booktitle = {Supercomputing {Frontiers}: 6th {Asian} {Conference}, {SCFA} 2020, {Singapore}, {February} 24–27, 2020, {Proceedings}},
+	publisher = {Springer-Verlag},
+	author = {Liang, Zhen and Lombardi, Johann and Chaarawi, Mohamad and Hennecke, Michael},
+	year = {2020},
+	note = {event-place: Singapore, Singapore},
+	keywords = {DAOS, Distributed storage system, NVMe, Parallel filesystem, Persistent memory, RAFT, SCM, SWIM},
+	pages = {40--54},
+}
+
+@misc{laboratory_llnl_scalable_2024,
+	title = {Scalable {Checkpoint}/{Restart} for {MPI} ({SCR})},
+	url = {https://computing.llnl.gov/projects/scalable-checkpoint-restart-for-mpi},
+	abstract = {The Scalable Checkpoint/Restart (SCR) library enables efficient, scalable checkpointing of MPI applications. This project from LLNL focuses on reducing checkpoint overhead to improve resilience in high-performance computing environments.},
+	author = {Laboratory (LLNL), Lawrence Livermore National},
+	year = {2024},
+}
+
+@misc{fault_tolerance_working_group_mpi_forum_user_2024,
+	title = {User {Level} {Failure} {Mitigation} ({ULFM})},
+	url = {https://fault-tolerance.org/},
+	abstract = {The User Level Failure Mitigation (ULFM) proposal is developed by the MPI Forum’s Fault Tolerance Working Group to support the continued operation of MPI programs after crash (node failures) have impacted the execution. The key principle is that no MPI call (point-to-point, collective, RMA, IO, …) can block indefinitely after a failure, but must either succeed or raise an MPI error. In addition the design is centered around user needs and flexibility, the API should allow varied fault tolerant models to be built as external libraries.},
+	author = {{Fault Tolerance Working Group, MPI Forum}},
+	year = {2024},
+	keywords = {fault tolerance, resilience},
+}
+
+@book{fti_documentation_team_fti_2024,
+	title = {{FTI}: {Fault} {Tolerance} {Interface} - {Examples}},
+	url = {https://fault-tolerance-interface.readthedocs.io/en/latest/examples.html},
+	abstract = {This webpage provides examples of how to use the Fault Tolerance Interface (FTI) for implementing fault tolerance in HPC applications. The examples demonstrate checkpointing, recovery, and handling failures with FTI.},
+	author = {{FTI Documentation Team}},
+	year = {2024},
+	keywords = {fault tolerance, resilience},
+}
+
+@inproceedings{koziol_extreme_2012,
+	title = {Extreme {I}/{O} {Scaling} with {HDF5}},
+	url = {https://cscads.rice.edu/HDF5-CScADS.pdf},
+	booktitle = {{XSEDE} 12 - {Extreme} {Scaling} {Workshop}},
+	publisher = {The HDF Group},
+	author = {Koziol, Quincey},
+	year = {2012},
+}
+
+@inproceedings{bautista-gomez_fti_2011,
+	address = {New York, NY, USA},
+	series = {{SC} '11},
+	title = {{FTI}: high performance fault tolerance interface for hybrid systems},
+	isbn = {978-1-4503-0771-0},
+	url = {https://doi.org/10.1145/2063384.2063427},
+	doi = {10.1145/2063384.2063427},
+	abstract = {Large scientific applications deployed on current petascale systems expend a significant amount of their execution time dumping checkpoint files to remote storage. New fault tolerant techniques will be critical to efficiently exploit post-petascale systems. In this work, we propose a low-overhead high-frequency multi-level checkpoint technique in which we integrate a highly-reliable topology-aware Reed-Solomon encoding in a three-level checkpoint scheme. We efficiently hide the encoding time using one Fault-Tolerance dedicated thread per node. We implement our technique in the Fault Tolerance Interface FTI. We evaluate the correctness of our performance model and conduct a study of the reliability of our library. To demonstrate the performance of FTI, we present a case study of the Mw9.0 Tohoku Japan earthquake simulation with SPECFEM3D on TSUBAME2.0. We demonstrate a checkpoint overhead as low as 8\% on sustained 0.1 petaflops runs (1152 GPUs) while checkpointing at high frequency.},
+	booktitle = {Proceedings of 2011 {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {Association for Computing Machinery},
+	author = {Bautista-Gomez, Leonardo and Tsuboi, Seiji and Komatitsch, Dimitri and Cappello, Franck and Maruyama, Naoya and Matsuoka, Satoshi},
+	year = {2011},
+	note = {event-place: Seattle, Washington},
+}
+
+@misc{open_mpi_documentation_team_user_2024,
+	title = {User {Level} {Failure} {Mitigation} ({ULFM}) in {Open} {MPI}},
+	url = {https://docs.open-mpi.org/en/v5.0.x/features/ulfm.html},
+	abstract = {This chapter documents the features and options specific to the User Level Failure Mitigation (ULFM) Open MPI implementation. The ULFM proposal is developed by the MPI Forum’s Fault Tolerance Working Group to support the continued operation of MPI programs after failures, both hard and soft, have impacted execution. No MPI call can block indefinitely after a failure, and errors are not necessarily fatal, as the MPI implementation makes a best effort to maintain the execution environment.},
+	author = {{Open MPI Documentation Team}},
+	year = {2024},
+	keywords = {fault tolerance, resilience},
+}
+
+@inproceedings{ouertatani_accelerated_2024,
+	address = {Lugano, Switzerland},
+	title = {Accelerated {NAS} via pretrained ensembles and multi-fidelity {Bayesian} {Optimization}},
+	url = {https://hal.science/hal-04611343},
+	booktitle = {33rd {International} {Conference} on {Artificial} {Neural} {Networks} ({ICANN})},
+	author = {Ouertatani, Houssem and Maxim, Cristian and Niar, Smail and Talbi, El-Ghazali},
+	month = sep,
+	year = {2024},
+	keywords = {Deep Ensembles, Multi-fidelity BO, Neural Architecture Search},
+}
+
+@unpublished{beuzeville_deterministic_2024,
+	title = {Deterministic and probabilistic backward error analysis of neural networks in floating-point arithmetic},
+	url = {https://hal.science/hal-04663142},
+	author = {Beuzeville, Théo and Buttari, Alfredo and Gratton, Serge and Mary, Theo},
+	month = jul,
+	year = {2024},
+	keywords = {artificial neural networks, backward error, error analysis, floating-point arithmetic, probabilistic error analysis, rounding errors},
+}
+
+@unpublished{buttari_modular_2024,
+	title = {A modular framework for the backward error analysis of {GMRES}},
+	url = {https://hal.science/hal-04525918},
+	author = {Buttari, Alfredo and Higham, Nicholas J and Mary, Théo and Vieublé, Bastien},
+	month = mar,
+	year = {2024},
+	keywords = {Computer arithmetic, GMRES, Iterative solvers, Linear system of equations, Rounding error analysis},
+}
+
+@article{saigre_model_2024,
+	title = {Model order reduction and sensitivity analysis for complex heat transfer simulations inside the human eyeball},
+	url = {https://hal.science/hal-04361954},
+	doi = {10.1002/cnm.3864},
+	journal = {International Journal for Numerical Methods in Biomedical Engineering},
+	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela},
+	month = sep,
+	year = {2024},
+	note = {Publisher: John Wiley and Sons},
+	keywords = {Heat transfer, Mathematical and computational ophthalmology, Sensitivity analysis, Uncertainty qualification, Validation, real-time model order reduction},
+	pages = {e3864},
+}
+
+@unpublished{aghili_accelerating_2024,
+	title = {Accelerating the convergence of {Newton}'s method for nonlinear elliptic {PDEs} using {Fourier} neural operators},
+	url = {https://hal.science/hal-04440076},
+	author = {Aghili, Joubine and Hild, Romain and Michel-Dansac, Victor and Vigon, Vincent and Franck, Emmanuel},
+	month = feb,
+	year = {2024},
+	keywords = {Fourier neural operators, Neural operators, Newton's method, Nonlinear elliptic PDEs},
+}
+
+@article{pham_numerical_2024,
+	title = {Numerical investigation of stabilization in the {Hybridizable} {Discontinuous} {Galerkin} method for linear anisotropic elastic equation},
+	url = {https://hal.science/hal-04503407},
+	doi = {10.1016/j.cma.2024.117080},
+	journal = {Computer Methods in Applied Mechanics and Engineering},
+	author = {Pham, Ha and Faucher, Florian and Barucq, Hélène},
+	month = jun,
+	year = {2024},
+	note = {Publisher: Elsevier},
+	pages = {117080},
+}
+
+@unpublished{mary_error_2024,
+	title = {Error analysis of matrix multiplication with narrow range floating-point arithmetic},
+	url = {https://hal.science/hal-04671474},
+	author = {Mary, Théo and Mikaitis, Mantas},
+	month = aug,
+	year = {2024},
+	keywords = {GPUs, floating-point arithmetic, matrix multiplication, mixed precision, multiword arithmetic, overflow, reduced precision, rounding error analysis, scaling, underflow},
+}
+
+@unpublished{mary_error_2024,
+	title = {Error analysis of the {Gram} low-rank approximation (and why it is not as unstable as one may think)},
+	url = {https://hal.science/hal-04554516},
+	author = {Mary, Théo},
+	month = apr,
+	year = {2024},
+	keywords = {Gram matrix, eigenvalue decomposition, finite precision arithmetic, iterative refinement, low-rank approximation, mixed precision, rounding error analysis, singular value decomposition},
+}
+
+@unpublished{prudhomme_ktirio_2024,
+	title = {Ktirio {Urban} {Building}: {A} {Computational} {Framework} for {City} {Energy} {Simulations} {Enhanced} by {CI}/{CD} {Innovations} on {EuroHPC} {Systems}},
+	url = {https://hal.science/hal-04590586},
+	author = {Prud'Homme, Christophe and Chabannes, Vincent and Berti, Luca and Maslek, Maryam and Pincon, Philippe and Cladellas, Javier and Diallo, Abdoulaye},
+	month = may,
+	year = {2024},
+	keywords = {City Energy Simulation, HPC, HPC HPCOps Urban building City Energy Simulation, HPCOps, Urban building},
+}
+
+@misc{noauthor_notitle_nodate,
+}
+
+@misc{belieres--frendo_volume-preserving_2024,
+	title = {Volume-preserving geometric shape optimization of the {Dirichlet} energy using variational neural networks},
+	url = {http://arxiv.org/abs/2407.19064},
+	abstract = {In this work, we explore the numerical solution of geometric shape optimization problems using neural network-based approaches. This involves minimizing a numerical criterion that includes solving a partial differential equation with respect to a domain, often under geometric constraints like constant volume. Our goal is to develop a proof of concept using a flexible and parallelizable methodology to tackle these problems. We focus on a prototypal problem: minimizing the so-called Dirichlet energy with respect to the domain under a volume constraint, involving a Poisson equation in \${\textbackslash}mathbb R{\textasciicircum}2\$. We use physics-informed neural networks (PINN) to approximate the Poisson equation's solution on a given domain and represent the shape through a neural network that approximates a volume-preserving transformation from an initial shape to an optimal one. These processes are combined in a single optimization algorithm that minimizes the Dirichlet energy. One of the significant advantages of this approach is its parallelizable nature, which makes it easy to handle the addition of parameters. Additionally, it does not rely on shape derivative or adjoint calculations. Our approach is tested on Dirichlet and Robin boundary conditions, parametric right-hand sides, and extended to Bernoulli-type free boundary problems. The source code for solving the shape optimization problem is open-source and freely available.},
+	urldate = {2024-09-17},
+	publisher = {arXiv},
+	author = {Bélières--Frendo, Amaury and Franck, Emmanuel and Michel-Dansac, Victor and Privat, Yannick},
+	month = aug,
+	year = {2024},
+	note = {arXiv:2407.19064 [cs, math]},
+	keywords = {Mathematics - Numerical Analysis, Mathematics - Optimization and Control},
+}
+
+@article{hecht_new_2012,
+	title = {New development in {FreeFem}++},
+	volume = {20},
+	issn = {1570-2820},
+	url = {https://freefem.org/},
+	number = {3-4},
+	journal = {Journal of Numerical Mathematics},
+	author = {Hecht, F.},
+	year = {2012},
+	mrnumber = {3043640},
+	pages = {251--265},
+}
+
+@inproceedings{gamblin_spack_2015,
+	address = {Austin Texas},
+	title = {The {Spack} package manager: bringing order to {HPC} software chaos},
+	isbn = {978-1-4503-3723-6},
+	shorttitle = {The {Spack} package manager},
+	url = {https://dl.acm.org/doi/10.1145/2807591.2807623},
+	doi = {10.1145/2807591.2807623},
+	language = {en},
+	urldate = {2024-09-05},
+	booktitle = {Proceedings of the {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {ACM},
+	author = {Gamblin, Todd and LeGendre, Matthew and Collette, Michael R. and Lee, Gregory L. and Moody, Adam and De Supinski, Bronis R. and Futral, Scott},
+	month = nov,
+	year = {2015},
+	pages = {1--12},
+}
+
+@article{vallet_toward_2022,
+	title = {Toward practical transparent verifiable and long-term reproducible research using {Guix}},
+	volume = {9},
+	issn = {2052-4463},
+	url = {https://www.nature.com/articles/s41597-022-01720-9},
+	doi = {10.1038/s41597-022-01720-9},
+	abstract = {Abstract
+            Reproducibility crisis urge scientists to promote transparency which allows peers to draw same conclusions after performing identical steps from hypothesis to results. Growing resources are developed to open the access to methods, data and source codes. Still, the computational environment, an interface between data and source code running analyses, is not addressed. Environments are usually described with software and library names associated with version labels or provided as an opaque container image. This is not enough to describe the complexity of the dependencies on which they rely to operate on. We describe this issue and illustrate how open tools like Guix can be used by any scientist to share their environment and allow peers to reproduce it. Some steps of research might not be fully reproducible, but at least, transparency for computation is technically addressable. These tools should be considered by scientists willing to promote transparency and open science.},
+	language = {en},
+	number = {1},
+	urldate = {2024-09-05},
+	journal = {Scientific Data},
+	author = {Vallet, Nicolas and Michonneau, David and Tournier, Simon},
+	month = oct,
+	year = {2022},
+	pages = {597},
+}
+
+@techreport{adams_dakota_2022,
+	title = {Dakota, {A} {Multilevel} {Parallel} {Object}-{Oriented} {Framework} for {Design} {Optimization}, {Parameter} {Estimation}, {Uncertainty} {Quantification}, and {Sensitivity} {Analysis}: {Version} 6.16 {User}’s {Manual}},
+	number = {SAND2022-6171},
+	institution = {Sandia National Laboratories},
+	author = {Adams, B. M. and Bohnhoff, W. J. and Dalbey, K. R. and Ebeida, M. S. and Eddy, J. P. and Eldred, M. S. and Hooper, R. W. and Hough, P. D. and Hu, K. T. and Jakeman, J. D. and Khalil, M. and Maupin, K. A. and Monschke, J. A. and Ridgway, E. M. and Rushdi, A. A. and Seidl, D. T. and Stephens, J. A. and Swiler, L. P. and Winokur, J. G.},
+	month = may,
+	year = {2022},
+}
+
+@article{faucher_hawen_2021,
+	title = {hawen: time-harmonic wave modeling and inversion using hybridizable discontinuous {Galerkin} discretization},
+	volume = {6},
+	copyright = {http://creativecommons.org/licenses/by/4.0/},
+	issn = {2475-9066},
+	shorttitle = {hawen},
+	url = {https://joss.theoj.org/papers/10.21105/joss.02699},
+	doi = {10.21105/joss.02699},
+	number = {57},
+	urldate = {2024-09-05},
+	journal = {Journal of Open Source Software},
+	author = {Faucher, Florian},
+	month = jan,
+	year = {2021},
+	pages = {2699},
+}
+
+@misc{apptainer_contributors_apptainer_2024,
+	title = {Apptainer {User} {Documentation}},
+	url = {https://apptainer.org/docs},
+	author = {{Apptainer Contributors}},
+	year = {2024},
+}
+
+@book{slurm_development_team_slurm_2024,
+	title = {{SLURM} {Workload} {Manager}},
+	url = {https://slurm.schedmd.com/documentation.html},
+	author = {{SLURM Development Team}},
+	year = {2024},
+}
+
+@misc{karakasis_reframe-hpcreframe_2024,
+	title = {reframe-hpc/reframe: {ReFrame} 4.6.0},
+	url = {https://doi.org/10.5281/zenodo.11002528},
+	publisher = {Zenodo},
+	author = {Karakasis, Vasileios and Manitaras, Theofilos and Otero, Javier and Koutsaniti, Eirini and {jgp} and {rsarm} and Bignamini, Christopher and {victorusu} and Jocksch, Andreas and {kraushm} and {lucamar} and Keller, Sebastian and Omlin, Samuel and Kliavinek, Sergei and Mendonça, Henrique and Giordano, Mosè and {MarkLTurner} and {GiuseppeLoRe} and Grassano, Davide and Boissonneault, Maxime and Leak, Steve and Paipuri, Mahendra and {jfavre} and {Vanessasaurus} and Morrison, Jack and Moors, Sam and You, Zhi-Qiang and Sandgren, Ake and {brandon-biggs}},
+	month = apr,
+	year = {2024},
+	doi = {10.5281/zenodo.11002528},
 }
 
 @article{ballout_nonlinear_2024,
 	title = {Nonlinear compressive reduced basis approximation for multi-parameter elliptic problem},
-	rights = {Creative Commons Attribution 4.0 International},
+	copyright = {Creative Commons Attribution 4.0 International},
 	url = {https://zenodo.org/doi/10.5281/zenodo.13336083},
 	doi = {10.5281/ZENODO.13336083},
 	abstract = {What's Changed
@@ -172,561 +852,79 @@ add citation file by @prudhomm in https://github.com/feelpp/article.nl-c-rbm/pul
 
 
 Full Changelog: https://github.com/feelpp/article.nl-c-rbm/compare/v1.0.1...v1.1.0},
-	author = {Ballout, Hassan and Maday, Yvon and Prud'homme, Christophe},
 	urldate = {2024-09-04},
-	date = {2024-08-17},
+	author = {Ballout, Hassan and Maday, Yvon and Prud'homme, Christophe},
+	month = aug,
+	year = {2024},
 	note = {Publisher: Zenodo
 Version Number: v1.1.0},
 }
 
-@software{karakasis_reframe-hpcreframe_2024,
-	title = {reframe-hpc/reframe: {ReFrame} 4.6.0},
-	url = {https://doi.org/10.5281/zenodo.11002528},
-	version = {v4.6.0},
-	publisher = {Zenodo},
-	author = {Karakasis, Vasileios and Manitaras, Theofilos and Otero, Javier and Koutsaniti, Eirini and {jgp} and {rsarm} and Bignamini, Christopher and {victorusu} and Jocksch, Andreas and {kraushm} and {lucamar} and Keller, Sebastian and Omlin, Samuel and Kliavinek, Sergei and Mendonça, Henrique and Giordano, Mosè and {MarkLTurner} and {GiuseppeLoRe} and Grassano, Davide and Boissonneault, Maxime and Leak, Steve and Paipuri, Mahendra and {jfavre} and {Vanessasaurus} and Morrison, Jack and Moors, Sam and You, Zhi-Qiang and Sandgren, Ake and {brandon-biggs}},
-	date = {2024-04},
-	doi = {10.5281/zenodo.11002528},
+@inproceedings{balay_efficient_1997,
+	title = {Efficient {Management} of {Parallelism} in {Object} {Oriented} {Numerical} {Software} {Libraries}},
+	booktitle = {Modern {Software} {Tools} in {Scientific} {Computing}},
+	publisher = {Birkhäuser Press},
+	author = {Balay, Satish and Gropp, William D. and McInnes, Lois Curfman and Smith, Barry F.},
+	editor = {Arge, E. and Bruaset, A. M. and Langtangen, H. P.},
+	year = {1997},
+	pages = {163--202},
 }
 
-@book{slurm_development_team_slurm_2024,
-	title = {{SLURM} Workload Manager},
-	url = {https://slurm.schedmd.com/documentation.html},
-	author = {{SLURM Development Team}},
-	date = {2024},
-}
-
-@misc{apptainer_contributors_apptainer_2024,
-	title = {Apptainer User Documentation},
-	url = {https://apptainer.org/docs},
-	author = {{Apptainer Contributors}},
-	date = {2024},
-}
-
-@incollection{baudin_openturns_2016,
-	location = {Cham},
-	title = {{OpenTURNS}: An Industrial Software for Uncertainty Quantification in Simulation},
-	isbn = {978-3-319-11259-6},
-	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
-	pages = {1--38},
-	booktitle = {Handbook of Uncertainty Quantification},
-	publisher = {Springer International Publishing},
-	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
-	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
-	date = {2016},
-	doi = {10.1007/978-3-319-11259-6_64-1},
-}
-
-@incollection{baudin_openturns_2016-1,
-	location = {Cham},
-	title = {{OpenTURNS}: An Industrial Software for Uncertainty Quantification in Simulation},
-	isbn = {978-3-319-11259-6},
-	url = {https://doi.org/10.1007/978-3-319-11259-6_64-1},
-	pages = {1--38},
-	booktitle = {Handbook of Uncertainty Quantification},
-	publisher = {Springer International Publishing},
-	author = {Baudin, Michaël and Dutfoy, Anne and Iooss, Bertrand and Popelin, Anne-Laure},
-	editor = {Ghanem, Roger and Higdon, David and Owhadi, Houman},
-	date = {2016},
-	doi = {10.1007/978-3-319-11259-6_64-1},
-}
-
-@article{faucher_hawen_2021,
-	title = {hawen: time-harmonic wave modeling and inversion using hybridizable discontinuous Galerkin discretization},
-	volume = {6},
-	rights = {http://creativecommons.org/licenses/by/4.0/},
-	issn = {2475-9066},
-	url = {https://joss.theoj.org/papers/10.21105/joss.02699},
-	doi = {10.21105/joss.02699},
-	shorttitle = {hawen},
-	pages = {2699},
-	number = {57},
-	journaltitle = {Journal of Open Source Software},
-	shortjournal = {{JOSS}},
-	author = {Faucher, Florian},
-	urldate = {2024-09-05},
-	date = {2021-01-24},
-	file = {Full Text:files/1144/Faucher - 2021 - hawen time-harmonic wave modeling and inversion u.pdf:application/pdf},
-}
-
-@report{adams_dakota_2022,
-	title = {Dakota, A Multilevel Parallel Object-Oriented Framework for Design Optimization, Parameter Estimation, Uncertainty Quantification, and Sensitivity Analysis: Version 6.16 User’s Manual},
-	number = {{SAND}2022-6171},
-	institution = {Sandia National Laboratories},
-	author = {Adams, B. M. and Bohnhoff, W. J. and Dalbey, K. R. and Ebeida, M. S. and Eddy, J. P. and Eldred, M. S. and Hooper, R. W. and Hough, P. D. and Hu, K. T. and Jakeman, J. D. and Khalil, M. and Maupin, K. A. and Monschke, J. A. and Ridgway, E. M. and Rushdi, A. A. and Seidl, D. T. and Stephens, J. A. and Swiler, L. P. and Winokur, J. G.},
-	date = {2022-05},
-}
-
-@article{vallet_toward_2022,
-	title = {Toward practical transparent verifiable and long-term reproducible research using Guix},
-	volume = {9},
-	issn = {2052-4463},
-	url = {https://www.nature.com/articles/s41597-022-01720-9},
-	doi = {10.1038/s41597-022-01720-9},
-	abstract = {Abstract
-            Reproducibility crisis urge scientists to promote transparency which allows peers to draw same conclusions after performing identical steps from hypothesis to results. Growing resources are developed to open the access to methods, data and source codes. Still, the computational environment, an interface between data and source code running analyses, is not addressed. Environments are usually described with software and library names associated with version labels or provided as an opaque container image. This is not enough to describe the complexity of the dependencies on which they rely to operate on. We describe this issue and illustrate how open tools like Guix can be used by any scientist to share their environment and allow peers to reproduce it. Some steps of research might not be fully reproducible, but at least, transparency for computation is technically addressable. These tools should be considered by scientists willing to promote transparency and open science.},
-	pages = {597},
-	number = {1},
-	journaltitle = {Scientific Data},
-	shortjournal = {Sci Data},
-	author = {Vallet, Nicolas and Michonneau, David and Tournier, Simon},
-	urldate = {2024-09-05},
-	date = {2022-10-04},
-	langid = {english},
-	file = {Full Text:files/1150/Vallet et al. - 2022 - Toward practical transparent verifiable and long-t.pdf:application/pdf},
-}
-
-@inproceedings{gamblin_spack_2015,
-	location = {Austin Texas},
-	title = {The Spack package manager: bringing order to {HPC} software chaos},
-	isbn = {978-1-4503-3723-6},
-	url = {https://dl.acm.org/doi/10.1145/2807591.2807623},
-	doi = {10.1145/2807591.2807623},
-	shorttitle = {The Spack package manager},
-	eventtitle = {{SC}15: The International Conference for High Performance Computing, Networking, Storage and Analysis},
-	pages = {1--12},
-	booktitle = {Proceedings of the International Conference for High Performance Computing, Networking, Storage and Analysis},
-	publisher = {{ACM}},
-	author = {Gamblin, Todd and {LeGendre}, Matthew and Collette, Michael R. and Lee, Gregory L. and Moody, Adam and De Supinski, Bronis R. and Futral, Scott},
-	urldate = {2024-09-05},
-	date = {2015-11-15},
-	langid = {english},
-}
-
-@article{hecht_new_2012,
-	title = {New development in {FreeFem}++},
-	volume = {20},
-	issn = {1570-2820},
-	url = {https://freefem.org/},
-	pages = {251--265},
-	number = {3},
-	journaltitle = {Journal of Numerical Mathematics},
-	shortjournal = {J. Numer. Math.},
-	author = {Hecht, F.},
-	date = {2012},
-	mrnumber = {3043640},
-}
-
-@incollection{alliez_3d_2024,
-	edition = {5.6.1},
-	title = {3D Alpha Wrapping},
-	url = {https://doc.cgal.org/5.6.1/Manual/packages.html#PkgAlphaWrap3},
-	booktitle = {{CGAL} User and Reference Manual},
-	publisher = {{CGAL} Editorial Board},
-	author = {Alliez, Pierre and Cohen-Steiner, David and Hemmer, Michael and Portaneri, Cédric and Rouxel-Labbé, Mael},
-	date = {2024},
-	keywords = {cgal},
-}
-
-@book{the_cgal_project_cgal_2024,
-	edition = {5.6.1},
-	title = {{CGAL} User and Reference Manual},
-	url = {https://doc.cgal.org/5.6.1/Manual/packages.html},
-	publisher = {{CGAL} Editorial Board},
-	author = {{The CGAL Project}},
-	date = {2024},
-	keywords = {cgal},
-}
-
-@misc{belieres--frendo_volume-preserving_2024,
-	title = {Volume-preserving geometric shape optimization of the Dirichlet energy using variational neural networks},
-	url = {http://arxiv.org/abs/2407.19064},
-	abstract = {In this work, we explore the numerical solution of geometric shape optimization problems using neural network-based approaches. This involves minimizing a numerical criterion that includes solving a partial differential equation with respect to a domain, often under geometric constraints like constant volume. Our goal is to develop a proof of concept using a flexible and parallelizable methodology to tackle these problems. We focus on a prototypal problem: minimizing the so-called Dirichlet energy with respect to the domain under a volume constraint, involving a Poisson equation in \${\textbackslash}mathbb R{\textasciicircum}2\$. We use physics-informed neural networks ({PINN}) to approximate the Poisson equation's solution on a given domain and represent the shape through a neural network that approximates a volume-preserving transformation from an initial shape to an optimal one. These processes are combined in a single optimization algorithm that minimizes the Dirichlet energy. One of the significant advantages of this approach is its parallelizable nature, which makes it easy to handle the addition of parameters. Additionally, it does not rely on shape derivative or adjoint calculations. Our approach is tested on Dirichlet and Robin boundary conditions, parametric right-hand sides, and extended to Bernoulli-type free boundary problems. The source code for solving the shape optimization problem is open-source and freely available.},
-	number = {{arXiv}:2407.19064},
-	publisher = {{arXiv}},
-	author = {Bélières--Frendo, Amaury and Franck, Emmanuel and Michel-Dansac, Victor and Privat, Yannick},
-	urldate = {2024-09-17},
-	date = {2024-08-10},
-	eprinttype = {arxiv},
-	eprint = {2407.19064 [cs, math]},
-	keywords = {Mathematics - Numerical Analysis, Mathematics - Optimization and Control},
-}
-
-@unpublished{prudhomme_ktirio_2024,
-	title = {Ktirio Urban Building: A Computational Framework for City Energy Simulations Enhanced by {CI}/{CD} Innovations on {EuroHPC} Systems},
-	url = {https://hal.science/hal-04590586},
-	author = {Prud'Homme, Christophe and Chabannes, Vincent and Berti, Luca and Maslek, Maryam and Pincon, Philippe and Cladellas, Javier and Diallo, Abdoulaye},
-	date = {2024-05},
-	keywords = {City Energy Simulation, {HPC}, {HPC} {HPCOps} Urban building City Energy Simulation, {HPCOps}, Urban building},
-}
-
-@unpublished{mary_error_2024,
-	title = {Error analysis of the Gram low-rank approximation (and why it is not as unstable as one may think)},
-	url = {https://hal.science/hal-04554516},
-	author = {Mary, Théo},
-	date = {2024-04},
-	keywords = {eigenvalue decomposition, finite precision arithmetic, Gram matrix, iterative refinement, low-rank approximation, mixed precision, rounding error analysis, singular value decomposition},
-	file = {HAL PDF Full Text:files/1200/Mary - 2024 - Error analysis of the Gram low-rank approximation (and why it is not as unstable as one may think).pdf:application/pdf},
-}
-
-@unpublished{mary_error_2024-1,
-	title = {Error analysis of matrix multiplication with narrow range floating-point arithmetic},
-	url = {https://hal.science/hal-04671474},
-	author = {Mary, Théo and Mikaitis, Mantas},
-	date = {2024-08},
-	keywords = {mixed precision, rounding error analysis, floating-point arithmetic, {GPUs}, matrix multiplication, multiword arithmetic, overflow, reduced precision, scaling, underflow},
-}
-
-@article{pham_numerical_2024,
-	title = {Numerical investigation of stabilization in the Hybridizable Discontinuous Galerkin method for linear anisotropic elastic equation},
-	url = {https://hal.science/hal-04503407},
-	doi = {10.1016/j.cma.2024.117080},
-	pages = {117080},
-	journaltitle = {Computer Methods in Applied Mechanics and Engineering},
-	author = {Pham, Ha and Faucher, Florian and Barucq, Hélène},
-	date = {2024-06},
-	note = {Publisher: Elsevier},
-}
-
-@unpublished{aghili_accelerating_2024,
-	title = {Accelerating the convergence of Newton's method for nonlinear elliptic {PDEs} using Fourier neural operators},
-	url = {https://hal.science/hal-04440076},
-	author = {Aghili, Joubine and Hild, Romain and Michel-Dansac, Victor and Vigon, Vincent and Franck, Emmanuel},
-	date = {2024-02},
-	keywords = {Fourier neural operators, Neural operators, Newton's method, Nonlinear elliptic {PDEs}},
-}
-
-@article{saigre_model_2024,
-	title = {Model order reduction and sensitivity analysis for complex heat transfer simulations inside the human eyeball},
-	url = {https://hal.science/hal-04361954},
-	doi = {10.1002/cnm.3864},
-	pages = {e3864},
-	journaltitle = {International Journal for Numerical Methods in Biomedical Engineering},
-	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela},
-	date = {2024-09},
-	note = {Publisher: John Wiley and Sons},
-	keywords = {Heat transfer, Sensitivity analysis, Mathematical and computational ophthalmology, real-time model order reduction, Uncertainty qualification, Validation},
-}
-
-@unpublished{buttari_modular_2024,
-	title = {A modular framework for the backward error analysis of {GMRES}},
-	url = {https://hal.science/hal-04525918},
-	author = {Buttari, Alfredo and Higham, Nicholas J and Mary, Théo and Vieublé, Bastien},
-	date = {2024-03},
-	keywords = {Computer arithmetic, {GMRES}, Iterative solvers, Linear system of equations, Rounding error analysis},
-}
-
-@unpublished{beuzeville_deterministic_2024,
-	title = {Deterministic and probabilistic backward error analysis of neural networks in floating-point arithmetic},
-	url = {https://hal.science/hal-04663142},
-	author = {Beuzeville, Théo and Buttari, Alfredo and Gratton, Serge and Mary, Theo},
-	date = {2024-07},
-	keywords = {floating-point arithmetic, artificial neural networks, backward error, error analysis, probabilistic error analysis, rounding errors},
-}
-
-@inproceedings{ouertatani_accelerated_2024,
-	location = {Lugano, Switzerland},
-	title = {Accelerated {NAS} via pretrained ensembles and multi-fidelity Bayesian Optimization},
-	url = {https://hal.science/hal-04611343},
-	booktitle = {33rd International Conference on Artificial Neural Networks ({ICANN})},
-	author = {Ouertatani, Houssem and Maxim, Cristian and Niar, Smail and Talbi, El-Ghazali},
-	date = {2024-09},
-	keywords = {Deep Ensembles, Multi-fidelity {BO}, Neural Architecture Search},
-}
-
-@online{fault_tolerance_working_group_mpi_forum_user_2024,
-	title = {User Level Failure Mitigation ({ULFM})},
-	url = {https://fault-tolerance.org/},
-	abstract = {The User Level Failure Mitigation ({ULFM}) proposal is developed by the {MPI} Forum’s Fault Tolerance Working Group to support the continued operation of {MPI} programs after crash (node failures) have impacted the execution. The key principle is that no {MPI} call (point-to-point, collective, {RMA}, {IO}, …) can block indefinitely after a failure, but must either succeed or raise an {MPI} error. In addition the design is centered around user needs and flexibility, the {API} should allow varied fault tolerant models to be built as external libraries.},
-	author = {{Fault Tolerance Working Group, MPI Forum}},
-	date = {2024},
-	keywords = {fault tolerance, resilience},
-}
-
-@online{open_mpi_documentation_team_user_2024,
-	title = {User Level Failure Mitigation ({ULFM}) in Open {MPI}},
-	url = {https://docs.open-mpi.org/en/v5.0.x/features/ulfm.html},
-	abstract = {This chapter documents the features and options specific to the User Level Failure Mitigation ({ULFM}) Open {MPI} implementation. The {ULFM} proposal is developed by the {MPI} Forum’s Fault Tolerance Working Group to support the continued operation of {MPI} programs after failures, both hard and soft, have impacted execution. No {MPI} call can block indefinitely after a failure, and errors are not necessarily fatal, as the {MPI} implementation makes a best effort to maintain the execution environment.},
-	author = {{Open MPI Documentation Team}},
-	date = {2024},
-	keywords = {fault tolerance, resilience},
-}
-
-@inproceedings{bautista-gomez_fti_2011,
-	location = {New York, {NY}, {USA}},
-	title = {{FTI}: high performance fault tolerance interface for hybrid systems},
-	isbn = {978-1-4503-0771-0},
-	url = {https://doi.org/10.1145/2063384.2063427},
-	doi = {10.1145/2063384.2063427},
-	series = {{SC} '11},
-	abstract = {Large scientific applications deployed on current petascale systems expend a significant amount of their execution time dumping checkpoint files to remote storage. New fault tolerant techniques will be critical to efficiently exploit post-petascale systems. In this work, we propose a low-overhead high-frequency multi-level checkpoint technique in which we integrate a highly-reliable topology-aware Reed-Solomon encoding in a three-level checkpoint scheme. We efficiently hide the encoding time using one Fault-Tolerance dedicated thread per node. We implement our technique in the Fault Tolerance Interface {FTI}. We evaluate the correctness of our performance model and conduct a study of the reliability of our library. To demonstrate the performance of {FTI}, we present a case study of the Mw9.0 Tohoku Japan earthquake simulation with {SPECFEM}3D on {TSUBAME}2.0. We demonstrate a checkpoint overhead as low as 8\% on sustained 0.1 petaflops runs (1152 {GPUs}) while checkpointing at high frequency.},
-	booktitle = {Proceedings of 2011 International Conference for High Performance Computing, Networking, Storage and Analysis},
-	publisher = {Association for Computing Machinery},
-	author = {Bautista-Gomez, Leonardo and Tsuboi, Seiji and Komatitsch, Dimitri and Cappello, Franck and Maruyama, Naoya and Matsuoka, Satoshi},
-	date = {2011},
-	note = {event-place: Seattle, Washington},
-}
-
-@book{fti_documentation_team_fti_2024,
-	title = {{FTI}: Fault Tolerance Interface - Examples},
-	url = {https://fault-tolerance-interface.readthedocs.io/en/latest/examples.html},
-	abstract = {This webpage provides examples of how to use the Fault Tolerance Interface ({FTI}) for implementing fault tolerance in {HPC} applications. The examples demonstrate checkpointing, recovery, and handling failures with {FTI}.},
-	author = {{FTI Documentation Team}},
-	date = {2024},
-	keywords = {fault tolerance, resilience},
-}
-
-@inproceedings{koziol_extreme_2012,
-	title = {Extreme I/O Scaling with {HDF}5},
-	url = {https://cscads.rice.edu/HDF5-CScADS.pdf},
-	booktitle = {{XSEDE} 12 - Extreme Scaling Workshop},
-	publisher = {The {HDF} Group},
-	author = {Koziol, Quincey},
-	date = {2012},
-	file = {Full Text:files/1238/Koziol - 2012 - Extreme IO Scaling with HDF5.pdf:application/pdf},
-}
-
-@online{laboratory_llnl_scalable_2024,
-	title = {Scalable Checkpoint/Restart for {MPI} ({SCR})},
-	url = {https://computing.llnl.gov/projects/scalable-checkpoint-restart-for-mpi},
-	abstract = {The Scalable Checkpoint/Restart ({SCR}) library enables efficient, scalable checkpointing of {MPI} applications. This project from {LLNL} focuses on reducing checkpoint overhead to improve resilience in high-performance computing environments.},
-	author = {Laboratory ({LLNL}), Lawrence Livermore National},
-	date = {2024},
-}
-
-@inproceedings{liang_daos_2020,
-	location = {Berlin, Heidelberg},
-	title = {{DAOS}: A Scale-Out High Performance Storage Stack for Storage Class Memory},
-	isbn = {978-3-030-48841-3},
-	url = {https://doi.org/10.1007/978-3-030-48842-0_3},
-	doi = {10.1007/978-3-030-48842-0_3},
-	abstract = {The Distributed Asynchronous Object Storage ({DAOS}) is an open source scale-out storage system that is designed from the ground up to support Storage Class Memory ({SCM}) and {NVMe} storage in user space. Its advanced storage {API} enables the native support of structured, semi-structured and unstructured data models, overcoming the limitations of traditional {POSIX} based parallel filesystem. For {HPC} workloads, {DAOS} provides direct {MPI}-{IO} and {HDF}5 support as well as {POSIX} access for legacy applications. In this paper we present the architecture of the {DAOS} storage engine and its high-level application interfaces. We also describe initial performance results of {DAOS} for {IO}500 benchmarks.},
-	pages = {40--54},
-	booktitle = {Supercomputing Frontiers: 6th Asian Conference, {SCFA} 2020, Singapore, February 24–27, 2020, Proceedings},
-	publisher = {Springer-Verlag},
-	author = {Liang, Zhen and Lombardi, Johann and Chaarawi, Mohamad and Hennecke, Michael},
-	date = {2020},
-	note = {event-place: Singapore, Singapore},
-	keywords = {{DAOS}, Distributed storage system, {NVMe}, Parallel filesystem, Persistent memory, {RAFT}, {SCM}, {SWIM}},
-}
-
-@book{project_zfs_2024,
-	title = {{ZFS} Administration Guide},
-	url = {https://openzfs.github.io/openzfs-docs/man/master/8/zfs.8.html},
-	abstract = {The {ZFS} administration guide provides detailed documentation on managing {ZFS}, a robust file system and volume manager for high-performance computing environments. It covers various commands for managing file systems, snapshots, and data integrity.},
-	author = {Project, {OpenZFS}},
-	date = {2024},
-}
-
-@misc{wikipedia_contributors_zfs_2024,
-	title = {{ZFS}},
-	url = {https://en.wikipedia.org/wiki/ZFS},
-	abstract = {{ZFS} is a combined file system and logical volume manager designed by Sun Microsystems. It is known for its data integrity, support for high storage capacities, and protection against data corruption. This Wikipedia entry provides an overview of its history, features, and applications.},
-	author = {{Wikipedia contributors}},
-	date = {2024},
-}
-
-@inproceedings{firmin_massively_2023,
-	title = {Massively Parallel Asynchronous Fractal Optimization},
-	doi = {10.1109/IPDPSW59300.2023.00151},
-	pages = {930--938},
-	booktitle = {2023 {IEEE} International Parallel and Distributed Processing Symposium Workshops ({IPDPSW})},
-	author = {Firmin, Thomas and Talbi, El-Ghazali},
-	date = {2023},
-	keywords = {Asynchronous metaheuristic, Conferences, Continuous optimization, Distributed processing, Fractals, Hierarchical decomposition, Linear programming, Search problems, Software, Software algorithms},
-}
-
-@article{blanchard_uranie_2019,
-	title = {The Uranie platform: an open-source software for optimisation, meta-modelling and uncertainty analysis},
-	volume = {5},
-	rights = {© J.-B. Blanchard et al., published by {EDP} Sciences, 2019},
-	issn = {2491-9292},
-	url = {https://www.epj-n.org/articles/epjn/abs/2019/01/epjn180009/epjn180009.html},
-	doi = {10.1051/epjn/2018050},
-	shorttitle = {The Uranie platform},
-	abstract = {The high-performance computing resources and the constant improvement of both numerical simulation accuracy and the experimental measurements with which they are confronted bring a new compulsory step to strengthen the credence given to the simulation results: uncertainty quantification. This can have different meanings, according to the requested goals (rank uncertainty sources, reduce them, estimate precisely a critical threshold or an optimal working point), and it could request mathematical methods with greater or lesser complexity. This paper introduces the Uranie platform, an open-source framework developed at the Alternative Energies and Atomic Energy Commission ({CEA}), in the nuclear energy division, in order to deal with uncertainty propagation, surrogate models, optimisation issues, code calibration, etc. This platform benefits from both its dependencies and from personal developments, to offer an efficient data handling model, a C++ and Python interface, advanced graphi graphical tools, several parallelisation solutions, etc. These methods can then be applied to many kinds of code (considered as black boxes by Uranie) so to many fields of physics as well. In this paper, the example of thermal exchange between a plate-sheet and a fluid is introduced to show how Uranie can be used to perform a large range of analysis.},
-	pages = {4},
-	journaltitle = {{EPJ} Nuclear Sciences \& Technologies},
-	shortjournal = {{EPJ} Nuclear Sci. Technol.},
-	author = {Blanchard, Jean-Baptiste and Damblin, Guillaume and Martinez, Jean-Marc and Arnaud, Gilles and Gaudier, Fabrice},
-	urldate = {2024-09-30},
-	date = {2019},
-	langid = {english},
-	file = {Full Text PDF:files/1286/Blanchard et al. - 2019 - The Uranie platform an open-source software for o.pdf:application/pdf},
-}
-
-@inproceedings{firmin_comparative_2023,
-	title = {A Comparative Study of Fractal-Based Decomposition Optimization},
-	volume = {1824},
-	url = {https://doi.org/10.1007/978-3-031-34020-8\_1},
-	doi = {10.1007/978-3-031-34020-8_1},
-	series = {Communications in Computer and Information Science},
-	pages = {3--20},
-	booktitle = {Optimization and Learning - 6th International Conference, {OLA} 2023, Malaga, Spain, May 3-5, 2023, Proceedings},
-	publisher = {Springer},
-	author = {Firmin, Thomas and Talbi, El-Ghazali},
-	editor = {Dorronsoro, Bernabé and Chicano, Francisco and Danoy, Grégoire and Talbi, El-Ghazali},
-	date = {2023},
-}
-
-@article{van_landeghem_mathematical_2024,
-	title = {Mathematical and computational framework for moving and colliding rigid bodies in a Newtonian fluid},
-	volume = {9},
-	issn = {2380288X, 23802898},
-	url = {https://www.intlpress.com/site/pub/pages/journals/items/amsa/content/vols/0009/0001/a002/},
-	doi = {10.4310/AMSA.2024.v9.n1.a2},
-	pages = {59--89},
-	number = {1},
-	journaltitle = {Annals of Mathematical Sciences and Applications},
-	author = {Van Landeghem, Céline and Berti, Luca and Chabannes, Vincent and Chouippe, Agathe and Giraldi, Laetitia and Hoarau, Yannick and Prud’homme, Christophe},
-	urldate = {2024-05-30},
-	date = {2024},
-	file = {Submitted Version:files/1289/Van Landeghem et al. - 2024 - Mathematical and computational framework for movin.pdf:application/pdf},
-}
-
-@misc{noauthor_iso_2017,
-	title = {{ISO} 10211:2017 - Thermal bridges in building construction — Heat flows and surface temperatures — Detailed calculations},
-	url = {https://www.iso.org/standard/65710.html},
-	date = {2017},
-	keywords = {building construction, detailed calculations, heat flows, surface temperatures, thermal bridges},
-	file = {PDF:files/1303/2017 - ISO 102112017 - Thermal bridges in building construction — Heat flows and surface temperatures — De.pdf:application/pdf},
-}
-
-@book{advanced_micro_devices_inc_rocthrust_2024,
-	edition = {Release 3.0.1},
-	title = {{rocThrust} Documentation},
-	url = {https://rocm.docs.amd.com/projects/rocThrust/en/latest/index.html},
-	author = {{Advanced Micro Devices, Inc.}},
-	date = {2024-08},
-	keywords = {gpu, {AMD}, rocm},
-	file = {PDF:files/1299/Advanced Micro Devices, Inc. - 2024 - rocThrust Documentation.pdf:application/pdf},
-}
-
-@book{advanced_micro_devices_inc_hip_2024,
-	edition = {Release 6.1.40091},
-	title = {{HIP} Documentation},
-	url = {https://rocm.docs.amd.com/projects/HIP/en/latest/index.html},
-	author = {{Advanced Micro Devices, Inc.}},
-	date = {2024-05},
-	keywords = {{AMD}, {HIP}, {GPU}},
-	file = {PDF:files/1302/Advanced Micro Devices, Inc. - 2024 - HIP Documentation.pdf:application/pdf},
-}
-
-@article{feppon_shape_2019,
-	title = {Shape optimization of a coupled thermal fluid-structure problem in a level set mesh evolution framework},
-	volume = {76},
-	issn = {2254-3902},
-	doi = {10.1007/s40324-018-00185-4},
-	pages = {413--458},
-	number = {3},
-	journaltitle = {{SeMA}},
-	author = {Feppon, F. and Allaire, G. and Bordeu, F. and Cortial, J. and Dapogny, C.},
-	date = {2019-09},
-	note = {Publisher: Springer International Publishing},
-	keywords = {shape optimisation, multiphysics, fsi},
-	file = {Submitted Version:files/1314/Feppon et al. - 2019 - Shape optimization of a coupled thermal fluid-structure problem in a level set mesh evolution framew.pdf:application/pdf},
-}
-
-@article{feppon_f_null_2020,
-	title = {Null space gradient flows for constrained optimization with applications to shape optimization},
-	volume = {26},
-	url = {https://doi.org/10.1051/cocv/2020015},
-	doi = {10.1051/cocv/2020015},
-	pages = {90},
-	journaltitle = {{ESAIM}: {COCV}},
-	author = {{Feppon, F.} and {Allaire, G.} and {Dapogny, C.}},
-	date = {2020},
-	keywords = {shape optimisation, multiphysics},
-	file = {Full Text PDF:files/1316/Feppon, F. et al. - 2020 - Null space gradient flows for constrained optimization with applications to shape optimization.pdf:application/pdf},
-}
-
-@thesis{feppon_shape_2019-1,
-	title = {Shape and topology optimization of multiphysics systems},
-	institution = {Thèse de doctorat de l'Universit'e Paris-Saclay pr'epar'ee à l”Ecole polytechnique},
-	type = {phdthesis},
-	author = {Feppon, Florian},
-	date = {2019},
-	keywords = {shape optimisation, multiphysics},
-	file = {PDF:files/1318/Feppon - 2019 - Shape and topology optimization of multiphysics systems.pdf:application/pdf},
-}
-
-@article{stewart_assessment_2012,
-	title = {Assessment of {CFD} Performance in Simulations of an Idealized Medical Device: Results of {FDA}’s First Computational Interlaboratory Study},
-	volume = {3},
-	issn = {1869-408X},
-	url = {http://dx.doi.org/10.1007/s13239-012-0087-5},
-	doi = {10.1007/s13239-012-0087-5},
-	pages = {139--160},
-	number = {2},
-	journaltitle = {Cardiovascular Engineering and Technology},
-	author = {Stewart, {SandyF}.C. and Paterson, {EricG}. and Burgreen, {GregW}. and Hariharan, Prasanna and Giarra, Matthew and Reddy, Varun and Day, {StevenW}. and Manning, {KeefeB}. and Deutsch, Steven and Berman, {MichaelR}. and Myers, {MatthewR}. and Malinauskas, {RichardA}.},
-	date = {2012},
-	keywords = {Blood damage, Computational fluid dynamics, Experimental validation, Medical devices, {FDA}},
-}
-
-@article{hariharan_multilaboratory_2011,
-	title = {Multilaboratory Particle Image Velocimetry Analysis of the {FDA} Benchmark Nozzle Model to Support Validation of Computational Fluid Dynamics Simulations},
-	volume = {133},
-	issn = {0148-0731},
-	url = {http://dx.doi.org/10.1115/1.4003440},
-	doi = {doi: 10.1115/1.4003440},
-	journaltitle = {Journal of Biomechanical Engineering},
-	author = {Hariharan, Prasanna and Giarra, Matthew and Reddy, Varun and Day, Steven W. and Manning, Keefe B. and Deutsch, Steven and Stewart, Sandy F. C. and Myers, Matthew R. and Berman, Michael R. and Burgreen, Greg W. and Paterson, Eric G. and Malinauskas, Richard A.},
-	date = {2011-02},
-	keywords = {{FDA}},
-}
-
-@inproceedings{saigre_coupled_2024,
-	location = {Arlington (Virginia), United States},
-	title = {A coupled fluid-dynamics-heat transfer model for 3D simulations of the aqueous humor flow in the human eye},
-	url = {https://hal.science/hal-04558924},
-	booktitle = {{CMBE}24},
-	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
-	date = {2024-06},
-	keywords = {finite element method, mathematical and computational ophthalmology, thermo-fluid dynamics, Thermo-fluid dynamics},
-}
-
-@inproceedings{chabannes_high_2017,
-	location = {Pittsburgh, {PA}, United States},
-	title = {High order finite element simulations for fluid dynamics validated by experimental data from the fda benchmark nozzle model},
-	url = {https://hal.science/hal-01429685},
-	booktitle = {5th International Conference on Computational and Mathematical Biomedical Engineering - {CMBE}2017},
-	author = {Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela and Tarabay, Ranine},
-	date = {2017-04},
-	keywords = {{CFD}, validation, medical device, open source finite element software},
-	file = {HAL PDF Full Text:files/1326/Chabannes et al. - 2017 - High order finite element simulations for fluid dynamics validated by experimental data from the fda.pdf:application/pdf},
-}
-
-@article{portaneri_alpha_2022,
-	title = {Alpha Wrapping with an Offset},
-	volume = {41},
-	url = {https://inria.hal.science/hal-03688637},
-	doi = {10.1145/3528223.3530152},
-	abstract = {Given an input 3D geometry such as a triangle soup or a point set, we address the problem of generating a watertight and orientable surface triangle mesh that strictly encloses the input. The output mesh is obtained by greedily refining and carving a 3D Delaunay triangulation on an offset surface of the input, while carving with empty balls of radius alpha. The proposed algorithm is controlled via two user-defined parameters: alpha and offset. Alpha controls the size of cavities or holes that cannot be traversed during carving, while offset controls the distance between the vertices of the output mesh and the input. Our algorithm is guaranteed to terminate and to yield a valid and strictly enclosing mesh, even for defect-laden inputs. Genericity is achieved using an abstract interface probing the input, enabling any geometry to be used, provided a few basic geometric queries can be answered. We benchmark the algorithm on large public datasets such as Thingi10k, and compare it to state-of-the-art approaches in terms of robustness, approximation, output complexity, speed, and peak memory consumption. Our implementation is available through the {CGAL} library.},
-	pages = {1},
+@article{zhang_petscsf_2022,
+	title = {The {PetscSF} {Scalable} {Communication} {Layer}},
+	volume = {33},
 	number = {4},
-	journaltitle = {{ACM} Transactions on Graphics},
-	author = {Portaneri, Cédric and Rouxel-Labbé, Mael and Hemmer, Michael and Cohen-Steiner, David and Alliez, Pierre},
-	urldate = {2024-10-02},
-	date = {2022-06-01},
-	langid = {english},
-	keywords = {cgal},
+	journal = {IEEE Transactions on Parallel and Distributed Systems},
+	author = {Zhang, Junchao and Brown, Jed and Balay, Satish and Faibussowitsch, Jacob and Knepley, Matthew and Marin, Oana and Mills, Richard Tran and Munson, Todd and Smith, Barry F. and Zampini, Stefano},
+	year = {2022},
+	pages = {842--853},
 }
 
-@article{jamin_cgalmesh_2015,
-	title = {{CGALmesh}: a Generic Framework for Delaunay Mesh Generation},
-	volume = {41},
-	url = {https://inria.hal.science/hal-01071759},
-	doi = {10.1145/2699463},
-	shorttitle = {{CGALmesh}},
-	abstract = {{CGALmesh} is the mesh generation software package of the Computational Geometry Algorithm Library ({CGAL}). It generates isotropic simplicial meshes -- surface triangular meshes or volume tetrahedral meshes -- from input surfaces, 3D domains as well as 3D multi-domains, with or without sharp features. The underlying meshing algorithm relies on restricted Delaunay triangulations to approximate domains and surfaces, and on Delaunay refinement to ensure both approximation accuracy and mesh quality. {CGALmesh} provides guarantees on approximation quality as well as on the size and shape of the mesh elements. It provides four optional mesh optimization algorithms to further improve the mesh quality. A distinctive property of {CGALmesh} is its high flexibility with respect to the input domain representation. Such a flexibility is achieved through a careful software design, gathering into a single abstract concept, denoted by the oracle, all required interface features between the meshing engine and the input domain. We already provide oracles for domains defined by polyhedral and implicit surfaces.},
-	pages = {24},
-	number = {4},
-	journaltitle = {{ACM} Transactions on Mathematical Software},
-	author = {Jamin, Clément and Alliez, Pierre and Yvinec, Mariette and Boissonnat, Jean-Daniel},
-	urldate = {2024-10-02},
-	date = {2015},
-	langid = {english},
-	keywords = {cgal},
+@article{dalcin_parallel_2011,
+	title = {Parallel distributed computing using {Python}},
+	volume = {34},
+	issn = {0309-1708},
+	doi = {10.1016/j.advwatres.2011.04.013},
+	number = {9},
+	journal = {Advances in Water Resources},
+	author = {Dalcin, Lisandro D. and Paz, Rodrigo R. and Kler, Pablo A. and Cosimo, Alejandro},
+	year = {2011},
+	pages = {1124 -- 1139},
 }
 
-@incollection{alliez_3d_2024-1,
-	edition = {6.0},
-	title = {3D mesh generation},
-	url = {https://doc.cgal.org/6.0/Manual/packages.html#PkgMesh3},
-	booktitle = {{CGAL} user and reference manual},
-	publisher = {{CGAL} Editorial Board},
-	author = {Alliez, Pierre and Jamin, Clément and Rineau, Laurent and Tayeb, Stéphane and Tournois, Jane and Yvinec, Mariette},
-	date = {2024},
-	keywords = {cgal},
+@techreport{balay_petsctao_2024,
+	title = {{PETSc}/{TAO} {Users} {Manual}},
+	number = {ANL-21/39 - Revision 3.21},
+	institution = {Argonne National Laboratory},
+	author = {Balay, Satish and Abhyankar, Shrirang and Adams, Mark F. and Benson, Steven and Brown, Jed and Brune, Peter and Buschelman, Kris and Constantinescu, Emil and Dalcin, Lisandro and Dener, Alp and Eijkhout, Victor and Faibussowitsch, Jacob and Gropp, William D. and Hapla, Václav and Isaac, Tobin and Jolivet, Pierre and Karpeev, Dmitry and Kaushik, Dinesh and Knepley, Matthew G. and Kong, Fande and Kruger, Scott and May, Dave A. and McInnes, Lois Curfman and Mills, Richard Tran and Mitchell, Lawrence and Munson, Todd and Roman, Jose E. and Rupp, Karl and Sanan, Patrick and Sarich, Jason and Smith, Barry F. and Zampini, Stefano and Zhang, Hong and Zhang, Hong and Zhang, Junchao},
+	year = {2024},
+	doi = {10.2172/2205494},
+}
+
+@misc{ootomo_dgemm_2024,
+	title = {{DGEMM} on {Integer} {Matrix} {Multiplication} {Unit}},
+	url = {http://arxiv.org/abs/2306.11975},
+	abstract = {Deep learning hardware achieves high throughput and low power consumption by reducing computing precision and specializing in matrix multiplication. For machine learning inference, fixed-point value computation is commonplace, where the input and output values and the model parameters are quantized. Thus, many processors are now equipped with fast integer matrix multiplication units (IMMU). It is of significant interest to find a way to harness these IMMUs to improve the performance of HPC applications while maintaining accuracy. We focus on the Ozaki scheme, which computes a high-precision matrix multiplication by using lower-precision computing units, and show the advantages and disadvantages of using IMMU. The experiment using integer Tensor Cores shows that we can compute double-precision matrix multiplication faster than cuBLAS and an existing Ozaki scheme implementation on FP16 Tensor Cores on NVIDIA consumer GPUs. Furthermore, we demonstrate accelerating a quantum circuit simulation by up to 4.33 while maintaining the FP64 accuracy.},
+	urldate = {2024-06-28},
+	publisher = {arXiv},
+	author = {Ootomo, Hiroyuki and Ozaki, Katsuhisa and Yokota, Rio},
+	month = mar,
+	year = {2024},
+	note = {arXiv:2306.11975 [cs]},
+	keywords = {Computer Science - Distributed, Parallel, and Cluster Computing},
+}
+
+@inproceedings{haidar_harnessing_2018,
+	address = {Dallas, TX, USA},
+	title = {Harnessing {GPU} {Tensor} {Cores} for {Fast} {FP16} {Arithmetic} to {Speed} up {Mixed}-{Precision} {Iterative} {Refinement} {Solvers}},
+	isbn = {978-1-5386-8384-2},
+	url = {https://ieeexplore.ieee.org/document/8665777/},
+	doi = {10.1109/SC.2018.00050},
+	urldate = {2024-06-28},
+	booktitle = {{SC18}: {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {IEEE},
+	author = {Haidar, Azzam and Tomov, Stanimire and Dongarra, Jack and Higham, Nicholas J.},
+	month = nov,
+	year = {2018},
+	pages = {603--613},
 }
