@@ -394,6 +394,7 @@ Moreover, even though the relative time is globally similar when the number of c
 
 \begin{figure}
     \centering
+    \begin{subfigure}[b]{\textwidth}
     \begin{tikzpicture}
         \begin{axis}[
             width=0.97\textwidth, height=8cm,
@@ -436,12 +437,9 @@ Moreover, even though the relative time is globally similar when the number of c
         \end{tikzpicture}
     \caption{Computational time for the coupled heat-fluid testcase, performed on Gaya with the meshes \texttt{Mr4} (left), \texttt{Mr5} (middle) and \texttt{Mr6} (right).}
     \label{fig:feelpp:wp1:coupled:time}
-\end{figure}
-
-
-\begin{figure}
-    \centering
-
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{\textwidth}
     \begin{tikzpicture}
         \begin{axis}[
             width=0.97\textwidth, height=8cm,
@@ -503,6 +501,9 @@ Moreover, even though the relative time is globally similar when the number of c
 
     \caption{Relative time spent in each component of the computation for the coupled heat-fluid testcase, performed on Gaya with the meshes \texttt{Mr4} (left), \texttt{Mr5} (middle) and \texttt{Mr6} (right).}
     \label{fig:feelpp:wp1:coupled:time-rel}
+\end{subfigure}
+\caption{Absolute~\cref{fig:feelpp:wp1:coupled:time} and relative~\cref{fig:feelpp:wp1:coupled:time-rel}  computational time for the coupled heat-fluid testcase, performed on Gaya with the meshes \texttt{Mr4}, \texttt{Mr5}, and \texttt{Mr6}.}
+\label{fig:feelpp:wp1:heatfluid:time}
 \end{figure}
 
 
