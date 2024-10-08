@@ -39,21 +39,35 @@ B7 - Exascale Algorithms\\
     \caption{Hawen Information}
 \end{table}
 
+% ---------------------------------------------
+\newcommand{\hawen}{\textsc{Hawen}}
 \subsection{Software summary}
 \label{sec:Hawen:summary}
-Detailed overview not available.
+% ---------------------------------------------
+
+Software \hawen~(\url{https://ffaucher.gitlab.io/hawen-website/})
+considers the time-harmonic modeling of mechanical waves, and the 
+associated quantitative inverse wave problems.
+The code uses the Hybridizable Discontinuous Galerkin method for the 
+discretization. 
+It relies on iterative minimization algorithm to solve the quantitative
+inverse wave problem via nonlinear optimization.
 
 
 
 \subsection{Purpose}
 \label{sec:Hawen:purpose}
-Purpose not available.
+
+The major applications of \hawen~are to solve large-scale inverse 
+problems, in particular in the context of Earth's imaging and 
+helioseismology.
+
 
 \subsection{Programming and Computational Environment}
 \label{sec::Hawen:environment_capabilities}
 
 
-The following table summarizes these aspects for Hawen, providing a  view of its programming and computational capabilities.
+The following table~\ref{table:hawen-environment} summarizes these aspects for \hawen, providing a  view of its programming and computational capabilities.
 
 \begin{table}[h!]
     \centering
@@ -74,7 +88,7 @@ Multithread\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 Gmsh and associated formats\\
 VTK\\
-in-house format\\
+in-house binary format\\
 \end{tabular} & Data formats that the software can handle or produce.\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 None\\
@@ -86,18 +100,22 @@ None\\
 None\\
 \end{tabular} & Software packaging and distribution.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
-None\\
+Analytic solutions\\
 \end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
 None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
-MUMPS\\
+MUMPS\\ 
+Metis\\ 
+ARPACK (optional)\\
+PARPACK (optional)\\
 \end{tabular} & List of software Hawen has interfaces with.\\
         \bottomrule
     \end{tabular}
     }}
     \caption{Hawen programming and computational environment}
+    \label{table:hawen-environment}
 \end{table}
 
 
@@ -113,6 +131,25 @@ In this section, provide a summary the mathematics used in the software.
 \label{sec:Hawen:publications}
 
 Here is a list of relevant publications related to the software:
+\begin{itemize}
+\item \cite{Hawen2021}: Reference of the software in the journal of open-source software;
+\item \cite{Faucher2020adjoint}:
+      Mathematical details of the adjoint-state method in the framework 
+      of Hybridizable Discontinuous Galerkin discretization method.
+      It provides the computational steps for the implementation of the 
+      inverse problem.
+\item \cite{Pham2024stabilization}: Details of the numerical implementation 
+      of the HDG method for anisotropic elasticity.
+\item \cite{Faucher2019FRgWIGeo,Faucher2020DAS}: 
+      Use of the software in the context of seismic imaging.
+\item \cite{Pham2020Siam,Pham2024assembling}:
+      Use of the software in the context of helioseismology.
+\item \cite{Faucher2023viscoacoustic}: 
+      Use of the software in the context of viscoacoustics ultrasound imaging.
+\item \cite{Liu2024,Benitez2024}: 
+      Use of the software in the context of data science and
+      for benchmarks.
+\end{itemize}
 
 
 \subsection{Acknowledgements}
@@ -120,9 +157,13 @@ Here is a list of relevant publications related to the software:
 
 The software has been developed with the support of the following funding agencies and institutions: 
 
-
-
-
-Acknowledgements not available.
+\begin{itemize}
+  \item Since 2021, F. Faucher is part of the team Makutu of INRIA Bordeaux, at the 
+                    University of Pau and Pays de l'Adour.
+  \item 2024--2029, F. Faucher acknowledges support of the European Research Council 
+                    with ERC-StG Project INCORWAVE -- grant 101116288.
+  \item 2019--2021, F. Faucher acknowledges funding by the Austrian Science Fund (FWF) 
+        under the Lise Meitner grant allocation M2791-N.
+\end{itemize}
 
 
