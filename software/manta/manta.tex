@@ -157,16 +157,16 @@ nanobind
 MANTA's "core layer" is fully generic to handle PDEs and related numerical methods which can be formalized as the assembling of distributed linear systems through the spatial integration on meshes, and their resolution. Some auxiliary linear systems can be attached to a linear system to introduce dual unknowns allowing to impose some constraints on the primal unknowns. We ends up with a saddle-point linear system of the form:
 
 {
-\newcommand{\m}[1]{\boldsymbol{#1}}
+\newcommand{\mmm}[1]{\boldsymbol{#1}}
 \renewcommand{\v}[1]{\boldsymbol{#1}}
 \renewcommand{\t}[1]{\underline{#1}}
 \renewcommand{\d}[1]{\, \mathrm{d}#1}
 \begin{equation}
    \begin{bmatrix}
-     \m{A}&\m{C}^T_1&\hdots&\m{C}^T_q \\
-     \m{C}^T_1&&& \\
-     \vdots &&\m{0}& \\
-     \m{C}^T_q &&&\\
+     \mmm{A}&\mmm{C}^T_1&\hdots&\mmm{C}^T_q \\
+     \mmm{C}^T_1&&& \\
+     \vdots &&\mmm{0}& \\
+     \mmm{C}^T_q &&&\\
    \end{bmatrix}
    \begin{bmatrix}
      \v{X} \\
@@ -184,17 +184,17 @@ MANTA's "core layer" is fully generic to handle PDEs and related numerical metho
 \end{equation}
 
 
-MANTA provides internally different methods to "eliminate" the dual unknown $p$ for any auxiliary linear system: $\m{A}$ and $\m{B}$ are modified so that one obtain the exact or an approximated (depending on the method) solution $\v{X}$ of the problem, but with the unknown $\v{\lambda}_p$ removed.
+MANTA provides internally different methods to "eliminate" the dual unknown $p$ for any auxiliary linear system: $\mmm{A}$ and $\mmm{B}$ are modified so that one obtain the exact or an approximated (depending on the method) solution $\v{X}$ of the problem, but with the unknown $\v{\lambda}_p$ removed.
 
 The linear systems are assembled by spatial integration over some sets of mesh entities in a very classical way:
 \begin{equation}
-  \m{M}=\sum_i \mathcal{A}_i \int_{E_i} \m{m}(\t{x}) \d{\t{x}}
+  \mmm{M}=\sum_i \mathcal{A}_i \int_{E_i} \mmm{m}(\t{x}) \d{\t{x}}
 \end{equation}
-Here $\mathcal{A}_i$ is an "assembling operator" which maps local degrees of freedom for the entity $E_i$ to degrees of freedom of the problem. $\m{m}$ is the integrand function whose value is a dense matrix. The integral evaluation is approximated by means of quadrature rules and some mappings to reference cells:
+Here $\mathcal{A}_i$ is an "assembling operator" which maps local degrees of freedom for the entity $E_i$ to degrees of freedom of the problem. $\mmm{m}$ is the integrand function whose value is a dense matrix. The integral evaluation is approximated by means of quadrature rules and some mappings to reference cells:
 \begin{equation}
-  \m{M}=\sum_i \mathcal{A}_i \sum_{j} w_j \m{m}(\t{\xi}_j) |\det(\t{\phi}_i(\t{\xi}_j))| \text{ , where } (\t{x}\in E_i) = \t{\phi}_i(\xi)
+  \mmm{M}=\sum_i \mathcal{A}_i \sum_{j} w_j \mmm{m}(\t{\xi}_j) |\det(\t{\phi}_i(\t{\xi}_j))| \text{ , where } (\t{x}\in E_i) = \t{\phi}_i(\xi)
 \end{equation}
-The definition of the integrand $\m{m}$ and the assembling operator $\mathcal{A}_i$ are the two main entry points in the generic algorithm by which the new functionalities are developed.
+The definition of the integrand $\mmm{m}$ and the assembling operator $\mathcal{A}_i$ are the two main entry points in the generic algorithm by which the new functionalities are developed.
 
 }
 
