@@ -51,16 +51,33 @@
 
 \subsection{Software summary}
 \label{sec:Scimba:summary}
-Detailed overview not available.
 
+Scimba\footnote{\url{https://gitlab.inria.fr/scimba/scimba}} is a software package that provides a framework for solving partial differential equations using physics-informed learning. It is mainly developed by Inria researchers (E. Franck and V. Michel-Dansac), with support from CNRS and the University of Strasbourg.
 
 \subsection{Purpose}
 \label{sec:Scimba:purpose}
-Purpose not available.
+
+The purpose of Scimba is to provide a readily-available
+library for physics-informed machine learning.
+It has two main objectives:
+\begin{itemize}
+    \item being used as a tool for solving PDEs
+          with differentiable classical or ML-based methods,
+          before exploiting their numerical solutions
+          and differentiable properties;
+    \item provide an easy framework in which users
+          may develop new differentiable numerical methods
+          (ML-based or classical).
+\end{itemize}
+As such, it aims at being easy to install and use,
+while providing existing ML-based and classical methods
+(see Section~\ref{sec:WP2:Scimba:summary}).
+It also aims at providing good performance,
+using the intrinsic prarallelizability of
+ML-based methods and libraries.
 
 \subsection{Programming and Computational Environment}
 \label{sec::Scimba:environment_capabilities}
-
 
 The following table summarizes these aspects for Scimba, providing a  view of its programming and computational capabilities.
 
@@ -157,18 +174,18 @@ the boundary conditions and the initial conditions.
 An example of a physics-informed loss function is:
 \begin{equation*}
     \begin{aligned}
-    \mathcal{L} & =
-    \int_\Omega \int_0^T \int_{\mathbb{M}}
-    ||\mathcal{D}(u, x, t; \mu)||^2 \,
-    \mathrm{d}\mu \, \mathrm{d}t \, \mathrm{d}x \\
-    & +
-    \int_{\partial\Omega} \int_0^T \int_{\mathbb{M}}
-    ||\mathcal{B}(u, x, t; \mu)||^2 \,
-    \mathrm{d}\mu \, \mathrm{d}t \, \mathrm{d}x
-    +
-    \int_{\Omega} \int_{\mathbb{M}}
-    ||u(x, 0; \mu) - u_0(x;\mu)||^2 \,
-    \mathrm{d}\mu \, \mathrm{d}x.
+        \mathcal{L} & =
+        \int_\Omega \int_0^T \int_{\mathbb{M}}
+        ||\mathcal{D}(u, x, t; \mu)||^2 \,
+        \mathrm{d}\mu \, \mathrm{d}t \, \mathrm{d}x \\
+                    & +
+        \int_{\partial\Omega} \int_0^T \int_{\mathbb{M}}
+        ||\mathcal{B}(u, x, t; \mu)||^2 \,
+        \mathrm{d}\mu \, \mathrm{d}t \, \mathrm{d}x
+        +
+        \int_{\Omega} \int_{\mathbb{M}}
+        ||u(x, 0; \mu) - u_0(x;\mu)||^2 \,
+        \mathrm{d}\mu \, \mathrm{d}x.
     \end{aligned}
 \end{equation*}
 Other data-driven methods
