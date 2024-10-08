@@ -38,7 +38,12 @@ B2 - Interconnect Technology\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \hline
+\rowcolor{numpexlightergray}\textbf{Contributors} & \begin{tabular}{l}
+    Christophe Prud'homme (UNISTRA)\\
+    Vincent Chabannes (UNISTRA)\\
+    Thomas Saigre (UNISTRA)\\
+\end{tabular}\\
+        \bottomrule
     \end{tabular}
     }}
     \caption{WP2: \Feelpp Information}
@@ -47,7 +52,7 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP2:Feelpp:summary}
 
-In~\cref{tab:WP2:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+In~\cref{tab:WP2:Feelpp:features}, we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[!ht]
     \centering
@@ -61,12 +66,9 @@ In~\cref{tab:WP2:Feelpp:features} we provide a summary of the software features 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    "ROM-DA: GEIM PBDW & provide short description here \\
-\rowcolor{numpexlightergray}    "ROM: RB & provide short description here \\
-\rowcolor{white}    ..." & provide short description here \\
-\rowcolor{numpexlightergray}    ..." & provide short description here \\
-\rowcolor{white}    POD & provide short description here \\
-\rowcolor{numpexlightergray}    ROM: NIRB & provide short description here \\
+\rowcolor{white}    ROM-DA: GEIM PBDW & \Feelpp support data driven reduced basis method PBDW and GEIM which can work often in combination\\
+\rowcolor{numpexlightergray}    ROM: RB, CRB, RB-GREEDY, POD, EIM, SCM, $\min-\theta$ & \Feelpp supports efficient reduced basis approximation thanks to affine decomposition that can be computed by hand or via EIM. Several constructions are possible: Reduced Basis from sampling, Greedy and POD. Certified Reduced Basis can be built. The online code is generated as well as a database and assocated metadata. \\
+\rowcolor{white}    ROM: NIRB & Nonintrusive reduced basis~\cite{CRMATH_2009__347_7-8_435_0} are available as a python layer \\
 \hline
 \end{tabular}
         }
@@ -80,33 +82,26 @@ In~\cref{tab:WP2:Feelpp:features} we provide a summary of the software features 
 \label{sec:WP2:Feelpp:performances}
 
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
-
+\begin{description}
+    \item[Parallel Programming Environment:] The model order reduction methods profit from \Feelpp parallel capabilities. MPI is used to distribute the load for offline calculation. The online stage can use multithreading.
+    \item[super computer:] The reduced basis has been run on Gaya~\cref{sec:arch:gaya}
+    \item[Parallel Capabilities:] the offline stage can profit from the parallel capabilities of \Feelpp. 
+    \item[Scalability:] The reduced basis methods share similar performances as in WP1~\cref{sec:WP1:Feelpp:software}.
+    \item[Integration with Other Systems:] The reduced basis methods are often used in combination with OpenTURNS and OpenMODELICA/Dymola.
+\end{description}
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP2:Feelpp:metrics}
 
 This section provides a summary of initial performance benchmarks performed in the context of WP2. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+\begin{description}
+    \item[Overall Performance] \Feelpp reduced order method profit from \Feelpp parallel capabilities. Similar
+    \item[Input/Output Dataset] The dataset for the \Feelpp model order reduction methods are composed of the finite element configuration for the offline stage and a  JSON description of the parameter domain, the parameter variability and the outputs of interests.
+    \item[open-data Access] \Feelpp uses json as metadata format and in-house open format for the online database. The current format require documentation.
+    \item[Challenges] Some of the challenges are that the reduced basis method imply a complex workflow with many steps that need to be carefully configured for efficient computation. In particular the reduced basis functions require  robust finite element solves as well as a posteriori error bounds or estimations which means developing robust algrebraic solution strategies.
+    \item[Future Improvements] performance monitoring of all the steps of the reduced order methods, documentation of the online stage data formats and large scale benchmarking.
+\end{description}
 
 
 

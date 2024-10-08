@@ -1,5 +1,5 @@
 %!TEX root = ../../../exa-ma-d7.1.tex
-\section{Software: Feel++}
+\section{Software: \texorpdfstring{\Feelpp}{Feel++}}
 \label{sec:WP4:Feel++:software}
 
 \begin{table}[!ht]
@@ -38,6 +38,10 @@ B2 - Interconnect Technology\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
+\rowcolor{numpexlightergray}\textbf{Contributors} & \begin{tabular}{l}
+    Christophe Prud'homme (UNISTRA)\\
+    Vincent Chabannes (UNISTRA)
+    \end{tabular}\\
         \bottomrule
     \end{tabular}
     }}
@@ -61,7 +65,7 @@ In~\cref{tab:WP4:Feel++:features} we provide a summary of the software features 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    stochastic data assimilation: ensemble & provide short description here \\
+\rowcolor{white}   stochastic and deterministic data assimilation: ensemble kalman filter & \Feelpp support ensemble runs and EnKF~\cite{asch_data_2016}\\
 \end{tabular}
         }
     }
@@ -74,57 +78,44 @@ In~\cref{tab:WP4:Feel++:features} we provide a summary of the software features 
 \label{sec:WP4:Feel++:performances}
 
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
-
+\begin{description}
+    \item[programming environment] MPI
+    \item[computation environment] CPU Only
+    \item[parallel capabilities] The data assimmilation algorithms build on top of the \Feelpp library are parallelized using MPI.
+    \item[Scalability] Ensemble runs are parallelized using MPI and the scalability of the ensemble Kalman filter is expected on a large number of cores.
+    \item[Integration with Other Systems] OpenTURNS is often coupled for uncertainty quantification.
+\end{description}
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP4:Feel++:metrics}
 
 This section provides a summary of initial performance benchmarks performed in the context of WP4. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+\begin{description}
+    \item[Overall Performance] Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+    \item[Input/Output Dataset] Provide a detailed description of the dataset used for the benchmark, including:
         \begin{itemize}
             \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
             \item Output dataset format and key results.
             \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
             \item DOI or permanent link for accessing the dataset.
         \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+    \item[open-data Access] Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+    \item[Challenges] Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+    \item[Future Improvements] Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+\end{description}
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+There are no benchmark yet defined for data assimilation that can be shared in this deliverable. The work is ongoing and will be reported in the next deliverable.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP4:Feel++:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+\begin{description}
+    \item[Data Improvements] Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+    \item[Methodology Application] Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+    \item[Results Retention] Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+\end{description}
 
 In~\cref{tab:WP4:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 

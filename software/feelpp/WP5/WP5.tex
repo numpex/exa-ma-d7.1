@@ -1,5 +1,5 @@
 %!TEX root = ../../../exa-ma-d7.1.tex
-\section{Software: Feel++}
+\section{Software: \texorpdfstring{\Feelpp}{\Feelpp}}
 \label{sec:WP5:Feelpp:software}
 
 \begin{table}[!ht]
@@ -11,7 +11,7 @@
     \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-Feel++ Consortium\\
+\Feelpp Consortium\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
 CNRS\\
@@ -38,10 +38,16 @@ B2 - Interconnect Technology\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
+\rowcolor{numpexlightergray}\textbf{Contributors} & \begin{tabular}{l}
+Christophe Prud'homme (UNISTRA)\\
+Vincent Chabannes (UNISTRA)\\
+Lucas Palazzolo (INRIA)\\
+Yannick Privat (UL)
+\end{tabular}\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{WP5: Feel++ Information}
+    \caption{WP5: \Feelpp Information}
 \end{table}
 
 \subsection{Software Overview}
@@ -61,11 +67,11 @@ In~\cref{tab:WP5:Feelpp:features} we provide a summary of the software features 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    Iterative methods & Iterative methods for shape optimization based on the work \cite{feppon_f_null_2020} have been implemented in \url{https://github.com/feelpp/feelpp-shapo} using \Feelpp toolboxes.\\
+\rowcolor{white}    Iterative methods: Shape Optimization & Iterative methods for shape optimization based on the work \cite{feppon_f_null_2020} have been implemented in \url{https://github.com/feelpp/feelpp-shapo} using \Feelpp toolboxes.\\
 \end{tabular}
         }
     }
-    \caption{WP5: Feel++ Features}
+    \caption{WP5: \Feelpp Features}
     \label{tab:WP5:Feelpp:features}
 \end{table}
 
@@ -137,11 +143,11 @@ This section provides a summary of initial performance benchmarks performed in t
 \label{sec:WP5:Feelpp:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+\begin{description}
+    \item[Data Improvements] Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+    \item[Methodology Application] Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+    \item[Results Retention] Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+\end{description}
 
 In~\cref{tab:WP5:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -170,6 +176,6 @@ In~\cref{tab:WP5:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap 
 \end{tabular}
         }
     }
-    \caption{WP5: Feel++ plan with Respect to Relevant Bottlenecks}
+    \caption{WP5: \Feelpp plan with Respect to Relevant Bottlenecks}
     \label{tab:WP5:Feelpp:bottlenecks}
 \end{table}
