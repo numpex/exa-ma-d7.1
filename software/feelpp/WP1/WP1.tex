@@ -181,6 +181,105 @@ Final analysis and persectives here.
     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
+\subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
+%\paragraph{Description}
+\fullcite{noauthor_iso_2017}
+\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+
+\begin{table}[h!]
+  \centering
+  { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+      \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}\multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties}
+        & \multicolumn{3}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
+        \rowcolor{numpexgray} {\color{white}\bf Tag} & {\color{white}\bf \# points} & {\color{white}\bf \# edges} & {\color{white}\bf \# faces} & {\color{white}\bf \# elements} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} & {\color{white}\bf $P_3$} \\
+        \texttt{M1} & \pgfmathprintnumber{193654} & \pgfmathprintnumber{1299920} & \pgfmathprintnumber{2164759} & \pgfmathprintnumber{1058492} & \pgfmathprintnumber{193654} & \pgfmathprintnumber{1493574} & \pgfmathprintnumber{4958253} \\
+        \texttt{M2} & \pgfmathprintnumber{1401135} & \pgfmathprintnumber{9778744} & \pgfmathprintnumber{16566803} & \pgfmathprintnumber{8189193} & \pgfmathprintnumber{1401135} & \pgfmathprintnumber{11179879} & \pgfmathprintnumber{37525426} \\
+        \texttt{M3} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{75307308} & \pgfmathprintnumber{128722252} & \pgfmathprintnumber{63987199} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{85879564} & \pgfmathprintnumber{289909124}% \\
+      \end{tabular}
+    }}
+  \caption{Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation for the thermal bridges benchmark}
+  \label{tab:wp3:feelpp:thermal_bridges}
+\end{table}
+
+
+
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P2_discoverer.csv}\dataThermalBridgesMcPbDiscoverer
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P3_discoverer.csv}\dataThermalBridgesMcPcDiscoverer
+
+\newcommand{\barChart}[2][ybar]{
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\textwidth, height=0.6172\textwidth,% 8cm,
+      xlabel={Number of CPU core}, ylabel={Execution time [s]},
+      xticklabels from table={#2}{nProc},
+      xtick=data, % Utilise les positions de l'index des lignes pour les xticks
+      % xtick style={draw=none},
+      %x tick label style={rotate=0},
+      % xticklabels from table={\dataThermalBridgesMcPcDiscoverer}{[index]0}, % Labels de l'axe X basés sur l'index de ligne
+      ymin=0,
+      %legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+      %legend style={at={(1,1)}, anchor=north east,font=\tiny},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
+      ymajorgrids=true, yminorgrids=true,
+      bar width=7pt,
+      % ybar stacked,
+      #1
+      %ybar,
+      % ymode=log,
+      % title={Computational time for the 3D case},
+      %#3
+      ]
+      \addplot[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x expr=\coordindex, y=init] {#2};
+      \addlegendentry{Init}
+      \addplot[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x expr=\coordindex, y=algebraic-assembly] {#2};
+      \addlegendentry{Assembly}
+      \addplot[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x expr=\coordindex, y=algebraic-solve] {#2};
+      \addlegendentry{Solve}
+      \addplot[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x expr=\coordindex, y=exportResults] {#2};
+      \addlegendentry{PostProcess}
+    \end{axis}
+  \end{tikzpicture}
+}
+
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \barChart[ybar]{\dataThermalBridgesMcPbDiscoverer}
+    \caption{\texttt{M3} - \texttt{$P_2$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \barChart[ybar stacked]{\dataThermalBridgesMcPbDiscoverer}
+    \caption{\texttt{M3} - \texttt{$P_2$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \barChart[ybar]{\dataThermalBridgesMcPcDiscoverer}
+    \caption{\texttt{M3} - \texttt{$P_3$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \barChart[ybar stacked]{\dataThermalBridgesMcPcDiscoverer}
+    \caption{\texttt{M3} - \texttt{$P_3$}}
+  \end{subfigure}
+\end{figure}
+
+
+
+
+
+
 \subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
 
 \paragraph{Description}
