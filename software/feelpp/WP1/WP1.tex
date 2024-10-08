@@ -538,12 +538,25 @@ Several challenges were encountered during the benchmarking process:
 \subsection{12-Month Roadmap}
 \label{sec:WP1:Feelpp:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+For the next 12 month, we plan to focus on the following aspects of the benchmarking process:
+\begin{description}
+    \item[Data Improvements] unify the input and output data format and structure to facilitate comparison and analysis. In particular, we wish to design dataset architecture that holds all necessary information for the benchmarking process as well as reference output results if any.  We have started an effort to continuously benchmark our software using reframe and collect the information in a database including a visualisation tool through a website.
+    \item[Methodology Application] Several aspects will be developed:
+    \begin{itemize}
+        \item include HdG methods and high order methods in the current benchmarks, we didn't have the time to include them in the current results.
+        \item task based parallelism using the runtime environment \ac{specx}:
+        \begin{itemize}
+            \item add multithreading support in various steps of the computational pipeline.
+            \item enable distribution of some work load on GPU (eg. Ray Tracing, Assemly and Solve steps)
+        \end{itemize}
+        \item investigate the use of Kokkos to define portable and performant kernels.
+        \item Improve Ray tracing parallel performance at large scale
+        \item Improve I/O performance at large scale leveraging the HDF5 data format and the parallel I/O capabilities of the library.
+        \item Improve partitioning and load balancing of the mesh at large scale.
+        \item Improve parallel mesh adaptation at large scale using ParMMG        
+    \end{itemize}
+    \item[Results Retention] We use two data management platforms Girder and Zenodo to store the data and results of the benchmarks following the methdology in~\cref{sec:methodology-intro}.
+\end{description}
 
 In~\Cref{tab:WP1:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -560,12 +573,12 @@ In~\Cref{tab:WP1:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Containerization and packaging are enabled as well as \ac{CI}/\ac{CD}. \ac{CB} will be enabled very soon.\\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & building upon data management and scientific productivity improvements to enable reproducibility \\
+\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & improve I/O using HDF5 and MPI I/O and possibly used framework from \ac{PC3}\\
 \rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B6 - Data Management & dataset creation and management are being improved to satisfy the methodology in~\cref{sec:methodology-intro}. Girder~\cref{sec:arch:girder:unistra} and~\cref{sec:arch:zenodo}  will be used to store our dataset and enable FAIR principles\\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & enable Ray Tracing, cG, HdG and spectral element methods  on GPU, enable new partitioning strategies and load balancing,  \\
 \hline
 \end{tabular}
         }

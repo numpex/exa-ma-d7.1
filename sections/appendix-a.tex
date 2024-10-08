@@ -5,8 +5,8 @@
 
 \clearpage
 \appendix
-\section*{Appendix A. Computing Infrastructures}
-\addcontentsline{toc}{section}{Appendix A. Computing Infrastructures}
+\section*{Appendix A. Computing and Data Storage Infrastructures}
+\addcontentsline{toc}{section}{Appendix A. Computing and Data Storage Infrastructures}
 \label{sec:app:architectures}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,13 +135,13 @@ The frontal has 96 cores and 0.5TB of RAM which is used for generating large-sca
 
 \begin{table}[h!]
     \centering
-    \begin{tabular}{l l l l l}
+    \begin{tabular}{l l l l l l}
     \toprule
-    \textbf{Name} & \textbf{Nodes} & \textbf{CPU} & \textbf{Cores} & \textbf{GPU} \\
-    &  & \textbf{/ node}  & \textbf{/ node} &  \\
+    \textbf{Name} & \textbf{Nodes} & \textbf{Memory} & \textbf{CPU} & \textbf{Cores} & \textbf{GPU} \\
+    &  & \textbf{/ node} & \textbf{/ node}  & \textbf{/ node} &  \\
     \midrule
-    Gaya &  6 & 2x AMD EPYC 7713 & 128 &  \\
-         &  1 & 2x AMD EPYC 7313 & 32 & 3x AMD Instinct MI210 \\
+    Gaya &  6  & 512 & 2x AMD EPYC 7713 & 128 &  \\
+         &  1 & 256 & 2x AMD EPYC 7313 & 32 & 3x AMD Instinct MI210 \\
     \bottomrule
     \end{tabular}
     \caption{Gaya System - Nodes, CPU, Cores/node, GPU, and Interconnect}
@@ -154,11 +154,30 @@ The frontal has 96 cores and 0.5TB of RAM which is used for generating large-sca
         \toprule
         \textbf{Name} & \textbf{Storage (PB)} & \textbf{Interconnect} \\
         \midrule
-        Gaya & 0.1 & Infiniband \\
+        Gaya & 0.1+ & Infiniband \\
         \bottomrule
     \end{tabular}
     \caption{Gaya System - Storage and Interconnect}
     \label{tab:gaya_storage_interconnect}
     \end{table}
+
+\subsection*{Unistra / IRMA / Girder (France)}
+\label{sec:arch:girder:unistra}
+\addcontentsline{toc}{subsection}{Data Storage: girder.math.unistra.fr}
+
+A Girder system is located at the University of Strasbourg, France. 
+150TB of storage is available.
+Public and Private data collections are available.
+
+Check out \url{https://girder.math.unistra.fr} for more details.
+
+\subsection*{Zenodo (EU)}
+\label{sec:arch:zenodo}
+\addcontentsline{toc}{subsection}{Data Storage: zenodo.org}
+
+
+Link to PEPR NumPEx community.
+Check out \url{https://zenodo.org} for more details.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
