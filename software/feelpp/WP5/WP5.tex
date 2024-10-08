@@ -110,9 +110,9 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \subsubsection{Benchmark \#1 - Shape Optimization under Stokes Flow}
 
-\paragraph{Description:} Test : Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+\paragraph{Description:} In \cite{palazzolo2023shape}, geometric shape optimization has been performed by using the Cea's method to compute the shape gradient \cite{cea_conception_1986}. The study employs iterative methods such as gradient descent and null-space methods \cite{feppon_f_null_2020}. The benchmark focuses on optimizing the shape of 2D and 3D objects under Stokes flow using these methods. Notably, in the 2D case, the optimized shape resembles a rugby ball \cite{pironneau_optimum_1974}.
 
-\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+\paragraph{Benchmarking Tools Used:} The optimization problems are tackled using various \Feelpp toolboxes designed for solving the associated PDEs of the primal, adjoint, and extension problems.
 
 \paragraph{Input/Output Dataset Description:}
 \paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
