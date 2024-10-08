@@ -1,0 +1,56 @@
+name: Update and Commit BibTeX
+
+on:
+  workflow_dispatch:
+
+jobs:
+  workflow-setup:
+    name: Workflow Setup
+    runs-on: ubuntu-24.04
+    outputs:
+      runner: ${{ steps.texlive_runner.outputs.runner }}
+    steps:
+      - name: Get TeXLive Runner
+        id: texlive_runner
+        run: |
+          if ! [ -z "$GH_TOKEN" ]; then
+            runners=$(gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /orgs/${{ github.repository_owner }}/actions/runners)
+            texlive=$(echo $runners | jq --arg label "self-texlive" '[.runners[] | any(.labels[]; .name == $label) and .status == "online"] | any')
+            if [ "$texlive" = "false" ]; then
+               echo "runner=ubuntu-latest" >> "$GITHUB_OUTPUT"
+            else
+               echo "runner=self-texlive" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "runner=ubuntu-latest" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN_RUNNER }}
+
+  update_bibtex:
+    needs: workflow-setup
+    runs-on: ${{ needs.workflow-setup.outputs.runner }}
+    name: Update and Commit BibTeX
+    env:
+      ZOTERO_API_KEY: ${{ secrets.EXA_MA_ZOTERO_API_KEY }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - name: Install hooks
+        run: |
+          bash ./a.cli setup
+
+      - name: Update BibTeX references
+        run: |
+          bash ./a.cli update-bibtex
+
+      - name: Commit new references.bib
+        run: |
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --local user.name "${{ github.actor }}"
+          git add references.bib
+          git commit -m "Update references.bib from Zotero"
+          git push

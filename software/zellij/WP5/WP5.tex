@@ -19,7 +19,7 @@ Inria Lille\\
 el-ghazali.talbi@univ-lille.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-GPU Only\\
+CPU Only \\
 \end{tabular} \\
         \rowcolor{white}\textbf{Repository} & \href{https://github.com/ThomasFirmin/zellij}{https://github.com/ThomasFirmin/zellij} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
@@ -54,8 +54,9 @@ In~\cref{tab:WP5:Zellij:features} we provide a summary of the software features 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    Iterative methods & provide short description here \\
-\rowcolor{numpexlightergray}    Metaheuristics & provide short description here \\
+\rowcolor{white}    Iterative methods &  A {\it fractal-based decomposition algorithm} is organized around five search components: fractal geometry, tree search, scoring, exploration and exploitation. It decomposes the search space via a given \textit{fractal geometrical object}. {\it Tree search} allows a dynamic and hierarchical fractal decomposition of the search space. A \textit{scoring} search component allows to balance the exploration and exploitation of the search space by selecting the promising fractals. \\
+
+\rowcolor{numpexlightergray} Metaheuristics (e.g. gradient, evolutionary algorithms) & The {\it exploration} could be done in a passive way (e.g. Markov chain Monte Carlo (MCMC) sampling, low discrepancy sequences) or in an active way (e.g. metaheuristics such as evolutionary algorithms and swarm intelligence, surrogate-based optimization). The challenge here is to find efficient sampling algorithms for diverse and complex fractals such as polytopes. When a fractal reaches the maximum depth of the partition tree, an {\it exploitation} algorithm can be applied to it. The exploitation phase has not to be constrained within a fractal. The only bounds will be ones from the initial search space so that the exploitation can move freely toward a local or global optimum. One can use local search strategies such as gradient-based algorithms or simulated annealing.
 \end{tabular}
         }
     }
@@ -67,15 +68,37 @@ In~\cref{tab:WP5:Zellij:features} we provide a summary of the software features 
 \subsection{Parallel Capabilities}
 \label{sec:WP5:Zellij:performances}
 
-
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+    \item describe the parallel programming  environment : Some parallel models of fractal optimization algorithms have been implemented using MPI. 
 
+    In short term perspective, We are currently investigating the use of GPUs to implement some parallel models of fractal-based optimization algorithms using Kokkos parallel environment.
+
+    In medium term perspective, hybrid parallel computing will be considered using MPI and Kokkos. The main goal is to target massively parallel clusters of CPU-GPUs.
+    
+    \item describe the parallel computation environment: type of architecture and super computer used.
+    
+    The MPI version has been deployed on multi-nodes and multi-CPUs distributed environments (e.g. Grid'5000). Some experiments were conducted on 66 Intel Xeon Gold 5220 CPUs of 18 cores, with 96 GiB of RAM each. Each CPU is mounted on a Dell PowerEdge R640 rack, and each are on a single node. Nodes are connected on a DELL POWERSWITCH Z9264F-ON, via Ethernet configured at a 25Gbps rate, with SR-IOV activated.
+    
+    \item describe the parallel capabilities of the software
+
+Three parallel designs focusing on different levels of a metaheuristic can be designed:
+\begin{itemize}
+    \item Algorithm-level: Here several metaheuristics are applied in parallel. These can be independent, competitive, or cooperative.
+    \item Iteration-level: At each iteration, a set of solutions is generated. In general, this approach consists in parallelizing the evaluation of a set of solutions.
+    \item Solution-level: The evaluation of a single solution is parallelized. We are not concerned by this parallelization level, as it depends on the target optimization problem. This parallel level can be relevant in the case where the objective function is expensive in terms of computation time.
+\end{itemize}
+    
+    \item \textbf{Scalability:} Describe the general scalability properties of the software
+
+The algorithm level and solution-level are limited in terms of scalability. Using the iteration-level in conjunction with the two other models, one can generate highly scalable optimization algorithms. 
+
+The efficiency of the parallel models depends also on the cost of the objective function and the dimension of the optimization problem. Less scalability is need for easy optimization problems where the objective function is not expensive and/or the dimen,sion is small.
+    
+\item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+
+The framework can been integrated with many librairies. For AutoML experiments, it will be integrated with PyTorch and BoTorch.
+
+\end{itemize}
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP5:Zellij:metrics}
@@ -83,31 +106,187 @@ In~\cref{tab:WP5:Zellij:features} we provide a summary of the software features 
 This section provides a summary of initial performance benchmarks performed in the context of WP5. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+\item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+
+Preliminary computational experiments show the importance of the asynchronous issues for high-dimension and/or stochastic optimization problems. This work also shows the impact of the
+parallel implementation to the various search components such
+as tree search, fractal object, exploration, and exploitation.
+
+The obtained speedups were sublinear, except for
+one function of the AutoML benchmark, where we observed
+a superlinear speedup. Different behaviors were obtained according to the configuration of the search components and
+the computation time of the objective function. We showed
+that the number of processes and their distribution should be carefully selected according to the problem’s dimensionality and/or the computation time of the objective function.
+
+The genericity and flexibility of Zellij, allows the design
+and the experimentation of new efficient search components
+for a better scalability to handle exascale optimization. Future experiments on massively parallel architectures will allow analyzing the limitations of the developed master/workers models and hence introduce more distributed parallel models.
+
+Another important perspective is the solving of real-life
+complex optimization problems such as the hyperparameters
+optimization and the neural architecture search of deep neural networks. Those high-impact optimization problems are
+characterized by expensive and stochastic objective functions
+(i.e., learning procedures) and a huge number of variables (i.e., thousands to millions).
+
+
+\item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+\begin{itemize}
+\item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+
+Optimization problems to solve are defined as functions in a program (e.g. Python or C++): ${f: \mathcal{S} \subset \mathbb{R}^n \rightarrow \mathbb{R}}$, where $\hat{x}$ is the global optima, $f$ the objective function, and $\mathcal{S}$ a compact set made of inequalities (e.g. upper and lower bounds of the search space). 
+
+\item Output dataset format and key results.
+
+The output is mainly the solutions found (i.e vectors of continuous values) and their quality. Some plots related to convergence can also be obtained.
+
+\item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+
+In recent years, there have been significant developments in the field of optimization, with new algorithms being proposed to solve challenging problems. As a result, it has become increasingly important to update traditional testing criteria to evaluate the performance of these optimization algorithms. 
+
+Therefore, three main standard librairies are used:
+\begin{itemize}
+\item CEC2020 benchmark: Single Objective Bound Constrained Numerical Optimization. See URL https://www.kaggle.com/code/kooaslansefat/cec-2022-benchmark.
+\item The blackbox optimization benchmarking (bbob) test suite. See URL https://numbbo.github.io/coco/testsuites/bbob.
+\item HPOBench: A collection of Reproducible Multi-Fidelity Benchmark Problems for hyperparameter optimization of machine learning models. See URL https://github.com/automl/HPOBench.
+\end{itemize}
+
+\item DOI or permanent link for accessing the dataset.
+\end{itemize}
+
+\item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+
+All the datasets used are open access. The links are provided in the previous section.
+
+\item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+
+The main challenges of the benchmarking process are twofold:
+\begin{itemize}
+\item Scalability of parallel decomposition-based optimization algorithms: it consists in analyzing and improving the obtained speedups of the various parallel models that can be designed.
+\item Characteristics of the target optimization problem: it consists in studying the characteristics of the optimization problems (e.g. dimension, cost of the objective function) that affect the performance of the algorithms 
+\end{itemize}
+
+\item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+
+The future improvements will concern the following aspects:
+\begin{itemize}
+\item Parallel models of algorithms: it will be interesting yo used in conjunction the three parallel models of decomposition-based optimization algorithms. Those hybrid models will improve the scalability of the algorithms to target Exascale architectures.
+
+\item Target architectures: in addition to CPU and GPU based architectures, we have to design and experiment the parallel models which are adapted to heterogeneous architectures combining GPU and CPU. Load balancing and faut tolerance aspects have to proposed.
+
+\item Optimization problems: in addition to standard benchmarks of optimization problems, we are interested to real-life complex applications in the area of AutoML such as hyperparameter optimization (HPO) and neural architecture search (NAS).
+
+The AutoDNN problem is characterized by the following important properties: Large-scale optimization problem, Mixed optimization problem, Variable-size design space, expensive black-box objective function(s), and Multi-objective optimization problem.
+
+\end{itemize}
+
 \end{itemize}
 
 \subsubsection{Benchmark \#1}
 \begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+The first family of benchmarks consists in well-known benchmarks in global optimization community, such as CEC2020, SOCO2011 and BBOB.
+
+\item \textbf{Benchmarking Tools Used:} 
+
+Those benchmarks are made of more than 24 functions with peculiar properties such as, separability, ill-conditioning, multi-modality and weak structured multi-modality. Each function has many different instances, and are available for many dimension sizes, $d \in  \{ 2,3,5,10,20,40, ... \}$. 
+
+The following metrics have been used in our experiments:  measured are: execution time, budget, quality of solutions, speedup).
+
+\item \textbf{Input/Output Dataset Description:}
+\begin{itemize}
+
+\item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+\end{itemize}
+
+\item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+
+\item \textbf{Benchmarking Tools Used:} 
+
+Those benchmarks are made of more than 24 functions with peculiar properties such as, separability, ill-conditioning, multi-modality and weak structured multi-modality. Each function has many different instances, and are available for many dimension sizes, $d \in  \{ 2,3,5,10,20,40, ... \}$. 
+\end{itemize}
+
+The following metrics have been used in our experiments:  measured are: execution time, budget, quality of solutions, speedup).
+\begin{itemize}
+\item \textbf{Input/Output Dataset Description:}
+
+
+\item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\end{itemize}
+
+
+\subsubsection{Benchmark \#2}
+\begin{itemize}
+\item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+\end{itemize}
+
+The second family of benchmarks consists in well-known benchmarks from machine learning community (AutoML). 
+The main characteristics of those problems in their black box and expensive objective functions.
+
+Automated Machine Learning (AutoML) consists in automating
+the application of machine-learning models to realworld
+applications. The goal of this approach is to design
+better machine learning models. Because, we are interested
+in applying this methodology to the HyperParameter Optimization
+(HPO) of expensive deep neural networks, we
+have selected three benchmarks from HPOBench. We
+performed a HPO on 3 functions:
+\begin{itemize}
+\item Random Forest (RF): 4 hyperparameters (n = 4) are
+optimized, with a budget of 20000 calls.
+\item Multi-layer Neural Network (NN): 5 hyperparameters
+(n = 5) are optimized, with a budget of 6000 calls.
+\item Histogram-Based Gradient Boosting (HBGB): 4 hyperparameters
+(n = 4) are optimized, with a budget of 6000 calls.
+\end{itemize}
+
+The budget was defined according to their computation time. These models were trained and tested on a given task of OpenML (supervised classification on car). We have selected these three models for their simplicity. They do not require any GPU, and the computation time is low compared to expensive DNN benchmarks, but higher compared to low-cost academic functions usually used to
+validate performances of continuous optimization algorithms.
+
+The following metrics have been used in our experiments:  measured are: execution time, budget, quality of ML models, speedup).
+
+\begin{itemize}
+\item \textbf{Input/Output Dataset Description:}
+
+
+\item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+\end{itemize}
+
+The HPBbench is available under the URL: \url{https://www.automl.org/hpo-overview/hpo-benchmarks/hpobench/}
+
+HPOBench aims at solving the aforementioned issues with the following contributions:
+
+\begin{itemize}
+\item A standard API that allows the users to evaluate multi-fidelity HPO on several benchmarks and their corresponding fidelities.
+\item Containers that isolate the benchmarks from the computation environments and mitigate the problem of software dependencies.
+\item Surrogate and Tabular benchmarks provide a cheap way of evaluating the target algorithms.
+\end{itemize}
+
+HPOBench currently contains more than 100 multi-fidelity benchmark problems with various properties: numerical and categorical configuration space, different difficulties, and complexities. Furthermore, HPOBench also provides the result of several popular HPO packages to make them easier to be compared with the new HPO algorithms. For more information, please check our HPOBench GitHub repository/
+
+\begin{itemize}
+\item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
 \subsection{12-Month Roadmap}
@@ -115,9 +294,19 @@ This section provides a summary of initial performance benchmarks performed in t
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+
+\item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+
+There are no issues concerning the improvements of input/output data management. All datasets are accessible and reproducibility is ensured through open-data initiatives.
+
+\item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+
+All obtained results will be published in HAL, conferences and journals.
+
+\item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+
+All obtained results will be published in HAL, conferences and journals.
+
 \end{itemize}
 
 In~\cref{tab:WP5:Zellij:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
@@ -125,8 +314,6 @@ In~\cref{tab:WP5:Zellij:bottlenecks}, we briefly discuss the bottleneck roadmap 
 \begin{table}[h!]
     \centering
     
-    
-
     \centering
     { 
         \setlength{\parindent}{0pt}
@@ -138,10 +325,20 @@ In~\cref{tab:WP5:Zellij:bottlenecks}, we briefly discuss the bottleneck roadmap 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & The obtained results in terms of parallel algorithm design and implementation and their application to big optimization problems will be published in conferences and journals in the field of optimization and parallel computing.
+
+ \\
+
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation &
+
+All the developed software will be available in open source in the software library zellij. The benchmarks used are standard data from optimization and machine learning communities. \\
+
+\rowcolor{white}    B6 - Data Management & There is no important issues regarding data management in current studies.
+
+ \\
+
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & We are investigating currently the parallel implementation of the algorithms on hybrid inter-node architectures combining GPU and CPU using the environments MPI and Kokkos. In addition to Grid'5000 platform we will target some larger scale machines such as Jean Zay. \\
+
 \end{tabular}
         }
     }

@@ -57,9 +57,9 @@ In~\cref{tab:WP3:TRUST Platform:features} we provide a summary of the software f
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    direct solver & provide short description here \\
-\rowcolor{numpexlightergray}    krylov solver & provide short description here \\
-\rowcolor{white}    multiphysics coupling & provide short description here \\
+\rowcolor{white}    direct solver & MUMPS on CPU and STRUMPACK on GPU are used in TRUST \\
+\rowcolor{numpexlightergray}    krylov solver & PETSc on CPU, AmgX or PETSc on Nvidia GPU, rocALUTION or PETSc on AMD GPU are used in TRUST \\
+\rowcolor{white}    multiphysics coupling & TRUST is intended to be coupled with other software (structure solver for instance) through the ICoCo standard (\href{https://github.com/cea-trust-platform/icoco-coupling}{https://github.com/cea-trust-platform/icoco-coupling}), as a reference component whose performance to preserve in the partitioned coupling  \\
 \end{tabular}
         }
     }
@@ -73,55 +73,49 @@ In~\cref{tab:WP3:TRUST Platform:features} we provide a summary of the software f
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item The parallel programming model is MPI and a mix of Kokkos and OpenMP-target directives for GPU computing  
+    \item The parallel computation environment are personal computers, clusters, and super computers: e.g. Adastra (CINES), Jean-Zay (IDRIS), Topaze (CCRT)
+    %\item describe the parallel capabilities of the software
+    %\item \textbf{Scalability:} Describe the general scalability properties of the software
+    \item \textbf{Integration with Other Systems:} TRUST integrates with the linear algebra libraries developed and improved in the Exa-Ma framework and especially those interfaced through PETSc. It thus serves for the practical evaluation of the integral performance gain provided by the project in representative physical cases of interest.
 \end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:TRUST Platform:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+Establishing reference metrics for TRUST to serve as basic data for the methodology proposed in chapter \ref{chap:methodology} is an ongoing process that will continue during the upcoming year. However, some solid elements are available concerning the relevant tests to be implemented, emphasizing on the relation between TRUST and linear algebra libraries supported in WP3, and with PETSc in particuler:
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+    \item \textbf{Weak scaling test for GPU: } using Krylov solver (ex. Hypre) through PETSc on 2 to 1024 GPUs
+    \item\textbf{Weak scaling test for CPU: } using Krylov multigrid solver through PETSc on 8 to 32768 CPUs
+    \item \textbf{Strong scaling for CPU: } using MUMPS direct solver through PETSc on 1 to 50 cores.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
+Current observations state that:
+
 \begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+    \item \textbf{Weak scaling test for GPU: } the scalability can be improved, in particular with :
+    \begin{itemize}
+        \item the fine tuning of the already tested libraries or the choice of new libraries, with a particular focus on the converence rate,
+        \item the improvement of the robustness of the MPI communications between GPUs.
+    \end{itemize}
+    \item\textbf{Weak scaling test for CPU: } the scalability already reaches satisfactory levels, but some improvement can yet be expected from the advanced management of MPI communications with a focus on collective communications.
+    \item \textbf{Strong scaling for CPU: } these tests are great interest for component applications (i.e. complex physics, smaller models) that can be involved in multiphysics and partitioned coupling.
 \end{itemize}
+
+Tests for performance evaluation of the hybrid CPU-GPU run modes will be considered in a second step.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP3:TRUST Platform:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+The 12-Month Roadmap for TRUST platform is mainly dedicated to the implementation of tests identified in the previous section in the methodology proposed in section \ref{sec:methodology-types}, in terms of scalability analysis for CPU or GPU in a first step, and of hybrid benchmarking for CPU-GPU in a second step (post-12 month perspective).\\
+\\
+Practically:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+    \item \textbf{Data availability:} Data for the selected benchmarks will be made available in a format readable with open-source only software, namely from the Salome environment (\href{https://www.salome-platform.org/}{https://www.salome-platform.org/}).
+    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology in terms of scalability measurements, with a particular focus on the selection of the relevant output data and associated tolerance for the reproducibility guarantee.
+    \item \textbf{Results Retention:} Benchmark results will be stored and made available with the suitable level of metadata and documentation through a dedicated repository proposed by the Exa-MA project.
 \end{itemize}
 
 In~\cref{tab:WP3:TRUST Platform:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
@@ -142,10 +136,10 @@ In~\cref{tab:WP3:TRUST Platform:bottlenecks}, we briefly discuss the bottleneck 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Accelerate the access to large scale numerical results to enhance knowledge and speed-up engineering operations in the field of computational fluid mechanics. \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Ensure the reliability of the results for large scale and complex simulation independently from the computer and the selected run-mode (CPU, GPU, hybrid). \\
+\rowcolor{white}    B6 - Data Management & This bottleneck is indirectly addressed for TRUST through the availability of the benchmark datasets and the collection of the results. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Benefit from the latest improvement in linear algebra libraries, quantify the practical gains on representative applications and track/characterize the remaining bottlenecks for the global performance. Use TRUST as a reference component for the analysis of the performance of partitioned coupling at exascale.\\
 \end{tabular}
         }
     }

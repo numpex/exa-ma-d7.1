@@ -6,121 +6,205 @@
 \begin{table}[h!]
     \centering
     { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-INRIA\\
-UNISTRA\\
-\end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
-Unistra\\
-\end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
-emmanuel.franck@inria.fr\\
-\end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-CPU or GPU\\
-\end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://gitlab.inria.fr/scimba/scimba}{https://gitlab.inria.fr/scimba/scimba} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
-None\\
-\end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
-B10 - Scientific Productivity\\
-B11 - Reproducibility and Replicability of Computation\\
-B6 - Data Management\\
-B7 - Exascale Algorithms\\
-\end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
+        \def\arraystretch{1.25}
+        \arrayrulecolor{numpexgray}
+        {\fontsize{9}{11}\selectfont
+            \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
+                \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field}
+                 & {\rule{0pt}{2.5ex}\color{white}\bf Details}                                         \\
+                \rowcolor{white}\textbf{Consortium}
+                 & \begin{tabular}{l}
+                       INRIA   \\
+                       UNISTRA \\
+                   \end{tabular}                                                                   \\
+                \rowcolor{numpexlightergray}\textbf{Exa-MA Partners}
+                 & \begin{tabular}{l}
+                       Unistra \\
+                   \end{tabular}                                                                   \\
+                \rowcolor{white}\textbf{Contact Emails}
+                 & \begin{tabular}{l}
+                       emmanuel.franck@inria.fr      \\
+                       victor.michel-dansac@inria.fr \\
+                   \end{tabular}                                                       \\
+                \rowcolor{numpexlightergray}\textbf{Supported Architectures}
+                 & \begin{tabular}{l}
+                       CPU or GPU \\
+                   \end{tabular}                                                                   \\
+                \rowcolor{white}\textbf{Repository}
+                 & \href{https://gitlab.inria.fr/scimba/scimba}{https://gitlab.inria.fr/scimba/scimba} \\
+                \rowcolor{numpexlightergray}\textbf{License}
+                 & \begin{tabular}{l}
+                       MIT \\
+                   \end{tabular}                                                                   \\
+                \rowcolor{white}\textbf{Bottlenecks roadmap}
+                 & \begin{tabular}{l}
+                       B10 - Scientific Productivity                          \\
+                       B11 - Reproducibility and Replicability of Computation \\
+                       B6 - Data Management                                   \\
+                       B7 - Exascale Algorithms                               \\
+                   \end{tabular}                              \\
+                \bottomrule
+            \end{tabular}
+        }}
     \caption{Scimba Information}
 \end{table}
 
 \subsection{Software summary}
 \label{sec:Scimba:summary}
-Detailed overview not available.
 
-
+Scimba\footnote{\url{https://gitlab.inria.fr/scimba/scimba}} is a software package that provides a framework for solving partial differential equations using physics-informed learning. It is mainly developed by Inria researchers (E. Franck and V. Michel-Dansac), with support from CNRS and the University of Strasbourg.
 
 \subsection{Purpose}
 \label{sec:Scimba:purpose}
-Purpose not available.
+
+The purpose of Scimba is to provide a readily-available
+library for physics-informed machine learning.
+It has two main objectives:
+\begin{itemize}
+    \item being used as a tool for solving PDEs
+          with differentiable classical or ML-based methods,
+          before exploiting their numerical solutions
+          and differentiable properties;
+    \item provide an easy framework in which users
+          may develop new differentiable numerical methods
+          (ML-based or classical).
+\end{itemize}
+As such, it aims at being easy to install and use,
+while providing existing ML-based and classical methods
+(see Section~\ref{sec:WP2:Scimba:summary}).
+It also aims at providing good performance,
+using the intrinsic prarallelizability of
+ML-based methods and libraries.
 
 \subsection{Programming and Computational Environment}
 \label{sec::Scimba:environment_capabilities}
-
 
 The following table summarizes these aspects for Scimba, providing a  view of its programming and computational capabilities.
 
 \begin{table}[h!]
     \centering
     {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
-Python\\
-\end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
-GPU\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
-None\\
-\end{tabular} & Data formats that the software can handle or produce.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
-None\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
-None\\
-\end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
-None\\
-\end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
-None\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-None\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
-pytorch\\
-\end{tabular} & List of software Scimba has interfaces with.\\
-        \bottomrule
-    \end{tabular}
-    }}
+        \setlength{\parindent}{0pt}
+        \def\arraystretch{1.25}
+        \arrayrulecolor{numpexgray}
+        {\fontsize{9}{11}\selectfont
+            \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
+                \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}
+                 & {\rule{0pt}{2.5ex}\color{white}\bf Details}
+                 & {\rule{0pt}{2.5ex}\color{white}\bf Description}                                                                                    \\
+                \rowcolor{white}Languages
+                 & \begin{tabular}{l}
+                       Python \\
+                   \end{tabular}
+                 & Scimba is written in \texttt{Python}, using the \texttt{pytorch} library for ML and differentiable computing.                      \\
+                \rowcolor{numpexlightergray}Parallelism
+                 & \begin{tabular}{l}
+                       GPU, CPU (shared) \\
+                   \end{tabular}
+                 & Scimba takes advantage of the intrinsic parallelization capabilities of \texttt{pytorch} (shared-memory CPU and GPU, by default).  \\
+                \rowcolor{white}Data Formats
+                 & input: none;
+                output: \texttt{.pth} \& image files
+                 & Scimba outputs \texttt{.pth} files containing neural networks weights, as well as image files representing the equation solutions. \\
+                \rowcolor{numpexlightergray}Resilience
+                 & \begin{tabular}{l}
+                       None \\
+                   \end{tabular}
+                 & None \\
+                \rowcolor{white}DevOps
+                 & \begin{tabular}{l}
+                       None \\
+                   \end{tabular}
+                 & None  \\
+                \rowcolor{numpexlightergray}Packaging
+                 & \begin{tabular}{l}
+                       pip, GitHub \\
+                   \end{tabular}
+                 & Scimba is packaged on pip (\texttt{pip install scimba}) and available on gitlab (\url{https://gitlab.inria.fr/scimba/scimba})  \\
+                \rowcolor{white}Testing
+                 & \begin{tabular}{l}
+                       pytest \\
+                   \end{tabular}
+                 & Tests are provided for core functionalities, available by running \texttt{pytest}. \\
+                \rowcolor{numpexlightergray}Containerization
+                 & \begin{tabular}{l}
+                       None \\
+                   \end{tabular}
+                 & None \\
+                \rowcolor{white}Interfaces
+                 & \begin{tabular}{l}
+                       \texttt{Feel++} \\
+                   \end{tabular}
+                 & Scimba interfaces with Feel++: solution data produced with Feel++ has successfully been
+                 used to train neural networks in Scimba. \\
+                \bottomrule
+            \end{tabular}
+        }}
     \caption{Scimba programming and computational environment}
 \end{table}
 
 
-
 \subsection{Mathematics}
 \label{sec:Scimba:mathematics}
-Mathematics not available.
+% Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+% In this section, provide a summary the mathematics used in the software.
 
+This software mainly uses physics-informed
+learning~\cite{KarKevLuPerWanYan2021}
+to solve partial differential equations.
+More specifically, it solves partial differential equations of the form
+\begin{equation*}
+    \begin{cases}
+        \mathcal{D}(u, x, t,; \mu) = 0,
+         & \text{in } \Omega \times (0,T) \times \mathbb{M},          \\
+        \mathcal{B}(u, x, t; \mu) = 0,
+         & \text{on } \partial \Omega \times (0,T) \times \mathbb{M}, \\
+        u(x, 0; \mu) = u_0(x; \mu),
+         & \text{on } \Omega \times \mathbb{M},                       \\
+    \end{cases}
+\end{equation*}
+with $\mathcal{D}$ a differential operator, $\mathcal{B}$ a boundary condition operator,
+$u_0$ an initial condition, $\Omega$ the spatial domain,
+$T$ the final time, and $\mathbb{M}$ the parameter space.
+The solution $u$ is approximated with a variety of physics-informed neural networks,
+which are trained to minimize the residual of the PDE,
+the boundary conditions and the initial conditions.
+An example of a physics-informed loss function is:
+\begin{equation*}
+    \begin{aligned}
+        \mathcal{L} & =
+        \int_\Omega \int_0^T \int_{\mathbb{M}}
+        ||\mathcal{D}(u, x, t; \mu)||^2 \,
+        \mathrm{d}\mu \, \mathrm{d}t \, \mathrm{d}x \\
+                    & +
+        \int_{\partial\Omega} \int_0^T \int_{\mathbb{M}}
+        ||\mathcal{B}(u, x, t; \mu)||^2 \,
+        \mathrm{d}\mu \, \mathrm{d}t \, \mathrm{d}x
+        +
+        \int_{\Omega} \int_{\mathbb{M}}
+        ||u(x, 0; \mu) - u_0(x;\mu)||^2 \,
+        \mathrm{d}\mu \, \mathrm{d}x.
+    \end{aligned}
+\end{equation*}
+Other data-driven methods
+(e.g. DeepONets~\cite{LuJinPanZhoKar2021})
+or numerical methods
+(e.g. Neural Galerkin~\cite{BruPehVan2024})
+are also available in Scimba.
 
-\subsection{Relevant Publications}
-\label{sec:Scimba:publications}
+% \subsection{Relevant Publications}
+% \label{sec:Scimba:publications}
 
-Here is a list of relevant publications related to the software:
+% Here is a list of relevant publications related to the software:
 
 
 \subsection{Acknowledgements}
 \label{sec::Scimba:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
-
-
-
-
-Acknowledgements not available.
-
+Scimba has mainly been developed by Inria research scientists.
+Other contributors include students and researchers
+from the University of Strasbourg and CEA Cadarache.
+For the moment, no specific funding has been dedicated to Scimba.
+Exa-MA has supported the internships of Marie Sengler (Strasbourg) and Daria Hrebenshchykova (Sophia-Antipolis), who both worked with Scimba.
 

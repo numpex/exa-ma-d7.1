@@ -4,24 +4,161 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\section*{Appendix A}
-\addcontentsline{toc}{section}{Appendix A}
-\label{sec:appendix-a}
+\appendix
+\section*{Appendix A. Computing Infrastructures}
+\addcontentsline{toc}{section}{Appendix A. Computing Infrastructures}
+\label{sec:app:architectures}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Section content, please change!
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection*{Appendix A.1}
-\label{sec:appendix-a1}
-\addcontentsline{toc}{subsection}{Appendix A.1}
+\subsection*{EuroHPC JU}
+\label{sec:arch:eurohpc-ju}
+\addcontentsline{toc}{subsection}{EuroHPC JU}
 
-\lipsum[1]
+EuroHPC JU is a joint undertaking between the European Union, European countries, and private partners to develop and deploy (pre-)exascale supercomputers in Europe. 
+The EuroHPC JU is responsible for the procurement and operation of the supercomputers. The EuroHPC JU has selected eight sites in eight countries to host the supercomputers. The supercomputers are expected to be operational by 2022. The supercomputers are expected to have a combined peak performance of over 200 Petaflops. The supercomputers will be used for a wide range of applications, including weather forecasting, climate modeling, drug discovery, and materials science. The supercomputers will also be used to support the European Open Science Cloud, a pan-European data infrastructure for research.
+The next two supercomputers are expected in 2024 (Germany, Jülich) and 2025 (France, TGCC) to host the first exascale systems in Europe.
 
-\subsection*{Appendix A.2}
-\label{sec:appendix-a2}
-\addcontentsline{toc}{subsection}{Appendix A.2}
+In~\cref{tab:eurohpc_flops_cpu_gpu} and~\cref{tab:eurohpc_storage_interconnect} below the FLOPS are given in Petaflops and the storage in Petabytes.
 
-\lipsum[1]
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l l l l l}
+    \toprule
+    \textbf{Name} & \textbf{FLOPS} & \textbf{CPU} & \textbf{Cores} & \textbf{GPU} \\
+    & & \textbf{/node} & \textbf{/node} & \\
+    \midrule
+    LUMI  & 386 & 2x AMD EPYC 7763 & 128 & AMD Instinct \\
+    LEONARDO  & 249 & Intel Ice-Lake (Booster) & - & NVIDIA Ampere \\
+    & & Intel Sapphire Rapids (Data-centric) & & \\
+    MARENOSTRUM5 & 215 & Intel Sapphire Rapids (GPP, ACC) & - & NVIDIA Hopper \\
+    & & Intel Emerald Rapids (NGT ACC) & & Intel Rialto Bridge\\
+    & & NVIDIA Grace (NGT GPP) & & \\    
+    MELUXINA  & 12.81 & 2x AMD EPYC 7H12 & 128 & NVIDIA Ampere \\
+    KAROLINA  & 9.59 & 2x AMD EPYC 7H12 & 128 & NVIDIA A100 \\
+    DISCOVERER  & 4.52 & 2x AMD EPYC 7H12 & 128 & None \\
+    VEGA  & 6.92 & 2x AMD EPYC 7H12 & 128 & NVIDIA A100 \\
+    DEUCALION  & 3.96 & ARM A64FX   & 1632 & \\
+    & & AMD EPYC 7763 & & \\
+    & & & & NVIDIA Ampere \\
+    \bottomrule
+    \end{tabular}
+    \caption{EuroHPC Systems, Their Countries, and Features  (FLOPS, CPU, Cores/node, GPU)}
+    \label{tab:eurohpc_flops_cpu_gpu}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l l l l}
+    \toprule
+    \textbf{Name} & \textbf{Storage (PB)} & \textbf{Interconnect} \\
+    \midrule
+    LUMI & 117 & Slingshot-11 @ 200 Gb/s \\
+    LEONARDO & 100+ & - \\
+    MARENOSTRUM 5 & 248 & - \\
+    MELUXINA & 20 & InfiniBand @ 200 Gb/s \\
+    KAROLINA & 1 & InfiniBand @ 200 Gb/s \\
+    DISCOVERER & 2 & InfiniBand @ 200 Gb/s \\
+    VEGA & 24 & InfiniBand @ 200 Gb/s \\
+    DEUCALION & 11 & - \\
+    \bottomrule
+    \end{tabular}
+    \caption{EuroHPC Systems Storage and Interconnect}
+    \label{tab:eurohpc_storage_interconnect}
+\end{table}
+
+For more details check out~\cite{eurohpc_supercomputers}.
+
+%%
+%% Genci
+%%
+\subsection*{Genci (France)}
+\label{sec:arch:genci}
+\addcontentsline{toc}{subsection}{Genci}
+
+\ac{GENCI} is the French national high-performance computing agency. It provides access to supercomputers and high-performance computing resources for French researchers and their international collaborators. The agency operates three supercomputers: Adastra, Jean Zay, and Joliot-Curie. The systems are located at the CINES, IDRIS, and TGCC computing centers, respectively. The systems are described in the tables~\ref{tab:genci_flops_cpu_gpu} and~\ref{tab:genci_storage_interconnect}.
+For more details, check out:
+\begin{description}
+    \item[Cines] \fullcite{genci_cines}
+    \item[Idris] \fullcite{genci_idris}
+    \item[TGCC]  \fullcite{genci_tgcc}
+\end{description}
+
+
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{l l l l}
+        \toprule
+        \textbf{Name} & \textbf{FLOPS} & \textbf{CPU} & \textbf{GPU} \\
+        \midrule
+        CINES (Adastra) & 3.5 & 2x AMD EPYC Genoa (Genoa) & None \\
+        & & & GPU: AMD EPYC Trento (MI250x)  \\
+        & & & APU: AMD MI300A (MI300A)  \\
+        & & AMD EPYC Genoa (HPDA) & \\
+        IDRIS (Jean Zay) & 28 & CSL: Intel Cascade Lake & \\
+        & &                & Nvidia V100 SXM2 \\
+        & & AMD EPYC Milan &  Nvidia A100 SXM4\\
+        & & Intel Sapphire Rapids & Nvidia H100 SXM5        \\
+        TGCC (Joliot-Curie) & 22 & Rome: 2x AMD EPYC  & None \\
+        & & SKL:  Intel Skylake & \\
+        & & Intel Cascade Lake & NVIDIA V100 \\
+        \bottomrule
+        \end{tabular}
+        \caption{GENCI Systems - FLOPS, CPU, and GPU}
+        \label{tab:genci_flops_cpu_gpu}
+    \end{table}
+
+
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{l l l}
+        \toprule
+        \textbf{Name} & \textbf{Storage (PB)} & \textbf{Interconnect} \\
+        \midrule
+        CINES (Adastra) & 1.9 & Slingshot \\
+        IDRIS (Jean Zay) & 50+ & Infiniband \\
+        TGCC (Joliot-Curie) & 100+ & Infiniband \\
+        \bottomrule
+        \end{tabular}
+        \caption{GENCI Systems - Storage and Interconnect}
+        \label{tab:genci_storage_interconnect}
+    \end{table}
+
+\subsection*{Unistra / IRMA / Gaya (France)}
+\label{sec:arch:gaya}
+\addcontentsline{toc}{subsection}{Gaya}
+
+The Gaya system is located at the University of Strasbourg, France. The system is described in the tables~\ref{tab:gaya_flops_cpu_gpu} and~\ref{tab:gaya_storage_interconnect}. It allows to easily run large-scale simulations and data analysis tasks up to 6 nodes and 768 cores and includes 3 AMD Instinct MI210 GPUs for development and experiments. 
+The frontal has 96 cores and 0.5TB of RAM which is used for generating large-scale meshes and associated partitioning.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l l l l l}
+    \toprule
+    \textbf{Name} & \textbf{Nodes} & \textbf{CPU} & \textbf{Cores} & \textbf{GPU} \\
+    &  & \textbf{/ node}  & \textbf{/ node} &  \\
+    \midrule
+    Gaya &  6 & 2x AMD EPYC 7713 & 128 &  \\
+         &  1 & 2x AMD EPYC 7313 & 32 & 3x AMD Instinct MI210 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Gaya System - Nodes, CPU, Cores/node, GPU, and Interconnect} 
+    \label{tab:gaya_flops_cpu_gpu}
+\end{table}
+
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{l l l}
+        \toprule
+        \textbf{Name} & \textbf{Storage (PB)} & \textbf{Interconnect} \\
+        \midrule
+        Gaya & 0.1 & Infiniband \\
+        \bottomrule
+    \end{tabular}
+    \caption{Gaya System - Storage and Interconnect}
+    \label{tab:gaya_storage_interconnect}
+    \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
