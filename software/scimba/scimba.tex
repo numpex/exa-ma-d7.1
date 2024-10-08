@@ -91,53 +91,52 @@ The following table summarizes these aspects for Scimba, providing a  view of it
             \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
                 \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}
                  & {\rule{0pt}{2.5ex}\color{white}\bf Details}
-                 & {\rule{0pt}{2.5ex}\color{white}\bf Description}                                                                                   \\
+                 & {\rule{0pt}{2.5ex}\color{white}\bf Description}                                                                                    \\
                 \rowcolor{white}Languages
                  & \begin{tabular}{l}
                        Python \\
                    \end{tabular}
-                 & Programming languages and language standards supported by the software                                                            \\
+                 & Scimba is written in \texttt{Python}, using the \texttt{pytorch} library for ML and differentiable computing.                      \\
                 \rowcolor{numpexlightergray}Parallelism
                  & \begin{tabular}{l}
                        GPU, CPU (shared) \\
                    \end{tabular}
-                 & Parallel computing methods and frameworks utilized by the software.                                                               \\
+                 & Scimba takes advantage of the intrinsic parallelization capabilities of \texttt{pytorch} (shared-memory CPU and GPU, by default).  \\
                 \rowcolor{white}Data Formats
-                 & \begin{tabular}{l}
-                       input: none                          \\
-                       output: \texttt{.pth} \& image files \\
-                   \end{tabular}
-                 & Data formats that the software can handle or produce.                                                                             \\
+                 & input: none;
+                output: \texttt{.pth} \& image files
+                 & Scimba outputs \texttt{.pth} files containing neural networks weights, as well as image files representing the equation solutions. \\
                 \rowcolor{numpexlightergray}Resilience
                  & \begin{tabular}{l}
                        None \\
                    \end{tabular}
-                 & Fault tolerance and recovery mechanisms employed by the software.                                                                 \\
+                 & None \\
                 \rowcolor{white}DevOps
                  & \begin{tabular}{l}
                        None \\
                    \end{tabular}
-                 & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies. \\
+                 & None  \\
                 \rowcolor{numpexlightergray}Packaging
                  & \begin{tabular}{l}
                        pip, GitHub \\
                    \end{tabular}
-                 & Software packaging and distribution.                                                                                              \\
+                 & Scimba is packaged on pip (\texttt{pip install scimba}) and available on gitlab (\url{https://gitlab.inria.fr/scimba/scimba})  \\
                 \rowcolor{white}Testing
                  & \begin{tabular}{l}
                        pytest \\
                    \end{tabular}
-                 & Testing methodologies employed to ensure software quality and correctness.                                                        \\
+                 & Tests are provided for core functionalities, available by running \texttt{pytest}. \\
                 \rowcolor{numpexlightergray}Containerization
                  & \begin{tabular}{l}
                        None \\
                    \end{tabular}
-                 & Container technologies used to package and deploy the software.                                                                   \\
+                 & None \\
                 \rowcolor{white}Interfaces
                  & \begin{tabular}{l}
-                       pytorch \\
+                       \texttt{Feel++} \\
                    \end{tabular}
-                 & List of software Scimba has interfaces with.                                                                                      \\
+                 & Scimba interfaces with Feel++: solution data produced with Feel++ has successfully been
+                 used to train neural networks in Scimba. \\
                 \bottomrule
             \end{tabular}
         }}
@@ -207,4 +206,5 @@ Scimba has mainly been developed by Inria research scientists.
 Other contributors include students and researchers
 from the University of Strasbourg and CEA Cadarache.
 For the moment, no specific funding has been dedicated to Scimba.
+Exa-MA has supported the internships of Marie Sengler (Strasbourg) and Daria Hrebenshchykova (Sophia-Antipolis), who both worked with Scimba.
 
