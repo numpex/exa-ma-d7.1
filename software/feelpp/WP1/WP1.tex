@@ -54,6 +54,9 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Feelpp:summary}
 
+\Feelpp is an open-source C++ library designed for solving partial differential equations (PDEs), it supports seamless parallel computing based on MPI, and it is designed to be highly modular and extensible. 
+It implements a \ac{DSEL} for variational formulations, which allows users to define complex PDEs in a concise and readable manner directly in \Cpp{} leveraging the power of modern \Cpp{} features.
+
 In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[!ht]
@@ -68,17 +71,17 @@ In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    cG & provide short description here \\
-\rowcolor{numpexlightergray}    dG/hdG & provide short description here \\
-\rowcolor{white}    finite element & provide short description here \\
-\rowcolor{numpexlightergray}    inhouse & provide short description here \\
-\rowcolor{white}    interface & provide short description here \\
-\rowcolor{numpexlightergray}    mesh adaptation & provide short description here \\
-\rowcolor{white}    multiphysics coupling & provide short description here \\
-\rowcolor{numpexlightergray}    multiscale coupling & provide short description here \\
-\rowcolor{white}    parallel in time & provide short description here \\
-\rowcolor{numpexlightergray}    spectral element & provide short description here \\
-\rowcolor{white}    unstructured mesh & provide short description here \\
+\rowcolor{white}    cG&  continuous Galerkin of arbitrary order; conforming and non conforming interpolation operator;  \ac{DSEL} for cG methods and variational formulations \\
+\rowcolor{numpexlightergray}    dG/hdG & support dG and HdG methods in 1D, 2D and 3D of arbitrary order; support postprocessing for increased accuracy for HdG; Static condensation multithreaded; \ac{DSEL} for dG/HdG methods and variational formulations\\
+\rowcolor{white}    finite element & $H^1$, $L^2$, $H^\mathrm{div}$ and $H^\mathrm{curl}$ finite elements of arbitrary order in 1D, 2D, 3D; \\
+\rowcolor{numpexlightergray}    inhouse & efficient data structures for localisation: BVH and KD-trees \\
+\rowcolor{white}    interface & interfaces with MMG/ParMMG; Gmsh; Eigen3 \\
+\rowcolor{numpexlightergray}    mesh adaptation & use MMG and ParMMG for mesh adaptation; mesh quality indicators to trigger adaptation\\
+\rowcolor{white}    multiphysics coupling & Support for function space cartesian products; \ac{DSEL} for variational formulations  \\
+\rowcolor{numpexlightergray}    multiscale coupling & multi-dimension coupling, \textit{e.g.} 0D-3D, 1D-3D or 2D-3D; support for solving coupled systems of PDEs and ODEs\\
+\rowcolor{white}    parallel in time & space-time parallel implementation of original parareal algorithm \\
+\rowcolor{numpexlightergray}    spectral element & high order methods on simplices and hypercubes; Gauss-Legendre, Gauss-Lobatto, Gauss-Radau, electrostatic and Fekete points;  high order geometric transformation (up to order 4 using Gmsh); construction of $P_N \mathrm{iso} P_1$; $L^2$ orthonormal basis functions used as primal basis functions on hypercubes (Gauss-Legendre) and simplices (Dubiner) \\
+\rowcolor{white}    unstructured mesh & Hypercubes and Simplices meshes in 1D, 2D and 3D as well as 1D meshes in 2D and 3D and 2D meshes in 3D; efficient localisation using kd-tree; \ac{DSEL} to manipulate geometric entity collections (points,edges,faces, facets and volumes)\\
 \hline
 \end{tabular}
         }
