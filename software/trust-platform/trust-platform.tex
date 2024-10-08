@@ -44,13 +44,13 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:TRUST Platform:summary}
-Detailed overview not available.
 
-
+TRUST is a High Performance Computing (HPC) platform tool developed by the CEA since 1993. Initially designed for nuclear applications, TRUST has evolved to tackle a range of thermohydraulic challenges, from one-phase to multi-phase flows. It offers various numerical methods and supports different mesh types for efficient computation on diverse computing platforms, including high-performance computers. Recently, efforts have been made to integrate GPU computing libraries like AmgX, rocALUTION, and Kokkos aiming for a hybrid CPU/GPU code achieving better performance portability. This software is OpenSource (BSD license), available on GitHub.
 
 \subsection{Purpose}
 \label{sec:TRUST Platform:purpose}
-Purpose not available.
+
+TRUST can be used as a standalone generic simulation software, or serves as a kernel for several independent private projects. As all the base classes and numerical methods are available in TRUST, building an application for a specific domain becomes easier by basing the project on the platform. This is known as Build an Application Linked to TRUST Kernel (BALTIK). Such a specialized application allows for example to extend the TRUST functionalities for low scale turbulent multi-phase simulations (TrioCFD code), component-scale simulations (e.g. 3D module of CATHARE code), or even non-nuclear application, like batteries and fuel-cell (PEMFC) simulations (and many other CEA internal codes).
 
 \subsection{Programming and Computational Environment}
 \label{sec::TRUST Platform:environment_capabilities}
@@ -109,25 +109,35 @@ None\\
 
 \subsection{Mathematics}
 \label{sec:TRUST Platform:mathematics}
-Mathematics not available.
+Solving a TRUST problem requires to select a certain discretization which allows the code to pass the treated equations from a continuous to a discretized form.
+Four discretizations are available:
 
-In this section, provide a summary the mathematics used in the software.
+\begin{itemize}
+\item \textbf{Finite Volume Difference (VDF) discretization}: It is the simplest and the most performant discretization of the TRUST plaform. This discretization is compatible with conform mesh with hexahedral type of elements. As stated by its name, the VDF is a conservative finite volume scheme of Marker-and-Cell (MAC) type. The discretization of each term of the equation is performed by integrating over a control volume. The diffusion gradient terms are approximated by a linear difference equation. All scalars are stored at the center of each control volume except the velocity field which is defined on a staggered mesh.
 
+\item \textbf{Finite Element Volume (VEF) discretization}: It is used when the mesh is conform but with tetrahedral elements (triangles in 2D). This numerical scheme combines finite volume and finite elements to integrate in conservative form all conservation equations over the control volumes belonging to the calculation domain. As in the classical Crouzeix–Raviart element, both vector and scalar quantities are located at the centers of the faces. The pressure, however, is located at the vertices and at the center of gravity of a tetrahedral element (in 3D, triangles in 2D). This discretization leads to very good pressure/velocity coupling and has a very dense divergence free basis. Along this staggered mesh arrangement, the unknowns, i.e. the vector and scalar values, are expressed using non-conforming linear shape-functions (P1-nonconforming). The shape function for the pressure is constant for the center of the element (P0) and linear for the vertices (P1).
+
+\item \textbf{PolyMAC-series discretization}: It is a series of Marker-and-Cell (MAC) schemes that can handle any type of mesh (non-conform, non-orthogonal, poly-hedral types, …). The numerical description of this schemes is quite complex and depends on the employed version.
+
+\item \textbf{Finite Element (EF) discretization}: It implements a classical finite element method.
+\end{itemize}
 
 \subsection{Relevant Publications}
 \label{sec:TRUST Platform:publications}
 
 Here is a list of relevant publications related to the software:
 
+Angeli, PE. Wall-Resolved Large Eddy Simulations of the Transient Turbulent Fluid Mixing in a Closed System Replicating a Pressurized Thermal Shock. Flow Turbulence Combust (2021). 
+https://doi.org/10.1007/s10494-021-00272-z
+
+Saikali E., Bernard-Michel G., Sergent A., Tenaud C., Salem R.: Highly resolved large eddy simulations of a binary mixture flow in a cavity with two vents: Influence of the computational domain. International Journal of Hydrogen Energy (2018).
+https://doi.org/10.1016/j.ijhydene.2018.08.108
+
+Calvin C., Cueto O., Emonot P.: An object-oriented approach to the design of fluid mechanics software. Mathematical Modelling and Numerical Analysis (2002). 
+https://doi.org/10.1051/m2an:2002038 
 
 \subsection{Acknowledgements}
 \label{sec::TRUST Platform:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
-
-
-
-
-Acknowledgements not available.
-
+The software hasn't been developed with the support of funding agencies and institutions. 
 

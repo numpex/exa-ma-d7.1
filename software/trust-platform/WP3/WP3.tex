@@ -57,8 +57,8 @@ In~\cref{tab:WP3:TRUST Platform:features} we provide a summary of the software f
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    direct solver & provide short description here \\
-\rowcolor{numpexlightergray}    krylov solver & provide short description here \\
+\rowcolor{white}    direct solver & MUMPS on CPU and STRUMPACK on GPU are used in TRUST \\
+\rowcolor{numpexlightergray}    krylov solver & PETSc on CPU, AmgX or PETSc on Nvidia GPU, rocALUTION or PETSc on AMD GPU are used in TRUST \\
 \rowcolor{white}    multiphysics coupling & provide short description here \\
 \end{tabular}
         }
@@ -73,8 +73,8 @@ In~\cref{tab:WP3:TRUST Platform:features} we provide a summary of the software f
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
+    \item The parallel programming model is MPI and a mix of Kokkos and OpenMP-target directives for GPU computing  
+    \item The parallel computation environment are personal computers, clusters, and super computers: e.g. Adastra (CINES), Jean-Zay (IDRIS), Topaze (CCRT)
     \item describe the parallel capabilities of the software
     \item \textbf{Scalability:} Describe the general scalability properties of the software
     \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
