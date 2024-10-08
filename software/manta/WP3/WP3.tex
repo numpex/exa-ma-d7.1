@@ -54,7 +54,9 @@ In~\cref{tab:WP3:MANTA:features} we provide a summary of the software features r
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    multiphysics coupling & provide short description here \\
+\rowcolor{white}    direct solver & MUMPS through PETSc \\
+\rowcolor{numpexlightergray}    krylov solver & many solvers through PETSc including multigrid and fieldsplit for saddle-point problems  \\
+\rowcolor{white}    multiphysics coupling & MANTA is intended to be coupled with other software (fluid solver for instance) through the ICoCo standard (\href{https://github.com/cea-trust-platform/icoco-coupling}{https://github.com/cea-trust-platform/icoco-coupling}), as a reference component whose performance to preserve in the partitioned coupling \\
 \end{tabular}
         }
     }
@@ -68,55 +70,38 @@ In~\cref{tab:WP3:MANTA:features} we provide a summary of the software features r
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item MANTA is intended to run in full MPI (CPU) mode for the first tasks in Exa-MA. Perspectives for GPU and hybrid CPU-GPU modes are expected as a second step.
+    \item The parallel computation environment are personal computers, clusters, and super computers: e.g. Adastra (CINES), Jean-Zay (IDRIS), Topaze (CCRT)
+    \item \textbf{Integration with Other Systems:} MANTA strongly integrates with the linear algebra library PETSc developed and improved in the Exa-Ma framework. It thus serves for the practical evaluation of the integral performance gain provided by the project in representative physical cases of interest in the field on Computational Mechanics.
 \end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:MANTA:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+Building the reference metrics for MANTA, in good connection with the work scheduled within WP3, is a work-in-progress, with actual tests to be selected and packaged during next year. They are intended to emphasize on the link between Manta and PETSc in the field of computational mechanics, with the following strategy:
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+    \item \textbf{Test(s) with explicit time integration:} They will test the \textit{assembly} steps of the problem and the data transfer between processes within PETSc, mandatory to separate from the solver performance for a correct understanding of the global performance results for very complex cases.
+    \item \textbf{Test(s) with implicit time integration:} They will test the actual  performance of the PETSc solver, with two classes of problem of great interest:
+    \begin{itemize}
+       \item \textbf{Positive Definite Problem(s):} The focus will be given here to very large problems with poor conditioning of the system, for instance due to different materials in the model with several orders of magnitude between their respective mechanical properties. Extended analyses in this situation are currently carried out at CEA, in terms of both numerical performances and robustness of the solution. Some of theses tests have been performed in full MPI mode over more than 15 000 cores, with scalability results yet to be fully packaged and documented.
+       \item \textbf{Saddle-point Problem(s):} In the case of MANTA, they will mostly arise from large scale contact problems and will test the capabilities of PETSc to handle such problems in the case where the dual unknowns (i.e. contact forces seen as Lagrange Multipliers) are not uniformly distributed in the model).
+    \end{itemize}
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
 
 \subsection{12-Month Roadmap}
 \label{sec:WP3:MANTA:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+The 12-Month Roadmap for MANTA is mainly dedicated to the selection of the relevant tests following the guidelines of previous section and their implementation in the methodology proposed in section \ref{sec:methodology-types}, in terms of scalability analysis for CPU in a first step.\\
+\\
+Practically:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+    \item \textbf{Data availability:} Data for the selected benchmarks will be made available in a format readable with open-source only software, namely from the Salome environment (\href{https://www.salome-platform.org/}{https://www.salome-platform.org/}).
+    \item \textbf{Software availability: } An open version of the software will be made available for the benchmarks, with a possible limitation of the available features to cope with the license environment of MANTA, but providing all the necessary content for reliable and wide-range performance analyses.
+    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology in terms of scalability measurements, with a particular focus on the selection of the relevant output data and associated tolerance for the reproducibility guarantee.
+    \item \textbf{Results Retention:} Benchmark results will be stored and made available with the suitable level of metadata and documentation through a dedicated repository proposed by the Exa-MA project.
 \end{itemize}
 
 In~\cref{tab:WP3:MANTA:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
@@ -137,10 +122,10 @@ In~\cref{tab:WP3:MANTA:bottlenecks}, we briefly discuss the bottleneck roadmap a
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Accelerate the access to large scale numerical results to enhance knowledge and speed-up engineering operations in the field of computational mechanics. \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Ensure the reliability of the results for large scale and complex simulation independently from the computer and the selected run-mode (CPU initially, GPU and hybrid as perspectives for the future). \\
+\rowcolor{white}    B6 - Data Management & This bottleneck is indirectly addressed for MANTA through the availability of the benchmark datasets and the collection of the results. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Benefit from the latest improvement in linear algebra libraries, quantify the practical gains on representative applications and track/characterize the remaining bottlenecks for the global performance. Use MANTA as a reference component for the analysis of the performance of partitioned coupling at exascale.\\
 \end{tabular}
         }
     }
