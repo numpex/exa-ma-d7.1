@@ -1,5 +1,31 @@
 
 
+@book{asch_data_2016,
+	address = {Philadelphia, PA},
+	title = {Data assimilation},
+	url = {https://epubs.siam.org/doi/abs/10.1137/1.9781611974546},
+	publisher = {Society for Industrial and Applied Mathematics},
+	author = {Asch, Mark and Bocquet, Marc and Nodet, Maëlle},
+	year = {2016},
+	note = {Citation Key: 
+doi:10.1137/1.9781611974546
+tex.eprint: https://epubs.siam.org/doi/pdf/10.1137/1.9781611974546},
+}
+
+@article{CRMATH_2009__347_7-8_435_0,
+	title = {Une méthode combinée d'éléments finis à deux grilles/bases réduites pour l'approximation des solutions d'une {E}.{D}.{P}. paramétrique},
+	volume = {347},
+	url = {http://www.numdam.org/articles/10.1016/j.crma.2009.02.019/},
+	doi = {10.1016/j.crma.2009.02.019},
+	language = {fr},
+	number = {7-8},
+	journal = {Comptes Rendus. Mathématique},
+	author = {Chakir, Rachida and Maday, Yvon},
+	year = {2009},
+	note = {Publisher: Elsevier},
+	pages = {435--440},
+}
+
 @article{noauthor_notitle_nodate,
 }
 
@@ -230,9 +256,9 @@ sbatch run.slurm
 
 Without slurm
 
-Run by hand the command of the run.slurm file.POSITION=prone      \# prone supine standingSOLVER\_TYPE=simple  \# simple lscMESH\_INDEX=M4       \# M1 M2 M3 M4 M5
+Run by hand the command of the run.slurm file.POSITION=prone      \# prone supine standingSOLVER\_TYPE=simple  \# simple lscMESH\_INDEX=M4       \# M1 M2 M3 M4 M5
 
-mpirun -np 128 feelpp\_toolbox\_heatfluid {\textbackslash}    --config-files eye-\$\{POSITION\}.cfg pc\_\$\{SOLVER\_TYPE\}.cfg {\textbackslash}    --heat-fluid.json.patch='\{ "op": "replace", "path": "/Meshes/heatfluid/Import/filename", "value": "\$cfgdir/mesh/Mr/'\$\{MESH\_INDEX\}'/Eye\_Mesh3D\_p\$np.json" \}' {\textbackslash}    --heat-fluid.scalability-save=1 --heat-fluid.heat.scalability-save=1 --heat-fluid.fluid.scalability-save=1
+mpirun -np 128 feelpp\_toolbox\_heatfluid {\textbackslash}    --config-files eye-\$\{POSITION\}.cfg pc\_\$\{SOLVER\_TYPE\}.cfg {\textbackslash}    --heat-fluid.json.patch='\{ "op": "replace", "path": "/Meshes/heatfluid/Import/filename", "value": "\$cfgdir/mesh/Mr/'\$\{MESH\_INDEX\}'/Eye\_Mesh3D\_p\$np.json" \}' {\textbackslash}    --heat-fluid.scalability-save=1 --heat-fluid.heat.scalability-save=1 --heat-fluid.fluid.scalability-save=1
 
 Available meshes
 
@@ -1026,113 +1052,3 @@ Version Number: v1.1.0},
 	year = {2018},
 	pages = {603--613},
 }
-
-
-% ------------- haven
-
-@article{Hawen2021,
-  title={\texttt{hawen}: time-harmonic wave modeling and inversion using 
-         hybridizable discontinuous {G}alerkin discretization},
-  author={Faucher, Florian},
-  journal={Journal of Open Source Software},
-  volume={6},
-  number={57},
-  doi={10.21105/joss.02699},
-  year={2021}
-}
-
-@article{Faucher2020DAS,
-  title={Reciprocity-gap misfit functional for Distributed Acoustic Sensing, 
-         combining data from passive and active sources},
-  author={Faucher, Florian and De Hoop, Maarten V and Scherzer, Otmar},
-  Journal = {Geophysics},
-  volume = {86},
-  issue  = {2},
-  pages  = {1--46},
-  year={2020},
-  doi={10.1190/geo2020-0305.1},
-  issn={0016-8033}
-}
-@article{Faucher2019FRgWIGeo,
-  title={Full {R}eciprocity-Gap {W}aveform {I}nversion, enabling sparse-source acquisition},
-  author={Faucher, Florian and Alessandrini, Giovanni and Barucq, H{\'e}l{\`e}ne and 
-          de Hoop, Maarten and Gaburro, Romina and Sincich, Eva},
-  journal={Geophysics},
-  volume={85},
-  number={6},
-  pages={R461--R476},
-  year   ={2020},
-  publisher={Society of Exploration Geophysicists},
-  doi={10.1190/geo2019-0527.1}
-}
-
-@article{Faucher2020adjoint,
-  title={Adjoint-state method for {H}ybridizable {D}iscontinuous {G}alerkin discretization, 
-         application to the inverse acoustic wave problem},
-  author={Faucher, Florian and Scherzer, Otmar},
-  journal={Computer Methods in Applied Mechanics and Engineering},
-  volume ={372},
-  year={2020},
-  pages = {113406},
-  issn={0045-7825},
-  doi={10.1016/j.cma.2020.113406}
-}
-@article{Faucher2023viscoacoustic,
-  title={Quantitative inverse problem in visco-acoustic media under attenuation model uncertainty},
-  author={Faucher, Florian and Scherzer, Otmar},
-  journal={Journal of Computational Physics},
-  volume={472},
-  pages={111685},
-  year={2023},
-  publisher={Elsevier},
-  doi={10.1016/j.jcp.2022.111685}
-} 
-@article{Pham2024stabilization,
-  title={Numerical investigation of stabilization in the {H}ybridizable {D}iscontinuous {G}alerkin method for linear anisotropic elastic equation},
-  author={Pham, Ha and Faucher, Florian and Barucq, H{\'e}l{\`e}ne},
-  journal={Computer Methods in Applied Mechanics and Engineering},
-  volume={428},
-  pages={117080},
-  year={2024},
-  publisher={Elsevier},
-  doi={10.1016/j.cma.2024.117080} 
-}
-@article{Pham2024assembling,
-  title={Assembling algorithm for {G}reen's tensors and absorbing boundary conditions for {G}albrun's equation in radial symmetry},
-  author={Pham, Ha and Faucher, Florian and Fournier, Damien and Barucq, H{\'e}l{\`e}ne and Gizon, Laurent},
-  journal={Journal of Computational Physics},
-  pages={113444},
-  year={2024},
-  publisher={Elsevier},
-  doi={10.1016/j.jcp.2024.113444}
-}
-@article{Pham2020Siam,
-  title   = {Efficient and accurate algorithm for the full modal {G}reen's kernel
-             of the scalar wave equation in helioseismology},
-  author  = {Barucq, H{\'e}l{\`e}ne and Faucher, Florian and Fournier, Damien and Gizon, Laurent and Pham, Ha},
-  Journal = {SIAM Journal on Applied Mathematics},
-  Volume  = {80},
-  Issue   = {6},
-  pages   = {2657--2683},
-  year    = {2020},
-  doi     = {10.1137/20M1336709}
-}
-
-@article{Benitez2024,
-  title={Out-of-distributional risk bounds for neural operators with applications to the {H}elmholtz equation},
-  author={Benitez, Jose Antonio Lara and Furuya, Takashi and Faucher, Florian and Kratsios, Anastasis and Tricoche, Xavier and de Hoop, Maarten V},
-  journal={Journal of Computational Physics},
-  pages={113168},
-  year={2024},
-  publisher={Elsevier},
-  doi={10.1016/j.jcp.2024.113168}
-}
-@article{Liu2024,
-  title={WaveBench: Benchmarking Data-driven Solvers for Linear Wave Propagation {PDE}s},
-  author={Tianlin Liu and Jose Antonio Lara Benitez and Florian Faucher and AmirEhsan Khorashadizadeh and Maarten V. de Hoop and Ivan Dokmani{\'c}},
-  journal={Transactions on Machine Learning Research},
-  issn={2835-8856},
-  year={2024},
-  url={https://openreview.net/forum?id=6wpInwnzs8}
-}
-
