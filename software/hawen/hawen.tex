@@ -48,19 +48,20 @@ B7 - Exascale Algorithms\\
 Software \hawen~(\url{https://ffaucher.gitlab.io/hawen-website/})
 considers the time-harmonic modeling of mechanical waves, and the 
 associated quantitative inverse wave problems.
-The code uses the Hybridizable Discontinuous Galerkin method for the 
-discretization. 
-It relies on iterative minimization algorithm to solve the quantitative
-inverse wave problem via nonlinear optimization.
+The code uses the Hybridizable Discontinuous Galerkin method (HDG) 
+for the discretization. 
+It relies on nonlinear iterative minimization algorithm to solve 
+the quantitative inverse wave problem.
+The code is written in \texttt{Fortran90} and uses \texttt{mpi}
+and \texttt{OpenMP} parallelism.
 
 
 
 \subsection{Purpose}
 \label{sec:Hawen:purpose}
 
-The major applications of \hawen~are to solve large-scale inverse 
-problems, in particular in the context of Earth's imaging and 
-helioseismology.
+\hawen~solves large-scale inverse wave problems in the frequency domain, 
+with an emphasis on applications in the context of Earth's imaging and helioseismology.
 
 
 \subsection{Programming and Computational Environment}
@@ -122,9 +123,68 @@ PARPACK (optional)\\
 
 \subsection{Mathematics}
 \label{sec:Hawen:mathematics}
-Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+\paragraph{Forward problem} \hawen~allows for the modeling of time-harmonic
+mechanical waves for different types of media. 
+By using the HDG method for the discretization, we work with first-order systems.
+In the case of visco-acoustics wave propagation, the forward problem consists in
+finding the scalar pressure field $p$ and vector velocity field $\boldsymbol{v}$ 
+such that
+\begin{subequations}\label{eq:hawen:viscoacoustic}
+\begin{empheq}[left={\empheqlbrace}]{align}
+ &-\mathrm{i}\omega \rho \boldsymbol{v} \,+\, \nabla p \,=\, 0 \,, \\
+ &-\dfrac{\mathrm{i}\omega}{\kappa} p \,+\, \nabla\cdot\boldsymbol{v} \,=\, f \,,
+\end{empheq}\end{subequations}
+where $\omega$ is the angular frequency, and the medium is characterized
+by the density $\rho$ and the bulk modulus $\kappa$. The source term is 
+$f$. 
+We further refer to \cite{Faucher2020adjoint,Faucher2023viscoacoustic}
+for more details.
+The code allows for different types of boundary conditions, such as 
+imposing the Dirichlet trace, Neumann trace, or a Robin-type condition
+(e.g., for radiation condition).
+
+
+In the case of linear visco-elastic wave propagation, the forward problem consists in
+finding the displacement field $\boldsymbol{u}$ and stress tensor $\boldsymbol{\sigma}$ 
+solutions to, cf., e.g., \cite{Pham2024stabilization},
+\begin{subequations}\begin{empheq}[left={\empheqlbrace}]{align}
+ &-\omega^2\rho\boldsymbol{u} \,-\, \nabla\cdot\boldsymbol{\sigma}\,=\,\boldsymbol{f} \,, \\
+ & \boldsymbol{\sigma} \,=\, \boldsymbol{C} \, \big(\nabla\boldsymbol{u} \,+\, (\nabla\boldsymbol{u})^t\big) \,.
+\end{empheq}\end{subequations}
+Here, the medium is characterized by the density 
+$\rho$ and the stiffness tensor $\boldsymbol{C}$,
+we refer to \cite{Pham2024stabilization}
+for more details related to HDG implementation.
+
+In the context of helioseismology, we consider the scalar-wave propagation 
+which comes from simplification of the Galbrun's equation, 
+cf.~\cite{Pham2020Siam,Pham2024assembling}, in three dimensions, the 
+simplest form corresponds to finding $u$ solution to: 
+\begin{equation} \label{eq:hawen:helio-scalar}
+  \Big( \,-\nabla \,-\,\dfrac{\omega^2}{c^2} \,+\, q \Big) \, u \,=\, f\,,
+\end{equation}
+with potential $q$, sound-speed $c$ and source term $f$. 
+In addition, \hawen~solves the problem under the assumption of 
+spherical symmetry and we refer to \cite{Pham2020Siam} for more 
+details. 
+Several choices of radiation boundary conditions have been 
+implemented and tested, cf.~\cite{Pham2019radiationBC,Pham2020Siam}.
+Recently, more complete equations to model the Sun have 
+been implemented in \hawen, see \cite{Pham2024assembling}.
+
+\paragraph{Inversion} 
+\hawen~solves the inverse problems for the reconstruction of the 
+model parameters from the measurements of waves. For instance, 
+considering the acoustic wave equation \eqref{eq:hawen:viscoacoustic},
+it consists in finding the density $\rho$ and bulk modulus $\kappa$
+from the observations of the pressure $p$ and/or velocity field $\boldsymbol{v}$
+at a discrete set of positions.
+\hawen~employs a nonlinear iterative minimization algorithm for the 
+reconstruction of the properties, as illustrated in 
+\cite{Hawen2021,Faucher2019FRgWIGeo,Faucher2020DAS,Faucher2023viscoacoustic}.
+This approach is typically referred to as the \emph{Full Waveform Inversion}
+in the context of seismic imaging, cf. \cite{Virieux2009} for a review.
 
 
 \subsection{Relevant Publications}
