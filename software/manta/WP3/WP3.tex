@@ -54,6 +54,8 @@ In~\cref{tab:WP3:MANTA:features} we provide a summary of the software features r
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
+\rowcolor{white}    direct solver & MUMPS through PETSc \\
+\rowcolor{numpexlightergray}    krylov solver & many solvers through PETSc including multigrid and fieldsplit for saddle-point problems  \\
 \rowcolor{white}    multiphysics coupling & MANTA is intended to be coupled with other software (fluid solver for instance) through the ICoCo standard (\href{https://github.com/cea-trust-platform/icoco-coupling}{https://github.com/cea-trust-platform/icoco-coupling}), as a reference component whose performance to preserve in the partitioned coupling \\
 \end{tabular}
         }
