@@ -86,7 +86,7 @@ Building the reference metrics for MANTA, in good connection with the work sched
     \item \textbf{Test(s) with implicit time integration:} They will test the actual  performance of the PETSc solver, with two classes of problem of great interest:
     \begin{itemize}
        \item \textbf{Positive Definite Problem(s):} The focus will be given here to very large problems with poor conditioning of the system, for instance due to different materials in the model with several orders of magnitude between their respective mechanical properties. Extended analyses in this situation are currently carried out at CEA, in terms of both numerical performances and robustness of the solution. Some of theses tests have been performed in full MPI mode over more than 15 000 cores, with scalability results yet to be fully packaged and documented.
-       \item \textbf{Saddle-point Problem(s):} In the case of MANTA, they will mostly arise from large scale contact problems and will test the capabilities of PETSc to handle such problems in the case where the dual unknowns (i.e. contact forces seen as Lagrange Multipliers) are not uniformly distributed in the model).
+       \item \textbf{Saddle-point Problem(s):} In the case of MANTA, they will mostly arise from large scale contact problems and will test the capabilities of PETSc to handle such problems in the case where the dual unknowns (i.e. contact forces seen as Lagrange Multipliers) are not uniformly distributed in the model.
     \end{itemize}
 \end{itemize}
 

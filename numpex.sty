@@ -23,12 +23,14 @@
 \usepackage{istprog}
 \RequirePackage{a4wide}	% A4
 \usepackage{etoolbox}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{tocloft} 	% formatting of the table of contents.
 \usepackage[linktocpage=true]{hyperref}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=black,
-	filecolor=black,      
+	filecolor=black,
 	citecolor=black,
 	urlcolor=blue,
 	pdftitle=\deliv@stitle,
@@ -66,7 +68,7 @@
 \ProjectStartDuration{1 Septembre 2023 / 60 Months}
 \Security{Public}
 
-% \partners{ 
+% \partners{
 % \textbf{AIT Austrian Institute of Technology} \\
 % }
 
@@ -82,7 +84,7 @@
 % }
 
 \usepackage{graphicx}
-\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[dvipsnames,svgnames]{xcolor}
 \usepackage{colortbl}
 \usepackage{geometry}
 \usepackage{wallpaper}
@@ -107,7 +109,7 @@
 \usepackage[parfill]{parskip}
 
 %% title page
-%% 
+%%
 \usepackage{istcover}
 
 % toc design
@@ -139,9 +141,9 @@
 
 % lof design
 \def\setlistoffigures{%
-\renewcommand{\cftfigfont}{\small}	
-\renewcommand{\cftfigpagefont}{\small}	
-\setlength{\cftfigindent}{0mm}	
+\renewcommand{\cftfigfont}{\small}
+\renewcommand{\cftfigpagefont}{\small}
+\setlength{\cftfigindent}{0mm}
 \setlength{\cftbeforeloftitleskip}{-0.4cm}
 \setlength{\cftafterloftitleskip}{3mm}
 \renewcommand{\cftloftitlefont}{\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}
@@ -156,8 +158,8 @@
 
 % lot design
 \def\setlistoftables{%
-\renewcommand{\cfttabfont}{\small}	
-\renewcommand{\cfttabpagefont}{\small}	
+\renewcommand{\cfttabfont}{\small}
+\renewcommand{\cfttabpagefont}{\small}
 \setlength{\cfttabindent}{0mm}
 \setlength{\cftbeforelottitleskip}{-0.4cm}
 \setlength{\cftafterlottitleskip}{3mm}

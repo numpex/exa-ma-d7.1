@@ -24,12 +24,17 @@
 \usepackage{pgf-pie}  % For pie charts
 \usepackage{tikz}     % Required for drawing graphics
 \usepackage{xspace,float,relsize}    % Required for controlling the position of objects
+\usepackage{paralist}
+\usepackage{minted}
 \usepackage{siunitx}  % Required for typesetting units
 \usepackage{currfile} % Required for getting the current file name
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \pgfplotsset{compat=newest}
+\usepackage{tikz} 
+\usetikzlibrary{positioning,fit,matrix}
 
+\definecolor{bgcolor}{gray}{0.95}
 \definecolor{lightblue}{RGB}{173,216,230}
 \definecolor{darkgreen}{RGB}{0,100,0}
 \definecolor{pink}{RGB}{255,192,203}
@@ -193,7 +198,7 @@
 %%% Deliverable Content
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter[]{Introductions}
+\chapter{Introduction}
 \input{sections/summary}
 \input{sections/introduction}
 \import{chapters/}{benchmarking}

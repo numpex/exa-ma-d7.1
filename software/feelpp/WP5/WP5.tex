@@ -1,8 +1,8 @@
 %!TEX root = ../../../exa-ma-d7.1.tex
-\section{Software: Feel++}
+\section{Software: \texorpdfstring{\Feelpp}{\Feelpp}}
 \label{sec:WP5:Feelpp:software}
 
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -11,7 +11,7 @@
     \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
-Feel++ Consortium\\
+\Feelpp Consortium\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
 CNRS\\
@@ -38,10 +38,16 @@ B2 - Interconnect Technology\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
+\rowcolor{numpexlightergray}\textbf{Contributors} & \begin{tabular}{l}
+Christophe Prud'homme (UNISTRA)\\
+Vincent Chabannes (UNISTRA)\\
+Lucas Palazzolo (INRIA)\\
+Yannick Privat (UL)
+\end{tabular}\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{WP5: Feel++ Information}
+    \caption{WP5: \Feelpp Information}
 \end{table}
 
 \subsection{Software Overview}
@@ -49,9 +55,9 @@ B7 - Exascale Algorithms\\
 
 In~\cref{tab:WP5:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
@@ -61,11 +67,11 @@ In~\cref{tab:WP5:Feelpp:features} we provide a summary of the software features 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    Iterative methods & provide short description here \\
+\rowcolor{white}    Iterative methods: Shape Optimization & Iterative methods for shape optimization based on the work \cite{feppon_f_null_2020} have been implemented in \url{https://github.com/feelpp/feelpp-shapo} using \Feelpp toolboxes.\\
 \end{tabular}
         }
     }
-    \caption{WP5: Feel++ Features}
+    \caption{WP5: \Feelpp Features}
     \label{tab:WP5:Feelpp:features}
 \end{table}
 
@@ -102,57 +108,74 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+\subsubsection{Benchmark \#1 - Shape Optimization under Stokes Flow}
+
+\paragraph{Description:} In \cite{palazzolo2023shape}, geometric shape optimization has been performed by using the Cea's method to compute the shape gradient \cite{cea_conception_1986}. The study employs iterative methods such as gradient descent and null-space methods \cite{feppon_f_null_2020}. The benchmark focuses on optimizing the shape of 2D and 3D objects under Stokes flow using these methods. Notably, in the 2D case, the optimized shape resembles a rugby ball \cite{pironneau_optimum_1974}.
+
+\paragraph{Benchmarking Tools Used:} The optimization problems are tackled using various \Feelpp toolboxes designed for solving the associated PDEs of the primal, adjoint, and extension problems.
+
+\paragraph{Input/Output Dataset Description:}
+\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+
+\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+
+\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+
+\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+
+% \begin{itemize}
+%     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+%     \item \textbf{Input/Output Dataset Description:}
+%         \begin{itemize}
+%             \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%             \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%             \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%         \end{itemize}
+%     \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+% \end{itemize}
 
 \subsection{12-Month Roadmap}
 \label{sec:WP5:Feelpp:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+\begin{description}
+    \item[Data Improvements] Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+    \item[Methodology Application] Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+    \item[Results Retention] Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+\end{description}
 
 In~\cref{tab:WP5:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
-    
-    
+
+
 
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
 \rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
 \rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
 \rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & provide short description here \\
 \rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
 \rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Enable Shape Optimization Benchmarking \\
 \end{tabular}
         }
     }
-    \caption{WP5: Feel++ plan with Respect to Relevant Bottlenecks}
+    \caption{WP5: \Feelpp plan with Respect to Relevant Bottlenecks}
     \label{tab:WP5:Feelpp:bottlenecks}
 \end{table}
