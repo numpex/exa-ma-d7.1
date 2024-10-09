@@ -90,7 +90,11 @@ Multithread\\
 Gmsh and associated formats\\
 VTK\\
 in-house binary format\\
-\end{tabular} & Data formats that the software can handle or produce.\\
+\end{tabular} & Data formats that the software can handle or produce.
+Gmsh format can be used for input mesh. 
+VTK or binary format can be used to save the results such as the 
+wave propagation solutions.
+\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 None\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
@@ -102,7 +106,12 @@ None\\
 \end{tabular} & Software packaging and distribution.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 Analytic solutions\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
+\end{tabular} & Testing methodologies employed to ensure software quality and correctness:
+Analytic solutions for the propagation of acoustic and elastic waves, respectively 
+\eqref{eq:hawen:viscoacoustic} and \eqref{eq:hawen:viscoelastic} exist and are compared 
+with the numerical resolutions. For instance we refer to \cite{Pham2024stabilization} for 
+the validation of the linear elasticity propagator.
+\\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
 None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
@@ -111,7 +120,11 @@ MUMPS\\
 Metis\\ 
 ARPACK (optional)\\
 PARPACK (optional)\\
-\end{tabular} & List of software Hawen has interfaces with.\\
+\end{tabular} & List of software Hawen has interfaces with.
+        MUMPS is used to solve the linear system resulting from 
+        the numerical discretization. Metis is used to partition
+        the mesh. ARPACK and PARPACK are optional dependencies 
+        used for eigenproblems.\\
         \bottomrule
     \end{tabular}
     }}
@@ -148,7 +161,8 @@ imposing the Dirichlet trace, Neumann trace, or a Robin-type condition
 In the case of linear visco-elastic wave propagation, the forward problem consists in
 finding the displacement field $\boldsymbol{u}$ and stress tensor $\boldsymbol{\sigma}$ 
 solutions to, cf., e.g., \cite{Pham2024stabilization},
-\begin{subequations}\begin{empheq}[left={\empheqlbrace}]{align}
+\begin{subequations}\label{eq:hawen:viscoelastic}
+\begin{empheq}[left={\empheqlbrace}]{align}
  &-\omega^2\rho\boldsymbol{u} \,-\, \nabla\cdot\boldsymbol{\sigma}\,=\,\boldsymbol{f} \,, \\
  & \boldsymbol{\sigma} \,=\, \boldsymbol{C} \, \big(\nabla\boldsymbol{u} \,+\, (\nabla\boldsymbol{u})^t\big) \,.
 \end{empheq}\end{subequations}
