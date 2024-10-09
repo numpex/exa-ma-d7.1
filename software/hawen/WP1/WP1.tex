@@ -40,6 +40,25 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Hawen:summary}
 
+\hawen~uses the Hybridizable discontinuous Galerkin method (HDG) 
+for the discretization of the time-harmonic wave problems such 
+as \eqref{eq:hawen:viscoacoustic} and \eqref{eq:hawen:viscoelastic}.
+The method relies on a static condensation of DG method, and we 
+refer to, e.g. \cite{Faucher2020adjoint,pham_numerical_2024} 
+and the references therein regarding implementation in acoustics and 
+elasticity, respectively.
+The specificity of the HDG method is to assemble a global linear system 
+only in terms of the degrees of freedom (dofs) on the faces of the discretized 
+mesh cells. By avoiding the interior dofs, it allows to reduce the computational
+cost by reducing the size of subsequent linear system, e.g. \cite{Faucher2020adjoint}.
+However, this benefit is only obtained for sufficiently high degrees of 
+polynomials, hence requiring robust quadrature method and flexible model representation
+on the mesh.
+\hawen~uses $p$-adaptivity to adapt the order of the polynomials on each cell
+depending on the wavelength.
+
+
+
 In~\cref{tab:WP1:Hawen:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
@@ -54,7 +73,11 @@ In~\cref{tab:WP1:Hawen:features} we provide a summary of the software features r
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    dG/hdG & provide short description here \\
+\rowcolor{white}    dG/hdG & \hawen~uses the HDG method for the discretization, it allows
+                             for local $p-$adaptivity, such that each cell of the discretized
+                             domain can use a different polynomial orders.
+                             \hawen~solves for 1D, 2D and 3D problems using unstructured 
+                             simplex meshes.\\
 \rowcolor{numpexlightergray}    multiphysics coupling & provide short description here \\
 \end{tabular}
         }
@@ -109,6 +132,14 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
+
+% ----------------------
+\begin{figure}\centering
+\includegraphics[scale=0.65]{graphics/hawen/skeleton_3D_seam}
+\caption{SEAM wave-speed model used for the benchmark.}
+\end{figure}
+% ----------------------
+
 
 \subsection{12-Month Roadmap}
 \label{sec:WP1:Hawen:roadmap}
