@@ -1,5 +1,141 @@
 
 
+@unpublished{saigre_coupled_2024_paper,
+	type = {In preparation},
+	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
+	abstract = {Understanding human eye behavior involves intricate interactions between physical phenomena such as heat transfer and fluid dynamics. Accurate computational models are vital for comprehending ocular diseases and therapeutic interventions.
+This work focuses on modeling and simulating aqueous humor flow in the anterior and posterior chambers of the eye, coupled with overall heat transfer.
+Aqueous humor dynamics regulates intraocular pressure, which is crucial for understanding conditions like glaucoma.
+Convective effects from temperature disparities also influence this flow.
+Extending prior research, this work develops a comprehensive three-dimensional computational model to simulate a coupled fluid-dynamic-heat transfer model, thus contributing to the understanding of ocular physiology.},
+	author = {Saigre, Thomas and Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela},
+	year = {2024},
+}
+
+@inproceedings{saigre_coupled_2024_abstract,
+	address = {Arlington (Virginia), United States},
+	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
+	url = {https://hal.science/hal-04558924},
+	booktitle = {{CMBE24}},
+	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
+	month = jun,
+	year = {2024},
+	keywords = {Thermo-fluid dynamics, finite element method, mathematical and computational ophthalmology, thermo-fluid dynamics},
+}
+
+@article{giraud_block_2022,
+	title = {A {Block} {Minimum} {Residual} {Norm} {Subspace} {Solver} with {Partial} {Convergence} {Management} for {Sequences} of {Linear} {Systems}},
+	volume = {43},
+	issn = {0895-4798, 1095-7162},
+	url = {https://epubs.siam.org/doi/10.1137/21M1401127},
+	doi = {10.1137/21M1401127},
+	language = {en},
+	number = {2},
+	urldate = {2024-10-09},
+	journal = {SIAM Journal on Matrix Analysis and Applications},
+	author = {Giraud, Luc and Jing, Yan-Fei and Xiang, Yanfei},
+	month = jun,
+	year = {2022},
+	pages = {710--739},
+}
+
+@article{agullo_robust_2019,
+	title = {Robust {Preconditioners} via {Generalized} {Eigenproblems} for {Hybrid} {Sparse} {Linear} {Solvers}},
+	volume = {40},
+	issn = {0895-4798, 1095-7162},
+	url = {https://epubs.siam.org/doi/10.1137/17M1153765},
+	doi = {10.1137/17M1153765},
+	language = {en},
+	number = {2},
+	urldate = {2024-10-09},
+	journal = {SIAM Journal on Matrix Analysis and Applications},
+	author = {Agullo, Emmanuel and Giraud, Luc and Poirel, Louis},
+	month = jan,
+	year = {2019},
+	pages = {417--439},
+}
+
+@article{agullo_resiliency_2022,
+	title = {Resiliency in numerical algorithm design for extreme scale simulations},
+	volume = {36},
+	issn = {1094-3420, 1741-2846},
+	url = {https://journals.sagepub.com/doi/10.1177/10943420211055188},
+	doi = {10.1177/10943420211055188},
+	abstract = {This work is based on the seminar titled ‘Resiliency in Numerical Algorithm Design for Extreme Scale Simulations’ held March 1–6, 2020, at Schloss Dagstuhl, that was attended by all the authors. Advanced supercomputing is characterized by very high computation speeds at the cost of involving an enormous amount of resources and costs. A typical large-scale computation running for 48 h on a system consuming 20 MW, as predicted for exascale systems, would consume a million kWh, corresponding to about 100k Euro in energy cost for executing 10 
+              23 
+              floating-point operations. It is clearly unacceptable to lose the whole computation if any of the several million parallel processes fails during the execution. Moreover, if a single operation suffers from a bit-flip error, should the whole computation be declared invalid? What about the notion of reproducibility itself: should this core paradigm of science be revised and refined for results that are obtained by large-scale simulation? Naive versions of conventional resilience techniques will not scale to the exascale regime: with a main memory footprint of tens of Petabytes, synchronously writing checkpoint data all the way to background storage at frequent intervals will create intolerable overheads in runtime and energy consumption. Forecasts show that the mean time between failures could be lower than the time to recover from such a checkpoint, so that large calculations at scale might not make any progress if robust alternatives are not investigated. More advanced resilience techniques must be devised. The key may lie in exploiting both advanced system features as well as specific application knowledge. Research will face two essential questions: (1) what are the reliability requirements for a particular computation and (2) how do we best design the algorithms and software to meet these requirements? While the analysis of use cases can help understand the particular reliability requirements, the construction of remedies is currently wide open. One avenue would be to refine and improve on system- or application-level checkpointing and rollback strategies in the case an error is detected. Developers might use fault notification interfaces and flexible runtime systems to respond to node failures in an application-dependent fashion. Novel numerical algorithms or more stochastic computational approaches may be required to meet accuracy requirements in the face of undetectable soft errors. These ideas constituted an essential topic of the seminar. The goal of this Dagstuhl Seminar was to bring together a diverse group of scientists with expertise in exascale computing to discuss novel ways to make applications resilient against detected and undetected faults. In particular, participants explored the role that algorithms and applications play in the holistic approach needed to tackle this challenge. This article gathers a broad range of perspectives on the role of algorithms, applications and systems in achieving resilience for extreme scale simulations. The ultimate goal is to spark novel ideas and encourage the development of concrete solutions for achieving such resilience holistically.},
+	language = {en},
+	number = {2},
+	urldate = {2024-10-09},
+	journal = {The International Journal of High Performance Computing Applications},
+	author = {Agullo, Emmanuel and Altenbernd, Mirco and Anzt, Hartwig and Bautista-Gomez, Leonardo and Benacchio, Tommaso and Bonaventura, Luca and Bungartz, Hans-Joachim and Chatterjee, Sanjay and Ciorba, Florina M and DeBardeleben, Nathan and Drzisga, Daniel and Eibl, Sebastian and Engelmann, Christian and Gansterer, Wilfried N and Giraud, Luc and Göddeke, Dominik and Heisig, Marco and Jézéquel, Fabienne and Kohl, Nils and Li, Xiaoye Sherry and Lion, Romain and Mehl, Miriam and Mycek, Paul and Obersteiner, Michael and Quintana-Ortí, Enrique S and Rizzi, Francesco and Rüde, Ulrich and Schulz, Martin and Fung, Fred and Speck, Robert and Stals, Linda and Teranishi, Keita and Thibault, Samuel and Thönnes, Dominik and Wagner, Andreas and Wohlmuth, Barbara},
+	month = mar,
+	year = {2022},
+	pages = {251--285},
+}
+
+@article{agullo_soft_2020,
+	title = {On {Soft} {Errors} in the {Conjugate} {Gradient} {Method}: {Sensitivity} and {Robust} {Numerical} {Detection}},
+	volume = {42},
+	issn = {1064-8275, 1095-7197},
+	shorttitle = {On {Soft} {Errors} in the {Conjugate} {Gradient} {Method}},
+	url = {https://epubs.siam.org/doi/10.1137/18M122858X},
+	doi = {10.1137/18M122858X},
+	language = {en},
+	number = {6},
+	urldate = {2024-10-09},
+	journal = {SIAM Journal on Scientific Computing},
+	author = {Agullo, Emmanuel and Cools, Siegfried and Yetkin, Emrullah Fatih and Giraud, Luc and Schenkels, Nick and Vanroose, Wim},
+	month = jan,
+	year = {2020},
+	pages = {C335--C358},
+}
+
+@article{pham_assembling_2024,
+	title = {Assembling algorithm for {Green}'s tensors and absorbing boundary conditions for {Galbrun}'s equation in radial symmetry},
+	volume = {519},
+	issn = {0021-9991},
+	url = {https://www.sciencedirect.com/science/article/pii/S0021999124006922},
+	doi = {10.1016/j.jcp.2024.113444},
+	abstract = {Solar oscillations can be modeled by Galbrun's equation which describes Lagrangian wave displacement in a self-gravitating stratified medium. For spherically symmetric backgrounds, we construct an algorithm to compute efficiently and accurately the coefficients of the Green's tensor of the time-harmonic equation in vector spherical harmonic basis. With only two resolutions, our algorithm provides values of the kernels for all heights of source and receiver, and prescribes analytically the singularities of the kernels. We also derive absorbing boundary conditions (ABC) to model wave propagation in the atmosphere above the cut-off frequency. The construction of ABC, which contains varying gravity terms, is rendered difficult by the complex behavior of the solar potential in low atmosphere and for frequencies below the Lamb frequency. We carry out extensive numerical investigations to compare and evaluate the efficiency of the ABCs in capturing outgoing solutions. Finally, as an application towards helioseismology, we compute synthetic solar power spectra that contain pressure modes as well as internal-gravity (g-) and surface-gravity (f-) ridges which are missing in simpler approximations of the wave equation. For purpose of validation, the locations of the ridges in the synthetic power spectra are compared with observed solar modes.},
+	urldate = {2024-10-09},
+	journal = {Journal of Computational Physics},
+	author = {Pham, Ha and Faucher, Florian and Fournier, Damien and Barucq, Hélène and Gizon, Laurent},
+	month = dec,
+	year = {2024},
+	pages = {113444},
+}
+
+@book{elman_finite_2014,
+	address = {Oxford},
+	edition = {2. ed},
+	series = {Numerical mathematics and scientific computation},
+	title = {Finite elements and fast iterative solvers: with applications in incompressible fluid dynamics},
+	isbn = {978-0-19-967879-2},
+	shorttitle = {Finite elements and fast iterative solvers},
+	language = {eng},
+	publisher = {Oxford Univ. Press},
+	author = {Elman, Howard C. and Silvester, David J. and Wathen, Andrew J.},
+	year = {2014},
+}
+
+@article{prudhomme_reliable_2002,
+	title = {Reliable {Real}-{Time} {Solution} of {Parametrized} {Partial} {Differential} {Equations}: {Reduced}-{Basis} {Output} {Bound} {Methods}},
+	volume = {124},
+	issn = {0098-2202, 1528-901X},
+	shorttitle = {Reliable {Real}-{Time} {Solution} of {Parametrized} {Partial} {Differential} {Equations}},
+	url = {https://asmedigitalcollection.asme.org/fluidsengineering/article/124/1/70/462808/Reliable-RealTime-Solution-of-Parametrized-Partial},
+	doi = {10.1115/1.1448332},
+	abstract = {We present a technique for the rapid and reliable prediction of linear-functional outputs of elliptic (and parabolic) partial differential equations with affine parameter dependence. The essential components are (i) (provably) rapidly convergent global reduced-basis approximations—Galerkin projection onto a space WN spanned by solutions of the governing partial differential equation at N selected points in parameter space; (ii) a posteriori error estimation—relaxations of the error-residual equation that provide inexpensive yet sharp and rigorous bounds for the error in the outputs of interest; and (iii) off-line/on-line computational procedures methods which decouple the generation and projection stages of the approximation process. The operation count for the on-line stage in which, given a new parameter value, we calculate the output of interest and associated error bound, depends only on N (typically very small) and the parametric complexity of the problem; the method is thus ideally suited for the repeated and rapid evaluations required in the context of parameter estimation, design, optimization, and real-time control.},
+	language = {en},
+	number = {1},
+	journal = {Journal of Fluids Engineering},
+	author = {Prud’homme, C. and Rovas, D. V. and Veroy, K. and Machiels, L. and Maday, Y. and Patera, A. T. and Turinici, G.},
+	month = mar,
+	year = {2002},
+	pages = {70--80},
+}
+
 @article{Virieux2009,
 	title = {An overview of full-waveform inversion in exploration geophysics},
 	volume = {74},
@@ -53,16 +189,6 @@
 	pages = {113168},
 }
 
-@article{Pham2024assembling,
-	title = {Assembling algorithm for {Green}'s tensors and absorbing boundary conditions for {Galbrun}'s equation in radial symmetry},
-	doi = {10.1016/j.jcp.2024.113444},
-	journal = {Journal of Computational Physics},
-	author = {Pham, Ha and Faucher, Florian and Fournier, Damien and Barucq, Hélène and Gizon, Laurent},
-	year = {2024},
-	note = {Publisher: Elsevier},
-	pages = {113444},
-}
-
 @article{Faucher2023viscoacoustic,
 	title = {Quantitative inverse problem in visco-acoustic media under attenuation model uncertainty},
 	volume = {472},
@@ -107,18 +233,6 @@
 	year = {2020},
 	note = {Publisher: Society of Exploration Geophysicists},
 	pages = {R461--R476},
-}
-
-@unpublished{saigre_coupled_2024,
-	type = {Unpublished paper},
-	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
-	abstract = {Understanding human eye behavior involves intricate interactions between physical phenomena such as heat transfer and fluid dynamics. Accurate computational models are vital for comprehending ocular diseases and therapeutic interventions.
-This work focuses on modeling and simulating aqueous humor flow in the anterior and posterior chambers of the eye, coupled with overall heat transfer.
-Aqueous humor dynamics regulates intraocular pressure, which is crucial for understanding conditions like glaucoma.
-Convective effects from temperature disparities also influence this flow.
-Extending prior research, this work develops a comprehensive three-dimensional computational model to simulate a coupled fluid-dynamic-heat transfer model, thus contributing to the understanding of ocular physiology.},
-	author = {Saigre, Thomas and Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela},
-	year = {2024},
 }
 
 @article{bonazzoli_domain_2019,
@@ -653,17 +767,6 @@ Full Changelog: https://github.com/feelpp/mesh.eye/compare/1.0.0-preview.1...v1.
 	month = apr,
 	year = {2017},
 	keywords = {CFD, medical device, open source finite element software, validation},
-}
-
-@inproceedings{saigre_coupled_2024-1,
-	address = {Arlington (Virginia), United States},
-	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
-	url = {https://hal.science/hal-04558924},
-	booktitle = {{CMBE24}},
-	author = {Saigre, Thomas and Prud'Homme, Christophe and Szopos, Marcela and Chabannes, Vincent},
-	month = jun,
-	year = {2024},
-	keywords = {Thermo-fluid dynamics, finite element method, mathematical and computational ophthalmology, thermo-fluid dynamics},
 }
 
 @article{stewart_assessment_2012,
