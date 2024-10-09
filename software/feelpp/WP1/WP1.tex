@@ -247,56 +247,61 @@ Final analysis and persectives here.
 }
 
 
-\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P1_discoverer.csv}\dataThermalBridgesMcPaDiscoverer
-\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P2_discoverer.csv}\dataThermalBridgesMcPbDiscoverer
-\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P3_discoverer.csv}\dataThermalBridgesMcPcDiscoverer
+\foreach [expand list=true] \meshId in {1,2,3} {
 
-\begin{figure}
-  \centering
-  \def\plotSetup{
-    {legend=Init,column=init,color=customdarkblue},
-    {legend=Assembly,column=algebraic-assembly,color=customcyan},
-    {legend=Solve,column=algebraic-solve,color=customorange},
-    {legend=PostProcess,column=exportResults,color=custompurple}
-  }
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \barChart[ybar]{\dataThermalBridgesMcPaDiscoverer}{\plotSetup}
-    \caption{\texttt{M3} - \texttt{$P_1$}}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \barChart[ybar stacked]{\dataThermalBridgesMcPaDiscoverer}{\plotSetup}
-    \caption{\texttt{M3} - \texttt{$P_1$}}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \barChart[ybar]{\dataThermalBridgesMcPbDiscoverer}{\plotSetup}
-    \caption{\texttt{M3} - \texttt{$P_2$}}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \barChart[ybar stacked]{\dataThermalBridgesMcPbDiscoverer}{\plotSetup}
-    \caption{\texttt{M3} - \texttt{$P_2$}}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \barChart[ybar]{\dataThermalBridgesMcPcDiscoverer}{\plotSetup}
-    \caption{\texttt{M3} - \texttt{$P_3$}}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \barChart[ybar stacked]{\dataThermalBridgesMcPcDiscoverer}{\plotSetup}
-    \caption{\texttt{M3} - \texttt{$P_3$}}
-  \end{subfigure}
-\end{figure}
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M\meshId_P1_discoverer.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M\meshId_P2_discoverer.csv}\dataPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M\meshId_P3_discoverer.csv}\dataPc
 
+  \begin{figure}
+    \centering
+    \def\plotSetup{
+      {legend=Init,column=init,color=customdarkblue},
+      {legend=Assembly,column=algebraic-assembly,color=customcyan},
+      {legend=Solve,column=algebraic-solve,color=customorange},
+      {legend=PostProcess,column=exportResults,color=custompurple}
+    }
+    % \def\meshId{3}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar]{\dataPa}{\plotSetup}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar stacked]{\dataPa}{\plotSetup}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar]{\dataPb}{\plotSetup}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar stacked]{\dataPb}{\plotSetup}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar]{\dataPc}{\plotSetup}
+      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar stacked]{\dataPc}{\plotSetup}
+      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
+    \end{subfigure}
+    \caption{Benchmarks performance results by using mesh \texttt{M\meshId} on
+      Discoverer}
+  \end{figure}
 
+}
 
 \subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
 
