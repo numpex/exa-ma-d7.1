@@ -43,7 +43,7 @@ B7 - Exascale Algorithms\\
     Vincent Chabannes (UNISTRA)\\
     Thomas Saigre (UNISTRA)\\
 \end{tabular}\\
-        \bottomrule
+        \hline
     \end{tabular}
     }}
     \caption{WP2: \Feelpp Information}
@@ -107,7 +107,7 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \subsubsection{Benchmark \#1: Heat transfer in the eye using \ac{RB} and \ac{NIRB}}
 
-\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds using the \ac{CRB} method~\cite{prudhomme_reliable_2002}. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors.
+\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds using the \ac{CRB}~\cite{prudhomme_reliable_2002}. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors.
 
 In~\cite{saigre_mathematical_2024}, we extend the reduced order model to include non-intrusive reduced basis methods~\cite{CRMATH_2009__347_7-8_435_0}.
 This second methods consists in solving the high fidelity model on a coarse mesh and use interpolation and a reduced basis to obtain an approximation of the solution on a fine mesh.
