@@ -109,6 +109,11 @@ list_releases() {
     git tag --sort=-creatordate | head -n $1
 }
 
+# Function to clean latex build files
+clean() {
+    # clean latex build files
+    rm -f *.aux *.bbl *.blg *.log *.out *.pyg *.fls *.synctex* *.toc *.fdb_latexmk *.fls *.idx *.ilg *.ind *.chl *.lof *.lot *.pdf
+}
 # Function to delete a release
 delete_release() {
     VERSION=$1
@@ -247,6 +252,9 @@ case "$1" in
     setup)
         setup
         ;;
+    clean)
+        clean
+        ;;
     create)
         create_release "$2"
         ;;
@@ -268,6 +276,7 @@ case "$1" in
         echo "  --bibtex-file       Path to the BibTeX file (default: your_bibtex_file.bib)"
         echo "Commands:"
         echo "  setup               : Setup hooks for commit, checkout, and merge"
+        echo "  clean               : Clean latex build files"
         echo "  create              : Create a new release with the provided version"
         echo "  list                : List all existing releases"
         echo "  delete              : Delete the release with the provided version"

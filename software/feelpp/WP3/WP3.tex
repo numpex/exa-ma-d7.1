@@ -159,21 +159,19 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \subsubsection{Benchmark \#4: Conjuguate heat transfer}
 
-\fullcite{saigre_coupled_2024}
-\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
 
-\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
 
-\paragraph{Input/Output Dataset Description:}
-\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+The benchmark has been described in the prequel of this document, in \Cref{sec:WP1:Feelpp:benchmark4}, and simulate the aqueous humor flow in the human eye, coupled with the heat transfer.
+The strategy employed to simulate the non-linear model implemented in the \texttt{heatfluid} toolbox of \Feelpp consists of a fixed-point iteration.
+Without efficient preconditioning, iterative solvers would not actually converge for solving the system.
+Direct methods are only usable for small problems, otherwise, memory and computational costs can exceed available resources and render them unsuitable for larger problems.
 
-\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+Precisely, we employ a \emph{fieldsplit}\index{fieldsplit}, or PDE-based, strategy, allowing us to define what we could call ``sub-preconditioners'' for each system block.
+We split the system into two blocks according to the fluid and heat unknowns.
+The fluid block is solved using a Schur complement approach~\cite{elman_finite_2014}, while the heat block is solved using a few iteration of GAMG.
+%
+A more in-depth description of the preconditioner can be found in~\cite{saigre_coupled_2024_paper}.
 
-\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-
-\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-
-\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP3:Feelpp:roadmap}

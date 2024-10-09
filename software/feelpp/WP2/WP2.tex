@@ -67,7 +67,7 @@ In~\cref{tab:WP2:Feelpp:features}, we provide a summary of the software features
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
 \rowcolor{white}    ROM-DA: GEIM PBDW & \Feelpp support data driven reduced basis method PBDW and GEIM which can work often in combination\\
-\rowcolor{numpexlightergray}    ROM: RB, CRB, RB-GREEDY, POD, EIM, SCM, $\min-\theta$ & \Feelpp supports efficient reduced basis approximation thanks to affine decomposition that can be computed by hand or via EIM. Several constructions are possible: Reduced Basis from sampling, Greedy and POD. Certified Reduced Basis can be built. The online code is generated as well as a database and assocated metadata. \\
+\rowcolor{numpexlightergray}    ROM: RB, CRB, RB-GREEDY, POD, EIM, SCM, $\min-\theta$ & \Feelpp supports efficient reduced basis approximation thanks to affine decomposition that can be computed by hand or via EIM. Several constructions are possible: Reduced Basis from sampling, Greedy and POD. Certified Reduced Basis can be built. The online code is generated as well as a database and associated metadata. \\
 \rowcolor{white}    ROM: NIRB & Nonintrusive reduced basis~\cite{CRMATH_2009__347_7-8_435_0} are available as a python layer \\
 \hline
 \end{tabular}
@@ -84,9 +84,9 @@ In~\cref{tab:WP2:Feelpp:features}, we provide a summary of the software features
 
 \begin{description}
     \item[Parallel Programming Environment:] The model order reduction methods profit from \Feelpp parallel capabilities. MPI is used to distribute the load for offline calculation. The online stage can use multithreading.
-    \item[super computer:] The reduced basis has been run on Gaya~\cref{sec:arch:gaya}
-    \item[Parallel Capabilities:] the offline stage can profit from the parallel capabilities of \Feelpp. 
-    \item[Scalability:] The reduced basis methods share similar performances as in WP1~\cref{sec:WP1:Feelpp:software}.
+    \item[Super computer:] The reduced basis has been run on Gaya~\Cref{sec:arch:gaya}.
+    \item[Parallel Capabilities:] the offline stage can profit from the parallel capabilities of \Feelpp.
+    \item[Scalability:] The reduced basis methods share similar performances as in WP1~\Cref{sec:WP1:Feelpp:software}.
     \item[Integration with Other Systems:] The reduced basis methods are often used in combination with OpenTURNS and OpenMODELICA/Dymola.
 \end{description}
 
@@ -96,8 +96,8 @@ In~\cref{tab:WP2:Feelpp:features}, we provide a summary of the software features
 This section provides a summary of initial performance benchmarks performed in the context of WP2. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
 \begin{description}
-    \item[Overall Performance] \Feelpp reduced order method profit from \Feelpp parallel capabilities. Similar
-    \item[Input/Output Dataset] The dataset for the \Feelpp model order reduction methods are composed of the finite element configuration for the offline stage and a  JSON description of the parameter domain, the parameter variability and the outputs of interests.
+    \item[Overall Performance] \Feelpp reduced order method profit from \Feelpp parallel capabilities.
+    \item[Input/Output Dataset] The dataset for the \Feelpp model order reduction methods are composed of the finite element configuration for the offline stage and a JSON description of the parameter domain, the parameter variability and the outputs of interests.
     \item[open-data Access] \Feelpp uses json as metadata format and in-house open format for the online database. The current format require documentation.
     \item[Challenges] Some of the challenges are that the reduced basis method imply a complex workflow with many steps that need to be carefully configured for efficient computation. In particular the reduced basis functions require  robust finite element solves as well as a posteriori error bounds or estimations which means developing robust algrebraic solution strategies.
     \item[Future Improvements] performance monitoring of all the steps of the reduced order methods, documentation of the online stage data formats and large scale benchmarking.
@@ -106,33 +106,35 @@ This section provides a summary of initial performance benchmarks performed in t
 
 
 \subsubsection{Benchmark \#1: Heat transfer in the eye using \ac{RB} and \ac{NIRB}}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
 
-\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors. In~\cite{saigre_mathematical_2024}, we extend the reduced order model to include non-intrusive reduced basis methods. The benchmark assesses the software's performance in simulating heat transfer in the eye using these two methods.
+\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds using the \ac{CRB} method~\cite{prudhomme_reliable_2002}. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors.
 
-\paragraph{Benchmarking Tools Used:} We used \Feelpp to monitor the time spent in the various section of the code, including the reduced basis generation and the non-intrusive reduced basis method. To assess the software's performance, we measured the following quantities:
+In~\cite{saigre_mathematical_2024}, we extend the reduced order model to include non-intrusive reduced basis methods~\cite{CRMATH_2009__347_7-8_435_0}.
+This second methods consists in solving the high fidelity model on a coarse mesh and use interpolation and a reduced basis to obtain an approximation of the solution on a fine mesh.
+A rectification post-process is applied to the reduced solution to improve the accuracy of the reduced solution.
+
+The benchmark assesses the software's performance in simulating heat transfer in the eye using these two methods.
+
+\paragraph{Benchmarking Tools Used:} We used \Feelpp to monitor the time spent in the various section of the code, including the reduced basis generation and the non-intrusive reduced basis method. To assess the \ac{RB} method performance, we measured the following quantities:
 \begin{inparaenum}[\it (i)]
-    \item the time to compute the high fidelity solution $T^\text{fem}(\mu)$,
-    \item the time to perform the online stage of the RBM, \emph{i.e.} to compute the reduced solution $T^{\text{rbm}, N}(\mu)$ and associated the error bound $\Delta_N(\mu)$,
+    \item the time to compute the high fidelity solution $T^\text{fem}(\mu)$, and
+    \item the time to perform the online stage of the RBM, \emph{i.e.} to compute the reduced solution $T^{\text{rbm}, N}(\mu)$ and associated the error bound $\Delta_N(\mu)$.
+\end{inparaenum}
+
+Then, for the \ac{NIRB} method, we measured the time to measured the following quantities:
+\begin{inparaenum}[\it (i)]
+    \item The fine snapshots $T_h^\mathcal{N}$, \emph{i.e.} the high-fidelity solution,
+    \item the coarse snapshots $T_H^\mathcal{N}$, \emph{i.e.} a high-fidelity solution on the coarse mesh,
+    \item the NIRB approximation without the rectification post-process $T_{Hh}^{N,\text{NoRect}}$, and
+    \item the NIRB approximation with the rectification post-process $T_{Hh}^{N,\text{Rect}}$. This last quantity is the final reduced solution.
 \end{inparaenum}
 
 \paragraph{Input/Output Dataset Description}
 
 \begin{description}
-    \item[Input Data:] \textbf{??} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-    \item[Output Data:] We focus on the one hand on the time spent to compute the high fidelity solution $T^\text{fem}(\mu)$ and on the other hand on the time spent to compute the reduced solution $T^{\text{rbm}, N}(\mu)$ and the error bound $\Delta_N(\mu)$.
-    \item[Data Repository:] The source code to generated the data for the two methods are available in the \Feelpp repository \cite{prudhomme_feelppfeelpp_2024}.
+    \item[Input Data:] The dataset for the \Feelpp model order reduction methods are composed of the finite element configuration for the offline stage and a JSON description of the parameter domain, the parameter variability and the outputs of interests.
+    \item[Output Data:] The output data is composed of a code, performing the online stage of the methods, as well as database associated to the reduced basis.
+    \item[Data Repository:] The source code to generated the data for the two methods are available in the \Feelpp repository~\cite{prudhomme_feelppfeelpp_2024}.
 \end{description}
 
 \paragraph{Results Summary:}
@@ -147,13 +149,6 @@ Importantly, this efficiency does not compromise accuracy; the results from the 
 More detailed insights abouth these results are available in \cite{saigre_model_2024}.
 
 We present in \Cref{tab:feelpp:wp2:eye:nirb} the time of execution and associated speedup to run the NIRB method the bioheat transfer problem in the eye using $P_2$ discretization.
-The time of execution is measured for various elements:
-\begin{inparaenum}[\it (i)]
-    \item The fine snapshots $u_h^\mathcal{N}$, \emph{i.e.} the high-fidelity solution,
-    \item the coarse snapshots $u_H^\mathcal{N}$, \emph{i.e.} a high-fidelity solution on the coarse mesh,
-    \item the NIRB approximation without the rectification post-process $u_{Hh}^{N,\text{NoRect}}$, and
-    \item the NIRB approximation with the rectification post-process $u_{Hh}^{N,\text{Rect}}$. This last element is the final reduced solution.
-\end{inparaenum}
 %
 The gain of this second method is less significant than the RBM method, but it is still a significant improvement in terms of computational time.
 We remark that the problem scales well with the number of processors, as evidenced by the speedup obtained for the quantites computed.
@@ -205,11 +200,11 @@ We remark that the problem scales well with the number of processors, as evidenc
         \rowcolor{numpexgray}
         \multicolumn{2}{c}{}                                  & \color{white}\bf \texttt{np = 12} & \color{white}\bf \texttt{np = 64}   & \color{white}\bf \texttt{np = 128} & \color{white}\bf \texttt{np = 12} & \color{white}\bf \texttt{np = 64} & \color{white}\bf \texttt{np = 128} \\
         \rowcolor{numpexlightergray}
-        Fine snapshots         & $u_h^\mathcal{N}$            & \qty{13.6}{\second}     & \qty{4.79}{\second} & \qty{2.38e+00}{\second} & --   & 2.84  & 5.71 \\
-        Coarse snapshots       & $u_H^\mathcal{N}$            & \qty{2.77e+00}{\second} & \qty{1.10}{\second} & \qty{0.859}{\second}    & 4.90 & 12.36 & 15.83 \\
+        Fine snapshots         & $T_h^\mathcal{N}$            & \qty{13.6}{\second}     & \qty{4.79}{\second} & \qty{2.38e+00}{\second} & --   & 2.84  & 5.71 \\
+        Coarse snapshots       & $T_H^\mathcal{N}$            & \qty{2.77e+00}{\second} & \qty{1.10}{\second} & \qty{0.859}{\second}    & 4.90 & 12.36 & 15.83 \\
         \rowcolor{numpexlightergray}
-        NIRB w/o rectification & $u_{Hh}^{N,\text{NoRect}}$   & \qty{3.190}{\second}    & \qty{1.309}{\second} & \qty{1.0687}{\second}   & 4.26 & 10.39 & 12.73 \\
-        NIRB w/ rectification  & $u_{Hh}^{N,\text{Rect}}$     & \qty{3.203}{\second}    & \qty{1.311}{\second} & \qty{1.0691}{\second}   & 4.25 & 10.37 & 12.72 \\
+        NIRB w/o rectification & $T_{Hh}^{N,\text{NoRect}}$   & \qty{3.190}{\second}    & \qty{1.309}{\second} & \qty{1.0687}{\second}   & 4.26 & 10.39 & 12.73 \\
+        NIRB w/ rectification  & $T_{Hh}^{N,\text{Rect}}$     & \qty{3.203}{\second}    & \qty{1.311}{\second} & \qty{1.0691}{\second}   & 4.25 & 10.37 & 12.72 \\
         \hline
     \end{tabular}}
     \caption{Time of execution and associated speedup to run the NIRB method for the 3D eye-model with $P_2$ discretization, mean over 64 parameters.}

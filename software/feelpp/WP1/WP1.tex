@@ -54,7 +54,7 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Feelpp:summary}
 
-\Feelpp is an open-source C++ library designed for solving partial differential equations (PDEs), it supports seamless parallel computing based on MPI, and it is designed to be highly modular and extensible. 
+\Feelpp is an open-source \Cpp{} library designed for solving partial differential equations (PDEs), it supports seamless parallel computing based on MPI, and it is designed to be highly modular and extensible.
 It implements a \ac{DSEL} for variational formulations, which allows users to define complex PDEs in a concise and readable manner directly in \Cpp{} leveraging the power of modern \Cpp{} features.
 
 In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
@@ -199,7 +199,8 @@ Final analysis and persectives here.
         \rowcolor{numpexgray} {\color{white}\bf Tag} & {\color{white}\bf \# points} & {\color{white}\bf \# edges} & {\color{white}\bf \# faces} & {\color{white}\bf \# elements} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} & {\color{white}\bf $P_3$} \\
         \texttt{M1} & \pgfmathprintnumber{193654} & \pgfmathprintnumber{1299920} & \pgfmathprintnumber{2164759} & \pgfmathprintnumber{1058492} & \pgfmathprintnumber{193654} & \pgfmathprintnumber{1493574} & \pgfmathprintnumber{4958253} \\
         \texttt{M2} & \pgfmathprintnumber{1401135} & \pgfmathprintnumber{9778744} & \pgfmathprintnumber{16566803} & \pgfmathprintnumber{8189193} & \pgfmathprintnumber{1401135} & \pgfmathprintnumber{11179879} & \pgfmathprintnumber{37525426} \\
-        \texttt{M3} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{75307308} & \pgfmathprintnumber{128722252} & \pgfmathprintnumber{63987199} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{85879564} & \pgfmathprintnumber{289909124}% \\
+        \texttt{M3} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{75307308} & \pgfmathprintnumber{128722252} & \pgfmathprintnumber{63987199} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{85879564} & \pgfmathprintnumber{289909124} \\
+        \hline
       \end{tabular}
     }}
   \caption{Statistics on meshes and number of degrees of freedom with respect
@@ -352,6 +353,7 @@ Thermo Electric coupling in a complex geometry.
 
 
 \subsubsection{Benchmark \#4: HeatFluid Coupling}
+\label{sec:WP1:Feelpp:benchmark4}
 
 \newcommand{\vct}[1]{\vec{#1}}
 \newcommand{\mat}[1]{\underline{\underline{#1}}}
@@ -364,7 +366,7 @@ Thermo Electric coupling in a complex geometry.
 
 \paragraph{Description}
 This benchmark models the steady aqueous humor (AH) flow in the posterior and anterior chambers of the human eyeball, coupled with the overall heat transfer, adapted from~\cite{ooi_simulation_2008,kilgour_operator_2021}.
-The full model description is available in~\cite{saigre_coupled_2024}.
+The full model description is available in~\cite{saigre_coupled_2024_abstract}.
 It it run with the toolbox \texttt{heatfluid} of \Feelpp.
 
 
@@ -431,7 +433,7 @@ The metrics measured are the execution time to:
 The results of the benchmark are summarized in~\Cref{fig:feelpp:wp1:coupled:time} and~\Cref{fig:feelpp:wp1:coupled:time-rel},
 showing the computational time and relative computational time for each component of the simulation, respectively.
 The results are presented for the three biggest meshed of the family, namely \texttt{Mr4}, \texttt{Mr5}, and \texttt{Mr6}.
-Note that for \texttt{Mr6}, the simulation was not completed on 1 node (128 cores) due to memory limitations.
+Note that for \texttt{Mr6}, the simulation dit not complete on 1 node (128 cores) due to memory limitations.
 
 We observe that the resolution of the non-linear algebraic system is the most time-consuming part of the simulation, followed by the assembly of the linear system.
 Moreover, even though the relative time is globally similar when the number of cores is increased, we note a decrease in the absolute time for various components of the simulation, except for the Post process part, which involves writing the results to disk.
@@ -659,7 +661,7 @@ Several challenges were encountered during the benchmarking process:
 
 For the next 12 month, we plan to focus on the following aspects of the benchmarking process:
 \begin{description}
-    \item[Data Improvements] unify the input and output data format and structure to facilitate comparison and analysis. In particular, we wish to design dataset architecture that holds all necessary information for the benchmarking process as well as reference output results if any.  We have started an effort to continuously benchmark our software using reframe and collect the information in a database including a visualisation tool through a website.
+    \item[Data Improvements] Unify the input and output data format and structure to facilitate comparison and analysis. In particular, we wish to design dataset architecture that holds all necessary information for the benchmarking process as well as reference output results if any.  We have started an effort to continuously benchmark our software using reframe and collect the information in a database including a visualisation tool through a website.
     \item[Methodology Application] Several aspects will be developed:
     \begin{itemize}
         \item include HdG methods and high order methods in the current benchmarks, we didn't have the time to include them in the current results.
@@ -672,7 +674,7 @@ For the next 12 month, we plan to focus on the following aspects of the benchmar
         \item Improve Ray tracing parallel performance at large scale
         \item Improve I/O performance at large scale leveraging the HDF5 data format and the parallel I/O capabilities of the library.
         \item Improve partitioning and load balancing of the mesh at large scale.
-        \item Improve parallel mesh adaptation at large scale using ParMMG        
+        \item Improve parallel mesh adaptation at large scale using ParMMG
     \end{itemize}
     \item[Results Retention] We use two data management platforms Girder and Zenodo to store the data and results of the benchmarks following the methdology in~\cref{sec:methodology-intro}.
 \end{description}
