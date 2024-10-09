@@ -121,35 +121,82 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \subsubsection{Benchmark \#1: Visco-acoustic time-harmonic wave propagation}
 
-\paragraph{Description}: 
+\paragraph{Description}
 This benchmark considers the propagation of time-harmonic waves in a large-scale
 geophysical configuration. We use the model SEAM for this benchmark, which is of
 size \num{35}$\times$\num{45}$\times$\num{35}\si{\km\cubed}.  
 It gives us the wave-speed and density models, respectively $\sqrt{\kappa/\rho}$ 
 and $\rho$ to solve the acoustic wave problem \eqref{eq:hawen:viscoacoustic}.
 We illustrate the wave-speed model in Figure~\ref{figure:hawen:seam-model}.
+This model is challenging as it is relatively large (depending on the frequency
+we simulate, see below), and includes high-contrast objects. 
+For instance, the maximal value of the wave-speed is about 2.5 times higher than
+the minimal value, and an object of high contrast has to be carefully discretized.
 
 
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+The objective is to evaluate the performance when we increase the simulation frequency,
+to see the maximal frequency attainable at a reasonable cost with \hawen.
+Low frequency typically costs less as the wavelength is larger, and the discretization 
+can be relaxed (in terms of number of cells in the mesh and/or polynomial orders).
+However, when increasing the frequency, the computational cost increases, and this 
+progression of cost vs. frequency will be investigated.
+
+Another objective is to design the most efficient setup for the HDG discretization 
+of \hawen. In particular, it is known that HDG is more efficient for high order 
+polynomials and this aspect must be enforced for efficient simulations. This benchmark
+relies onto CPU parallelism.
+
+
+\paragraph{Benchmarking Tools Used}
+To evaluate the performance of the simulations, we will use the memory consumption, 
+which will be separated into the one used at the level of the linear algebra (with 
+MUMPS) and the other operations (e.g., matrix storage). 
+We also evaluate the execution time, with a similar separation to evaluate the 
+performance of the computational blocs separately.
+For the linear algebra operations with MUMPS, we will also investigate the number
+of flops required to factorize the matrix.
+
+\paragraph{Input/Output Dataset Description} The input correspond to the 
+physical models that feed the wave equation, such as the wave-speed illustrated
+in Figure~\ref{figure:hawen:seam-model}. These are available via the SEAM 
+corporation\footnote{\url{https://wiki.seg.org/wiki/SEAM}}.
+
+\paragraph{Results Summary}
+We will provide the statistics for the computations with frequency, and 
+the comparison of HDG discretization (different meshes and polynomial orders)
+to identify the best options.
+
+\paragraph{Challenges Identified} 
+There are two main challenges, first the memory footprint of the matrix factorization,
+second the efficient high-order polynomials to be used with HDG method to maximize its
+efficiency.
+
+
+%
+%\begin{itemize}
+%    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+%    \item \textbf{Input/Output Dataset Description:}
+%        \begin{itemize}
+%            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%        \end{itemize}
+%    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+%\end{itemize}
 
 % ----------------------
 \begin{figure}\centering
 \includegraphics[scale=0.65]{graphics/hawen/skeleton_3D_seam}
-\caption{SEAM wave-speed model used for the benchmarks.}
+\caption{SEAM wave-speed model of size \num{35}$\times$\num{45}$\times$\num{35}\si{\km\cubed} 
+         used for the benchmarks.}
 \label{figure:hawen:seam-model}
 \end{figure}
 % ----------------------
+
+
+\subsubsection{Benchmark \#2: Visco-elastic time-harmonic wave propagation}
 
 
 \subsection{12-Month Roadmap}
