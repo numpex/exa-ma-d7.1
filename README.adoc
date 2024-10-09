@@ -1,5 +1,5 @@
 = Exa-MA D7.1 Report Automation
-
+:experimental: true
 //.Zenodo DOI
 //--
 //image::https://zenodo.org/badge/DOI/10.5281/zenodo.13341126.svg[DOI, link=https://doi.org/10.5281/zenodo.13341126]
@@ -33,14 +33,40 @@ NOTE: `a.cli` is a shell script to setup the repo, create release and update bib
 .Command line to compile fully the deliverable
 [source, shell]
 ----
-latexmk -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode exa-ma-d7.1.tex
+latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode exa-ma-d7.1.tex
 ----
 
 .Simple command line to compile once
 [source, shell]
 ----
-pdflatex -shell-escape exa-ma-d7.1.tex
+pdflatex --shell-escape exa-ma-d7.1.tex
 ----
+
+== Update Zotero references
+
+To update the references (`references.bib`), you have several options:
+
+Download from Zotero:: download the file references.bib by exporting the exa-ma library from the GUI
+Using `a.cli`:: setup the variable and run `a.cli update-bibtex`
++
+[,console]
+----
+
+export ZOTERO_API_KEY=xxx
+bash ./a.cli update-bibtex
+----
++
+to create the key go to https://www.zotero.org/settings/security[> Zotero Secutiry page] (and log in) 
++
+then go to the **Applications** at the bottom of the **Secutiry** page
++
+image:graphics/zotero/zotero-applications.png[]
++
+click btn:[Create new private key] then select group permission **Read only*. Then btn:[Save Key]. 
++
+image:graphics/zotero/zotero-newkey.png[]
++
+Then keep the key in a safe place and use it to to define `ZOTERO_API_KEY`
 
 == Workflow Description
 
