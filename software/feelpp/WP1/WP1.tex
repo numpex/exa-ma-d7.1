@@ -209,74 +209,91 @@ Final analysis and persectives here.
 
 
 
-\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P2_discoverer.csv}\dataThermalBridgesMcPbDiscoverer
-\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P3_discoverer.csv}\dataThermalBridgesMcPcDiscoverer
 
-\newcommand{\barChart}[2][ybar]{
+\newcommand{\barChart}[3][ybar]{
   \begin{tikzpicture}
     \begin{axis}[
-      width=\textwidth, height=0.6172\textwidth,% 8cm,
+      width=\textwidth, height=0.6172\textwidth,
       xlabel={Number of CPU core}, ylabel={Execution time [s]},
       xticklabels from table={#2}{nProc},
-      xtick=data, % Utilise les positions de l'index des lignes pour les xticks
-      % xtick style={draw=none},
-      %x tick label style={rotate=0},
-      % xticklabels from table={\dataThermalBridgesMcPcDiscoverer}{[index]0}, % Labels de l'axe X basés sur l'index de ligne
+      xtick=data,
       ymin=0,
-      %legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
-      %legend style={at={(1,1)}, anchor=north east,font=\tiny},
+      %legend style={at={(1,1)}, anchor=north east},
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
       ymajorgrids=true, yminorgrids=true,
       bar width=7pt,
-      % ybar stacked,
       #1
-      %ybar,
-      % ymode=log,
-      % title={Computational time for the 3D case},
-      %#3
-      ]
-      \addplot[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x expr=\coordindex, y=init] {#2};
-      \addlegendentry{Init}
-      \addplot[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x expr=\coordindex, y=algebraic-assembly] {#2};
-      \addlegendentry{Assembly}
-      \addplot[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x expr=\coordindex, y=algebraic-solve] {#2};
-      \addlegendentry{Solve}
-      \addplot[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x expr=\coordindex, y=exportResults] {#2};
-      \addlegendentry{PostProcess}
+    ]
+    \foreach [expand list=true] \thetuple in {#3} {
+      \pgfkeys{/mysettings/.cd,
+          legend/.store in=\mylegend,
+          column/.store in=\mycolumn,
+          color/.store in=\mycolor
+        }
+      \edef\temp{
+        \noexpand\pgfkeys{/mysettings/.cd, \expandafter\@firstofone\thetuple}
+        } \temp
+      \edef\temp{
+        \noexpand\addplot[ybar, bar width=0.2, fill=\mycolor, draw=black, point meta=y]
+      } \temp
+      table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
+      \edef\temp{
+        \noexpand\addlegendentry{\mylegend}
+      } \temp
+    }
     \end{axis}
-  \end{tikzpicture}
+\end{tikzpicture}
 }
 
 
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P1_discoverer.csv}\dataThermalBridgesMcPaDiscoverer
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P2_discoverer.csv}\dataThermalBridgesMcPbDiscoverer
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P3_discoverer.csv}\dataThermalBridgesMcPcDiscoverer
+
 \begin{figure}
   \centering
+  \def\plotSetup{
+    {legend=Init,column=init,color=customdarkblue},
+    {legend=Assembly,column=algebraic-assembly,color=customcyan},
+    {legend=Solve,column=algebraic-solve,color=customorange},
+    {legend=PostProcess,column=exportResults,color=custompurple}
+  }
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \barChart[ybar]{\dataThermalBridgesMcPbDiscoverer}
+    \barChart[ybar]{\dataThermalBridgesMcPaDiscoverer}{\plotSetup}
     \caption{\texttt{M3} - \texttt{$P_2$}}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \barChart[ybar stacked]{\dataThermalBridgesMcPbDiscoverer}
+    \barChart[ybar stacked]{\dataThermalBridgesMcPaDiscoverer}{\plotSetup}
     \caption{\texttt{M3} - \texttt{$P_2$}}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \barChart[ybar]{\dataThermalBridgesMcPcDiscoverer}
+    \barChart[ybar]{\dataThermalBridgesMcPbDiscoverer}{\plotSetup}
+    \caption{\texttt{M3} - \texttt{$P_2$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \barChart[ybar stacked]{\dataThermalBridgesMcPbDiscoverer}{\plotSetup}
+    \caption{\texttt{M3} - \texttt{$P_2$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \barChart[ybar]{\dataThermalBridgesMcPcDiscoverer}{\plotSetup}
     \caption{\texttt{M3} - \texttt{$P_3$}}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \barChart[ybar stacked]{\dataThermalBridgesMcPcDiscoverer}
+    \barChart[ybar stacked]{\dataThermalBridgesMcPcDiscoverer}{\plotSetup}
     \caption{\texttt{M3} - \texttt{$P_3$}}
   \end{subfigure}
 \end{figure}
-
-
-
 
 
 
