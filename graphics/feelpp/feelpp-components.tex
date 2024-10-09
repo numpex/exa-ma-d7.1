@@ -1,0 +1,80 @@
+%!TEX root = ../exa-ma-d7.1.tex
+
+\definecolor{mybluei}{RGB}{70, 82, 186}
+\definecolor{myblueii}{RGB}{73,121,193}
+\definecolor{mygreen}{RGB}{142, 209, 79}
+\definecolor{mypink}{RGB}{255,248,241}
+
+\newcommand\widernode[5][widebox]{
+  \node[
+    #1,
+    fit={(#2) (#3)},
+    label=center:{\sffamily\bfseries\color{white}#4}] (#5) {};
+}
+
+\begin{tikzpicture}[node distance=3pt,outer sep=0pt,
+boxstyle/.style={
+  draw=white,
+  fill=#1,
+  rounded corners,
+  font={\sffamily\bfseries\color{white}},
+  align=center,
+  minimum height=30pt
+},
+box/.style={
+  boxstyle=#1,
+  text width=2.5cm},
+box/.default=mybluei,
+title/.style={font={\sffamily\bfseries\color{white}}},
+widebox/.style={draw=white,inner sep=0pt, rounded corners,fill=#1},
+widebox/.default=mybluei,
+mylabel/.style={font={\sffamily\bfseries\color{white}}},
+]
+
+\matrix (stack) [boxstyle=mybluei!40, draw=black,%
+        column sep=3pt, row sep=3pt, inner sep=4mm,%
+      matrix of nodes,%
+        nodes={box, outer sep=0pt, anchor=center, inner sep=3pt},%
+        nodes in empty cells,
+      %row 1/.style={nodes={fill=none,draw=none,minimum height=3mm}},
+]
+{
+  & & & & \\
+& & & & \\  
+& & & & \\
+& & & & \\
+ &  &  &  & Models Description\\
+Space Cartesian Products &  & PDE based Preconditioners & Ray-Tracing (BVH) & Level-Set (FastMarching) \\
+ & & & &  Forms\\
+Finite Elements & Geometric Mapping & & & Export/Import\\
+ Timings & & &  &  Quadratures \\
+& & & & \\};
+\widernode[widebox=mygreen]{stack-1-1}{stack-1-5}{\begin{tabular}{c}Advanced Methods and Analysis:\\ Inverse Problems, Data Assimilation, UQ, ML\ldots \end{tabular}}{Analysis}
+\widernode[widebox=mygreen]{stack-2-1}{stack-2-5}{\begin{tabular}{c}Python bindings:\\ Core, \Feelpp Libs, Toolboxes, MOR\end{tabular}}{Python}
+\widernode[widebox=mygreen]{stack-3-1}{stack-3-5}{\begin{tabular}{c}ROM: \\RB(Greedy,POD,Error Bounds, SCM/Min-$\theta$, NL-C), (D,G)EIM, PBDW, NIRB\end{tabular}}{RB}
+\widernode[widebox=mygreen]{stack-4-1}{stack-4-5}{\begin{tabular}{c}Toolboxes: \\ ALE, CFPDEs, CFD, CSM, Heat, HeatFluid, FSI, ThermoElectric, Maxwell\end{tabular}}{Toolboxes}
+\widernode{stack-5-3}{stack-5-4}{Models Description: JSON...}{model}
+\widernode{stack-5-1}{stack-5-2}{DSEL for Galerkin Methods}{dsel}
+\widernode{stack-6-1}{stack-6-2}{\begin{tabular}{c}Cartesian Products:\\ Spaces, Functions and Forms\end{tabular}}{prod}
+\widernode{stack-7-3}{stack-7-4}{Interpolation}{interp}
+\widernode{stack-7-1}{stack-7-2}{Function Spaces}{fespace}
+\widernode{stack-8-3}{stack-8-3}{Mesh}{Mesh}
+\widernode{stack-8-4}{stack-8-4}{Time Discr.}{TimeD}
+%\widernode{stack-5-4}{stack-5-5}{Export/Import}{ExImp}
+\widernode{stack-9-2}{stack-9-4}{Linear Algebra:
+  preconditioner framework, ...}{Alg}
+\widernode[widebox=mygreen]{stack-10-1}{stack-10-5}{Core: Environment,
+  Logging, Monitoring, Events, Communicators ...}{Core}
+
+\node [fit={(stack.north west)(stack.north
+  east)},boxstyle=mybluei!60,draw=black,inner sep=0pt,above=3pt of
+stack.north,anchor=south,label={[mylabel]center: Applications: Ktirio Urban Building, Eye2Brain, Swimmer, HifiMagnet}] (AnalysisTools) {};
+\node [fit={(stack.south west)(stack.south
+  east)},boxstyle=mybluei!60,draw=black,inner sep=0pt,below=3pt of
+stack.south,anchor=north,label={[mylabel]center:  Python3, Gmsh, MMG, CGAL, OpenTURNS,  OpenModelica, Salome}] (DepsTools) {};
+  \node [fit={(DepsTools.south west)(DepsTools.south
+  east)},boxstyle=mybluei!60,draw=black,inner sep=0pt,below=3pt of
+DepsTools.south,anchor=north,label={[mylabel]center: C++17, MPI, Boost,
+  Google::Glog, MongoDB, Eigen3, PETSc/SLEPc}] (Deps) {};
+
+\end{tikzpicture}
