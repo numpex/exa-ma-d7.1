@@ -76,7 +76,7 @@ In~\cref{tab:WP3:TRUST Platform:features} we provide a summary of the software f
     \item The parallel programming model is MPI and a mix of Kokkos and OpenMP-target directives for GPU computing  
     \item The parallel computation environment are personal computers, clusters, and super computers: e.g. Adastra (CINES), Jean-Zay (IDRIS), Topaze (CCRT)
     \item The code can run on several cores of one or several CPU nodes. A GPU version (limited to some physical modules) of the code may run on one or several GPU, on one or several nodes.
-    \item \textbf{Scalability:} The parallel efficacity on CPU nodes (128 AMD Rome cores/node) declines from ~90% on 4 nodes, ~80% on 32 nodes, to ~60% on 256 nodes during a weak scaling test. The parallel efficacity on GPU nodes (4 GPU Nvidia V100/node) declines quicker from ~60% on 4 nodes, ~35% on 32 nodes, to 20% on 256 nodes during the same weak scaling test.
+    \item \textbf{Scalability:} The parallel efficacity on CPU nodes (128 AMD Rome cores/node) declines from ~90\% on 4 nodes, ~80\% on 32 nodes, to ~60\% on 256 nodes during a weak scaling test. The parallel efficacity on GPU nodes (4 GPU Nvidia V100/node) declines quicker from ~60\% on 4 nodes, ~35\% on 32 nodes, to 20\% on 256 nodes during the same weak scaling test.
     \item \textbf{Integration with Other Systems:} TRUST integrates with the linear algebra libraries developed and improved in the Exa-Ma framework and especially those interfaced through PETSc. It thus serves for the practical evaluation of the integral performance gain provided by the project in representative physical cases of interest.
 \end{itemize}
 
@@ -84,7 +84,7 @@ In~\cref{tab:WP3:TRUST Platform:features} we provide a summary of the software f
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:TRUST Platform:metrics}
 
-Establishing reference metrics for TRUST to serve as basic data for the methodology proposed in chapter \ref{chap:methodology} is an ongoing process that will continue during the upcoming year. However, some solid elements are available concerning the relevant tests to be implemented, emphasizing on the relation between TRUST and linear algebra libraries supported in WP3, and with PETSc in particuler:
+Establishing reference metrics for TRUST to serve as basic data for the methodology proposed in chapter \ref{chap:methodology} is an ongoing process that will continue during the upcoming year. However, some solid elements are available concerning the relevant tests to be implemented, emphasizing on the relation between TRUST and linear algebra libraries supported in WP3, and with PETSc in particular:
 
 \begin{itemize}
     \item \textbf{Weak scaling test for GPU: } using Krylov solver with algebraic multigrid preconditioner (e.g Hypre or AmgX) through PETSc on 2 to 1024 GPUs
