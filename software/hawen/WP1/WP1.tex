@@ -119,7 +119,17 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
+\subsubsection{Benchmark \#1: Visco-acoustic time-harmonic wave propagation}
+
+\paragraph{Description}: 
+This benchmark considers the propagation of time-harmonic waves in a large-scale
+geophysical configuration. We use the model SEAM for this benchmark, which is of
+size \num{35}$\times$\num{45}$\times$\num{35}\si{\km\cubed}.  
+It gives us the wave-speed and density models, respectively $\sqrt{\kappa/\rho}$ 
+and $\rho$ to solve the acoustic wave problem \eqref{eq:hawen:viscoacoustic}.
+We illustrate the wave-speed model in Figure~\ref{figure:hawen:seam-model}.
+
+
 \begin{itemize}
     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
@@ -136,7 +146,8 @@ This section provides a summary of initial performance benchmarks performed in t
 % ----------------------
 \begin{figure}\centering
 \includegraphics[scale=0.65]{graphics/hawen/skeleton_3D_seam}
-\caption{SEAM wave-speed model used for the benchmark.}
+\caption{SEAM wave-speed model used for the benchmarks.}
+\label{figure:hawen:seam-model}
 \end{figure}
 % ----------------------
 
