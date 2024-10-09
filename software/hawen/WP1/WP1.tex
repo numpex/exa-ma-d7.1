@@ -42,7 +42,7 @@ B7 - Exascale Algorithms\\
 
 \hawen~uses the Hybridizable discontinuous Galerkin method (HDG) 
 for the discretization of the time-harmonic wave problems such 
-as \eqref{eq:hawen:viscoacoustic} and \eqref{eq:hawen:viscoelastic}.
+as \cref{eq:hawen:viscoacoustic,eq:hawen:viscoelastic}.
 The method relies on a static condensation of DG method, and we 
 refer to, e.g. \cite{Faucher2020adjoint,pham_numerical_2024} 
 and the references therein regarding implementation in acoustics and 
@@ -133,8 +133,8 @@ This benchmark considers the propagation of time-harmonic waves in a large-scale
 geophysical configuration. We use the model SEAM for this benchmark, which is of
 size \num{35}$\times$\num{45}$\times$\num{35}\si{\km\cubed}.  
 It gives us the wave-speed and density models, respectively $\sqrt{\kappa/\rho}$ 
-and $\rho$ to solve the acoustic wave problem \eqref{eq:hawen:viscoacoustic}.
-We illustrate the wave-speed model in Figure~\ref{figure:hawen:seam-model}.
+and $\rho$ to solve the acoustic wave problem \cref{eq:hawen:viscoacoustic}.
+We illustrate the wave-speed model in \cref{figure:hawen:seam-model}.
 This model is challenging as it is relatively large (depending on the frequency
 we simulate, see below), and includes high-contrast objects. 
 For instance, the maximal value of the wave-speed is about 2.5 times higher than
@@ -165,7 +165,7 @@ of flops required to factorize the matrix.
 
 \paragraph{Input/Output Dataset Description} The input correspond to the 
 physical models that feed the wave equation, such as the wave-speed illustrated
-in Figure~\ref{figure:hawen:seam-model}. These are available via the SEAM 
+in \cref{figure:hawen:seam-model}. These are available via the SEAM 
 corporation\footnote{\url{https://wiki.seg.org/wiki/SEAM}}.
 
 \paragraph{Results Summary}
@@ -206,8 +206,8 @@ efficiency.
 \subsubsection{Benchmark \#2: Visco-elastic time-harmonic wave propagation}
 
 The second benchmark is the continuation of the previous one where, instead 
-of considering the acoustic problem \eqref{eq:hawen:viscoacoustic}, we now
-solve the viscoelastic problem with equation~\eqref{eq:hawen:viscoelastic}.
+of considering the acoustic problem \cref{eq:hawen:viscoacoustic}, we now
+solve the viscoelastic problem with equation~\cref{eq:hawen:viscoelastic}.
 Elasticity is computationally much more demanding as, instead of working with
 a scalar unknown as in the acoustic case, we now have a vector unknown. 
 The configuration of this setup is the same as above, and we also wish to 
