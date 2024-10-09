@@ -161,13 +161,16 @@ This section provides a summary of initial performance benchmarks performed in t
 
 
 
-The benchmark has been described in the prequel of this document, in \Cref{sec:WP1:Feelpp:benchmark4}.
+The benchmark has been described in the prequel of this document, in \Cref{sec:WP1:Feelpp:benchmark4}, and simulate the aqueous humor flow in the human eye, coupled with the heat transfer.
+The strategy employed to simulate the non-linear model implemented in the \texttt{heatfluid} toolbox of \Feelpp consists of a fixed-point iteration.
+Without efficient preconditioning, iterative solvers would not actually converge for solving the system.
+Direct methods are only usable for small problems, otherwise, memory and computational costs can exceed available resources and render them unsuitable for larger problems.
 
-description rapide du solveur et du preconditioner
-
-pb mutliphysique avec point selle
-
-\fullcite{saigre_coupled_2024}
+Precisely, we employ a \emph{fieldsplit}\index{fieldsplit}, or PDE-based, strategy, allowing us to define what we could call ``sub-preconditioners'' for each system block.
+We split the system into two blocks according to the fluid and heat unknowns.
+The fluid block is solved using a Schur complement approach~\cite{elman_finite_2014}, while the heat block is solved using a few iteration of GAMG.
+%
+A more in-depth description of the preconditioner can be found in~\cite{saigre_coupled_2024}.
 
 
 \subsection{12-Month Roadmap}
