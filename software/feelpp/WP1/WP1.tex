@@ -652,9 +652,157 @@ Several challenges were encountered during the benchmarking process: \textbf{??}
 
 \subsubsection{Benchmark \#5: Contact Mechanics}
 
+\paragraph{Description}
+This benchmark simulates the dynamic unilateral contact between an elastic bouncing 
+ball and a rigid horizontal wall, presented in \cite{chouly_explicit_2018}. The full model, 
+combining ray-tracing, the Signorini contact mechanics, and the dynamics of elastic bodies 
+is presented in \cite{van_landeghem_motion_nodate}. \\
+
+
+\paragraph{Benchmarking Tools Used}
+
+The simulations are conducted on the Gaya supercomputer. The execution time of the 
+following tasks is monitored:
+
+\begin{inparaenum}[\it (i)]
+    \item Mesh: loading and initialization of the non-partitioned mesh,
+    \item Data Structures: initialization of data structures,
+    \item Ray-tracing: collision detection using ray-tracing,
+    \item Assembly: construction of the dynamic algebraic system, 
+    \item Solve: solving the non-linear algebraic system, and
+    \item Post process: exporting the vectorial displacement field, the scalar contact displacement and the scalar contact pressure at each time iteration.
+\end{inparaenum}
+
+\paragraph{Input/Output Dataset Description}
+
 \begin{itemize}
-    \item combine ray tracing, assembly, contact mechanics, time dependent
+    \item \textbf{Input Data:} As input, we consider the same mesh for all simulations, 
+    using $P_1$ Lagrange elements for the vectorial unknown displacement field. The mesh 
+    characteristics, the number of mesh elements and the number of degrees of freedom, 
+    are provided in \Cref{tab:feelpp:mesh:contact}. Additionally, the input data includes the configuration files necessary to run the simulations.
+    \item \textbf{Output Data:} The output dataset includes the time evolution of 
+    the displacement field of the elastic body, as well as the time evolution of 
+    the contact displacement and pressure. In addition, the execution times for 
+    the different tasks are stored.
 \end{itemize}
+
+
+
+\begin{table}[!ht]
+    \centering
+    { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+    \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}
+        \multicolumn{3}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties} & \multicolumn{1}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
+        \hline
+        \rowcolor{numpexgray} {\color{white}\bf $h_\text{min}$} & {\color{white}\bf $h_\text{max}$} & {\color{white}\bf \# elements} & {\color{white}\bf $\vct{u}$} \\
+        \pgfmathprintnumber{0.19269262925729186} & \pgfmathprintnumber{0.46595156749445504} & \pgfmathprintnumber{21675942} & \pgfmathprintnumber{9208203} \\
+        \hline
+    \end{tabular}
+    }}
+    \caption{Characteristics of the mesh and the number of degrees of freedom for the vectorial displacement field $\vct{u}$ with $P_1$ discretization.}%
+    \label{tab:feelpp:mesh:contact}
+\end{table}
+
+\paragraph{Results Summary}
+
+The results for the computational time and relative computational time for the 
+different tasks and varying numbers of processors are presented in ~\Cref{fig:feelpp:wp1:contact:time}, 
+and ~\Cref{fig:feelpp:wp1:contact:time-rel}. The bars show the results using $P_1$ Lagrange 
+elements for the unknown displacement field. 
+
+
+We observe that the resolution of the dynamic system constitutes the majority of 
+the computational time, and its relative time increases with the number of cores. 
+%The communication between nodes and synchronization points become predominant as the number of cores increases.
+With the increase in the number of cores, the absolute execution time related to 
+data structure initialization, ray-tracing, assembly, and post-processing decreases. 
+The mesh loading time remains constant, as it is not partitioned at the input.
+
+
+\pgfplotstableread{\currfiledir/data/contact-time.dat}\dataContact
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Computational time [s]},
+            xtick={0,1,2,3,4}, xticklabels={32,64,128,256,384},
+            legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true, ymin=0,
+            bar width=7pt, ybar stacked,
+            %ymode=log,
+            % title={Computational time for the 3D case},
+        ]
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=mesh] {\dataContact};
+        % \addlegendentry{Mesh}
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y=data] {\dataContact};
+        % \addlegendentry{Data Structures}
+        \addplot+[ybar, bar width=0.2, fill=black, draw=black, point meta=y] table [x=x, y expr={300*\thisrow{raytracing}} ] {\dataContact};
+        % \addlegendentry{Assembly}
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=assembly ] {\dataContact};
+
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y=solve] {\dataContact};
+        % \addlegendentry{Solve}
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=postprocess] {\dataContact};
+        % \addlegendentry{Post process}
+
+        \end{axis}
+        \end{tikzpicture}
+    \caption{Computational time for the contact mechanics testcase.}
+    \label{fig:feelpp:wp1:contact:time}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{\textwidth}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Relative computational time [\%]},
+            xtick={0,1,2,3,4}, xticklabels={32,64,128,256,384},
+            legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymin=0, ymax=100,
+            % title={Relative computational time for the 3D case},
+        ]
+
+        % Compute the relative time for each component by dividing by the total time
+        % using the correct column names from the initial plot
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{mesh}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
+        \addlegendentry{Mesh}
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{data}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
+        \addlegendentry{Data Structures}
+        \addplot+[ybar, bar width=0.2, fill=black, draw=black, point meta=y]
+            table [x=x, y expr={3000*\thisrow{raytracing}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
+        \addlegendentry{Ray-tracing}
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{assembly}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
+        \addlegendentry{Assembly}
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{solve}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
+        \addlegendentry{Solve}
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{postprocess}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
+        \addlegendentry{Post process}
+
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Relative computational time for the contact mechanics testcase.}
+    \label{fig:feelpp:wp1:contact:time-rel}
+\end{subfigure}
+\caption{Absolute (\Cref{fig:feelpp:wp1:contact:time}) and relative (\Cref{fig:feelpp:wp1:contact:time-rel}) computational time for the various tasks using  $P_1$ Lagrange elements for the vectorial displacement field.}
+\label{fig:feelpp:wp1:contactbenchmark:time}
+\end{figure}
+
+
 
 \subsection{12-Month Roadmap}
 \label{sec:WP1:Feelpp:roadmap}
