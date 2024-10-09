@@ -109,7 +109,7 @@ Analytic solutions\\
 \end{tabular} & Testing methodologies employed to ensure software quality and correctness:
 Analytic solutions for the propagation of acoustic and elastic waves, respectively 
 \eqref{eq:hawen:viscoacoustic} and \eqref{eq:hawen:viscoelastic} exist and are compared 
-with the numerical resolutions. For instance we refer to \cite{Pham2024stabilization} for 
+with the numerical resolutions. For instance we refer to \cite{pham_numerical_2024} for 
 the validation of the linear elasticity propagator.
 \\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
@@ -160,7 +160,7 @@ imposing the Dirichlet trace, Neumann trace, or a Robin-type condition
 
 In the case of linear visco-elastic wave propagation, the forward problem consists in
 finding the displacement field $\boldsymbol{u}$ and stress tensor $\boldsymbol{\sigma}$ 
-solutions to, cf., e.g., \cite{Pham2024stabilization},
+solutions to, cf., e.g., \cite{pham_numerical_2024},
 \begin{subequations}\label{eq:hawen:viscoelastic}
 \begin{empheq}[left={\empheqlbrace}]{align}
  &-\omega^2\rho\boldsymbol{u} \,-\, \nabla\cdot\boldsymbol{\sigma}\,=\,\boldsymbol{f} \,, \\
@@ -168,12 +168,12 @@ solutions to, cf., e.g., \cite{Pham2024stabilization},
 \end{empheq}\end{subequations}
 Here, the medium is characterized by the density 
 $\rho$ and the stiffness tensor $\boldsymbol{C}$,
-we refer to \cite{Pham2024stabilization}
+we refer to \cite{pham_numerical_2024}
 for more details related to HDG implementation.
 
 In the context of helioseismology, we consider the scalar-wave propagation 
 which comes from simplification of the Galbrun's equation, 
-cf.~\cite{Pham2020Siam,Pham2024assembling}, in three dimensions, the 
+cf.~\cite{Pham2020Siam,pham_assembling_2024}, in three dimensions, the 
 simplest form corresponds to finding $u$ solution to: 
 \begin{equation} \label{eq:hawen:helio-scalar}
   \Big( \,-\nabla \,-\,\dfrac{\omega^2}{c^2} \,+\, q \Big) \, u \,=\, f\,,
@@ -185,7 +185,7 @@ details.
 Several choices of radiation boundary conditions have been 
 implemented and tested, cf.~\cite{Pham2019radiationBC,Pham2020Siam}.
 Recently, more complete equations to model the Sun have 
-been implemented in \hawen, see \cite{Pham2024assembling}.
+been implemented in \hawen, see \cite{pham_assembling_2024}.
 
 \paragraph{Inversion} 
 \hawen~solves the inverse problems for the reconstruction of the 
@@ -196,7 +196,7 @@ from the observations of the pressure $p$ and/or velocity field $\boldsymbol{v}$
 at a discrete set of positions.
 \hawen~employs a nonlinear iterative minimization algorithm for the 
 reconstruction of the properties, as illustrated in 
-\cite{Hawen2021,Faucher2019FRgWIGeo,Faucher2020DAS,Faucher2023viscoacoustic}.
+\cite{faucher_hawen_2021,Faucher2019FRgWIGeo,Faucher2020DAS,Faucher2023viscoacoustic}.
 This approach is typically referred to as the \emph{Full Waveform Inversion}
 in the context of seismic imaging, cf. \cite{Virieux2009} for a review.
 
@@ -206,17 +206,17 @@ in the context of seismic imaging, cf. \cite{Virieux2009} for a review.
 
 Here is a list of relevant publications related to the software:
 \begin{itemize}
-\item \cite{Hawen2021}: Reference of the software in the journal of open-source software;
+\item \cite{faucher_hawen_2021}: Reference of the software in the journal of open-source software;
 \item \cite{Faucher2020adjoint}:
       Mathematical details of the adjoint-state method in the framework 
       of Hybridizable Discontinuous Galerkin discretization method.
       It provides the computational steps for the implementation of the 
       inverse problem.
-\item \cite{Pham2024stabilization}: Details of the numerical implementation 
+\item \cite{pham_numerical_2024}: Details of the numerical implementation 
       of the HDG method for anisotropic elasticity.
 \item \cite{Faucher2019FRgWIGeo,Faucher2020DAS}: 
       Use of the software in the context of seismic imaging.
-\item \cite{Pham2020Siam,Pham2024assembling}:
+\item \cite{Pham2020Siam,pham_assembling_2024}:
       Use of the software in the context of helioseismology.
 \item \cite{Faucher2023viscoacoustic}: 
       Use of the software in the context of viscoacoustics ultrasound imaging.
@@ -236,6 +236,11 @@ The software has been developed with the support of the following funding agenci
                     University of Pau and Pays de l'Adour.
   \item 2024--2029, F. Faucher acknowledges support of the European Research Council 
                     with ERC-StG Project INCORWAVE -- grant 101116288.
+  \item 2024--2027, \hawen~is used in the framework of the ANR-DFG project BUTTERFLY,
+                     grant number ANR-23-CE46-0009-01.
+  \item 2023--2024, \hawen~is used in the GENCI Grand Challenges 
+                    on the supercomputer Adastra’s GENOA partition 
+                    with project gda2306.
   \item 2019--2021, F. Faucher acknowledges funding by the Austrian Science Fund (FWF) 
         under the Lise Meitner grant allocation M2791-N.
 \end{itemize}
