@@ -47,9 +47,9 @@ B7 - Exascale Algorithms\\
 \subsection{Software summary}
 \label{sec:Feelpp:summary}
 
-\Feelpp is a powerful framework designed to solve problems based on ordinary differential equations (ODEs) and partial differential equations (PDEs). 
-It leverages modern \Cpp{} standards, including \Cpp{17} and \Cpp{20}, and also provides a Python layer through Pybind11. 
-The suite is particularly effective for parallel computing, with seamless integration of parallelism through default communicators, including support for ensemble runs. 
+\Feelpp is a powerful framework designed to solve problems based on ordinary differential equations (ODEs) and partial differential equations (PDEs).
+It leverages modern \Cpp{} standards, including \Cpp{17} and \Cpp{20}, and also provides a Python layer through Pybind11.
+The suite is particularly effective for parallel computing, with seamless integration of parallelism through default communicators, including support for ensemble runs.
 
 %% Some key features include:
 %% \begin{itemize}
@@ -64,7 +64,7 @@ The suite is particularly effective for parallel computing, with seamless integr
 %% \end{itemize}
 
 
-\Feelpp provides several specialized toolboxes to address various fields of numerical simulation 
+\Feelpp provides several specialized toolboxes to address various fields of numerical simulation
 \begin{inparaenum}[(i)]
         \item fluid mechanics,
         \item solid mechanics,
@@ -94,7 +94,7 @@ The \Feelpp core library provides a wide range of numerical methods for solving 
     \item \( \mathbf{H}(\text{div}) \), \( \mathbf{H}(\text{curl}) \)
 \end{inparaenum}
 
-\Feelpp supports a wide variety of element types and value types, including single, double, and quad precision, as well as complex numbers. The supported problem domains include 0D to 3D, with or without time dependence. 
+\Feelpp supports a wide variety of element types and value types, including single, double, and quad precision, as well as complex numbers. The supported problem domains include 0D to 3D, with or without time dependence.
 
 Here is a typical example of solving a Laplace equation in \Feelpp:
 
@@ -123,11 +123,13 @@ a += on(_range = markedfaces(support(Vh), "Dirichlet"), _rhs = l, _element = u, 
 a.solve(_rhs = l, _solution = u);
 \end{minted}
 \end{listing}
+
 The suite supports multiple linear algebra libraries, including PETSc, SLEPc, Eigen, and Boost::ublas, and is designed to run efficiently in both sequential and parallel environments.
 
 
 
-\Feelpp is a versatile and powerful tool for solving PDEs and ODEs in a variety of scientific and industrial applications. With support for high-performance computing and a broad range of numerical methods which can be used to build taylored applications for research, development, and teaching.
+\Feelpp is a versatile and powerful tool for solving PDEs and ODEs in a variety of scientific and industrial applications.
+With support for high-performance computing and a broad range of numerical methods which can be used to build taylored applications for research, development, and teaching.
 
 
 \subsection{Purpose}
@@ -324,7 +326,7 @@ It leverages advanced numerical techniques to ensure accuracy and scalability, i
 The~\Cref{fig:Feelpp:components} shows the main components of \Feelpp, including the finite element method, mesh generation, solvers but also the components that will be tested in the benchmarks of this deliverable.
 
 \begin{figure}
-        \input{graphics/feelpp/feelpp-components.tikz}
+        \input{graphics/feelpp/feelpp-components.tex}
         \caption{Main dependencies of \Feelpp(bottom rows), its main Components as well as the flagship applications (top row).}
         \label{fig:Feelpp:components}
 \end{figure}
