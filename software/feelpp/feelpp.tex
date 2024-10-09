@@ -1,5 +1,5 @@
 %!TEX root = ../../exa-ma-d7.1.tex
-\section{Software: \texorpdfstring{\Feelpp}{Feel++}}
+\section{Software: \texorpdfstring{\Feelpp}{\Feelpp}}
 \label{sec:Feelpp:software}
 
 \begin{table}[!ht]
@@ -46,9 +46,89 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:Feelpp:summary}
-\Feelpp is a C++ framework for multiphysics simulations based on the finite element method.
-It is designed to handle complex simulations in a wide variety of fields, including fluid dynamics, electromagnetism, and solid mechanics.
-It focuses on high-performance computing and reproducibility in scientific computation.
+
+\Feelpp is a powerful framework designed to solve problems based on ordinary differential equations (ODEs) and partial differential equations (PDEs). 
+It leverages modern \Cpp{} standards, including \Cpp{17} and \Cpp{20}, and also provides a Python layer through Pybind11. 
+The suite is particularly effective for parallel computing, with seamless integration of parallelism through default communicators, including support for ensemble runs. 
+
+%% Some key features include:
+%% \begin{itemize}
+%%     \item Advanced interpolation and integration operators that work efficiently in parallel.
+%%     \item Comprehensive post-processing capabilities, even for high-order approximations and high-order geometries.
+%%     \item Build system managed by CMake and CMake Presets.
+%%     \item Detailed documentation is available at \url{https://docs.feelpp.org}, with dynamic pages that can be downloaded as Jupyter notebooks.
+%%     \item DevOps integration using GitHub Actions for CI/CD and continuous benchmarking on in-house and EuroHPC systems.
+%%     \item Packaging support for Ubuntu, Debian, Spack, and MacPorts, as well as containers using Docker and Apptainer.
+%%     \item Comprehensive testing infrastructure with nearly a thousand tests, both in sequential and parallel modes, for both C++ and Python.
+%%     \item Applications span research, R\&D, teaching, and services.
+%% \end{itemize}
+
+
+\Feelpp provides several specialized toolboxes to address various fields of numerical simulation 
+\begin{inparaenum}[(i)]
+        \item fluid mechanics,
+        \item solid mechanics,
+        \item heat transfer and conjuguate heat transfer,
+        \item fluid structure interaction,
+        \item electro and magnetostatic,
+        \item thermoelectric,
+        \item levelset and multifluid.
+\end{inparaenum}
+Each toolbox is tailored to specific types of problems, ensuring high performance and accuracy.
+
+\Feelpp is used in a variety of fields, particularly in health, industry, and physics. Below are some examples of applications:
+\begin{inparaenum}[(i)]
+    \item \textbf{Health (Brain)}: Applications related to brain modeling.
+    \item \textbf{Health (Tumor Cells)}: Simulation of tumor cell behavior.
+    \item \textbf{Industry (ROM, UQ)}: Reduced-order modeling and uncertainty quantification in industrial settings.
+    \item \textbf{Automotive (CFD, ROM)}: Computational fluid dynamics and reduced-order models in automotive engineering.
+    \item \textbf{Physics (High Field Magnets)}: Simulations of high field magnets.
+    \item \textbf{Health (Rheology)}: Modeling blood rheology.
+    \item \textbf{Health (Eye/Brain)}: Coupling between the eye and the brain in medical simulations.
+\end{inparaenum}
+
+The \Feelpp core library provides a wide range of numerical methods for solving PDEs, with support for finite elements in various Sobolev spaces with scalar, vector and matrix values. For example:
+\begin{inparaenum}[(i)]
+    \item \( L^2 \), \( \mathbf{L}^2 \), \( \mathbb{L}^2 \)
+    \item \( H^1 \), \( \mathbf{H}^1 \), \( \mathbb{H}^1 \)
+    \item \( \mathbf{H}(\text{div}) \), \( \mathbf{H}(\text{curl}) \)
+\end{inparaenum}
+
+\Feelpp supports a wide variety of element types and value types, including single, double, and quad precision, as well as complex numbers. The supported problem domains include 0D to 3D, with or without time dependence. 
+
+Here is a typical example of solving a Laplace equation in \Feelpp:
+
+\begin{listing}[ht]
+        \caption{Sample \Feelpp code for solving a Laplace equation on an arbitrary domain.}
+\begin{minted}[
+        linenos,                % Line numbers
+        fontsize=\scriptsize,        % Reduce font size
+        bgcolor=bgcolor,        % Slightly gray background
+        frame=lines,            % Delimiters around the code
+        framesep=2mm,           % Space between code and frame
+        rulecolor=\color{gray}, % Color of the frame
+        breaklines              % Allow line breaks in long lines
+      ]{cpp}
+auto Vh = Pch<4>(mesh, markedelements(mesh, expr("<...>")));
+auto u = Vh->element(), v = Vh->element(g, "g");
+auto l = form1(_test = Vh);
+l = integrate(_range = elements(support(Vh)), _expr = f * id(v));
+l += integrate(_range = markedfaces(support(Vh), "Robin"), _expr = -r_2 * id(v));
+l += integrate(_range = markedfaces(support(Vh), "Neumann"), _expr = -un * id(v));
+
+auto a = form2(_trial = Vh, _test = Vh);
+a = integrate(_range = elements(support(Vh)), _expr = inner(k * gradt(u), grad(v)));
+a += integrate(_range = markedfaces(support(Vh), "Robin"), _expr = r_1 * idt(u) * id(v));
+a += on(_range = markedfaces(support(Vh), "Dirichlet"), _rhs = l, _element = u, _expr = g);
+a.solve(_rhs = l, _solution = u);
+\end{minted}
+\end{listing}
+The suite supports multiple linear algebra libraries, including PETSc, SLEPc, Eigen, and Boost::ublas, and is designed to run efficiently in both sequential and parallel environments.
+
+
+
+\Feelpp is a versatile and powerful tool for solving PDEs and ODEs in a variety of scientific and industrial applications. With support for high-performance computing and a broad range of numerical methods which can be used to build taylored applications for research, development, and teaching.
+
 
 \subsection{Purpose}
 \label{sec:Feelpp:purpose}
@@ -248,6 +328,8 @@ The~\Cref{fig:Feelpp:components} shows the main components of \Feelpp, including
         \caption{Main dependencies of \Feelpp(bottom rows), its main Components as well as the flagship applications (top row).}
         \label{fig:Feelpp:components}
 \end{figure}
+
+
 
 \subsection{Relevant Publications}
 \label{sec:Feelpp:publications}
