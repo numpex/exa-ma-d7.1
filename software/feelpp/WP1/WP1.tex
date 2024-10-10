@@ -182,8 +182,7 @@ Final analysis and persectives here.
 \end{itemize}
 
 \subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
-%\paragraph{Description}
-%\fullcite{noauthor_iso_2017}
+\label{sec:WP1:Feelpp:benchmark:thermal_bridges}
 \paragraph{Description:} %Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
 
 The benchmark known as "thermal bridges" is an example of an application that
@@ -279,7 +278,7 @@ For each order of finite element approximation, we have selected a set of number
 of CPU cores.
 
 Firstly, we can see clearly that the Solve part is the most time-consuming. See
-discussion in appropriate section ???.
+comments in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
 Concerning the mesh M1, considered a coarse mesh, we note that the
 scalability scaling is not good, especially for low order. This is simply because the problem is too small for so many HPC resources. MPI
 Communication an IO effect is non-negligible.
