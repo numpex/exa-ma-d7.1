@@ -183,8 +183,67 @@ Final analysis and persectives here.
 
 \subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
 %\paragraph{Description}
-\fullcite{noauthor_iso_2017}
-\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%\fullcite{noauthor_iso_2017}
+\paragraph{Description:} %Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+
+The benchmark known as "thermal bridges" is an example of an application that
+enables us to validate numerical simulation tools using \Feelpp. We have
+developed tests based on the ISO 10211:2017 standard
+\fullcite{noauthor_iso_2017}, which provides methodologies for evaluating
+thermal bridges in building construction.
+
+Thermal bridges are areas within a building envelope where heat
+flow is different compared to adjacent areas, often resulting in increased heat
+loss or unwanted condensation.
+The standard is intended to ensure that thermal
+bridges simulation are accurately computed. It provides reference values (and tolerance) on heat
+temperature and heat flux at several location of the geometry.
+
+At the mathematical level, this application requires finding the numerical
+solution of an elliptic linear equation (i.e. the heat equation). We employ a
+finite element method based on continuous Lagrange Finite Element of order 1,2
+and 3 (denoted by $P_1$,$P_2$,$P_3$). And we analyzed the execution time of the
+main components of the simulation.
+
+\paragraph{Benchmarking Tools Used}
+
+The benchmark was performed on the \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to note that we have used here Apptainer with \Feelpp sif image based on Ubuntu noble os.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}:  load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned gmres
+\item \textbf{PostProcess}: compute validation measure (temperature at points and
+  heat flux) and export on the filesystem a visualization format (EnsighGold) of
+  the solution.
+\end{itemize}
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+\item \textbf{Input Data:}
+  \begin{itemize}
+  \item Meshes: We have generated three levels of mesh called M1, M2
+    and M3. These meshes are stored in GMSH format. The statistics can be found in
+    \Cref{tab:wp3:feelpp:thermal_bridges:discr_stat}. We have also prepared for
+    each mesh level a collection of partitioned mesh.
+    The format used is an in-house mesh format of \Feelpp based on
+    JSON+HDF5 file type.
+    The Gmsh meshes and the partitioned meshes can be found on our Girder
+    database management, in the \Feelpp collections.
+  \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
+    file and JSON file. These config files are present in the Github of feelpp.
+  \item Sif image: feelpp:v0.111.0-preview.10-noble-sif  (stored in the Github registry of \Feelpp)
+  \end{itemize}
+\item \textbf{Output Data:} The output includes the computed values of
+  validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.
+\end{itemize}
+
 
 
 \begin{table}[h!]
@@ -205,19 +264,46 @@ Final analysis and persectives here.
     }}
   \caption{Statistics on meshes and number of degrees of freedom with respect
     to finite element approximation for the thermal bridges benchmark}
-  \label{tab:wp3:feelpp:thermal_bridges}
+  \label{tab:wp3:feelpp:thermal_bridges:discr_stat}
 \end{table}
 
 
+\paragraph{Results Summary}
+The benchmark results are summarized in
+\Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M1},
+\Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M2},
+\Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M3} which correspond respectively to
+choice of the mesh M1, M2 and M3. Moreover, for each mesh, we have experimented with several
+finite element discretizations called $P_1$, $P_2$ and $P_3$.
+For each order of finite element approximation, we have selected a set of number
+of CPU cores.
 
+Firstly, we can see clearly that the Solve part is the most time-consuming. See
+discussion in appropriate section ???.
+Concerning the mesh M1, considered a coarse mesh, we note that the
+scalability scaling is not good, especially for low order. This is simply because the problem is too small for so many HPC resources. MPI
+Communication an IO effect is non-negligible.
+For the mesh M2, results are better (but not ideal) up to around one thousand processing cores.
+Finally, the fined mesh M3, illustrates the best scalability on this range of
+number of tasks. Except for the solve part, we can see an efficiency of increased
+HPC resource at this level.
 
-\newcommand{\barChart}[3][ybar]{
+Each run illustrated here is also validated thanks to the value of the ISO 10211:2017 standard.
+With these experiments, we have also seen that we have some variability in
+performance measures. Some aspects like the filesystem and network load, are not
+under our control, it can explain a part of this. Also, the memory and
+consequently the choice of the number of tasks per node can be important and
+can change significantly the performance. This latter will be taken into account
+more accurately in a next campaign of these benchamrking test.
+
+\newcommand{\barChart}[2][ybar]{
   \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=0.6172\textwidth,
       xlabel={Number of CPU core}, ylabel={Execution time [s]},
-      xticklabels from table={#2}{nProc},
+      %xticklabels from table={#2}{nProc},
       xtick=data,
+      xtick align=outside,
       ymin=0,
       %legend style={at={(1,1)}, anchor=north east},
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
@@ -225,19 +311,22 @@ Final analysis and persectives here.
       bar width=7pt,
       #1
     ]
-    \foreach [expand list=true] \thetuple in {#3} {
+    \foreach [expand list=true] \thetuple in {#2} {
       \pgfkeys{/mysettings/.cd,
-          legend/.store in=\mylegend,
+        table/.store in=\mytable,
           column/.store in=\mycolumn,
+          legend/.store in=\mylegend,
           color/.store in=\mycolor
         }
       \edef\temp{
         \noexpand\pgfkeys{/mysettings/.cd, \expandafter\@firstofone\thetuple}
-        } \temp
+      } \temp
+      %\def\toto{\expandafter\mytable}
       \edef\temp{
         \noexpand\addplot[ybar, bar width=0.2, fill=\mycolor, draw=black, point meta=y]
+        table [x expr=\noexpand\coordindex, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
       } \temp
-      table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
+      %table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
       \edef\temp{
         \noexpand\addlegendentry{\mylegend}
       } \temp
@@ -255,53 +344,189 @@ Final analysis and persectives here.
 
   \begin{figure}
     \centering
-    \def\plotSetup{
-      {legend=Init,column=init,color=customdarkblue},
-      {legend=Assembly,column=algebraic-assembly,color=customcyan},
-      {legend=Solve,column=algebraic-solve,color=customorange},
-      {legend=PostProcess,column=exportResults,color=custompurple}
+    \def\plotSetup##1{
+      {table=##1,column=init,legend=Init,color=customdarkblue},
+      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
+      {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
     }
-    % \def\meshId{3}
+    \def\chartBarPlot##1##2{
+      \barChart[ybar,xticklabels from table={##2}{nProc}]{\plotSetup{##1}}
+    }
+    \def\chartBarStackedPlot##1##2{
+      \barChart[ybar stacked,xticklabels from table={##2}{nProc}]{\plotSetup{##1}}
+    }
+
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar]{\dataPa}{\plotSetup}
+      %\barChart[ybar,xticklabels from table={\dataPa}{nProc}]{\plotSetup{dataPa}}
+      \chartBarPlot{dataPa}{\dataPa}
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar stacked]{\dataPa}{\plotSetup}
+      %\barChart[ybar stacked]{\plotSetup{dataPa}}
+      \chartBarStackedPlot{dataPa}{\dataPa}
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar]{\dataPb}{\plotSetup}
+      %\barChart[ybar]{\plotSetup{dataPb}}
+      \chartBarPlot{dataPb}{\dataPb}
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar stacked]{\dataPb}{\plotSetup}
+      %\barChart[ybar stacked]{\plotSetup{dataPb}}
+      \chartBarStackedPlot{dataPb}{\dataPb}
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar]{\dataPc}{\plotSetup}
+      %\barChart[ybar]{\plotSetup{dataPc}}
+      \chartBarPlot{dataPc}{\dataPc}
       \caption{\texttt{M\meshId} - \texttt{$P_3$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar stacked]{\dataPc}{\plotSetup}
+      %\barChart[ybar stacked]{\plotSetup{dataPc}}
+      \chartBarStackedPlot{dataPc}{\dataPc}
       \caption{\texttt{M\meshId} - \texttt{$P_3$}}
     \end{subfigure}
     \caption{Benchmarks performance results by using mesh \texttt{M\meshId} on
       Discoverer}
+    \label{fig:feelpp:wp1:thermal_bridges:performance_times_M\meshId}
   \end{figure}
 
 }
+
+
+
+\paragraph{Challenges Identified}
+Several challenges were encountered during the benchmarking process:
+\begin{itemize}
+    \item \textbf{Memory Usage:} We need to check and detect the memory
+      consuming during the simulation to avoid bad behavior like swapping.
+    \item \textbf{Parallelization Inefficiencies:} We need to understand and
+      improve performance when MPI communication and filesystem IO will be dominant.
+    %\item \textbf{Cache and Memory Bottlenecks:}
+\end{itemize}
+
+To conclude, we have realized HPC performance tests of benchmark called thermal
+bridges. We have realized with success the execution of several simulations on
+significant resources and demonstrated the validation of \Feelpp framework in the
+elliptic PDE context. We have also validated the deployment of \Feelpp with
+container support. Now, we need to provide more refined measures to detect and
+analyze reasons for performance degradation. And also compare to other software
+installations, like Spack.
+
+
+
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M1_P1_discoverer.csv}\dataMaPa
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M1_P2_discoverer.csv}\dataMaPb
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M1_P3_discoverer.csv}\dataMaPc
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M2_P1_discoverer.csv}\dataMbPa
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M2_P2_discoverer.csv}\dataMbPb
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M2_P3_discoverer.csv}\dataMbPc
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P1_discoverer.csv}\dataMcPa
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P2_discoverer.csv}\dataMcPb
+\pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P3_discoverer.csv}\dataMcPc
+
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}
+      \def\myLineWidth{2pt}
+      \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
+        %xtick=data,
+        xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, %yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Number of CPU cores}, ylabel={Number of iterations},
+        legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        ]
+        \addplot[color=customdarkblue,dashdotdotted,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMaPa};
+        \addlegendentry{M1-P1}
+        \addplot[color=customdarkblue,dashed,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMaPb};
+        \addlegendentry{M1-P2}
+        \addplot[color=customdarkblue,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMaPc};
+        \addlegendentry{M1-P3}
+        \addplot[color=customcyan,dashdotdotted,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMbPa};
+        \addlegendentry{M2-P1}
+        \addplot[color=customcyan,dashed,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMbPb};
+        \addlegendentry{M2-P2}
+        \addplot[color=customcyan,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMbPc};
+        \addlegendentry{M2-P3}
+        \addplot[color=customorange,dashdotdotted,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMcPa};
+        \addlegendentry{M3-P1}
+        \addplot[color=customorange,dashed,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMcPb};
+        \addlegendentry{M3-P2}
+        \addplot[color=customorange,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMcPc};
+        \addlegendentry{M3-P3}
+      \end{axis}
+    \end{tikzpicture}
+  \end{figure}
+
+
+  \begin{figure}
+    \centering
+
+  \foreach [expand list=true] \polyId in {1,2,3} {
+
+    \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M1_P\polyId_discoverer.csv}\dataMa
+    \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M2_P\polyId_discoverer.csv}\dataMb
+    \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_M3_P\polyId_discoverer.csv}\dataMc
+
+    \def\plotSetup{
+      {table=dataMa,column=algebraic-solve,legend=M1,color=customdarkblue},
+      {table=dataMb,column=algebraic-solve,legend=M2,color=customcyan},
+      {table=dataMc,column=algebraic-solve,legend=M3,color=customorange}
+    }
+
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar,xticklabels from table={\dataMa}{nProc}]{\plotSetup}
+      %\chartBarPlot{dataPa}{\dataPa}
+      %\caption{\texttt{M\meshId}}
+      \caption{$P_{\polyId}$}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \def\myLineWidth{2pt}
+        \begin{axis}[
+          width=\textwidth, height=0.6172\textwidth,
+          % xtick=data,
+          xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+          ymajorgrids=true, %yminorgrids=true,
+          minor y tick num=2,
+          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+          xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+          xlabel={Number of CPU cores}, ylabel={Number of iterations},
+          legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+          ]
+          \addplot[color=customdarkblue,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMa};
+          \addlegendentry{M1}
+          \addplot[color=customcyan,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMb};
+          \addlegendentry{M2}
+          \addplot[color=customorange,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMc};
+          \addlegendentry{M3}
+        \end{axis}
+      \end{tikzpicture}
+    \caption{$P_{\polyId}$}
+    \end{subfigure}
+}
+\caption{Benchmarks performance results  on  Discoverer}
+\end{figure}
+
 
 \subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
 
