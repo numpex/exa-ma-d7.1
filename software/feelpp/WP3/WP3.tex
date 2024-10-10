@@ -138,56 +138,11 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 
 \paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M1_P1_discoverer.csv}\dataMaPa
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M1_P2_discoverer.csv}\dataMaPb
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M1_P3_discoverer.csv}\dataMaPc
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M2_P1_discoverer.csv}\dataMbPa
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M2_P2_discoverer.csv}\dataMbPb
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M2_P3_discoverer.csv}\dataMbPc
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M3_P1_discoverer.csv}\dataMcPa
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M3_P2_discoverer.csv}\dataMcPb
-\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M3_P3_discoverer.csv}\dataMcPc
-
-  \begin{figure}
-    \centering
-    \begin{tikzpicture}
-      \def\myLineWidth{2pt}
-      \begin{axis}[
-        width=\textwidth, height=0.6172\textwidth,
-        %xtick=data,
-        xmajorgrids=true, xminorgrids=false, minor x tick num=3,
-        ymajorgrids=true, %yminorgrids=true,
-        minor y tick num=2,
-        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-        xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
-        xlabel={Number of CPU cores}, ylabel={Number of iterations},
-        legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-        ]
-        \addplot[color=customdarkblue,dashdotdotted,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMaPa};
-        \addlegendentry{M1-P1}
-        \addplot[color=customdarkblue,dashed,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMaPb};
-        \addlegendentry{M1-P2}
-        \addplot[color=customdarkblue,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMaPc};
-        \addlegendentry{M1-P3}
-        \addplot[color=customcyan,dashdotdotted,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMbPa};
-        \addlegendentry{M2-P1}
-        \addplot[color=customcyan,dashed,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMbPb};
-        \addlegendentry{M2-P2}
-        \addplot[color=customcyan,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMbPc};
-        \addlegendentry{M2-P3}
-        \addplot[color=customorange,dashdotdotted,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMcPa};
-        \addlegendentry{M3-P1}
-        \addplot[color=customorange,dashed,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMcPb};
-        \addlegendentry{M3-P2}
-        \addplot[color=customorange,mark=square,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMcPc};
-        \addlegendentry{M3-P3}
-      \end{axis}
-    \end{tikzpicture}
-  \end{figure}
 
 
-  \begin{figure}
-    \centering
+
+\begin{figure}
+  \centering
 
   \foreach [expand list=true] \polyId in {1,2,3} {
 
@@ -205,9 +160,7 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \barChart[ybar,xticklabels from table={\dataMa}{nProc}]{\plotSetup}
-      %\chartBarPlot{dataPa}{\dataPa}
-      %\caption{\texttt{M\meshId}}
-      \caption{$P_{\polyId}$}
+        \caption{Execution time - $P_{\polyId}$}
     \end{subfigure}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
@@ -232,10 +185,86 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
           \addlegendentry{M3}
         \end{axis}
       \end{tikzpicture}
-    \caption{$P_{\polyId}$}
+      \caption{Number of iterations of GMRES - $P_{\polyId}$}
     \end{subfigure}
-}
-\caption{Benchmarks performance results  on  Discoverer}
+  }
+  \caption{Thermal bridges benchmarks - Performance measures of algebraic solver
+    (Mesh comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+  \label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M1_P1_discoverer.csv}\dataMaPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M1_P2_discoverer.csv}\dataMaPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M1_P3_discoverer.csv}\dataMaPc
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M2_P1_discoverer.csv}\dataMbPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M2_P2_discoverer.csv}\dataMbPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M2_P3_discoverer.csv}\dataMbPc
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M3_P1_discoverer.csv}\dataMcPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M3_P2_discoverer.csv}\dataMcPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/thermalbridges_M3_P3_discoverer.csv}\dataMcPc
+
+  \def\chartLinePlot#1#2{
+    \begin{tikzpicture}
+      \def\myLineWidth{2pt}
+      \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+      \def\myLineStyleB{dashed}
+      \def\myLineStyleC{solid}
+      %\def\myMarkStyle{every mark/.append style={solid}}
+      %\edef\myMarkStyle{\noexpand{every mark/.append style={solid}}}
+
+      \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
+        % xtick=data,
+        xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, %yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Number of CPU cores},% ylabel={Number of iterations},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        legend style={at={(0.,1)}, anchor=north west,font=\small,legend columns=3},
+        #2
+        ]
+        \addplot[color=customdarkblue,\myLineStyleA,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMaPa};
+        \addlegendentry{M1-P1}
+        \addplot[color=customdarkblue,\myLineStyleB,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMaPb};
+        \addlegendentry{M1-P2}
+        \addplot[color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMaPc};
+        \addlegendentry{M1-P3}
+        \addplot[color=customcyan,\myLineStyleA,mark=triangle,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPa};
+        \addlegendentry{M2-P1}
+        \addplot[color=customcyan,\myLineStyleB,mark=triangle,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPb};
+        \addlegendentry{M2-P2}
+        \addplot[color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPc};
+        \addlegendentry{M2-P3}
+        \addplot[color=customorange,\myLineStyleA,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPa};
+        \addlegendentry{M3-P1}
+        \addplot[color=customorange,\myLineStyleB,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPb};
+        \addlegendentry{M3-P2}
+        \addplot[color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPc};
+        \addlegendentry{M3-P3}
+      \end{axis}
+    \end{tikzpicture}
+  }
+
+  \begin{subfigure}[c]{\textwidth}
+    \centering
+    \chartLinePlot{ksp-niter}{ylabel={Number of iterations}}
+    \caption{Number of iterations of GMRES}
+  \end{subfigure}
+  \begin{subfigure}[c]{\textwidth}
+    \centering
+    \chartLinePlot{algebraic-solve}{ylabel={Execution time [s]}}
+    \caption{Execution time}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - Performance measures of algebraic solver
+    (Mesh and polynomial order comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+  \label{fig:feelpp:wp3:thermal_bridges:performance_measure_all}
 \end{figure}
 
 
