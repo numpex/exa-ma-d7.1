@@ -39,7 +39,14 @@ None\\
 \subsection{Software Overview}
 \label{sec:WP5:Uranie:summary}
 
-In~\cref{tab:WP5:Uranie:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+Uranie platform is based on ROOT and has by consequence a lot of ROOT characteristics such as:
+\begin{itemize}
+    \item interactive C++ interpreter (Cling) based on LLVM and Clang 
+    \item Python interface (PyROOT)
+    \item SQL database access 
+\end{itemize}
+Uranie is organized in different modules, each devoted to a specific task in the Uncertainty Quantification (UQ) framework. 
+The modules devoted to optimization are listed in table \ref{tab:WP5:Uranie:features}  
 
 \begin{table}[h!]
     \centering
@@ -53,9 +60,9 @@ In~\cref{tab:WP5:Uranie:features} we provide a summary of the software features 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    "Iterative methods" & provide short description here \\
-\rowcolor{numpexlightergray}    "Metaheuristics" & provide short description here \\
-\rowcolor{white}    "robust optimisation" & provide short description here \\
+\rowcolor{white} Optimizer and Reoptimizer modules & The Optimizer and Reoptimizer libraries are dedicated to optimisation and model calibration. Model calibration consists in setting up the degrees of freedom of a model so that future simulations will optimally fit an experimental database. The optimisation is a complex procedure and several techniques are available to perform single-criterion or multi criteria one, with and without constraint. \\
+\rowcolor{numpexlightergray} Optimization with surrogate model module & The MetaModelOptim library is a library dedicated to optimisation techniques coupling the generation of surrogate models (in particular the kriging one) and the evolutionnary algorithms to get an EGO-like approach. \\ 
+\rowcolor{white} Calibration module & The Calibration library is more a dedicated module that is used to get the best estimations of some of the parameter of a specific model under consideration. This module provides different techniques relying on their own hypothesis on the model but all of these methods need data to perform this calibration.
 \end{tabular}
         }
     }
@@ -69,11 +76,18 @@ In~\cref{tab:WP5:Uranie:features} we provide a summary of the software features 
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item The parallel programming environment of URANIE leverages MPI, PTHREAD
+    and CUDA to exploit the full potential of parallel computing. 
+    On our platform, MPI is used to distribute simulations across different nodes,
+    ensuring efficient scalability and enabling the platform to handle complex, large-scale computations. It is mainly use for the launching of external code.
+    On the other hand, CUDA use GPU's capabilities in Artificial Neural Network of URANIE.
+    URANIE use also LibSSH for launching code on different cluster (in the module TLauncher).
+
+    \item The parallel computation environment of our platform is built on a HPC architecture designed to maximize computational power and efficiency
+    using both distributed and shared memory parallelism. URANIE is used on CEA/TGCC supercomputers such as IRESNE.
+
+    \item URANIE allows performing simulations in parallel for uncertainty quantification.
+    \item \textbf{Scalability:} The scalability is constant because each the software distributes the simulation. if we add resource, they are devoted to run new simulations.
 \end{itemize}
 
 
@@ -113,20 +127,12 @@ This section provides a summary of initial performance benchmarks performed in t
 \subsection{12-Month Roadmap}
 \label{sec:WP5:Uranie:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+Developments are currently being made to improve the Metropolis-Hastings Uranie-class and to add stochastic inversion algorithms based on Stochastic Expectation Maximization (SEM) or Stochastic Approximation of Expectation Maximization (SAEM). 
 
 In~\cref{tab:WP5:Uranie:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
     \centering
-    
-    
-
     \centering
     { 
         \setlength{\parindent}{0pt}

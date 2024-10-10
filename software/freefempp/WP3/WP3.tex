@@ -92,18 +92,18 @@ The benchmark consists in a FreeFEM script publicly available in the distributio
 
 \begin{itemize}
     \item \textbf{Overall Performance:} FreeFEM relies on high-performance solver libraries such as HPDDM and PETSc for the efficient solution of large-scale linear systems. State-of-the-art multilevel domain-decomposition solvers have been shown to be robust and scalable up to several thousand CPU cores (see Section~\cref{sec:WP3:HPDDM:software}). However, designing robust and efficient solvers for difficult physics, such as high-frequency wave propagation problems, remains an open challenge. FreeFEM is the ideal framework to try and tackle these open problems: it allows for a quick and easy description and set up of test cases involving various physics, and it is developed hand-in-hand with our research in scientific computing and parallel solvers. The FreeFEM/ffddm/HPDDM/PETSc ecosystem greatly facilitates the development of new methods, from research and prototyping all the way to HPC implementation.
-    \item \textbf{Input/Output Datasets:} Currently, the dataset for each benchmark consists in the FreeFEM script used to define and solve the corresponding problem. The scripts are open acces and available in the FreeFEM distribution.
+    \item \textbf{Input/Output Datasets:} Currently, the dataset for each benchmark consists in the FreeFEM script used to define and solve the corresponding problem. The scripts are open access and available in the FreeFEM distribution.
     \item \textbf{Challenges:}
         \begin{itemize}
         \item definition of the geometry of the problem: relying on the construction of a global mesh which is then partitioned into subdomains and distributed among MPI processes is impratical for large problems. This is discussed in more details in Section~\cref{sec:WP1:Freefem++:software}.
         \item for difficult physics such as high-frequency wave propagation, designing robust and efficient preconditioners is still an open challenge. In particular, in the context of multi-level domain decomposition methods, the construction of efficient coarse spaces of reasonable size can be challenging.
-        \item currently, the benchmark datasets consist only in the FreeFEM script generating and solving the problem. A discussion should be made to provide the (possibly very large) linear system to solve as a benchmark input, allowing to compare results with other solver libraries and software. The price is then the loss of information about the physics of the problem, effectively discarding non-algebraic solvers.
+        \item currently, the benchmark datasets consist only in the FreeFEM script generating and solving the problem. A discussion should be made to provide the (possibly very large) linear system to solve as a benchmark input, allowing to compare results with other solver libraries and software. The price is then the loss of information about the physics of the problem, effectively discarding non-algebraic solvers. Existing formats such as PETSc matrix export formats should be investigated.
         \end{itemize}
     \item \textbf{Future Improvements:}
         \begin{itemize}
-        \item TODO parallel mesh generation
-        \item TODO design robust coarse spaces for difficult physics
-        \item TODO think about input datasets for solver benchmarks 
+        \item construct the initial mesh in a distributed way; parallelize the mesh building primitives as well as mesh extrusion using \textit{buildlayers}.
+        \item continuing our research in domain decomposition methods, design efficient and robust coarse spaces for difficult problems such as high-frequency wave propagation.
+        \item come up with a standardized and efficient way of providing the linear system as input data for benchmarking.
         \end{itemize}
 \end{itemize}
 
@@ -124,7 +124,7 @@ The problem is discretized with lowest-order Nedelec edge finite elements. The u
 
 The benchmark consists in a FreeFEM script publicly available in the distribution and can be found at~\url{https://github.com/FreeFem/FreeFem-sources/blob/master/examples/hpddm/maxwell-mg-3d-PETSc-complex.edp}. The script outputs the number of iterations and computing time for a specific frequency $f$ that the user can specify as a command-line parameter. The performance can be evaluated through the PETSc output logs. The number of iterations of the Krylov solver, the FLOPS and the execution time are reported for increasing frequencies.\\
 
-The preconditioner used in this benchmark is a nested two-grid optimized overlapping Schwarz domain-decomposition preconditioner. The construction of the preconditioner is done using PETSc. A thorough description of the method can be found in \textcolor{red}{XXXX}. The mesh is partitioned using the automatic graph partitioner \textit{ParMETIS}. The GMRES relative tolerance is set to $10^{-5}$. Each subdomain is assigned to one MPI process. In the preconditioner, the inner relative tolerance of the nested coarse solve is set to $10^{-1}$.
+The preconditioner used in this benchmark is a nested two-grid optimized overlapping Schwarz domain-decomposition preconditioner. The construction of the preconditioner is done using PETSc. A thorough description of the method can be found in~\cite{bonazzoli_domain_2019}. The mesh is partitioned using the automatic graph partitioner \textit{ParMETIS}. The GMRES relative tolerance is set to $10^{-5}$. Each subdomain is assigned to one MPI process. In the preconditioner, the inner relative tolerance of the nested coarse solve is set to $10^{-1}$.
 
 \begin{table}[h!]
     \centering
@@ -166,12 +166,11 @@ The results can be summarized as follows:
 \subsection{12-Month Roadmap}
 \label{sec:WP3:Freefem++:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+See Section~\cref{sec:WP1:Freefem++:roadmap} for the plans regarding the definition of the initial geometry and mesh in a distributed setting for large scale problems.\\
+
+Currently, FreeFEM relies on a set of high-level macros written in the FreeFEM language that the user has to call for the initial mesh partitioning and decomposition. In combination with the point above concerning distributed mesh generation, we will define parallel data structures for handling distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential script to a parallel script in an almost completely transparent way and with minimal changes to the script, e.g. by only changing the type of the mesh variable from 'mesh' to 'Dmesh'.\\
+
+For now, FreeFEM benchmarks consist in FreeFEM scripts available in the distribution. In an effort to ensure reproducibility, we will unify all FreeFEM benchmarks in a separate repository with appropriate documentation and instructions to ensure long-term usability.\\
 
 In~\cref{tab:WP3:Freefem++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -191,10 +190,10 @@ In~\cref{tab:WP3:Freefem++:bottlenecks}, we briefly discuss the bottleneck roadm
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Improve initial parallel mesh generation and partitioning for standard primitives ; define internal distributed data structures for meshes and finite element spaces to further simplify the conversion from a sequential script to a parallel one.\\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Unify and document FreeFEM benchmarks in a separate repository. \\
+\rowcolor{white}    B6 - Data Management & Define/choose a standard matrix input format for solver benchmarks. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Design fast and robust domain-decomposition preconditioners based on efficient and reasonably-sized coarse spaces for difficult physics such as high-frequency wave propagation \\
 \end{tabular}
         }
     }

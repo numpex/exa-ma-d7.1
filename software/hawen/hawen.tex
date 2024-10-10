@@ -39,21 +39,36 @@ B7 - Exascale Algorithms\\
     \caption{Hawen Information}
 \end{table}
 
+% ---------------------------------------------
+\newcommand{\hawen}{\textsc{Hawen}}
 \subsection{Software summary}
 \label{sec:Hawen:summary}
-Detailed overview not available.
+% ---------------------------------------------
+
+Software \hawen~(\url{https://ffaucher.gitlab.io/hawen-website/})
+considers the time-harmonic modeling of mechanical waves, and the 
+associated quantitative inverse wave problems.
+The code uses the Hybridizable Discontinuous Galerkin method (HDG) 
+for the discretization. 
+It relies on nonlinear iterative minimization algorithm to solve 
+the quantitative inverse wave problem.
+The code is written in \texttt{Fortran90} and uses \texttt{mpi}
+and \texttt{OpenMP} parallelism.
 
 
 
 \subsection{Purpose}
 \label{sec:Hawen:purpose}
-Purpose not available.
+
+\hawen~solves large-scale inverse wave problems in the frequency domain, 
+with an emphasis on applications in the context of Earth's imaging and helioseismology.
+
 
 \subsection{Programming and Computational Environment}
 \label{sec::Hawen:environment_capabilities}
 
 
-The following table summarizes these aspects for Hawen, providing a  view of its programming and computational capabilities.
+The following \cref{table:hawen-environment} summarizes these aspects for \hawen, providing a  view of its programming and computational capabilities.
 
 \begin{table}[h!]
     \centering
@@ -66,16 +81,21 @@ The following table summarizes these aspects for Hawen, providing a  view of its
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
 Fortran\\
-\end{tabular} & Programming languages and language standards supported by the software \\
+\end{tabular} & 
+\hawen~is developed in Fortran90. \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 MPI\\
 Multithread\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
+\end{tabular} & \hawen relies onto MPI and multithreading for parallelism.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 Gmsh and associated formats\\
 VTK\\
-in-house format\\
-\end{tabular} & Data formats that the software can handle or produce.\\
+in-house binary format\\
+\end{tabular} & Data formats that the software can handle or produce.
+Gmsh format can be used for input mesh. 
+VTK or binary format can be used to save the results such as the 
+wave propagation solutions.
+\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 None\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
@@ -86,33 +106,122 @@ None\\
 None\\
 \end{tabular} & Software packaging and distribution.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
-None\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
+Analytic solutions\\
+\end{tabular} & Testing methodologies employed to ensure software quality and correctness:
+Analytic solutions for the propagation of acoustic and elastic waves, respectively 
+\cref{eq:hawen:viscoacoustic,eq:hawen:viscoelastic} exist and are compared 
+with the numerical resolutions. For instance we refer to \cite{pham_numerical_2024} for 
+the validation of the linear elasticity propagator.
+\\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
 None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
-MUMPS\\
-\end{tabular} & List of software Hawen has interfaces with.\\
+MUMPS\\ 
+\end{tabular} & List of software Hawen has interfaces with.
+        MUMPS is used to solve the linear system resulting from 
+        the numerical discretization. Metis is used to partition
+        the mesh. ARPACK and PARPACK are optional dependencies 
+        used for eigenproblems.\\
         \bottomrule
     \end{tabular}
     }}
     \caption{Hawen programming and computational environment}
+    \label{table:hawen-environment}
 \end{table}
 
 
 
 \subsection{Mathematics}
 \label{sec:Hawen:mathematics}
-Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+\paragraph{Forward problem} \hawen~allows for the modeling of time-harmonic
+mechanical waves for different types of media. 
+By using the HDG method for the discretization, we work with first-order systems.
+In the case of visco-acoustics wave propagation, the forward problem consists in
+finding the scalar pressure field $p$ and vector velocity field $\boldsymbol{v}$ 
+such that
+\begin{subequations}\label{eq:hawen:viscoacoustic}
+\begin{empheq}[left={\empheqlbrace}]{align}
+ &-\mathrm{i}\omega \rho \boldsymbol{v} \,+\, \nabla p \,=\, 0 \,, \\
+ &-\dfrac{\mathrm{i}\omega}{\kappa} p \,+\, \nabla\cdot\boldsymbol{v} \,=\, f \,,
+\end{empheq}\end{subequations}
+where $\omega$ is the angular frequency, and the medium is characterized
+by the density $\rho$ and the bulk modulus $\kappa$. The source term is 
+$f$. 
+We further refer to \cite{Faucher2020adjoint,Faucher2023viscoacoustic}
+for more details.
+The code allows for different types of boundary conditions, such as 
+imposing the Dirichlet trace, Neumann trace, or a Robin-type condition
+(e.g., for radiation condition).
+
+
+In the case of linear visco-elastic wave propagation, the forward problem consists in
+finding the displacement field $\boldsymbol{u}$ and stress tensor $\boldsymbol{\sigma}$ 
+solutions to, cf., e.g., \cite{pham_numerical_2024},
+\begin{subequations}\label{eq:hawen:viscoelastic}
+\begin{empheq}[left={\empheqlbrace}]{align}
+ &-\omega^2\rho\boldsymbol{u} \,-\, \nabla\cdot\boldsymbol{\sigma}\,=\,\boldsymbol{f} \,, \\
+ & \boldsymbol{\sigma} \,=\, \boldsymbol{C} \, \big(\nabla\boldsymbol{u} \,+\, (\nabla\boldsymbol{u})^t\big) \,.
+\end{empheq}\end{subequations}
+Here, the medium is characterized by the density 
+$\rho$ and the stiffness tensor $\boldsymbol{C}$,
+we refer to \cite{pham_numerical_2024}
+for more details related to HDG implementation.
+
+In the context of helioseismology, we consider the scalar-wave propagation 
+which comes from simplification of the Galbrun's equation, 
+cf.~\cite{Pham2020Siam,pham_assembling_2024}, in three dimensions, the 
+simplest form corresponds to finding $u$ solution to: 
+\begin{equation} \label{eq:hawen:helio-scalar}
+  \Big( \,-\nabla \,-\,\dfrac{\omega^2}{c^2} \,+\, q \Big) \, u \,=\, f\,,
+\end{equation}
+with potential $q$, sound-speed $c$ and source term $f$. 
+In addition, \hawen~solves the problem under the assumption of 
+spherical symmetry and we refer to \cite{Pham2020Siam} for more 
+details. 
+Several choices of radiation boundary conditions have been 
+implemented and tested, cf.~\cite{Pham2019radiationBC,Pham2020Siam}.
+Recently, more complete equations to model the Sun have 
+been implemented in \hawen, see \cite{pham_assembling_2024}.
+
+\paragraph{Inversion} 
+\hawen~solves the inverse problems for the reconstruction of the 
+model parameters from the measurements of waves. For instance, 
+considering the acoustic wave equation \cref{eq:hawen:viscoacoustic},
+it consists in finding the density $\rho$ and bulk modulus $\kappa$
+from the observations of the pressure $p$ and/or velocity field $\boldsymbol{v}$
+at a discrete set of positions.
+\hawen~employs a nonlinear iterative minimization algorithm for the 
+reconstruction of the properties, as illustrated in 
+\cite{faucher_hawen_2021,Faucher2019FRgWIGeo,Faucher2020DAS,Faucher2023viscoacoustic}.
+This approach is typically referred to as the \emph{Full Waveform Inversion}
+in the context of seismic imaging, cf. \cite{Virieux2009} for a review.
 
 
 \subsection{Relevant Publications}
 \label{sec:Hawen:publications}
 
 Here is a list of relevant publications related to the software:
+\begin{itemize}
+\item \cite{faucher_hawen_2021}: Reference of the software in the journal of open-source software;
+\item \cite{Faucher2020adjoint}:
+      Mathematical details of the adjoint-state method in the framework 
+      of Hybridizable Discontinuous Galerkin discretization method.
+      It provides the computational steps for the implementation of the 
+      inverse problem.
+\item \cite{pham_numerical_2024}: Details of the numerical implementation 
+      of the HDG method for anisotropic elasticity.
+\item \cite{Faucher2019FRgWIGeo,Faucher2020DAS}: 
+      Use of the software in the context of seismic imaging.
+\item \cite{Pham2020Siam,pham_assembling_2024}:
+      Use of the software in the context of helioseismology.
+\item \cite{Faucher2023viscoacoustic}: 
+      Use of the software in the context of viscoacoustics ultrasound imaging.
+\item \cite{Liu2024,Benitez2024}: 
+      Use of the software in the context of data science and
+      for benchmarks.
+\end{itemize}
 
 
 \subsection{Acknowledgements}
@@ -120,9 +229,18 @@ Here is a list of relevant publications related to the software:
 
 The software has been developed with the support of the following funding agencies and institutions: 
 
-
-
-
-Acknowledgements not available.
+\begin{itemize}
+  \item Since 2021, F. Faucher is part of the team Makutu of INRIA Bordeaux, at the 
+                    University of Pau and Pays de l'Adour.
+  \item 2024--2029, F. Faucher acknowledges support of the European Research Council 
+                    with ERC-StG Project INCORWAVE -- grant 101116288.
+  \item 2024--2027, \hawen~is used in the framework of the ANR-DFG project BUTTERFLY,
+                     grant number ANR-23-CE46-0009-01.
+  \item 2023--2024, \hawen~is used in the GENCI Grand Challenges 
+                    on the supercomputer Adastra’s GENOA partition 
+                    with project gda2306.
+  \item 2019--2021, F. Faucher acknowledges funding by the Austrian Science Fund (FWF) 
+        under the Lise Meitner grant allocation M2791-N.
+\end{itemize}
 
 
