@@ -1,5 +1,112 @@
 
 
+@article{parks_recycling_2006,
+	title = {Recycling {Krylov} {Subspaces} for {Sequences} of {Linear} {Systems}},
+	volume = {28},
+	issn = {1064-8275, 1095-7197},
+	url = {http://epubs.siam.org/doi/10.1137/040607277},
+	doi = {10.1137/040607277},
+	language = {en},
+	number = {5},
+	urldate = {2024-10-11},
+	journal = {SIAM Journal on Scientific Computing},
+	author = {Parks, Michael L. and De Sturler, Eric and Mackey, Greg and Johnson, Duane D. and Maiti, Spandan},
+	month = jan,
+	year = {2006},
+	pages = {1651--1674},
+}
+
+@article{robbe_exact_2006,
+	title = {Exact and inexact breakdowns in the block {GMRES} method},
+	volume = {419},
+	copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
+	issn = {00243795},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0024379506002230},
+	doi = {10.1016/j.laa.2006.04.018},
+	language = {en},
+	number = {1},
+	urldate = {2024-10-11},
+	journal = {Linear Algebra and its Applications},
+	author = {Robbé, Mickaël and Sadkane, Miloud},
+	month = nov,
+	year = {2006},
+	pages = {265--285},
+}
+
+@unpublished{saigre_coupled_2024_paper,
+	type = {In preparation},
+	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
+	abstract = {Understanding human eye behavior involves intricate interactions between physical phenomena such as heat transfer and fluid dynamics. Accurate computational models are vital for comprehending ocular diseases and therapeutic interventions.
+This work focuses on modeling and simulating aqueous humor flow in the anterior and posterior chambers of the eye, coupled with overall heat transfer.
+Aqueous humor dynamics regulates intraocular pressure, which is crucial for understanding conditions like glaucoma.
+Convective effects from temperature disparities also influence this flow.
+Extending prior research, this work develops a comprehensive three-dimensional computational model to simulate a coupled fluid-dynamic-heat transfer model, thus contributing to the understanding of ocular physiology.},
+	author = {Saigre, Thomas and Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela},
+}
+
+@inproceedings{jolivet_block_2016,
+	address = {Salt Lake City, Utah},
+	series = {{SC} '16},
+	title = {Block iterative methods and recycling for improved scalability of linear solvers},
+	isbn = {9781467388153},
+	abstract = {Contemporary large-scale Partial Differential Equation (PDE) simulations usually require the solution of large and sparse linear systems. Moreover, it is often needed to solve these linear systems with different or multiple Right-Hand Sides (RHSs). In this paper, various strategies will be presented to extend the scalability of existing multigrid or domain decomposition linear solvers using appropriate recycling strategies or block methods---i.e., by treating multiple right-hand sides simultaneously.The scalability of this work is assessed by performing simulations on up to 8,192 cores for solving linear systems arising from various physical phenomena modeled by Poisson's equation, the system of linear elasticity, or Maxwell's equation.This work is shipped as part of on open-source software, readily available and usable in any C/C++, Python, or Fortran code. In particular, some simulations are performed on top of a well-established library, PETSc, and it is shown how our approaches can be used to decrease time to solution down by 30\%.},
+	urldate = {2024-10-10},
+	booktitle = {Proceedings of the {International} {Conference} for {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {IEEE Press},
+	author = {Jolivet, Pierre and Tournier, Pierre-Henri},
+	month = nov,
+	year = {2016},
+	pages = {1--14},
+}
+
+@inproceedings{jolivet_scalable_2013,
+	address = {Denver Colorado},
+	title = {Scalable domain decomposition preconditioners for heterogeneous elliptic problems},
+	isbn = {9781450323789},
+	url = {https://dl.acm.org/doi/10.1145/2503210.2503212},
+	doi = {10.1145/2503210.2503212},
+	language = {en},
+	urldate = {2024-10-10},
+	booktitle = {Proceedings of the {International} {Conference} on {High} {Performance} {Computing}, {Networking}, {Storage} and {Analysis}},
+	publisher = {ACM},
+	author = {Jolivet, Pierre and Hecht, Frédéric and Nataf, Frédéric and Prud'homme, Christophe},
+	month = nov,
+	year = {2013},
+	pages = {1--11},
+}
+
+@article{jolivet_ksphpddm_2021,
+	title = {{KSPHPDDM} and {PCHPDDM}: {Extending} {PETSc} with advanced {Krylov} methods and robust multilevel overlapping {Schwarz} preconditioners},
+	volume = {84},
+	issn = {08981221},
+	shorttitle = {{KSPHPDDM} and {PCHPDDM}},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0898122121000055},
+	doi = {10.1016/j.camwa.2021.01.003},
+	language = {en},
+	urldate = {2024-10-10},
+	journal = {Computers \& Mathematics with Applications},
+	author = {Jolivet, Pierre and Roman, Jose E. and Zampini, Stefano},
+	month = feb,
+	year = {2021},
+	pages = {277--295},
+}
+
+@article{al_daas_multilevel_2021,
+	title = {A {Multilevel} {Schwarz} {Preconditioner} {Based} on a {Hierarchy} of {Robust} {Coarse} {Spaces}},
+	volume = {43},
+	issn = {1064-8275, 1095-7197},
+	url = {https://epubs.siam.org/doi/10.1137/19M1266964},
+	doi = {10.1137/19M1266964},
+	language = {en},
+	number = {3},
+	urldate = {2024-10-10},
+	journal = {SIAM Journal on Scientific Computing},
+	author = {Al Daas, Hussam and Grigori, Laura and Jolivet, Pierre and Tournier, Pierre-Henri},
+	month = jan,
+	year = {2021},
+	pages = {A1907--A1928},
+}
+
 @book{bernardi_mathematics_2024,
 	address = {Philadelphia, PA},
 	title = {Mathematics and {Finite} {Element} {Discretizations} of {Incompressible} {Navier}—{Stokes} {Flows}},
@@ -179,18 +286,6 @@
 	abstract = {This book is aimed at students and researchers who want to learn how to eﬃciently solve constrained optimization problems involving partial diﬀerential equations (PDE) using the FreeFEM software.},
 	urldate = {2024-10-09},
 	author = {Hecht, Frédéric and Lance, Gontran and Trélat, Emmanuel},
-	year = {2024},
-}
-
-@unpublished{saigre_coupled_2024_paper,
-	type = {In preparation},
-	title = {A coupled fluid-dynamics-heat transfer model for {3D} simulations of the aqueous humor flow in the human eye},
-	abstract = {Understanding human eye behavior involves intricate interactions between physical phenomena such as heat transfer and fluid dynamics. Accurate computational models are vital for comprehending ocular diseases and therapeutic interventions.
-This work focuses on modeling and simulating aqueous humor flow in the anterior and posterior chambers of the eye, coupled with overall heat transfer.
-Aqueous humor dynamics regulates intraocular pressure, which is crucial for understanding conditions like glaucoma.
-Convective effects from temperature disparities also influence this flow.
-Extending prior research, this work develops a comprehensive three-dimensional computational model to simulate a coupled fluid-dynamic-heat transfer model, thus contributing to the understanding of ocular physiology.},
-	author = {Saigre, Thomas and Chabannes, Vincent and Prud'Homme, Christophe and Szopos, Marcela},
 	year = {2024},
 }
 
@@ -988,6 +1083,21 @@ Full Changelog: https://github.com/feelpp/mesh.eye/compare/1.0.0-preview.1...v1.
 	year = {2020},
 	keywords = {multiphysics, shape optimisation},
 	pages = {90},
+}
+
+@article{feppon_shape_2019,
+	title = {Shape optimization of a coupled thermal fluid-structure problem in a level set mesh evolution framework},
+	volume = {76},
+	issn = {2254-3902},
+	doi = {10.1007/s40324-018-00185-4},
+	number = {3},
+	journal = {SeMA},
+	author = {Feppon, F. and Allaire, G. and Bordeu, F. and Cortial, J. and Dapogny, C.},
+	month = sep,
+	year = {2019},
+	note = {Publisher: Springer International Publishing},
+	keywords = {fsi, multiphysics, shape optimisation},
+	pages = {413--458},
 }
 
 @article{feppon_shape_2019,
