@@ -57,6 +57,7 @@ In~\cref{tab:WP3:Composyx:features} we provide a summary of the software feature
 \rowcolor{white}    "singular value decomposition (SVD) and eigenvalue solver" & Provide randomized EVD and SVD partial decomposition \\
 \rowcolor{numpexlightergray}    direct solver & provide interface to MUMPS, PaStiX and qr\_mumps \\
 \rowcolor{white}    krylov solver & provide interface to Fabulous that implement various subspace methods and their block-counterpart \\
+        \bottomrule
 \end{tabular}
         }
     }
@@ -70,8 +71,8 @@ In~\cref{tab:WP3:Composyx:features} we provide a summary of the software feature
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI+ threads and MPI+StarPU for heterogeneous manycores.
-    \item describe the parallel computation environment: distributed manycores
+    \item \textbf{Parallel Environment :} MPI+ threads and not fully assess MPI+StarPU for heterogeneous manycores.
+    \item \textbf{Computation environment :} Distributed manycores (GENCI platforms, BSC)
     %\item describe the parallel capabilities of the software
     \item \textbf{Scalability:} weak scalability on up-to $\approx$ 20~000 cores for the solution of a $\approx 10^9$ linear system. 
     \item \textbf{Integration with Other Systems:} No integration into other Exa-Ma software yet.
@@ -84,25 +85,20 @@ In~\cref{tab:WP3:Composyx:features} we provide a summary of the software feature
 This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} we do not have I/O as we generate at runtime the local matrices used for the  benchmark
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+    \item \textbf{Overall Performance:} weak scalability on up-to $\approx$ 20~000 cores for the solution of a $\approx 10^9$ linear system. 
+    \item \textbf{Input/Output Dataset:} not applicable.
+    \item \textbf{open-data Access:} Benchmark on matrix generator distributed on the gitlab of the package.
+%    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
     \item \textbf{Future Improvements:} perform more exhaustive experiments on heteroneous nodes, that is using the MPI+StarPU option.
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
+\subsubsection{Benchmark \#1: heterogeneous diffusion }
 \begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+    \item \textbf{Description:} Solution of a 3D heterogenous diffusion équations in a cube to enable a parallel generation of the benchmark.
+    \item \textbf{Benchmarking Tools Used:} Metrics are memory consumption and elapsed time to solution.
+    \item \textbf{Input/Output Dataset Description:} internal processing of the output to perform 
+    \item \textbf{Results Summary:} Speedups
+    \item \textbf{Challenges Identified:} scalability at extreme scale.
 \end{itemize}
 
 \subsection{12-Month Roadmap}
@@ -110,9 +106,9 @@ This section provides a summary of initial performance benchmarks performed in t
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+    \item \textbf{Data Improvements:} Use other matrix generator using some of the packages developped within Ex-Ma such as FreeFEM++ and/or Feel++.
     \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+    \item \textbf{Results Retention:} We will consider to publish  on the gitlab of the packages the performance results produced by the CI.
 \end{itemize}
 
 In~\cref{tab:WP3:Composyx:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
@@ -130,10 +126,10 @@ In~\cref{tab:WP3:Composyx:bottlenecks}, we briefly discuss the bottleneck roadma
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Guix-HPC \\
 \rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Guix-HPC \\
 \rowcolor{white}    B6 - Data Management & not applicable \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Tune CPU and GPU features - Possibly add numerical resiliency \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Tune CPU and GPU features - Possibly add numerical resiliency eventhough we still believe that the resilincy should be addressed in an hollistic fashion as advocated in~\cite{agullo_resiliency_2022}. \\
 \end{tabular}
         }
     }
