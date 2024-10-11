@@ -1,8 +1,6 @@
 \section{Software: Composyx}
 \label{sec:Composyx:software}
 
-
-
 \begin{table}[h!]
     \centering
     { \setlength{\parindent}{0pt}
@@ -41,13 +39,19 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:Composyx:summary}
-Detailed overview not available.
+Composyx (previously  Maphys++) is a linear algebra C++20 library focused on composability. Its purpose is to allow the user to express a large panel of algorithms using a high-level interface to range from laptop prototypes to many node supercomputer parallel computations.
+Currently it mostly implements domain decomposition methods as described in~\cite{agullo_robust_2019} using hybrid parallel implementation (MPI+Thread, MPI+StarPU) to address heterogeneous manycores.
 
-
+\begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{graphics/composyx/composyx-solverstack.png}
+        \caption{Composyx dependencies}
+        \label{fig:composyx}
+    \end{figure}
 
 \subsection{Purpose}
 \label{sec:Composyx:purpose}
-Purpose not available.
+Solution of large sparse linear systems using preconditioned subspace methods. For that purpose it relies on the Fabulous packages that implements various techniques including block variants for multiple right-hand sides~\cite{giraud_block_2022}
 
 \subsection{Programming and Computational Environment}
 \label{sec::Composyx:environment_capabilities}
@@ -106,18 +110,25 @@ qr\_mumps\\
 
 
 
-\subsection{Mathematics}
-\label{sec:Composyx:mathematics}
-Mathematics not available.
+%\subsection{Mathematics}
+%\label{sec:Composyx:mathematics}
+%Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+%In this section, provide a summary the mathematics used in the software.
 
 
 \subsection{Relevant Publications}
 \label{sec:Composyx:publications}
 
 Here is a list of relevant publications related to the software:
-
+\begin{description}
+        \item[\fullcite{agullo_robust_2019}]
+        The solution of large sparse linear systems is one of the most time consuming kernels in many numerical simulations. The domain decomposition community has developed many efficient and robust methods in the last decades. While many of these solvers fall into the abstract Schwarz (aS) framework, their robustness was originally demonstrated on a case-by-case basis. In this paper, we propose a bound for the condition number of all deflated aS methods provided that the coarse grid consists of the assembly of local components that contain the kernel of some local operators. We show that classical results from the literature on particular instances of aS methods can be retrieved from this bound. We then show that such a coarse grid correction can be explicitly obtained algebraically via generalized eigenproblems, leading to a condition number independent of the number of domains. This result can be readily applied to retrieve or improve the bounds previously obtained via generalized eigenproblems in the particular cases of Neumann-Neumann (NN), additive Schwarz (AS), and optimized Robin, but it also generalizes them when applied with approximate local solvers. Interestingly, the proposed methodology turns out to be a comparison of the considered particular aS method with generalized versions of both NN and AS for tackling the lower and upper part of the spectrum, respectively. We furthermore show that the application of the considered grid corrections in an additive fashion is robust in the AS case although it is not robust for aS methods in general. In particular, the proposed framework allows for ensuring the robustness of the AS method applied on the Schur complement, either with deflation or additively, and with the freedom of relying on an approximate local Schur complement. Numerical experiments illustrate these statements.
+    \item[\fullcite{agullo_soft_2020}]
+    The conjugate gradient (CG) method is the most widely used iterative scheme for the solution of large sparse systems of linear equations when the matrix is symmetric positive definite. Although more than 60 years old, it is still a serious candidate for extreme-scale computations on large computing platforms. On the technological side, the continuous shrinking of transistor geometry and the increasing complexity of these devices affect dramatically their sensitivity to natural radiation and thus diminish their reliability. One of the most common effects produced by natural radiation is the single event upset which consists in a bit-flip in a memory cell producing unexpected results at the application level. Consequently, future extreme-scale computing facilities will be more prone to errors of any kind, including bit-flips, during their calculations. These numerical and technological observations are the main motivations for this work, where we first investigate through extensive numerical experiments the sensitivity of CG to bit-flips in its main computationally intensive kernels, namely the matrix-vector product and the preconditioner application. We further propose numerical criteria to detect the occurrence of such soft errors and assess their robustness through extensive numerical experiments.
+    \item[\fullcite{giraud_block_2022}]
+        We are concerned with the iterative solution of linear systems with multiple right-hand sides available one group after another with possibly slowly varying left-hand sides. For such sequences of linear systems, we first develop a new block minimum norm residual approach that combines two main ingredients. The first component exploits ideas from GCRO-DR~\cite{parks_recycling_2006}, enabling us to recycle information from one solve to the next. The second component is the numerical mechanism for managing the partial convergence of the right-hand sides, referred to as inexact breakdown detection in IB-BGMRES~\cite{robbe_exact_2006}, that enables the monitoring of the rank deficiency in the residual space basis expanded blockwise. Next, for the class of block minimum norm residual approaches that relies on a block Arnoldi-like equality between the search space and the residual space (e.g., any block GMRES or block GCRO variants), we introduce new search space expansion policies defined on novel criteria to detect the partial convergence. These novel detection criteria are tuned to the selected stopping criterion and targeted convergence threshold to best cope with the selected normwise backward error stopping criterion, enabling us to monitor the computational effort while ensuring the final accuracy of each individual solution. Numerical experiments are reported to illustrate the numerical and computational features of both the new block Krylov solvers and the new search space block expansion polices.
+\end{description}
 
 \subsection{Acknowledgements}
 \label{sec::Composyx:acknowledgements}

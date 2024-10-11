@@ -1,5 +1,5 @@
 %!TEX root = ../../../exa-ma-d7.1.tex
-\section{Software: \texorpdfstring{\Feelpp}{\Feelpp}}
+\section{Software: \texorpdfstring{\Feelpp}{Feel++}}
 \label{sec:WP5:Feelpp:software}
 
 \begin{table}[!ht]
@@ -64,9 +64,9 @@ In~\cref{tab:WP5:Feelpp:features} we provide a summary of the software features 
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
 \rowcolor{white}    Iterative methods: Shape Optimization & Iterative methods for shape optimization based on the work \cite{feppon_f_null_2020} have been implemented in \url{https://github.com/feelpp/feelpp-shapo} using \Feelpp toolboxes.\\
 \end{tabular}
         }
@@ -78,16 +78,9 @@ In~\cref{tab:WP5:Feelpp:features} we provide a summary of the software features 
 
 \subsection{Parallel Capabilities}
 \label{sec:WP5:Feelpp:performances}
-
-
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
-
+ 
+The parallel properties are detailed in~\cref{sec:WP1:Feelpp:performances} since almost all the procedure depend on \Feelpp. 
+However the mesh adaptation depend on MMG/ParMMG.
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP5:Feelpp:metrics}
@@ -96,55 +89,25 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \begin{itemize}
     \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+    \item \textbf{Input/Output Dataset:} a json file containing the description of the shape optimization problem and a json and partition mesh file for each toolbox used in the optimization problem.
+    \item \textbf{open-data Access:} the dataset is available at \url{https://github.com/feelpp/feelpp-shapo}
+    \item \textbf{Challenges:} Robust scalable solution strategies for the different steps of the shape optimization problem. I/O and memory management are also critical.
+    \item \textbf{Future Improvements:} Implement more efficient solution strategies for the shape optimization problem. Optimize I/O and memory management for large-scale simulations.
 \end{itemize}
 
 \subsubsection{Benchmark \#1 - Shape Optimization under Stokes Flow}
 
-\paragraph{Description:} In \cite{palazzolo2023shape}, geometric shape optimization has been performed by using the Cea's method to compute the shape gradient \cite{cea_conception_1986}. The study employs iterative methods such as gradient descent and null-space methods \cite{feppon_f_null_2020}. The benchmark focuses on optimizing the shape of 2D and 3D objects under Stokes flow using these methods. Notably, in the 2D case, the optimized shape resembles a rugby ball \cite{pironneau_optimum_1974}.
+\paragraph{Description:} In \cite{palazzolo2023shape}, geometric shape optimization has been performed by using the Cea's method to compute the shape gradient \cite{cea_conception_1986}. The study employs iterative methods such as gradient descent and null-space methods \cite{feppon_f_null_2020}. The benchmark focuses on optimizing the shape of 2D and 3D objects under Stokes flow using these methods. Notably, in the 2D case, the optimized shape resembles a rugby ball \cite{pironneau_optimum_1974}. We use this testcase as we have a criteria for the reference solution for the shape optimization problem. We will investigate other problems in the future.
 
 \paragraph{Benchmarking Tools Used:} The optimization problems are tackled using various \Feelpp toolboxes designed for solving the associated PDEs of the primal, adjoint, and extension problems.
 
-\paragraph{Input/Output Dataset Description:}
-\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-
-\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-
-\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-
-\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-
-\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-
-
-% \begin{itemize}
-%     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-%     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-%     \item \textbf{Input/Output Dataset Description:}
-%         \begin{itemize}
-%             \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-%             \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-%             \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-%         \end{itemize}
-%     \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-%     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-% \end{itemize}
 
 \subsection{12-Month Roadmap}
 \label{sec:WP5:Feelpp:roadmap}
 
 In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{description}
-    \item[Data Improvements] Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+    \item[Data Improvements] Proceed the same way as \cref{sec:WP1:Feelpp:metrics} to improve the dataset management.
     \item[Methodology Application] Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
     \item[Results Retention] Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 \end{description}
@@ -167,12 +130,12 @@ In~\cref{tab:WP5:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & provide short description here \\
-\rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Enable Shape Optimization Benchmarking \\
+\rowcolor{white}    B10 - Scientific Productivity & Same as~\cref{sec:WP1:Feelpp:roadmap}\\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Same as~\cref{sec:WP1:Feelpp:roadmap} \\
+\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & Same as~\cref{sec:WP1:Feelpp:roadmap}; reduce I/O load and enable checkpoint restart strategies \\
+\rowcolor{numpexlightergray}    B2 - Interconnect Technology & Same as~\cref{sec:WP1:Feelpp:roadmap} \\
+\rowcolor{white}    B6 - Data Management & Same as~\cref{sec:WP1:Feelpp:roadmap}  \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Enable efficient Shape Optimization Benchmarking; define new benchmark with reference solutions; work on multiphysic shape optimisation; \\
 \end{tabular}
         }
     }

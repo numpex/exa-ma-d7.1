@@ -43,7 +43,7 @@ B7 - Exascale Algorithms\\
     Vincent Chabannes (UNISTRA)\\
     Thomas Saigre (UNISTRA)\\
 \end{tabular}\\
-        \bottomrule
+        \hline
     \end{tabular}
     }}
     \caption{WP2: \Feelpp Information}
@@ -107,16 +107,26 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \subsubsection{Benchmark \#1: Heat transfer in the eye using \ac{RB} and \ac{NIRB}}
 
-\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors.
+\paragraph{Description:} \cite{saigre_model_2024} presents a 3D mathematical model to simulate heat transfer in the human eye, addressing the challenges of experimental analysis. A sensitivity analysis explores the effects of various parameters on heat distribution in ocular tissues. To improve computational efficiency, we applied a fast model reduction technique with certified error bounds using the \ac{CRB}~\cite{prudhomme_reliable_2002}. Our results align with experimental and numerical findings, highlighting the importance of blood flow and environmental factors.
 
-In~\cite{saigre_mathematical_2024}, we extend the reduced order model to include non-intrusive reduced basis methods~\textbf{cite ?}. The benchmark assesses the software's performance in simulating heat transfer in the eye using these two methods.
+In~\cite{saigre_mathematical_2024}, we extend the reduced order model to include non-intrusive reduced basis methods~\cite{CRMATH_2009__347_7-8_435_0}.
 This second methods consists in solving the high fidelity model on a coarse mesh and use interpolation and a reduced basis to obtain an approximation of the solution on a fine mesh.
 A rectification post-process is applied to the reduced solution to improve the accuracy of the reduced solution.
 
-\paragraph{Benchmarking Tools Used:} We used \Feelpp to monitor the time spent in the various section of the code, including the reduced basis generation and the non-intrusive reduced basis method. To assess the software's performance, we measured the following quantities:
+The benchmark assesses the software's performance in simulating heat transfer in the eye using these two methods.
+
+\paragraph{Benchmarking Tools Used:} We used \Feelpp to monitor the time spent in the various section of the code, including the reduced basis generation and the non-intrusive reduced basis method. To assess the \ac{RB} method performance, we measured the following quantities:
 \begin{inparaenum}[\it (i)]
-    \item the time to compute the high fidelity solution $T^\text{fem}(\mu)$,
-    \item the time to perform the online stage of the RBM, \emph{i.e.} to compute the reduced solution $T^{\text{rbm}, N}(\mu)$ and associated the error bound $\Delta_N(\mu)$,
+    \item the time to compute the high fidelity solution $T^\text{fem}(\mu)$, and
+    \item the time to perform the online stage of the RBM, \emph{i.e.} to compute the reduced solution $T^{\text{rbm}, N}(\mu)$ and associated the error bound $\Delta_N(\mu)$.
+\end{inparaenum}
+
+Then, for the \ac{NIRB} method, we measured the time to measured the following quantities:
+\begin{inparaenum}[\it (i)]
+    \item The fine snapshots $T_h^\mathcal{N}$, \emph{i.e.} the high-fidelity solution,
+    \item the coarse snapshots $T_H^\mathcal{N}$, \emph{i.e.} a high-fidelity solution on the coarse mesh,
+    \item the NIRB approximation without the rectification post-process $T_{Hh}^{N,\text{NoRect}}$, and
+    \item the NIRB approximation with the rectification post-process $T_{Hh}^{N,\text{Rect}}$. This last quantity is the final reduced solution.
 \end{inparaenum}
 
 \paragraph{Input/Output Dataset Description}
@@ -139,13 +149,6 @@ Importantly, this efficiency does not compromise accuracy; the results from the 
 More detailed insights abouth these results are available in \cite{saigre_model_2024}.
 
 We present in \Cref{tab:feelpp:wp2:eye:nirb} the time of execution and associated speedup to run the NIRB method the bioheat transfer problem in the eye using $P_2$ discretization.
-The time of execution is measured for various elements:
-\begin{inparaenum}[\it (i)]
-    \item The fine snapshots $T_h^\mathcal{N}$, \emph{i.e.} the high-fidelity solution,
-    \item the coarse snapshots $T_H^\mathcal{N}$, \emph{i.e.} a high-fidelity solution on the coarse mesh,
-    \item the NIRB approximation without the rectification post-process $T_{Hh}^{N,\text{NoRect}}$, and
-    \item the NIRB approximation with the rectification post-process $T_{Hh}^{N,\text{Rect}}$. This last element is the final reduced solution.
-\end{inparaenum}
 %
 The gain of this second method is less significant than the RBM method, but it is still a significant improvement in terms of computational time.
 We remark that the problem scales well with the number of processors, as evidenced by the speedup obtained for the quantites computed.
