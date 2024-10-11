@@ -204,6 +204,28 @@ finite element method based on continuous Lagrange Finite Element of order 1,2
 and 3 (denoted by $P_1$,$P_2$,$P_3$). And we analyzed the execution time of the
 main components of the simulation.
 
+The \Cref{fig:wp1:feelpp:thermal_bridges:visualization} illustrate the geometry
+used, the 3D temperature field solution, and an example of mesh partitioning.
+
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - temperature solution (left) and
+    partitioning example (right)}
+  \label{fig:wp1:feelpp:thermal_bridges:visualization}
+\end{figure}
+
+
+
 \paragraph{Benchmarking Tools Used}
 
 The benchmark was performed on the \textbf{Discoverer} supercomputer (see
@@ -229,7 +251,7 @@ The metrics measured are the execution time of the main components of the simula
   \begin{itemize}
   \item Meshes: We have generated three levels of mesh called M1, M2
     and M3. These meshes are stored in GMSH format. The statistics can be found in
-    \Cref{tab:wp3:feelpp:thermal_bridges:discr_stat}. We have also prepared for
+    \Cref{tab:wp1:feelpp:thermal_bridges:discr_stat}. We have also prepared for
     each mesh level a collection of partitioned mesh.
     The format used is an in-house mesh format of \Feelpp based on
     JSON+HDF5 file type.
@@ -261,9 +283,9 @@ The metrics measured are the execution time of the main components of the simula
         \hline
       \end{tabular}
     }}
-  \caption{Statistics on meshes and number of degrees of freedom with respect
-    to finite element approximation for the thermal bridges benchmark}
-  \label{tab:wp3:feelpp:thermal_bridges:discr_stat}
+  \caption{Thermal bridges benchmarks - Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation}
+  \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
 \end{table}
 
 

@@ -121,13 +121,17 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
-\subsubsection{Benchmark \#2: Heat flows and temperature surfaces}
+\subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
 \label{sec:WP3:Feelpp:benchmark:thermal_bridges}
-
-%\fullcite{noauthor_iso_2017}
 \paragraph{Description:} % Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
+The benchmark description can be found in
+\Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}.
 
+The goal of this benchmark in WP3 is to analyze the scalability performance of a linear solver
+available in \Feelpp, which is a wrapper of Petsc solver.
+In this benchmark, we use a GMRES solver preconditioned by an algebraic
+multigrid called GAMG. This kind of preconditioner is generally well adapted to
+elliptic PDE.
 
 
 \paragraph{Benchmarking Tools Used:} %List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
@@ -136,8 +140,25 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 \paragraph{Input/Output Dataset Description:}
 See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 
-\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+\paragraph{Results Summary:}% Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
+The metrics computed in this experiment are the time execution of the linear solver and the number of iterations of the GMRES algorithm.
+The \Cref{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+illustrate the results obtained. In each subfigure, we can see the impact of the
+mesh level for a finite element approximation. We have also \Cref{fig:feelpp:wp3:thermal_bridges:performance_measure_all}
+which present all results in the same charts. It allows us to see the impact of
+mesh and finite element choice.
+
+The speed-up is not very good (or ideal), particularly for the coarse mesh. The
+reasons are not yet well understood because we can see that the number of
+iterations is quite constant with respect to the number of CPU cores. We need to
+investigate more in detail what happened. At the number of iteration levels, the
+results are good, with excellent constant behavior with respect to the number of
+CPU cores. We can see also the impact of the mesh level and finite element
+approximation order. As expected, the number of iterations increases with the
+number of degrees of freedom but not too much. However, we can notice in the
+case $P_1$ that the mesh M1 takes more iteration than the other. Maybe some
+phenomena are not well captured with this approximation which is the coarsen.
 
 
 
@@ -268,7 +289,12 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 \end{figure}
 
 
-\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\paragraph{Challenges Identified:} %Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+
+\begin{itemize}
+\item Improve the HPC scalability at large/extreme scale.
+\item Reduce the memory
+\end{itemize}
 
 \subsubsection{Benchmark \#3: CFD FDA Benchmark}
 
