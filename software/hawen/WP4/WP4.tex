@@ -67,13 +67,24 @@ In~\cref{tab:WP4:Hawen:features} we provide a summary of the software features r
 \label{sec:WP4:Hawen:performances}
 
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+\hawen~uses MPI and OpenMP parallelism. The HDG method is particularly 
+appropriate for parallelism (as other methods in the DG family), such 
+that each cell of the mesh can be treated independently in parallel. 
+\hawen~has been used on several supercomputers, including GENCI Adastra
+with Genoa partition for CPUs parallelism.
+\hawen~is linked with MUMPS library, which is a multifrontal direct solver 
+for sparse linear systems. 
+MUMPS allows to solve for multiple right-hand side, hence reducing the 
+computational cost of having many sources in the acquisition during 
+inversion.
+
+%\begin{itemize}
+%    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
+%    \item describe the parallel computation environment: type of architecture and super computer used.
+%    \item describe the parallel capabilities of the software
+%    \item \textbf{Scalability:} Describe the general scalability properties of the software
+%    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+%\end{itemize}
 
 
 \subsection{Initial Performance Metrics}
