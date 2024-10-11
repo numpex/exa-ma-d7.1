@@ -40,6 +40,20 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP4:Hawen:summary}
 
+\hawen~solves quantitative inverse wave problem by following 
+and iterative minimization approach, \cite{Faucher2020adjoint,faucher_hawen_2021}.
+The sketch of the iterative procedure is depicted 
+in \cref{figure:hawen:wp4:inversion}, and is typically a 
+Newton-type nonlinear optimization approach, \cite{Virieux2009}.
+This procedure heavily relies onto numerical simulations of 
+wave propagation, which are compared with the data at each 
+iteration. Therefore, an efficient modeling solver is required,
+it is investigated in WP1 for \hawen, \cref{sec:WP1:Hawen:software}.
+In addition, investigation regarding the choices of the acquisition
+(to limit the number of sources to use) and the on efficient criterion
+to evaluate the discrepancy between the data and the simulations 
+are necessary to reduce the computational cost.
+
 In~\cref{tab:WP4:Hawen:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{figure}[ht!]\centering
