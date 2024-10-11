@@ -40,6 +40,19 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP3:Hawen:summary}
 
+By considering time-harmonic wave problem, the discretization in 
+\hawen~results in a large sparse linear system to solve. In this
+we investigate the efficient resolution of the linear system arising
+from the discretization of wave problems. In particular, \hawen~currently
+relies on direct solver MUMPS for the resolution of the linear system.
+MUMPS is a direct solver which uses LU factorization, the main advantage
+is to enable the resolution for multiple right-hand sides, which a 
+necessity in the context of inversion where several sources have to 
+be simulated (e.g., possibly several thousands in Earth imaging). 
+In addition, the matrix factorization can be reused in some operations
+of inversion, typically for the gradient computation.
+
+
 In~\cref{tab:WP3:Hawen:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
