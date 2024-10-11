@@ -120,45 +120,106 @@ inversion.
 \subsection{Initial Performance Metrics}
 \label{sec:WP4:Hawen:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP4. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+The performance of inversion can be evaluated with different
+criteria. 
+It typically is a compromise between the accuracy (resolution) 
+of the final reconstruction and the computational cost required
+to reach it. 
+The number of iterations and complexity of the computations involved 
+at each of them is also a criterion for numerical efficiency.
+We also wish to investigate target-oriented inversion, to reconstruct
+some part of the model without having to simulate everything, hence
+reducing the computational cost.
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+
+%This section provides a summary of initial performance benchmarks performed in the context of WP4. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+%
+%\begin{itemize}
+%    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+%    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+%        \begin{itemize}
+%            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+%            \item Output dataset format and key results.
+%            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+%            \item DOI or permanent link for accessing the dataset.
+%        \end{itemize}
+%    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+%    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+%    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+%\end{itemize}
+
+\subsubsection{Benchmark \#1: Visco-acoustic time-harmonic wave propagation}
+\label{subsec:WP4:Hawen:benchmark1}
+
+
+\paragraph{Description}
+The configuration for the inversion investigated in this benchmark
+is based upon the related benchmarks of \hawen~of WP1 and WP3, 
+respectively \cref{subsec:WP1:Hawen:benchmark1,subsec:WP3:Hawen:benchmark1}.
+Here we use the acoustic case, and our target model is the one 
+given in \cref{figure:hawen:seam-model}.
+For the reconstruction, we will take a smooth representation of the 
+model, and vary the degree of smoothness to make the reconstruction 
+harder. 
+
+\paragraph{Input/Output Dataset Description}
+The input data for inversion consist in the recording 
+of waves near the boundary for different position of 
+sources, as illustrated in the panel a) 
+of \cref{figure:hawen:wp4:inversion}. We will use 
+synthetically generated wave, and add noise to our data-set. 
+In addition, we can provide different acquisition setup, 
+i.e., varying the number of sources and number of data-points.
+
+
+\paragraph{Results Summary}
+The accuracy of the reconstruction will be evaluated depending
+on the number of iterations required. We will also try to use 
+target-oriented inversion to limit the computational cost by 
+only inverting part of the domain. 
+In this case some well-designed discrepancy criterion can be 
+employed to fully use the data-set, cf. our previous works in
+\cite{Faucher2019FRgWIGeo,Faucher2020DAS}.
+
+%\begin{itemize}
+%    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+%    \item \textbf{Input/Output Dataset Description:}
+%        \begin{itemize}
+%            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%        \end{itemize}
+%    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+%\end{itemize}
+
+
+\subsubsection{Benchmark \#2: Visco-elastic time-harmonic wave propagation}
+\label{subsec:WP4:Hawen:benchmark2}
+
+This benchmark will be similar to the above but considering elastic medium,
+hence drastically increasing the computational cost. For inversion and 
+additional difficulty lies in that more model parameters need to be reconstructed,
+hence increasing the uncertainties and difficulties.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP4:Hawen:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+We wish to combine the results of WP1 and WP3 
+\cref{sec:WP1:Hawen:software,sec:WP3:Hawen:software} 
+to obtain the most efficient configuration for inversion.
+Once the numerical setup is designed, everything will be 
+made available on a dedicated repository for reproducibility.
+
+
+%In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+%\begin{itemize}
+%    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+%    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+%    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+%\end{itemize}
 
 In~\cref{tab:WP4:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
