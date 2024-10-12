@@ -199,7 +199,7 @@ bridges simulation are accurately computed. It provides reference values (and to
 temperature and heat flux at several location of the geometry.
 
 At the mathematical level, this application requires finding the numerical
-solution of an elliptic linear equation (i.e. the heat equation). We employ a
+solution of an elliptic linear PDE (i.e. the heat equation). We employ a
 finite element method based on continuous Lagrange Finite Element of order 1,2
 and 3 (denoted by $P_1$,$P_2$,$P_3$). And we analyzed the execution time of the
 main components of the simulation.
@@ -232,14 +232,14 @@ The benchmark was performed on the \textbf{Discoverer} supercomputer (see
 \Cref{sec:arch:eurohpc-ju}).
 The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
 the execution time.
-Moreover, we need to note that we have used here Apptainer with \Feelpp sif image based on Ubuntu noble os.
+Moreover, we need to note that we have used here Apptainer with \Feelpp SIF image based on Ubuntu noble OS.
 
 The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
 \begin{itemize}
-\item \textbf{Init}:  load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
+\item \textbf{Init}: load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
 \item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
 \item \textbf{Solve}: the linear system by using a preconditioned gmres
-\item \textbf{PostProcess}: compute validation measure (temperature at points and
+\item \textbf{PostProcess}: compute validation measures (temperature at points and
   heat flux) and export on the filesystem a visualization format (EnsighGold) of
   the solution.
 \end{itemize}
@@ -303,7 +303,7 @@ Firstly, we can see clearly that the Solve part is the most time-consuming. See
 comments in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
 Concerning the mesh M1, considered a coarse mesh, we note that the
 scalability scaling is not good, especially for low order. This is simply because the problem is too small for so many HPC resources. MPI
-Communication an IO effect is non-negligible.
+communications an IO effects are non-negligible.
 For the mesh M2, results are better (but not ideal) up to around one thousand processing cores.
 Finally, the fined mesh M3, illustrates the best scalability on this range of
 number of tasks. Except for the solve part, we can see an efficiency of increased
@@ -419,6 +419,106 @@ more accurately in a next campaign of these benchmarking test.
   \end{figure}
 
 }
+
+
+
+
+% columns/FunctionSpace/.style={string type},
+\begin{figure}
+  \centering
+  \captionsetup[subfigure]{justification=centering}
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/measures_all.csv}\dataTableMeasures
+  \def\myLineWidth{2pt}
+  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+  \def\myLineStyleB{dashed}
+  \def\myLineStyleC{solid}
+
+  \def\myAddPlot#1#2#3#4{
+    \addplot[#3,every mark/.append style={solid},
+    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+    x filter/.code={
+      \pgfmathparse{\thisrow{PolyOrder}==#2}
+      \ifnum0=\pgfmathresult
+      \pgfmathsetmacro{\newx}{nan}
+    \else
+      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+    \fi
+    \pgfmathparse{\newx}
+  },
+  y filter/.expression={ #4*\pgfmathresult }
+  ] table [x=Mesh, y=#1] {\dataTableMeasures};
+  }
+
+  \def\myPlotOutputMeasures#1#2#3#4{
+      \resizebox{\textwidth}{0.6172\textwidth}{
+    \begin{tikzpicture}
+    \begin{axis}[
+      %width=\textwidth, height=1.2\textheight,
+      xtick=data,
+      xticklabel={M$\pgfmathprintnumber{\tick}$},
+      xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+      ymajorgrids=true, yminorgrids=true,
+      minor y tick num=2,
+      % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+      %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+      xlabel={Mesh levels}, ylabel={#4},
+      % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+      %legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+      %columns=3},
+      legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
+      %#2
+      ]
+
+      \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+      \addlegendentry{P1}
+      \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+      \addlegendentry{P2}
+      \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+      \addlegendentry{P3}
+      \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+        (1,#3) (3,#3)
+      };
+      \addlegendentry{Ref}
+
+    \end{axis}
+  \end{tikzpicture}
+      }
+
+}
+
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \myPlotOutputMeasures{Normal_Heat_Flux_alpha}{1}{46.09}{Heat flow [W]}
+    \caption{Heat flow measured in $\alpha$ environment}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
+    \caption{Heat flow measured in $\alpha$ environment}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \vspace*{0.03\textheight}
+    \myPlotOutputMeasures{Normal_Heat_Flux_gamma}{-1}{59.98}{Heat flow [W]} % warning inverse
+    \caption{Heat flow measured in $\gamma$ environment}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \vspace*{0.03\textheight}
+    \myPlotOutputMeasures{Statistics_temperature_alpha_min}{1}{11.32}{Temperature
+      [°C]}
+    \caption{Surface temperature min in $\alpha$ environment}
+  \end{subfigure}
+
+  \caption{Thermal bridges benchmarks - Convergence of validation measures compared to references values}
+    \label{fig:feelpp:wp1:thermal_bridges:measures_convergences}
+\end{figure}
 
 
 
