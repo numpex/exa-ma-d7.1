@@ -753,7 +753,7 @@ Thermo Electric coupling in a complex geometry.
         \hline
       \end{tabular}
     }}
-  \caption{NAFEMS le10 benchmark - Statistics on meshes and number of degrees of freedom with respect
+  \caption{HL-31 benchmark - Statistics on meshes and number of degrees of freedom with respect
     to finite element approximation}
   \label{tab:wp1:feelpp:nafems-le10:discr_stat}
 \end{table}
@@ -762,11 +762,13 @@ Thermo Electric coupling in a complex geometry.
 
 
 
+\foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer} {
 
-\foreach [expand list=true] \meshId in {1} {
+  \def\meshId{1}
+%\foreach [expand list=true] \meshId in {1} {
 
-  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P1_gaya.csv}\dataPa
-  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P2_gaya.csv}\dataPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P1_\supercomputerFile.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P2_\supercomputerFile.csv}\dataPb
 
   \begin{figure}
     \centering
@@ -779,12 +781,14 @@ Thermo Electric coupling in a complex geometry.
     \def\chartBarPlot##1##2{
       \barChart[ybar,
       xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=45 },
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
     }
     \def\chartBarStackedPlot##1##2{
       \barChart[ybar stacked,
       xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=45 },
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
     }
@@ -813,12 +817,12 @@ Thermo Electric coupling in a complex geometry.
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \caption{HL-31 benchmarks - Execution time of main simulation components
-      - Gaya supercomputer}
+      - \supercomputerName \  supercomputer}
     \label{fig:feelpp:wp1:hl-31:performance_times_M\meshId}
   \end{figure}
 
+%}
 }
-
 
 
 
