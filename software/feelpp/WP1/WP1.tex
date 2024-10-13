@@ -554,21 +554,28 @@ installations, like Spack.
 
 \paragraph{Description}
 
-\begin{figure}[h]
-  \centering
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
-  \end{subfigure}
-  \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-    von Mises yield criterion (right)}
-  \label{fig:wp1:feelpp:nafems-le10:visualization}
-\end{figure}
+% \begin{figure}[h]
+%   \centering
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
+%   \end{subfigure}
+%   \hfill
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
+%   \end{subfigure}
+%   \hfill
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png.png}
+%   \end{subfigure}
+
+  
+%   \caption{NAFEMS LE10 benchmark - displacement solution (left) and
+%     von Mises yield criterion (right)}
+%   \label{fig:wp1:feelpp:nafems-le10:visualization}
+% \end{figure}
 
 \paragraph{Benchmarking Tools Used}
 
@@ -598,9 +605,31 @@ installations, like Spack.
 \paragraph{Results Summary}
 
 
-
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png}
+  \end{subfigure}
+  \hfill
+%   \caption{NAFEMS LE10 benchmark - displacement solution (left) and
+%     von Mises yield criterion (right)}
+%   \label{fig:wp1:feelpp:nafems-le10:visualization}
+% \end{figure}
 % columns/FunctionSpace/.style={string type},
-\begin{figure}
+%  \begin{figure}
+  \begin{subfigure}[c]{0.49\textwidth}
+
   \centering
   \captionsetup[subfigure]{justification=centering}
 
@@ -644,7 +673,7 @@ installations, like Spack.
       % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
       %legend style={at={(0.,1)}, anchor=north west,font=\small,legend
       %columns=3},
-      legend style={at={(1.,1)}, anchor=north east,font=\small,legend columns=4},
+      legend style={at={(1.,1)}, anchor=south east,font=\small,legend columns=4},
       %#2
       ]
 
@@ -670,8 +699,14 @@ installations, like Spack.
 \caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
 \label{fig:feelpp:wp1:nafems-le10:measures_convergences}
 
-\end{figure}
+% \end{figure}
+\end{subfigure}
+  
 
+  \caption{NAFEMS LE10 benchmark - displacement solution (left) and
+    von Mises yield criterion (right)}
+  \label{fig:wp1:feelpp:nafems-le10:visualization}
+\end{figure}
 
 
 
