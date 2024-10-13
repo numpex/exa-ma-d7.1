@@ -490,7 +490,62 @@ phenomena are not well captured with this approximation which is the coarsen.
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
 
-\subsubsection{Benchmark \#3: CFD FDA Benchmark}
+\subsubsection{Benchmark \#3: Thermo-Electric Coupling}
+
+\begin{figure}
+  \centering
+
+  \foreach [expand list=true] \polyId in {1,2} {
+
+    \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/HL-31_M1_P\polyId_gaya.csv}\dataMa
+    %\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M4_P\polyId_discoverer.csv}\dataMd
+
+    \def\plotSetup{
+      {table=dataMa,column=algebraic-solve,legend=M1,color=customdarkblue}
+    }
+
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar,xticklabels from table={\dataMa}{nProc},
+      every axis legend/.code={\let\addlegendentry\relax},   %ignore legend locally 
+      %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup}
+      \caption{Execution time - $P_{\polyId}$}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \def\myLineWidth{2pt}
+        \begin{axis}[
+          width=\textwidth, height=0.6172\textwidth,
+          % xtick=data,
+          xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+          ymajorgrids=true, %yminorgrids=true,
+          minor y tick num=2,
+          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+          xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+          xlabel={Number of CPU cores}, ylabel={Number of iterations},
+          legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+          ]
+          \addplot[color=customdarkblue,mark=o,line width=\myLineWidth] table [x=nProc, y=heat.ksp-niter] {\dataMa};
+          \addlegendentry{heat}
+          \addplot[color=customcyan,mark=triangle,line width=\myLineWidth] table [x=nProc, y=electric.ksp-niter] {\dataMa};
+          \addlegendentry{electric}
+        \end{axis}
+      \end{tikzpicture}
+      \caption{Number of iterations of GMRES - $P_{\polyId}$}
+    \end{subfigure}
+  }
+
+  \caption{HL-31 benchmarks - Performance measures of algebraic solver
+    (Mesh comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+  %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+\end{figure}
+
+
+
+\subsubsection{Benchmark \#4: CFD FDA Benchmark}
 
 \fullcite{chabannes_high_2017}
 \paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
@@ -508,7 +563,7 @@ phenomena are not well captured with this approximation which is the coarsen.
 
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
-\subsubsection{Benchmark \#4: Conjuguate heat transfer}
+\subsubsection{Benchmark \#5: Conjuguate heat transfer}
 
 
 

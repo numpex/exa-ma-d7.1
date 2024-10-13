@@ -565,7 +565,7 @@ installations, like Spack.
     \centering
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
   \end{subfigure}
-  \caption{Thermal bridges benchmarks - displace solution (left) and
+  \caption{Thermal bridges benchmarks - displacement solution (left) and
     von Mises yield criterion (right)}
   \label{fig:wp1:feelpp:nafems-le10:visualization}
 \end{figure}
@@ -711,9 +711,113 @@ add extra analysis  and conclusion here.
 
 Thermo Electric coupling in a complex geometry.
 
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-current_density.png}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-potential_density_streamines.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature-streamlines.png}
+  \end{subfigure}
+  \caption{HL-31 benchmarks - solutions}
+  \label{fig:wp1:feelpp:hl-31:visualization-solution}
+\end{figure}
+
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{table}[h!]
+  \centering
+  { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+      \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}\multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties}
+        & \multicolumn{2}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of dof (heat)}
+        & \multicolumn{2}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of dof (electric)} \\
+        \rowcolor{numpexgray} {\color{white}\bf Tag} & {\color{white}\bf \# points} & {\color{white}\bf \# edges} & {\color{white}\bf \# faces} & {\color{white}\bf \# elements} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} \\
+        \texttt{M1} & \pgfmathprintnumber{4306880} & \pgfmathprintnumber{27913534} & \pgfmathprintnumber{46008143} & \pgfmathprintnumber{22401676} & \pgfmathprintnumber{4306880} & \pgfmathprintnumber{32220414} & \pgfmathprintnumber{4302090} & \pgfmathprintnumber{29456526}  \\
+        \hline
+      \end{tabular}
+    }}
+  \caption{NAFEMS le10 benchmark - Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation}
+  \label{tab:wp1:feelpp:nafems-le10:discr_stat}
+\end{table}
+
+\paragraph{Results Summary}
 
 
 
+
+\foreach [expand list=true] \meshId in {1} {
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P1_gaya.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P2_gaya.csv}\dataPb
+
+  \begin{figure}
+    \centering
+    \def\plotSetup##1{
+      {table=##1,column=init,legend=Init,color=customdarkblue},
+      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
+      {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
+    }
+    \def\chartBarPlot##1##2{
+      \barChart[ybar,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+    \def\chartBarStackedPlot##1##2{
+      \barChart[ybar stacked,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPa}{\dataPa}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPa}{\dataPa}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPb}{\dataPb}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPb}{\dataPb}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \caption{HL-31 benchmarks - Execution time of main simulation components
+      - Gaya supercomputer}
+    \label{fig:feelpp:wp1:hl-31:performance_times_M\meshId}
+  \end{figure}
+
+}
 
 
 
