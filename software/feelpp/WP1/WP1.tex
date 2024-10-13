@@ -550,34 +550,29 @@ installations, like Spack.
 
 
 
-
-
-\subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
+\subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
 
 \paragraph{Description}
-This benchmark evaluates the assembly of stiffness and linear elasticity finite element matrices in three dimensions using both continuous Galerkin (cG) and hybrid discontinuous Galerkin (hdG) methods using the \Feelpp toolboxes.
-The problem size consists of a mesh with tetrahedral elements, executed entirely on multi-core CPU architectures.
-The benchmark is designed to measure scalability, execution time, and computational efficiency across different material models, including isotropic and anisotropic materials.
 
-The objective of the benchmark is to assess performance in terms of assembly time, memory usage, and parallel efficiency for cG and hdG methods from low to high orders using CPU resources only.
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - displace solution (left) and
+    von Mises yield criterion (right)}
+  \label{fig:wp1:feelpp:nafems-le10:visualization}
+\end{figure}
 
 \paragraph{Benchmarking Tools Used}
-The following performance analysis tools were used:
-\begin{itemize}
-    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time and memory usage during the matrix assembly.
-\end{itemize}
-
-Metrics such as execution time, memory usage, and FLOPS were measured to compare the performance of the cG and hdG methods on CPU.
 
 \paragraph{Input/Output Dataset Description}
-\begin{itemize}
-    \item \textbf{Input Data:} The input dataset consists of a 3D tetrahedral mesh generated using the Gmsh format, with approximately 1 million elements. Material properties are defined in JSON format, covering both isotropic and anisotropic materials.
-
-    \item \textbf{Output Data:} The output includes performance logs, execution times, and memory usage reports. Output results are replicable by using the same mesh and material properties.
-
-    \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository, accessible through DOI: \texttt{[Insert DOI]}.
-\end{itemize}
-
 
 \begin{table}[h!]
   \centering
@@ -597,17 +592,10 @@ Metrics such as execution time, memory usage, and FLOPS were measured to compare
     }}
   \caption{NAFEMS le10 benchmark - Statistics on meshes and number of degrees of freedom with respect
     to finite element approximation}
-  \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
+  \label{tab:wp1:feelpp:nafems-le10:discr_stat}
 \end{table}
 
-
 \paragraph{Results Summary}
-The benchmark results are summarized as follows:
-
-RESULTS here
-
-The results highlight that ... (ADD ANALYSIS)
-
 
 \foreach [expand list=true] \meshId in {2,3,4} {
 
@@ -663,10 +651,49 @@ The results highlight that ... (ADD ANALYSIS)
     \end{subfigure}
     \caption{NAFEMS le10 benchmarks - Execution time of main simulation components
       - Mesh \texttt{M\meshId} - Discoverer supercomputer}
-    \label{fig:feelpp:wp1:nafems_le10:performance_times_M\meshId}
+    \label{fig:feelpp:wp1:nafems-le10:performance_times_M\meshId}
   \end{figure}
 
 }
+
+\paragraph{Challenges Identified}
+
+
+
+\subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
+
+\paragraph{Description}
+This benchmark evaluates the assembly of stiffness and linear elasticity finite element matrices in three dimensions using both continuous Galerkin (cG) and hybrid discontinuous Galerkin (hdG) methods using the \Feelpp toolboxes.
+The problem size consists of a mesh with tetrahedral elements, executed entirely on multi-core CPU architectures.
+The benchmark is designed to measure scalability, execution time, and computational efficiency across different material models, including isotropic and anisotropic materials.
+
+The objective of the benchmark is to assess performance in terms of assembly time, memory usage, and parallel efficiency for cG and hdG methods from low to high orders using CPU resources only.
+
+\paragraph{Benchmarking Tools Used}
+The following performance analysis tools were used:
+\begin{itemize}
+    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time and memory usage during the matrix assembly.
+\end{itemize}
+
+Metrics such as execution time, memory usage, and FLOPS were measured to compare the performance of the cG and hdG methods on CPU.
+
+\paragraph{Input/Output Dataset Description}
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists of a 3D tetrahedral mesh generated using the Gmsh format, with approximately 1 million elements. Material properties are defined in JSON format, covering both isotropic and anisotropic materials.
+
+    \item \textbf{Output Data:} The output includes performance logs, execution times, and memory usage reports. Output results are replicable by using the same mesh and material properties.
+
+    \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository, accessible through DOI: \texttt{[Insert DOI]}.
+\end{itemize}
+
+
+\paragraph{Results Summary}
+The benchmark results are summarized as follows:
+
+RESULTS here
+
+The results highlight that ... (ADD ANALYSIS)
+
 
 
 
