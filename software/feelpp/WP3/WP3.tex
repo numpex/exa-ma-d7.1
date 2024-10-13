@@ -361,7 +361,7 @@ phenomena are not well captured with this approximation which is the coarsen.
   }
 
   \caption{NAFEMS LE10 benchmarks - Performance measures of algebraic solver
-    (Mesh comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+    (Mesh comparison M2 and M4) - GMRES preconditionned by GAMG - Discoverer supercomputer}
   %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
 \end{figure}
 
@@ -436,17 +436,24 @@ phenomena are not well captured with this approximation which is the coarsen.
       %\def\myMarkStyle{every mark/.append style={solid}}
       %\edef\myMarkStyle{\noexpand{every mark/.append style={solid}}}
 
-      \begin{axis}[
+      %\begin{axis}
+      \begin{semilogxaxis}
+        [
         width=\textwidth, height=0.6172\textwidth,
         % xtick=data,
         xmajorgrids=true, xminorgrids=false, minor x tick num=3,
         ymajorgrids=true, %yminorgrids=true,
         minor y tick num=2,
         % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-        xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands
+        %separator={},precision=0]{\pgfmathresult}},
+        xticklabel={\pgfmathparse{exp(\tick)}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
         xlabel={Number of CPU cores},% ylabel={Number of iterations},
+        %xmode=log,
+        %log ticks with fixed point,
+        %x filter/.code=\pgfmathparse{##1 + 6.90775527898214},
         % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-        legend style={at={(0.,1)}, anchor=north west,font=\small,legend columns=2},
+        %legend style={at={(1.,1)}, anchor=north east,font=\small,legend columns=2},
         #2
         ]
         \addplot[color=customdarkblue,\myLineStyleA,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPa};
@@ -467,18 +474,25 @@ phenomena are not well captured with this approximation which is the coarsen.
         \addlegendentry{M4-P2}
         % \addplot[color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPc};
         % \addlegendentry{M3-P3}
-      \end{axis}
+      %\end{axis}
+      \end{semilogxaxis}
     \end{tikzpicture}
   }
 
   \begin{subfigure}[c]{\textwidth}
     \centering
-    \chartLinePlot{ksp-niter}{ylabel={Number of iterations}}
+    \chartLinePlot{ksp-niter}{
+      ylabel={Number of iterations},
+      legend style={at={(1.,1)}, anchor=north east,font=\small,legend columns=2}
+    }
     \caption{Number of iterations of GMRES}
   \end{subfigure}
   \begin{subfigure}[c]{\textwidth}
     \centering
-    \chartLinePlot{algebraic-solve}{ylabel={Execution time [s]}}
+    \chartLinePlot{algebraic-solve}{
+      ylabel={Execution time [s]},
+      legend style={at={(0.,1)}, anchor=north west,font=\small,legend columns=2}
+    }
     \caption{Execution time}
   \end{subfigure}
   \caption{NAFEMS LE10 - Performance measures of algebraic solver
@@ -492,13 +506,14 @@ phenomena are not well captured with this approximation which is the coarsen.
 
 \subsubsection{Benchmark \#3: Thermo-Electric Coupling}
 
+\foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer}
+{
 \begin{figure}
   \centering
 
   \foreach [expand list=true] \polyId in {1,2} {
 
-    \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/HL-31_M1_P\polyId_gaya.csv}\dataMa
-    %\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M4_P\polyId_discoverer.csv}\dataMd
+    \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/HL-31_M1_P\polyId_\supercomputerFile.csv}\dataMa
 
     \def\plotSetup{
       {table=dataMa,column=algebraic-solve,legend=M1,color=customdarkblue}
@@ -507,7 +522,9 @@ phenomena are not well captured with this approximation which is the coarsen.
 
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar,xticklabels from table={\dataMa}{nProc},
+      \barChart[ybar,
+      xticklabels from table={\dataMa}{nProc},
+      x tick label style={ rotate=-45 },
       every axis legend/.code={\let\addlegendentry\relax},   %ignore legend locally 
       %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup}
@@ -539,10 +556,10 @@ phenomena are not well captured with this approximation which is the coarsen.
   }
 
   \caption{HL-31 benchmarks - Performance measures of algebraic solver
-    (Mesh comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+    (Mesh comparison) - GMRES preconditionned by GAMG - \supercomputerName \ supercomputer}
   %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
 \end{figure}
-
+}
 
 
 \subsubsection{Benchmark \#4: CFD FDA Benchmark}

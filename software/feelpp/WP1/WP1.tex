@@ -316,7 +316,7 @@ under our control, it can explain a part of this. Also, the memory and
 consequently the choice of the number of tasks per node can be important and
 can change significantly the performance. This latter will be taken into account
 more accurately in a next campaign of these benchmarking test.
-
+% Color cycle: customdarkblue,customcyan,customorange,custompurple
 \newcommand{\barChart}[2][ybar]{
   \begin{tikzpicture}
     \begin{axis}[
@@ -370,8 +370,8 @@ more accurately in a next campaign of these benchmarking test.
     \def\plotSetup##1{
       {table=##1,column=init,legend=Init,color=customdarkblue},
       {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
-      {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
-      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
+      %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
     }
     \def\chartBarPlot##1##2{
       \barChart[ybar,
@@ -436,7 +436,7 @@ more accurately in a next campaign of these benchmarking test.
   \centering
   \captionsetup[subfigure]{justification=centering}
 
-  \pgfplotstableread[col sep=comma]{\currfiledir/data/measures_all.csv}\dataTableMeasures
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_measures.csv}\dataTableMeasures
   \def\myLineWidth{2pt}
   \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
   \def\myLineStyleB{dashed}
@@ -565,7 +565,7 @@ installations, like Spack.
     \centering
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
   \end{subfigure}
-  \caption{Thermal bridges benchmarks - displacement solution (left) and
+  \caption{NAFEMS LE10 benchmark - displacement solution (left) and
     von Mises yield criterion (right)}
   \label{fig:wp1:feelpp:nafems-le10:visualization}
 \end{figure}
@@ -590,12 +590,95 @@ installations, like Spack.
         \hline
       \end{tabular}
     }}
-  \caption{NAFEMS le10 benchmark - Statistics on meshes and number of degrees of freedom with respect
+  \caption{NAFEMS LE10 benchmark - Statistics on meshes and number of degrees of freedom with respect
     to finite element approximation}
   \label{tab:wp1:feelpp:nafems-le10:discr_stat}
 \end{table}
 
 \paragraph{Results Summary}
+
+
+
+% columns/FunctionSpace/.style={string type},
+\begin{figure}
+  \centering
+  \captionsetup[subfigure]{justification=centering}
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_measures.csv}\dataTableMeasures
+  \def\myLineWidth{2pt}
+  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+  \def\myLineStyleB{dashed}
+  \def\myLineStyleC{solid}
+
+  \def\myAddPlot#1#2#3#4{
+    \addplot[#3,every mark/.append style={solid},
+    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+    x filter/.code={
+      \pgfmathparse{\thisrow{PolyOrder}==#2}
+      \ifnum0=\pgfmathresult
+      \pgfmathsetmacro{\newx}{nan}
+    \else
+      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+    \fi
+    \pgfmathparse{\newx}
+  },
+  y filter/.expression={ #4*\pgfmathresult }
+  ] table [x=Mesh, y=#1] {\dataTableMeasures};
+  }
+
+  \def\myPlotOutputMeasures#1#2#3#4{
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+    \begin{tikzpicture}
+    \begin{axis}[
+      width=\textwidth, height=0.6172\textwidth,
+      xtick=data,
+      xticklabel={M$\pgfmathprintnumber{\tick}$},
+      xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+      ymajorgrids=true, yminorgrids=true,
+      minor y tick num=2,
+      % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+      %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+      xlabel={Mesh levels}, ylabel={#4},
+      % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+      %legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+      %columns=3},
+      legend style={at={(1.,1)}, anchor=north east,font=\small,legend columns=4},
+      %#2
+      ]
+
+      \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+      \addlegendentry{P1}
+      \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+      \addlegendentry{P2}
+      % \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+      % \addlegendentry{P3}
+      \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+        (2,#3) (4,#3)
+      };
+      \addlegendentry{Ref}
+
+    \end{axis}
+  \end{tikzpicture}
+      %}
+
+}
+
+\myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{TODO Heat flow [W]}
+
+\caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
+\label{fig:feelpp:wp1:nafems-le10:measures_convergences}
+
+\end{figure}
+
+
+
+
+
+
+
+
 
 \foreach [expand list=true] \meshId in {2,3,4} {
 
@@ -605,10 +688,11 @@ installations, like Spack.
   \begin{figure}
     \centering
     \def\plotSetup##1{
+      %Color cycle: customdarkblue,customcyan,customorange,custompurple
       {table=##1,column=init,legend=Init,color=customdarkblue},
       {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
       %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
-      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
     }
     \def\chartBarPlot##1##2##3{
       \barChart[ybar,xticklabels from table={##2}{nProc},legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},##3]{\plotSetup{##1}}
@@ -649,7 +733,7 @@ installations, like Spack.
       \chartBarStackedPlot{dataPb}{\dataPb}
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
-    \caption{NAFEMS le10 benchmarks - Execution time of main simulation components
+    \caption{NAFEMS LE10 benchmarks - Execution time of main simulation components
       - Mesh \texttt{M\meshId} - Discoverer supercomputer}
     \label{fig:feelpp:wp1:nafems-le10:performance_times_M\meshId}
   \end{figure}
@@ -715,24 +799,15 @@ Thermo Electric coupling in a complex geometry.
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature.png}
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-geo.png}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-current_density.png}
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-geo-zoom.png}
   \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-potential_density_streamines.png}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature-streamlines.png}
-  \end{subfigure}
-  \caption{HL-31 benchmarks - solutions}
-  \label{fig:wp1:feelpp:hl-31:visualization-solution}
+  \caption{HL-31 benchmarks - geometry}
+  \label{fig:wp1:feelpp:hl-31:visualization-geometry}
 \end{figure}
 
 
@@ -760,6 +835,33 @@ Thermo Electric coupling in a complex geometry.
 
 \paragraph{Results Summary}
 
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature.png}
+    \caption{Temperature}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-current_density.png}
+    \caption{Current density}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-potential_density_streamines.png}
+    \caption{Electric potential and current density on streamlines of electric field}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature-streamlines.png}
+    \caption{Temperature on streamlines of electric field}
+  \end{subfigure}
+  \caption{HL-31 benchmarks - solutions}
+  \label{fig:wp1:feelpp:hl-31:visualization-solution}
+\end{figure}
 
 
 \foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer} {
@@ -775,8 +877,8 @@ Thermo Electric coupling in a complex geometry.
     \def\plotSetup##1{
       {table=##1,column=init,legend=Init,color=customdarkblue},
       {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
-      {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
-      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
+      % {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
     }
     \def\chartBarPlot##1##2{
       \barChart[ybar,
