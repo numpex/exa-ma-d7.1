@@ -327,7 +327,7 @@ more accurately in a next campaign of these benchmarking test.
       xtick align=outside,
       ymin=0,
       %legend style={at={(1,1)}, anchor=north east},
-      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
+      %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
       ymajorgrids=true, yminorgrids=true,
       bar width=7pt,
       #1
@@ -335,17 +335,19 @@ more accurately in a next campaign of these benchmarking test.
     \foreach [expand list=true] \thetuple in {#2} {
       \pgfkeys{/mysettings/.cd,
         table/.store in=\mytable,
-          column/.store in=\mycolumn,
-          legend/.store in=\mylegend,
-          color/.store in=\mycolor
-        }
+        column/.store in=\mycolumn,
+        shift/.store in=\myshift, shift/.default=0, shift,
+        legend/.store in=\mylegend,
+        color/.store in=\mycolor
+      }
       \edef\temp{
         \noexpand\pgfkeys{/mysettings/.cd, \expandafter\@firstofone\thetuple}
       } \temp
       %\def\toto{\expandafter\mytable}
       \edef\temp{
         \noexpand\addplot[ybar, bar width=0.2, fill=\mycolor, draw=black, point meta=y]
-        table [x expr=\noexpand\coordindex, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
+        table [x expr=\noexpand\coordindex+\myshift, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
+        %table [x=nProc, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
       } \temp
       %table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
       \edef\temp{
@@ -372,10 +374,16 @@ more accurately in a next campaign of these benchmarking test.
       {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
     }
     \def\chartBarPlot##1##2{
-      \barChart[ybar,xticklabels from table={##2}{nProc}]{\plotSetup{##1}}
+      \barChart[ybar,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
     }
     \def\chartBarStackedPlot##1##2{
-      \barChart[ybar stacked,xticklabels from table={##2}{nProc}]{\plotSetup{##1}}
+      \barChart[ybar stacked,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
     }
 
     \begin{subfigure}[c]{0.49\textwidth}
@@ -498,7 +506,7 @@ more accurately in a next campaign of these benchmarking test.
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
-    \caption{Heat flow measured in $\alpha$ environment}
+    \caption{Heat flow measured in $\beta$ environment}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
@@ -570,12 +578,97 @@ Metrics such as execution time, memory usage, and FLOPS were measured to compare
     \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository, accessible through DOI: \texttt{[Insert DOI]}.
 \end{itemize}
 
+
+\begin{table}[h!]
+  \centering
+  { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+      \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}\multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties}
+        & \multicolumn{2}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
+        \rowcolor{numpexgray} {\color{white}\bf Tag} & {\color{white}\bf \# points} & {\color{white}\bf \# edges} & {\color{white}\bf \# faces} & {\color{white}\bf \# elements} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} \\
+        \texttt{M2} & \pgfmathprintnumber{324257} & \pgfmathprintnumber{2247489} & \pgfmathprintnumber{3796235} & \pgfmathprintnumber{1873002} & \pgfmathprintnumber{972771} & \pgfmathprintnumber{7715238}  \\
+        \texttt{M3} & \pgfmathprintnumber{2426377} & \pgfmathprintnumber{17230019} & \pgfmathprintnumber{29409215} & \pgfmathprintnumber{14605572} & \pgfmathprintnumber{7279131} & \pgfmathprintnumber{58969188}  \\
+        \texttt{M4} & \pgfmathprintnumber{18801264} & \pgfmathprintnumber{135213828} & \pgfmathprintnumber{232036941} & \pgfmathprintnumber{115624376} & \pgfmathprintnumber{56403792} & \pgfmathprintnumber{462045276} \\
+        \hline
+      \end{tabular}
+    }}
+  \caption{NAFEMS le10 benchmark - Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation}
+  \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
+\end{table}
+
+
 \paragraph{Results Summary}
 The benchmark results are summarized as follows:
 
 RESULTS here
 
 The results highlight that ... (ADD ANALYSIS)
+
+
+\foreach [expand list=true] \meshId in {2,3,4} {
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_M\meshId_P1_discoverer.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_M\meshId_P2_discoverer.csv}\dataPb
+
+  \begin{figure}
+    \centering
+    \def\plotSetup##1{
+      {table=##1,column=init,legend=Init,color=customdarkblue},
+      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
+      %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
+    }
+    \def\chartBarPlot##1##2##3{
+      \barChart[ybar,xticklabels from table={##2}{nProc},legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},##3]{\plotSetup{##1}}
+    }
+    \def\chartBarStackedPlot##1##2{
+      \barChart[ybar stacked,xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPa}{\dataPa}{}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPa}{\dataPa}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \ifnum4=\meshId
+      \chartBarPlot{dataPb}{\dataPb}{enlarge x limits=0.3}
+    \else
+      \chartBarPlot{dataPb}{\dataPb}{}
+    \fi
+
+
+
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPb}{\dataPb}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \caption{NAFEMS le10 benchmarks - Execution time of main simulation components
+      - Mesh \texttt{M\meshId} - Discoverer supercomputer}
+    \label{fig:feelpp:wp1:nafems_le10:performance_times_M\meshId}
+  \end{figure}
+
+}
+
+
 
 \paragraph{Challenges Identified}
 Several challenges were encountered during the benchmarking process:
