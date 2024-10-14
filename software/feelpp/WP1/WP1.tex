@@ -653,23 +653,34 @@ The metrics measured are the execution time of the main components of the simula
 \end{table}
 
 \paragraph{Results Summary}
-
+We start by showing \Cref{fig:wp1:feelpp:nafems-le10:results:visualization} that
+illustrate the numerical results quality of this in silico experiments. We can
+see the displacement filed and some quantities of interest in
+\cref{fig:feelpp:wp1:nafems-le10:results:visualization:displacement,fig:feelpp:wp1:nafems-le10:results:visualization:vonmises,fig:feelpp:wp1:nafems-le10:results:visualization:wrap-tresca}.
+Moreover, we have \cref{fig:feelpp:wp1:nafems-le10:results:measures_convergences} which show the
+validity and quality of the solution for each discretization.
 
 \begin{figure}[!ht]
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
+    \caption{Displacement}
+    \label{fig:feelpp:wp1:nafems-le10:results:visualization:displacement}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
+    \caption{von Mises yield criterion}
+    \label{fig:feelpp:wp1:nafems-le10:results:visualization:vonmises}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png}
+    \caption{Tresca criterion on the deformed domain}
+    \label{fig:feelpp:wp1:nafems-le10:results:visualization:wrap-tresca}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
@@ -738,14 +749,13 @@ The metrics measured are the execution time of the main components of the simula
 
   }
 
-  \myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{TODO Heat flow [W]}
+  \myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{Normal stress ($\sigma_{yy}$) [Pa]}
 
-  \caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
+  \caption{NAFEMS LE10 benchmarks - Output measures}
   \label{fig:feelpp:wp1:nafems-le10:results:measures_convergences}
 \end{subfigure}
 
-\caption{NAFEMS LE10 benchmark - displacement solution (left) and
-  von Mises yield criterion (right)}
+\caption{NAFEMS LE10 benchmark - numerical solutions and convergence of validation measures compared to reference value}
 \label{fig:wp1:feelpp:nafems-le10:results:visualization}
 \end{figure}
 
