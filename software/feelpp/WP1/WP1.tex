@@ -1031,6 +1031,38 @@ The metrics measured are the execution time of the main components of the simula
 
 \paragraph{Results Summary}
 
+We can find in \cref{fig:wp1:feelpp:hl-31:results:visualization-solution} some
+examples of 3D visualization that represent fields obtained by solving the
+thermoelectric problem. We have the temperature solution and other quantities
+evaluated at \textbf{PostProcess} phase such as current density, electric
+potential, and electric fields.
+
+The performance analysis has been done in two supercomputers, Gaya and
+Discoverer. For each of them, we have run the benchmark with discretizations P1
+and P2. About the \Feelpp distribution, we use native Ubuntu Jammy packages for
+Gaya, and Apptainer (with Ubuntu) for Discoverer. The results on these machines
+are illustrated in
+\cref{fig:feelpp:wp1:hl-31:results:performance_times_M1_gaya,fig:feelpp:wp1:hl-31:results:performance_times_M1_discoverer}
+respectively. The measures presented are the time-consuming of simulation
+components related to WP1, namely \textbf{Init}, \textbf{Assembly}, and
+\textbf{PostProcess}. For the \textbf{Solve} component, we refer to
+\cref{sec:WP3:Feelpp:benchmark:hl-31}.
+
+In each case analyzed, we have very good scalability, in the sense that we
+reduced significantly the execution time by increasing the number of tasks. The
+\textbf{Init} phase is the most time-consuming, with a limit quite high compared
+to others. This part contains the mesh reading from the disk, which can explain
+some bumps sometimes when require many HPC resources.
+
+To conclude, we can say that we successfully ran this benchmark case, and we are
+ready to go up to larger problems and more complex modeling.
+
+
+
+
+
+
+
 \begin{figure}[!ht]
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
@@ -1116,11 +1148,25 @@ The metrics measured are the execution time of the main components of the simula
     \end{subfigure}
     \caption{HL-31 benchmarks - Execution time of main simulation components
       - \supercomputerName \  supercomputer}
-    \label{fig:feelpp:wp1:hl-31:results:performance_times_M\meshId}
+    \label{fig:feelpp:wp1:hl-31:results:performance_times_M\meshId_\supercomputerFile}
   \end{figure}
 
 %}
 }
+
+
+\paragraph{Challenges Identified}
+
+\begin{itemize}
+\item HPC experiments with other kinds of discretizations:
+  \begin{itemize}
+  \item Modelling: nonlinear, Maxwell, ...
+  \item HDG method
+  \item Geometry complexity
+  \end{itemize}
+\item Go to extreme HPC scale: Partitioning and IO issues
+\end{itemize}
+
 
 
 
