@@ -366,7 +366,7 @@ computational time belongs small locally).
 \newcommand{\barChart}[2][ybar]{
   \begin{tikzpicture}
     \begin{axis}[
-      width=\textwidth, height=0.6172\textwidth,
+      %width=\textwidth, height=0.6172\textwidth,
       xlabel={Number of CPU core}, ylabel={Execution time [s]},
       %xticklabels from table={#2}{nProc},
       xtick=data,
@@ -438,6 +438,7 @@ computational time belongs small locally).
   \resizebox{\textwidth}{0.6172\textwidth}{
     \begin{tikzpicture}
       \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
         % width=\textwidth, height=1.2\textheight,
         xtick=data,
         xticklabel={M$\pgfmathprintnumber{\tick}$},
@@ -519,12 +520,14 @@ computational time belongs small locally).
     }
     \def\chartBarPlot##1##2{
       \barChart[ybar,
+      width=\textwidth, height=0.6172\textwidth,
       xticklabels from table={##2}{nProc},
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
     }
     \def\chartBarStackedPlot##1##2{
       \barChart[ybar stacked,
+      width=\textwidth, height=0.6172\textwidth,
       xticklabels from table={##2}{nProc},
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
@@ -542,6 +545,7 @@ computational time belongs small locally).
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
+    \vspace*{0.04\textwidth}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \chartBarPlot{dataPb}{\dataPb}
@@ -554,6 +558,7 @@ computational time belongs small locally).
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \hfill
+    \vspace*{0.04\textwidth}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \chartBarPlot{dataPc}{\dataPc}
@@ -599,6 +604,7 @@ installations, like Spack.
 
 
 \subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
+\label{sec:WP1:Feelpp:benchmark:nafems-le10}
 
 \paragraph{Description}
 The NAFEMS LE10 benchmark is a reference test designed to assess the
@@ -819,10 +825,18 @@ reduced quota limits on this fast disk.
       {table=##1,legend=PostProcess,column=exportResults,color=customorange}
     }
     \def\chartBarPlot##1##2##3{
-      \barChart[ybar,xticklabels from table={##2}{nProc},legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},##3]{\plotSetup{##1}}
+      \barChart[ybar,
+      width=0.95\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=-45 },
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
+      ##3]{\plotSetup{##1}}
     }
     \def\chartBarStackedPlot##1##2{
-      \barChart[ybar stacked,xticklabels from table={##2}{nProc},
+      \barChart[ybar stacked,
+      width=0.95\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=-45 },
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
     }
@@ -839,6 +853,7 @@ reduced quota limits on this fast disk.
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
+    \vspace*{0.04\textwidth}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \ifnum4=\meshId
@@ -846,8 +861,6 @@ reduced quota limits on this fast disk.
     \else
       \chartBarPlot{dataPb}{\dataPb}{}
     \fi
-
-
 
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
@@ -924,6 +937,7 @@ Several challenges were encountered during the benchmarking process:
 add extra analysis  and conclusion here.
 
 \subsubsection{Benchmark \#3: Thermo-Electric Coupling}
+\label{sec:WP1:Feelpp:benchmark:hl-31}
 
 Thermo Electric coupling in a complex geometry.
 
@@ -1109,41 +1123,50 @@ ready to go up to larger problems and more complex modeling.
       {table=##1,legend=PostProcess,column=exportResults,color=customorange}
     }
     \def\chartBarPlot##1##2{
-      \barChart[ybar,
+      \barChart[ybar, width=0.97\textwidth, height=0.6172\textwidth,
       xticklabels from table={##2}{nProc},
-      x tick label style={ rotate=45 },
+      x tick label style={ rotate=-45 },
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
     }
     \def\chartBarStackedPlot##1##2{
-      \barChart[ybar stacked,
+      \barChart[ybar stacked, width=0.97\textwidth, height=0.6172\textwidth,
       xticklabels from table={##2}{nProc},
-      x tick label style={ rotate=45 },
+      x tick label style={ rotate=-45 },
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup{##1}}
     }
 
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \chartBarPlot{dataPa}{\dataPa}
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarPlot{dataPa}{\dataPa}
+      %}
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \chartBarStackedPlot{dataPa}{\dataPa}
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarStackedPlot{dataPa}{\dataPa}
+      % }
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
+    \vspace*{0.04\textwidth}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \chartBarPlot{dataPb}{\dataPb}
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarPlot{dataPb}{\dataPb}
+      %  }
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \hfill
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \chartBarStackedPlot{dataPb}{\dataPb}
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarStackedPlot{dataPb}{\dataPb}
+      %  }
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \caption{HL-31 benchmarks - Execution time of main simulation components

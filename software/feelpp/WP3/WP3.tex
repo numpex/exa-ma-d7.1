@@ -181,6 +181,7 @@ phenomena are not well captured with this approximation which is the coarsen.
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \barChart[ybar,xticklabels from table={\dataMa}{nProc},
+      width=\textwidth, height=0.6172\textwidth,
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup}
         \caption{Execution time - $P_{\polyId}$}
@@ -210,6 +211,8 @@ phenomena are not well captured with this approximation which is the coarsen.
       \end{tikzpicture}
       \caption{Number of iterations of GMRES - $P_{\polyId}$}
     \end{subfigure}
+
+    \vspace*{0.04\textwidth}
   }
   \caption{Thermal bridges benchmarks - Performance measures of algebraic solver
     (Mesh comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
@@ -301,18 +304,29 @@ phenomena are not well captured with this approximation which is the coarsen.
 \subsubsection{Benchmark \#3: Linear elasticity : NAFEMS LE10}
 \label{sec:WP3:Feelpp:benchmark:nafems-le10}
 
-\paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+\paragraph{Description:} % Briefly describe the benchmark case, including the
+                         % problem size, target architecture (e.g., CPU, GPU),
+                         % and the input data. Mention the specific goals of the
+                         % benchmark (e.g., testing scalability, energy
+                         % efficiency).
+The benchmark description can be found in
+\cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 
-\paragraph{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+
+\paragraph{Benchmarking Tools Used:} % List the tools used for performance
+                                % analysis, such as Extrae, Score-P, TAU,
+                                % Vampir, or Nsight, and specify what metrics
+                                % were measured (e.g., execution time, FLOPS,
+                                % energy consumption).
+See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 
 \paragraph{Input/Output Dataset Description:}
-\paragraph{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 
-\paragraph{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+\paragraph{Results Summary:} % Include a summary of key metrics (execution time,
+                             % memory usage, FLOPS) and their comparison across
+                             % architectures (e.g., CPU, GPU).
 
-\paragraph{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-
-\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
 \begin{figure}
   \centering
@@ -331,7 +345,10 @@ phenomena are not well captured with this approximation which is the coarsen.
 
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar,xticklabels from table={\dataMb}{nProc},
+      \barChart[
+      ybar, width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={\dataMb}{nProc},
+      x tick label style={ rotate=-45 },
       legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
       ]{\plotSetup}
       \caption{Execution time - $P_{\polyId}$}
@@ -341,7 +358,7 @@ phenomena are not well captured with this approximation which is the coarsen.
       \begin{tikzpicture}
         \def\myLineWidth{2pt}
         \begin{axis}[
-          width=\textwidth, height=0.6172\textwidth,
+          width=0.8\textwidth, height=0.6172\textwidth,
           % xtick=data,
           xmajorgrids=true, xminorgrids=false, minor x tick num=3,
           ymajorgrids=true, %yminorgrids=true,
@@ -359,10 +376,11 @@ phenomena are not well captured with this approximation which is the coarsen.
       \end{tikzpicture}
       \caption{Number of iterations of GMRES - $P_{\polyId}$}
     \end{subfigure}
+    \vspace*{0.04\textwidth}
   }
 
   \caption{NAFEMS LE10 benchmarks - Performance measures of algebraic solver
-    (Mesh comparison M2 and M4) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+    (Mesh comparison M2 and M3) - GMRES preconditionned by GAMG - Discoverer supercomputer}
   %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
 \end{figure}
 
@@ -381,8 +399,10 @@ phenomena are not well captured with this approximation which is the coarsen.
       \begin{subfigure}[c]{0.49\textwidth}
         \centering
               \resizebox{\textwidth}{0.6172\textwidth}{
-                \barChart[ybar,xticklabels from
-                table={\dataMd}{nProc}]{\plotSetup}
+                \barChart[ybar,
+                xticklabels from table={\dataMd}{nProc},
+                x tick label style={ rotate=-45 }
+                ]{\plotSetup}
                 }
       \caption{Execution time - $P_{\polyId}$}
     \end{subfigure}
@@ -508,6 +528,30 @@ phenomena are not well captured with this approximation which is the coarsen.
 \subsubsection{Benchmark \#3: Thermo-Electric Coupling}
 \label{sec:WP3:Feelpp:benchmark:hl-31}
 
+\paragraph{Description:} % Briefly describe the benchmark case, including the
+                         % problem size, target architecture (e.g., CPU, GPU),
+                         % and the input data. Mention the specific goals of the
+                         % benchmark (e.g., testing scalability, energy
+                         % efficiency).
+The benchmark description can be found in
+\cref{sec:WP1:Feelpp:benchmark:hl-31}.
+
+
+\paragraph{Benchmarking Tools Used:} % List the tools used for performance
+                                % analysis, such as Extrae, Score-P, TAU,
+                                % Vampir, or Nsight, and specify what metrics
+                                % were measured (e.g., execution time, FLOPS,
+                                % energy consumption).
+See \cref{sec:WP1:Feelpp:benchmark:hl-31}.
+
+\paragraph{Input/Output Dataset Description:}
+See \cref{sec:WP1:Feelpp:benchmark:hl-31}.
+
+\paragraph{Results Summary:} % Include a summary of key metrics (execution time,
+                             % memory usage, FLOPS) and their comparison across
+                             % architectures (e.g., CPU, GPU).
+
+
 \foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer}
 {
 \begin{figure}
@@ -524,7 +568,7 @@ phenomena are not well captured with this approximation which is the coarsen.
 
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar,
+      \barChart[ybar, width=\textwidth, height=0.6172\textwidth,
       xticklabels from table={\dataMa}{nProc},
       x tick label style={ rotate=-45 },
       every axis legend/.code={\let\addlegendentry\relax},   %ignore legend locally 
@@ -555,6 +599,7 @@ phenomena are not well captured with this approximation which is the coarsen.
       \end{tikzpicture}
       \caption{Number of iterations of GMRES - $P_{\polyId}$}
     \end{subfigure}
+    \vspace*{0.04\textwidth}
   }
 
   \caption{HL-31 benchmarks - Performance measures of algebraic solver
@@ -562,6 +607,8 @@ phenomena are not well captured with this approximation which is the coarsen.
   %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
 \end{figure}
 }
+
+\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
 
 \subsubsection{Benchmark \#4: CFD FDA Benchmark}
