@@ -38,8 +38,14 @@ None\\
 
 \subsection{Software Overview}
 \label{sec:WP2:Uranie:summary}
-
-In~\cref{tab:WP2:Uranie:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+Uranie platform is based on ROOT and has by consequence a lot of ROOT characteristics such as:
+\begin{itemize}
+    \item interactive C++ interpreter (Cling) based on LLVM and Clang 
+    \item Python interface (PyROOT)
+    \item SQL database access 
+\end{itemize}
+Uranie is organized in different modules, each devoted to a specific task in the Uncertainty Quantification (UQ) framework. 
+The different surrogate modeling techniques available in the Modeler module are listed in table \ref{tab:WP2:Uranie:features}  
 
 \begin{table}[h!]
     \centering
@@ -53,7 +59,9 @@ In~\cref{tab:WP2:Uranie:features} we provide a summary of the software features 
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    NN/Autoencoder & provide short description here \\
+\rowcolor{white} Polynomial chaos expansion & The basic idea of polynomial chaos expansion is that any square-integrable function can be written as $f(x) = \sum_{\alpha} f_{\alpha} \Psi_{\alpha}(x)$ where $\{f_{alpha}\}$ are the PC coefficients, $\{\Psi_{alpha}\}$ is the orthogonal polynomial-basis. $\alpha$ corresponds to a multi-index whose dimension is equal to the dimension of vector $x$ and whose L1 norm $\lVert \alpha \rVert_1$ is the degree of the resulting polynomial. \\
+\rowcolor{numpexlightergray} Artificial Neural Networks & The artificial neural networks done within Uranie need input from \texttt{OPT++} and can also benefit from the computation power of graphical process unit (GPU) if available. Their implementation is done through the \texttt{TANNModeler} Uranie-class \\ 
+\rowcolor{white} Kriging & First developed for geostatistic needs, the kriging method, named after D. Krige and also called Gaussian Process (GP) regression is another way to construct an surrogate model of a deterministic function. Its interesting features of GP are that it provides uncertainty along with its prediction and that it can interpolate the training data which is very useful for surrogate modeling of deterministic functions. 
 \end{tabular}
         }
     }
@@ -67,11 +75,18 @@ In~\cref{tab:WP2:Uranie:features} we provide a summary of the software features 
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item The parallel programming environment of URANIE leverages MPI, PTHREAD
+    and CUDA to exploit the full potential of parallel computing. 
+    On our platform, MPI is used to distribute simulations across different nodes,
+    ensuring efficient scalability and enabling the platform to handle complex, large-scale computations. It is mainly use for the launching of external code.
+    On the other hand, CUDA use GPU's capabilities in Artificial Neural Network of URANIE.
+    URANIE use also LibSSH for launching code on different cluster (in the module TLauncher).
+
+    \item The parallel computation environment of our platform is built on a HPC architecture designed to maximize computational power and efficiency
+    using both distributed and shared memory parallelism. URANIE is used on CEA/TGCC supercomputers such as IRESNE.
+
+    \item URANIE allows performing simulations in parallel for uncertainty quantification.
+    \item \textbf{Scalability:} The scalability is constant because each the software distributes the simulation. if we add resource, they are devoted to run new simulations.
 \end{itemize}
 
 
