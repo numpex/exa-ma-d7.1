@@ -41,21 +41,31 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Samurai:summary}
 
-In~\cref{tab:WP1:Samurai:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+samurai aims to provide an adaptive mesh library for flexible numerical simulations that makes it easy to test new methods. The interval structure coupled with a set algebra allows meshes to be manipulated efficiently, making inter- and intra-grid computation kernels easier to write.
+
+Using this structure to store Cartesian meshes, Samurai proposes to implement a range of spatial schemes such as finite volumes, Boltzmann lattice methods, finite differences and discrete Galerkin methods. The aim is to be able to easily test new resolution methods on adaptive meshes in a way that is transparent to the user. The user focuses on solving the problem and samurai takes care of managing the mesh.
+
+A third layer could be added to manage specific fields of application: combustion, two-phase flows, plasma discharge, etc.
 
 \begin{table}[h!]
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
-\rowcolor{white}    mesh adaptation & provide short description here \\
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
+    \rowcolor{white}    mesh adaptation & AMR with heuristic criteria and multiresolution based on wavelets \\
+    \rowcolor{numpexlightergray}   load balancing & Space filling curve (Hilbert or Morton) or diffusion algorithm \\
+    \rowcolor{white}   sparse Cartesian mesh & A new data structure based on intervals and algebra of set \\
+    \rowcolor{numpexlightergray}   grid operators & Provide several operators to make prediction or projection of a field \\
+    \rowcolor{white}  numerical schemes & Provide numerical schemes such as finite volume schemes \\
+
+
 \end{tabular}
         }
     }
@@ -67,15 +77,13 @@ In~\cref{tab:WP1:Samurai:features} we provide a summary of the software features
 \subsection{Parallel Capabilities}
 \label{sec:WP1:Samurai:performances}
 
+samurai uses MPI and OpenMP parallelism. Container abstractions are used to connect different tensor libraries such as Xtensor or Eigen. This preliminary work will also make it easy to plug in the Kokkos library.
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+When we use mesh adaptation methods, we do so in a dynamic context: in other words, the mesh evolves over time. There are therefore two metrics to take into account if we want to have an effective, scalable solution
+- What is the cost of mesh adaptation compared with calculating the refined solution everywhere?
+- How can we ensure that there is always a good distribution of the load balancing between the processes?
 
+samurai offers two types of load balancing: the best known is the use of a space filling curve (Hilbert and Morton are implemented), the other solution is the use of a diffusion algorithm. The most complicated aspect here is adapting these solutions to the interval data structure. This is a work in progress, but it is important if we want to achieve good scalability for the target applications.
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Samurai:metrics}
@@ -124,20 +132,20 @@ In~\cref{tab:WP1:Samurai:bottlenecks}, we briefly discuss the bottleneck roadmap
 
 \begin{table}[h!]
     \centering
-    
-    
+
+
 
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
 \rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
 \rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
 \rowcolor{white}    B6 - Data Management & provide short description here \\
