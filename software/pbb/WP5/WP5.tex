@@ -31,7 +31,7 @@ OSS: Cecill-*\\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
-%B6 - Data Management\\
+B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
         \bottomrule
@@ -69,12 +69,11 @@ In~\cref{tab:WP5:pBB:features} we provide a summary of the software features rel
     \label{tab:WP5:pBB:features}
 \end{table}
 
-
 \subsection{Parallel Capabilities}
 \label{sec:WP5:pBB:performances}
 
 \begin{itemize}
-    \item pBB includes several parallel implementations at different parallel levels: multi-core, GPU and multi-GPU, (distributed) cluster. For the MPI+X approach, several parallel environments are used including MPI, OpenMP and PThreads, Cuda and HIP.
+    \item pBB includes several parallel implementations at different parallel levels: multi-core, GPU and multi-GPU, (distributed) cluster. For the MPI+X approach, several parallel environments are used including MPI, OpenMP and PThreads, Cuda and HIP. For the PGAS approach, all parallel levels are mananged using the Chapel programming language.
     \item pBB has been used to solve optimization problems on Grid'5000, Meluxina (Luxembourg) and LUMI (Finland) EuroHPC supercomputers.
     %\item  
     \item \textbf{Scalability:} pBB is scalable at the intra-node level (multi-core) as well as inter-node level (distributed). However, its scalability w.r.t GPUs has to be improved.
@@ -102,12 +101,16 @@ This section provides a summary of initial performance benchmarks performed in t
 
 \subsubsection{Benchmark \#1}
 \begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+    \item \textbf{Description:} Our main benchmark consists in well-known permutation Flow-shop Scheduling instances introduced in: Taillard, E., Benchmarks for basic scheduling problems, \textit{European Journal of Operational Research}, 64, 2, 278-285, 1993. https://doi.org/10.1016/0377-2217(93)90182-M. It includes many instance sizes, ranging from 5 machines $\times$ 20 jobs to 20 machines $\times$ 500 jobs. This benchmark is mainly used for testing performance scalability.
+    %Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+    \item \textbf{Benchmarking Tools Used:} The execution time and speed-up metrics are mainly used in our experiments.
+    %List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
     \item \textbf{Input/Output Dataset Description:}
         \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+            \item \textbf{Input Data:} Instances are generated using the generator described in the above reference.
+            %Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+            \item \textbf{Output Data:} The output data contain statistics to check correctness (e.g., size of the explored tree, optimum found) as well as the total execution time of the algorithm.
+            %Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
             \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
         \end{itemize}
     \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
