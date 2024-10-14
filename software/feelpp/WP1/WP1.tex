@@ -238,7 +238,8 @@ The metrics measured are the execution time of the main components of the simula
 \begin{itemize}
 \item \textbf{Init}: load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
 \item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
-\item \textbf{Solve}: the linear system by using a preconditioned gmres
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
 \item \textbf{PostProcess}: compute validation measures (temperature at points and
   heat flux) and export on the filesystem a visualization format (EnsighGold) of
   the solution.
@@ -572,6 +573,23 @@ benchmark asks to compute the normal stress in the y direction at a point of the
 
 
 \paragraph{Benchmarking Tools Used}
+The benchmark was performed on the \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to note that we have used here Apptainer with \Feelpp SIF image based on Ubuntu noble OS.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:nafems-le10}.
+\item \textbf{PostProcess}: compute validation measures (normal stress at a point)
+  and export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as von Mises yield, Tresca criterion and
+  principal stresses.
+\end{itemize}
 
 \paragraph{Input/Output Dataset Description}
 
@@ -823,12 +841,29 @@ in a channel of 0.8 mm. The magnet is operated at 12 MW with an imosed total cur
 A more detailled version of the full model is available in Daversion2016. The model is run with \texttt{thermoelectric} \Feelpp toolbox. 
 
 \paragraph{Benchmarking Tools Used}
-
-The following tools were used for performance profiling and analysis:
+The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}) and \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to say that we have used several \Feelpp installations
 \begin{itemize}
-    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time.
-    \item \textbf{Gaya}: the benchmark was performed on the Gaya supercomputer (see \Cref{sec:arch:gaya}).
+\item \textbf{Gaya} : native application from Ubuntu packages of Jammy OS.
+\item \textbf{Discoverer} : Apptainer with \Feelpp SIF image based on Ubuntu
+  Noble OS.
 \end{itemize}
+Note: the \Feelpp version is identical but the dependencies (like Petsc)
+which are of course more recent with Noble.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:hl-31}.
+\item \textbf{PostProcess}: Export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as current density and electric field.
+\end{itemize}
+
 
 \paragraph{Input/Output Dataset Description}
 
