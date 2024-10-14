@@ -9,7 +9,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}		% common special chars
 \usepackage{amsmath}		% math formula
-\usepackage{empheq} 
+\usepackage{empheq}
 \usepackage{fancybox}
 \usepackage{anyfontsize}	% fonts
 \usepackage{lipsum}
@@ -28,9 +28,11 @@
 \usepackage{paralist}
 \usepackage{minted}
 \usepackage{siunitx}  % Required for typesetting units
+\DeclareSIUnit\mmHg{mmHg}
 \usepackage{currfile} % Required for getting the current file name
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
+\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
 \pgfplotsset{compat=newest}
 \usetikzlibrary{positioning,fit,matrix}
 
@@ -63,6 +65,7 @@
 }
 
 \makeatletter
+% Deal with stackedplots
 \newcommand\resetstackedplots{
 \makeatletter
 \pgfplots@stacked@isfirstplottrue
