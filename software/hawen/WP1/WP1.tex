@@ -95,7 +95,7 @@ appropriate for parallelism (as other methods in the DG family), such
 that each cell of the mesh can be treated independently in parallel. 
 \hawen~has been used on several supercomputers, including GENCI Adastra
 with Genoa partition for CPUs parallelism.
-\hawen is linked with MUMPS library, which is a multifrontal direct solver 
+\hawen~is linked with MUMPS library, which is a multifrontal direct solver 
 for sparse linear systems. 
 
 %\begin{itemize}
@@ -110,23 +110,32 @@ for sparse linear systems.
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Hawen:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+The benchmarks of this WP investigate the overall performance
+of \hawen~for large-scale time-harmonic wave problem. We will
+use an acoustic and an elastic test-cases to evaluate the 
+difference in cost between the two model of wave propagation.
+The computational cost is primarily evaluated by the memory footprint 
+of the matrix factorization, its number of operations required,
+and the overall computational time.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+%This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+%
+%\begin{itemize}
+%    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+%    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+%        \begin{itemize}
+%            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+%            \item Output dataset format and key results.
+%            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+%            \item DOI or permanent link for accessing the dataset.
+%        \end{itemize}
+%    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+%    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+%    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+%\end{itemize}
 
 \subsubsection{Benchmark \#1: Visco-acoustic time-harmonic wave propagation}
+\label{subsec:WP1:Hawen:benchmark1}
 
 \paragraph{Description}
 This benchmark considers the propagation of time-harmonic waves in a large-scale
@@ -204,6 +213,7 @@ efficiency.
 
 
 \subsubsection{Benchmark \#2: Visco-elastic time-harmonic wave propagation}
+\label{subsec:WP1:Hawen:benchmark2}
 
 The second benchmark is the continuation of the previous one where, instead 
 of considering the acoustic problem \cref{eq:hawen:viscoacoustic}, we now
