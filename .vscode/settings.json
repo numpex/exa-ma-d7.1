@@ -42,5 +42,6 @@
     "latex-workshop.latex.autoBuild.enabled": true,
     "latex-workshop.latex.build.showOutput": "always",
     "latex-workshop.latex.outDir": "%DIR%",
-    "latex-workshop.message.badbox.show": "none"
+    "latex-workshop.message.badbox.show": "none",
+    "workbench.editor.pinnedTabsOnSeparateRow": true
 }

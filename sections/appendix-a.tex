@@ -49,7 +49,7 @@ In~\cref{tab:eurohpc_flops_cpu_gpu} and~\cref{tab:eurohpc_storage_interconnect} 
     \label{tab:eurohpc_flops_cpu_gpu}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
     \begin{tabular}{l l l l}
     \toprule
@@ -87,7 +87,7 @@ For more details, check out:
 \end{description}
 
 
-    \begin{table}[h!]
+    \begin{table}[!ht]
         \centering
         \begin{tabular}{l l l l}
         \toprule
@@ -111,7 +111,7 @@ For more details, check out:
     \end{table}
 
 
-    \begin{table}[h!]
+    \begin{table}[!ht]
         \centering
         \begin{tabular}{l l l}
         \toprule
@@ -126,14 +126,14 @@ For more details, check out:
         \label{tab:genci_storage_interconnect}
     \end{table}
 
-\subsection*{Unistra / IRMA / Gaya (France)}
+\subsection*{CNRS-Unistra / IRMA / Gaya (France)}
 \label{sec:arch:gaya}
 \addcontentsline{toc}{subsection}{Gaya}
 
 The Gaya system is located at the University of Strasbourg, France. The system is described in the tables~\ref{tab:gaya_flops_cpu_gpu} and~\ref{tab:gaya_storage_interconnect}. It allows to easily run large-scale simulations and data analysis tasks up to 6 nodes and 768 cores and includes 3 AMD Instinct MI210 GPUs for development and experiments.
 The frontal has 96 cores and 0.5TB of RAM which is used for generating large-scale meshes and associated partitioning.
 
-\begin{table}[h!]
+\begin{table}[!ht]
     \centering
     \begin{tabular}{l l l l l l}
     \toprule
@@ -148,7 +148,7 @@ The frontal has 96 cores and 0.5TB of RAM which is used for generating large-sca
     \label{tab:gaya_flops_cpu_gpu}
 \end{table}
 
-    \begin{table}[h!]
+    \begin{table}[!ht]
         \centering
         \begin{tabular}{l l l}
         \toprule
@@ -161,11 +161,11 @@ The frontal has 96 cores and 0.5TB of RAM which is used for generating large-sca
     \label{tab:gaya_storage_interconnect}
     \end{table}
 
-\subsection*{Unistra / IRMA / Girder (France)}
+\subsection*{CNRS-Unistra / IRMA / Girder (France)}
 \label{sec:arch:girder:unistra}
 \addcontentsline{toc}{subsection}{Data Storage: girder.math.unistra.fr}
 
-A Girder system is located at the University of Strasbourg, France. 
+A Girder system is located at the University of Strasbourg, France.
 150TB of storage is available.
 Public and Private data collections are available.
 
@@ -175,9 +175,14 @@ Check out \url{https://girder.math.unistra.fr} for more details.
 \label{sec:arch:zenodo}
 \addcontentsline{toc}{subsection}{Data Storage: zenodo.org}
 
+% make a brief description of the Zenodo system
+Zenodo is a general-purpose open-access repository developed under the European OpenAIRE program and operated by CERN. 
+It allows researchers to deposit data sets, research software, reports, and any other research-related digital artifacts. 
+Zenodo assigns a DOI to each uploaded artifact, making it citable in scientific publications.
+Finally GitHub integration is available to automatically upload releases to Zenodo. 
+This feature is used to store the NumPEx software releases.
 
-Link to PEPR NumPEx community.
-Check out \url{https://zenodo.org} for more details.
+Check out \url{https://zenodo.org/communities/numpex} for more details.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
