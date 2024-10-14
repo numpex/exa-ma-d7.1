@@ -45,6 +45,7 @@ Currently it mostly implements domain decomposition methods as described in~\cit
 \begin{figure}
         \centering
         \includegraphics[width=0.8\textwidth]{graphics/composyx/composyx-solverstack.png}
+        %\includegraphics[width=0.8\textwidth]{graphics/composyx/composyx-solverstack.pdf}
         \caption{Composyx dependencies}
         \label{fig:composyx}
     \end{figure}
@@ -70,38 +71,22 @@ The following table summarizes these aspects for Composyx, providing a  view of 
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
 C\\
-C++\\
+C++20\\
 Fortran\\
 \end{tabular} & Programming languages and language standards supported by the software \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 GPU\\
 MPI\\
 Multithread\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
-None\\
-\end{tabular} & Data formats that the software can handle or produce.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
-None\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
-Continuous Integration\\
-\end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
-GUIX-HPC\\
-\end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
-Verification\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-Singularity\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
-MUMPS\\
-PaStiX\\
-Scotch\\
-qr\_mumps\\
-\end{tabular} & List of software Composyx has interfaces with.\\
+\end{tabular} & Multithreading OpenMP and Posix, hybrid CPU-GPU with StarPU.\\
+%\rowcolor{white}Data Formats  & \begin{tabular}{l} None\\ \end{tabular} & Data formats that the software can handle or produce.\\
+%\rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l} None\\ \end{tabular} & \\
+\rowcolor{white}DevOps & \begin{tabular}{l} Continuous Integration\\ \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
+%
+\rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l} GUIX-HPC\\ \end{tabular} & Software packaging and distribution.\\ 
+\rowcolor{white}Testing  & \begin{tabular}{l} Verification\\ \end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
+\rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l} Singularity\\ \end{tabular} & Container technologies used to package and deploy the software.\\
+\rowcolor{white}Interfaces  & \begin{tabular}{l} MUMPS\\ PaStiX\\ Scotch\\ qr\_mumps\\ \end{tabular} & List of software Composyx has interfaces with.\\
         \bottomrule
     \end{tabular}
     }}
@@ -134,10 +119,15 @@ Here is a list of relevant publications related to the software:
 \label{sec::Composyx:acknowledgements}
 
 The software has been developed with the support of the following funding agencies and institutions: 
+\begin{itemize}
+  \item Inria,
+  \item H2020 Center of Excellence EoCoE-2 and 3,
+  \item H2020 PRACE-6IP,
+  \item DGA through the Hi-Box project,
+  \item Software development was performed using the PlaFRIM experimental testbed, supported by Inria, CNRS (LABRI and IMB), Université de Bordeaux, Bordeaux INP and Conseil R\'egional d’Aquitaine (see https://www.plafrim.fr) as well as on national GENCI platform. 
+\end{itemize}
 
 
 
-
-Acknowledgements not available.
 
 
