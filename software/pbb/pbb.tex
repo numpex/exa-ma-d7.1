@@ -21,7 +21,11 @@ nouredine.melab@univ-lille.fr\\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
 CPU or GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://gitlab.inria.fr/jgmys/permutationbb}{https://gitlab.inria.fr/jgmys/permutationbb} \\
+        \rowcolor{white}\textbf{Repository} & 
+        \begin{tabular}{l}
+             \href{https://gitlab.inria.fr/jgmys/permutationbb}{https://gitlab.inria.fr/jgmys/permutationbb}\\
+            \href{https://github.com/Guillaume-Helbecque/P3D-DFS}{https://github.com/Guillaume-Helbecque/P3D-DFS} \\
+        \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
 OSS: Cecill-*\\
 \end{tabular} \\
@@ -40,17 +44,24 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:pBB:summary}
-%Detailed overview not available.
 
-pBB is initially an implementation of a massively parallel Branch\&Bound algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones. A new data structure named distBag-DFS is proposed for that purpose. In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see https://github.com/Guillaume-Helbecque). The Chapel language is used for the implementation of pBB meeting these genericity and productivity objectives. 
+pBB is initially an implementation of a massively parallel Branch-and-Bound (B\&B) algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see \url{https://gitlab.inria.fr/jgmys/permutationbb}). pBB is designed using the bare-metal MPI+X approach. 
+First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones, like Knapsack problems. A new data structure named distBag-DFS is proposed for that purpose. 
+In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see \url{https://github.com/Guillaume-Helbecque/P3D-DFS}). The Chapel language is used for this implementation of pBB meeting these genericity and productivity objectives. 
 
 \subsection{Purpose}
 \label{sec:pBB:purpose}
-Purpose not available.
+Three main properties characterize pBB:
+\begin{itemize}
+    \item \textbf{Generalization}: our goal is to build a framework which unifies and generalizes various popular fractal decomposition-based algorithms from different communities (e.g. global optimization, reinforcement learning, computational intelligence).
+
+    \item
+
+    \item \textbf{Massively parallel}: a transparent and efficient parallel implementation of the algorithms on various architectures (e.g. multicores, GPUs) is carried out. The main challenge is the parallelization of the tree search component of the framework. Many parallel tree search algorithms can be considered.
+\end{itemize}
 
 \subsection{Programming and Computational Environment}
 \label{sec::pBB:environment_capabilities}
-
 
 The following table summarizes these aspects for pBB, providing a  view of its programming and computational capabilities.
 
@@ -102,9 +113,8 @@ None\\
 
 \subsection{Mathematics}
 \label{sec:pBB:mathematics}
-Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+Combinatorial Optimization Problems (COP) consist in finding an object within a finite (or countably infinite) set which is optimal according to a given criterion. Formally, a COP can be defined as a couple $(X, f)$, where $X$ is the search space and $f:X\rightarrow \mathbb{R}$ the objective function to be minimized or maximized. Constraints that must be fulfilled by a feasible solution $x\in X$ can be incorporated in the definition of the search space $X$ or the objective function $f$. The objective function $f$ takes its values in a totally ordered set, usually the set of real numbers or integers. The value $f(x)$ measures the cost (e.g., quality, time, benefit) of solution $x\in X$. The goal is to find one or multiple solution(s) $x^*\in X$ that are feasible and satisfy $f(x^*)\leq f(x), \forall x\in X$ in the case of minimization, or $f(x^*)\geq f(x), \forall x\in X$ in the case of maximization.
 
 \subsection{Relevant Publications}
 \label{sec:pBB:publications}
