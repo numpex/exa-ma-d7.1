@@ -553,29 +553,23 @@ installations, like Spack.
 \subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
 
 \paragraph{Description}
+The NAFEMS LE10 benchmark is a reference test designed to assess the
+capabilities of finite element analysis (FEM) software for modeling bending
+structures. This benchmark is part of the NAFEMS benchmarks, commonly used to
+verify the accuracy and reliability of numerical simulation codes in mechanical
+and civil engineering.
 
-% \begin{figure}[h]
-%   \centering
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
-%   \end{subfigure}
-%   \hfill
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
-%   \end{subfigure}
-%   \hfill
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png.png}
-%   \end{subfigure}
+The LE10 benchmark aims to test the ability of software to solve a beam bending
+problem in the context of structural analysis. It aims to compare the results
+obtained by simulation software with analytical or theoretical results, as well
+as with other calculation methods
 
-  
-%   \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-%     von Mises yield criterion (right)}
-%   \label{fig:wp1:feelpp:nafems-le10:visualization}
-% \end{figure}
+The benchmark consists of analyzing a thin plate in flexion subjected to given
+loads and fixed to some edges. The underlying physics model used is a linear
+elasticity model. At the numeric level, we use the continuous Galerkin method
+with Lagrange finite element of order 1 and 2. The validation of the NAFEMS LE10
+benchmark asks to compute the normal stress in the y direction at a point of the geometry.
+
 
 \paragraph{Benchmarking Tools Used}
 
@@ -622,90 +616,81 @@ installations, like Spack.
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png}
   \end{subfigure}
   \hfill
-%   \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-%     von Mises yield criterion (right)}
-%   \label{fig:wp1:feelpp:nafems-le10:visualization}
-% \end{figure}
-% columns/FunctionSpace/.style={string type},
-%  \begin{figure}
   \begin{subfigure}[c]{0.49\textwidth}
 
-  \centering
-  \captionsetup[subfigure]{justification=centering}
+    \centering
+    \captionsetup[subfigure]{justification=centering}
 
-  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_measures.csv}\dataTableMeasures
-  \def\myLineWidth{2pt}
-  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
-  \def\myLineStyleB{dashed}
-  \def\myLineStyleC{solid}
+    \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_measures.csv}\dataTableMeasures
+    \def\myLineWidth{2pt}
+    \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+    \def\myLineStyleB{dashed}
+    \def\myLineStyleC{solid}
 
-  \def\myAddPlot#1#2#3#4{
-    \addplot[#3,every mark/.append style={solid},
-    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
-    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
-    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
-    x filter/.code={
-      \pgfmathparse{\thisrow{PolyOrder}==#2}
-      \ifnum0=\pgfmathresult
-      \pgfmathsetmacro{\newx}{nan}
-    \else
-      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
-    \fi
-    \pgfmathparse{\newx}
-  },
-  y filter/.expression={ #4*\pgfmathresult }
-  ] table [x=Mesh, y=#1] {\dataTableMeasures};
+    \def\myAddPlot#1#2#3#4{
+      \addplot[#3,every mark/.append style={solid},
+      % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+      % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+      % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+      x filter/.code={
+        \pgfmathparse{\thisrow{PolyOrder}==#2}
+        \ifnum0=\pgfmathresult
+        \pgfmathsetmacro{\newx}{nan}
+      \else
+        \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+      \fi
+      \pgfmathparse{\newx}
+    },
+    y filter/.expression={ #4*\pgfmathresult }
+    ] table [x=Mesh, y=#1] {\dataTableMeasures};
   }
 
   \def\myPlotOutputMeasures#1#2#3#4{
-      %\resizebox{\textwidth}{0.6172\textwidth}{
+    % \resizebox{\textwidth}{0.6172\textwidth}{
     \begin{tikzpicture}
-    \begin{axis}[
-      width=\textwidth, height=0.6172\textwidth,
-      xtick=data,
-      xticklabel={M$\pgfmathprintnumber{\tick}$},
-      xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
-      ymajorgrids=true, yminorgrids=true,
-      minor y tick num=2,
-      % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-      %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
-      xlabel={Mesh levels}, ylabel={#4},
-      % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-      %legend style={at={(0.,1)}, anchor=north west,font=\small,legend
-      %columns=3},
-      legend style={at={(1.,1)}, anchor=south east,font=\small,legend columns=4},
-      %#2
-      ]
+      \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
+        xtick=data,
+        xticklabel={M$\pgfmathprintnumber{\tick}$},
+        xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Mesh levels}, ylabel={#4},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+        % columns=3},
+        legend style={at={(1.,1)}, anchor=south east,font=\small,legend columns=4},
+        % #2
+        ]
 
-      \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
-      \addlegendentry{P1}
-      \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
-      \addlegendentry{P2}
-      % \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
-      % \addlegendentry{P3}
-      \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
-        (2,#3) (4,#3)
-      };
-      \addlegendentry{Ref}
+        \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+        \addlegendentry{P1}
+        \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+        \addlegendentry{P2}
+        % \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+        % \addlegendentry{P3}
+        \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+          (2,#3) (4,#3)
+        };
+        \addlegendentry{Ref}
 
-    \end{axis}
-  \end{tikzpicture}
-      %}
+      \end{axis}
+    \end{tikzpicture}
+    % }
 
-}
+  }
 
-\myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{TODO Heat flow [W]}
+  \myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{TODO Heat flow [W]}
 
-\caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
-\label{fig:feelpp:wp1:nafems-le10:measures_convergences}
-
-% \end{figure}
+  \caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
+  \label{fig:feelpp:wp1:nafems-le10:results:measures_convergences}
 \end{subfigure}
-  
 
-  \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-    von Mises yield criterion (right)}
-  \label{fig:wp1:feelpp:nafems-le10:visualization}
+\caption{NAFEMS LE10 benchmark - displacement solution (left) and
+  von Mises yield criterion (right)}
+\label{fig:wp1:feelpp:nafems-le10:results:visualization}
 \end{figure}
 
 
@@ -770,7 +755,7 @@ installations, like Spack.
     \end{subfigure}
     \caption{NAFEMS LE10 benchmarks - Execution time of main simulation components
       - Mesh \texttt{M\meshId} - Discoverer supercomputer}
-    \label{fig:feelpp:wp1:nafems-le10:performance_times_M\meshId}
+    \label{fig:feelpp:wp1:nafems-le10:results:performance_times_M\meshId}
   \end{figure}
 
 }
@@ -889,7 +874,7 @@ The following tools were used for performance profiling and analysis:
     }}
   \caption{HL-31 benchmark - Statistics on meshes and number of degrees of freedom with respect
     to finite element approximation}
-  \label{tab:wp1:feelpp:nafems-le10:discr_stat}
+  \label{tab:wp1:feelpp:hl-31:discr_stat}
 \end{table}
 
 \paragraph{Results Summary}
@@ -919,7 +904,7 @@ The following tools were used for performance profiling and analysis:
     \caption{Temperature on streamlines of electric field}
   \end{subfigure}
   \caption{HL-31 benchmarks - solutions}
-  \label{fig:wp1:feelpp:hl-31:visualization-solution}
+  \label{fig:wp1:feelpp:hl-31:results:visualization-solution}
 \end{figure}
 
 
@@ -979,7 +964,7 @@ The following tools were used for performance profiling and analysis:
     \end{subfigure}
     \caption{HL-31 benchmarks - Execution time of main simulation components
       - \supercomputerName \  supercomputer}
-    \label{fig:feelpp:wp1:hl-31:performance_times_M\meshId}
+    \label{fig:feelpp:wp1:hl-31:results:performance_times_M\meshId}
   \end{figure}
 
 %}
