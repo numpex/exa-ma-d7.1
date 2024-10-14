@@ -660,6 +660,15 @@ see the displacement filed and some quantities of interest in
 Moreover, we have \cref{fig:feelpp:wp1:nafems-le10:results:measures_convergences} which show the
 validity and quality of the solution for each discretization.
 
+In terms of performance, we have plotted the execution times related to the WP1 context. These results, illustrating the  \textbf{Init}, \textbf{Assembly} and \textbf{post-process} components, can be found in
+\cref{fig:feelpp:wp1:nafems-le10:results:performance_times_M2,fig:feelpp:wp1:nafems-le10:results:performance_times_M3,fig:feelpp:wp1:nafems-le10:results:performance_times_M4}.
+The behavior is very good, we can see the a good scalability, up to a limit as
+usual when the problem size become too small. We can notice some jump with the
+\textbf{Init} part in cases of large number tasks. We think that is due to
+filesystem load, particularly because we load the mesh file from non-fast
+storage. Outputs are written on fast storage but not input datasets because of
+reduced quota limits on this fast disk.
+
 \begin{figure}[!ht]
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
