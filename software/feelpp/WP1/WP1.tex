@@ -1487,6 +1487,21 @@ following tasks is monitored:
 
 \paragraph{Results Summary}
 
+\begin{figure}[!ht]
+  \centering
+
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-contact-temperature.png}
+    \caption{The contact between a sphere and a rigid wall. The colors represent the distance from the highest point of the sphere to the wall.}
+    \label{fig:wp1:feelpp:contact:visualization-solution}
+\end{figure}
+
+
+The contact displacement is shown in ~\Cref{fig:wp1:feelpp:contact:visualization-solution}.
+The figure on the left shows the reference domain, while the figure on the right depicts 
+the contact between the sphere and the rigid wall. The distance from the highest point of the sphere 
+in the outward normal direction to the wall is represented by the color bar.
+The results of this simulation correspond to those found in the literature \cite{chouly_explicit_2018}.
+
 The results for the computational time and relative computational time for the
 different tasks and varying numbers of processors are presented in ~\Cref{fig:feelpp:wp1:contact:time},
 and ~\Cref{fig:feelpp:wp1:contact:time-rel}. The bars show the results using $P_1$ Lagrange
@@ -1495,7 +1510,7 @@ elements for the unknown displacement field.
 
 We observe that the resolution of the dynamic system constitutes the majority of
 the computational time, and its relative time increases with the number of cores.
-%The communication between nodes and synchronization points become predominant as the number of cores increases.
+The communication between nodes and synchronization points become predominant as the number of cores increases.
 With the increase in the number of cores, the absolute execution time related to
 data structure initialization, ray-tracing, assembly, and post-processing decreases.
 The mesh loading time remains constant, as it is not partitioned at the input.
@@ -1519,15 +1534,15 @@ The mesh loading time remains constant, as it is not partitioned at the input.
         ]
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=mesh] {\dataContact};
         % \addlegendentry{Mesh}
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y=data] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=data] {\dataContact};
         % \addlegendentry{Data Structures}
-        \addplot+[ybar, bar width=0.2, fill=black, draw=black, point meta=y] table [x=x, y expr={300*\thisrow{raytracing}} ] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customyellow, draw=black, point meta=y] table [x=x, y expr={300*\thisrow{raytracing}} ] {\dataContact};
         % \addlegendentry{Assembly}
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=assembly ] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y=assembly ] {\dataContact};
 
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y=solve] {\dataContact};
         % \addlegendentry{Solve}
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=postprocess] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=postprocess] {\dataContact};
         % \addlegendentry{Post process}
 
         \end{axis}
@@ -1554,19 +1569,19 @@ The mesh loading time remains constant, as it is not partitioned at the input.
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{mesh}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Mesh}
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{data}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Data Structures}
-        \addplot+[ybar, bar width=0.2, fill=black, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customyellow, draw=black, point meta=y]
             table [x=x, y expr={3000*\thisrow{raytracing}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Ray-tracing}
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{assembly}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Assembly}
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{solve}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Solve}
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{postprocess}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Post process}
 
