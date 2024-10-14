@@ -55,13 +55,12 @@ In~\cref{tab:WP3:HPDDM:features} we provide a summary of the software features r
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    "reuse of Krylov subspaces for multiple right-hand sides" & provide short description here \\
-\rowcolor{numpexlightergray}    domain decomposition methods & provide short description here \\
-\rowcolor{white}    interface & provide short description here \\
-\rowcolor{numpexlightergray}    low-rank & provide short description here \\
-\rowcolor{white}    multi-precision & provide short description here \\
-\rowcolor{numpexlightergray}    randomization & provide short description here \\
-\rowcolor{white}    tensor calculus & provide short description here \\
+\rowcolor{white}    reuse of Krylov subspaces for multiple right-hand sides & By reusing information from previously computed Krylov subspaces, such as the basis vectors, the computational cost is reduced, and convergence can be faster. This is particularly useful in applications like time-dependent simulations, parametric studies. \\
+\rowcolor{numpexlightergray}    domain decomposition methods & Numerical techniques used to solve large-scale problems, typically arising from the discretization of partial differential equations (PDEs), by dividing the problem domain into smaller subdomains. Each subdomain is solved independently, often in parallel, and then the solutions are combined to obtain the global solution.\\
+\rowcolor{white}    interface & This ensures that various Exa-MA libraries can work together efficiently, sharing data and results. It typically involves standardized APIs, data formats, and compatibility protocols to enable seamless integration.\\
+\rowcolor{numpexlightergray}    low-rank & Approximation of large, complex matrices with simpler matrices that have lower ranks, while preserving their most important features. \\
+\rowcolor{white}    multi-precision & Performing numerical calculations with variable precision, beyond the standard single or double precision typically used in computing. It allows for higher or lower levels of precision depending on the needs of the problem, enabling more accurate results for sensitive computations or faster performance when lower precision is sufficient. \\
+\rowcolor{numpexlightergray}    randomization & Random sampling techniques to approximate solutions to large-scale matrix problems more efficiently. By leveraging randomness, algorithms can reduce the computational cost and memory requirements of tasks such as matrix decompositions \\
 \end{tabular}
         }
     }
@@ -75,55 +74,50 @@ In~\cref{tab:WP3:HPDDM:features} we provide a summary of the software features r
 
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item MPI, OpenMP, and CUDA.
+    \item Most French supercomputers from GENCI, Fugaku@RIKEN, and other supercomputers worldwide (mostly when used through PETSc).
+    \item The library relies on already-distributed inputs, e.g., a matrix, it cannot be used to do the data-decomposition itself.
+    \item \textbf{Scalability:} multi-level domain decomposition methods are highly scalable numerically with a very aggressive coarsening factor (compared to, e.g., multigrid methods). Special care must be taken to implement these efficiently, for example to ensure proper load-balancing.
+    \item \textbf{Integration with Other Systems:} through its interface to PETSc and FreeFEM, the software is readily integrated in other higher-level library used by others from the Exa-MA framework.
 \end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:HPDDM:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
-
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+    \item \textbf{Overall Performance:} The scalability of the library in its current state has been advertised on numerous occasion. As part of the Exa-MA framework, we will provide a standalone benchmark detailed next.
+    \item \textbf{Input/Output Dataset:}
         \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
+            \item Input matrix and right-hand side in PETSc binary format.
+            \item Output solution vector in PETSc binary format.
         \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+    \item \textbf{open-data Access:} The files will be made open-source, though they aren't currently.
+    \item \textbf{Challenges:} Scalable input/output for large process counts, proper parameters for multi-level preconditioning.
+    \item \textbf{Future Improvements:} Setting suitable default parameters for building efficient multi-level domain decomposition preconditioners.
 \end{itemize}
 
 \subsubsection{Benchmark \#1}
 \begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+    \item \textbf{Description:} A discrete fracture network (DFN) is a modeling approach used to represent the geometry and connectivity of fractures in rock masses. It treats fractures as discrete features within a larger rock domain, often simulating the flow of fluids or transport of particles through these fractures. This requires the solution of large symmetric positive definite systems, with hundreds of millions of unknowns.
+    \item \textbf{Benchmarking Tools Used:} PETSc \verb!-log_view! will be used to measure execution time and FLOPS.
+%    \item \textbf{Input/Output Dataset Description:}
+%        \begin{itemize}
+%            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%        \end{itemize}
+%    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
 \subsection{12-Month Roadmap}
 \label{sec:WP3:HPDDM:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 \begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+    \item \textbf{Data Improvements:} Modify \verb!PCView_HPDDM()! to avoid writing three files per subdomain, but instead a single file for all the subdomains, with the data grouped into a single \verb!Mat! and single \verb!IS!. This will greatly reduce the number of input/output operations.
+    \item \textbf{Methodology Application:} Make sure that HPDDM can handle matrices store on device using cuSparse.
+    \item \textbf{Results Retention:} Online on GitHub in the NumPEx organization.
 \end{itemize}
 
 In~\cref{tab:WP3:HPDDM:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
@@ -144,10 +138,10 @@ In~\cref{tab:WP3:HPDDM:bottlenecks}, we briefly discuss the bottleneck roadmap a
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & provide suitable default parameters to make preconditioners easier to use \\
+                \rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & ensure randomized algorithms within the preconditioner are sharp enough to not hinder the global (outer) convergence \\
+\rowcolor{white}    B6 - Data Management & keep the volume of data reasonable and make sure the inputs and outputs can be reused among different architectures \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & multi-level preconditioning and efficient porting of subdomain solvers on accelerators \\
 \end{tabular}
         }
     }

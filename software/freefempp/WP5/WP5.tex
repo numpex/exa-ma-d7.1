@@ -43,6 +43,8 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP5:Freefem++:summary}
 
+FreeFEM interfaces with various optimization libraries for large scale problems. IPOPT is a software library for non-linear, constrained optimization and implements a primal-dual interior point method along with filter method based line searches. The CMA-ES library implements stochastic strategies for optimization of nonlinear non-convex 'blackbox' functions. FreeFEM is also interfaced with the Toolkit for Advanced Optimization (TAO) from the PETSc library.\\
+
 In~\cref{tab:WP5:Freefem++:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
@@ -57,7 +59,7 @@ In~\cref{tab:WP5:Freefem++:features} we provide a summary of the software featur
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    Iterative methods & provide short description here \\
+\rowcolor{white}    Iterative methods & FreeFEM is interfaced with several optimization libraries such as IPOPT, CM-AES and TAO from PETSc.\\
 \end{tabular}
         }
     }
@@ -69,84 +71,57 @@ In~\cref{tab:WP5:Freefem++:features} we provide a summary of the software featur
 \subsection{Parallel Capabilities}
 \label{sec:WP5:Freefem++:performances}
 
+IPOPT is a sequential library. FreeFEM provides a MPI-parallel interface to CM-AES, and TAO relies on the parallel capabilities of the PETSc library.
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+    \item \textbf{Parallel Environment:} MPI
+
+    \item \textbf{Architectures:} CPU only ; local computing clusters, french supercomputers (Irene, Jean Zay, ...)
+ 
+    \item \textbf{Scalability:} relies on optimization librairies such as IPOPT, CM-AES and TAO from PETSc. Scalability will be measured in terms of number of iterations of the optimization algorithm and computing time.
 \end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP5:Freefem++:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP5. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+In the near future, the plan is to provide results comparing the performance of the different methods available in FreeFEM for a constrained minimal volume optimization problem described below.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+\subsubsection{Benchmark \#1: Minimal volume}
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+The Plateau problem is named after the Belgian natural scientist J. Plateau, who made numerous experiments with soap films, realizing a large variety of minimal surfaces.\\
+In this well known problem, the aim is to find a minimal surface or volume whose boundary is fixed. We restrict ourselves to closed and $C^2$ surfaces, parametrized by means of the graph of a given function $u:\bar{\Omega} \rightarrow \mathbb{R}$ (with $\Omega\subset\mathbb{R}^d$, where $d=2$ or $3$) belonging to the admissible set
+\[
+	S(\Omega) = \left\{ u:\bar{\Omega} \rightarrow \mathbb{R},\quad u_{\vert\Omega} \in C^d(\Omega,\mathbb{R}),\quad u_{\vert\partial\Omega} \in C^1(\partial\Omega,\mathbb{R}) \right\},
+\]
+so that an admissible surface/volume is given by the parametric surface 
+$$
+X(\boldsymbol{x}) = (\boldsymbol{x},u(\boldsymbol{x})), \quad \boldsymbol{x} \in \bar{\Omega} .
+$$
+The cost functional is
+\[
+	J(u) = \int_{\Omega} (1+\vert\nabla u\vert^2)^\frac{1}{2}\,d\boldsymbol{x} .
+\]
+Given a function $\gamma\in C^1(\partial\Omega,\mathbb{R})$ along the boundary of $\Omega$, we seek an optimal solution of the Plateau optimization problem 
+\begin{align}
+    \nonumber
+	\min_{u \in S(\Omega)} J(u) \mbox{ such that } u_{\vert\partial\Omega} = \gamma .
+\end{align}
+This problem can be solved by finding the critical points of the functional $J$ thanks to an iterative procedure, e.g. combining a fixed point method and a Newton method.\\
+
+Such an iterative procedure requires the computation of the gradient, and if possible, the Hessian. Here, the first derivative of the cost functional $J$ is given by
+\begin{align}
+    \nonumber
+	DJ(u)v = \int_{\Omega}  \frac{\nabla u\cdot\nabla v}{(1+\vert\nabla u\vert^2)^{\frac{1}{2}}} \,d\boldsymbol{x} \quad \forall v\in S(\Omega)
+\end{align}
+and its second order derivative is given by
+\begin{align}
+    \nonumber
+	D^2J(u)(v,w) = \int_{\Omega}  \frac{\nabla v\cdot\nabla w}{(1+\vert\nabla u\vert^2)^{\frac{1}{2}}}  -\frac{(\nabla u \cdot \nabla v)(\nabla u \cdot \nabla w)}{(1+\vert\nabla u\vert^2)^{\frac{3}{2}}} \,d\boldsymbol{x}	\quad \forall v,w \in S(\Omega).
+\end{align}	
+As an example, we can choose $\Omega$ as the unit square and $\gamma(x,y) = \cos(\pi x)\cos(\pi y)$. This problem is solved using TAO from PETSC in a FreeFEM script available in the distribution at~\url{https://github.com/FreeFem/FreeFem-sources/blob/master/examples/hpddm/minimal-surface-Tao-2d-PETSc.edp}.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP5:Freefem++:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
-
-In~\cref{tab:WP5:Freefem++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
-
-\begin{table}[h!]
-    \centering
-    
-    
-
-    \centering
-    { 
-        \setlength{\parindent}{0pt}
-        \def\arraystretch{1.25}
-        \arrayrulecolor{numpexgray}
-        {
-            \fontsize{9}{11}\selectfont
-            \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
-\end{tabular}
-        }
-    }
-    \caption{WP5: Freefem++ plan with Respect to Relevant Bottlenecks}
-    \label{tab:WP5:Freefem++:bottlenecks}
-\end{table}
+The plan is to provide results comparing the performance of the different methods available in FreeFEM for a constrained minimal volume optimization problem. In particular, the performance and scalability of TAO solvers will be assessed, both in terms of number of iterations and computing time. The script will be made publicly available.
