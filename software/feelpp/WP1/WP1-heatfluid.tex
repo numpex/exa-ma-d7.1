@@ -1,0 +1,300 @@
+
+
+
+
+\subsubsection{Benchmark \#\counter{feelppWP1benchcounter}: HeatFluid Coupling}
+\label{sec:WP1:Feelpp:benchmark4}
+
+\newcommand{\vct}[1]{\vec{#1}}
+\newcommand{\mat}[1]{\underline{\underline{#1}}}
+
+
+% \emph{enlever tous les détails, et laisser les références, expliciter la liste de maillage et la machine où est faite le bench, et la mise en donnée (paramètrisation)}
+
+% \emph{dans wp3: parler du préconditionner}
+
+
+\paragraph{Description}
+This benchmark models the steady aqueous humor (AH) flow in the posterior and anterior chambers of the human eyeball, coupled with the overall heat transfer, adapted from~\cite{ooi_simulation_2008,kilgour_operator_2021}.
+The full model description is available in~\cite{saigre_coupled_2024_abstract}.
+It it run with the toolbox \texttt{heatfluid} of \Feelpp.
+
+
+\paragraph{Benchmarking Tools Used}
+
+The following tools were used for performance profiling and analysis:
+\begin{itemize}
+    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time.
+    \item \textbf{Gaya}: the benchmark was performed on the Gaya supercomputer (see \Cref{sec:arch:gaya}).
+\end{itemize}
+
+The metrics measured are the execution time to:
+\begin{inparaenum}[\it (i)]
+    \item load and initialize the mesh that is already partitioned on the disk,
+    \item initialize the data structures,
+    \item assembly algebraic objects of the linear system,
+    \item solve the non-linear algebraic system, and
+    \item export the results.
+\end{inparaenum}
+
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists of a family of 3D tetrahedral meshes generated through the process described in~\cite{chabannes_3d_2024}, and denoted \texttt{Mr0} to \texttt{Mr6}, with an increasing number of elements.
+    \Cref{tab:feelpp:wp1:coupled:mesh} presents the characteristics of these meshes.
+    The input data also provides the configuration files necessary to run the simulations.
+    \item \textbf{Output Data:} The output includes the computed temperature, velocity, and pressure fields for each mesh, stored in HDF5 format, as well as the time taken to perform each step of the simulation.
+    \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository \cite{saigre_mesh_2024}, accessible through DOI: \href{https://doi.org/10.5281/ZENODO.13886143}{10.5281/ZENODO.13886143}.
+\end{itemize}
+
+
+\begin{table}[!ht]
+    \centering
+    { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+    \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}
+        \multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties} & \multicolumn{3}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
+        \hline
+        \rowcolor{numpexgray}{\color{white}\bf Tag} & {\color{white}\bf $h_\text{min}$} & {\color{white}\bf $h_\text{max}$} & {\color{white}\bf $h_\text{mean}$} & {\color{white}\bf \# elements} & {\color{white}\bf $T$} & {\color{white}\bf $\vct{u}$} & {\color{white}\bf $p$} \\
+        \texttt{Mr0} & \pgfmathprintnumber{1.247583e-04} & \pgfmathprintnumber{3.997611e-03} & \pgfmathprintnumber{9.227331e-04} & \pgfmathprintnumber{191939} & \pgfmathprintnumber{37470} & \pgfmathprintnumber{84966} & \pgfmathprintnumber{4615} \\
+        \rowcolor{numpexlightergray}
+        \texttt{Mr1} & \pgfmathprintnumber{1.367312e-04} & \pgfmathprintnumber{3.634717e-03} & \pgfmathprintnumber{7.717604e-04} & \pgfmathprintnumber{282030} & \pgfmathprintnumber{51753} & \pgfmathprintnumber{116709} & \pgfmathprintnumber{6155} \\
+        \texttt{Mr2} & \pgfmathprintnumber{6.539683e-05} & \pgfmathprintnumber{1.599067e-03} & \pgfmathprintnumber{4.668270e-04} & \pgfmathprintnumber{746664} & \pgfmathprintnumber{131327} & \pgfmathprintnumber{589992} & \pgfmathprintnumber{28548} \\
+        \rowcolor{numpexlightergray}
+        \texttt{Mr3} & \pgfmathprintnumber{3.294835e-05} & \pgfmathprintnumber{9.592658e-04} & \pgfmathprintnumber{4.166619e-04} & \pgfmathprintnumber{1403433} & \pgfmathprintnumber{241831} & \pgfmathprintnumber{707532} & \pgfmathprintnumber{34304} \\
+        \texttt{Mr4} & \pgfmathprintnumber{2.549458e-05} & \pgfmathprintnumber{5.293352e-04} & \pgfmathprintnumber{2.883913e-04} & \pgfmathprintnumber{6038645} & \pgfmathprintnumber{1027375} & \pgfmathprintnumber{1024008} & \pgfmathprintnumber{48534} \\
+        \rowcolor{numpexlightergray}
+        \texttt{Mr5} & \pgfmathprintnumber{3.120124e-05} & \pgfmathprintnumber{1.501561e-04} & \pgfmathprintnumber{2.772105e-04} & \pgfmathprintnumber{43893359} & \pgfmathprintnumber{7374833} & \pgfmathprintnumber{4616967} & \pgfmathprintnumber{205342} \\
+        \texttt{Mr6} & \pgfmathprintnumber{2.820610e-05} & \pgfmathprintnumber{9.940551e-07} & \pgfmathprintnumber{1.835537e-04} & \pgfmathprintnumber{150630096} & \pgfmathprintnumber{25200452} & \pgfmathprintnumber{14671089} & \pgfmathprintnumber{636943} \\
+        \hline
+    \end{tabular}
+    }}
+    \caption{Characteristics of meshes used for the convergence study and number of degrees of freedom for temperature $T$, velocity $\vct{u}$, and pressure fields $p$, with the discretization $P_1\text{--}P_2P_1$.}%
+    \label{tab:feelpp:wp1:coupled:mesh}
+\end{table}
+
+
+\paragraph{Results Summary}
+
+The results of the benchmark are summarized in~\Cref{fig:feelpp:wp1:coupled:time} and~\Cref{fig:feelpp:wp1:coupled:time-rel},
+showing the computational time and relative computational time for each component of the simulation, respectively.
+The results are presented for the three biggest meshed of the family, namely \texttt{Mr4}, \texttt{Mr5}, and \texttt{Mr6}.
+Note that for \texttt{Mr6}, the simulation dit not complete on 1 node (128 cores) due to memory limitations.
+
+We observe that the resolution of the non-linear algebraic system is the most time-consuming part of the simulation, followed by the assembly of the linear system.
+Moreover, even though the relative time is globally similar when the number of cores is increased, we note a decrease in the absolute time for various components of the simulation, except for the Post process part, which involves writing the results to disk.
+The assembly time remains significant compared to other parts of the simulation, with a noticeable increase in the time spent resolving the non-linear system, which forms the largest portion of the computation.
+As the number of cores increases, we also observe a proportional increase in time dedicated to I/O operations, particularly in the Post process phase, due to the larger volumes of data being written to disk.
+
+\iffalse
+\pgfplotstableread{\currfiledir/data/heatfluid-time-data.dat}\data
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Computational time [s]},
+            xtick={0,1,2,3,4,5,6,7,8,9,10}, xticklabels={1,2,4,8,16,32,64,128,256,512,640},
+            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymode=log,
+            % title={Computational time for the 3D case},
+        ]
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\data};
+        \addlegendentry{Mesh}
+
+
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\data};
+        \addlegendentry{Data Structures}
+
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=algebraic-nlsolve] {\data};
+        \addlegendentry{Solve}
+
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\data};
+        \addlegendentry{Assembly}
+
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y
+        ] table [x=x, y=exportResults] {\data};
+        \addlegendentry{Post process}
+
+        \end{axis}
+        \end{tikzpicture}
+    \caption{Computational time for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}.}
+\end{figure}
+
+\begin{figure}
+    \centering
+
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Relative computational time [\%]},
+            xtick={0,1,2,3,4,5,6,7,8,9,10}, xticklabels={1,2,4,8,16,32,64,128,256,512,640},
+            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymin=0, ymax=100,
+            % title={Relative computational time for the 3D case},
+        ]
+
+        % Compute the relative time for each component by dividing by the total time
+        % using the correct column names from the initial plot
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Mesh}
+
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Data Structures}
+
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Solve}
+
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Assembly}
+
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
+        \addlegendentry{Post process}
+
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Relative time spent in each component of the computation for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}.}
+\end{figure}
+\fi
+
+
+\pgfplotstableread{\currfiledir/data/heatfluid-time-M4.dat}\dataMQuatre
+\pgfplotstableread{\currfiledir/data/heatfluid-time-M5.dat}\dataMCinq
+\pgfplotstableread{\currfiledir/data/heatfluid-time-M6.dat}\dataMSix
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{\textwidth}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Computational time [s]},
+            xtick={0,1,2,3,4,5}, xticklabels={128,256,384,512,640,768},
+            legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true, ymin=0,
+            bar width=7pt, ybar stacked,
+            %ymode=log,
+            % title={Computational time for the 3D case},
+        ]
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\dataMQuatre};
+        % \addlegendentry{Mesh}
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMQuatre};
+        % \addlegendentry{Data Structures}
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMQuatre};
+        % \addlegendentry{Assembly}
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y=algebraic-nlsolve] {\dataMQuatre};
+        % \addlegendentry{Solve}
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=exportResults] {\dataMQuatre};
+        % \addlegendentry{Post process}
+
+        \resetstackedplots
+
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y, forget plot] table [x=x, y=initMesh] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y, forget plot] table [x=x, y=algebraic-nlsolve] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMCinq};
+
+        \resetstackedplots
+
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y, forget plot] table [x=x, y=initMesh] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y, forget plot] table [x=x, y=algebraic-nlsolve] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMSix};
+
+        \end{axis}
+        \end{tikzpicture}
+    \caption{Computational time for the coupled heat-fluid testcase.}
+    \label{fig:feelpp:wp1:coupled:time}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{\textwidth}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth, height=8cm,
+            xlabel={Nproc}, ylabel={Relative computational time [\%]},
+            xtick={0,1,2,3,4,5}, xticklabels={128,256,384,512,640,768},
+            legend style={at={(0.5,-0.18)}, anchor=north, legend columns=-1},
+            ymajorgrids=true, yminorgrids=true,
+            bar width=7pt, ybar stacked,
+            ymin=0, ymax=100,
+            % title={Relative computational time for the 3D case},
+        ]
+
+        % Compute the relative time for each component by dividing by the total time
+        % using the correct column names from the initial plot
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
+        \addlegendentry{Mesh}
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
+        \addlegendentry{Data Structures}
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
+        \addlegendentry{Assembly}
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
+        \addlegendentry{Solve}
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
+        \addlegendentry{Post process}
+
+        \resetstackedplots
+
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
+
+        \resetstackedplots
+
+        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
+            \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
+            \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
+                table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+            table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Relative time spent in each component of the computation for the coupled heat-fluid testcase.}
+    \label{fig:feelpp:wp1:coupled:time-rel}
+\end{subfigure}
+\caption{Absolute (\Cref{fig:feelpp:wp1:coupled:time}) and relative (\Cref{fig:feelpp:wp1:coupled:time-rel}) computational time for the coupled heat-fluid testcase, performed on Gaya with the meshes \texttt{Mr4} (left), \texttt{Mr5} (middle), and \texttt{Mr6} (right).}
+\label{fig:feelpp:wp1:heatfluid:time}
+\end{figure}
+
+
+\paragraph{Challenges Identified}
+Several challenges were encountered during the benchmarking process: \textbf{??}
+\begin{itemize}
+    \item \textbf{Memory Usage:}
+    \item \textbf{Parallelization Inefficiencies:}
+    \item \textbf{Cache and Memory Bottlenecks:}
+\end{itemize}
+
