@@ -51,17 +51,6 @@ B7 - Exascale Algorithms\\
 It leverages modern \Cpp{} standards, including \Cpp{17} and \Cpp{20}, and also provides a Python layer through Pybind11.
 The suite is particularly effective for parallel computing, with seamless integration of parallelism through default communicators, including support for ensemble runs.
 
-%% Some key features include:
-%% \begin{itemize}
-%%     \item Advanced interpolation and integration operators that work efficiently in parallel.
-%%     \item Comprehensive post-processing capabilities, even for high-order approximations and high-order geometries.
-%%     \item Build system managed by CMake and CMake Presets.
-%%     \item Detailed documentation is available at \url{https://docs.feelpp.org}, with dynamic pages that can be downloaded as Jupyter notebooks.
-%%     \item DevOps integration using GitHub Actions for CI/CD and continuous benchmarking on in-house and EuroHPC systems.
-%%     \item Packaging support for Ubuntu, Debian, Spack, and MacPorts, as well as containers using Docker and Apptainer.
-%%     \item Comprehensive testing infrastructure with nearly a thousand tests, both in sequential and parallel modes, for both C++ and Python.
-%%     \item Applications span research, R\&D, teaching, and services.
-%% \end{itemize}
 
 
 \Feelpp provides several specialized toolboxes to address various fields of numerical simulation
@@ -281,7 +270,7 @@ The~\Cref{tab:Feelpp:environment_capabilities} summarizes these aspects for \Fee
                 Unit\\
                 Validation\\
                 Verification\\
-                \end{tabular} & \Feelpp includes a comprehensive suite of nearly 1,000 tests executed via ctest. These tests correspond to applications run both sequentially and in parallel. In most cases, applications are tested in both modes; only on very rare occasions are they run exclusively in either sequential or parallel mode. Each application contains numerous tests that perform unit testing or verify expected mathematical properties. To detect excessive execution time regressions, timeouts are configured for the tests. Finally, some tests are mini-applications or benchmarks that perform verification or validation against reference results.\\
+                \end{tabular} & \Feelpp includes a suite of nearly 1,000 tests executed via ctest. These tests correspond to applications run both sequentially and in parallel. In most cases, applications are tested in both modes; only on very rare occasions are they run exclusively in either sequential or parallel mode. Each application contains numerous tests that perform unit testing or verify expected mathematical properties. To detect excessive execution time regressions, timeouts are configured for the tests. Finally, some tests are mini-applications or benchmarks that perform verification or validation against reference results.\\
 
         \rowcolor{numpexlightergray}Containerization  & Docker, Singularity & \Feelpp supports Docker and Apptainer/Singularity containers built either from source or from Debian-based packages. Both container type images are stored on \url{https://ghcr.io/feelpp/feelpp}. Images with tags containing \texttt{-sif} appended are apptainer images, the other ones are docker images. \\
 
@@ -353,6 +342,7 @@ Relevant publications include:
 The software has been developed with the support of the following funding agencies and institutions through various research projects:
 \begin{itemize}
    \item Université de Strasbourg
+   \item Cemosis
    \item CNRS
    \item ANR
    \item Région Grand Est

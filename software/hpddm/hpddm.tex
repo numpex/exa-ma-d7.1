@@ -42,13 +42,21 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:HPDDM:summary}
-Detailed overview not available.
 
-
+HPDDM (High-Performance unified framework for Domain Decomposition Methods) is a library of
+advanced Krylov methods and multilevel domain decomposition methods, used as preconditioners, designed for high-performace computing.
+The available Krylov methods include CG, block CG, GMRES, and block GMRES.
+The available domain decomposition methods include one- and multi-level restricted additive Schwarz (RAS) methods.
+The efficiency of these methods has been shown on elliptic PDEs such as the scalar diffusion equation, the linear elasticity equations,
+or the Helmhotz equation for wave propagation.
+The library can be used through various software for scientific computing:
+PETSc, SLEPc, FreeFEM, Feel++, or HTOOL.
 
 \subsection{Purpose}
 \label{sec:HPDDM:purpose}
-Purpose not available.
+
+HPDDM aims at providing the scientific community a set of robust and efficient domain decomposition methods
+to solve linear systems in parallel.
 
 \subsection{Programming and Computational Environment}
 \label{sec::HPDDM:environment_capabilities}
@@ -101,6 +109,8 @@ Freefem++\\
 MUMPS\\
 PETSc\\
 PaStiX\\
+HTOOL\\
+\\
 \end{tabular} & List of software HPDDM has interfaces with.\\
         \bottomrule
     \end{tabular}
@@ -112,25 +122,29 @@ PaStiX\\
 
 \subsection{Mathematics}
 \label{sec:HPDDM:mathematics}
-Mathematics not available.
-
-In this section, provide a summary the mathematics used in the software.
-
+\fullcite{dolean_introduction_2015} provides the mathematical foundation of the library, most importantly when it comes to the definition of parameter-robust preconditioner for symmetric positive definite systems.
 
 \subsection{Relevant Publications}
 \label{sec:HPDDM:publications}
 
 Here is a list of relevant publications related to the software:
-
+\begin{itemize}
+\item \fullcite{jolivet_ddprecond_2013} presents a two-level domain decomposition preconditioner tested to solve elliptic problems in parallel with up to 22 billion unknowns in 2D and 2 billion unknowns in 3D.
+\item \fullcite{jolivet_blockrecycling_2016} presents block iterative methods and recycling strategies to solve linear systems with multiple right-hand sides and millions of unknwons while preserving a good scalability.
+\item \fullcite{jolivet_ksphpddm-pchpddm_2021} presents KSPHPDDM (Krylov methods) and PCHPDDM (preconditioners) available in PETSc, when configured with HPDDM support.
+\end{itemize}
+  
 
 \subsection{Acknowledgements}
 \label{sec::HPDDM:acknowledgements}
 
 The software has been developed with the support of the following funding agencies and institutions: 
 
-
-
-
-Acknowledgements not available.
-
-
+\begin{itemize}
+\item Sorbonne Université
+\item Institut de Recherche en Informatique de Toulouse
+\item INRIA
+\item ANR
+\item Eidgenössische Technische Hochschule Zürich
+\item Université Grenoble Alpes
+\end{itemize}

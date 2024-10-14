@@ -123,6 +123,24 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
+% % create latex counter
+% \newcounter{feelppWP1benchcounter}
+% % set the counter to 1
+% \setcounter{feelppWP1benchcounter}{1}
+% \subimport{../software/feelpp/WP1}{WP1-thermalbridge.tex}
+% % increment the counter
+% \stepcounter{feelppWP1benchcounter}
+% % get value of counter
+% 
+% 
+% 
+% \subimport{../software/feelpp/WP1}{WP1-heatfluid.tex}
+% % increment the counter
+% \stepcounter{feelppWP1benchcounter}
+% \subimport{../software/feelpp/WP1}{WP1-contact.tex}
+% %\subimport{./}{WP1-lap-elas}
+
+
 \subsubsection{Benchmark \#1: Compute Distance Function}
 
 \paragraph{Description}
@@ -144,7 +162,7 @@ The following tools were used for performance profiling and analysis:
 
 The key metrics measured include execution time, accuracy, memory usage, and floating-point operations (FLOPS) for both methods.
 
-\subsection{Input/Output Dataset Description}
+\paragraph{Input/Output Dataset Description}
 \begin{itemize}
     \item \textbf{Input Data:} The input consists of a 3D uniform grid representing the box geometry, with approximately 1 million vertices. The level set function and ray tracing boundaries are initialized for the distance computation. The input data is stored in JSON format, and it can be accessed via DOI: \texttt{[Insert DOI]}.
 

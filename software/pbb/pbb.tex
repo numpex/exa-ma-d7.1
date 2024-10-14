@@ -31,7 +31,6 @@ OSS: Cecill-*\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
-Productivity is first related to the different parallel levels of supercomputers including the inter-node, intra-node and GPU levels. In pBB, productivity is ensured using the PGAS-based design approach. The Chapel language is used for the implementation of PGAS. In this latter, the different parallel levels are unified. Second, pBB provides a data structure (P3D-DFS) that can be used in a productive way for different optimization problems.  
 B11 - Reproducibility and Replicability of Computation\\
 %B6 - Data Management\\
 B7 - Exascale Algorithms\\
@@ -51,13 +50,14 @@ In addition, a PGAS-guided design approach is used to improve its software produ
 
 \subsection{Purpose}
 \label{sec:pBB:purpose}
-Three main properties characterize pBB:
+
+The purpose of pBB is to provide an efficient, scalable, and general framework for solving exact optimization problems using B\&B. Three main properties characterize pBB:
 \begin{itemize}
-    \item \textbf{Generalization}: our goal is to build a framework which unifies and generalizes various popular fractal decomposition-based algorithms from different communities (e.g. global optimization, reinforcement learning, computational intelligence).
+    \item \textbf{Generalization}: our goal is to build a framework which is applicable to various optimization problems (e.g., Flow-shop Scheduling, Knapsack problems).
 
-    \item
+    \item \textbf{Massively parallel}: a transparent and efficient parallel implementation of the algorithms on various architectures (e.g., multicore CPUs, GPUs, clusters) is carried out. The main challenge is the parallelization of the tree search component of the framework. Many parallel tree search algorithms can be considered.
 
-    \item \textbf{Massively parallel}: a transparent and efficient parallel implementation of the algorithms on various architectures (e.g. multicores, GPUs) is carried out. The main challenge is the parallelization of the tree search component of the framework. Many parallel tree search algorithms can be considered.
+    \item \textbf{Productivity}: pBB enhances productivity by unifying inter-node, intra-node, and GPU levels through a PGAS-based design approach. This simplifies the development and maintenance of parallel algorithms, allowing developers to focus on high-level design while ensuring efficient execution across diverse architectures.
 \end{itemize}
 
 \subsection{Programming and Computational Environment}
@@ -121,6 +121,8 @@ Combinatorial Optimization Problems (COP) consist in finding an object within a 
 
 Here is a list of relevant publications related to the software:
 
+Jan Gmys. 2022. Exactly Solving Hard Permutation Flowshop Scheduling Problems on Peta-Scale GPU-Accelerated Supercomputers. INFORMS J. on Computing 34, 5, 2502–2522. https://doi.org/10.1287/ijoc.2022.1193
+
 Guillaume Helbecque, Tiago Carneiro, Nouredine Melab, Jan Gmys, Pascal Bouvry. PGAS Data Structure for Unbalanced Tree-Based Algorithms at Scale. Computational Science – ICCS 2024. 2024. https://doi.org/10.1007/978-3-031-63759-9\_13
 
 Helbecque G, Gmys J, Melab N, Carneiro T, Bouvry P. Parallel distributed productivity-aware tree-search using Chapel. Concurrency Computat Pract Exper. 2023; 35(27):e7874. https://doi.org/10.1002/cpe.7874
@@ -128,8 +130,4 @@ Helbecque G, Gmys J, Melab N, Carneiro T, Bouvry P. Parallel distributed product
 \subsection{Acknowledgements}
 \label{sec::pBB:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
-
-Acknowledgements not available.
-
-
+The software has been developed with the support of the following funding agencies and institutions: Université de Lille, Inria Lille, ANR, and FNR.

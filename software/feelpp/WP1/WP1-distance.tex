@@ -1,0 +1,58 @@
+
+\subsubsection{Benchmark \#1: Compute Distance Function}
+
+\paragraph{Description}
+This benchmark evaluates two methods for computing the distance function inside a three-dimensional box:
+\begin{enumerate}
+    \item The \textbf{Level Set} method using the \textbf{Fast Marching Algorithm (FMA)}.
+    \item The \textbf{Ray Tracing} method.
+\end{enumerate}
+The objective is to compute the distance function at all vertices of a discretized box using both methods and verify whether they produce the same results.
+The problem is discretized using an unstructured grid, and performance is assessed on a multi-core CPU architecture.
+
+The benchmark aims to compare the efficiency, accuracy, and computational cost of both approaches in terms of distance calculation within the 3D domain.
+
+\paragraph{Benchmarking Tools Used}
+The following tools were used for performance profiling and analysis:
+\begin{itemize}
+\item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time.
+\end{itemize}
+
+The key metrics measured include execution time, accuracy, memory usage, and floating-point operations (FLOPS) for both methods.
+
+\subsection{Input/Output Dataset Description}
+\begin{itemize}
+    \item \textbf{Input Data:} The input consists of a 3D uniform grid representing the box geometry, with approximately 1 million vertices. The level set function and ray tracing boundaries are initialized for the distance computation. The input data is stored in JSON format, and it can be accessed via DOI: \texttt{[Insert DOI]}.
+
+    \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
+
+    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, are stored in a Zenodo repository and can be accessed via DOI: \texttt{[Insert DOI]}.
+\end{itemize}
+
+\paragraph{Results Summary}
+The performance comparison between the two methods is summarized as follows:
+
+RESULTS here.
+
+\paragraph{Challenges Identified}
+The following challenges were encountered during the benchmarking process:
+\begin{itemize}
+    \item \textbf{Ray Tracing Bottlenecks:}
+    \item \textbf{Parallelization Issues:}
+    \item \textbf{Memory Usage:}
+\end{itemize}
+
+Final analysis and persectives here.
+
+\begin{itemize}
+    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+    \item \textbf{Input/Output Dataset Description:}
+        \begin{itemize}
+            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+        \end{itemize}
+    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\end{itemize}
