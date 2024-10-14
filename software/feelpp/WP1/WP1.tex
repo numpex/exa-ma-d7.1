@@ -123,6 +123,24 @@ This section provides a summary of initial performance benchmarks performed in t
     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 \end{itemize}
 
+% % create latex counter
+% \newcounter{feelppWP1benchcounter}
+% % set the counter to 1
+% \setcounter{feelppWP1benchcounter}{1}
+% \subimport{../software/feelpp/WP1}{WP1-thermalbridge.tex}
+% % increment the counter
+% \stepcounter{feelppWP1benchcounter}
+% % get value of counter
+%
+%
+%
+% \subimport{../software/feelpp/WP1}{WP1-heatfluid.tex}
+% % increment the counter
+% \stepcounter{feelppWP1benchcounter}
+% \subimport{../software/feelpp/WP1}{WP1-contact.tex}
+% %\subimport{./}{WP1-lap-elas}
+
+
 \subsubsection{Benchmark \#1: Compute Distance Function}
 
 \paragraph{Description}
@@ -144,7 +162,7 @@ The following tools were used for performance profiling and analysis:
 
 The key metrics measured include execution time, accuracy, memory usage, and floating-point operations (FLOPS) for both methods.
 
-\subsection{Input/Output Dataset Description}
+\paragraph{Input/Output Dataset Description}
 \begin{itemize}
     \item \textbf{Input Data:} The input consists of a 3D uniform grid representing the box geometry, with approximately 1 million vertices. The level set function and ray tracing boundaries are initialized for the distance computation. The input data is stored in JSON format, and it can be accessed via DOI: \texttt{[Insert DOI]}.
 
@@ -238,7 +256,8 @@ The metrics measured are the execution time of the main components of the simula
 \begin{itemize}
 \item \textbf{Init}: load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
 \item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
-\item \textbf{Solve}: the linear system by using a preconditioned gmres
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
 \item \textbf{PostProcess}: compute validation measures (temperature at points and
   heat flux) and export on the filesystem a visualization format (EnsighGold) of
   the solution.
@@ -553,31 +572,42 @@ installations, like Spack.
 \subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
 
 \paragraph{Description}
+The NAFEMS LE10 benchmark is a reference test designed to assess the
+capabilities of finite element analysis (FEM) software for modeling bending
+structures. This benchmark is part of the NAFEMS benchmarks, commonly used to
+verify the accuracy and reliability of numerical simulation codes in mechanical
+and civil engineering.
 
-% \begin{figure}[h]
-%   \centering
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
-%   \end{subfigure}
-%   \hfill
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
-%   \end{subfigure}
-%   \hfill
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png.png}
-%   \end{subfigure}
+The LE10 benchmark aims to test the ability of software to solve a beam bending
+problem in the context of structural analysis. It aims to compare the results
+obtained by simulation software with analytical or theoretical results, as well
+as with other calculation methods
 
+The benchmark consists of analyzing a thin plate in flexion subjected to given
+loads and fixed to some edges. The underlying physics model used is a linear
+elasticity model. At the numeric level, we use the continuous Galerkin method
+with Lagrange finite element of order 1 and 2. The validation of the NAFEMS LE10
+benchmark asks to compute the normal stress in the y direction at a point of the geometry.
 
-%   \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-%     von Mises yield criterion (right)}
-%   \label{fig:wp1:feelpp:nafems-le10:visualization}
-% \end{figure}
 
 \paragraph{Benchmarking Tools Used}
+The benchmark was performed on the \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to note that we have used here Apptainer with \Feelpp SIF image based on Ubuntu noble OS.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:nafems-le10}.
+\item \textbf{PostProcess}: compute validation measures (normal stress at a point)
+  and export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as von Mises yield, Tresca criterion and
+  principal stresses.
+\end{itemize}
 
 \paragraph{Input/Output Dataset Description}
 
@@ -622,90 +652,81 @@ installations, like Spack.
     \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png}
   \end{subfigure}
   \hfill
-%   \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-%     von Mises yield criterion (right)}
-%   \label{fig:wp1:feelpp:nafems-le10:visualization}
-% \end{figure}
-% columns/FunctionSpace/.style={string type},
-%  \begin{figure}
   \begin{subfigure}[c]{0.49\textwidth}
 
-  \centering
-  \captionsetup[subfigure]{justification=centering}
+    \centering
+    \captionsetup[subfigure]{justification=centering}
 
-  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_measures.csv}\dataTableMeasures
-  \def\myLineWidth{2pt}
-  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
-  \def\myLineStyleB{dashed}
-  \def\myLineStyleC{solid}
+    \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_measures.csv}\dataTableMeasures
+    \def\myLineWidth{2pt}
+    \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+    \def\myLineStyleB{dashed}
+    \def\myLineStyleC{solid}
 
-  \def\myAddPlot#1#2#3#4{
-    \addplot[#3,every mark/.append style={solid},
-    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
-    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
-    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
-    x filter/.code={
-      \pgfmathparse{\thisrow{PolyOrder}==#2}
-      \ifnum0=\pgfmathresult
-      \pgfmathsetmacro{\newx}{nan}
-    \else
-      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
-    \fi
-    \pgfmathparse{\newx}
-  },
-  y filter/.expression={ #4*\pgfmathresult }
-  ] table [x=Mesh, y=#1] {\dataTableMeasures};
+    \def\myAddPlot#1#2#3#4{
+      \addplot[#3,every mark/.append style={solid},
+      % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+      % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+      % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+      x filter/.code={
+        \pgfmathparse{\thisrow{PolyOrder}==#2}
+        \ifnum0=\pgfmathresult
+        \pgfmathsetmacro{\newx}{nan}
+      \else
+        \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+      \fi
+      \pgfmathparse{\newx}
+    },
+    y filter/.expression={ #4*\pgfmathresult }
+    ] table [x=Mesh, y=#1] {\dataTableMeasures};
   }
 
   \def\myPlotOutputMeasures#1#2#3#4{
-      %\resizebox{\textwidth}{0.6172\textwidth}{
+    % \resizebox{\textwidth}{0.6172\textwidth}{
     \begin{tikzpicture}
-    \begin{axis}[
-      width=\textwidth, height=0.6172\textwidth,
-      xtick=data,
-      xticklabel={M$\pgfmathprintnumber{\tick}$},
-      xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
-      ymajorgrids=true, yminorgrids=true,
-      minor y tick num=2,
-      % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-      %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
-      xlabel={Mesh levels}, ylabel={#4},
-      % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-      %legend style={at={(0.,1)}, anchor=north west,font=\small,legend
-      %columns=3},
-      legend style={at={(1.,1)}, anchor=south east,font=\small,legend columns=4},
-      %#2
-      ]
+      \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
+        xtick=data,
+        xticklabel={M$\pgfmathprintnumber{\tick}$},
+        xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Mesh levels}, ylabel={#4},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+        % columns=3},
+        legend style={at={(1.,1)}, anchor=south east,font=\small,legend columns=4},
+        % #2
+        ]
 
-      \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
-      \addlegendentry{P1}
-      \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
-      \addlegendentry{P2}
-      % \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
-      % \addlegendentry{P3}
-      \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
-        (2,#3) (4,#3)
-      };
-      \addlegendentry{Ref}
+        \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+        \addlegendentry{P1}
+        \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+        \addlegendentry{P2}
+        % \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+        % \addlegendentry{P3}
+        \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+          (2,#3) (4,#3)
+        };
+        \addlegendentry{Ref}
 
-    \end{axis}
-  \end{tikzpicture}
-      %}
+      \end{axis}
+    \end{tikzpicture}
+    % }
 
-}
+  }
 
-\myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{TODO Heat flow [W]}
+  \myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{TODO Heat flow [W]}
 
-\caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
-\label{fig:feelpp:wp1:nafems-le10:measures_convergences}
-
-% \end{figure}
+  \caption{NAFEMS LE10 benchmarks - Convergence of validation measures compared to references values}
+  \label{fig:feelpp:wp1:nafems-le10:results:measures_convergences}
 \end{subfigure}
 
-
-  \caption{NAFEMS LE10 benchmark - displacement solution (left) and
-    von Mises yield criterion (right)}
-  \label{fig:wp1:feelpp:nafems-le10:visualization}
+\caption{NAFEMS LE10 benchmark - displacement solution (left) and
+  von Mises yield criterion (right)}
+\label{fig:wp1:feelpp:nafems-le10:results:visualization}
 \end{figure}
 
 
@@ -770,7 +791,7 @@ installations, like Spack.
     \end{subfigure}
     \caption{NAFEMS LE10 benchmarks - Execution time of main simulation components
       - Mesh \texttt{M\meshId} - Discoverer supercomputer}
-    \label{fig:feelpp:wp1:nafems-le10:performance_times_M\meshId}
+    \label{fig:feelpp:wp1:nafems-le10:results:performance_times_M\meshId}
   \end{figure}
 
 }
@@ -830,6 +851,88 @@ add extra analysis  and conclusion here.
 
 Thermo Electric coupling in a complex geometry.
 
+\paragraph{Description}
+
+This benchmark models the temperature field and electric current distribution in an high field resistive magnet of the Laboratoire National des Champs Magnétiques Intenses. The magnet consist in a set of 14 copper alloys cylindrical tubes connected 2 by 2 into series by rings. In each tube, the current path is defined by 2 helical cuts of 0.2 mm width. The rings are machined to let water flow in between each tube
+in a channel of 0.8 mm. The magnet is operated at 12 MW with an imosed total current of 31 kA. The water flow in the magnet is about 140 l/s. The water cooling of the magnet is modelling by using Robin boundary conditions with parameters derived from classical correlation in thermo-hydraulics.
+%% TODO add ref to Cecile or Romain Phd %%
+A more detailled version of the full model is available in Daversion2016. The model is run with \texttt{thermoelectric} \Feelpp toolbox.
+
+\paragraph{Benchmarking Tools Used}
+The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}) and \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to say that we have used several \Feelpp installations
+\begin{itemize}
+\item \textbf{Gaya} : native application from Ubuntu packages of Jammy OS.
+\item \textbf{Discoverer} : Apptainer with \Feelpp SIF image based on Ubuntu
+  Noble OS.
+\end{itemize}
+Note: the \Feelpp version is identical but the dependencies (like Petsc)
+which are of course more recent with Noble.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:hl-31}.
+\item \textbf{PostProcess}: Export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as current density and electric field.
+\end{itemize}
+
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists in a 3D tetrahedral mesh with about 50 millions of tetras along with the  configuration files necessary to run the simulations.
+    \item \textbf{Output Data:} The output includes the computed temperature, current distribution stored in HDF5 format, as well as some integral quantities such a the total power dissipated by the magnet.
+    \item \textbf{Data Repository:} All input and output datasets are available in a unistra girder repository (collection HiFiMagnet, HL-31).
+\end{itemize}
+
+
+\paragraph{Description}
+
+This benchmark models the temperature field and electric current distribution in an high field resistive magnet of the Laboratoire National des Champs Magnétiques Intenses. The magnet consist in a set of 14 copper alloys cylindrical tubes connected 2 by 2 into series by rings. In each tube, the current path is defined by 2 helical cuts of 0.2 mm width. The rings are machined to let water flow in between each tube
+in a channel of 0.8 mm. The magnet is operated at 12 MW with an imosed total current of 31 kA. The water flow in the magnet is about 140 l/s. The water cooling of the magnet is modelling by using Robin boundary conditions with parameters derived from classical correlation in thermo-hydraulics.
+%% TODO add ref to Cecile or Romain Phd %%
+A more detailled version of the full model is available in Daversion2016. The model is run with \texttt{thermoelectric} \Feelpp toolbox.
+
+\paragraph{Benchmarking Tools Used}
+The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}) and \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to say that we have used several \Feelpp installations
+\begin{itemize}
+\item \textbf{Gaya} : native application from Ubuntu packages of Jammy OS.
+\item \textbf{Discoverer} : Apptainer with \Feelpp SIF image based on Ubuntu
+  Noble OS.
+\end{itemize}
+Note: the \Feelpp version is identical but the dependencies (like Petsc)
+which are of course more recent with Noble.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:hl-31}.
+\item \textbf{PostProcess}: Export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as current density and electric field.
+\end{itemize}
+
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists in a 3D tetrahedral mesh with about 50 millions of tetras along with the  configuration files necessary to run the simulations.
+    \item \textbf{Output Data:} The output includes the computed temperature, current distribution stored in HDF5 format, as well as some integral quantities such a the total power dissipated by the magnet.
+    \item \textbf{Data Repository:} All input and output datasets are available in a unistra girder repository (collection HiFiMagnet, HL-31).
+\end{itemize}
+
+
 \begin{figure}[!ht]
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
@@ -865,7 +968,7 @@ Thermo Electric coupling in a complex geometry.
     }}
   \caption{HL-31 benchmark - Statistics on meshes and number of degrees of freedom with respect
     to finite element approximation}
-  \label{tab:wp1:feelpp:nafems-le10:discr_stat}
+  \label{tab:wp1:feelpp:hl-31:discr_stat}
 \end{table}
 
 \paragraph{Results Summary}
@@ -895,7 +998,7 @@ Thermo Electric coupling in a complex geometry.
     \caption{Temperature on streamlines of electric field}
   \end{subfigure}
   \caption{HL-31 benchmarks - solutions}
-  \label{fig:wp1:feelpp:hl-31:visualization-solution}
+  \label{fig:wp1:feelpp:hl-31:results:visualization-solution}
 \end{figure}
 
 
@@ -955,7 +1058,7 @@ Thermo Electric coupling in a complex geometry.
     \end{subfigure}
     \caption{HL-31 benchmarks - Execution time of main simulation components
       - \supercomputerName \  supercomputer}
-    \label{fig:feelpp:wp1:hl-31:performance_times_M\meshId}
+    \label{fig:feelpp:wp1:hl-31:results:performance_times_M\meshId}
   \end{figure}
 
 %}

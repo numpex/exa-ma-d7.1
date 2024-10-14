@@ -21,14 +21,17 @@ nouredine.melab@univ-lille.fr\\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
 CPU or GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://gitlab.inria.fr/jgmys/permutationbb}{https://gitlab.inria.fr/jgmys/permutationbb} \\
+        \rowcolor{white}\textbf{Repository} & \begin{tabular}{l}
+             \href{https://gitlab.inria.fr/jgmys/permutationbb}{https://gitlab.inria.fr/jgmys/permutationbb}\\
+            \href{https://github.com/Guillaume-Helbecque/P3D-DFS}{https://github.com/Guillaume-Helbecque/P3D-DFS} \\
+        \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
 OSS: Cecill-*\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
-B6 - Data Management\\
+%B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
         \bottomrule
@@ -40,7 +43,9 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP5:pBB:summary}
 
-pBB is initially an implementation of a massively parallel Branch\&Bound algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones. A new data structure named P3D-DFS is proposed for that purpose. In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see https://github.com/Guillaume-Helbecque). The Chapel language is used for the implementation of pBB meeting these genericity and productivity objectives. 
+pBB is initially an implementation of a massively parallel Branch-and-Bound (B\&B) algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see \url{https://gitlab.inria.fr/jgmys/permutationbb}). pBB is designed using the bare-metal MPI+X approach. 
+First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones, like Knapsack problems. A new data structure named distBag-DFS is proposed for that purpose. 
+In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see \url{https://github.com/Guillaume-Helbecque/P3D-DFS}). The Chapel language is used for this implementation of pBB meeting these genericity and productivity objectives. 
 
 In~\cref{tab:WP5:pBB:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
@@ -56,7 +61,7 @@ In~\cref{tab:WP5:pBB:features} we provide a summary of the software features rel
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white} Iterative methods & provide short description here \\
+\rowcolor{white} Branch-and-Bound algorithms & Branch-and-Bound is a general-purpose algorithm for solving optimization problems. It systematically explores the solution space using four key operators: branching, bounding, selection, and pruning. Branching divides the problem into smaller subproblems. Bounding calculates bounds to estimate the potential of subproblems. Selection chooses the most promising subproblems for further exploration. Pruning discards subproblems that cannot yield a better solution than the current best. \\
 \end{tabular}
         }
     }
