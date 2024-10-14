@@ -8,30 +8,49 @@
 \addcontentsline{toc}{section}{Executive Summary}
 \label{sec:summary}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Section content, please change!
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This deliverable, D7.1 of the Exa-MA project within the PEPR NumPEx program, is the first in a series of annual benchmarking reports aimed at advancing high-performance computing towards and beyond the exascale barrier. Exa-MA (\emph{Methods and Algorithms for Exascale}) focuses on developing relevant numerical methods and ensuring that software is production-ready for exascale computing by the end of the project.
 
-From Wikipedia:\footnote{\url{https://en.wikipedia.org/wiki/Executive_summary}}
+\subsection*{Summary}
 
-An executive summary, or management summary, is a short document or section of a document, produced for business purposes, that summarises a longer report or proposal or a group of related reports in such a way that readers can rapidly become acquainted with a large body of material without having to read it all. It usually contains a brief statement of the problem or proposal covered in the major document(s), background information, concise analysis and main conclusions. 
-It is intended as an aid to decision-making by managers and has been described as the most important part of a business plan.
+Exascale computing promises significant breakthroughs across various disciplines by enabling simulations and analyses at unprecedented scales and resolutions. Realizing this potential requires overcoming substantial challenges in numerical methods, algorithms, software architecture, scalability, efficiency, and resilience.
 
-An executive summary differs from an abstract in that an abstract will usually be shorter and is intended to provide a neutral overview or orientation rather than being a condensed version of the full document. Abstracts are extensively used in academic research where the concept of the executive summary would be meaningless. ``An abstract is a brief summarising statement~\dots read by parties who are trying to decide whether or not to read the main document'', while ``an executive summary, unlike an abstract, is a document in miniature that may be read in place of the longer document''.
+This report introduces a  benchmarking methodology designed for developing and evaluating numerical methods and software tailored to exascale computing environments. The methodology addresses key bottlenecks identified in exascale systems, including interconnect technology, memory hierarchy, data management, exascale algorithms, and reproducibility challenges. 
+It integrates several core components:
 
-Structure:
 \begin{itemize}
-	\item Be approximately 1-2 pages long
-	\item Be written in language appropriate for the target audience
-	\item Consist of short, concise paragraphs
-	\item Begin with a summary
-	\item Be written in the same order as the main report
-	\item Only include material present in the main report
-	\item Make recommendations
-	\item Provide a justification
-	\item Have a conclusion
-	\item Be readable separately from the main report
-	\item Sometimes summarise more than one document
+    \item \textbf{Development of Numerical Methods and Algorithms}: Advancing state-of-the-art methods and algorithms optimized for exascale architectures.
+    \item \textbf{Testing and Validation Processes}: Establishing structured non-regression testing, verification, and validation to ensure correctness and performance integrity across updates.
+    \item \textbf{Benchmarking Strategy}: Implementing a phased approach to measure performance, scalability, and energy efficiency on advanced computational architectures (CPU, GPU, and hybrid systems).
+    \item \textbf{Data Management and I/O Strategies}: Addressing I/O bottlenecks through efficient data management techniques.
+    \item \textbf{Profiling and Measurement Tools}: Utilizing advanced tools to gather detailed performance insights across different architectures.
+    \item \textbf{Containerization and Packaging}: Employing technologies to ensure reproducible and portable execution environments.
+    \item \textbf{Continuous Integration and Deployment (CI/CD)}: Integrating continuous benchmarking and regression testing into CI/CD pipelines to maintain reproducibility and sustained high performance.
+    \item \textbf{Fault Tolerance Strategies}: Developing mechanisms to enhance system resilience and data integrity.
 \end{itemize}
+
+The document provides an overview of the software developed within Exa-MA, focusing on their features and parallel capabilities. General statistics offer insights into their characteristics and technological choices, such as supported architectures, programming languages, parallelism technologies, data formats, and DevOps practices.
+
+In the work package chapters (WP1 to WP6), we present software relevant to each area, listing the numerical methods and algorithms they implement, parallel capabilities, benchmarks developed, challenges identified, and a 12-month roadmap for each. The work packages cover:
+
+\begin{itemize}
+    \item \textbf{WP1 - Discretization}: Advancements in discretization methods for exascale computing.
+    \item \textbf{WP2 - Model Order, Surrogate, Scientific Machine Learning Methods}: Development of reduced-order models, surrogate modeling, and scientific machine learning techniques.
+    \item \textbf{WP3 - Solvers}: Scalable solver algorithms suitable for exascale architectures.
+    \item \textbf{WP4 - Data Assimilation}: Methods and tools for inverse problems and data assimilation in large-scale simulations.
+    \item \textbf{WP5 - Optimization}: Optimization techniques for exascale applications, including shape optimization and auto-ML tuning.
+    \item \textbf{WP6 - Uncertainty Quantification}: Methods for quantifying uncertainty in computational models at exascale.
+\end{itemize}
+
+\subsection*{Recommendations}
+
+We recommend adopting the proposed benchmarking methodology across the Exa-MA project to ensure that the numerical methods and software tools meet the computational demands of exascale applications while adhering to principles of energy efficiency, scalability, robustness, reproducibility, maintainability, and sustainability. This methodology is key to the project's long-term success, establishing standardized practices that facilitate ongoing development and adaptation to evolving technologies.
+
+\subsection*{Justification}
+
+Implementing this methodology is crucial for overcoming the challenges associated with exascale computing. By focusing on advanced numerical methods and rigorous testing practices, the Exa-MA project can create high-quality, efficient, and sustainable tools. This approach contributes to the broader high-performance computing community by providing insights and frameworks applicable to other exascale initiatives.
+
+\subsection*{Conclusion}
+
+By developing advanced numerical methods and employing our comprehensive benchmarking methodology, the Exa-MA project aims to meet the high computational demands of future exascale applications while adhering to essential principles like energy efficiency and scalability. Sharing our methodology and findings contributes to the broader HPC community's efforts to overcome exascale computing challenges and promotes sustainable practices needed for future scientific breakthroughs.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

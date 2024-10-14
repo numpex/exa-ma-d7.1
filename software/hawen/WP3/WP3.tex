@@ -40,7 +40,30 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP3:Hawen:summary}
 
-In~\cref{tab:WP3:Hawen:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+By considering time-harmonic wave problem, the discretization in 
+\hawen~results in a large sparse linear system to solve. In this
+we investigate the efficient resolution of the linear system arising
+from the discretization of wave problems. In particular, \hawen~currently
+relies on direct solver MUMPS for the resolution of the linear system.
+MUMPS is a direct solver which uses LU factorization, the main advantage
+is to enable the resolution for multiple right-hand sides, which a 
+necessity in the context of inversion where several sources have to 
+be simulated (e.g., possibly several thousands in Earth imaging). 
+In addition, the matrix factorization can be reused in some operations
+of inversion, typically for the gradient computation.
+
+The direct linear solver MUMPS follows three steps with 1) the 
+analysis phase, 2) the factorization, and 3) the solve. 
+In addition to the multiple right-hand side features that acts 
+at the solve phase, we wish to investigate how the specificity 
+of the HDG method 
+(working with the degrees of freedom on the faces of the discretized cells only)
+used by \hawen~can also serve in the analysis phase to simplify 
+the graph that is created by MUMPS.
+
+
+In~\cref{tab:WP3:Hawen:features} we provide a summary of the software 
+features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
     \centering
@@ -54,7 +77,9 @@ In~\cref{tab:WP3:Hawen:features} we provide a summary of the software features r
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    "reuse of Krylov subspaces for multiple right-hand sides" & provide short description here \\
+\rowcolor{white}    "reuse of Krylov subspaces for multiple right-hand sides" & 
+We currently use direct solver MUMPS to solve for multiple right-hand side and 
+which to investigate the performance with extremely large number ( $>\num{10000}$). \\
 \end{tabular}
         }
     }
@@ -66,58 +91,106 @@ In~\cref{tab:WP3:Hawen:features} we provide a summary of the software features r
 \subsection{Parallel Capabilities}
 \label{sec:WP3:Hawen:performances}
 
+\hawen~uses MPI and OpenMP parallelism. The HDG method is particularly 
+appropriate for parallelism (as other methods in the DG family), such 
+that each cell of the mesh can be treated independently in parallel. 
+\hawen~has been used on several supercomputers, including GENCI Adastra
+with Genoa partition for CPUs parallelism.
+\hawen~is linked with MUMPS library, which is a multifrontal direct solver 
+for sparse linear systems. 
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+
+%\begin{itemize}
+%    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
+%    \item describe the parallel computation environment: type of architecture and super computer used.
+%    \item describe the parallel capabilities of the software
+%    \item \textbf{Scalability:} Describe the general scalability properties of the software
+%    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+%\end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:Hawen:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+The benchmarks of this WP strongly relate with the 
+ones of WP1 described in \cref{sec:WP1:Hawen:metrics}.
+Therefore, we consider large-scale time-harmonic wave 
+problem for acoustic and elastic propagation.
+In this WP, we emphasize the consideration of many 
+right-hand sides.
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+
+%This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+%
+%\begin{itemize}
+%    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+%    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+%        \begin{itemize}
+%            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+%            \item Output dataset format and key results.
+%            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+%            \item DOI or permanent link for accessing the dataset.
+%        \end{itemize}
+%    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+%    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+%    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+%\end{itemize}
+
+\subsubsection{Benchmark \#1: Visco-acoustic time-harmonic wave propagation}
+\label{subsec:WP3:Hawen:benchmark1}
+
+This benchmark follows the configuration of the one 
+established in WP1 in \cref{subsec:WP1:Hawen:benchmark2} and
+considers the propagation of acoustic waves in a large-scale 
+3D medium.
+However, contrary to WP1, we now emphasize the operations 
+of linear algebra to solve the linear system resulting from
+the HDG discretization in \hawen. 
+We highlight two main objectives: 
+\begin{enumerate}
+\item Study the specificity of the HDG method to fasten the 
+      analysis phase of the direct solver, in particular with
+      the ``analysis by block'' feature of the direct solver 
+      MUMPS.
+\item Study the performance when a large number of right-hand 
+      sides has to be solves. 
+\end{enumerate}
+
+
+%\begin{itemize}
+%    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+%    \item \textbf{Input/Output Dataset Description:}
+%        \begin{itemize}
+%            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%        \end{itemize}
+%    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+%\end{itemize}
+
+\subsubsection{Benchmark \#2: Visco-elastic time-harmonic wave propagation}
+\label{subsec:WP3:Hawen:benchmark2}
+
+This benchmark follows the previous one but in the context of 
+elastic wave propagation. The configuration is 
+established in WP1 in \cref{subsec:WP1:Hawen:benchmark2}.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP3:Hawen:roadmap}
+%
+%In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+%\begin{itemize}
+%    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+%    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+%    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+%\end{itemize}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+We wish to improve input/output data management by including more options 
+to save the results of \hawen, for instance this can include the hdf5 format
+which is not allowed currently.
 
 In~\cref{tab:WP3:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 

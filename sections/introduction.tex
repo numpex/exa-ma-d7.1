@@ -14,23 +14,45 @@
 \subsection{Purpose and Scope of the Document}
 \label{sec:purpose}
 
-The Exa-MA project, part of the PEPR NumPEx program funded under France’s Plan d’Investissement d’Avenir, is dedicated to advancing the frontier of high-performance computing towards and beyond the exascale barrier.
-This deliverable, D7.1, represents the first in a series of annual benchmarking reports designed to evaluate the performance of key software tools and libraries that will underpin the next generation of scientific computing.
 
-Exascale computing promises significant breakthroughs across a wide range of disciplines, from climate science to materials physics, by enabling simulations and analyses at unprecedented scales and resolutions.
-However, realizing the full potential of exascale computing requires overcoming substantial challenges in software architecture, scalability, and efficiency.
-Benchmarking plays a crucial role in this context by providing a rigorous framework to measure, analyze, and optimize the performance of computational tools on state-of-the-art hardware architectures.
+The Exa-MA project, part of the PEPR NumPEx program funded under France’s Plan d’Investissement d’Avenir, is dedicated to advancing the frontier of high-performance computing towards and beyond the exascale barrier. This deliverable, D7.1, represents the first in a series of annual benchmarking reports designed to evaluate the performance of key software tools and libraries that will underpin the next generation of scientific computing.
 
-In this deliverable, we will assess several key software components on their ability to leverage advanced computational architectures (CPU, GPU, and Hybrid systems) effectively.
-Our focus is on elucidating each software’s features, its parallel computing capabilities, and initial performance metrics as these tools move towards exascale readiness.
-This evaluation will inform ongoing development efforts and help streamline the transition of these tools to fully exploit the capabilities of emerging exascale systems.
+Exascale computing promises significant breakthroughs across a wide range of disciplines, from climate science to materials physics, by enabling simulations and analyses at unprecedented scales and resolutions. However, realizing the full potential of exascale computing requires overcoming substantial challenges in software architecture, scalability, efficiency, and resilience. Benchmarking plays a crucial role in this context by providing a rigorous framework to measure, analyze, and optimize the performance of computational tools on state-of-the-art hardware architectures.
 
-Through testing and analysis, we aim to ensure that the Exa-MA suite of tools not only meets the high computational demands of future exascale applications but also adheres to the principles of energy efficiency, scalability, and robustness required in the exascale era.
+In this deliverable, we present a comprehensive benchmarking methodology designed for developing and evaluating software tailored to exascale computing environments. This methodology addresses key bottlenecks identified in exascale systems, including interconnect technology, memory hierarchy, data management, exascale algorithms, and reproducibility challenges. The methodology integrates several core components:
+
+\begin{itemize}
+    \item \textbf{Testing and Validation Processes:} Establishing structured non-regression testing, verification, and validation to ensure software correctness and performance integrity across updates.
+    \item \textbf{Benchmarking Strategy:} Implementing a phased benchmarking approach to measure performance, scalability, and energy efficiency on advanced computational architectures (CPU, GPU, and hybrid systems).
+    \item \textbf{Data Management and I/O Strategies:} Addressing I/O bottlenecks through efficient data management techniques, including leveraging high-performance parallel file systems and advanced data compression methods.
+    \item \textbf{Profiling and Measurement Tools:} Utilizing advanced profiling tools such as EZTrace, Extrae, Score-P, TAU, Vampir, and Nsight to gather detailed performance insights across different architectures.
+    \item \textbf{Containerization and Packaging:} Employing packaging and containerization technologies like Spack, Guix-HPC, Docker, and Apptainer/Singularity to ensure reproducible and portable execution environments.
+    \item \textbf{Continuous Integration and Deployment (CI/CD):} Integrating continuous benchmarking and regression testing into CI/CD pipelines to maintain reproducibility, portability, and sustained high performance across different HPC systems.
+    \item \textbf{Fault Tolerance Strategies:} Developing fault tolerance mechanisms to enhance system resilience and data integrity, including checkpoint/restart techniques and advanced fault-tolerant I/O frameworks.
+\end{itemize}
+
+Furthermore, we provide a  list of software components developed within the Exa-MA project. These software tools are essential for enabling exascale applications and have been chosen for their potential impact and alignment with the project's objectives. We present general statistics about these software packages, including their supported hardware architectures (CPU, GPU, and hybrid systems), programming languages, parallel computing technologies, data formats, and DevOps practices such as continuous integration, testing, and deployment. This overview offers insights into the diversity and technological choices within the project, highlighting the widespread usage of various technologies and the commitment to quality and maintainability.
+
+Through rigorous testing and analysis, and by employing our comprehensive benchmarking methodology, we aim to ensure that the Exa-MA suite of tools not only meets the high computational demands of future exascale applications but also adheres to the principles of energy efficiency, scalability, robustness, reproducibility required in the exascale era. Our methodology is key to ensuring the long-term maintainability and sustainability of this effort, as it establishes standardized practices and frameworks that facilitate ongoing development and adaptation to evolving technologies. By documenting our methodology and sharing our findings, we contribute to the broader HPC community’s efforts in overcoming the challenges associated with exascale computing while promoting sustainable and maintainable software practices.
 
 
 \subsection{Structure of the Document}
 \label{sec:structure}
 
-% This document is organised as follows: \Cref{sec:introduction} provides information about the report content whereas \Cref{sec:guidelines} introduces guides for writing \projacronym{} deliverables. The deliverable is concluded in \Cref{sec:conclusions}. Finally, additional information is provided in the \nameref{sec:app:architectures} and \nameref{sec:appendix-b}.
+This document is organized as follows:
 
+\begin{itemize}
+    \item \Cref{chap:introduction} introduces the purpose and scope of the deliverable, providing an overview of the Exa-MA project.
+    \item \Cref{chap:benchmarking} presents the benchmarking methodology that will be developed for exascale software, detailing the key objectives, testing processes, data management strategies, fault tolerance mechanisms, and the use of demonstrators.
+    \item \Cref{chap:software} provides a general overview of the software developed within Exa-MA, focusing on their features, mathematical foundations, functionalities, relevant publications, acknowledgments, and contact details. It includes general statistics about the software, offering insights into their characteristics and technological choices, such as supported architectures, programming languages, parallelism technologies, data formats, and DevOps practices.
+    \item \Cref{chap:wp1} (\textbf{WP1 - Discretization}) presents software relevant to the discretization methods developed within this work package. For each software, we detail their features, the methods they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and provide a 12-month roadmap.
+    \item \Cref{chap:wp2} (\textbf{WP2 - Model Order, Surrogate, Scientific Machine Learning Methods}) covers software related to reduced-order models, surrogate modeling, and scientific machine learning techniques tailored for exascale applications. Each software is presented with its implemented methods, parallel capabilities, associated benchmarks and metrics, challenges identified, and a 12-month roadmap.
+    \item \Cref{chap:wp3} (\textbf{WP3 - Solvers}) focuses on software implementing scalable solver algorithms suitable for exascale architectures. We discuss their features, parallel capabilities, benchmarks and metrics developed, challenges identified, and include a 12-month roadmap for each.
+    \item \Cref{chap:wp4} (\textbf{WP4 - Data Assimilation}) presents software and tools for inverse problems and data assimilation in large-scale simulations. For each software, we explore the methods they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and provide a 12-month roadmap.
+    \item \Cref{chap:wp5} (\textbf{WP5 - Optimization}) addresses software related to optimization techniques for exascale applications, including shape optimization and auto-ML tuning. The software are presented with their features, implemented methods, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap.
+    \item \Cref{chap:wp6} (\textbf{WP6 - Uncertainty Quantification}) explores software for quantifying uncertainty in computational models at exascale, discussing stochastic modeling and probabilistic approaches. Each software includes details on the methods implemented, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap.
+    \item \Cref{chap:conclusions} concludes the deliverable, summarizing the key findings and outlining future directions for the Exa-MA project.
+    \item The \textbf{References} compiles all the bibliographic citations used throughout the document.
+    \item The \textbf{Appendices} provide additional information, including detailed descriptions of hardware architectures (\nameref{sec:app:architectures}) and supplementary materials relevant to the benchmarking activities.
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
