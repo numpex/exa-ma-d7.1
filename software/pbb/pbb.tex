@@ -21,7 +21,11 @@ nouredine.melab@univ-lille.fr\\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
 CPU or GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://gitlab.inria.fr/jgmys/permutationbb}{https://gitlab.inria.fr/jgmys/permutationbb} \\
+        \rowcolor{white}\textbf{Repository} & 
+        \begin{tabular}{l}
+             \href{https://gitlab.inria.fr/jgmys/permutationbb}{https://gitlab.inria.fr/jgmys/permutationbb}\\
+            \href{https://github.com/Guillaume-Helbecque/P3D-DFS}{https://github.com/Guillaume-Helbecque/P3D-DFS} \\
+        \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
 OSS: Cecill-*\\
 \end{tabular} \\
@@ -41,7 +45,9 @@ B7 - Exascale Algorithms\\
 \subsection{Software summary}
 \label{sec:pBB:summary}
 
-pBB is initially an implementation of a massively parallel Branch\&Bound algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones. A new data structure named distBag-DFS is proposed for that purpose. In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see https://github.com/Guillaume-Helbecque). The Chapel language is used for the implementation of pBB meeting these genericity and productivity objectives. 
+pBB is initially an implementation of a massively parallel Branch-and-Bound (B\&B) algorithm for the exact resolution of permutation-based optimization problems, like Permutation Flow-shop Scheduling (see \url{https://gitlab.inria.fr/jgmys/permutationbb}). pBB is designed using the bare-metal MPI+X approach. 
+First, pBB has been extended to improve its genericity w.r.t optimization problems than can be solved, going beyond the permutation ones, like Knapsack problems. A new data structure named distBag-DFS is proposed for that purpose. 
+In addition, a PGAS-guided design approach is used to improve its software productivity-awareness (see \url{https://github.com/Guillaume-Helbecque/P3D-DFS}). The Chapel language is used for this implementation of pBB meeting these genericity and productivity objectives. 
 
 \subsection{Purpose}
 \label{sec:pBB:purpose}
