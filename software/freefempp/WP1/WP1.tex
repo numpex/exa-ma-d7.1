@@ -43,6 +43,11 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Freefem++:summary}
 
+FreeFEM can solve partial differential equations (PDEs) with the Finite Element Method (FEM) in 1D, 2D and 3D, as well as with the Boundary Element Method (BEM) in 2D and 3D. It handles 1D (curve) meshes as well as 2D and 3D (surface and volume) simplicial meshes.\\
+It embarks an internal 2D unstructured mesh generator called \textit{bamg} and uses in-house tools for 2D anisotropic mesh adaptation. For 3D anisotropic mesh adaptation FreeFEM is interfaced with the tetgen, MMG and ParMMG libraries and uses Mshmet for metric computation. MMG can handle 2D meshes as well as 3D surface and volume meshes and also has level-set discretization (curve and surface) capabilities.\\
+
+FreeFEM implements a lot of standard finite elements for discrete versions of functions in $H_1, H_{\text{div}}, H_{\text{curl}}, L^2$ as well as more exotic finite elements such as non-conform Lagrange, Hsieh-Clough-Tocher (HCT), Brezzi–Douglas–Marini (BDM) elements. In addition, it is possible for the user to add their own finite element in the language by defining a C++ plugin.\\
+
 In~\cref{tab:WP1:Freefem++:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
 
 \begin{table}[h!]
@@ -57,11 +62,11 @@ In~\cref{tab:WP1:Freefem++:features} we provide a summary of the software featur
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    cG & provide short description here \\
-\rowcolor{numpexlightergray}    dG/hdG & provide short description here \\
-\rowcolor{white}    mesh adaptation & provide short description here \\
-\rowcolor{numpexlightergray}    multiphysics coupling & provide short description here \\
-\rowcolor{white}    unstructured mesh & provide short description here \\
+\rowcolor{white}    cG & Continuous Lagrange finite element spaces up to degree 4. Raviart-Thomas or Nedelec edge elements up to third order. \\
+\rowcolor{numpexlightergray}    dG/hdG & up to degree 4 Discontinuous Galerkin (NIPG, NCG, DG).  \\
+\rowcolor{white}    mesh adaptation & FreeFEM uses in-house tools for 2D mesh generation and mesh adaptation. It is interfaced with tetgen, MMG and ParMMG for 3D mesh adaptation. \\
+\rowcolor{numpexlightergray}    multiphysics coupling & The DSL supports coupled variational formulations with cartesian product spaces involving different meshes or mesh types (surface / volume coupling). \\
+\rowcolor{white} unstructured mesh & FreeFEM works with simplicial unstructured meshes (segments in 1D, triangles in 2D and 3D surface, tetrahedra in 3D). \\
 \end{tabular}
         }
     }
@@ -73,58 +78,103 @@ In~\cref{tab:WP1:Freefem++:features} we provide a summary of the software featur
 \subsection{Parallel Capabilities}
 \label{sec:WP1:Freefem++:performances}
 
+\textbf{Mesh generation} Currently, the initial mesh generation step is not parallel; the \textit{bamg} 2D mesh generator, the 3D primitives (ellipses, cuboids) and mesh extrusion from a 2D mesh are all implemented sequentially. For 3D anisotropic mesh adaptation, FreeFEM is interfaced with tetgen, MMG and ParMMG ; only the ParMMG library is parallel.
+
+\textbf{Mesh partitioning} The next step of a FreeFEM simulation is to distribute the mesh among the MPI processes. This is done using either a user-defined partitioning or an automatic graph partitioner such as SCOTCH, METIS or ParMETIS. Only ParMETIS has parallel capabilities. For large scale problems, avoiding a large global mesh can be achieved by starting from a coarser description of the geometry using a coarser initial mesh, partitioning and distributing the coarse mesh, and finally splitting (element-wise) the local subdomain meshes in parallel to reach the desired level of refinement. Of course this is not always applicable depending on the complexity of the geometry or the nature of the input. 
+
+\textbf{Assembly} After the simulation mesh has been partitioned, it is distributed among the MPI processes as a (either non-overlapping or overlapping) decomposition into subdomains, with each MPI process in charge of a local subdomain mesh. The neighbor-to-neighbor mapping is computed locally in each MPI process using redundant information from the partitioned global mesh. Then, the linear system corresponding to the finite element discretization of the problem can be assembled in a distributed way, each MPI process assembling the local matrix corresponding to its subdomain independently. The distributed linear system can then be passed to the solver backend (such as HPDDM or PETSc), keeping track of the neighbor-to-neighbor mapping of the degrees of freedom.
 
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+    \item \textbf{Parallel Environment:} MPI
 
+    \item \textbf{Architectures:} CPU only ; local computing clusters, french supercomputers (Irene, Jean Zay, ...)
+ 
+    \item \textbf{Scalability:} The initial mesh generation step is sequential. Mesh partitioning is done using the parallel graph partitioner ParMETIS. Parallel adaptive mesh refinement relies on the scalability of the ParMMG library. The distributed assembly of the linear systems is done locally.
+\end{itemize}
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Freefem++:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+In this section we present the current state of the software concerning mesh generation and mesh adaptation as well as discretization of the variational problem to assemble the linear system. In particular, we assess the performance and scalability in terms of computing time of the initial mesh construction and mesh partitioning steps as well as the assembly process to construct the linear system.\\
+
+As already mentioned, the initial setup is relying on the construction of a global mesh which is then partitioned into subdomains and distributed among MPI processes, which becomes impractical for large problems. A workaround consists in starting from a coarser description of the geometry using a coarser initial mesh, partitioning and distributing the coarse mesh, and ﬁnally splitting (element-wise) the local subdomain meshes in parallel to reach the desired level of reﬁnement. The drawback is that it is not always applicable depending on the complexity of the geometry or the nature of the input.\\
+
+In the general case, the partitioning of the global mesh is done using the sequential SCOTCH or METIS libraries, or the parallel ParMETIS library, aiming at keeping a good load balancing while minimizing interfaces. We observe that ParMETIS usually does not scale well past a few dozens of cores.\\
+
+After the mesh has been partitioned and distributed among the MPI processes, the linear system can be assembled in a distributed way, each process assembling the local matrix corresponding to its subdomain independently ; thus, the assembly step naturally exhibits good scalability properties. The distributed linear system can then be passed through the solver backend.\\
+
+The benchmark presented in this section illustrates the performance and scalability properties of these steps (mesh generation, mesh partitioning, assembly, solution of the linear system) for a 3D linear isotropic heterogeneous elasticity problem discretized with $P_1$, $P_2$ and $P_3$ elements for a sequence of increasingly finer meshes.\\
+The benchmark consists in a FreeFEM script publicly available in the distribution. The output of the script includes the computing time of the different steps of the simulation for a given polynomial order and mesh size parameter that the user can specify via command-line parameters.
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+    \item \textbf{Overall Performance:} The initial mesh generation and mesh partitioning steps of a simulation are not scalable. For non-trivial geometry, this can become a bottleneck even on a few thousand cores depending on the type of discretization and the performance of the solver ; after the mesh has been distributed among the MPI processes, the assembly step is trivially parallel and exhibits good scalability depending on the load-balancing properties of the initial partitioning.
+    \item \textbf{Input/Output Datasets:} Currently, the dataset for each benchmark consists in the FreeFEM script used to define and solve the corresponding problem. The scripts are open access and available in the FreeFEM distribution.
+    \item \textbf{Challenges:}
         \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
+        \item definition of the geometry of the problem: relying on the construction of a global mesh which is then partitioned into subdomains and distributed among MPI processes is impractical for large problems.
+        \item currently, the benchmark datasets consist only in the FreeFEM script generating and solving the problem. When applicable, the benchmarks should also provide the input mesh generated by FreeFEM to allow for easier comparisons and improve reproducibility.
+        \item benchmarks currently do not provide a way to validate the results of the simulation.
         \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+    \item \textbf{Future Improvements:}
+        \begin{itemize}
+        \item construct the initial mesh in a distributed way; parallelize the mesh building primitives as well as mesh extrusion using \textit{buildlayers}.
+        \item provide the generated mesh in a suitable format for each benchmark.
+        \item provide validation quantities as output for each benchmark, such as relevant measured quantities of the simulation, verification of convergence order, ...
+        \end{itemize}
 \end{itemize}
 
-\subsubsection{Benchmark \#1}
+\subsubsection{Benchmark \#1: 3D linear elasticity}
+
+This benchmark consists in solving the 3D linear isotropic heterogeneous static elasticity equations discretized with vector $P_1$, $P_2$ and $P_3$ elements for a sequence of increasingly finer meshes. The computational domain is a cylinder of inner radius 0.8, outer radius 1 and height 3. Gravity is $g = 9.81$, density is $\rho = 7700$. The cylinder is composed of 10 alternating vertical layers of two materials with different mechanical properties $(E_1, nu_1) = (10^7, 0.45)$ and $(E_2, nu_2) = (10^9, 0.35)$. An essential boundary condition of null displacement is imposed on the bottom end of the cylinder, while a downwards vertical force $f = 5 \times 10^5$ is applied on the top boundary with a natural boundary condition.\\
+The problem is discretized with either $P_1, P_2$ or $P_3$ vector elements. The mesh size is proportional to an input parameter ${n}_h$.\\
+
+The benchmark consists in a FreeFEM script publicly available in the distribution and can be found at~\url{https://github.com/FreeFem/FreeFem-sources/blob/master/examples/hpddm/XXX.edp}. The script outputs the computing time of the different steps of the simulation (mesh generation, mesh partitioning, assembly, solution of the linear system) for a given mesh size parameter ${n}_h$ and polynomial order that the user can specify as command-line parameters.\\
+
+The mesh is built by first building the 2D base of the cylinder using the \textit{bamg} internal mesh generator and then extruding it using the \textit{buildlayers} command. The mesh is then partitioned using the automatic graph partitioner ParMETIS. For the solver, we use GMRES with a relative tolerance of $10^{-5}$ preconditioned by a two-level GenEO preconditioner built through the PETSc interface of HPDDM. The GenEO coarse space is built by taking the first 20 GenEO eigenvectors in each subdomain.
+
+\begin{table}[h!]
+    \centering
+    { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{7}{11}\selectfont
+    \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}{\vrule width 2pt}}c!{\color{numpexgray}{\vrule width 2pt}}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}{\vrule width 2pt}}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}{\vrule width 2pt}}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}{\vrule width 2pt}}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}{\color{white}\bf ${n}_h$} & \color{numpexgray}{\color{white}\bf \# cores} & \multicolumn{3}{c!{\color{numpexgray}{\vrule width 2pt}}}{\color{white}\bf Mesh} & \multicolumn{3}{c!{\color{numpexgray}{\vrule width 2pt}}}{\color{white}\bf $P_1$} & \multicolumn{3}{c!{\color{numpexgray}{\vrule width 2pt}}}{\color{white}\bf $P_2$} & \multicolumn{3}{c!{\color{numpexgray}\vrule}}{\color{white}\bf $P_3$}\\
+        \rowcolor{numpexgray} & & {\color{white}\bf \# elts} & {\color{white}\bf build} & {\color{white}\bf part.} & {\color{white}\bf \#dof} & {\color{white}\bf assmb.} & {\color{white}\bf solve} & {\color{white}\bf \#dof} & {\color{white}\bf assmb.} & {\color{white}\bf solve} & {\color{white}\bf \#dof} & {\color{white}\bf assmb.} & {\color{white}\bf solve}\\
+        \texttt{2} & \texttt{24} & \pgfmathprintnumber{55920} & \texttt{0.04} s & \pgfmathprintnumber{0.3313851398} s & \pgfmathprintnumber{38499} & \pgfmathprintnumber{0.1087517946} s & \pgfmathprintnumber{0.8205061646} s & \pgfmathprintnumber{265356} & \pgfmathprintnumber{2.286347792} s & \pgfmathprintnumber{11.71424775} s & \pgfmathprintnumber{848331} & \pgfmathprintnumber{28.18209619} s & \pgfmathprintnumber{88.76374739} s\\
+        \rowcolor{numpexlightergray}
+        \texttt{4} & \texttt{192} & \pgfmathprintnumber{459840} & \pgfmathprintnumber{0.661449048} s & \pgfmathprintnumber{0.7736278304} s & \pgfmathprintnumber{271674} & \pgfmathprintnumber{0.1316522944} s & \pgfmathprintnumber{1.774703749} s & \pgfmathprintnumber{2005416} & \pgfmathprintnumber{2.746920468} s & \pgfmathprintnumber{23.16441227} s & \pgfmathprintnumber{6580746} & \pgfmathprintnumber{33.79095437} s & \pgfmathprintnumber{205.7214154} s\\
+        \texttt{6} & \texttt{648} & \pgfmathprintnumber{1568880} & \pgfmathprintnumber{2.543351217} s & \pgfmathprintnumber{2.415714336} s & \pgfmathprintnumber{878097} & \pgfmathprintnumber{0.1541521545} s & \pgfmathprintnumber{1.627837831} s & \pgfmathprintnumber{6648708} & \pgfmathprintnumber{3.229656544} s & \pgfmathprintnumber{33.43725633} s & \pgfmathprintnumber{22018473} & \pgfmathprintnumber{39.81431927} s & \pgfmathprintnumber{293.7350389} s\\
+        \rowcolor{numpexlightergray}
+        \texttt{8} & \texttt{1536} & \pgfmathprintnumber{3611520} & \pgfmathprintnumber{5.995033506} s & \pgfmathprintnumber{5.663275026} s & \pgfmathprintnumber{1971606} & \pgfmathprintnumber{0.161011985} s & \pgfmathprintnumber{3.006030941} s & \pgfmathprintnumber{15107544} & \pgfmathprintnumber{3.35254444} s & \pgfmathprintnumber{36.51872591} s & \pgfmathprintnumber{50242374} & \pgfmathprintnumber{41.56813132} s & \pgfmathprintnumber{325.3649314} s\\
+        \texttt{10} & \texttt{3000} & \pgfmathprintnumber{7587600} & \pgfmathprintnumber{13.06281585} s & \pgfmathprintnumber{10.68638843} s & \pgfmathprintnumber{4053969} & \pgfmathprintnumber{0.1880340362} s & \pgfmathprintnumber{4.405469723} s & \pgfmathprintnumber{31388676} & \pgfmathprintnumber{3.87673609} s & \pgfmathprintnumber{43.42991529} s & \pgfmathprintnumber{104766921} & \pgfmathprintnumber{47.57492979} s & \pgfmathprintnumber{403.4183248} s\\
+    \end{tabular}
+    }}
+    \caption{Weak scaling experiment for 3D heterogeneous linear elasticity with decreasing mesh size. For each mesh size we report the number of cores, the number of mesh elements, the computing time for mesh construction and mesh partitioning, as well as the number of degrees of freedom and the computing time of the assembly and solution steps for $P_1, P_2$ and $P_3$ discretizations. All computing times are reported in seconds.}
+    \label{tab:elasticity}
+\end{table}
+
+In Table~\cref{tab:elasticity} we report a weak scaling experiment, where the number of CPU cores scales with ${n}_h^3$ so as to keep the local problem sizes constant. We report the computing time of the different steps of the simulation: mesh construction, mesh partitioning, assembly and solution of the linear system for $P_1, P_2$ and $P_3$ discretizations. The number of mesh elements varies from $\pgfmathprintnumber{55920}$ to $7.6$ million, with a corresponding increase of the number of CPU cores from 24 to 3000. For the finest mesh, the number of unknowns reaches 4 million for $P_1$, 31 million for $P_2$ and 105 million for $P_3$.
+
+\textbf{Hardware and software setting:} The experiment is done on the Skylake partition of the Irene supercomputer. FreeFEM is compiled using the Intel 20.0.4 compiler suite.
+
+The results can be summarized as follows:
+
 \begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\item As we can see, the mesh generation and partitioning steps do not scale: going from a mesh of $\pgfmathprintnumber{55920}$ elements to $7.6$ million elements, the combined time increases from $0.37$s to $23.75$s. Note that here we purposefully do not rely on the construction of a coarse mesh which would be refined (by splitting all edges) in parallel after partitioning to reach the desired level of refinement, so as to illustrate the performance of these initial steps in the most general case.
+\item In terms of computing time, the solution step dominates the assembly step for all discretization orders, with a factor of between 3 for $n_h = 2$ using $P_3$, to 23 for $n_h = 10$ using $P_1$. Computing time for both assembly and solution steps increase by a factor of roughly 10 going from $P_1$ to $P_2$ as well as from $P_2$ to $P_3$.
+\item Going from $n_h = 2$ to $n_h = 10$, the assembly step increases by around 70\% for all three discretization orders, reaching $0.19$s for $P_1$, $3.88$s for $P_2$ and $47.57$s for $P_3$. On the other hand, as expected the solution step exhibits poorer scalability ; it increases by a factor of around 4, reaching $4.41$s for $P_1$, $43.43$s for $P_2$ and $403.42$s for $P_3$.
+\item In terms of relative bottlenecks, we can see that the poor scalability of the mesh generation and partitioning steps leads to it quickly dominating the total simulation time for $P_1$ discretization, accounting for $84\%$ of the total time for $n_h = 10$. On the other hand, it accounts for much less when considering higher order discretization, reaching only $5\%$ of the total time for $n_h = 10$ using $P_3$ elements.
 \end{itemize}
 
 \subsection{12-Month Roadmap}
 \label{sec:WP1:Freefem++:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+As we have seen, relying on the construction of a global mesh which is then partitioned into subdomains and distributed among MPI processes using ParMetis is not scalable and can become impractical for large problems. We will work on how to construct the initial mesh in a distributed way, first parallelizing the mesh building primitives as well as mesh extrusion using \textit{buildlayers}.
+
+Currently, FreeFEM relies on a set of high-level macros written in the FreeFEM language that the user has to call for the initial mesh partitioning and decomposition. In combination with the point above concerning distributed mesh generation, we will define parallel data structures for handling distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential script to a parallel script in an almost completely transparent way and with minimal changes to the script, e.g. by only changing the type of the mesh variable from 'mesh' to 'Dmesh'.\\
+
+For now, FreeFEM benchmarks consist in FreeFEM scripts available in the distribution. In an effort to ensure reproducibility, we will unify all FreeFEM benchmarks in a separate repository with appropriate documentation and instructions to ensure long-term usability. For WP1 benchmarks, we will provide the generated mesh in a suitable format for each benchmark. In addition, we will provide validation quantities as output for each benchmark, such as relevant measured quantities of the simulation or verification of convergence order.\\
 
 In~\cref{tab:WP1:Freefem++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -144,10 +194,10 @@ In~\cref{tab:WP1:Freefem++:bottlenecks}, we briefly discuss the bottleneck roadm
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Improve initial parallel mesh generation and partitioning for standard primitives ; define internal distributed data structures for meshes and finite element spaces to further simplify the conversion from a sequential script to a parallel one. \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Unify and document FreeFEM benchmarks in a separate repository. Provide validation quantities for each benchmark. \\
+\rowcolor{white}    B6 - Data Management &  Provide the generated mesh in a suitable format for relevant benchmarks. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Work towards eliminating the mesh generation and partitioning steps as bottlenecks for exascale, at least for simple cases. \\
 \end{tabular}
         }
     }
