@@ -222,26 +222,23 @@ finite element method based on continuous Lagrange Finite Element of order 1,2
 and 3 (denoted by $P_1$,$P_2$,$P_3$). And we analyzed the execution time of the
 main components of the simulation.
 
-The \Cref{fig:wp1:feelpp:thermal_bridges:visualization} illustrate the geometry
-used, the 3D temperature field solution, and an example of mesh partitioning.
-
+The \Cref{fig:wp1:feelpp:thermal_bridges:geometry} represents the geometry
+of this benchmark and the domain decomposition by material.% the 3D temperature field solution, and an example of mesh partitioning.
 
 \begin{figure}[!ht]
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png}
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-geom.png}
   \end{subfigure}
   \hfill
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png}
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-geom2.png}
   \end{subfigure}
-  \caption{Thermal bridges benchmarks - temperature solution (left) and
-    partitioning example (right)}
-  \label{fig:wp1:feelpp:thermal_bridges:visualization}
+  \caption{Thermal bridges benchmarks - geometry and materials}
+  \label{fig:wp1:feelpp:thermal_bridges:geometry}
 \end{figure}
-
 
 
 \paragraph{Benchmarking Tools Used}
@@ -309,7 +306,32 @@ The metrics measured are the execution time of the main components of the simula
 
 
 \paragraph{Results Summary}
-The benchmark results are summarized in
+
+We start by showing in \cref{fig:wp1:feelpp:thermal_bridges:visualization} an example of numeric solution and mesh partitioning that we
+have obtained in the simulation pipeline. The partitioning process is considered
+an offline process here but requires some time and memory consumption. This
+should be explicitly described in a future work. With
+\cref{fig:feelpp:wp1:thermal_bridges:measures_convergences}, we have validated
+the simulation run by checking measures compared to reference values.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - temperature solution (left) and
+    partitioning example (right)}
+  \label{fig:wp1:feelpp:thermal_bridges:visualization}
+\end{figure}
+
+
+The benchmark performance results are summarized in
 \Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M1},
 \Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M2},
 \Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M3} which correspond respectively to
@@ -317,24 +339,29 @@ choice of the mesh M1, M2 and M3. Moreover, for each mesh, we have experimented 
 finite element discretizations called $P_1$, $P_2$ and $P_3$.
 For each order of finite element approximation, we have selected a set of number
 of CPU cores.
-
-Firstly, we can see clearly that the Solve part is the most time-consuming. See
-comments in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
+%Firstly, we can see clearly that the Solve part is the most time-consuming. See comments in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
 Concerning the mesh M1, considered a coarse mesh, we note that the
 scalability scaling is not good, especially for low order. This is simply because the problem is too small for so many HPC resources. MPI
-communications an IO effects are non-negligible.
-For the mesh M2, results are better (but not ideal) up to around one thousand processing cores.
-Finally, the fined mesh M3, illustrates the best scalability on this range of
-number of tasks. Except for the solve part, we can see an efficiency of increased
-HPC resource at this level.
+communications and IO effects are non-negligible.
+For the mesh M2 and M3, results are better (but not ideal), and we can rapidly see the limit reached by the scalability test.
+Finally, the fined mesh M3, illustrates the best scalability on this
+benchmarking experiment. We see a reduction in computational cost by increasing the
+computation resources. However, due to the fast execution, the time goes fast to
+the limit.
 
-Each run illustrated here is also validated thanks to the value of the ISO 10211:2017 standard.
-With these experiments, we have also seen that we have some variability in
-performance measures. Some aspects like the filesystem and network load, are not
-under our control, it can explain a part of this. Also, the memory and
-consequently the choice of the number of tasks per node can be important and
-can change significantly the performance. This latter will be taken into account
-more accurately in a next campaign of these benchmarking test.
+%Each run illustrated here is also validated thanks to the value of the ISO
+%10211:2017 standard.
+With these benchmarking experiences, we have also seen that we have some
+variability in performance measures. Some aspects such as the filesystem and
+network load, are not under our control, it can explain a part of this (when
+computational time belongs small locally).
+%Also, the memory and
+%consequently the choice of the number of tasks per node can be important and
+%can change significantly the performance. This latter will be taken into account
+%more accurately in a next campaign of these benchmarking test.
+
+
+
 % Color cycle: customdarkblue,customcyan,customorange,custompurple
 \newcommand{\barChart}[2][ybar]{
   \begin{tikzpicture}
@@ -376,6 +403,104 @@ more accurately in a next campaign of these benchmarking test.
     \end{axis}
 \end{tikzpicture}
 }
+
+
+% columns/FunctionSpace/.style={string type},
+\begin{figure}[h]
+  \centering
+  \captionsetup[subfigure]{justification=centering}
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_measures.csv}\dataTableMeasures
+  \def\myLineWidth{2pt}
+  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+  \def\myLineStyleB{dashed}
+  \def\myLineStyleC{solid}
+
+  \def\myAddPlot#1#2#3#4{
+    \addplot[#3,every mark/.append style={solid},
+    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+    x filter/.code={
+      \pgfmathparse{\thisrow{PolyOrder}==#2}
+      \ifnum0=\pgfmathresult
+      \pgfmathsetmacro{\newx}{nan}
+    \else
+      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+    \fi
+    \pgfmathparse{\newx}
+  },
+  y filter/.expression={ #4*\pgfmathresult }
+  ] table [x=Mesh, y=#1] {\dataTableMeasures};
+}
+
+\def\myPlotOutputMeasures#1#2#3#4{
+  \resizebox{\textwidth}{0.6172\textwidth}{
+    \begin{tikzpicture}
+      \begin{axis}[
+        % width=\textwidth, height=1.2\textheight,
+        xtick=data,
+        xticklabel={M$\pgfmathprintnumber{\tick}$},
+        xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Mesh levels}, ylabel={#4},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+        % columns=3},
+        legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
+        % #2
+        ]
+
+        \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+        \addlegendentry{P1}
+        \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+        \addlegendentry{P2}
+        \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+        \addlegendentry{P3}
+        \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+          (1,#3) (3,#3)
+        };
+        \addlegendentry{Ref}
+
+      \end{axis}
+    \end{tikzpicture}
+  }
+
+}
+
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \myPlotOutputMeasures{Normal_Heat_Flux_alpha}{1}{46.09}{Heat flow [W]}
+  \caption{Heat flow measured in $\alpha$ environment}
+\end{subfigure}
+\hfill
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
+  \caption{Heat flow measured in $\beta$ environment}
+\end{subfigure}
+\hfill
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \vspace*{0.03\textheight}
+  \myPlotOutputMeasures{Normal_Heat_Flux_gamma}{-1}{59.98}{Heat flow [W]} % warning inverse
+  \caption{Heat flow measured in $\gamma$ environment}
+\end{subfigure}
+\hfill
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \vspace*{0.03\textheight}
+  \myPlotOutputMeasures{Statistics_temperature_alpha_min}{1}{11.32}{Temperature
+    [°C]}
+  \caption{Surface temperature min in $\alpha$ environment}
+\end{subfigure}
+
+\caption{Thermal bridges benchmarks - Convergence of validation measures compared to references values}
+\label{fig:feelpp:wp1:thermal_bridges:measures_convergences}
+\end{figure}
 
 
 \foreach [expand list=true] \meshId in {1,2,3} {
@@ -450,111 +575,15 @@ more accurately in a next campaign of these benchmarking test.
 
 
 
-% columns/FunctionSpace/.style={string type},
-\begin{figure}
-  \centering
-  \captionsetup[subfigure]{justification=centering}
-
-  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_measures.csv}\dataTableMeasures
-  \def\myLineWidth{2pt}
-  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
-  \def\myLineStyleB{dashed}
-  \def\myLineStyleC{solid}
-
-  \def\myAddPlot#1#2#3#4{
-    \addplot[#3,every mark/.append style={solid},
-    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
-    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
-    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
-    x filter/.code={
-      \pgfmathparse{\thisrow{PolyOrder}==#2}
-      \ifnum0=\pgfmathresult
-      \pgfmathsetmacro{\newx}{nan}
-    \else
-      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
-    \fi
-    \pgfmathparse{\newx}
-  },
-  y filter/.expression={ #4*\pgfmathresult }
-  ] table [x=Mesh, y=#1] {\dataTableMeasures};
-  }
-
-  \def\myPlotOutputMeasures#1#2#3#4{
-      \resizebox{\textwidth}{0.6172\textwidth}{
-    \begin{tikzpicture}
-    \begin{axis}[
-      %width=\textwidth, height=1.2\textheight,
-      xtick=data,
-      xticklabel={M$\pgfmathprintnumber{\tick}$},
-      xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
-      ymajorgrids=true, yminorgrids=true,
-      minor y tick num=2,
-      % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-      %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
-      xlabel={Mesh levels}, ylabel={#4},
-      % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-      %legend style={at={(0.,1)}, anchor=north west,font=\small,legend
-      %columns=3},
-      legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
-      %#2
-      ]
-
-      \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
-      \addlegendentry{P1}
-      \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
-      \addlegendentry{P2}
-      \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
-      \addlegendentry{P3}
-      \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
-        (1,#3) (3,#3)
-      };
-      \addlegendentry{Ref}
-
-    \end{axis}
-  \end{tikzpicture}
-      }
-
-}
-
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \myPlotOutputMeasures{Normal_Heat_Flux_alpha}{1}{46.09}{Heat flow [W]}
-    \caption{Heat flow measured in $\alpha$ environment}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
-    \caption{Heat flow measured in $\beta$ environment}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \vspace*{0.03\textheight}
-    \myPlotOutputMeasures{Normal_Heat_Flux_gamma}{-1}{59.98}{Heat flow [W]} % warning inverse
-    \caption{Heat flow measured in $\gamma$ environment}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \vspace*{0.03\textheight}
-    \myPlotOutputMeasures{Statistics_temperature_alpha_min}{1}{11.32}{Temperature
-      [°C]}
-    \caption{Surface temperature min in $\alpha$ environment}
-  \end{subfigure}
-
-  \caption{Thermal bridges benchmarks - Convergence of validation measures compared to references values}
-    \label{fig:feelpp:wp1:thermal_bridges:measures_convergences}
-\end{figure}
 
 
 
 \paragraph{Challenges Identified}
 Several challenges were encountered during the benchmarking process:
 \begin{itemize}
-    \item \textbf{Memory Usage:} We need to check and detect the memory
-      consumed during the simulation to avoid bad behavior like swapping.
-    \item \textbf{Parallelization Inefficiencies:} We need to understand and
+    \item \textbf{Memory Usage:} Reduce the memory
+      footprint.
+    \item \textbf{Parallelization Inefficiencies:} Understand and
       improve performance when MPI communication and filesystem IO will be dominant.
     %\item \textbf{Cache and Memory Bottlenecks:}
 \end{itemize}
@@ -660,7 +689,7 @@ see the displacement filed and some quantities of interest in
 Moreover, we have \cref{fig:feelpp:wp1:nafems-le10:results:measures_convergences} which show the
 validity and quality of the solution for each discretization.
 
-In terms of performance, we have plotted the execution times related to the WP1 context. These results, illustrating the  \textbf{Init}, \textbf{Assembly} and \textbf{post-process} components, can be found in
+In terms of performance, we have plotted the execution times related to the WP1 context. These results, illustrating the  \textbf{Init}, \textbf{Assembly} and \textbf{PostProcess} components, can be found in
 \cref{fig:feelpp:wp1:nafems-le10:results:performance_times_M2,fig:feelpp:wp1:nafems-le10:results:performance_times_M3,fig:feelpp:wp1:nafems-le10:results:performance_times_M4}.
 The behavior is very good, we can see the a good scalability, up to a limit as
 usual when the problem size become too small. We can notice some jump with the
@@ -837,7 +866,15 @@ reduced quota limits on this fast disk.
 
 \paragraph{Challenges Identified}
 
-
+\begin{itemize}
+\item HPC experiments with other kinds of discretizations:
+  \begin{itemize}
+  \item Displacement/pressure formulation
+  \item HDG method
+  \item Nonlinear models
+  \end{itemize}
+\item Go to extreme HPC scale : Partitioning and IO issues
+\end{itemize}
 
 \subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
 
