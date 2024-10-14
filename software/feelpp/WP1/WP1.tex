@@ -830,6 +830,30 @@ add extra analysis  and conclusion here.
 
 Thermo Electric coupling in a complex geometry.
 
+\paragraph{Description}
+
+This benchmark models the temperature field and electric current distribution in an high field resistive magnet of the Laboratoire National des Champs Magnétiques Intenses. The magnet consist in a set of 14 copper alloys cylindrical tubes connected 2 by 2 into series by rings. In each tube, the current path is defined by 2 helical cuts of 0.2 mm width. The rings are machined to let water flow in between each tube
+in a channel of 0.8 mm. The magnet is operated at 12 MW with an imosed total current of 31 kA. The water flow in the magnet is about 140 l/s. The water cooling of the magnet is modelling by using Robin boundary conditions with parameters derived from classical correlation in thermo-hydraulics.
+%% TODO add ref to Cecile or Romain Phd %%
+A more detailled version of the full model is available in Daversion2016. The model is run with \testtt{thermoelectric} \Feelpp toolbox. 
+
+\paragraph{Benchmarking Tools Used}
+
+The following tools were used for performance profiling and analysis:
+\begin{itemize}
+    \item \textbf{\Feelpp}: the performance tools integrated into the \Feelpp framework were used to measure the execution time.
+    \item \textbf{Gaya}: the benchmark was performed on the Gaya supercomputer (see \Cref{sec:arch:gaya}).
+\end{itemize}
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+    \item \textbf{Input Data:} The input dataset consists in a 3D tetrahedral mesh with about 50 millions of tetras along with the  configuration files necessary to run the simulations.
+    \item \textbf{Output Data:} The output includes the computed temperature, current distribution stored in HDF5 format, as well as some integral quantities such a the total power dissipated by the magnet.
+    \item \textbf{Data Repository:} All input and output datasets are available in a unistra girder repository (collection HiFiMagnet, HL-31).
+\end{itemize}
+
+
 \begin{figure}[h]
   \centering
   \begin{subfigure}[c]{0.49\textwidth}
