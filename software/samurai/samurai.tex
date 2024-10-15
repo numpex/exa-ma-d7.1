@@ -46,15 +46,16 @@ B7 - Exascale Algorithms\\
 samurai is an open source software package written in modern C++ (C++17 and soon C++20), enabling the representation of sparse Cartesian meshes with different levels of resolution in a compressed way, using an interval representation. Resolution refers to Cartesian cells of the same size. A set algebra is provided to manage the operators that can intervene between these meshes. These include intersections, unions, differences and translations.
 It is then possible to attach scalar and vector fields to these meshes and perform operations on these fields. Access operators facilitate field manipulation according to resolution levels and coordinates.
 
-This data structure can then be used to implement spatial and temporal schemes. The figure below shows the different layers involved in samurai. Some of them are currently being implemented.
+This data structure can then be used to implement spatial and temporal schemes. The~\cref{fig:Samurai:architecture} shows the different layers involved in samurai. Some of them are currently being implemented.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{graphics/samurai/samurai.png}
     \caption{Samurai architecture}
+    \label{fig:Samurai:architecture}
 \end{figure}
 
-\href{https://github.com/hpc-maths/ponio}{ponio} is also an open source software developed at the HPC@Maths team at CMAP (Ecole polytechnique). The aim of ponio is to provide a set of schemes in time for solving a whole collection of ODEs and PDEs. The simplest is the combination of an operator separation strategy and a method of line involving various classical time integrators like Runge-Kutta methods, or optimized one (RADAU5, ROCK4) and also splitting operator methods (IMEX, Strang splitting) ; the long-term objective is also to be able to tackle innovative adaptive code coupling techniques through an interface as well as classes of time-space coupled schemes (Lax-Wendroff, OSMP, time-space coupled IMEX with good asymptotic preserving and stability properties...).
+\href{https://github.com/hpc-maths/ponio}{ponio} is an open source software developed at the HPC@Maths team at CMAP (Ecole polytechnique). The aim of ponio is to provide a set of schemes in time for solving a whole collection of ODEs and PDEs. The simplest is the combination of an operator separation strategy and a method of line involving various classical time integrators like Runge-Kutta methods, or optimized ones (RADAU5, ROCK4) and also operator splitting methods as well as IMEX schemes; the long-term objective is also to be able to tackle innovative adaptive code coupling techniques through an interface as well as classes of time-space coupled schemes (Lax-Wendroff, OSMP, time-space coupled IMEX with good asymptotic preserving and stability properties...).
 
 The design principles of samurai are the following:
 \begin{enumerate}
@@ -66,27 +67,38 @@ The design principles of samurai are the following:
     \item Give the possibility of writing numerical schemes in a transparent way as one were on a uniform mesh.
 \end{enumerate}
 
-To give an overview of the compression capabilities of samurai, the following table shows the number of cells needed to represent a Cartesian mesh defined by the simple-2d example found in the p4est library (\cite{burstedde_p4est_2011}).
+To give an overview of the compression capabilities of samurai, the~\cref{tab:Samurai:compression} shows the number of cells needed to represent a Cartesian mesh defined by the simple-2d example found in the p4est library (\cite{burstedde_p4est_2011}) and illustrated in~\cref{fig:Samurai:simple2d}.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{graphics/samurai/p4est_3.png}
     \caption{simple-2d test from p4est library}
+    \label{fig:Samurai:simple2d}
 \end{figure}
 
 \begin{table}[h!]
     \centering
-    \rowcolors{2}{numpexlightergray}{white}
-    \begin{tabular}{llllll}
-        \textbf{Level} & \textbf{Num. of cells} & \textbf{p4est} & \textbf{samurai (leaves)} & \textbf{samurai (all)} & \textbf{ratio} \\
-        \hline\hline
-        9 & 66379 & 2.57 Mb & 33.68 Kb & 121 Kb & 21.24 \\
-        10 & 263767 & 10.25 Mb & 66.64 Kb & 236.8 Kb & 43.28 \\
-        11 & 1051747 & 40.96 Mb & 132.36 Kb & 467.24 Kb & 87.66 \\
-        12 & 4200559 & 163.75 Mb & 263.6 Kb & 927 Kb & 176.64 \\
-        13 & 16789627 & 654.86 Mb & 525.9 Kb & 1.85 Mb & 353.98 \\
-        14 & 67133575 & 2.61 Gb & 1.05 Mb & 3.68 Mb & 709.24 \\
-    \end{tabular}
+    {
+        \setlength{\parindent}{0pt}
+        \def\arraystretch{1.25}
+        \arrayrulecolor{numpexgray}
+        {
+            \fontsize{9}{11}\selectfont
+            \begin{tabular}{llllll}
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Level} &  {\rule{0pt}{2.5ex}\color{white}\bf Num. of cells }  &{\rule{0pt}{2.5ex}\color{white}\bf p4est} &  {\rule{0pt}{2.5ex}\color{white}\bf samurai (leaves) } &{\rule{0pt}{2.5ex}\color{white}\bf samurai (all)} &  {\rule{0pt}{2.5ex}\color{white}\bf ratio }\\
+
+    \rowcolor{white} 9 & 66379 & 2.57 Mb & 33.68 Kb & 121 Kb & 21.24 \\
+    \rowcolor{numpexlightergray} 10 & 263767 & 10.25 Mb & 66.64 Kb & 236.8 Kb & 43.28 \\
+    \rowcolor{white} 11 & 1051747 & 40.96 Mb & 132.36 Kb & 467.24 Kb & 87.66 \\
+    \rowcolor{numpexlightergray} 12 & 4200559 & 163.75 Mb & 263.6 Kb & 927 Kb & 176.64 \\
+    \rowcolor{white} 13 & 16789627 & 654.86 Mb & 525.9 Kb & 1.85 Mb & 353.98 \\
+    \rowcolor{numpexlightergray} 14 & 67133575 & 2.61 Gb & 1.05 Mb & 3.68 Mb & 709.24 \\
+\end{tabular}
+        }
+    }
+    \caption{WP1: Compression rate between samurai and p4est meshes}
+    \label{tab:Samurai:compression}
 \end{table}
 
 \subsection{Purpose}
@@ -167,7 +179,7 @@ samurai provides a set of operators for working with Cartesian grids of varying 
 
 The aforementioned operators are currently defined for control volumes up to order 11. The size of the associated stencils is automatically accounted for by samurai. In a near future, the same operators will be defined for finite differences and discountinuous Galerkin methods.
 
-It is thus possible to reconstruct the solution at any desired resolution level. This enables the solution to be found at the finest level, as well as calculations to be performed involving two different AMR meshes. To illustrate this purpose, we can imagine a case where one mesh is used to solve the Navier-Stokes equations, while another is employed to simulate the propagation of a pollutant via an advection equation, wherein the velocity is derived from the velocity provided by the Navier-Stokes equations. The first mesh is adapted using the velocity field, whereas the second mesh is adapted using the pollutant concentration.
+It is thus possible to reconstruct the solution at any desired resolution level. This enables the solution to be found at the finest level, as well as calculations to be performed involving two different AMR meshes. To illustrate this purpose, we can imagine a case where one mesh is used to solve the Navier-Stokes equations, while another is employed to simulate the propagation of a pollutant via an advection equation, wherein the velocity is derived from the velocity provided by the Navier-Stokes equations. The first mesh is adapted using the velocity field, whereas the second mesh is adapted using the pollutant concentration (\cite{nguessan_high_2021}).
 
 In addition to these resolution-level operators, samurai provides an API for defining finite-volume operators that can be used for both explicit and implicit methods. The defined FVM operator available with samurai are
 
