@@ -210,18 +210,19 @@ We remark that the problem scales well with the number of processors, as evidenc
 
 
 
-\paragraph{Challenges Identified:} \textbf{???}
+\paragraph{Challenges Identified:} 
+
+\begin{description}
+    \item[Memory Usage] memory monitoring is necessary to better map the testcase on the target architectures.
+    \item[Parallelization] The different offline stages need to be better profiled with respect to performance and I/O. A lot of  scalar products are computed in the offline stage, we need to check very large configurations and possibly consider communication avoidance strategies.
+\end{description}
 
 
 \subsection{12-Month Roadmap}
 \label{sec:WP2:Feelpp:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+In this section, we describe the roadmap for improving benchmarks and addressing the challenges identified. 
+It follows mainly the same roadmap as in WP1~\Cref{sec:WP1:Feelpp:roadmap}.
 
 In~\cref{tab:WP2:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -237,12 +238,12 @@ In~\cref{tab:WP2:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & provide short description here \\
-\rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation &  see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing &  see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B2 - Interconnect Technology &  see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{white}    B6 - Data Management &  see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & large scale simulation for \ac{RB} and \ac{NIRB} and monitor reduce and broadcast operations; Implement Non-Linear Compressive RB  \\
 \hline
 \end{tabular}
         }

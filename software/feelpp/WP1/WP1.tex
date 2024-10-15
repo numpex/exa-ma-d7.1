@@ -95,34 +95,43 @@ In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features 
 \label{sec:WP1:Feelpp:performances}
 
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+\begin{description}
+    \item[Parallel Programming Environment:]  MPI, Multithreading in HdG methods when enable static condensation and Tasks based parallelism using Specx~\cite{cardosi_specx_2023}.
+    \item[Supercomputers:] Gaya~\Cref{sec:arch:gaya} and Discoverer~\cref{sec:arch:eurohpc-ju}.
+    \item[Parallel Capabilities:] Every data structures are parallelized using MPI. We are currently working on adding the support of GPU for some of the data structures. HDF5 and MPI-IO are used for I/O.
+    \item[Integration with Other Systems:] \Feelpp is interfaced with specx, MMG/ParMMG and Gmsh regarding WP1.
+\end{description}
+
+% \begin{itemize}
+%     \item describe the parallel programming  environment : MPI and
+%     \item describe the parallel computation environment: type of architecture and super computer used.
+%     \item describe the parallel capabilities of the software
+%     \item \textbf{Scalability:} Describe the general scalability properties of the software
+%     \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+% \end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Feelpp:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+This section provides a summary of initial performance benchmarks performed in the context of WP1. 
+It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. 
+The input data is publicly available and some have already Zenodo DOI~\cref{sec:arch:zenodo}, other are stored on Girder~\cref{sec:arch:girder:unistra} or on the software repository.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
-
+% \begin{itemize}
+%     \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+%     \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+%         \begin{itemize}
+%             \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+%             \item Output dataset format and key results.
+%             \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+%             \item DOI or permanent link for accessing the dataset.
+%         \end{itemize}
+%     \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+%     \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+%     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+% \end{itemize}
+% 
 % % create latex counter
 % \newcounter{feelppWP1benchcounter}
 % % set the counter to 1
@@ -166,38 +175,40 @@ The key metrics measured include execution time, accuracy, memory usage, and flo
 \begin{itemize}
     \item \textbf{Input Data:} The input consists of a 3D uniform grid representing the box geometry, with approximately 1 million vertices. The level set function and ray tracing boundaries are initialized for the distance computation. The input data is stored in JSON format, and it can be accessed via DOI: \texttt{[Insert DOI]}.
 
-    \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
+    \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in HDF5 format and statistics (performance and errors) in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
 
-    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, are stored in a Zenodo repository and can be accessed via DOI: \texttt{[Insert DOI]}.
+    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, will be stored in a Zenodo repository~\cref{sec:arch:zenodo} 
 \end{itemize}
 
-\paragraph{Results Summary}
-The performance comparison between the two methods is summarized as follows:
+This benchmark will CPU and GPU Benchmarking results. They are not yet available but will be soon once the GPU implementation is finalized.
 
-RESULTS here.
-
-\paragraph{Challenges Identified}
-The following challenges were encountered during the benchmarking process:
-\begin{itemize}
-    \item \textbf{Ray Tracing Bottlenecks:}
-    \item \textbf{Parallelization Issues:}
-    \item \textbf{Memory Usage:}
-\end{itemize}
-
-Final analysis and persectives here.
-
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+% \paragraph{Results Summary}
+% The performance comparison between the two methods is summarized as follows:
+% 
+% RESULTS here.
+% 
+% \paragraph{Challenges Identified}
+% The following challenges were encountered during the benchmarking process:
+% \begin{itemize}
+%     \item \textbf{Ray Tracing Bottlenecks:}
+%     \item \textbf{Parallelization Issues:}
+%     \item \textbf{Memory Usage:}
+% \end{itemize}
+% 
+% Final analysis and persectives here.
+% 
+% \begin{itemize}
+%     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+%     \item \textbf{Input/Output Dataset Description:}
+%         \begin{itemize}
+%             \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%             \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%             \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%         \end{itemize}
+%     \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+% \end{itemize}
 
 \subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
 \label{sec:WP1:Feelpp:benchmark:thermal_bridges}
@@ -603,6 +614,7 @@ installations, like Spack.
 
 
 
+
 \subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
 \label{sec:WP1:Feelpp:benchmark:nafems-le10}
 
@@ -889,6 +901,7 @@ reduced quota limits on this fast disk.
 \item Go to extreme HPC scale : Partitioning and IO issues
 \end{itemize}
 
+\iffalse
 \subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
 
 \paragraph{Description}
@@ -935,11 +948,12 @@ Several challenges were encountered during the benchmarking process:
 \end{itemize}
 
 add extra analysis  and conclusion here.
+\fi
 
 \subsubsection{Benchmark \#3: Thermo-Electric Coupling}
 \label{sec:WP1:Feelpp:benchmark:hl-31}
 
-Thermo Electric coupling in a complex geometry.
+%Thermo Electric coupling in a complex geometry.
 
 \paragraph{Description}
 
@@ -1488,11 +1502,10 @@ As the number of cores increases, we also observe a proportional increase in tim
 
 
 \paragraph{Challenges Identified}
-Several challenges were encountered during the benchmarking process: \textbf{??}
+Several challenges were encountered during the benchmarking process: 
 \begin{itemize}
-    \item \textbf{Memory Usage:}
-    \item \textbf{Parallelization Inefficiencies:}
-    \item \textbf{Cache and Memory Bottlenecks:}
+    \item \textbf{Memory Usage:} Memory usage should be better monitored espcially when creating the solver and preconditioner objects.
+    \item \textbf{Parallelization Inefficiencies:} We need to test on large configuration in terms of mesh sizes and number of cores as well as increase the polynomial order to identify potential parallelization and I/O bottlenecks.
 \end{itemize}
 
 
