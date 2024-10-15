@@ -86,11 +86,13 @@ In~\cref{tab:WP3:Feelpp:features} we provide the summary of the \Feelpp features
     \item[Scalability] Only Speedups are measured
 \end{description}
 
+
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:Feelpp:metrics}
 
 This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
+\iffalse
 \begin{itemize}
     \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
     \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
@@ -120,8 +122,9 @@ This section provides a summary of initial performance benchmarks performed in t
 \paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\fi
 
-\subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
+\subsubsection{Benchmark \#1: Elliptic linear PDE : Thermal bridges}
 \label{sec:WP3:Feelpp:benchmark:thermal_bridges}
 \paragraph{Description:} % Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
 The benchmark description can be found in
@@ -301,7 +304,7 @@ phenomena are not well captured with this approximation which is the coarsen.
 \item Reduce the memory
 \end{itemize}
 
-\subsubsection{Benchmark \#3: Linear elasticity : NAFEMS LE10}
+\subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
 \label{sec:WP3:Feelpp:benchmark:nafems-le10}
 
 \paragraph{Description:} % Briefly describe the benchmark case, including the
@@ -688,7 +691,7 @@ a few runs of the electric problem).
 \item Reduce the memory
 \end{itemize}
 
-
+\iffalse
 \subsubsection{Benchmark \#4: CFD FDA Benchmark}
 
 \fullcite{chabannes_high_2017}
@@ -707,8 +710,10 @@ a few runs of the electric problem).
 
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
-\subsubsection{Benchmark \#5: Conjuguate heat transfer}
+\fi
 
+\subsubsection{Benchmark \#4: Conjuguate heat transfer}
+\label{sec:WP3:Feelpp:benchmark4}
 
 
 The benchmark has been described in the prequel of this document, in \Cref{sec:WP1:Feelpp:benchmark4}, and simulate the aqueous humor flow in the human eye, coupled with the heat transfer.
