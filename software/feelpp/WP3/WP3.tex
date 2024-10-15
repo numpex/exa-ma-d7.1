@@ -86,11 +86,14 @@ In~\cref{tab:WP3:Feelpp:features} we provide the summary of the \Feelpp features
     \item[Scalability] Only Speedups are measured
 \end{description}
 
+
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:Feelpp:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. 
+All output data are available in this repository, the input data is available publicly in the \Feelpp repository, in Girder~\cref{sec:arch:girder:unistra} and for a few in Zenodo~\cref{sec:arch:zenodo}.
 
+\iffalse
 \begin{itemize}
     \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
     \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
@@ -120,14 +123,19 @@ This section provides a summary of initial performance benchmarks performed in t
 \paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\fi
 
-\subsubsection{Benchmark \#2: Heat flows and temperature surfaces}
+\subsubsection{Benchmark \#1: Elliptic linear PDE : Thermal bridges}
 \label{sec:WP3:Feelpp:benchmark:thermal_bridges}
-
-%\fullcite{noauthor_iso_2017}
 \paragraph{Description:} % Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
+The benchmark description can be found in
+\Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}.
 
+The goal of this benchmark in WP3 is to analyze the scalability performance of a linear solver
+available in \Feelpp, which is a wrapper of Petsc solver.
+In this benchmark, we use a GMRES solver preconditioned by an algebraic
+multigrid called GAMG. This kind of preconditioner is generally well adapted to
+elliptic PDE.
 
 
 \paragraph{Benchmarking Tools Used:} %List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
@@ -136,8 +144,25 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 \paragraph{Input/Output Dataset Description:}
 See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 
-\paragraph{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+\paragraph{Results Summary:}% Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
 
+The metrics computed in this experiment are the time execution of the linear solver and the number of iterations of the GMRES algorithm.
+The \Cref{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+illustrate the results obtained. In each subfigure, we can see the impact of the
+mesh level for a finite element approximation. We have also \Cref{fig:feelpp:wp3:thermal_bridges:performance_measure_all}
+which present all results in the same charts. It allows us to see the impact of
+mesh and finite element choice.
+
+The speed-up is not very good (or ideal), particularly for the coarse mesh. The
+reasons are not yet well understood because we can see that the number of
+iterations is quite constant with respect to the number of CPU cores. We need to
+investigate more in detail what happened. At the number of iteration levels, the
+results are good, with excellent constant behavior with respect to the number of
+CPU cores. We can see also the impact of the mesh level and finite element
+approximation order. As expected, the number of iterations increases with the
+number of degrees of freedom but not too much. However, we can notice in the
+case $P_1$ that the mesh M1 takes more iteration than the other. Maybe some
+phenomena are not well captured with this approximation which is the coarsen.
 
 
 
@@ -159,7 +184,10 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
-      \barChart[ybar,xticklabels from table={\dataMa}{nProc}]{\plotSetup}
+      \barChart[ybar,xticklabels from table={\dataMa}{nProc},
+      width=\textwidth, height=0.6172\textwidth,
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup}
         \caption{Execution time - $P_{\polyId}$}
     \end{subfigure}
     \begin{subfigure}[c]{0.49\textwidth}
@@ -187,6 +215,8 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
       \end{tikzpicture}
       \caption{Number of iterations of GMRES - $P_{\polyId}$}
     \end{subfigure}
+
+    \vspace*{0.04\textwidth}
   }
   \caption{Thermal bridges benchmarks - Performance measures of algebraic solver
     (Mesh comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
@@ -268,9 +298,402 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 \end{figure}
 
 
-\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\paragraph{Challenges Identified:} %Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
-\subsubsection{Benchmark \#3: CFD FDA Benchmark}
+\begin{itemize}
+\item Improve the HPC scalability at large/extreme scale.
+\item Reduce the memory
+\end{itemize}
+
+\subsubsection{Benchmark \#2: Linear elasticity : NAFEMS LE10}
+\label{sec:WP3:Feelpp:benchmark:nafems-le10}
+
+\paragraph{Description:} % Briefly describe the benchmark case, including the
+                         % problem size, target architecture (e.g., CPU, GPU),
+                         % and the input data. Mention the specific goals of the
+                         % benchmark (e.g., testing scalability, energy
+                         % efficiency).
+The benchmark description can be found in
+\cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
+
+In this benchmark, we are interested in analysing the performance of algebraic
+solvers. For this linear elasticity problem, we used a multigrid algebraic
+preconditioner called GAMG (Petsc). This preconditioner is then used in a GMRES
+iterative method. In addition, we emphasize that we have used the preconditioned
+Chebyshev iterative method (with Jacobi) as smoother of the multigrid.
+
+Finally, using near-null-space vectors is generally crucial for the good
+performance of the multigrid solver, particularly when the kernel of the
+operator is not only the constants. In this elasticity problem, these near-null
+space vectors can be derived as rigid body modes from the coordinates of the
+discretization grid nodes or degrees of freedom with high-order approximation.
+
+
+\paragraph{Benchmarking Tools Used:} % List the tools used for performance
+                                % analysis, such as Extrae, Score-P, TAU,
+                                % Vampir, or Nsight, and specify what metrics
+                                % were measured (e.g., execution time, FLOPS,
+                                % energy consumption).
+See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
+
+\paragraph{Input/Output Dataset Description:}
+See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
+
+\paragraph{Results Summary:} % Include a summary of key metrics (execution time,
+                             % memory usage, FLOPS) and their comparison across
+                             % architectures (e.g., CPU, GPU).
+
+We have plotted the performances results and number of iterations in
+\cref{fig:feelpp:wp3:nafems-le10:performance_measures_M2_M3} for the mesh M2 and
+M3, and in
+\cref{fig:feelpp:wp3:nafems-le10:performance_measures_M4} for the mesh M4. For
+each, we have tested with lagrange finite element $P_1$ and $P_2$.
+
+The conclusion we can reach is that the solver does not behave very well on a
+large HPC scale. In particular, the quality of the solver deteriorates with a
+large number of iterations. However, we can see that increasing the number of
+degrees of freedom improves strong scalability, and that the extreme case M4-P2
+behaves well. The variability of the number of iterations and its high level
+should be studied more to better understand these results.
+
+Finally, with
+\cref{fig:feelpp:wp3:nafems-le10:performance_measures_all}, we have merged all
+results in order to see the impact of mesh and finite element choice and the
+HPC resources.
+
+\begin{figure}
+  \centering
+
+  \foreach [expand list=true] \polyId/\shiftData in {1/0,2/2} {
+
+    \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M2_P\polyId_discoverer.csv}\dataMb
+    \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M3_P\polyId_discoverer.csv}\dataMc
+    %\pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M4_P\polyId_discoverer.csv}\dataMd
+
+    \def\plotSetup{
+      {table=dataMb,column=algebraic-solve,legend=M2,color=customdarkblue},
+      {table=dataMc,column=algebraic-solve,legend=M3,color=customcyan,shift=\shiftData}
+    }
+
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[
+      ybar, width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={\dataMb}{nProc},
+      x tick label style={ rotate=-45 },
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup}
+      \caption{Execution time - $P_{\polyId}$}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \def\myLineWidth{2pt}
+        \begin{axis}[
+          width=0.8\textwidth, height=0.6172\textwidth,
+          % xtick=data,
+          xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+          ymajorgrids=true, %yminorgrids=true,
+          minor y tick num=2,
+          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+          xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+          xlabel={Number of CPU cores}, ylabel={Number of iterations},
+          legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+          ]
+          \addplot[color=customdarkblue,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMb};
+          \addlegendentry{M2}
+          \addplot[color=customcyan,mark=triangle,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMc};
+          \addlegendentry{M3}
+        \end{axis}
+      \end{tikzpicture}
+      \caption{Number of iterations of GMRES - $P_{\polyId}$}
+    \end{subfigure}
+    \vspace*{0.04\textwidth}
+  }
+
+  \caption{NAFEMS LE10 benchmarks - Performance measures of algebraic solver
+    (Mesh comparison M2 and M3) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+    \label{fig:feelpp:wp3:nafems-le10:performance_measures_M2_M3}
+\end{figure}
+
+
+
+
+\begin{figure}
+  \centering
+    \foreach [expand list=true] \polyId/\shiftData in {1,2} {
+
+      \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M4_P\polyId_discoverer.csv}\dataMd
+      \def\plotSetup{
+        {table=dataMd,column=algebraic-solve,legend=M4,color=customorange}
+      }
+
+      \begin{subfigure}[c]{0.49\textwidth}
+        \centering
+              \resizebox{\textwidth}{0.6172\textwidth}{
+                \barChart[ybar,
+                xticklabels from table={\dataMd}{nProc},
+                x tick label style={ rotate=-45 }
+                ]{\plotSetup}
+                }
+      \caption{Execution time - $P_{\polyId}$}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \resizebox{\textwidth}{0.6172\textwidth}{
+      \begin{tikzpicture}
+        \def\myLineWidth{2pt}
+        \begin{axis}[
+          width=\textwidth, height=0.6172\textwidth,
+          % xtick=data,
+          xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+          ymajorgrids=true, %yminorgrids=true,
+          minor y tick num=2,
+          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+          xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+          xlabel={Number of CPU cores}, ylabel={Number of iterations},
+          %legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+          ]
+          \addplot[color=customorange,mark=o,line width=\myLineWidth] table [x=nProc, y=ksp-niter] {\dataMd};
+          %\addlegendentry{M4}
+        \end{axis}
+      \end{tikzpicture}
+      }
+      \caption{Number of iterations of GMRES - $P_{\polyId}$}
+    \end{subfigure}
+  }
+
+  \caption{NAFEMS LE10 - Performance measures of algebraic solver
+    (Mesh M4) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+  \label{fig:feelpp:wp3:nafems-le10:performance_measures_M4}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M2_P1_discoverer.csv}\dataMbPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M2_P2_discoverer.csv}\dataMbPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M3_P1_discoverer.csv}\dataMcPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M3_P2_discoverer.csv}\dataMcPb
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M4_P1_discoverer.csv}\dataMdPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/nafems_le10_M4_P2_discoverer.csv}\dataMdPb
+
+  \def\chartLinePlot#1#2{
+    \begin{tikzpicture}
+      \def\myLineWidth{2pt}
+      \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+      \def\myLineStyleB{dashed}
+      \def\myLineStyleC{solid}
+      %\def\myMarkStyle{every mark/.append style={solid}}
+      %\edef\myMarkStyle{\noexpand{every mark/.append style={solid}}}
+
+      %\begin{axis}
+      \begin{semilogxaxis}
+        [
+        width=\textwidth, height=0.6172\textwidth,
+        % xtick=data,
+        xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, %yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        %xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands
+        %separator={},precision=0]{\pgfmathresult}},
+        xticklabel={\pgfmathparse{exp(\tick)}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Number of CPU cores},% ylabel={Number of iterations},
+        %xmode=log,
+        %log ticks with fixed point,
+        %x filter/.code=\pgfmathparse{##1 + 6.90775527898214},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        %legend style={at={(1.,1)}, anchor=north east,font=\small,legend columns=2},
+        #2
+        ]
+        \addplot[color=customdarkblue,\myLineStyleA,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPa};
+        \addlegendentry{M2-P1}
+        \addplot[color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPb};
+        \addlegendentry{M2-P2}
+        %\addplot[color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMaPc};
+        %\addlegendentry{M1-P3}
+        \addplot[color=customcyan,\myLineStyleA,mark=triangle,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPa};
+        \addlegendentry{M3-P1}
+        \addplot[color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPb};
+        \addlegendentry{M3-P2}
+        % \addplot[color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMbPc};
+        % \addlegendentry{M2-P3}
+        \addplot[color=customorange,\myLineStyleA,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMdPa};
+        \addlegendentry{M4-P1}
+        \addplot[color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMdPb};
+        \addlegendentry{M4-P2}
+        % \addplot[color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth,every mark/.append style={solid}] table [x=nProc, y=#1] {\dataMcPc};
+        % \addlegendentry{M3-P3}
+      %\end{axis}
+      \end{semilogxaxis}
+    \end{tikzpicture}
+  }
+
+  \begin{subfigure}[c]{\textwidth}
+    \centering
+    \chartLinePlot{ksp-niter}{
+      ylabel={Number of iterations},
+      legend style={at={(1.,1)}, anchor=north east,font=\small,legend columns=2}
+    }
+    \caption{Number of iterations of GMRES}
+  \end{subfigure}
+  \begin{subfigure}[c]{\textwidth}
+    \centering
+    \chartLinePlot{algebraic-solve}{
+      ylabel={Execution time [s]},
+      legend style={at={(0.,1)}, anchor=north west,font=\small,legend columns=2}
+    }
+    \caption{Execution time}
+  \end{subfigure}
+  \caption{NAFEMS LE10 - Performance measures of algebraic solver
+    (Mesh and polynomial order comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
+    \label{fig:feelpp:wp3:nafems-le10:performance_measures_all}
+\end{figure}
+
+
+\paragraph{Challenges Identified:} %Describe any bottlenecks encountered (e.g.,
+                                %memory usage, parallelization inefficiencies)
+                                %and how they impacted the benchmark.
+
+\begin{itemize}
+\item Tuning GAMG
+\item Improve the HPC scalability at large/extreme scale.
+\item Reduce the memory
+\end{itemize}
+
+
+\subsubsection{Benchmark \#3: Thermo-Electric Coupling}
+\label{sec:WP3:Feelpp:benchmark:hl-31}
+
+\paragraph{Description:} % Briefly describe the benchmark case, including the
+                         % problem size, target architecture (e.g., CPU, GPU),
+                         % and the input data. Mention the specific goals of the
+                         % benchmark (e.g., testing scalability, energy
+                         % efficiency).
+The benchmark description can be found in
+\cref{sec:WP1:Feelpp:benchmark:hl-31}.
+
+The thermoelectric model is initially assumed to be linear. We will analyze the non-linear case (full coupling) in a future study.
+For this purpose, the PDE of the electrical model is considered to be
+non-temperature dependent. Therefore, the solution strategy consists of solving
+the electrical problem first and then the thermal problem (including the
+contribution given from the previous solution). This decoupled approach allows
+us to concentrate on the algebraic solvers of each physics.
+
+To solve the linear systems, we use a preconditioned GMRES algorithm for each
+one. The preconditioner used is an algebraic multigrid called GAMG (Petsc). The
+setup is identical for all physicis expeted for the smoother :
+\begin{itemize}
+\item \textbf{Heat} : KSPCHEBYSHEV + JACOBI
+\item \textbf{Electric} : KSPRICHARDSON + SOR
+\end{itemize}
+
+Note: The choice of smoother in electric seems important to ensure convergence
+(or even only stability of the iterative method). This will be studied more in
+detail in future work.
+
+\paragraph{Benchmarking Tools Used:} % List the tools used for performance
+                                % analysis, such as Extrae, Score-P, TAU,
+                                % Vampir, or Nsight, and specify what metrics
+                                % were measured (e.g., execution time, FLOPS,
+                                % energy consumption).
+See \cref{sec:WP1:Feelpp:benchmark:hl-31}.
+
+\paragraph{Input/Output Dataset Description:}
+See \cref{sec:WP1:Feelpp:benchmark:hl-31}.
+
+\paragraph{Results Summary:} % Include a summary of key metrics (execution time,
+                             % memory usage, FLOPS) and their comparison across
+                             % architectures (e.g., CPU, GPU).
+
+The results are presented in \cref{fig:feelpp:wp3:hl-3:performance_measure_gaya}
+and \cref{fig:feelpp:wp3:hl-3:performance_measure_discoverer}. They correspond
+respectivelly to the execution time of the algebraic solve using the Gaya and Discoverer supercomputers.
+In both machines, we have a good strong scalability up to 256 CPU cores. The
+results
+the results are not as good for a larger distribution. Indeed, the execution
+time is no longer reduced, with some bump that we don't understant for now.
+However, for a large number of tests, the calculation time remains reasonable, although there is a limit.
+
+In terms of the number of iterations, the results are very good and encouraging.
+We can see that there is little impact with the number of CPU cores (except for
+a few runs of the electric problem).
+
+
+
+\foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer}
+{
+\begin{figure}
+  \centering
+
+  \foreach [expand list=true] \polyId in {1,2} {
+
+    \pgfplotstableread[col sep=comma]{\currfiledir/../WP1/data/HL-31_M1_P\polyId_\supercomputerFile.csv}\dataMa
+
+    \def\plotSetup{
+      {table=dataMa,column=algebraic-solve,legend=M1,color=customdarkblue}
+    }
+
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \barChart[ybar, width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={\dataMa}{nProc},
+      x tick label style={ rotate=-45 },
+      every axis legend/.code={\let\addlegendentry\relax},   %ignore legend locally 
+      %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup}
+      \caption{Execution time - $P_{\polyId}$}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \begin{tikzpicture}
+        \def\myLineWidth{2pt}
+        \begin{axis}[
+          width=\textwidth, height=0.6172\textwidth,
+          % xtick=data,
+          xmajorgrids=true, xminorgrids=false, minor x tick num=3,
+          ymajorgrids=true, %yminorgrids=true,
+          minor y tick num=2,
+          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+          xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+          xlabel={Number of CPU cores}, ylabel={Number of iterations},
+          legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+          ]
+          \addplot[color=customdarkblue,mark=o,line width=\myLineWidth] table [x=nProc, y=heat.ksp-niter] {\dataMa};
+          \addlegendentry{heat}
+          \addplot[color=customcyan,mark=triangle,line width=\myLineWidth] table [x=nProc, y=electric.ksp-niter] {\dataMa};
+          \addlegendentry{electric}
+        \end{axis}
+      \end{tikzpicture}
+      \caption{Number of iterations of GMRES - $P_{\polyId}$}
+    \end{subfigure}
+    \vspace*{0.04\textwidth}
+  }
+
+  \caption{HL-31 benchmarks - Performance measures of algebraic solver
+    (Mesh comparison) - GMRES preconditionned by GAMG - \supercomputerName \ supercomputer}
+  \label{fig:feelpp:wp3:hl-3:performance_measure_\supercomputerFile}
+\end{figure}
+}
+
+\paragraph{Challenges Identified:} % Describe any bottlenecks encountered (e.g.,
+                                % memory usage, parallelization inefficiencies)
+                                % and how they impacted the benchmark.
+
+
+\begin{itemize}
+\item Tunning GAMG
+\item Improve the HPC scalability at large/extreme scale.
+\item Reduce the memory
+\end{itemize}
+
+\iffalse
+\subsubsection{Benchmark \#4: CFD FDA Benchmark}
 
 \fullcite{chabannes_high_2017}
 \paragraph{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
@@ -288,8 +711,10 @@ See \Cref{sec:WP1:Feelpp:benchmark:thermal_bridges}
 
 \paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 
-\subsubsection{Benchmark \#4: Conjuguate heat transfer}
+\fi
 
+\subsubsection{Benchmark \#4: Conjuguate heat transfer}
+\label{sec:WP3:Feelpp:benchmark4}
 
 
 The benchmark has been described in the prequel of this document, in \Cref{sec:WP1:Feelpp:benchmark4}, and simulate the aqueous humor flow in the human eye, coupled with the heat transfer.
@@ -307,12 +732,13 @@ A more in-depth description of the preconditioner can be found in~\cite{saigre_c
 \subsection{12-Month Roadmap}
 \label{sec:WP3:Feelpp:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
+In this section, we describe the roadmap for improving benchmarks and addressing the challenges identified. 
+It follows mainly the same roadmap as in WP1~\Cref{sec:WP1:Feelpp:roadmap}.
+%% \begin{itemize}
+%%     \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+%%     \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+%%     \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+%% \end{itemize}
 
 In~\cref{tab:WP3:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -332,11 +758,11 @@ In~\cref{tab:WP3:Feelpp:bottlenecks}, we briefly discuss the bottleneck roadmap 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & provide short description here \\
-\rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity &see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & see~\cref{tab:WP1:Feelpp:bottlenecks}\\
+\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B2 - Interconnect Technology & see~\cref{tab:WP1:Feelpp:bottlenecks}\\
+\rowcolor{white}    B6 - Data Management & see~\cref{tab:WP1:Feelpp:bottlenecks} \\
 \rowcolor{numpexlightergray}    B7 - Exascale Algorithms & enable hpddm and better preconditionner configurations at large scale (eg. algebraic multigrid), enable algebraic saddle point preconditioners from WP3, enable hp-mortar and compression strategies; update with latest PETSc improvement and start using PETSc GPU API\\
 \hline
 \end{tabular}

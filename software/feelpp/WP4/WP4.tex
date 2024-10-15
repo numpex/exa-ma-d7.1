@@ -89,33 +89,38 @@ In~\cref{tab:WP4:Feel++:features} we provide a summary of the software features 
 \subsection{Initial Performance Metrics}
 \label{sec:WP4:Feel++:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP4. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+% This section provides a summary of initial performance benchmarks performed in the context of WP4. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
-\begin{description}
-    \item[Overall Performance] Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item[Input/Output Dataset] Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item[open-data Access] Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item[Challenges] Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item[Future Improvements] Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{description}
+%\begin{description}
+%    \item[Overall Performance] Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+%    \item[Input/Output Dataset] Provide a detailed description of the dataset used for the benchmark, including:
+%        \begin{itemize}
+%            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+%            \item Output dataset format and key results.
+%            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+%            \item DOI or permanent link for accessing the dataset.
+%        \end{itemize}
+%    \item[open-data Access] Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+%    \item[Challenges] Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+%    \item[Future Improvements] Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+%\end{description}
 
-There are no benchmark yet defined for data assimilation that can be shared in this deliverable. The work is ongoing and will be reported in the next deliverable.
+There are no benchmark yet defined for data assimilation and inverse problems that can be shared in this deliverable. 
+The work is ongoing and will be reported in the next deliverable.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP4:Feel++:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{description}
-    \item[Data Improvements] Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item[Methodology Application] Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item[Results Retention] Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{description}
+In this section, we describe the roadmap for improving benchmarks and addressing the challenges identified. 
+It follows mainly the same roadmap as in WP1~\Cref{sec:WP1:Feelpp:roadmap}.
+
+
+%In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+%\begin{description}
+%    \item[Data Improvements] Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
+%    \item[Methodology Application] Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
+%    \item[Results Retention] Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
+%\end{description}
 
 In~\cref{tab:WP4:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
@@ -135,12 +140,12 @@ In~\cref{tab:WP4:Feel++:bottlenecks}, we briefly discuss the bottleneck roadmap 
 
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & provide short description here \\
-\rowcolor{numpexlightergray}    B2 - Interconnect Technology & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Enable verified benchmarking of deterministic/Stochastic EnKF \\
+\rowcolor{white}    B10 - Scientific Productivity & see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & see~\cref{tab:WP1:Feelpp:bottlenecks}\\
+\rowcolor{white}    B12 - Pre/Post Processing and In-Situ Processing & see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B2 - Interconnect Technology & see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{white}    B6 - Data Management &see~\cref{tab:WP1:Feelpp:bottlenecks} \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Enable verified benchmarking of deterministic/Stochastic EnKF and more generally ensemble runs\\
 \end{tabular}
         }
     }

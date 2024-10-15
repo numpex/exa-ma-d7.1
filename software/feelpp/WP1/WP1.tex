@@ -95,33 +95,60 @@ In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features 
 \label{sec:WP1:Feelpp:performances}
 
 
-\begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
-\end{itemize}
+\begin{description}
+    \item[Parallel Programming Environment:]  MPI, Multithreading in HdG methods when enable static condensation and Tasks based parallelism using Specx~\cite{cardosi_specx_2023}.
+    \item[Supercomputers:] Gaya~\Cref{sec:arch:gaya} and Discoverer~\cref{sec:arch:eurohpc-ju}.
+    \item[Parallel Capabilities:] Every data structures are parallelized using MPI. We are currently working on adding the support of GPU for some of the data structures. HDF5 and MPI-IO are used for I/O.
+    \item[Integration with Other Systems:] \Feelpp is interfaced with specx, MMG/ParMMG and Gmsh regarding WP1.
+\end{description}
+
+% \begin{itemize}
+%     \item describe the parallel programming  environment : MPI and
+%     \item describe the parallel computation environment: type of architecture and super computer used.
+%     \item describe the parallel capabilities of the software
+%     \item \textbf{Scalability:} Describe the general scalability properties of the software
+%     \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+% \end{itemize}
 
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Feelpp:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+This section provides a summary of initial performance benchmarks performed in the context of WP1. 
+It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. 
+The input data is publicly available and some have already Zenodo DOI~\cref{sec:arch:zenodo}, other are stored on Girder~\cref{sec:arch:girder:unistra} or on the software repository.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+% \begin{itemize}
+%     \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
+%     \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+%         \begin{itemize}
+%             \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
+%             \item Output dataset format and key results.
+%             \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
+%             \item DOI or permanent link for accessing the dataset.
+%         \end{itemize}
+%     \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
+%     \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
+%     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+% \end{itemize}
+% 
+% % create latex counter
+% \newcounter{feelppWP1benchcounter}
+% % set the counter to 1
+% \setcounter{feelppWP1benchcounter}{1}
+% \subimport{../software/feelpp/WP1}{WP1-thermalbridge.tex}
+% % increment the counter
+% \stepcounter{feelppWP1benchcounter}
+% % get value of counter
+%
+%
+%
+% \subimport{../software/feelpp/WP1}{WP1-heatfluid.tex}
+% % increment the counter
+% \stepcounter{feelppWP1benchcounter}
+% \subimport{../software/feelpp/WP1}{WP1-contact.tex}
+% %\subimport{./}{WP1-lap-elas}
+
 
 \subsubsection{Benchmark \#1: Compute Distance Function}
 
@@ -144,42 +171,44 @@ The following tools were used for performance profiling and analysis:
 
 The key metrics measured include execution time, accuracy, memory usage, and floating-point operations (FLOPS) for both methods.
 
-\subsection{Input/Output Dataset Description}
+\paragraph{Input/Output Dataset Description}
 \begin{itemize}
     \item \textbf{Input Data:} The input consists of a 3D uniform grid representing the box geometry, with approximately 1 million vertices. The level set function and ray tracing boundaries are initialized for the distance computation. The input data is stored in JSON format, and it can be accessed via DOI: \texttt{[Insert DOI]}.
 
-    \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
+    \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in HDF5 format and statistics (performance and errors) in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
 
-    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, are stored in a Zenodo repository and can be accessed via DOI: \texttt{[Insert DOI]}.
+    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, will be stored in a Zenodo repository~\cref{sec:arch:zenodo} 
 \end{itemize}
 
-\paragraph{Results Summary}
-The performance comparison between the two methods is summarized as follows:
+This benchmark will CPU and GPU Benchmarking results. They are not yet available but will be soon once the GPU implementation is finalized.
 
-RESULTS here.
-
-\paragraph{Challenges Identified}
-The following challenges were encountered during the benchmarking process:
-\begin{itemize}
-    \item \textbf{Ray Tracing Bottlenecks:}
-    \item \textbf{Parallelization Issues:}
-    \item \textbf{Memory Usage:}
-\end{itemize}
-
-Final analysis and persectives here.
-
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+% \paragraph{Results Summary}
+% The performance comparison between the two methods is summarized as follows:
+% 
+% RESULTS here.
+% 
+% \paragraph{Challenges Identified}
+% The following challenges were encountered during the benchmarking process:
+% \begin{itemize}
+%     \item \textbf{Ray Tracing Bottlenecks:}
+%     \item \textbf{Parallelization Issues:}
+%     \item \textbf{Memory Usage:}
+% \end{itemize}
+% 
+% Final analysis and persectives here.
+% 
+% \begin{itemize}
+%     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+%     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
+%     \item \textbf{Input/Output Dataset Description:}
+%         \begin{itemize}
+%             \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
+%             \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
+%             \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+%         \end{itemize}
+%     \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+%     \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+% \end{itemize}
 
 \subsubsection{Benchmark \#2: Elliptic linear PDE : Thermal bridges}
 \label{sec:WP1:Feelpp:benchmark:thermal_bridges}
@@ -199,10 +228,29 @@ bridges simulation are accurately computed. It provides reference values (and to
 temperature and heat flux at several location of the geometry.
 
 At the mathematical level, this application requires finding the numerical
-solution of an elliptic linear equation (i.e. the heat equation). We employ a
+solution of an elliptic linear PDE (i.e. the heat equation). We employ a
 finite element method based on continuous Lagrange Finite Element of order 1,2
 and 3 (denoted by $P_1$,$P_2$,$P_3$). And we analyzed the execution time of the
 main components of the simulation.
+
+The \Cref{fig:wp1:feelpp:thermal_bridges:geometry} represents the geometry
+of this benchmark and the domain decomposition by material.% the 3D temperature field solution, and an example of mesh partitioning.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-geom.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-geom2.png}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - geometry and materials}
+  \label{fig:wp1:feelpp:thermal_bridges:geometry}
+\end{figure}
+
 
 \paragraph{Benchmarking Tools Used}
 
@@ -210,14 +258,15 @@ The benchmark was performed on the \textbf{Discoverer} supercomputer (see
 \Cref{sec:arch:eurohpc-ju}).
 The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
 the execution time.
-Moreover, we need to note that we have used here Apptainer with \Feelpp sif image based on Ubuntu noble os.
+Moreover, we need to note that we have used here Apptainer with \Feelpp SIF image based on Ubuntu noble OS.
 
 The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
 \begin{itemize}
-\item \textbf{Init}:  load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
+\item \textbf{Init}: load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure)
 \item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
-\item \textbf{Solve}: the linear system by using a preconditioned gmres
-\item \textbf{PostProcess}: compute validation measure (temperature at points and
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
+\item \textbf{PostProcess}: compute validation measures (temperature at points and
   heat flux) and export on the filesystem a visualization format (EnsighGold) of
   the solution.
 \end{itemize}
@@ -229,7 +278,7 @@ The metrics measured are the execution time of the main components of the simula
   \begin{itemize}
   \item Meshes: We have generated three levels of mesh called M1, M2
     and M3. These meshes are stored in GMSH format. The statistics can be found in
-    \Cref{tab:wp3:feelpp:thermal_bridges:discr_stat}. We have also prepared for
+    \Cref{tab:wp1:feelpp:thermal_bridges:discr_stat}. We have also prepared for
     each mesh level a collection of partitioned mesh.
     The format used is an in-house mesh format of \Feelpp based on
     JSON+HDF5 file type.
@@ -245,7 +294,7 @@ The metrics measured are the execution time of the main components of the simula
 
 
 
-\begin{table}[h!]
+\begin{table}[!ht]
   \centering
   { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -261,14 +310,39 @@ The metrics measured are the execution time of the main components of the simula
         \hline
       \end{tabular}
     }}
-  \caption{Statistics on meshes and number of degrees of freedom with respect
-    to finite element approximation for the thermal bridges benchmark}
-  \label{tab:wp3:feelpp:thermal_bridges:discr_stat}
+  \caption{Thermal bridges benchmarks - Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation}
+  \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
 \end{table}
 
 
 \paragraph{Results Summary}
-The benchmark results are summarized in
+
+We start by showing in \cref{fig:wp1:feelpp:thermal_bridges:visualization} an example of numeric solution and mesh partitioning that we
+have obtained in the simulation pipeline. The partitioning process is considered
+an offline process here but requires some time and memory consumption. This
+should be explicitly described in a future work. With
+\cref{fig:feelpp:wp1:thermal_bridges:measures_convergences}, we have validated
+the simulation run by checking measures compared to reference values.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - temperature solution (left) and
+    partitioning example (right)}
+  \label{fig:wp1:feelpp:thermal_bridges:visualization}
+\end{figure}
+
+
+The benchmark performance results are summarized in
 \Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M1},
 \Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M2},
 \Cref{fig:feelpp:wp1:thermal_bridges:performance_times_M3} which correspond respectively to
@@ -276,36 +350,41 @@ choice of the mesh M1, M2 and M3. Moreover, for each mesh, we have experimented 
 finite element discretizations called $P_1$, $P_2$ and $P_3$.
 For each order of finite element approximation, we have selected a set of number
 of CPU cores.
-
-Firstly, we can see clearly that the Solve part is the most time-consuming. See
-comments in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
+%Firstly, we can see clearly that the Solve part is the most time-consuming. See comments in \Cref{sec:WP3:Feelpp:benchmark:thermal_bridges}.
 Concerning the mesh M1, considered a coarse mesh, we note that the
 scalability scaling is not good, especially for low order. This is simply because the problem is too small for so many HPC resources. MPI
-Communication an IO effect is non-negligible.
-For the mesh M2, results are better (but not ideal) up to around one thousand processing cores.
-Finally, the fined mesh M3, illustrates the best scalability on this range of
-number of tasks. Except for the solve part, we can see an efficiency of increased
-HPC resource at this level.
+communications and IO effects are non-negligible.
+For the mesh M2 and M3, results are better (but not ideal), and we can rapidly see the limit reached by the scalability test.
+Finally, the fined mesh M3, illustrates the best scalability on this
+benchmarking experiment. We see a reduction in computational cost by increasing the
+computation resources. However, due to the fast execution, the time goes fast to
+the limit.
 
-Each run illustrated here is also validated thanks to the value of the ISO 10211:2017 standard.
-With these experiments, we have also seen that we have some variability in
-performance measures. Some aspects like the filesystem and network load, are not
-under our control, it can explain a part of this. Also, the memory and
-consequently the choice of the number of tasks per node can be important and
-can change significantly the performance. This latter will be taken into account
-more accurately in a next campaign of these benchmarking test.
+%Each run illustrated here is also validated thanks to the value of the ISO
+%10211:2017 standard.
+With these benchmarking experiences, we have also seen that we have some
+variability in performance measures. Some aspects such as the filesystem and
+network load, are not under our control, it can explain a part of this (when
+computational time belongs small locally).
+%Also, the memory and
+%consequently the choice of the number of tasks per node can be important and
+%can change significantly the performance. This latter will be taken into account
+%more accurately in a next campaign of these benchmarking test.
 
+
+
+% Color cycle: customdarkblue,customcyan,customorange,custompurple
 \newcommand{\barChart}[2][ybar]{
   \begin{tikzpicture}
     \begin{axis}[
-      width=\textwidth, height=0.6172\textwidth,
+      %width=\textwidth, height=0.6172\textwidth,
       xlabel={Number of CPU core}, ylabel={Execution time [s]},
       %xticklabels from table={#2}{nProc},
       xtick=data,
       xtick align=outside,
       ymin=0,
       %legend style={at={(1,1)}, anchor=north east},
-      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
+      %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
       ymajorgrids=true, yminorgrids=true,
       bar width=7pt,
       #1
@@ -313,17 +392,19 @@ more accurately in a next campaign of these benchmarking test.
     \foreach [expand list=true] \thetuple in {#2} {
       \pgfkeys{/mysettings/.cd,
         table/.store in=\mytable,
-          column/.store in=\mycolumn,
-          legend/.store in=\mylegend,
-          color/.store in=\mycolor
-        }
+        column/.store in=\mycolumn,
+        shift/.store in=\myshift, shift/.default=0, shift,
+        legend/.store in=\mylegend,
+        color/.store in=\mycolor
+      }
       \edef\temp{
         \noexpand\pgfkeys{/mysettings/.cd, \expandafter\@firstofone\thetuple}
       } \temp
       %\def\toto{\expandafter\mytable}
       \edef\temp{
         \noexpand\addplot[ybar, bar width=0.2, fill=\mycolor, draw=black, point meta=y]
-        table [x expr=\noexpand\coordindex, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
+        table [x expr=\noexpand\coordindex+\myshift, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
+        %table [x=nProc, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
       } \temp
       %table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
       \edef\temp{
@@ -333,6 +414,105 @@ more accurately in a next campaign of these benchmarking test.
     \end{axis}
 \end{tikzpicture}
 }
+
+
+% columns/FunctionSpace/.style={string type},
+\begin{figure}[h]
+  \centering
+  \captionsetup[subfigure]{justification=centering}
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/thermalbridges_measures.csv}\dataTableMeasures
+  \def\myLineWidth{2pt}
+  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+  \def\myLineStyleB{dashed}
+  \def\myLineStyleC{solid}
+
+  \def\myAddPlot#1#2#3#4{
+    \addplot[#3,every mark/.append style={solid},
+    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+    x filter/.code={
+      \pgfmathparse{\thisrow{PolyOrder}==#2}
+      \ifnum0=\pgfmathresult
+      \pgfmathsetmacro{\newx}{nan}
+    \else
+      \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+    \fi
+    \pgfmathparse{\newx}
+  },
+  y filter/.expression={ #4*\pgfmathresult }
+  ] table [x=Mesh, y=#1] {\dataTableMeasures};
+}
+
+\def\myPlotOutputMeasures#1#2#3#4{
+  \resizebox{\textwidth}{0.6172\textwidth}{
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
+        % width=\textwidth, height=1.2\textheight,
+        xtick=data,
+        xticklabel={M$\pgfmathprintnumber{\tick}$},
+        xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Mesh levels}, ylabel={#4},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+        % columns=3},
+        legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
+        % #2
+        ]
+
+        \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+        \addlegendentry{P1}
+        \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+        \addlegendentry{P2}
+        \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+        \addlegendentry{P3}
+        \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+          (1,#3) (3,#3)
+        };
+        \addlegendentry{Ref}
+
+      \end{axis}
+    \end{tikzpicture}
+  }
+
+}
+
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \myPlotOutputMeasures{Normal_Heat_Flux_alpha}{1}{46.09}{Heat flow [W]}
+  \caption{Heat flow measured in $\alpha$ environment}
+\end{subfigure}
+\hfill
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
+  \caption{Heat flow measured in $\beta$ environment}
+\end{subfigure}
+\hfill
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \vspace*{0.03\textheight}
+  \myPlotOutputMeasures{Normal_Heat_Flux_gamma}{-1}{59.98}{Heat flow [W]} % warning inverse
+  \caption{Heat flow measured in $\gamma$ environment}
+\end{subfigure}
+\hfill
+\begin{subfigure}[c]{0.49\textwidth}
+  \centering
+  \vspace*{0.03\textheight}
+  \myPlotOutputMeasures{Statistics_temperature_alpha_min}{1}{11.32}{Temperature
+    [°C]}
+  \caption{Surface temperature min in $\alpha$ environment}
+\end{subfigure}
+
+\caption{Thermal bridges benchmarks - Convergence of validation measures compared to references values}
+\label{fig:feelpp:wp1:thermal_bridges:measures_convergences}
+\end{figure}
 
 
 \foreach [expand list=true] \meshId in {1,2,3} {
@@ -346,14 +526,22 @@ more accurately in a next campaign of these benchmarking test.
     \def\plotSetup##1{
       {table=##1,column=init,legend=Init,color=customdarkblue},
       {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
-      {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
-      {table=##1,legend=PostProcess,column=exportResults,color=custompurple}
+      %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
     }
     \def\chartBarPlot##1##2{
-      \barChart[ybar,xticklabels from table={##2}{nProc}]{\plotSetup{##1}}
+      \barChart[ybar,
+      width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
     }
     \def\chartBarStackedPlot##1##2{
-      \barChart[ybar stacked,xticklabels from table={##2}{nProc}]{\plotSetup{##1}}
+      \barChart[ybar stacked,
+      width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
     }
 
     \begin{subfigure}[c]{0.49\textwidth}
@@ -368,6 +556,7 @@ more accurately in a next campaign of these benchmarking test.
       \caption{\texttt{M\meshId} - \texttt{$P_1$}}
     \end{subfigure}
     \hfill
+    \vspace*{0.04\textwidth}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \chartBarPlot{dataPb}{\dataPb}
@@ -380,6 +569,7 @@ more accurately in a next campaign of these benchmarking test.
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
     \hfill
+    \vspace*{0.04\textwidth}
     \begin{subfigure}[c]{0.49\textwidth}
       \centering
       \chartBarPlot{dataPc}{\dataPc}
@@ -400,12 +590,16 @@ more accurately in a next campaign of these benchmarking test.
 
 
 
+
+
+
+
 \paragraph{Challenges Identified}
 Several challenges were encountered during the benchmarking process:
 \begin{itemize}
-    \item \textbf{Memory Usage:} We need to check and detect the memory
-      consumed during the simulation to avoid bad behavior like swapping.
-    \item \textbf{Parallelization Inefficiencies:} We need to understand and
+    \item \textbf{Memory Usage:} Reduce the memory
+      footprint.
+    \item \textbf{Parallelization Inefficiencies:} Understand and
       improve performance when MPI communication and filesystem IO will be dominant.
     %\item \textbf{Cache and Memory Bottlenecks:}
 \end{itemize}
@@ -421,7 +615,293 @@ installations, like Spack.
 
 
 
+\subsubsection{Benchmark \#3: Linear elasticity : NAFEMS LE10}
+\label{sec:WP1:Feelpp:benchmark:nafems-le10}
 
+\paragraph{Description}
+The NAFEMS LE10 benchmark is a reference test designed to assess the
+capabilities of finite element analysis (FEM) software for modeling bending
+structures. This benchmark is part of the NAFEMS benchmarks, commonly used to
+verify the accuracy and reliability of numerical simulation codes in mechanical
+and civil engineering.
+
+The LE10 benchmark aims to test the ability of software to solve a beam bending
+problem in the context of structural analysis. It aims to compare the results
+obtained by simulation software with analytical or theoretical results, as well
+as with other calculation methods
+
+The benchmark consists of analyzing a thin plate in flexion subjected to given
+loads and fixed to some edges. The underlying physics model used is a linear
+elasticity model. At the numeric level, we use the continuous Galerkin method
+with Lagrange finite element of order 1 and 2. The validation of the NAFEMS LE10
+benchmark asks to compute the normal stress in the y direction at a point of the geometry.
+
+
+\paragraph{Benchmarking Tools Used}
+The benchmark was performed on the \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to note that we have used here Apptainer with \Feelpp SIF image based on Ubuntu noble OS.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:nafems-le10}.
+\item \textbf{PostProcess}: compute validation measures (normal stress at a point)
+  and export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as von Mises yield, Tresca criterion and
+  principal stresses.
+\end{itemize}
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+\item \textbf{Input Data:}
+  \begin{itemize}
+  \item Meshes: We have generated three levels of mesh called M2, M3
+    and M4. These meshes are stored in GMSH format. The statistics can be found in
+    \Cref{tab:wp1:feelpp:nafems-le10:discr_stat}. We have also prepared for
+    each mesh level a collection of partitioned mesh.
+    The format used is an in-house mesh format of \Feelpp based on
+    JSON+HDF5 file type.
+    The Gmsh meshes and the partitioned meshes can be found on our Girder
+    database management, in the \Feelpp collections.
+  \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
+    file and JSON file. These config files are present in the Github of feelpp.
+  \item Sif image: feelpp:v0.111.0-preview.10-noble-sif  (stored in the Github registry of \Feelpp)
+  \end{itemize}
+\item \textbf{Output Data:} The output includes the computed values of
+  validation measure in CSV files format, export visualization files (mesh,
+  partitioning, displacement, ...), and the time taken to perform each simulation step.
+\end{itemize}
+
+\begin{table}[!ht]
+  \centering
+  { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+      \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}\multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties}
+        & \multicolumn{2}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of degrees of freedom} \\
+        \rowcolor{numpexgray} {\color{white}\bf Tag} & {\color{white}\bf \# points} & {\color{white}\bf \# edges} & {\color{white}\bf \# faces} & {\color{white}\bf \# elements} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} \\
+        \texttt{M2} & \pgfmathprintnumber{324257} & \pgfmathprintnumber{2247489} & \pgfmathprintnumber{3796235} & \pgfmathprintnumber{1873002} & \pgfmathprintnumber{972771} & \pgfmathprintnumber{7715238}  \\
+        \texttt{M3} & \pgfmathprintnumber{2426377} & \pgfmathprintnumber{17230019} & \pgfmathprintnumber{29409215} & \pgfmathprintnumber{14605572} & \pgfmathprintnumber{7279131} & \pgfmathprintnumber{58969188}  \\
+        \texttt{M4} & \pgfmathprintnumber{18801264} & \pgfmathprintnumber{135213828} & \pgfmathprintnumber{232036941} & \pgfmathprintnumber{115624376} & \pgfmathprintnumber{56403792} & \pgfmathprintnumber{462045276} \\
+        \hline
+      \end{tabular}
+    }}
+  \caption{NAFEMS LE10 benchmark - Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation}
+  \label{tab:wp1:feelpp:nafems-le10:discr_stat}
+\end{table}
+
+\paragraph{Results Summary}
+We start by showing \Cref{fig:wp1:feelpp:nafems-le10:results:visualization} that
+illustrate the numerical results quality of this in silico experiments. We can
+see the displacement filed and some quantities of interest in
+\cref{fig:feelpp:wp1:nafems-le10:results:visualization:displacement,fig:feelpp:wp1:nafems-le10:results:visualization:vonmises,fig:feelpp:wp1:nafems-le10:results:visualization:wrap-tresca}.
+Moreover, we have \cref{fig:feelpp:wp1:nafems-le10:results:measures_convergences} which show the
+validity and quality of the solution for each discretization.
+
+In terms of performance, we have plotted the execution times related to the WP1 context. These results, illustrating the  \textbf{Init}, \textbf{Assembly} and \textbf{PostProcess} components, can be found in
+\cref{fig:feelpp:wp1:nafems-le10:results:performance_times_M2,fig:feelpp:wp1:nafems-le10:results:performance_times_M3,fig:feelpp:wp1:nafems-le10:results:performance_times_M4}.
+The behavior is very good, we can see the a good scalability, up to a limit as
+usual when the problem size become too small. We can notice some jump with the
+\textbf{Init} part in cases of large number tasks. We think that is due to
+filesystem load, particularly because we load the mesh file from non-fast
+storage. Outputs are written on fast storage but not input datasets because of
+reduced quota limits on this fast disk.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-disp.png}
+    \caption{Displacement}
+    \label{fig:feelpp:wp1:nafems-le10:results:visualization:displacement}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-vonmises.png}
+    \caption{von Mises yield criterion}
+    \label{fig:feelpp:wp1:nafems-le10:results:visualization:vonmises}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-nafems-le10-solution-tresca-wrap.png}
+    \caption{Tresca criterion on the deformed domain (magnified by $1000$)}
+    \label{fig:feelpp:wp1:nafems-le10:results:visualization:wrap-tresca}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+
+    \centering
+    \captionsetup[subfigure]{justification=centering}
+
+    \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_measures.csv}\dataTableMeasures
+    \def\myLineWidth{2pt}
+    \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+    \def\myLineStyleB{dashed}
+    \def\myLineStyleC{solid}
+
+    \def\myAddPlot#1#2#3#4{
+      \addplot[#3,every mark/.append style={solid},
+      % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+      % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+      % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+      x filter/.code={
+        \pgfmathparse{\thisrow{PolyOrder}==#2}
+        \ifnum0=\pgfmathresult
+        \pgfmathsetmacro{\newx}{nan}
+      \else
+        \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+      \fi
+      \pgfmathparse{\newx}
+    },
+    y filter/.expression={ #4*\pgfmathresult }
+    ] table [x=Mesh, y=#1] {\dataTableMeasures};
+  }
+
+  \def\myPlotOutputMeasures#1#2#3#4{
+    % \resizebox{\textwidth}{0.6172\textwidth}{
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=\textwidth, height=0.6172\textwidth,
+        xtick=data,
+        xticklabel={M$\pgfmathprintnumber{\tick}$},
+        xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+        ymajorgrids=true, yminorgrids=true,
+        minor y tick num=2,
+        % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+        % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+        xlabel={Mesh levels}, ylabel={#4},
+        % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+        % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+        % columns=3},
+        legend style={at={(1.,1)}, anchor=south east,font=\small,legend columns=4},
+        % #2
+        ]
+
+        \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+        \addlegendentry{P1}
+        \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+        \addlegendentry{P2}
+        % \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+        % \addlegendentry{P3}
+        \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+          (2,#3) (4,#3)
+        };
+        \addlegendentry{Ref}
+
+      \end{axis}
+    \end{tikzpicture}
+    % }
+
+  }
+
+  \myPlotOutputMeasures{Points_pointD_expr_sigma_yy}{1}{5.38e6}{Normal stress ($\sigma_{yy}$) [Pa]}
+
+  \caption{NAFEMS LE10 benchmarks - Output measures}
+  \label{fig:feelpp:wp1:nafems-le10:results:measures_convergences}
+\end{subfigure}
+
+\caption{NAFEMS LE10 benchmark - numerical solutions and convergence of validation measures compared to reference value}
+\label{fig:wp1:feelpp:nafems-le10:results:visualization}
+\end{figure}
+
+
+
+
+
+
+
+
+\foreach [expand list=true] \meshId in {2,3,4} {
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_M\meshId_P1_discoverer.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/nafems_le10_M\meshId_P2_discoverer.csv}\dataPb
+
+  \begin{figure}
+    \centering
+    \def\plotSetup##1{
+      %Color cycle: customdarkblue,customcyan,customorange,custompurple
+      {table=##1,column=init,legend=Init,color=customdarkblue},
+      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
+      %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
+    }
+    \def\chartBarPlot##1##2##3{
+      \barChart[ybar,
+      width=0.95\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=-45 },
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
+      ##3]{\plotSetup{##1}}
+    }
+    \def\chartBarStackedPlot##1##2{
+      \barChart[ybar stacked,
+      width=0.95\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=-45 },
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPa}{\dataPa}{}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPa}{\dataPa}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \vspace*{0.04\textwidth}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \ifnum4=\meshId
+      \chartBarPlot{dataPb}{\dataPb}{enlarge x limits=0.3}
+    \else
+      \chartBarPlot{dataPb}{\dataPb}{}
+    \fi
+
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPb}{\dataPb}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \caption{NAFEMS LE10 benchmarks - Execution time of main simulation components
+      - Mesh \texttt{M\meshId} - Discoverer supercomputer}
+    \label{fig:feelpp:wp1:nafems-le10:results:performance_times_M\meshId}
+  \end{figure}
+
+}
+
+\paragraph{Challenges Identified}
+
+\begin{itemize}
+\item HPC experiments with other kinds of discretizations:
+  \begin{itemize}
+  \item Displacement/pressure formulation
+  \item HDG method
+  \item Nonlinear models
+  \end{itemize}
+\item Go to extreme HPC scale : Partitioning and IO issues
+\end{itemize}
+
+\iffalse
 \subsubsection{Benchmark \#2: Assemble Stiffness and Linear Elasticity Matrix}
 
 \paragraph{Description}
@@ -448,12 +928,16 @@ Metrics such as execution time, memory usage, and FLOPS were measured to compare
     \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository, accessible through DOI: \texttt{[Insert DOI]}.
 \end{itemize}
 
+
 \paragraph{Results Summary}
 The benchmark results are summarized as follows:
 
 RESULTS here
 
 The results highlight that ... (ADD ANALYSIS)
+
+
+
 
 \paragraph{Challenges Identified}
 Several challenges were encountered during the benchmarking process:
@@ -464,10 +948,142 @@ Several challenges were encountered during the benchmarking process:
 \end{itemize}
 
 add extra analysis  and conclusion here.
+\fi
 
-\subsubsection{Benchmark \#3: Thermo-Electric Coupling}
+\subsubsection{Benchmark \#4: Thermo-Electric Coupling}
+\label{sec:WP1:Feelpp:benchmark:hl-31}
 
-Thermo Electric coupling in a complex geometry.
+%Thermo Electric coupling in a complex geometry.
+
+\paragraph{Description}
+
+This benchmark models the temperature field and electric current distribution in an high field resistive magnet of the Laboratoire National des Champs Magnétiques Intenses. The magnet consist in a set of 14 copper alloys cylindrical tubes connected 2 by 2 into series by rings. In each tube, the current path is defined by 2 helical cuts of 0.2 mm width. The rings are machined to let water flow in between each tube
+in a channel of 0.8 mm. The magnet is operated at 12 MW with an imosed total current of 31 kA. The water flow in the magnet is about 140 l/s. The water cooling of the magnet is modelling by using Robin boundary conditions with parameters derived from classical correlation in thermo-hydraulics.
+A more detailled version of the full model is available in \cite{daver2016,Hild2020}. The
+model is run with \texttt{thermoelectric} \Feelpp toolbox.
+
+The geometry used in this benchmark performance is illustrated in
+\Cref{fig:wp1:feelpp:hl-31:visualization-geometry}. This is a complex domain
+composed of a large number of components, with some very thin parts.
+
+\paragraph{Benchmarking Tools Used}
+The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}) and \textbf{Discoverer} supercomputer (see
+\Cref{sec:arch:eurohpc-ju}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
+the execution time.
+Moreover, we need to say that we have used several \Feelpp installations
+\begin{itemize}
+\item \textbf{Gaya} : native application from Ubuntu packages of Jammy OS.
+\item \textbf{Discoverer} : Apptainer with \Feelpp SIF image based on Ubuntu
+  Noble OS.
+\end{itemize}
+Note: the \Feelpp version is identical but the dependencies (like Petsc)
+which are of course more recent with Noble.
+
+The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
+\begin{itemize}
+\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
+\item \textbf{Solve}: the linear system by using a preconditioned GMRES. Results
+  are presented in \Cref{sec:WP3:Feelpp:benchmark:hl-31}.
+\item \textbf{PostProcess}: Export on the filesystem a visualization format (EnsighGold) of the
+  solution and other fields of interest such as current density and electric field.
+\end{itemize}
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-geo.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-geo-zoom.png}
+  \end{subfigure}
+  \caption{HL-31 benchmarks - geometry}
+  \label{fig:wp1:feelpp:hl-31:visualization-geometry}
+\end{figure}
+
+
+
+\paragraph{Input/Output Dataset Description}
+
+\begin{itemize}
+\item \textbf{Input Data:}
+  \begin{itemize}
+  \item Meshes: We have generated three levels of mesh called M1, M2
+    and M3. These meshes are stored in GMSH format. The statistics can be found in
+    \Cref{tab:wp1:feelpp:thermal_bridges:discr_stat}. We have also prepared for
+    each mesh level a collection of partitioned mesh.
+    The format used is an in-house mesh format of \Feelpp based on
+    JSON+HDF5 file type.
+    The Gmsh meshes and the partitioned meshes can be found on our Girder
+    database management, in the \Feelpp collections.
+  \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
+    file and JSON file. These config files are present in the Github of feelpp.
+  \item[]{\Feelpp distributions}
+    \begin{itemize}
+    \item SIF image (Apptainer): feelpp:v0.111.0-preview.10-noble-sif  (stored in the Github registry of \Feelpp)
+    \item Ubuntu package Jammy (Native) feelpp:v0.111.0-preview.10
+    \end{itemize}
+  \end{itemize}
+\item \textbf{Output Data:} The output includes export visualization files (mesh,
+  partitioning, temperature,  elecric potential, current density, electric
+  field, ...), the time taken to perform each simulation step and
+  some integral quantities such a the total power dissipated by the magnet.
+\item \textbf{Data Repository:} All inputdatasets are available in a unistra girder repository (collection HiFiMagnet, HL-31).
+\end{itemize}
+
+
+
+\begin{table}[h!]
+  \centering
+  { \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+      \begin{tabular}{!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}c!{\color{numpexgray}\vrule}}
+        \rowcolor{numpexgray}\multicolumn{5}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Mesh properties}
+        & \multicolumn{2}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of dof (heat)}
+        & \multicolumn{2}{c!{\color{numpexgray}\vrule}}{\color{white}\bf Number of dof (electric)} \\
+        \rowcolor{numpexgray} {\color{white}\bf Tag} & {\color{white}\bf \# points} & {\color{white}\bf \# edges} & {\color{white}\bf \# faces} & {\color{white}\bf \# elements} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} & {\color{white}\bf $P_1$} & {\color{white}\bf $P_2$} \\
+        \texttt{M1} & \pgfmathprintnumber{4306880} & \pgfmathprintnumber{27913534} & \pgfmathprintnumber{46008143} & \pgfmathprintnumber{22401676} & \pgfmathprintnumber{4306880} & \pgfmathprintnumber{32220414} & \pgfmathprintnumber{4302090} & \pgfmathprintnumber{29456526}  \\
+        \hline
+      \end{tabular}
+    }}
+  \caption{HL-31 benchmark - Statistics on meshes and number of degrees of freedom with respect
+    to finite element approximation}
+  \label{tab:wp1:feelpp:hl-31:discr_stat}
+\end{table}
+
+\paragraph{Results Summary}
+
+We can find in \cref{fig:wp1:feelpp:hl-31:results:visualization-solution} some
+examples of 3D visualization that represent fields obtained by solving the
+thermoelectric problem. We have the temperature solution and other quantities
+evaluated at \textbf{PostProcess} phase such as current density, electric
+potential, and electric fields.
+
+The performance analysis has been done in two supercomputers, Gaya and
+Discoverer. For each of them, we have run the benchmark with discretizations P1
+and P2. About the \Feelpp distribution, we use native Ubuntu Jammy packages for
+Gaya, and Apptainer (with Ubuntu) for Discoverer. The results on these machines
+are illustrated in
+\cref{fig:feelpp:wp1:hl-31:results:performance_times_M1_gaya,fig:feelpp:wp1:hl-31:results:performance_times_M1_discoverer}
+respectively. The measures presented are the time-consuming of simulation
+components related to WP1, namely \textbf{Init}, \textbf{Assembly}, and
+\textbf{PostProcess}. For the \textbf{Solve} component, we refer to
+\cref{sec:WP3:Feelpp:benchmark:hl-31}.
+
+In each case analyzed, we have very good scalability, in the sense that we
+reduced significantly the execution time by increasing the number of tasks. The
+\textbf{Init} phase is the most time-consuming, with a limit quite high compared
+to others. This part contains the mesh reading from the disk, which can explain
+some bumps sometimes when require many HPC resources.
+
+To conclude, we can say that we successfully ran this benchmark case, and we are
+ready to go up to larger problems and more complex modeling.
 
 
 
@@ -475,8 +1091,123 @@ Thermo Electric coupling in a complex geometry.
 
 
 
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature.png}
+    \caption{Temperature}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-current_density.png}
+    \caption{Current density}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-potential_density_streamines.png}
+    \caption{Electric potential and current density on streamlines of electric field}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-HL-31-temperature-streamlines.png}
+    \caption{Temperature on streamlines of electric field}
+  \end{subfigure}
+  \caption{HL-31 benchmarks - solutions}
+  \label{fig:wp1:feelpp:hl-31:results:visualization-solution}
+\end{figure}
 
-\subsubsection{Benchmark \#4: HeatFluid Coupling}
+
+\foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer} {
+
+  \def\meshId{1}
+%\foreach [expand list=true] \meshId in {1} {
+
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P1_\supercomputerFile.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir/data/HL-31_M\meshId_P2_\supercomputerFile.csv}\dataPb
+
+  \begin{figure}
+    \centering
+    \def\plotSetup##1{
+      {table=##1,column=init,legend=Init,color=customdarkblue},
+      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
+      % {table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
+    }
+    \def\chartBarPlot##1##2{
+      \barChart[ybar, width=0.97\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=-45 },
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+    \def\chartBarStackedPlot##1##2{
+      \barChart[ybar stacked, width=0.97\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      x tick label style={ rotate=-45 },
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarPlot{dataPa}{\dataPa}
+      %}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarStackedPlot{dataPa}{\dataPa}
+      % }
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \vspace*{0.04\textwidth}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarPlot{dataPb}{\dataPb}
+      %  }
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      %\resizebox{\textwidth}{0.6172\textwidth}{
+        \chartBarStackedPlot{dataPb}{\dataPb}
+      %  }
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \caption{HL-31 benchmarks - Execution time of main simulation components
+      - \supercomputerName \  supercomputer}
+    \label{fig:feelpp:wp1:hl-31:results:performance_times_M\meshId_\supercomputerFile}
+  \end{figure}
+
+%}
+}
+
+
+\paragraph{Challenges Identified}
+
+\begin{itemize}
+\item HPC experiments with other kinds of discretizations:
+  \begin{itemize}
+  \item Modelling: nonlinear, Maxwell, ...
+  \item HDG method
+  \item Geometry complexity
+  \end{itemize}
+\item Go to extreme HPC scale: Partitioning and IO issues
+\end{itemize}
+
+
+
+
+\subsubsection{Benchmark \#5: HeatFluid Coupling}
 \label{sec:WP1:Feelpp:benchmark4}
 
 \newcommand{\vct}[1]{\vec{#1}}
@@ -517,6 +1248,7 @@ The metrics measured are the execution time to:
 \begin{itemize}
     \item \textbf{Input Data:} The input dataset consists of a family of 3D tetrahedral meshes generated through the process described in~\cite{chabannes_3d_2024}, and denoted \texttt{Mr0} to \texttt{Mr6}, with an increasing number of elements.
     \Cref{tab:feelpp:wp1:coupled:mesh} presents the characteristics of these meshes.
+    The mesh \texttt{Mr4} is presented in \Cref{fig:feelpp:wp1:hfheat}, amond results.
     The input data also provides the configuration files necessary to run the simulations.
     \item \textbf{Output Data:} The output includes the computed temperature, velocity, and pressure fields for each mesh, stored in HDF5 format, as well as the time taken to perform each step of the simulation.
     \item \textbf{Data Repository:} All input and output datasets are available in a Zenodo repository \cite{saigre_mesh_2024}, accessible through DOI: \href{https://doi.org/10.5281/ZENODO.13886143}{10.5281/ZENODO.13886143}.
@@ -554,6 +1286,89 @@ The metrics measured are the execution time to:
 
 \paragraph{Results Summary}
 
+We show in \Cref{fig:feelpp:wp1:hfheat} the distribution of the computed temperature over the eyeball in the standing position on a vertical cut.
+The temperature is higher at the back part of the eye, as this part is inside the human body, while the front part, where heat exchanges with the ambient air are present, is colder.
+The temperature distribution is consistent with previous findings from literature \cite{ooi_simulation_2008,wang_fluid_2016}.
+%
+Moreover, we present in \Cref{fig:feelpp:wp1:hf} the results of the simulation for various postural orientations of the eye, namely standing, prone, and supine positions.
+The main striking result is the difference in the flow patterns: it follows the gravitational force and is more important in the standing position (\Cref{fig:feelpp:wp1:hf:standing}).
+Moreover, we notice the formation of Krukenberg's spindle and phenomena of recirculation in the anterior chamber, as observed in the literature \cite{kilgour_operator_2021,wang_fluid_2016}.
+%
+These results have been obtained with the mesh \texttt{Mr4} and the $P_1\text{--}P_2P_1$ discretization.
+
+
+
+
+
+\makeatletter
+\newcommand\addplotgraphicsnatural[2][]{%
+    \begingroup
+    % set options in this local group (will be lost afterwards):
+    \pgfqkeys{/pgfplots/plot graphics}{#1}%
+    % measure the natural size of the graphics:
+    \setbox0=\hbox{\includegraphics{#2}}%
+    %
+    % compute the required unit vector ratio:
+    \pgfmathparse{\wd0/(\pgfkeysvalueof{/pgfplots/plot graphics/xmax} - \pgfkeysvalueof{/pgfplots/plot graphics/xmin})}%
+    \let\xunit=\pgfmathresult
+    \pgfmathparse{\ht0/(\pgfkeysvalueof{/pgfplots/plot graphics/ymax} - \pgfkeysvalueof{/pgfplots/plot graphics/ymin})}%
+    \let\yunit=\pgfmathresult
+    %
+    % configure pgfplots to use it.
+    % The \xdef expands all macros except those prefixed by '\noexpand'
+    % and assigns the result to a global macro named '\marshal'.
+    \xdef\marshal{%
+        \noexpand\pgfplotsset{unit vector ratio={\xunit\space \yunit}}%
+    }%
+    \endgroup
+    %
+    % use our macro here:
+    \marshal
+    %
+    \addplot graphics[#1] {#2};
+}
+\makeatother
+
+\begin{figure}[!ht]
+  \centering
+  \input{graphics/feelpp/feelpp-benchmark-heatfluid-resheat.tex}
+  \caption{Distribution of the computed temperature over the eyeball in the standing position, on a vertical cut. Mesh discretization is also presented.}
+  \label{fig:feelpp:wp1:hfheat}
+
+\end{figure}
+
+
+\begin{figure}[!ht]
+
+  \def\subfigwidth{1.4\columnwidth}
+  \begin{subfigure}[c]{0.32\textwidth}
+    \centering
+    \input{graphics/feelpp/feelpp-benchmark-heatfluid-standing.tex}
+    \vspace{-1\baselineskip}
+    \caption{Standing position.}
+    \label{fig:feelpp:wp1:hf:standing}
+  \end{subfigure}
+  %
+  \begin{subfigure}[c]{0.32\textwidth}
+    \input{graphics/feelpp/feelpp-benchmark-heatfluid-prone.tex}
+    \vspace{-1\baselineskip}
+    \caption{Prone position.}
+    \label{fig:feelpp:wp1:hf:prone}
+  \end{subfigure}
+  %
+  \begin{subfigure}[c]{0.32\textwidth}
+    \input{graphics/feelpp/feelpp-benchmark-heatfluid-supine.tex}
+    \vspace{-1\baselineskip}
+    \caption{Supine position.}
+    \label{fig:feelpp:wp1:hf:supine}
+  \end{subfigure}
+
+  \caption{Results of simulation for various postural orientations of the eye. Streamlines are colored according to the pressure, and the arrows show the fluid velocity magnitude.}
+  \label{fig:feelpp:wp1:hf}
+\end{figure}
+
+
+
 The results of the benchmark are summarized in~\Cref{fig:feelpp:wp1:coupled:time} and~\Cref{fig:feelpp:wp1:coupled:time-rel},
 showing the computational time and relative computational time for each component of the simulation, respectively.
 The results are presented for the three biggest meshed of the family, namely \texttt{Mr4}, \texttt{Mr5}, and \texttt{Mr6}.
@@ -564,86 +1379,6 @@ Moreover, even though the relative time is globally similar when the number of c
 The assembly time remains significant compared to other parts of the simulation, with a noticeable increase in the time spent resolving the non-linear system, which forms the largest portion of the computation.
 As the number of cores increases, we also observe a proportional increase in time dedicated to I/O operations, particularly in the Post process phase, due to the larger volumes of data being written to disk.
 
-\iffalse
-\pgfplotstableread{\currfiledir/data/heatfluid-time-data.dat}\data
-\begin{figure}
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            width=\textwidth, height=8cm,
-            xlabel={Nproc}, ylabel={Computational time [s]},
-            xtick={0,1,2,3,4,5,6,7,8,9,10}, xticklabels={1,2,4,8,16,32,64,128,256,512,640},
-            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
-            ymajorgrids=true, yminorgrids=true,
-            bar width=7pt, ybar stacked,
-            ymode=log,
-            % title={Computational time for the 3D case},
-        ]
-        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\data};
-        \addlegendentry{Mesh}
-
-
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\data};
-        \addlegendentry{Data Structures}
-
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=algebraic-nlsolve] {\data};
-        \addlegendentry{Solve}
-
-        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\data};
-        \addlegendentry{Assembly}
-
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y
-        ] table [x=x, y=exportResults] {\data};
-        \addlegendentry{Post process}
-
-        \end{axis}
-        \end{tikzpicture}
-    \caption{Computational time for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}.}
-\end{figure}
-
-\begin{figure}
-    \centering
-
-    \begin{tikzpicture}
-        \begin{axis}[
-            width=\textwidth, height=8cm,
-            xlabel={Nproc}, ylabel={Relative computational time [\%]},
-            xtick={0,1,2,3,4,5,6,7,8,9,10}, xticklabels={1,2,4,8,16,32,64,128,256,512,640},
-            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=-1},
-            ymajorgrids=true, yminorgrids=true,
-            bar width=7pt, ybar stacked,
-            ymin=0, ymax=100,
-            % title={Relative computational time for the 3D case},
-        ]
-
-        % Compute the relative time for each component by dividing by the total time
-        % using the correct column names from the initial plot
-        \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
-            table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
-        \addlegendentry{Mesh}
-
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
-            table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
-        \addlegendentry{Data Structures}
-
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
-            table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
-        \addlegendentry{Solve}
-
-        \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
-            table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
-        \addlegendentry{Assembly}
-
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
-            table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\data};
-        \addlegendentry{Post process}
-
-        \end{axis}
-    \end{tikzpicture}
-
-    \caption{Relative time spent in each component of the computation for the coupled heat-fluid testcase, performed on Gaya with the mesh \texttt{Mr4}.}
-\end{figure}
-\fi
 
 
 \pgfplotstableread{\currfiledir/data/heatfluid-time-M4.dat}\dataMQuatre
@@ -666,30 +1401,32 @@ As the number of cores increases, we also observe a proportional increase in tim
         ]
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=initMesh] {\dataMQuatre};
         % \addlegendentry{Mesh}
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMQuatre};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMQuatre};
         % \addlegendentry{Data Structures}
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMQuatre};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMQuatre};
         % \addlegendentry{Assembly}
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y=algebraic-nlsolve] {\dataMQuatre};
         % \addlegendentry{Solve}
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=exportResults] {\dataMQuatre};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=exportResults] {\dataMQuatre};
         % \addlegendentry{Post process}
+
+        % customdarkblue customcyan customorange custompurple customgreen
 
         \resetstackedplots
 
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y, forget plot] table [x=x, y=initMesh] {\dataMCinq};
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMCinq};
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMCinq};
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y, forget plot] table [x=x, y=algebraic-nlsolve] {\dataMCinq};
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMCinq};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMCinq};
 
         \resetstackedplots
 
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y, forget plot] table [x=x, y=initMesh] {\dataMSix};
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMSix};
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{init}-\thisrow{initMesh}] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y, forget plot] table [x=x, y expr=\thisrow{algebraic-newton-initial-guess}+\thisrow{algebraic-jacobian}+\thisrow{algebraic-residual}] {\dataMSix};
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y, forget plot] table [x=x, y=algebraic-nlsolve] {\dataMSix};
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMSix};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y, forget plot] table [x=x, y=exportResults] {\dataMSix};
 
         \end{axis}
         \end{tikzpicture}
@@ -715,16 +1452,16 @@ As the number of cores increases, we also observe a proportional increase in tim
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
         \addlegendentry{Mesh}
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
             table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
         \addlegendentry{Data Structures}
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
             table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
         \addlegendentry{Assembly}
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
         \addlegendentry{Solve}
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMQuatre};
         \addlegendentry{Post process}
 
@@ -732,26 +1469,26 @@ As the number of cores increases, we also observe a proportional increase in tim
 
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
             table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
             table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMCinq};
 
         \resetstackedplots
 
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{initMesh}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
             table [x=x, y expr={100*(\thisrow{init}-\thisrow{initMesh})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
-            \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+            \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
             table [x=x, y expr={100*(\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual})/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
             \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
                 table [x=x, y expr={100*\thisrow{algebraic-nlsolve}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{exportResults}/(\thisrow{initMesh} + (\thisrow{init}-\thisrow{initMesh}) + \thisrow{algebraic-nlsolve} + (\thisrow{algebraic-newton-initial-guess} + \thisrow{algebraic-jacobian} + \thisrow{algebraic-residual}) + \thisrow{exportResults})}] {\dataMSix};
         \end{axis}
     \end{tikzpicture}
@@ -765,34 +1502,33 @@ As the number of cores increases, we also observe a proportional increase in tim
 
 
 \paragraph{Challenges Identified}
-Several challenges were encountered during the benchmarking process: \textbf{??}
+Several challenges were encountered during the benchmarking process: 
 \begin{itemize}
-    \item \textbf{Memory Usage:}
-    \item \textbf{Parallelization Inefficiencies:}
-    \item \textbf{Cache and Memory Bottlenecks:}
+    \item \textbf{Memory Usage:} Memory usage should be better monitored espcially when creating the solver and preconditioner objects.
+    \item \textbf{Parallelization Inefficiencies:} We need to test on large configuration in terms of mesh sizes and number of cores as well as increase the polynomial order to identify potential parallelization and I/O bottlenecks.
 \end{itemize}
 
 
 
-\subsubsection{Benchmark \#5: Contact Mechanics}
+\subsubsection{Benchmark \#6: Contact Mechanics}
 
 \paragraph{Description}
-This benchmark simulates the dynamic unilateral contact between an elastic bouncing 
-ball and a rigid horizontal wall, presented in \cite{chouly_explicit_2018}. The full model, 
-combining ray-tracing, the Signorini contact mechanics, and the dynamics of elastic bodies 
+This benchmark simulates the dynamic unilateral contact between an elastic bouncing
+ball and a rigid horizontal wall, presented in \cite{chouly_explicit_2018}. The full model,
+combining ray-tracing, the Signorini contact mechanics, and the dynamics of elastic bodies
 is presented in \cite{van_landeghem_motion_nodate}. \\
 
 
 \paragraph{Benchmarking Tools Used}
 
-The simulations are conducted on the Gaya supercomputer. The execution time of the 
+The simulations are conducted on the Gaya supercomputer. The execution time of the
 following tasks is monitored:
 
 \begin{inparaenum}[\it (i)]
     \item Mesh: loading and initialization of the non-partitioned mesh,
     \item Data Structures: initialization of data structures,
     \item Ray-tracing: collision detection using ray-tracing,
-    \item Assembly: construction of the dynamic algebraic system, 
+    \item Assembly: construction of the dynamic algebraic system,
     \item Solve: solving the non-linear algebraic system, and
     \item Post process: exporting the vectorial displacement field, the scalar contact displacement and the scalar contact pressure at each time iteration.
 \end{inparaenum}
@@ -800,13 +1536,13 @@ following tasks is monitored:
 \paragraph{Input/Output Dataset Description}
 
 \begin{itemize}
-    \item \textbf{Input Data:} As input, we consider the same mesh for all simulations, 
-    using $P_1$ Lagrange elements for the vectorial unknown displacement field. The mesh 
-    characteristics, the number of mesh elements and the number of degrees of freedom, 
+    \item \textbf{Input Data:} As input, we consider the same mesh for all simulations,
+    using $P_1$ Lagrange elements for the vectorial unknown displacement field. The mesh
+    characteristics, the number of mesh elements and the number of degrees of freedom,
     are provided in \Cref{tab:feelpp:mesh:contact}. Additionally, the input data includes the configuration files necessary to run the simulations.
-    \item \textbf{Output Data:} The output dataset includes the time evolution of 
-    the displacement field of the elastic body, as well as the time evolution of 
-    the contact displacement and pressure. In addition, the execution times for 
+    \item \textbf{Output Data:} The output dataset includes the time evolution of
+    the displacement field of the elastic body, as well as the time evolution of
+    the contact displacement and pressure. In addition, the execution times for
     the different tasks are stored.
 \end{itemize}
 
@@ -833,17 +1569,32 @@ following tasks is monitored:
 
 \paragraph{Results Summary}
 
-The results for the computational time and relative computational time for the 
-different tasks and varying numbers of processors are presented in ~\Cref{fig:feelpp:wp1:contact:time}, 
-and ~\Cref{fig:feelpp:wp1:contact:time-rel}. The bars show the results using $P_1$ Lagrange 
-elements for the unknown displacement field. 
+\begin{figure}[!ht]
+  \centering
+
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-contact-temperature.png}
+    \caption{The contact between a sphere and a rigid wall. The colors represent the distance from the highest point of the sphere to the wall.}
+    \label{fig:wp1:feelpp:contact:visualization-solution}
+\end{figure}
 
 
-We observe that the resolution of the dynamic system constitutes the majority of 
-the computational time, and its relative time increases with the number of cores. 
-%The communication between nodes and synchronization points become predominant as the number of cores increases.
-With the increase in the number of cores, the absolute execution time related to 
-data structure initialization, ray-tracing, assembly, and post-processing decreases. 
+The contact displacement is shown in ~\Cref{fig:wp1:feelpp:contact:visualization-solution}.
+The figure on the left shows the reference domain, while the figure on the right depicts 
+the contact between the sphere and the rigid wall. The distance from the highest point of the sphere 
+in the outward normal direction to the wall is represented by the color bar.
+The results of this simulation correspond to those found in the literature \cite{chouly_explicit_2018}.
+
+The results for the computational time and relative computational time for the
+different tasks and varying numbers of processors are presented in ~\Cref{fig:feelpp:wp1:contact:time},
+and ~\Cref{fig:feelpp:wp1:contact:time-rel}. The bars show the results using $P_1$ Lagrange
+elements for the unknown displacement field.
+
+
+We observe that the resolution of the dynamic system constitutes the majority of
+the computational time, and its relative time increases with the number of cores.
+The communication between nodes and synchronization points become predominant as the number of cores increases.
+With the increase in the number of cores, the absolute execution time related to
+data structure initialization, ray-tracing, assembly, and post-processing decreases.
 The mesh loading time remains constant, as it is not partitioned at the input.
 
 
@@ -865,15 +1616,15 @@ The mesh loading time remains constant, as it is not partitioned at the input.
         ]
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y] table [x=x, y=mesh] {\dataContact};
         % \addlegendentry{Mesh}
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y=data] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=data] {\dataContact};
         % \addlegendentry{Data Structures}
-        \addplot+[ybar, bar width=0.2, fill=black, draw=black, point meta=y] table [x=x, y expr={300*\thisrow{raytracing}} ] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customyellow, draw=black, point meta=y] table [x=x, y expr={300*\thisrow{raytracing}} ] {\dataContact};
         % \addlegendentry{Assembly}
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=assembly ] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y] table [x=x, y=assembly ] {\dataContact};
 
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y] table [x=x, y=solve] {\dataContact};
         % \addlegendentry{Solve}
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y] table [x=x, y=postprocess] {\dataContact};
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y] table [x=x, y=postprocess] {\dataContact};
         % \addlegendentry{Post process}
 
         \end{axis}
@@ -900,19 +1651,19 @@ The mesh loading time remains constant, as it is not partitioned at the input.
         \addplot+[ybar, bar width=0.2, fill=customdarkblue, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{mesh}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Mesh}
-        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{data}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Data Structures}
-        \addplot+[ybar, bar width=0.2, fill=black, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customyellow, draw=black, point meta=y]
             table [x=x, y expr={3000*\thisrow{raytracing}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Ray-tracing}
-        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customcyan, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{assembly}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Assembly}
         \addplot+[ybar, bar width=0.2, fill=custompurple, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{solve}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Solve}
-        \addplot+[ybar, bar width=0.2, fill=customgreen, draw=black, point meta=y]
+        \addplot+[ybar, bar width=0.2, fill=customorange, draw=black, point meta=y]
             table [x=x, y expr={100*\thisrow{postprocess}/(\thisrow{mesh} + \thisrow{data} + 300*\thisrow{raytracing} + \thisrow{assembly} + \thisrow{solve} + \thisrow{postprocess} )}] {\dataContact};
         \addlegendentry{Post process}
 
