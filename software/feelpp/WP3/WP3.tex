@@ -312,6 +312,18 @@ phenomena are not well captured with this approximation which is the coarsen.
 The benchmark description can be found in
 \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 
+In this benchmark, we are interested in analysing the performance of algebraic
+solvers. For this linear elasticity problem, we used a multigrid algebraic
+preconditioner called GAMG (Petsc). This preconditioner is then used in a GMRES
+iterative method. In addition, we emphasize that we have used the preconditioned
+Chebyshev iterative method (with Jacobi) as smoother of the multigrid.
+
+Finally, using near-null-space vectors is generally crucial for the good
+performance of the multigrid solver, particularly when the kernel of the
+operator is not only the constants. In this elasticity problem, these near-null
+space vectors can be derived as rigid body modes from the coordinates of the
+discretization grid nodes or degrees of freedom with high-order approximation.
+
 
 \paragraph{Benchmarking Tools Used:} % List the tools used for performance
                                 % analysis, such as Extrae, Score-P, TAU,
@@ -327,6 +339,23 @@ See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
                              % memory usage, FLOPS) and their comparison across
                              % architectures (e.g., CPU, GPU).
 
+We have plotted the performances results and number of iterations in
+\cref{fig:feelpp:wp3:nafems-le10:performance_measures_M2_M3} for the mesh M2 and
+M3, and in
+\cref{fig:feelpp:wp3:nafems-le10:performance_measures_M4} for the mesh M4. For
+each, we have tested with lagrange finite element $P_1$ and $P_2$.
+
+The conclusion we can reach is that the solver does not behave very well on a
+large HPC scale. In particular, the quality of the solver deteriorates with a
+large number of iterations. However, we can see that increasing the number of
+degrees of freedom improves strong scalability, and that the extreme case M4-P2
+behaves well. The variability of the number of iterations and its high level
+should be studied more to better understand these results.
+
+Finally, with
+\cref{fig:feelpp:wp3:nafems-le10:performance_measures_all}, we have merged all
+results in order to see the impact of mesh and finite element choice and the
+HPC resources.
 
 \begin{figure}
   \centering
@@ -381,7 +410,7 @@ See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 
   \caption{NAFEMS LE10 benchmarks - Performance measures of algebraic solver
     (Mesh comparison M2 and M3) - GMRES preconditionned by GAMG - Discoverer supercomputer}
-  %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+    \label{fig:feelpp:wp3:nafems-le10:performance_measures_M2_M3}
 \end{figure}
 
 
@@ -433,7 +462,7 @@ See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 
   \caption{NAFEMS LE10 - Performance measures of algebraic solver
     (Mesh M4) - GMRES preconditionned by GAMG - Discoverer supercomputer}
-  %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+  \label{fig:feelpp:wp3:nafems-le10:performance_measures_M4}
 \end{figure}
 
 
@@ -518,11 +547,19 @@ See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
   \end{subfigure}
   \caption{NAFEMS LE10 - Performance measures of algebraic solver
     (Mesh and polynomial order comparison) - GMRES preconditionned by GAMG - Discoverer supercomputer}
- % \label{fig:feelpp:wp3:thermal_bridges:performance_measure_all}
+    \label{fig:feelpp:wp3:nafems-le10:performance_measures_all}
 \end{figure}
 
 
-\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\paragraph{Challenges Identified:} %Describe any bottlenecks encountered (e.g.,
+                                %memory usage, parallelization inefficiencies)
+                                %and how they impacted the benchmark.
+
+\begin{itemize}
+\item Tunning GAMG
+\item Improve the HPC scalability at large/extreme scale.
+\item Reduce the memory
+\end{itemize}
 
 
 \subsubsection{Benchmark \#3: Thermo-Electric Coupling}
