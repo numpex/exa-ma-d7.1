@@ -77,34 +77,34 @@ The following table summarizes these aspects for pBB, providing a  view of its p
         \rowcolor{white}Languages  & \begin{tabular}{l}
 C++\\
 Chapel\\
-\end{tabular} & Programming languages and language standards supported by the software \\
+\end{tabular} & pBB has first been implemented in C++ and then extended to support productivity-aware implementation using the PGAS Chapel language. \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 Chapel\\
 CUDA and HIP\\
 MPI\\
 OpenMP and PThreads\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
+\end{tabular} & The C++ version uses OpenMP and PThreads for shared-memory parallelism, MPI for message-passing, and CUDA and HIP for GPU computing. The Chapel version unifies all these parallel levels within one programming language. \\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 None\\
-\end{tabular} & Data formats that the software can handle or produce.\\
+\end{tabular} & None \\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 Checkpoint restart\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
+\end{tabular} & pBB employs a checkpoint-and-restart mechanism for fault tolerance and recovery.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 None\\
-\end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
+\end{tabular} & None \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
 None\\
-\end{tabular} & Software packaging and distribution.\\
+\end{tabular} & None \\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 None\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
+\end{tabular} & None \\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
 None\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
+\end{tabular} & None \\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
 None\\
-\end{tabular} & List of software pBB has interfaces with.\\
+\end{tabular} & None \\
         \bottomrule
     \end{tabular}
     }}
@@ -121,17 +121,13 @@ Combinatorial Optimization Problems (COP) consist in finding an object within a 
 
 Here is a list of relevant publications related to the software:
 
-Jan Gmys. 2022. Exactly Solving Hard Permutation Flowshop Scheduling Problems on Peta-Scale GPU-Accelerated Supercomputers. INFORMS J. on Computing 34, 5, 2502–2522. https://doi.org/10.1287/ijoc.2022.1193
+\begin{itemize}
+    \item \fullcite{gmys_exactly_2022} This publication presents significant advancements in the field of combinatorial optimization, specifically targeting makespan minimization in permutation Flowshop Scheduling, a notoriously hard problem. Leveraging a GPU-accelerated B\&B approach, pBB allows to solve 11 previously unsolved benchmark instances from Taillard's 1993 benchmarks. By utilizing the computational power of peta-scale high-performance computing platforms, the study demonstrates how parallel search techniques can efficiently traverse highly irregular search trees on distributed systems, providing key insights for optimization researchers focused on leveraging GPUs and multicore processors for large-scale problem-solving.
 
-This publication presents significant advancements in the field of combinatorial optimization, specifically targeting makespan minimization in permutation Flowshop Scheduling, a notoriously hard problem. Leveraging a GPU-accelerated B\&B approach, pBB allows to solve 11 previously unsolved benchmark instances from Taillard's 1993 benchmarks. By utilizing the computational power of peta-scale high-performance computing platforms, the study demonstrates how parallel search techniques can efficiently traverse highly irregular search trees on distributed systems, providing key insights for optimization researchers focused on leveraging GPUs and multicore processors for large-scale problem-solving.
+    \item \fullcite{franco_pgas_2024} This publication focuses on advancing the design of parallel algorithms for modern supercomputers by introducing a PGAS-based data structure and a Work-Stealing mechanism. These innovations target unbalanced tree exploration using depth-first search, a common challenge in parallel tree-based algorithms. Implemented in Chapel, the proposed solution demonstrates promising scalability in single-node backtracking experiments using the Unbalanced Tree Search benchmark. Additionally, large-scale experiments using B\&B for Flowshop Scheduling reveal significant strong scaling efficiency on 400 computer nodes (51,200 CPU cores), making it relevant for researchers interested in optimizing parallel workloads on distributed systems.
 
-Guillaume Helbecque, Tiago Carneiro, Nouredine Melab, Jan Gmys, Pascal Bouvry. PGAS Data Structure for Unbalanced Tree-Based Algorithms at Scale. Computational Science – ICCS 2024. 2024. https://doi.org/10.1007/978-3-031-63759-9\_13
-
-This publication focuses on advancing the design of parallel algorithms for modern supercomputers by introducing a PGAS-based data structure and a Work-Stealing mechanism. These innovations target unbalanced tree exploration using depth-first search, a common challenge in parallel tree-based algorithms. Implemented in Chapel, the proposed solution demonstrates promising scalability in single-node backtracking experiments using the Unbalanced Tree Search benchmark. Additionally, large-scale experiments using B\&B for Flowshop Scheduling reveal significant strong scaling efficiency on 400 computer nodes (51,200 CPU cores), making it relevant for researchers interested in optimizing parallel workloads on distributed systems.
-
-Helbecque G, Gmys J, Melab N, Carneiro T, Bouvry P. Parallel distributed productivity-aware tree-search using Chapel. Concurrency Computat Pract Exper. 2023; 35(27):e7874. https://doi.org/10.1002/cpe.7874
-
-This publication explores the design and implementation of pBB, using the PGAS Chapel programming language, particularly suited for exascale computing. It exploits the PGAS data structure of previous publication. Experimental results, using up to 4,096 CPU cores, compare Chapel's implementation to OpenMP (intra-node) and MPI+X (inter-node) counterparts, highlighting competitive performance in both shared and distributed memory settings. The study underscores Chapel as a viable alternative to traditional parallel programming models for exascale-aware applications.
+    \item \fullcite{helbecque_parallel_2023} This publication explores the design and implementation of pBB, using the PGAS Chapel programming language, particularly suited for exascale computing. It exploits the PGAS data structure of previous publication. Experimental results, using up to 4,096 CPU cores, compare Chapel's implementation to OpenMP (intra-node) and MPI+X (inter-node) counterparts, highlighting competitive performance in both shared and distributed memory settings. The study underscores Chapel as a viable alternative to traditional parallel programming models for exascale-aware applications.
+\end{itemize}
 
 \subsection{Acknowledgements}
 \label{sec::pBB:acknowledgements}

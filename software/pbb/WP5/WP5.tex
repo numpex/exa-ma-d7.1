@@ -31,7 +31,7 @@ OSS: Cecill-*\\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
-B6 - Data Management\\
+%B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
         \bottomrule
@@ -83,38 +83,46 @@ In~\cref{tab:WP5:pBB:features} we provide a summary of the software features rel
 \subsection{Initial Performance Metrics}
 \label{sec:WP5:pBB:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP5. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+This section provides a summary of initial performance benchmarks performed in the context of WP5. %It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
+    \item \textbf{Overall Performance:}
+    pBB presented significant advancements in the field of combinatorial optimization, specifically targeting makespan minimization in permutation Flowshop Scheduling, a notoriously hard problem. Leveraging up to 384 NVIDIA V100 GPUs, pBB allowed to solve 11 previously unsolved benchmark instances from Taillard's 1993 benchmarks. By utilizing the computational power of peta-scale high-performance computing platforms, the study demonstrates how parallel search techniques can efficiently traverse highly irregular search trees on distributed systems.
+    On a large-scale CPU-based systems, pBB also demonstrates significant performance, as 50\% of strong scaling efficiency is achieved using 400 computer nodes (51,200 CPU cores).
+    \item \textbf{Input/Output Dataset:} %Provide a detailed description of the dataset used for the benchmark, including:
         \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
+            \item Optimization problems to solve are defined as functions: ${f: \mathcal{X} \rightarrow \mathbb{R}}$, where $\hat{x}$ is the optimum, $f$ the objective function, and $\mathcal{X}$ is the search space incorporating a set of constraints.
+            \item The output is mainly the solutions found (i.e, vectors of integers) and their quality, along with some execution statistics (e.g., size of the explored tree).
+            \item Our main dataset consists in well-known permutation Flowshop Scheduling instances introduced in: Taillard, E., Benchmarks for basic scheduling problems, \textit{European Journal of Operational Research}, 64, 2, 278-285, 1993. \url{https://doi.org/10.1016/0377-2217(93)90182-M}. Instances are generated using the generator described in the reference.
+            %\item DOI or permanent link for accessing the dataset.
         \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
+    \item \textbf{open-data Access:} Links are provided in the previous section.
+    \item \textbf{Challenges:} 
+    The main challenges of the benchmarking process are twofold:
+    \begin{itemize}
+        \item Scalability of parallel optimization algorithms: it consists in analyzing and improving the obtained speedups of the various parallel models that can be designed.
+        \item Characteristics of the target optimization problem: it consists in studying the characteristics of the optimization problems (e.g. dimension, cost of the objective function) that affect the performance of the algorithms.
+    \end{itemize}
+    \item \textbf{Future Improvements:} 
+    The future improvements will concern the following aspects:
+    \begin{itemize}
+        \item Fault tolerance aspects have to be deepened.
+        \item In addition to standard benchmarks of optimization problems, it will be interesting to consider real-life complex applications.
+    \end{itemize}
 \end{itemize}
 
 \subsubsection{Benchmark \#1}
 \begin{itemize}
-    \item \textbf{Description:} Our main benchmark consists in well-known permutation Flow-shop Scheduling instances introduced in: Taillard, E., Benchmarks for basic scheduling problems, \textit{European Journal of Operational Research}, 64, 2, 278-285, 1993. https://doi.org/10.1016/0377-2217(93)90182-M. It includes many instance sizes, ranging from 5 machines $\times$ 20 jobs to 20 machines $\times$ 500 jobs. This benchmark is mainly used for testing performance scalability.
-    %Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
+    \item \textbf{Description:} Our main benchmark consists in well-known permutation Flowshop Scheduling instances introduced in: Taillard, E., Benchmarks for basic scheduling problems, \textit{European Journal of Operational Research}, 64, 2, 278-285, 1993. \url{https://doi.org/10.1016/0377-2217(93)90182-M}. It includes many instance sizes, ranging from 5 machines $\times$ 20 jobs to 20 machines $\times$ 500 jobs. This benchmark is mainly used for testing performance scalability.
     \item \textbf{Benchmarking Tools Used:} The execution time and speed-up metrics are mainly used in our experiments.
-    %List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
     \item \textbf{Input/Output Dataset Description:}
         \begin{itemize}
             \item \textbf{Input Data:} Instances are generated using the generator described in the above reference.
-            %Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
             \item \textbf{Output Data:} The output data contain statistics to check correctness (e.g., size of the explored tree, optimum found) as well as the total execution time of the algorithm.
-            %Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
+            %\item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
         \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+    %\item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
+    %\item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
 \subsection{12-Month Roadmap}
@@ -146,9 +154,9 @@ In~\cref{tab:WP5:pBB:bottlenecks}, we briefly discuss the bottleneck roadmap ass
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
 \rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Provide validation quantities for each benchmark. \\
+%\rowcolor{white}    B6 - Data Management & provide short description here \\
+\rowcolor{white}    B7 - Exascale Algorithms & Fault tolerance aspects will be deepened. \\
 \end{tabular}
         }
     }
