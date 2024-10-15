@@ -1,5 +1,63 @@
 
 
+@article{helbecque_parallel_2023,
+	title = {Parallel distributed productivity‐aware tree‐search using {Chapel}},
+	volume = {35},
+	issn = {1532-0626, 1532-0634},
+	url = {https://onlinelibrary.wiley.com/doi/10.1002/cpe.7874},
+	doi = {10.1002/cpe.7874},
+	abstract = {Abstract
+            
+              With the recent arrival of the exascale era, modern supercomputers are increasingly big making their programming much more complex. In addition to performance, software productivity is a major concern to choose a programming language, such as Chapel, designed for exascale computing. In this paper, we investigate the design of a parallel distributed tree‐search algorithm, namely P3D‐DFS, and its implementation using Chapel. The design is based on the Chapel's
+              DistBag
+              data structure, revisited by: (1) redefining the data structure for Depth‐First tree‐Search (DFS), henceforth renamed
+              DistBag‐DFS
+              ; (2) redesigning the underlying load balancing mechanism. In addition, we propose two instantiations of P3D‐DFS considering the Branch‐and‐Bound (B\&B) and Unbalanced Tree Search (UTS) algorithms. In order to evaluate how much performance is traded for productivity, we compare the Chapel‐based implementations of B\&B and UTS to their best‐known counterparts based on traditional OpenMP (intra‐node) and MPI+X (inter‐node). For experimental validation using 4096 processing cores, we consider the permutation flow‐shop scheduling problem for B\&B and synthetic literature benchmarks for UTS. The reported results show that P3D‐DFS competes with its OpenMP baselines for coarser‐grained shared‐memory scenarios, and with its MPI+X counterparts for distributed‐memory settings, considering both performance and productivity‐awareness. In the context of this work, this makes Chapel an alternative to OpenMP/MPI+X for exascale programming.},
+	language = {en},
+	number = {27},
+	urldate = {2024-10-15},
+	journal = {Concurrency and Computation: Practice and Experience},
+	author = {Helbecque, Guillaume and Gmys, Jan and Melab, Nouredine and Carneiro, Tiago and Bouvry, Pascal},
+	month = dec,
+	year = {2023},
+	pages = {e7874},
+}
+
+@incollection{franco_pgas_2024,
+	address = {Cham},
+	title = {{PGAS} {Data} {Structure} for {Unbalanced} {Tree}-{Based} {Algorithms} at {Scale}},
+	volume = {14834},
+	isbn = {978-3-031-63758-2 978-3-031-63759-9},
+	url = {https://link.springer.com/10.1007/978-3-031-63759-9_13},
+	language = {en},
+	urldate = {2024-10-15},
+	booktitle = {Computational {Science} – {ICCS} 2024},
+	publisher = {Springer Nature Switzerland},
+	author = {Helbecque, Guillaume and Carneiro, Tiago and Melab, Nouredine and Gmys, Jan and Bouvry, Pascal},
+	editor = {Franco, Leonardo and De Mulatier, Clélia and Paszynski, Maciej and Krzhizhanovskaya, Valeria V. and Dongarra, Jack J. and Sloot, Peter M. A.},
+	year = {2024},
+	doi = {10.1007/978-3-031-63759-9_13},
+	note = {Series Title: Lecture Notes in Computer Science},
+	pages = {103--111},
+}
+
+@article{gmys_exactly_2022,
+	title = {Exactly {Solving} {Hard} {Permutation} {Flowshop} {Scheduling} {Problems} on {Peta}-{Scale} {GPU}-{Accelerated} {Supercomputers}},
+	volume = {34},
+	issn = {1091-9856, 1526-5528},
+	url = {https://pubsonline.informs.org/doi/10.1287/ijoc.2022.1193},
+	doi = {10.1287/ijoc.2022.1193},
+	abstract = {Makespan minimization in permutation flow-shop scheduling is a well-known hard combinatorial optimization problem. Among the 120 standard benchmark instances proposed by E. Taillard in 1993, 23 have remained unsolved for almost three decades. In this paper, we present our attempts to solve these instances to optimality using parallel Branch-and-Bound (BB) on the GPU-accelerated Jean Zay supercomputer. We report the exact solution of 11 previously unsolved problem instances and improved upper bounds for eight instances. The solution of these problems requires both algorithmic improvements and leveraging the computing power of peta-scale high-performance computing platforms. The challenge consists in efficiently performing parallel depth-first traversal of a highly irregular and fine-grained search tree on distributed systems composed of hundreds of massively parallel accelerator devices and multicore processors. We present and discuss the design and implementation of our permutation-based BB and experimentally evaluate its parallel performance on up to 384 V100 GPUs (2 million CUDA cores) and 3840 CPU cores. The optimality proof for the largest solved instance requires about 64 CPU-years of computation—using 256 GPUs and over 4 million parallel search agents, the traversal of the search tree is completed in 13 hours, exploring [Formula: see text] nodes.},
+	language = {en},
+	number = {5},
+	urldate = {2024-10-15},
+	journal = {INFORMS Journal on Computing},
+	author = {Gmys, Jan},
+	month = sep,
+	year = {2022},
+	pages = {2502--2522},
+}
+
 @article{delorme_novel_nodate,
 	title = {{NOVEL} {NUMERICAL} {METHODS} {FOR} {SOLAR} {CONVECTION}: {THE} {DYABLO} {WHOLE}-{SUN} {ADAPTATIVE} {MESH} {REFINEMENT} {CODE}},
 	abstract = {We present a new solar simulation code named Dyablo Whole-Sun (DWS) and the ﬁrst steps of its validation. DWS is a novel portable high-performance code aiming at making the ﬁrst holistic simulations of the Sun, from the radiative interior to the corona. We discuss the validation of the development of the code using a solar convection benchmark in Cartesian geometry.},
