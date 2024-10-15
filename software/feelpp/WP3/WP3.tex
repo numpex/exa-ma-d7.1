@@ -536,6 +536,24 @@ See \cref{sec:WP1:Feelpp:benchmark:nafems-le10}.
 The benchmark description can be found in
 \cref{sec:WP1:Feelpp:benchmark:hl-31}.
 
+The thermoelectric model is initially assumed to be linear. We will analyze the non-linear case (full coupling) in a future study.
+For this purpose, the PDE of the electrical model is considered to be
+non-temperature dependent. Therefore, the solution strategy consists of solving
+the electrical problem first and then the thermal problem (including the
+contribution given from the previous solution). This decoupled approach allows
+us to concentrate on the algebraic solvers of each physics.
+
+To solve the linear systems, we use a preconditioned GMRES algorithm for each
+one. The preconditioner used is an algebraic multigrid called GAMG (Petsc). The
+setup is identical for all physicis expeted for the smoother :
+\begin{itemize}
+\item \textbf{Heat} : KSPCHEBYSHEV + JACOBI
+\item \textbf{Electric} : KSPRICHARDSON + SOR
+\end{itemize}
+
+Note: The choice of smoother in electric seems important to ensure convergence
+(or even only stability of the iterative method). This will be studied more in
+detail in future work.
 
 \paragraph{Benchmarking Tools Used:} % List the tools used for performance
                                 % analysis, such as Extrae, Score-P, TAU,
@@ -550,6 +568,20 @@ See \cref{sec:WP1:Feelpp:benchmark:hl-31}.
 \paragraph{Results Summary:} % Include a summary of key metrics (execution time,
                              % memory usage, FLOPS) and their comparison across
                              % architectures (e.g., CPU, GPU).
+
+The results are presented in \cref{fig:feelpp:wp3:hl-3:performance_measure_gaya}
+and \cref{fig:feelpp:wp3:hl-3:performance_measure_discoverer}. They correspond
+respectivelly to the execution time of the algebraic solve using the Gaya and Discoverer supercomputers.
+In both machines, we have a good strong scalability up to 256 CPU cores. The
+results
+the results are not as good for a larger distribution. Indeed, the execution
+time is no longer reduced, with some bump that we don't understant for now.
+However, for a large number of tests, the calculation time remains reasonable, although there is a limit.
+
+In terms of the number of iterations, the results are very good and encouraging.
+We can see that there is little impact with the number of CPU cores (except for
+a few runs of the electric problem).
+
 
 
 \foreach [expand list=true] \supercomputerFile/\supercomputerName in {gaya/Gaya,discoverer/Discoverer}
@@ -604,11 +636,20 @@ See \cref{sec:WP1:Feelpp:benchmark:hl-31}.
 
   \caption{HL-31 benchmarks - Performance measures of algebraic solver
     (Mesh comparison) - GMRES preconditionned by GAMG - \supercomputerName \ supercomputer}
-  %\label{fig:feelpp:wp3:thermal_bridges:performance_measure_splitted}
+  \label{fig:feelpp:wp3:hl-3:performance_measure_\supercomputerFile}
 \end{figure}
 }
 
-\paragraph{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
+\paragraph{Challenges Identified:} % Describe any bottlenecks encountered (e.g.,
+                                % memory usage, parallelization inefficiencies)
+                                % and how they impacted the benchmark.
+
+
+\begin{itemize}
+\item Tunning GAMG
+\item Improve the HPC scalability at large/extreme scale.
+\item Reduce the memory
+\end{itemize}
 
 
 \subsubsection{Benchmark \#4: CFD FDA Benchmark}
