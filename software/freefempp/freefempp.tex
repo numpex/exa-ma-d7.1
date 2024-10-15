@@ -155,7 +155,7 @@ IPOPT\\
 \subsection{Mathematics}
 \label{sec:Freefem++:mathematics}
 
-FreeFEM implements both finite element methods (FEM) and boundary element methods (BEM) for the solution of partial differential equations (PDEs) in complex geometries. It uses various mathematically sound numerical algorithms to enhance the accuracy and speed of the simulations, from metric-based adaptive mesh refinement to provably robust multilevel domain decomposition solvers.
+FreeFEM implements both finite element methods (FEM) and boundary element methods (BEM) for the solution of partial differential equations (PDEs) in complex geometries. It uses various mathematically sound numerical algorithms to enhance the accuracy and speed of the simulations, from metric-based adaptive mesh refinement to provably robust multilevel domain decomposition solvers. It allows for the joint use of real and complex variables.
 
 
 \subsection{Relevant Publications}
@@ -174,7 +174,7 @@ FreeFEM implements both finite element methods (FEM) and boundary element method
 
 \item[\fullcite{hecht_pde-constrained_2024}] This book is aimed at students and researchers who want to learn how to eﬃciently solve constrained optimization problems involving partial diﬀerential equations (PDE) using the FreeFEM software.
 
-\item[\fullcite{tournier_numerical_2017}] This paper deals with microwave tomography for brain stroke imaging using state-of-the-art numerical modeling and massively parallel computing. It includes the accurate modeling of a whole-microwave measurement system. The inverse problem is solved by a gradient based L-BFGS minimization algorithm. The successive solution of the direct problem in the optimization loop is accelerated using an Optimized Restricted Additive Schwarz (ORAS) preconditioner.
+\item[\fullcite{tournier_numerical_2017}] This paper deals with microwave tomography for brain stroke imaging using state-of-the-art numerical modeling and massively parallel computing. It includes the accurate modeling of a whole-microwave measurement system. The inverse problem is solved by a gradient based L-BFGS minimization algorithm. The successive solution of the direct problem in the optimization loop is accelerated using an Optimized Restricted Additive Schwarz (ORAS) preconditioner. This work was awarded the Joseph Fourier-Bull prize in 2015.
 
 \item[\fullcite{sadaka_parallel_2020}] This work presents a FreeFEM Toolbox for the parallel computing of two- or three-dimensional liquid-solid phase-change systems involving natural convection. Parallel 2D and 3D computations of benchmark cases of increasing difficulty are presented: natural convection of air, natural convection of water, melting or solidification of a phase-change material, water freezing. For each case, careful validations are provided and the performance of the code is assessed. 
 
@@ -184,7 +184,7 @@ FreeFEM implements both finite element methods (FEM) and boundary element method
 
 \item[\fullcite{dapogny_geometrical_2018}] This paper presents simple and robust numerical methods for two-dimensional geometrical shape optimization problems, in the context of viscous flows driven by the stationary Navier-Stokes equations at low Reynolds number. Several pedagogical examples are discussed. The corresponding program is written in the FreeFem++ environment, and it is freely available. Its chief features are carefully presented, so that it can easily be handled and elaborated upon to deal with different, or more complex physical situations.
 
-\item[\fullcite{golse_radiative_2023}] To study the temperature in a gas subjected to electromagnetic radiations, one may use the Radiative Transfer equations coupled with the Navier-Stokes equations. The problem has 7 dimensions but can be simplified to a small number of integro-differential equations in 3 dimensions. This work presents the method and its numerical implementation using a Hierarchical matrix compression scheme, using FreeFEM and HTOOL. Applications to the temperature in the French Chamonix valley are presented with and without snow or cloud and with a variable absorption coefficient taken from the Gemini measurements. The software is precise enough to assert temperature differences due to increased absorption in the vibrational frequency subrange of greenhouse gases.
+\item[\fullcite{golse_radiative_2023}] To study the temperature in a gas subjected to electromagnetic radiations, one may use the Radiative Transfer equations coupled with the Navier-Stokes equations. The problem has 7 dimensions but can be simplified to a small number of integro-differential equations in 3 dimensions. This work presents the method and its numerical implementation using a Hierarchical matrix compression scheme, using FreeFEM and HTOOL. Applications to the temperature in the French Chamonix valley are presented with and without snow or cloud and with a variable absorption coefficient. The software is precise enough to assert temperature differences due to increased absorption in the vibrational frequency subrange of greenhouse gases.
 
 \item[\fullcite{sadaka_finite_2024}] This work presents a FreeFEM finite element toolbox for the computation of Bogoliubov-de Gennes modes used to assess the linear stability of stationary solutions of the Gross-Pitaevskii (GP) equation. Applications concern one (single GP equation) or two-component (a system of coupled GP equations) Bose-Einstein condensates in one, two and three dimensions of space. Programs are validated through comparisons with known theoretical results for simple cases and numerical results reported in the literature.
 \end{description}
@@ -200,4 +200,5 @@ The software has been developed with the support of the following funding agenci
 \item INRIA
 \item ANR
 \item Airthium company
+\item GENCI for HPC resources
 \end{itemize}
