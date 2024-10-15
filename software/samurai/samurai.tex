@@ -129,36 +129,38 @@ The following table summarizes these aspects for Samurai, providing a  view of i
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
 C++17\\
-\end{tabular} & Programming languages and language standards supported by the software \\
+\end{tabular} & samurai is developed in modern C++. The source code is written in C++17 but some new implementations will use concepts and ranges provided by C++20.  \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 MPI\\
 Multithread\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
+\end{tabular} & samurai is parallelized using MPI and OpenMP. Kokkos will also be used in future versions to provide GPU support.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 HDF5\\
-\end{tabular} & Data formats that the software can handle or produce.\\
+\end{tabular} & Output is in HDF5 format using the open source software HighFive. Adios2 is another solution being considered for future versions.\\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 None\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
+\end{tabular} & There are no fault tolerance and recovery mechanisms used by samurai.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Delivery\\
 Continuous Integration\\
-\end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
+\end{tabular} & samurai uses GitHub Actions to perform automatic tasks: documentation build, CI, new releases, etc.  \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
 Other\\
-\end{tabular} & Software packaging and distribution.\\
+\end{tabular} & samurai is available on conda and conan.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 Functional\\
 Unit\\
 Validation\\
 Verification\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
+\end{tabular} & samurai has unit tests and regression tests. All the examples provided by samurai in its demos directory are verified at every change of the code.\\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
 None\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
+\end{tabular} & No container technologies are used to package and deploy the software. We use conda-forge to built the conda package.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
 PETSc\\
-\end{tabular} & List of software Samurai has interfaces with.\\
+xtensor\\
+Eigen\\
+\end{tabular} & xtensor and Eigen are used to store the unknowns of the equations and to perform lazy evaluation. Matrix assembly and linear solver resolution are performed using PETSc.\\
         \bottomrule
     \end{tabular}
     }}
