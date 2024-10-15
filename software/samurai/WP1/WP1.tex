@@ -41,21 +41,32 @@ B7 - Exascale Algorithms\\
 \subsection{Software Overview}
 \label{sec:WP1:Samurai:summary}
 
-In~\cref{tab:WP1:Samurai:features} we provide a summary of the software features relevant to the work package which are briefly discussed.
+samurai aims to provide an adaptive mesh library for flexible numerical simulations that makes it easy to test new methods. The interval structure coupled with a set algebra allows meshes to be manipulated efficiently, making inter- and intra-grid computation kernels easier to write.
+
+Using this structure to store Cartesian meshes, Samurai proposes to implement a range of spatial schemes such as finite volumes, Boltzmann lattice methods, finite differences and discrete Galerkin methods. The aim is to be able to easily test new resolution methods on adaptive meshes in a way that is transparent to the user. The user focuses on solving the problem and samurai takes care of managing the mesh.
+
+A third layer is currently being added to address various specific fields of application we are working on: combustion, two-phase
+flows, plasma discharge, lithium battery simulation... with several  institution and industrial partners.
 
 \begin{table}[h!]
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
-\rowcolor{white}    mesh adaptation & provide short description here \\
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
+    \rowcolor{white}    mesh adaptation & AMR with heuristic criteria and multiresolution based on wavelets \\
+    \rowcolor{numpexlightergray}   load balancing & Space filling curve (Hilbert or Morton) or diffusion algorithm \\
+    \rowcolor{white}   sparse Cartesian mesh & A new data structure based on intervals and algebra of set \\
+    \rowcolor{numpexlightergray}   grid operators & Provide several operators to make prediction or projection of a field \\
+    \rowcolor{white}  numerical schemes & Provide numerical schemes such as finite volume schemes \\
+
+
 \end{tabular}
         }
     }
@@ -67,81 +78,74 @@ In~\cref{tab:WP1:Samurai:features} we provide a summary of the software features
 \subsection{Parallel Capabilities}
 \label{sec:WP1:Samurai:performances}
 
+samurai uses MPI and OpenMP parallelism. Container abstractions are used to connect different tensor libraries such as Xtensor or Eigen. This preliminary work will also make it easy to plug in the Kokkos library.
 
+When we use mesh adaptation methods, we do so in a dynamic context: in other words, the mesh evolves over time. There are therefore two metrics to take into account if we want to have an effective, scalable solution
 \begin{itemize}
-    \item describe the parallel programming  environment : MPI, OpenMP, CUDA, OpenACC, etc.
-    \item describe the parallel computation environment: type of architecture and super computer used.
-    \item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} Describe the general scalability properties of the software
-    \item \textbf{Integration with Other Systems:} Describe how the software integrates with other numerical libraries in the Exa-MA framework.
+\item What is the cost of mesh adaptation compared with calculating the refined solution everywhere?
+\item How can we ensure that there is always a good distribution of the load balancing between the processes?
 \end{itemize}
 
+samurai offers two types of load balancing: the best known is the use of a space filling curve (Hilbert and Morton are implemented), the other solution is the use of a diffusion algorithm. The most complicated aspect here is adapting these solutions to the interval data structure. This is a work in progress, but it is important if we want to achieve good scalability for the target applications.
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Samurai:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP1. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+The benchmarks in this WP study the overall performance of samurai in terms of the cost of mesh adaptation compared with the calculation of the refined solution everywhere, and also in terms of the calculation times associated with the numerical schemes. We first propose to carry out a comparative study with equivalent open source software such as \href{https://github.com/AMReX-Codes/amrex}{AMRex}, \href{https://github.com/vanreeslab/murphy}{Murphy}, \href{https://github.com/Dyablo-HPC/Dyablo}{Dyablo}, \href{https://github.com/paralab/Dendro-5.01}{Dendro}. A second study will focus on two practical applications.
 
-\begin{itemize}
-    \item \textbf{Overall Performance:} Summarize the software's computational performance, energy efficiency, and scalability results across different architectures (e.g., CPU, GPU, hybrid systems).
-    \item \textbf{Input/Output Dataset:} Provide a detailed description of the dataset used for the benchmark, including:
-        \begin{itemize}
-            \item Input dataset size, structure, and format (e.g., CSV, HDF5, NetCDF).
-            \item Output dataset format and key results.
-            \item Location of the dataset (e.g., GitHub repository, institutional repository, or open access platform).
-            \item DOI or permanent link for accessing the dataset.
-        \end{itemize}
-    \item \textbf{open-data Access:} Indicate whether the datasets used for the benchmark are open access, and provide a DOI or a direct link for download. Where applicable, highlight any licensing constraints.
-    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
-\end{itemize}
+\subsubsection{Benchmark \#1: AMR software performance comparaison}
 
-\subsubsection{Benchmark \#1}
-\begin{itemize}
-    \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
-    \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
-    \item \textbf{Input/Output Dataset Description:}
-        \begin{itemize}
-            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
-            \item \textbf{Output Data:} Specify the structure of the results (e.g., memory usage, runtime logs) and how they can be accessed or replicated.
-            \item \textbf{Data Repository:} Indicate where the data is stored (e.g., Zenodo, institutional repository) and provide a DOI or URL for accessing the data.
-        \end{itemize}
-    \item \textbf{Results Summary:} Include a summary of key metrics (execution time, memory usage, FLOPS) and their comparison across architectures (e.g., CPU, GPU).
-    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
-\end{itemize}
+\paragraph{Description}
+
+There are a number of open source software packages that offer adaptive mesh refinement methods. However, it is difficult to find a benchmark for testing their effectiveness on simple problems. We therefore propose to carry out a comparative study between samurai and a list of software that will be finalized when the benchmark is set up. This will be made public via a GitHub repository so that anyone can re-launch the study.
+
+The aim will be to compare a range of metrics: memory footprint of the mesh, ease of writing computation kernels, sequential computation time, parallel computation time, etc. on various simple problems.
+
+\paragraph{Benchmarking Tools Used}
+To evaluate the performance of the different test cases, we will use the Tau tool to measure the execution time and memory usage of the software.
+
+\paragraph{Input/Output Dataset Description}
+The input dataset will be a simple list of test cases which can be executed by all the chosen software. The output dataset will be a list of metrics (the execution time, the memory usage, the scalability, ...) extracted in a JSON like format and easily represented graphically.
+
+\paragraph{Results Summary}
+This benchmark will allow us to compare the performance of samurai with other software. The results will be made public via a GitHub repository and will use some tools such as \href{https://github.com/airspeed-velocity/asv}{airspeed velocity} used by \href{scipy}{https://pv.github.io/scipy-bench/} to represent the results.
+
+\paragraph{Challenges Identified}
+There is currently no benchmark that provides an overview of the performance of adaptive meshing software. The establishment of this benchmark should provide a better understanding of the impact of the data structure used (patch-based, cell-based or interval-based) depending on the use cases, and provide simple test cases for all selected software that can be easily enriched by the community.
+
+
+\subsubsection{Benchmark \#2: Plasma discharge simulation}
+
+The first application benchmark we are working on is related to the simulation of plasma discharges, with and without magnetic field, including the description of sheaths at the boundaries through a fluid model (Euler - Poisson system of PDEs in 2D and 3D). Such simulation are really hard to conduct in multi-dimensions due to the multi-scale character to the physics (small Debye length, small mass ration of the electrons, ratio of temperature) and require very refined numerical schemes (asymptotic preserving with respect to the various small parameters) with high stability properties : IMEX schemes with the cost of explicit schemes developed in the PhD thesis of L. Reboul within the samurai code. Such schemes have the ability to allow fine mesh adaptation in the neighborhood of the boundaries where the sheath is present, while allowing large cells in the electroneutral zone and are of paramount importance to conduct efficient fluid simulations, making them competitive in terms of computational time with respect to PIC methods, while not have the drawback of noise involved. The main objective of this benchmark is to demonstrate that without robust numerical schemes and the use of multiresolution as an adapted method, it is impossible or more difficult to perform such simulations in 2D and 3D using classical adaptive mesh methods. The second one is to demonstrate that fluid simulation can be competitive with respect to PIC methods in terms of computational time.
+
+\subsubsection{Benchmark \#3: Simulation of the hydrogen risk}
+
+The second benchmark we are currently setting up is the simulation of the hydrogen risk and direct numerical simulation of a hydrogen flame with deflagration to detonation transition, an old problem in the theory and simulation of combustion, with detailed transport and complex chemistry in the compressible Navier-Stokes equations. We aim at comparing our simulation tool, samurai, with the existing software AMRex, where the error control on the solution can not be guaranteed. A new numerical strategy based on a mixed operator splitting / IMEX scheme has been designed in order to reach the computational efficiency of full operator splitting techniques for simple chemistry (\cite{duarte_adaptive_nodate}, \cite{lecointre_hydrogen_nodate}), while allowing optimal parallel capabilities. The simulation configuration is a 2D and then 3D channel with obstacles, with potentially a different mesh level for the density and velocity field compared to the temperature and species mesh, with a verification on a series of cases that have been obtained with other codes, which do not have the distributed parallel capability (Dryads). The project is conducted with a strong collaboration with CEA and ONERA.
 
 \subsection{12-Month Roadmap}
 \label{sec:WP1:Samurai:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
-\begin{itemize}
-    \item \textbf{Data Improvements:} Plans for improving input/output data management, including making datasets more accessible and ensuring reproducibility through open-data initiatives.
-    \item \textbf{Methodology Application:} Implementation of the benchmarking methodology proposed in this deliverable to streamline reproducibility and dataset management.
-    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
-\end{itemize}
-
-In~\cref{tab:WP1:Samurai:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
+The contribution of the new data structure based on intervals and set algebra means that mesh adaptation methods can be approached differently to traditional methods. However, there is still work to be done if samurai is to become a reference software package for mesh refinement methods. The studies carried out as part of these benchmarks should confirm that the data structure compresses the mesh efficiently (as many cells as necessary) while providing optimal vectorization performance due to its memory contiguity. It will also be necessary to ensure that the load balancing methods used are efficient and scalable.
 
 \begin{table}[h!]
     \centering
-    
-    
+
 
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
+\rowcolor{white}    B10 - Scientific Productivity & Confirm the efficiency of the interval-based data structure. \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Provide a relevant and reproducible study of AMR software performance. \\
+\rowcolor{white}    B6 - Data Management & Offer a comparison format that can be easily represented graphically and freely accessible. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Allow to select different load balancing algorithms and test their efficiency.  \\
 \end{tabular}
         }
     }
