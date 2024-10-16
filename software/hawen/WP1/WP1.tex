@@ -234,10 +234,15 @@ high-order polynomials for HDG in \hawen.
 
 
 
-We wish to improve input/output data management by including more options 
+We wish to standardize the use of high-order polynomials, which 
+is critical for the HDG method. By high-order, we mean at least 
+order 7 in three dimensions, so that the static condensation used
+by the method becomes more useful. For instance, using high orders 
+to have robust and efficient quadrature rules.
+In addition, we wish to improve input/output data management by including more options 
 to save the results of \hawen, for instance this can include the hdf5 format
 which is not allowed currently.
-In addition, the configuration of the benchmark and the results obtained will 
+Eventually, the configuration of the benchmark and the results obtained will 
 be made available in open-access for reproducibility.
 %In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 %\begin{itemize}
