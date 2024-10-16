@@ -24,3 +24,4 @@ exa-ma-d7.1.pdf
 *.lof
 *.lot
 .venv
+.DS_Store
