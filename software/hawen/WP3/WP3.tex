@@ -210,10 +210,17 @@ In~\cref{tab:WP3:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap a
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & 
+Investigate the efficiency of the linear solvers with high-order polynomials
+required by HDG discretization (i.e., order higher than or equal to 7). \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation 
+& The benchmarks will be made available on online repository. \\
+\rowcolor{white}    B6 - Data Management 
+&  Inputs parameters will be made available to generate the matrix but to its size, the matrix
+   itself should not be stored.\\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & 
+Control the memory footprint of the solver and use latest developments of direct solver 
+MUMPS to reduce it. Investigate how the compression affects the accuracy of the solutions.\\
 \end{tabular}
         }
     }
