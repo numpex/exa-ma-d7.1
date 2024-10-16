@@ -234,10 +234,15 @@ high-order polynomials for HDG in \hawen.
 
 
 
-We wish to improve input/output data management by including more options 
+We wish to standardize the use of high-order polynomials, which 
+is critical for the HDG method. By high-order, we mean at least 
+order 7 in three dimensions, so that the static condensation used
+by the method becomes more useful. For instance, using high orders 
+to have robust and efficient quadrature rules.
+In addition, we wish to improve input/output data management by including more options 
 to save the results of \hawen, for instance this can include the hdf5 format
 which is not allowed currently.
-In addition, the configuration of the benchmark and the results obtained will 
+Eventually, the configuration of the benchmark and the results obtained will 
 be made available in open-access for reproducibility.
 %In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
 %\begin{itemize}
@@ -263,10 +268,10 @@ In~\cref{tab:WP1:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap a
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & Improve high-order polynomials operations for HDG discretization. \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Each benchmark will have a separate repository with the input files and associated results to reproduce the simulations. \\
+\rowcolor{white}    B6 - Data Management & Provide the meshes used for the benchmark and the associated results in standard format such as vtk and hdf5. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Control the memory footprint. \\
 \end{tabular}
         }
     }
