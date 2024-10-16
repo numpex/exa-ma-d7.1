@@ -188,10 +188,17 @@ established in WP1 in \cref{subsec:WP1:Hawen:benchmark2}.
 %    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 %\end{itemize}
 
-We wish to improve input/output data management by including more options 
-to save the results of \hawen, for instance this can include the hdf5 format
-which is not allowed currently.
-
+We wish to investigate the efficient of the linear algebra operations 
+when working with particularly high polynomial orders, as established
+in \cref{sec:WP1:Hawen:software}. 
+We emphasize the cost on the memory footprint for the matrix factorization,
+which is the main bottleneck in time-harmonic wave simulations using a 
+direct solver.
+We  will rely on the direct solver MUMPS to investigate the cost and benefit
+from its latest development to reduce the computational cost. However, one 
+must find a good compromise between the reduction of the memory footprint 
+(e.g., with block low-rank compression or mixed precision), and the accuracy
+of the solution.
 In~\cref{tab:WP3:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
