@@ -188,10 +188,17 @@ established in WP1 in \cref{subsec:WP1:Hawen:benchmark2}.
 %    \item \textbf{Results Retention:} Plans to maintain benchmark results in a publicly accessible repository with appropriate metadata and documentation, ensuring long-term usability.
 %\end{itemize}
 
-We wish to improve input/output data management by including more options 
-to save the results of \hawen, for instance this can include the hdf5 format
-which is not allowed currently.
-
+We wish to investigate the efficient of the linear algebra operations 
+when working with particularly high polynomial orders, as established
+in \cref{sec:WP1:Hawen:software}. 
+We emphasize the cost on the memory footprint for the matrix factorization,
+which is the main bottleneck in time-harmonic wave simulations using a 
+direct solver.
+We  will rely on the direct solver MUMPS to investigate the cost and benefit
+from its latest development to reduce the computational cost. However, one 
+must find a good compromise between the reduction of the memory footprint 
+(e.g., with block low-rank compression or mixed precision), and the accuracy
+of the solution.
 In~\cref{tab:WP3:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap associated to the software and relevant to the work package.
 
 \begin{table}[h!]
@@ -210,10 +217,17 @@ In~\cref{tab:WP3:Hawen:bottlenecks}, we briefly discuss the bottleneck roadmap a
     
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
     
-\rowcolor{white}    B10 - Scientific Productivity & provide short description here \\
-\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & provide short description here \\
-\rowcolor{white}    B6 - Data Management & provide short description here \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & provide short description here \\
+\rowcolor{white}    B10 - Scientific Productivity & 
+Investigate the efficiency of the linear solvers with high-order polynomials
+required by HDG discretization (i.e., order higher than or equal to 7). \\
+\rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation 
+& The benchmarks will be made available on online repository. \\
+\rowcolor{white}    B6 - Data Management 
+&  Inputs parameters will be made available to generate the matrix but to its size, the matrix
+   itself should not be stored.\\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & 
+Control the memory footprint of the solver and use latest developments of direct solver 
+MUMPS to reduce it. Investigate how the compression affects the accuracy of the solutions.\\
 \end{tabular}
         }
     }
