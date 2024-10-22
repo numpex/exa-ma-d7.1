@@ -6,7 +6,7 @@ _minted*
 **/*.out
 **/*.pyg
 **/*.fls
-**/*.synctex.gz
+**/*.synctex*
 main.pdf
 *.toc
 article.template.pdf
@@ -23,5 +23,5 @@ exa-ma-d7.1.pdf
 *.chl
 *.lof
 *.lot
-*.pdf
 .venv
+.DS_Store

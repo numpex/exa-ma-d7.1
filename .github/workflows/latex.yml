@@ -71,21 +71,23 @@ jobs:
         run: |
           bash ./a.cli setup
 
-#      - name: Update BibTeX references
-#        run: |
-#          bash ./a.cli update-bibtex
-#
-#      - name: Commit new references.bib
-#        run: |
-#          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-#          git config --local user.name "${{ github.actor }}"
-#          git add references.bib
-#          if ! git diff --cached --quiet; then
-#            git commit -m "Update references.bib from Zotero"
-#            git push
-#          else
-#            echo "No changes in references.bib to commit."
-#          fi
+      - name: Update BibTeX references
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          bash ./a.cli update-bibtex
+
+      - name: Commit new references.bib
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --local user.name "${{ github.actor }}"
+          git add references.bib
+          if ! git diff --cached --quiet; then
+            git commit -m "Update references.bib from Zotero"
+            git push
+          else
+            echo "No changes in references.bib to commit."
+          fi
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3

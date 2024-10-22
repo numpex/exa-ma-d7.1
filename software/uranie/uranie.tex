@@ -23,11 +23,11 @@ jean-baptiste.blanchard@cea.fr\\
 rudy.chocat@cea.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-CPU Only\\
+CPU, GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://sourceforge.net/projects/uranie/}{https://sourceforge.net/projects/uranie/} \\
+        \rowcolor{white}\textbf{Repository} & \href{https://uranie.cea.fr}{https://uranie.cea.fr} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
-OSS:: LGPL v*\\
+OSS:: LGPL \\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 None\\
@@ -40,19 +40,20 @@ None\\
 
 \subsection{Software summary}
 \label{sec:Uranie:summary}
-Detailed overview not available.
 
+Uranie platform is based on ROOT and has by consequence a lot of ROOT characteristics such as:
+\begin{itemize}
+    \item Interactive C++ interpreter (Cling) based on LLVM and Clang 
+    \item Python interface (PyROOT)
+    \item SQL database access 
+\end{itemize}
 
 
 \subsection{Purpose}
 \label{sec:Uranie:purpose}
-Purpose not available.
 
-\subsection{Programming and Computational Environment}
-\label{sec::Uranie:environment_capabilities}
+Uranie (the version under discussion here being v4.9.0) is a software dedicated to perform studies on uncertainty propagation, sensitivity analysis and surrogate model generation and calibration, based on ROOT (the corresponding version being v6.32.00). The motivation for the development of Uranie is the VVUQ (Verification, Validation and Uncertainty Quantification) approach for conceiving a numerical model of real physical phenomena of interests. Uranie is developed such that it interfaces well with CEA internal numerical simulation software.
 
-
-The following table summarizes these aspects for Uranie, providing a  view of its programming and computational capabilities.
 
 \begin{table}[h!]
     \centering
@@ -73,8 +74,7 @@ MPI\\
 Multithread\\
 \end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
-ASCII\\
-JSON\\
+SALOME format\\
 ROOT\\
 SQL\\
 \end{tabular} & Data formats that the software can handle or produce.\\
@@ -96,7 +96,8 @@ Verification\\
 None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
-Salome\\
+Salome \\
+Trust \\ 
 \end{tabular} & List of software Uranie has interfaces with.\\
         \bottomrule
     \end{tabular}
@@ -108,15 +109,19 @@ Salome\\
 
 \subsection{Mathematics}
 \label{sec:Uranie:mathematics}
-Mathematics not available.
-
-In this section, provide a summary the mathematics used in the software.
+The mathematics used in Uranie are related to:
+\begin{itemize}
+        \item Surrogate modeling \& machine learning techniques: Gaussian process regression, neural networks, polynomial chaos expansion
+        \item Optimization: EGO-like algorithm and ants colony based metaheuristics 
+        \item Calibration: Latent parameters estimations \& Bayesian algorithms 
+        \item Sensitivity analysis: HSIC indices estimation, Sobol' indices.   
+\end{itemize}
 
 
 \subsection{Relevant Publications}
 \label{sec:Uranie:publications}
 
-Here is a list of relevant publications related to the software:
+Here is a relevant publication used to cite Uranie:
 
 \begin{itemize}
    \item \fullcite{blanchard_uranie_2019}
@@ -126,10 +131,7 @@ Here is a list of relevant publications related to the software:
 \subsection{Acknowledgements}
 \label{sec::Uranie:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
+The software has been developed in \href{https://www.cea.fr/}{CEA} and funded by the SIMU research program. 
 
-
-
-Acknowledgements not available.
 
 

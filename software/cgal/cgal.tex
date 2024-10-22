@@ -15,7 +15,7 @@
 Inria\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
-Inria CA\\
+Inria center at Universit\'e C\^ote d'Azur\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
 christos.georgiadis@inria.fr\\
@@ -43,17 +43,29 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:CGAL:summary}
-Detailed overview not available.
+
+CGAL (Computational Geometry Algorithms Library) \cite{the_cgal_project_cgal_2024} is an open-source software project designed to provide 
+numerically reliable software components (algorithms and geometric data structures) for use in 2D, 3D, or arbitrary dimensions.
+These components include convex hulls, triangulations, Boolean operations, intersection calculations, mesh generation, 
+3D point cloud processing, and more. CGAL’s main design features, along with various components, are utilized in industrial 
+robotics and digital engineering simulations. For industrial applications, CGAL offers reliable, interoperable components 
+that save development time by eliminating the need to reinvent the wheel, allowing users to focus on the business specializations 
+that deliver the most value.
+
 
 
 
 \subsection{Purpose}
 \label{sec:CGAL:purpose}
-Purpose not available.
+%Purpose not available.
+
+The purpose of CGAL is to offer developers tools for solving complex geometric problems in the form of a C++ templated library. Both low level geometric data structures and algorithms are provided, in 2D, 3D and arbitrary dimensions. 
+CGAL is used in fields like CAD, robotics and scientific computing, offering components for tasks like mesh generation, spatial searching and geometry processing. CGAL is available under a dual licensing scheme. For integration into other open-source software, 
+it is provided under LGPL or GPL licenses, depending on the components. For proprietary or commercial projects, 
+licenses can be purchased from Geometry Factory, with options tailored for academic, research or industrial customers.
 
 \subsection{Programming and Computational Environment}
 \label{sec::CGAL:environment_capabilities}
-
 
 The following table summarizes these aspects for CGAL, providing a  view of its programming and computational capabilities.
 
@@ -66,17 +78,16 @@ The following table summarizes these aspects for CGAL, providing a  view of its 
     {\fontsize{9}{11}\selectfont
     \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
-C++\\
+        \rowcolor{white} Languages  & \begin{tabular}{l}
+C++, header-only be default\\
 \end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
-Multithread\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
-None\\
-\end{tabular} & Data formats that the software can handle or produce.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
-None\\
+        \rowcolor{numpexlightergray} Parallelism  & Multithread
+ & Parallel computing methods and frameworks utilized by the software. CGAL requires a compiler supporting C++17 or later, and the Intel TBB library for multithreading.\\
+        \rowcolor{white}Data Formats  & 
+ & Data formats that the software can handle or produce. For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
+ \\
+\rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+None at the moment\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Integration\\
@@ -87,44 +98,71 @@ Fedora\\
 Spack\\
 Ubuntu\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
-Unit\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-None\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
-None\\
+        \rowcolor{white}Testing  & 
+
+ & On most operating systems, package managers offer CGAL and its essential third party dependencies. Testing methodologies employed to ensure software quality and correctness.\\
+        \rowcolor{numpexlightergray}Containerization  & 
+ & Container technologies used to package and deploy the software. CGAL uses a custom-tailored test suite running on 22 platforms combining Windows, Linux (Debian, Fedora, Ubuntu), macOS and different compilers (MSVC, Darwin, clang, gcc)\\
+        \rowcolor{white} Interfaces  & \begin{tabular}{l}
+Apt-get  on Linux, \\
+and Homebrew on macOS.\\
 \end{tabular} & List of software CGAL has interfaces with.\\
+& & Essential third partie libraries: STL, Boost and MPFR. Optional libraries are listed 
+\url{https://doc.cgal.org/latest/Manual/thirdparty.html}{here}.\\
         \bottomrule
     \end{tabular}
     }}
-    \caption{CGAL programming and computational environment}
+    \caption{CGAL programming and computational environment.}
 \end{table}
 
 
 
 \subsection{Mathematics}
 \label{sec:CGAL:mathematics}
-Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+Numerical robustness is a fundamental concern in geometric computing, even more so than in other types of numerical methods due to the dual nature of many algorithmes (combinatorial and continuous). 
+In geometric algorithms, slight inaccuracies in numerical computations can lead to significant errors, such as incorrect topological configurations or degeneracies that disrupt the algorithm's logic. 
+The CGAL library offers a flexible and powerful solution to this problem by following the exact computation paradigm that leverages interval arithmetic as well as multiple precision arithmetic (\url{https://www.cgal.org/exact.html}). Such a paradigm enables users to avoid rounding errors and ensures robust algorithms.
+
+CGAL leverages generic programming, enabling the use of different components through a versatile C++ templated environment. 
+This approach allows algorithms and data structures to be flexible and reusable across various geometric scenarios. 
+For instance, a 2D convex hull algorithm in CGAL can be applied to an arbitrary 3D plane by utilizing appropriate templated parameters. Similarly, the mesh simplification component can operate any mesh data structures as long as few interface functions are provided. 
+Such a templated design ensures that developers can extend or customize components easily to meet specific requirements.
 
 
 \subsection{Relevant Publications}
 \label{sec:CGAL:publications}
 
-Here is a list of relevant publications related to the software:
+The following publications are relevant for mesh generation components in the CGAL library:
+
+\begin{itemize}
+\item \textit{CGALmesh} \cite{jamin_cgalmesh_2015} describes the 3D mesh generation package of CGAL, which is based on Delaunay triangulation and refinement.
+\item \textit{Alpha Wrapping with an Offset} \cite{portaneri_alpha_2022} offers a solution for the generation of watertight and orientable meshes which strictly enclose arbitrary and possibly defect-ladden inputs.
+\end{itemize}
 
 
 \subsection{Acknowledgements}
 \label{sec::CGAL:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
+%The software has been developed with the support of the following funding agencies and institutions: 
+%
+%
+%Acknowledgements not available.
+
+%\url{https://www.cgal.org/partners.html}
 
 
+CGAL has been originally funded by European Union's information technologies programme Esprit, by Project 21957 - CGAL, with the project partners Utrecht University (The Netherlands), ETH Zurich (Switzerland), Freie Universitaet Berlin (Germany), Inria Sophia-Antipolis (France), Martin-Luther-University Halle-Wittenberg (Germany), Max-Planck-Institute Saarbruecken (Germany), RISC Linz (Austria) and Tel-Aviv University (Israel).
 
+After this project, the CGAL open source project has been supported by several European Research Programs:
+\begin{itemize}
+\item GALIA - Project 28155 - GALIA.
+\item ECG -  Project IST-2000-26473 - ECG.
+\item ACS - Project IST-006413 - ACS
+\item Aim@Shape - Project IST NoE-506766
+\item GUDHI - FP7-IDEAS-ERC 339025
+\end{itemize}
 
-Acknowledgements not available.
+Commercial licenses to CGAL are provided by the GeometryFactory company, a spin-off from Inria.
 
 

@@ -24,7 +24,7 @@ parse_args() {
             --zotero-api-key) ZOTERO_API_KEY="$2"; shift ;;
             --zotero-group-id) ZOTERO_GROUP_ID="$2"; shift ;;
             --bibtex-file) BIBTEX_FILE="$2"; shift ;;
-            --help) 
+            --help)
                 echo "Usage: $0 [options] {setup|create|list|delete|update-bibtex} [version]"
                 echo "Options:"
                 echo "  --zotero-user-id    Zotero User ID"
@@ -109,6 +109,11 @@ list_releases() {
     git tag --sort=-creatordate | head -n $1
 }
 
+# Function to clean latex build files
+clean() {
+    # clean latex build files
+    rm -f *.aux *.bbl *.blg *.log *.out *.pyg *.fls *.synctex* *.toc *.fdb_latexmk *.fls *.idx *.ilg *.ind *.chl *.lof *.lot *.pdf
+}
 # Function to delete a release
 delete_release() {
     VERSION=$1
@@ -146,16 +151,17 @@ update_bibtex() {
 
     # Define the URL to fetch BibTeX
     if [ -z "$ZOTERO_GROUP_ID" ]; then
-        URL="https://api.zotero.org/users/$ZOTERO_USER_ID/items?format=bibtex"
+        URL="https://api.zotero.org/users/$ZOTERO_USER_ID/items?format=biblatex"
     else
-        URL="https://api.zotero.org/groups/$ZOTERO_GROUP_ID/items?format=bibtex"
+        URL="https://api.zotero.org/groups/$ZOTERO_GROUP_ID/items?format=biblatex"
     fi
     start=0
     limit=100
+    has_more=true
     echo "" > "$BIBTEX_FILE"
     while $has_more; do
         response=$(curl -s -H "Zotero-API-Key: $ZOTERO_API_KEY" "$URL&start=$start&limit=$limit")
-        
+
         if [ -z "$response" ]; then
             echo "No more items to fetch."
             has_more=false
@@ -176,12 +182,78 @@ update_bibtex() {
     echo "BibTeX entries updated successfully in $BIBTEX_FILE."
 }
 
+update_bibtex2() {
+    if [ -z "$ZOTERO_GROUP_ID" ]; then
+        if [ -z "$ZOTERO_USER_ID" ]; then
+            echo "Zotero group ID and user ID are not set, one of them is required."
+            echo "If Group ID is set, User ID is not required."
+            exit 1
+        fi
+    fi
+
+    if [ -z "$ZOTERO_API_KEY" ]; then
+        echo "Zotero API key is not set."
+        exit 1
+    fi
+
+    echo "Fetching BibTeX entries from Zotero..."
+
+    # Define the URL to fetch BibTeX
+    if [ -z "$ZOTERO_GROUP_ID" ]; then
+        URL="https://api.zotero.org/users/$ZOTERO_USER_ID/items?format=bibtex"
+    else
+        URL="https://api.zotero.org/groups/$ZOTERO_GROUP_ID/items?format=bibtex"
+    fi
+
+    start=0
+    limit=100
+    has_more=true  # Initialize the loop control variable
+    echo "" > "$BIBTEX_FILE"
+
+    while $has_more; do
+        # Send the request
+        response=$(curl -s -w "%{http_code}" -H "Zotero-API-Key: $ZOTERO_API_KEY" "$URL&start=$start&limit=$limit")
+
+        # Separate the response content and the status code
+        http_code=$(echo "$response" | tail -n1)
+        content=$(echo "$response" | sed '$d')  # Everything except the last line (status code)
+
+        # Check if the request was successful (status code 200)
+        if [ "$http_code" -ne 200 ]; then
+            echo "Error fetching data: HTTP status $http_code"
+            exit 1
+        fi
+        if [ -z "$content" ]; then
+            echo "No more items to fetch."
+            has_more=false
+            break
+        fi
+        # Append the content to the BibTeX file
+        echo "$content" >> "$BIBTEX_FILE"
+
+        # Check if there are more items by inspecting the Link header or counting the items
+        num_items=$(echo "$content" | grep -c "@")  # Counting BibTeX entries
+        echo "downloaded $num_items items"
+        if [ "$num_items" = "0" ]; then
+            has_more=false
+        else
+            start=$((start + limit))
+        fi
+        echo "start=$start, has_more=$has_more"
+    done
+
+    echo "BibTeX entries updated successfully in $BIBTEX_FILE."
+}
+
 # Main script logic
 parse_args "$@"
 
 case "$1" in
     setup)
         setup
+        ;;
+    clean)
+        clean
         ;;
     create)
         create_release "$2"
@@ -193,7 +265,7 @@ case "$1" in
         delete_release "$2"
         ;;
     update-bibtex)
-        update_bibtex
+        update_bibtex2
         ;;
     *)
         echo "Usage: $0 [options] {setup|create|list|delete|update-bibtex} [version]"
@@ -204,6 +276,7 @@ case "$1" in
         echo "  --bibtex-file       Path to the BibTeX file (default: your_bibtex_file.bib)"
         echo "Commands:"
         echo "  setup               : Setup hooks for commit, checkout, and merge"
+        echo "  clean               : Clean latex build files"
         echo "  create              : Create a new release with the provided version"
         echo "  list                : List all existing releases"
         echo "  delete              : Delete the release with the provided version"

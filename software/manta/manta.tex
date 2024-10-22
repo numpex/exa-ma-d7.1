@@ -25,7 +25,7 @@ CPU Only\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Repository} & \href{None}{None} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
-None\\
+GPL-V3 (we may switch to LGPL)\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B10 - Scientific Productivity\\
@@ -41,19 +41,56 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:MANTA:summary}
-Detailed overview not available.
 
+MANTA (Mechanical Numerical Toolbox for advanced Application) is an open-source
+effort from the French Alternative Energies and Atomic Energy Commission (CEA) to develop a
+multiphysics solver for quasi-static and fast-transient simulations of fluids and solids. MANTA aims
+to replace the 40 years-old Cast3M and Europlexus solvers and provide larger physical modeling
+abilities using up to date technologies. It aims at being used in a massively parallel computation context.
 
+MANTA's functionalities are built over a very generic "core layer" which should be able to deal 
+with any set of PDEs and any "mesh-based" numerical method. So whereas being developed mainly in the 
+field of mechanics, it can be used easily to deal with other physics.
 
 \subsection{Purpose}
 \label{sec:MANTA:purpose}
-Purpose not available.
+
+The project has been designed to meet the following objectives:
+\begin{itemize}
+    \item Being able to simulate complex industrial systems: this implies a great flexibility to be able to handle the complexity of an industrial system in a single calculation.
+    \item High performance computing.
+    \item "Automatic parallelism": new functionalities should be developed without bothering about parallelism.
+    \item Provide a clean, simple and stable Application Programming Interface (API) in C++ and python.
+    \item Generic and flexible to be used by researchers in other fields of numerical methods than mechanics.
+    \item Quality assurance, robustness and reliability compatible with safety-critical studies in the
+nuclear industry.
+    \item Maintainability over decades.
+\end{itemize}
+
+MANTA targets two main kinds of users:
+\begin{itemize}
+    \item The mechanical engineers or researchers which exploit the output of numerical simulations
+to design or analyze physical system of interest. In view of such a user, MANTA provides
+a so-called end-user layer which offers a clean and easy API (both in C++ and python).
+Most numerical details are hidden by default. Also, a very important point is that its API
+is meant to be very stable in time.
+    \item The researcher in the field of numerical methods which would like to implement and test
+various algorithms. The MANTA so-called core-layer provides a generic and flexible way to
+implement a new unstructured-mesh-based numerical method dealing with a given set of
+Partial Differential Equations (PDE).
+\end{itemize}
 
 \subsection{Programming and Computational Environment}
 \label{sec::MANTA:environment_capabilities}
 
+MANTA is developed using a very standard "feature-branch" kind of collaborative workflow. The source code is hosted on `gitlab.com` (at this time in a private project, but soon in a public one). The code is built using `CMake`, uses `spack` to manage its dependencies. A very "modular" `CMake` architecture, borrowed from `VTK` has been developed: the source code shows as a set of interdependent "modules" which can be enabled/disabled by the user through a configuration file. Each "module" enabled triggers the enabling of the modules on which it depends, external third-parties, set of tests, ... The code is tested in several "test configurations" (compiler suite, linux distribution, compilation options, ...) inside docker images whose definitions are stored in the source repository. From an quality assurance point of view, we should be able to recompile and retest any commit of the code in the same way as it has been validated by the CI process. The code is mainly developed in `C++-20` (at this time, but we will follow the C++ new standards in the future), and can handle some functions in `Fortran`.
 
-The following table summarizes these aspects for MANTA, providing a  view of its programming and computational capabilities.
+MANTA can be run on any linux machine, from a personal laptop to a large computation cluster. At this time it is not planned to be ported to windows. At this time, the code is MPI-only (only openMPI is supported in the build process at this time), but will start to be developed soon to handle performance portability. MANTA can be used through several ways:
+\begin{itemize}
+    \item By cloning the repository and compiling it. In this case, we provide scripts to synchronize everything from a local machine connected to internet to a computation cluster having no or limited access to internet.
+    \item We provide an automatically up-to-date `apptainer` image in which MANTA is already built.
+    \item We are working on a "`spack` recipe" that we will soon push to `spack`'s database.
+\end{itemize}
 
 \begin{table}[h!]
     \centering
@@ -83,17 +120,28 @@ None\\
 Continuous Integration\\
 \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
-None\\
+Apptainer image, spack recipe\\
 \end{tabular} & Software packaging and distribution.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
-Unit\\
+Non-regression\\
 Verification\\
+Validation\\
+Use of several \\
+"test configurations" inside \\docker images
 \end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-None\\
+Apptainer\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
-None\\
+Most significant 3rd parties:\\
+PETSc, SLEPc\\
+moab\\
+zoltan\\
+eigen\\
+mfront/mgis\\
+vtk\\
+MEDcoupling\\
+nanobind
 \end{tabular} & List of software MANTA has interfaces with.\\
         \bottomrule
     \end{tabular}
@@ -105,25 +153,62 @@ None\\
 
 \subsection{Mathematics}
 \label{sec:MANTA:mathematics}
-Mathematics not available.
 
-In this section, provide a summary the mathematics used in the software.
+MANTA's "core layer" is fully generic to handle PDEs and related numerical methods which can be formalized as the assembling of distributed linear systems through the spatial integration on meshes, and their resolution. Some auxiliary linear systems can be attached to a linear system to introduce dual unknowns allowing to impose some constraints on the primal unknowns. We ends up with a saddle-point linear system of the form:
 
+{
+\newcommand{\mmm}[1]{\boldsymbol{#1}}
+\renewcommand{\v}[1]{\boldsymbol{#1}}
+\renewcommand{\t}[1]{\underline{#1}}
+\renewcommand{\d}[1]{\, \mathrm{d}#1}
+\begin{equation}
+   \begin{bmatrix}
+     \mmm{A}&\mmm{C}^T_1&\hdots&\mmm{C}^T_q \\
+     \mmm{C}^T_1&&& \\
+     \vdots &&\mmm{0}& \\
+     \mmm{C}^T_q &&&\\
+   \end{bmatrix}
+   \begin{bmatrix}
+     \v{X} \\
+     \v{\lambda}_1  \\
+     \vdots\\
+     \v{\lambda}_q \\
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+     \v{B} \\
+     \v{D}_1  \\
+     \vdots\\
+     \v{D}_q \\
+   \end{bmatrix}
+\end{equation}
+
+
+MANTA provides internally different methods to "eliminate" the dual unknown $p$ for any auxiliary linear system: $\mmm{A}$ and $\mmm{B}$ are modified so that one obtain the exact or an approximated (depending on the method) solution $\v{X}$ of the problem, but with the unknown $\v{\lambda}_p$ removed.
+
+The linear systems are assembled by spatial integration over some sets of mesh entities in a very classical way:
+\begin{equation}
+  \mmm{M}=\sum_i \mathcal{A}_i \int_{E_i} \mmm{m}(\t{x}) \d{\t{x}}
+\end{equation}
+Here $\mathcal{A}_i$ is an "assembling operator" which maps local degrees of freedom for the entity $E_i$ to degrees of freedom of the problem. $\mmm{m}$ is the integrand function whose value is a dense matrix. The integral evaluation is approximated by means of quadrature rules and some mappings to reference cells:
+\begin{equation}
+  \mmm{M}=\sum_i \mathcal{A}_i \sum_{j} w_j \mmm{m}(\t{\xi}_j) |\det(\t{\phi}_i(\t{\xi}_j))| \text{ , where } (\t{x}\in E_i) = \t{\phi}_i(\xi)
+\end{equation}
+The definition of the integrand $\mmm{m}$ and the assembling operator $\mathcal{A}_i$ are the two main entry points in the generic algorithm by which the new functionalities are developed.
+
+}
 
 \subsection{Relevant Publications}
 \label{sec:MANTA:publications}
-
-Here is a list of relevant publications related to the software:
+\begin{itemize}
+   \item \fullcite{jamond_manta_2022}. MANTA : un code HPC généraliste pour la simulation de problèmes complexes en mécanique.
+   \item \fullcite{jamond_manta_2024}. MANTA: an industrial-strength open-source high performance explicit and implicit multi-physics solver.
+\end{itemize}
 
 
 \subsection{Acknowledgements}
 \label{sec::MANTA:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: 
-
-
-
-
-Acknowledgements not available.
+MANTA is developed and funded by CEA. 
 
 

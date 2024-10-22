@@ -4,24 +4,39 @@
 
 \documentclass[11pt]{report}
 
-\usepackage{numpex}		% numpex specific definitions and styles  
+\usepackage{numpex}		% numpex specific definitions and styles
 \usepackage[utf8]{inputenc}	% UTF8 package
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}		% common special chars
 \usepackage{amsmath}		% math formula
+\usepackage{empheq}
 \usepackage{fancybox}
 \usepackage{anyfontsize}	% fonts
 \usepackage{lipsum}
 \usepackage{cleveref}
-\usepackage{standalone} 
+\usepackage{standalone}
 \usepackage[]{acronym}
 \usepackage{import}
 \usepackage{booktabs} % For nicer tables
-\usepackage{geometry} 
-\usepackage{tabularx} 
+\usepackage{geometry}
+\usepackage{tabularx,longtable}
+\usepackage{paralist} % For compactitem
+\usepackage{multirow} % For multirow in tables
 \usepackage{pgf-pie}  % For pie charts
 \usepackage{tikz}     % Required for drawing graphics
-\usepackage{xspace,float}    % Required for controlling the position of objects
+\usepackage{xspace,float,relsize}    % Required for controlling the position of objects
+\usepackage{paralist}
+\usepackage{minted}
+\usepackage{siunitx}  % Required for typesetting units
+\DeclareSIUnit\mmHg{mmHg}
+\usepackage{currfile} % Required for getting the current file name
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{positioning,fit,matrix}
+
+\definecolor{bgcolor}{gray}{0.95}
 \definecolor{lightblue}{RGB}{173,216,230}
 \definecolor{darkgreen}{RGB}{0,100,0}
 \definecolor{pink}{RGB}{255,192,203}
@@ -30,16 +45,32 @@
 \definecolor{peach}{RGB}{255, 229, 180}
 \definecolor{lavender}{RGB}{230, 190, 255}
 
+\definecolor{customdarkblue}{HTML}{0C2472}
+\definecolor{customcyan}{HTML}{00BFFF}
+\definecolor{customorange}{HTML}{F1892C}
+\definecolor{customyellow}{HTML}{FFD700}
+\definecolor{custompurple}{HTML}{800080}
+\definecolor{customgreen}{HTML}{00FF00}
+
 \definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88} % RoyalBlue
 \hypersetup{
 	pdftitle={Benchmarking analysis report},
-	pdfauthor={[Names of co-authors (partners short names)]},
+	pdfauthor={[Christophe Prud'homme (UNISTRA), Pierre Alliez (INRIA), Vincent Chabannes (UNISTRA), Rudy Chocat (CEA), Emmanuel Franck (INRIA), Vincent Fraucher (CEA), Floriant Faucher (INRIA), Clément Gauchy (CEA), Christos Georgiadis (INRIA), Luc Giraud (INRIA), Frédéric Hecht (SU), Guillaume Helbecque (U Luxembourg), Pierre Jolivet (CNRS), Olivier Jamond (CEA), Pierre Ledac (CEA), Nouredine Melab (U. Lille), Victor Michel-Dansac (INRIA), Frédéric Nataf (SU), Lucas Palazzolo (INRIA), Yannick Privat (UL), Thomas Saigre-Tardif (UNISTRA), Rudy Chocat (CEA), El-Ghazali Talbi (U Lille), Pierre Henri Tournier (SU), Christophe Trophime (CNRS), Céline Van Landeghem (UNISTRA), Raphael Zanella (SU)
+    ]},
 	pdfkeywords={HPC, Exascale, Benchmarking},
-    bookmarksnumbered,bookmarksopen,linktocpage,
+    bookmarksnumbered,linktocpage,
     colorlinks=true,
     citecolor=CustomBlue,
     linkcolor=CustomBlue,
     urlcolor=blue
+}
+
+\makeatletter
+% Deal with stackedplots
+\newcommand\resetstackedplots{
+\makeatletter
+\pgfplots@stacked@isfirstplottrue
+\makeatother
 }
 
 \IfFileExists{.git/gitHeadInfo.gin}{
@@ -64,7 +95,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% URL style same as regular text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	
+
 \urlstyle{same}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,20 +123,20 @@
 \delivShortTile{BAR}
 
 % Deliverable Responsible Partner
-\delivResponsible{UNISTRA} 
+\delivResponsible{UNISTRA}
 
 % Deliverable Version, Contractual and Actual Date, Dissemination Level, Type
-\delivVersion{v0.0.6}
-\ContractualDate{15/10/2024}
+\delivVersion{v1.1.0}
+\ContractualDate{22/10/2024}
 \ActualDate{\today}
 \delivDissLevel{PU} % PU, PP, RE, CO
 \delivType{Report}
 
 % List of Main Authors (usually from the responsible partner)
-\delivAuthor{[Names of co-authors (partners short names)]}
+\delivAuthor{[Christophe Prud'homme (UNISTRA)]}
 
 % List of Co-Authors (all other co-authors should be listed here)
-\delivFPAuthor{[Names of co-authors (partners short names)]}
+\delivFPAuthor{[Pierre Alliez (INRIA), Vincent Chabannes (UNISTRA), Rudy Chocat (CEA), Emmanuel Franck (INRIA), Vincent Fraucher (CEA), Floriant Faucher (INRIA), Clément Gauchy (CEA), Christos Georgiadis (INRIA), Luc Giraud (INRIA), Frédéric Hecht (SU), Guillaume Helbecque (U Luxembourg), Pierre Jolivet (CNRS), Olivier Jamond (CEA), Pierre Ledac (CEA), Nouredine Melab (U. Lille), Victor Michel-Dansac (INRIA), Frédéric Nataf (SU), Lucas Palazzolo (INRIA), Yannick Privat (UL), Thomas Saigre-Tardif (UNISTRA), Rudy Chocat (CEA), El-Ghazali Talbi (U Lille), Pierre Henri Tournier (SU), Christophe Trophime (CNRS), Céline Van Landeghem (UNISTRA), Raphael Zanella (SU)]}
 
 % Provision of Keywords (about 5-10)
 \delivKeywords{HPC, Exascale, Benchmarking, Software}
@@ -117,13 +148,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Change Log
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\istChange{22/10/2024}{v1.1.0}{Josselin Garnier (EP), Loic Gouarin (EP), Florian Faucher (INRIA), Vincent Faucher (CEA), Pierre Jolivet (CNRS), Prud'homme Christophe (UNISTRA), Raphael Zanella (SU)}{fixed undefined references and citations; fixed École Polytechnique logo; removed last boilerplate text in Trust, Manta and Hawen}
+\istChange{15/10/2024}{v1.0.0 (submitted to ANR)}{\href{https://github.com/numpex/exa-ma-d7.1/graphs/contributors}{26 Contributors}}{Finalized contributions and reviews}
+\istChange{11/10/2024}{v0.2.0}{\href{https://github.com/numpex/exa-ma-d7.1/graphs/contributors}{+14 Contributors}}{Initial contributions}
+\istChange{30/09/2024}{v0.1.0}{Prud'homme Christophe (UNISTRA)}{setup architecture of D7.1, update profiling tools in toc, updates in methodology chapter, add information store in excel sheet in the report,update benchmark methodology}
 \istChange{27/09/2024}{v0.0.6}{Prud'homme Christophe (UNISTRA)}{In the methodology chapter, link the deliverable to the bottlenecks identified in Exa-MA scientific document. Add resilience stats and methdology, benchmark mmg and parmmg indirectly.}
 \istChange{26/09/2024}{v0.0.6}{Pierre Jolivet (CNRS)}{Review of the document}
 \istChange{16/09/2024}{v0.0.5}{Prud'homme Christophe (UNISTRA)}{ToC: add list of computer science features per software, add list of math features per workpackage, add statistics about Exa-MA software in chapter Software}
 \istChange{02/09/2024}{v0.0.4}{Prud'homme Christophe (UNISTRA)}{ToC: add profiling tools in methodology chapter and udated the chapter overall}
 \istChange{30/08/2024}{v0.0.3}{Prud'homme Christophe (UNISTRA)}{ToC: setup architecture of D7.1;add benchmarking methodology chapter;add samurai software to be benchmarked}
 \istChange{20/08/2024}{v0.0.1}{Prud'homme Christophe (UNISTRA)}{Draft report template}
-\istChange{}{}{}{}
+%%\istChange{}{}{}{}
 
 
 \begin{document}
@@ -132,7 +167,7 @@
 %%% Cover Page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makecover
+\makecover%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Table of Contents
@@ -140,7 +175,7 @@
 
 \clearpage
 \fancypagestyle{plain}{}
-\settableofcontents
+\settableofcontents%
 \tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -148,7 +183,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\setlistoffigures
+\setlistoffigures%
 \listoffigures
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -156,7 +191,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\setlistoftables
+\setlistoftables%
 \listoftables
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -169,7 +204,8 @@
 %%% Deliverable Content
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter[]{Introductions}
+\chapter{Introduction}
+\label{chap:introduction}
 \input{sections/summary}
 \input{sections/introduction}
 \import{chapters/}{benchmarking}
@@ -177,6 +213,7 @@
 \import{chapters/}{00-index}
 
 \chapter{Conclusions}
+\label{chap:conclusions}
 \input{sections/conclusions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,7 +231,7 @@
 \appendix
 
 \input{sections/appendix-a}
-\input{sections/appendix-b}
+%%\input{sections/appendix-b}
 
 
 
@@ -202,7 +239,7 @@
 %%% Back Page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makedisclaimer
+\makedisclaimer%
 
 \end{document}
 
