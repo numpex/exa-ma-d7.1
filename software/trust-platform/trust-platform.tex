@@ -69,36 +69,36 @@ The following table summarizes these aspects for TRUST Platform, providing a  vi
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
 C++\\
-\end{tabular} & Programming languages and language standards supported by the software \\
+\end{tabular} & TRUST is developped in C++17 (300K loc) \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 GPU\\
 MPI\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
+\end{tabular} & MPI is used for parallelization on the CPU host. For acceleration on GPU devices, we use a mix of OpenMP-target directives (soon deprecated) and the Kokkos framework. \\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 HDF5\\
 MED\\
 VTK\\
 in-house format\\
-\end{tabular} & Data formats that the software can handle or produce.\\
+\end{tabular} & Parallel HDF5 is the format for checkpoint/restart files. MED format is used for data exchange between codes. VTK and in-house format are the choices for post-processing files. \\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 Checkpoint restart\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
+\end{tabular} & We have a recovery mechanism to restart a calculation, but no fault tolerance mechanism yet. \\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Integration\\
-\end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
+\end{tabular} & TRUST team use Tuleap and GitHub repos. The continous integration is done with in-house scripts to perform automatic builds on various platforms and non-regression testing. \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
 None\\
-\end{tabular} & Software packaging and distribution.\\
+\end{tabular} & No specific packaging.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 Unit\\
 Verification\\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
+\end{tabular} & We have numerous test cases to check the non-regression. Besides, V\&V may be checked regulary thanks to PDF reports automatically produced by Jupyter notebooks. \\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
 None\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
+\end{tabular} & No container yet. \\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
 None\\
-\end{tabular} & List of software TRUST Platform has interfaces with.\\
+\end{tabular} & TRUST platform is interfaced with Gmsh and VisIt tools, Kokkos, PETSc, MED, CGNS, AmgX, rocALUTION libraries. \\
         \bottomrule
     \end{tabular}
     }}
