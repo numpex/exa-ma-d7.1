@@ -1,0 +1,96 @@
+%!TEX root = ../exa-ma-d7.1.tex
+
+\chapter{Software Production Methodology}
+\label{chap:methodology}
+
+\section{Introduction}
+This chapter presents the updated methodology for benchmarking, testing, and validating Exa-MA software in preparation for exascale deployment. Building on v1.1.1 and the guidelines defined in the Exa-MA Application Frameworks \& Infrastructure Guide (v0.3), we now introduce:
+
+\begin{itemize}
+  \item \textbf{Energy efficiency metrics} alongside performance and scalability.
+  \item \textbf{Expanded hardware coverage}: EuroHPC systems, multi-GPU clusters.
+  \item \textbf{Automated CI/CD pipelines} for nightly benchmarks and non-regression.
+  \item \textbf{Enhanced data management}: DOIs, Zenodo archiving, FAIR datasets.
+  \item \textbf{Structured application definitions}: mini-apps, extended mini-apps, demonstrators, proxy-apps as per the application framework.
+  \item \textbf{Advanced fault tolerance}: in-situ fault injection, ULFM, scalable checkpointing.
+\end{itemize}
+
+This methodology ensures that all Exa-MA applications—whether mini-apps or full demonstrators—adhere to a unified set of practices for reproducibility, portability, and high performance.
+
+\section{Key Objectives and Bottlenecks}
+We revisit our original aims under WP7 and map them to the primary bottlenecks (B1–B13):
+
+\begin{itemize}
+  \item \textbf{Performance \& Scalability} (B2, B7)
+  \item \textbf{Energy Efficiency} (B1)
+  \item \textbf{Reproducibility \& Portability} (B6, B11)
+  \item \textbf{Automation \& CI/CD}
+  \item \textbf{Data Management \& I/O} (B6, B9, B10)
+  \item \textbf{Fault Tolerance \& Resilience} (B8, B12)
+\end{itemize}
+
+\section{Structured Application Definitions}
+Following the Application Framework, Exa-MA categorizes software artifacts into:
+
+\begin{description}
+  \item[Mini-App] Focused test of a single kernel or algorithm (e.g., mesh processing in FEEL++).
+  \item[Extended Mini-App] Mini-app plus supporting scripts (I/O benchmarks, data generation).
+  \item[Demonstrator] Integrated multi-WP workflow illustrating a real-world use case.
+  \item[Proxy-App] Representative full-stack workload combining three or more WPs for system-level tests.
+\end{description}
+
+Each application is documented with core metadata (ID, name, WP, partners), scientific purpose, technical metadata (framework, languages), inputs/outputs, metrics, status, and planning, ensuring traceability and unified benchmarking.
+
+\section{Methodology Overview}
+Our approach rests on four pillars:
+\begin{enumerate}
+  \item \textbf{Benchmark Phases:} Baseline, Scalability, Energy, Hybrid.
+  \item \textbf{Testing Levels:} Non-regression, Verification, Validation.
+  \item \textbf{Automation:} ReFrame-based workflows integrated into GitHub Actions or GitLab CI.
+  \item \textbf{Data Management:} DOIs, Zenodo archival, FAIR principles, HDF5/DAOS frameworks.
+\end{enumerate}
+
+\section{Benchmark Phases and Metrics}
+\subsection{Baseline Performance}
+Single-node runs: time-to-solution, memory footprint.
+
+\subsection{Scalability Tests}
+Weak and strong scaling up to tens of thousands of cores or GPUs.
+
+\subsection{Energy Efficiency}
+Power profiling via RAPL, NVML; metrics: joules per operation, flops-per-watt.
+
+\subsection{Hybrid Workloads}
+Simultaneous CPU+GPU benchmarks ensuring balanced utilization.
+
+\section{Automation and CI/CD}
+ReFrame test suites trigger on merge to `develop` and nightly:
+\begin{itemize}
+  \item Container builds (Spack, Singularity, Docker).
+  \item Execution of all benchmark phases.
+  \item Result collection in Prometheus and Grafana dashboards.
+  \item Automated summary report generation (PDF/Markdown).
+\end{itemize}
+
+\section{Data Management and Reproducibility}
+All inputs, outputs, and logs are versioned with DOIs in Zenodo. Datasets and results comply with FAIR principles, using HDF5 (and DAOS) for scalable, fault-tolerant I/O.
+
+\section{Fault Tolerance and Resilience}
+Beyond checkpoint/restart, we will integrate:
+\begin{itemize}
+  \item ULFM-based MPI recovery.
+  \item SCR scalable checkpointing.
+  \item In-situ fault injection campaigns at multiple levels.
+\end{itemize}
+
+\section{Toolchain and Technologies}
+Profilers: Extrae, Score-P, Nsight, Arm MAP. \\
+Regression and orchestration: ReFrame. \\
+Packaging: Spack, Guix-HPC, Docker, Singularity. \\
+Visualization: Paraver, Vampir, Grafana.
+
+\section{Demonstrator Pipelines}
+Define Level 1–3 demonstrators with container recipes and test classifications (non-regression, verification, validation), hardware targets, and acceptance criteria.
+
+\section{Conclusion and Outlook}
+This updated methodology, implemented immediately, will be refined in future versions based on lessons learned. The v3 deliverable will include expanded energy benchmarks, CI/CD maturity, and advanced fault-tolerance strategies.
