@@ -1,0 +1,103 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
+% chapters/applications/specs.tex
+\section{Application Specifications}
+\label{sec:apps-specs}
+
+All Exa-MA applications are documented via a standardized spreadsheet template. Key metadata fields ensure traceability, reproducibility, and consistent benchmarking.
+
+\subsection{Core Metadata}
+\begin{itemize}
+  \item \texttt{id}: Unique identifier for the application.  
+  \item \texttt{name}: Descriptive title.  
+  \item \texttt{partners}: Contributing institutions or teams.  
+  \item \texttt{responsible}: Permanent lead or PI.  
+  \item \texttt{work\_package}: WP(s) implementing the algorithm.  
+  \item \texttt{application\_type}: \{mini-app, extended mini-app, demonstrator, proxy-app\}.
+\end{itemize}
+
+\subsection{Scientific Purpose \& Methods}
+\begin{itemize}
+  \item \texttt{purpose}: Short description of scientific goal.  
+  \item \texttt{method\_algorithm\_WPx}: Summary of algorithms under test (e.g., DG, ROM, Newton–Krylov).
+\end{itemize}
+
+\subsection{Technical Metadata}
+\begin{itemize}
+  \item \texttt{framework}: Software framework (FEEL++, MFEM, PyTorch…).  
+  \item \texttt{parallel\_framework}: MPI, OpenMP, CUDA, Kokkos.  
+  \item \texttt{languages}: C++, Python, Fortran, etc.
+\end{itemize}
+
+\subsection{Inputs \& Outputs}
+\begin{itemize}
+  \item \texttt{inputs}: File formats (VTK, HDF5, JSON, MatrixMarket…).  
+  \item \texttt{outputs}: Data products (HDF5 fields, CSV logs, VTK views…).  
+  \item \texttt{metadata\_format}: JSON, YAML, XML.
+\end{itemize}
+
+\subsection{Metrics}
+\begin{itemize}
+  \item Verification: \texttt{analytical-solution-match}, \texttt{manufactured-solution}.  
+  \item Performance: \texttt{time-to-solution}, \texttt{strong-scalability}, \texttt{roofline-analysis}.  
+  \item Energy \& Efficiency: \texttt{energy-to-solution}, \texttt{flops-per-watt}.  
+  \item SciML: \texttt{projection-error}, \texttt{train-loss}, \texttt{inference-latency}.
+\end{itemize}
+
+\begin{longtable}{@{}p{0.25\textwidth}p{0.70\textwidth}@{}}
+\toprule
+\textbf{Metric} & \textbf{Description} \\
+\midrule
+\endhead
+
+analytical-solution-match & Compare results to a known analytical solution. \\
+conservation-check         & Validate conservation properties (e.g., mass, energy). \\
+manufactured-solution      & Use the Method of Manufactured Solutions (MMS) for code verification. \\
+regression-test-pass       & Pass/fail indicator from automated non-regression test suite. \\
+benchmark-verification     & Benchmarks verifying numerical behavior under expected conditions. \\
+strong-scalability         & Performance trend under fixed problem size as resources increase. \\
+weak-scalability           & Performance trend as problem size scales proportionally with resources. \\
+roofline-analysis          & Comparison of achieved FLOPS vs. hardware roofline limits. \\
+time-to-solution           & Wall-clock runtime for solving a reference problem. \\
+throughput                 & Number of simulations (or tasks) completed per unit time. \\
+gpu-acceleration           & Degree of performance gain from GPU execution. \\
+heterogeneous-support      & Ability to exploit mixed CPU/GPU or diverse architectures. \\
+precision-robustness       & Stability of results across single/mixed/double precision. \\
+energy-to-solution         & Total energy consumed during a simulation run. \\
+power-profile              & Time-resolved power consumption trace. \\
+flops-per-watt             & Efficiency in floating-point operations per watt. \\
+memory-footprint           & Maximum or average memory usage during execution. \\
+io-scaling                 & I/O time trend under parallel scaling scenarios. \\
+load-balance-efficiency    & Effectiveness of workload distribution across resources. \\
+communication-overhead     & Time spent in inter-process communication (e.g., MPI). \\
+projection-error           & Error between reduced-order and full-order model outputs. \\
+relative-error             & Normalized error measure in ROM/SciML contexts. \\
+eigenvalue-decay           & Decay rate of eigenvalues in reduced-basis methods. \\
+basis-size                 & Number of modes retained in reduced-order models. \\
+online-speedup             & Speedup ratio of ROM inference vs. full model. \\
+offline-cost               & Time/resources required for training or setup (ROM/SciML). \\
+train-loss                 & Loss function value during SciML model training. \\
+test-error                 & Generalization error on unseen data for SciML. \\
+prediction-error           & Error in SciML predictions vs. ground truth. \\
+inference-latency          & Time required for a single model inference or output. \\
+model-size                 & Size of the trained model (parameter count or file size). \\
+training-time              & Total time to train a model or construct a ROM basis. \\
+robustness-to-noise        & Stability of predictions under perturbed inputs. \\
+data-efficiency            & Accuracy achieved per number of training samples. \\
+physics-constraint-error   & Violation magnitude of physical constraints in PINNs/SciML. \\
+PINN-residual-loss         & PDE residual norm in Physics-Informed Neural Network runs. \\
+
+\bottomrule
+\end{longtable}
+
+\subsection{Status \& Scope}
+\begin{itemize}
+  \item \texttt{status}: \{spec-only, prototype-ready, verified, benchmark-ready, packaged, …\}  
+  \item \texttt{benchmark\_scope}: \{single-node, multi-node, multi-gpu, full-system, not-benchmarked\}
+\end{itemize}
+
+\subsection{Planning \& Documentation}
+\begin{itemize}
+  \item \texttt{spec\_due}, \texttt{proto\_due}: Dates for spec and prototype.  
+  \item \texttt{repo\_url}, \texttt{tex\_url}: Links to code and docs.  
+  \item \texttt{notes}: Coordination remarks.
+\end{itemize}
