@@ -10,7 +10,7 @@ Precisely, we solve here the heat transfer equation.
 \begin{table}[ht]
     \centering
     \begin{tblr}{
-        colspec = {l X[12cm]}, % first column left, second column fixed width 12cm
+        colspec = {l X[10cm]},
         row{odd} = {numpexlightergray},
         hlines = {0.1pt, numpexgray},
         vlines = {numpexgray},
@@ -72,7 +72,7 @@ of this benchmark and the domain decomposition by material.% the 3D temperature 
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \begin{tikzpicture}
-        \draw (0, 0) node {\includegraphics[width=\textwidth]{graphics/feelpp-benchmark-thermalbridges-geom.png}};
+        \draw (0, 0) node {\includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-geom.png}};
         \begin{scope}[shift={(2.8, -2.8)}, scale=1.5]
             \draw[red!90!black, ->] (0, 0) -- (0.19, -0.22) node[anchor=west] {$x$};
             \draw[green!70!black, ->] (0, 0) -- (0, 0.4) node[anchor=west] {$y$};
@@ -85,7 +85,7 @@ of this benchmark and the domain decomposition by material.% the 3D temperature 
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
         \begin{tikzpicture}
-        \draw (0, 0) node {\includegraphics[width=\textwidth]{graphics/feelpp-benchmark-thermalbridges-geom2.png}};
+        \draw (0, 0) node {\includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-geom2.png}};
         \begin{scope}[shift={(2.8, -2.8)}, scale=1.5]
             \draw[red!90!black, ->] (0, 0) -- (-0.24, 0.22) node[anchor=east] {$x$};
             \draw[green!70!black, ->] (0, 0) -- (-0.04, 0.34) node[anchor=west] {$y$};
@@ -151,17 +151,18 @@ Metric:
 \begin{table}[!ht]
     \centering
     \begin{tblr}{
-        colspec={*{8}{c}},
+        colspec={c*{7}{Q[c, cmd=\pgfmathprintnumber]}},
         vlines={numpexgray},
         hlines={numpexgray},
-        row{1,2}={numpexgray, fg=white, font=\bfseries, halign=c},
-}
+        row{1,2}={bg=numpexgray, fg=white, font=\bfseries, halign=c, cmd=\normalfont},
+        rowhead=2, % This option excludes the first two rows from the column command
+    }
     \SetCell[c=5]{c}{Mesh properties} & & & & & \SetCell[c=3]{c}{Number of degrees of freedom} & &\\
-    Tag & \# points & \# edge & \# faces & \# elements & $\P_1$ & $\P_2$ & $\P_3$ \\
-    \texttt{M1} & \pgfmathprintnumber{193654} & \pgfmathprintnumber{1299920} & \pgfmathprintnumber{2164759} & \pgfmathprintnumber{1058492} & \pgfmathprintnumber{193654} & \pgfmathprintnumber{1493574} & \pgfmathprintnumber{4958253}\\
-    \texttt{M2} & \pgfmathprintnumber{1401135} & \pgfmathprintnumber{9778744} & \pgfmathprintnumber{16566803} & \pgfmathprintnumber{8189193} & \pgfmathprintnumber{1401135} & \pgfmathprintnumber{11179879} & \pgfmathprintnumber{37525426}\\
-    \texttt{M3} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{75307308} & \pgfmathprintnumber{128722252} & \pgfmathprintnumber{63987199} & \pgfmathprintnumber{10572256} & \pgfmathprintnumber{85879564} & \pgfmathprintnumber{289909124}\\
-  \end{tblr}
+        Tag & \# points & \# edge & \# faces & \# elements & $\Pm_1$ & $\Pm_2$ & $\Pm_3$ \\
+        \texttt{M1} & 193654 & 1299920 & 2164759 & 1058492 & 193654 & 1493574 & 4958253\\
+        \texttt{M2} & 1401135 & 9778744 & 16566803 & 8189193 & 1401135 & 11179879 & 37525426\\
+        \texttt{M3} & 10572256 & 75307308 & 128722252 & 63987199 & 10572256 & 85879564 & 289909124\\
+    \end{tblr}
 
   \caption{Thermal bridges benchmarks - Statistics on meshes and number of degrees of freedom with respect to finite element approximation}
   \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
