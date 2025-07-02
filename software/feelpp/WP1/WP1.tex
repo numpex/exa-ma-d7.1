@@ -114,8 +114,8 @@ In~\Cref{tab:WP1:Feelpp:features} we provide a summary of the software features 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Feelpp:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP1. 
-It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. 
+This section provides a summary of initial performance benchmarks performed in the context of WP1.
+It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results.
 The input data is publicly available and some have already Zenodo DOI~\cref{sec:arch:zenodo}, other are stored on Girder~\cref{sec:arch:girder:unistra} or on the software repository.
 
 % \begin{itemize}
@@ -131,7 +131,7 @@ The input data is publicly available and some have already Zenodo DOI~\cref{sec:
 %     \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
 %     \item \textbf{Future Improvements:} Outline areas for optimization, including dataset handling, memory usage, or algorithmic efficiency, to address identified challenges.
 % \end{itemize}
-% 
+%
 % % create latex counter
 % \newcounter{feelppWP1benchcounter}
 % % set the counter to 1
@@ -177,16 +177,16 @@ The key metrics measured include execution time, accuracy, memory usage, and flo
 
     \item \textbf{Output Data:} The output includes the computed distance function values at all vertices for both methods, stored in HDF5 format and statistics (performance and errors) in CSV format. Additionally, runtime performance logs and accuracy comparisons between the methods are included.
 
-    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, will be stored in a Zenodo repository~\cref{sec:arch:zenodo} 
+    \item \textbf{Data Repository:} Input and output datasets, along with performance logs, will be stored in a Zenodo repository~\cref{sec:arch:zenodo}
 \end{itemize}
 
 This benchmark will CPU and GPU Benchmarking results. They are not yet available but will be soon once the GPU implementation is finalized.
 
 % \paragraph{Results Summary}
 % The performance comparison between the two methods is summarized as follows:
-% 
+%
 % RESULTS here.
-% 
+%
 % \paragraph{Challenges Identified}
 % The following challenges were encountered during the benchmarking process:
 % \begin{itemize}
@@ -194,9 +194,9 @@ This benchmark will CPU and GPU Benchmarking results. They are not yet available
 %     \item \textbf{Parallelization Issues:}
 %     \item \textbf{Memory Usage:}
 % \end{itemize}
-% 
+%
 % Final analysis and persectives here.
-% 
+%
 % \begin{itemize}
 %     \item \textbf{Description:} Briefly describe the benchmark case, including the problem size, target architecture (e.g., CPU, GPU), and the input data. Mention the specific goals of the benchmark (e.g., testing scalability, energy efficiency).
 %     \item \textbf{Benchmarking Tools Used:} List the tools used for performance analysis, such as Extrae, Score-P, TAU, Vampir, or Nsight, and specify what metrics were measured (e.g., execution time, FLOPS, energy consumption).
@@ -373,51 +373,9 @@ computational time belongs small locally).
 
 
 
-% Color cycle: customdarkblue,customcyan,customorange,custompurple
-\newcommand{\barChart}[2][ybar]{
-  \begin{tikzpicture}
-    \begin{axis}[
-      %width=\textwidth, height=0.6172\textwidth,
-      xlabel={Number of CPU core}, ylabel={Execution time [s]},
-      %xticklabels from table={#2}{nProc},
-      xtick=data,
-      xtick align=outside,
-      ymin=0,
-      %legend style={at={(1,1)}, anchor=north east},
-      %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
-      ymajorgrids=true, yminorgrids=true,
-      bar width=7pt,
-      #1
-    ]
-    \foreach [expand list=true] \thetuple in {#2} {
-      \pgfkeys{/mysettings/.cd,
-        table/.store in=\mytable,
-        column/.store in=\mycolumn,
-        shift/.store in=\myshift, shift/.default=0, shift,
-        legend/.store in=\mylegend,
-        color/.store in=\mycolor
-      }
-      \edef\temp{
-        \noexpand\pgfkeys{/mysettings/.cd, \expandafter\@firstofone\thetuple}
-      } \temp
-      %\def\toto{\expandafter\mytable}
-      \edef\temp{
-        \noexpand\addplot[ybar, bar width=0.2, fill=\mycolor, draw=black, point meta=y]
-        table [x expr=\noexpand\coordindex+\myshift, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
-        %table [x=nProc, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
-      } \temp
-      %table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
-      \edef\temp{
-        \noexpand\addlegendentry{\mylegend}
-      } \temp
-    }
-    \end{axis}
-\end{tikzpicture}
-}
-
 
 % columns/FunctionSpace/.style={string type},
-\begin{figure}[h]
+\begin{figure}[!ht]
   \centering
   \captionsetup[subfigure]{justification=centering}
 
@@ -1502,7 +1460,7 @@ As the number of cores increases, we also observe a proportional increase in tim
 
 
 \paragraph{Challenges Identified}
-Several challenges were encountered during the benchmarking process: 
+Several challenges were encountered during the benchmarking process:
 \begin{itemize}
     \item \textbf{Memory Usage:} Memory usage should be better monitored espcially when creating the solver and preconditioner objects.
     \item \textbf{Parallelization Inefficiencies:} We need to test on large configuration in terms of mesh sizes and number of cores as well as increase the polynomial order to identify potential parallelization and I/O bottlenecks.
@@ -1579,8 +1537,8 @@ following tasks is monitored:
 
 
 The contact displacement is shown in ~\Cref{fig:wp1:feelpp:contact:visualization-solution}.
-The figure on the left shows the reference domain, while the figure on the right depicts 
-the contact between the sphere and the rigid wall. The distance from the highest point of the sphere 
+The figure on the left shows the reference domain, while the figure on the right depicts
+the contact between the sphere and the rigid wall. The distance from the highest point of the sphere
 in the outward normal direction to the wall is represented by the color bar.
 The results of this simulation correspond to those found in the literature \cite{chouly_explicit_2018}.
 

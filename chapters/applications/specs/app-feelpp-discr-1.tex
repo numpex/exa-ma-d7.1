@@ -64,7 +64,7 @@ solution of an elliptic linear PDE, namely the heat equation.
 We employ a finite element method based on continuous Lagrange Finite Element of order 1,2 and 3 (denoted by $\P_1$, $\P_2$, $\P_3$),
 and we analyze the execution time of the main components of the simulation.
 
-\Cref{fig:wp1:feelpp:thermal_bridges:geometry} represents the geometry
+\Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:geometry} represents the geometry
 of this benchmark and the domain decomposition by material.% the 3D temperature field solution, and an example of mesh partitioning.
 
 \begin{figure}[!ht]
@@ -94,7 +94,7 @@ of this benchmark and the domain decomposition by material.% the 3D temperature 
     \end{tikzpicture}
   \end{subfigure}
   \caption{Thermal bridges benchmarks - geometry and materials.}
-  \label{fig:wp1:feelpp:thermal_bridges:geometry}
+  \label{fig:spec:app-feelpp-discr-1:thermal_bridges:geometry}
 \end{figure}
 
 
@@ -124,7 +124,7 @@ We enumerate these parts in the following:
 \subsubsection{Input Data:}
   \begin{itemize}
   \item Meshes: We have generated three levels of mesh called \texttt{M1}, \texttt{M2}
-    and \texttt{M3}. These meshes are stored in GMSH format. The statistics can be found in \Cref{tab:wp1:feelpp:thermal_bridges:discr_stat}. We have also prepared for
+    and \texttt{M3}. These meshes are stored in GMSH format. The statistics can be found in \Cref{tab:spec:app-feelpp-discr-1:thermal_bridges:discr_stat}. We have also prepared for
     each mesh level a collection of partitioned mesh.
     The format used is an in-house mesh format of \Feelpp based on
     JSON+HDF5 file type.
@@ -165,32 +165,222 @@ Metric:
     \end{tblr}
 
   \caption{Thermal bridges benchmarks - Statistics on meshes and number of degrees of freedom with respect to finite element approximation}
-  \label{tab:wp1:feelpp:thermal_bridges:discr_stat}
+  \label{tab:spec:app-feelpp-discr-1:thermal_bridges:discr_stat}
 \end{table}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Results summary}
+
+\todo{The results here are the one taken from the previous version of D7.1, they will be run again for v2.}
 
 
 \subsubsection{Numerical solution}
 
-\emph{Insert numerical solution obtained from the toolbox, and the partitioning of the mesh}
+\todo{Insert numerical solution obtained from the toolbox, and the partitioning of the mesh}
 
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png}
+  \end{subfigure}
+  \caption{Thermal bridges benchmarks - temperature solution (left) and
+    partitioning example (right)}
+  \label{fig:spec:app-feelpp-discr-1:thermal_bridges:visualization}
+\end{figure}
 
 
 \subsubsection{Mesh converging}
 
-\emph{Insert results of mesh converging, with comparison with the reference values of the benchmark \texttt{benchmark-verification}}
+\todo{Insert results of mesh converging, with comparison with the reference values of the benchmark \texttt{benchmark-verification}}
+
+
+\begin{figure}[ht]
+  \centering
+  \captionsetup[subfigure]{justification=centering}
+
+  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_measures.csv}\dataTableMeasures
+  \def\myLineWidth{2pt}
+  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+  \def\myLineStyleB{dashed}
+  \def\myLineStyleC{solid}
+
+  \def\myAddPlot#1#2#3#4{
+    \addplot[#3,every mark/.append style={solid},
+    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
+    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
+    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
+      x filter/.code={
+        \pgfmathparse{\thisrow{PolyOrder}==#2}
+        \ifnum0=\pgfmathresult
+        \pgfmathsetmacro{\newx}{nan}
+      \else
+        \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
+      \fi
+      \pgfmathparse{\newx}
+      },
+      y filter/.expression={ #4*\pgfmathresult }
+    ] table [x=Mesh, y=#1] {\dataTableMeasures};
+  }
+
+  \def\myPlotOutputMeasures#1#2#3#4{
+    \resizebox{\textwidth}{0.6172\textwidth}{
+      \begin{tikzpicture}
+        \begin{axis}[
+          width=\textwidth, height=0.6172\textwidth,
+          % width=\textwidth, height=1.2\textheight,
+          xtick=data,
+          xticklabel={M$\pgfmathprintnumber{\tick}$},
+          xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+          ymajorgrids=true, yminorgrids=true,
+          minor y tick num=2,
+          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
+          % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
+          xlabel={Mesh levels}, ylabel={#4},
+          % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
+          % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
+          % columns=3},
+          legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
+          % #2
+          ]
+
+          \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
+          \addlegendentry{P1}
+          \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
+          \addlegendentry{P2}
+          \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
+          \addlegendentry{P3}
+          \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
+            (1,#3) (3,#3)
+          };
+          \addlegendentry{Ref}
+
+        \end{axis}
+      \end{tikzpicture}
+    }
+
+  }
+
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \myPlotOutputMeasures{Normal_Heat_Flux_alpha}{1}{46.09}{Heat flow [W]}
+    \caption{Heat flow measured in $\alpha$ environment}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
+    \caption{Heat flow measured in $\beta$ environment}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \vspace*{0.03\textheight}
+    \myPlotOutputMeasures{Normal_Heat_Flux_gamma}{-1}{59.98}{Heat flow [W]} % warning inverse
+    \caption{Heat flow measured in $\gamma$ environment}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \vspace*{0.03\textheight}
+    \myPlotOutputMeasures{Statistics_temperature_alpha_min}{1}{11.32}{Temperature
+      [°C]}
+    \caption{Surface temperature min in $\alpha$ environment}
+  \end{subfigure}
+
+  \caption{Thermal bridges benchmarks - Convergence of validation measures compared to references values}
+  \label{fig:spec:app-feelpp-discr-1:thermal_bridges:measures_convergences}
+\end{figure}
+
 
 
 \subsection{Times of execution}
 
-\emph{Insert figure with time of execution of the main components described above, for the three meshes (\texttt{strong-scalability}, \texttt{weak-scalability})}
+\todo{Insert figure with time of execution of the main components described above, for the three meshes (\texttt{strong-scalability}, \texttt{weak-scalability})}
 
+
+\foreach [expand list=true] \meshId in {1,2,3} {
+
+  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_M\meshId_P1_discoverer.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_M\meshId_P2_discoverer.csv}\dataPb
+  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_M\meshId_P3_discoverer.csv}\dataPc
+
+  \begin{figure}
+    \centering
+    \def\plotSetup##1{
+      {table=##1,column=init,legend=Init,color=customdarkblue},
+      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
+      %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
+      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
+    }
+    \def\chartBarPlot##1##2{
+      \barChart[ybar,
+      width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+    \def\chartBarStackedPlot##1##2{
+      \barChart[ybar stacked,
+      width=\textwidth, height=0.6172\textwidth,
+      xticklabels from table={##2}{nProc},
+      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
+      ]{\plotSetup{##1}}
+    }
+
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPa}{\dataPa}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPa}{\dataPa}
+      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
+    \end{subfigure}
+    \hfill
+    \vspace*{0.04\textwidth}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPb}{\dataPb}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPb}{\dataPb}
+      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
+    \end{subfigure}
+    \hfill
+    \vspace*{0.04\textwidth}
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarPlot{dataPc}{\dataPc}
+      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[c]{0.49\textwidth}
+      \centering
+      \chartBarStackedPlot{dataPc}{\dataPc}
+      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
+    \end{subfigure}
+    \caption{Thermal bridges benchmarks - Execution time of main simulation components
+      - Mesh \texttt{M\meshId} - Discoverer supercomputer}
+    \label{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M\meshId}
+  \end{figure}
+}
 
 \subsubsection{Scalability on IO}
 
 
-
-
-
+\todo{Add results}
