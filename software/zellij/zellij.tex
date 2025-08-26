@@ -1,7 +1,7 @@
 \section{Software: Zellij}
 \label{sec:Zellij:software}
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -42,11 +42,11 @@ Thomas Firmin, El-Ghazali Talbi \\
 \subsection{Software summary}
 \label{sec:Zellij:summary}
 
-% Surligner l'aspect fractal 
-Zellij is a generic algorithmic framework which defines a unified view of fractal decomposition algorithms for continuous optimization. Fractals allow building a hierarchical decomposition of the decision space by using a self-similar geometrical object. 
+% Surligner l'aspect fractal
+Zellij is a generic algorithmic framework which defines a unified view of fractal decomposition algorithms for continuous optimization. Fractals allow building a hierarchical decomposition of the decision space by using a self-similar geometrical object.
 
 % Détailler les search components
-The proposed generic framework is made of five distinct and independent search components: fractal geometrical object, tree search, scoring, exploration and exploitation. 
+The proposed generic framework is made of five distinct and independent search components: fractal geometrical object, tree search, scoring, exploration and exploitation.
 
 % Genericité - Instantiate popular algorithms from different communities machine learning SOO - global optimization DIRECT
 The genericity of the framework allowed the instantiation of popular algorithms from the optimization, machine learning and computational intelligence communities. Moreover, new optimization algorithms can be designed using various strategies of the search components. This shows the modularity of the proposed algorithmic framework.
@@ -62,7 +62,7 @@ This software framework has been inspired by two distinct families of decomposit
 three main properties characterize \textit{Zellij}:
 \begin{itemize}
 \item \textbf{Generalization}: our goal is to build a framework which unifies and generalizes various popular fractal decomposition-based algorithms from different communities (e.g. global optimization, reinforcement learning, computational intelligence).
-\item \textbf{Modularity}: the framework must be as modular as possible, so one can easily develop new optimization algorithms using the fractal decomposition-based approach. 
+\item \textbf{Modularity}: the framework must be as modular as possible, so one can easily develop new optimization algorithms using the fractal decomposition-based approach.
 \item \textbf{Massively parallel}: a transparent and efficient parallel implementation of the algorithms on various architectures (e.g. multicores, GPUs) is carried out. The main challenge is the parallelization of the tree search component of the framework. Many parallel tree search algorithms can be considered.
 \end{itemize}
 
@@ -71,7 +71,7 @@ three main properties characterize \textit{Zellij}:
 
 The following table summarizes these aspects for Zellij, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     {
     \setlength{\parindent}{0pt}
@@ -120,9 +120,9 @@ None\\
 
 Optimizing a non-linear, non-convex, derivative free, or a black-box function in a high dimensional continuous search space is a complex task. Commonly we consider a minimization problem for an objective function ${f: \mathcal{S} \subset \mathbb{R}^n \rightarrow \mathbb{R}}$:
 \begin{equation} \label{eq:minproblem}
- \hat{x} \in \arg\min_{x \in \mathcal{S}}f(x) 
+ \hat{x} \in \arg\min_{x \in \mathcal{S}}f(x)
 \end{equation}
-where $\hat{x}$ is the global optima, $f$ the objective function, and $\mathcal{S}$ a compact set made of inequalities (e.g. upper and lower bounds of the search space). 
+where $\hat{x}$ is the global optima, $f$ the objective function, and $\mathcal{S}$ a compact set made of inequalities (e.g. upper and lower bounds of the search space).
 
 
 \subsection{Relevant Publications}

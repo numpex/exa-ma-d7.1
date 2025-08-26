@@ -10,3 +10,63 @@
 \def\Cpp#1{\mbox{C\Rplus\Rplus#1}\xspace}
 \def\feelpp{\ac{feelpp}\xspace}
 \def\Feelpp{\mbox{Feel\Rplus\Rplus}\xspace}
+
+\newcommand{\mathP}{\mathbb{P}}
+\newcommand{\mathR}{\mathbb{R}}
+\newcommand{\mathC}{\mathbb{C}}
+
+
+
+% \barChart
+% -----------
+% A LaTeX macro to create a bar chart using the pgfplots package.
+%
+% Arguments:
+%   #1 (optional): Options for the bar chart, defaults to 'ybar'.
+%   #2 (required): The content or data for the bar chart.
+%
+% Usage:
+%   \barChart[<options>]{<data>}
+%
+% Example:
+%   \barChart[ybar,bar width=10pt]{\addplot coordinates {(A,1) (B,2)};}
+\newcommand{\barChart}[2][ybar]{
+  \begin{tikzpicture}
+    \begin{axis}[
+      %width=\textwidth, height=0.6172\textwidth,
+      xlabel={Number of CPU core}, ylabel={Execution time [s]},
+      %xticklabels from table={#2}{nProc},
+      xtick=data,
+      xtick align=outside,
+      ymin=0,
+      %legend style={at={(1,1)}, anchor=north east},
+      %legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1},
+      ymajorgrids=true, yminorgrids=true,
+      bar width=7pt,
+      #1
+    ]
+    \foreach [expand list=true] \thetuple in {#2} {
+      \pgfkeys{/mysettings/.cd,
+        table/.store in=\mytable,
+        column/.store in=\mycolumn,
+        shift/.store in=\myshift, shift/.default=0, shift,
+        legend/.store in=\mylegend,
+        color/.store in=\mycolor
+      }
+      \edef\temp{
+        \noexpand\pgfkeys{/mysettings/.cd, \expandafter\@firstofone\thetuple}
+      } \temp
+      %\def\toto{\expandafter\mytable}
+      \edef\temp{
+        \noexpand\addplot[ybar, bar width=0.2, fill=\mycolor, draw=black, point meta=y]
+        table [x expr=\noexpand\coordindex+\myshift, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
+        %table [x=nProc, y=\mycolumn ] {\expandafter\noexpand\csname \mytable\endcsname};
+      } \temp
+      %table [x expr=\noexpand\coordindex, y=\mycolumn ] {#2};
+      \edef\temp{
+        \noexpand\addlegendentry{\mylegend}
+      } \temp
+    }
+    \end{axis}
+\end{tikzpicture}
+}

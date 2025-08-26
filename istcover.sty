@@ -16,7 +16,7 @@
 %%			Tue Nov 16 2004 OL changed copyright date, logos, etc for TALK
 %%			Wed Nov 17 14:36:44 2004 TB added empty pagestyle for overflow page
 %%										(deliverable identification sheet)
-%%			2019/05/31 Adaptations for Embeddia 
+%%			2019/05/31 Adaptations for Embeddia
 %%			2020/05/18 Adaptations for ERIGrid 2.0 (TS)
 %%			2020/10/27 Adaptations for numpex (TS)
 %% $Id: istcover.sty,v 1.2 2007/01/05 12:05:33 olemon Exp $
@@ -33,7 +33,7 @@
   %	\global\@topnum\z@ % prevents figures from going at top of page
   \thispagestyle{empty} % so we get no page number on title page
   \setcounter{footnote}{0}
-  
+
   \begingroup
   % \renewcommand{\shadowsize}{2pt}
   % \renewcommand{\shadowsize}{1pt}
@@ -44,7 +44,7 @@
   \def\thefootnote{\fnsymbol{footnote}}
   \def\@makefnmark{\hbox to 0pt{$^{\@thefnmark}$\hss}}
   \null
-  
+
   % Titles block
   \vspace*{34mm}
   \hspace*{14mm}
@@ -54,7 +54,7 @@
     	\textit{Work Package \deliv@wp} \\[.6ex]
     	{\fontsize{14}{16}\bf \deliv@wpname} \\[10ex]
     	\textit{Deliverable \deliv@number} \\[.6ex]
-		{\fontsize{14}{16}\bf \deliv@name} \\[10ex]    	
+		{\fontsize{14}{16}\bf \deliv@name} \\[10ex]
     \end{center}
   \end{minipage}
 
@@ -72,15 +72,15 @@
 			\ifx\doi@number\empty
 			\else
 			\textit{Document Identifier:} & doi:\href{https://doi.org/\doi@number}{\doi@number}
-			\fi 
+			\fi
 			\\
-		\end{tabular} 	
+		\end{tabular}
 	\end{textblock*}
 
-	\begin{textblock*}{0.85\linewidth}(2.50cm,24cm)	
+	\begin{textblock*}{0.85\linewidth}(2.50cm,24cm)
 		{\fontsize{9}{11}\selectfont
 	  	\setlength{\parindent}{0pt}
-		\def\arraystretch{1.25}			
+		\def\arraystretch{1.25}
 		\arrayrulecolor{numpexgray}
 			\begin{tabular}[t]{!{\color{numpexgray}\vrule}p{4em}!{\color{numpexgray}\vrule}p{.8\linewidth}!{\color{numpexgray}\vrule}p{2em}!{\color{numpexgray}\vrule}}
 				\rowcolor{numpexgray}\multicolumn{3}{c}
@@ -125,10 +125,10 @@
 %%
 %% \makeback
 %% Back page of the cover
-%% 
+%%
 \def\makeback{
 	\clearpage
-	\newgeometry{a4paper,top=2.50cm,left=2.50cm,right=2.50cm,bottom=3.30cm,headsep=0.50cm,footskip=-0.77cm}	
+	\newgeometry{top=2.50cm,left=2.50cm,right=2.50cm,bottom=3.30cm,headsep=0.50cm}
 	\vspace*{-0.05cm}
 	\istdis	  %%%%% see istprog.sty
     \istmakechangelog

@@ -1,7 +1,7 @@
 \section{Software: Freefem++}
 \label{sec:WP3:Freefem++:software}
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -45,18 +45,18 @@ B7 - Exascale Algorithms\\
 
 In~\cref{tab:WP3:Freefem++:features} we provide a summary of the FreeFEM features relevant to the work package which are briefly discussed.
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
 \rowcolor{white}    algebraic multiphysics coupling & PETSc can be used within FreeFEM for the solution of algebraic multiphysics coupling problems. Moreover, the user has easy access to additional relevant information about the problem (mesh, PDE, elementary matrices) which can allow to design and test more efficient coupling algorithms informed by the physics of the problem.\\
 \rowcolor{numpexlightergray}    domain decomposition methods & extensive interface to the HPDDM library, accessible both via its own FreeFEM interface and through the PETSc interface of FreeFEM. The majority of the parallel examples of the FreeFEM distribution uses HPDDM through PETSc for the solution of the linear systems. FreeFEM also provides a set of high-level FreeFEM scripts implementing domain decomposition methods called ffddm for easy prototyping.\\
 \rowcolor{white}    reuse of Krylov subspaces for multiple right-hand sides & thanks to its interface to HPDDM, FreeFEM can take advantage of advanced Krylov subspace methods implementing blocking and recycling strategies for the efficient solution of linear systems with multiple right-hand sides.\\
@@ -78,7 +78,7 @@ More details about scalability are given in the next section and in~\cref{sec:WP
     \item \textbf{Parallel Environment:} MPI
 
     \item \textbf{Architectures:} CPU only ; local computing clusters, french supercomputers (Irene, Jean Zay, ...)
- 
+
     \item \textbf{Scalability:} relies on high-performance solver librairies such as HPDDM and PETSc. Scalability is measured in terms of number of iterations of the iterative solver and computing time of both setup and solution steps.
 \end{itemize}
 
@@ -176,20 +176,20 @@ In~\cref{tab:WP3:Freefem++:bottlenecks}, we briefly discuss the bottleneck roadm
 
 \begin{table}[h!]
     \centering
-    
-    
+
+
 
     \centering
-    { 
+    {
         \setlength{\parindent}{0pt}
         \def\arraystretch{1.25}
         \arrayrulecolor{numpexgray}
         {
             \fontsize{9}{11}\selectfont
             \begin{tabular}{!{\color{numpexgray}\vrule}p{.25\linewidth}!{\color{numpexgray}\vrule}p{.6885\linewidth}!{\color{numpexgray}\vrule}}
-    
-    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\ 
-    
+
+    \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Bottlenecks} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
+
 \rowcolor{white}    B10 - Scientific Productivity & Improve initial parallel mesh generation and partitioning for standard primitives ; define internal distributed data structures for meshes and finite element spaces to further simplify the conversion from a sequential script to a parallel one.\\
 \rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Unify and document FreeFEM benchmarks in a separate repository. \\
 \rowcolor{white}    B6 - Data Management & Define/choose a standard matrix input format for solver benchmarks. \\

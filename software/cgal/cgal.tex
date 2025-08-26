@@ -3,7 +3,7 @@
 
 
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -44,12 +44,12 @@ B7 - Exascale Algorithms\\
 \subsection{Software summary}
 \label{sec:CGAL:summary}
 
-CGAL (Computational Geometry Algorithms Library) \cite{the_cgal_project_cgal_2024} is an open-source software project designed to provide 
+CGAL (Computational Geometry Algorithms Library) \cite{the_cgal_project_cgal_2024} is an open-source software project designed to provide
 numerically reliable software components (algorithms and geometric data structures) for use in 2D, 3D, or arbitrary dimensions.
-These components include convex hulls, triangulations, Boolean operations, intersection calculations, mesh generation, 
-3D point cloud processing, and more. CGAL’s main design features, along with various components, are utilized in industrial 
-robotics and digital engineering simulations. For industrial applications, CGAL offers reliable, interoperable components 
-that save development time by eliminating the need to reinvent the wheel, allowing users to focus on the business specializations 
+These components include convex hulls, triangulations, Boolean operations, intersection calculations, mesh generation,
+3D point cloud processing, and more. CGAL’s main design features, along with various components, are utilized in industrial
+robotics and digital engineering simulations. For industrial applications, CGAL offers reliable, interoperable components
+that save development time by eliminating the need to reinvent the wheel, allowing users to focus on the business specializations
 that deliver the most value.
 
 
@@ -59,9 +59,9 @@ that deliver the most value.
 \label{sec:CGAL:purpose}
 %Purpose not available.
 
-The purpose of CGAL is to offer developers tools for solving complex geometric problems in the form of a C++ templated library. Both low level geometric data structures and algorithms are provided, in 2D, 3D and arbitrary dimensions. 
-CGAL is used in fields like CAD, robotics and scientific computing, offering components for tasks like mesh generation, spatial searching and geometry processing. CGAL is available under a dual licensing scheme. For integration into other open-source software, 
-it is provided under LGPL or GPL licenses, depending on the components. For proprietary or commercial projects, 
+The purpose of CGAL is to offer developers tools for solving complex geometric problems in the form of a C++ templated library. Both low level geometric data structures and algorithms are provided, in 2D, 3D and arbitrary dimensions.
+CGAL is used in fields like CAD, robotics and scientific computing, offering components for tasks like mesh generation, spatial searching and geometry processing. CGAL is available under a dual licensing scheme. For integration into other open-source software,
+it is provided under LGPL or GPL licenses, depending on the components. For proprietary or commercial projects,
 licenses can be purchased from Geometry Factory, with options tailored for academic, research or industrial customers.
 
 \subsection{Programming and Computational Environment}
@@ -69,7 +69,7 @@ licenses can be purchased from Geometry Factory, with options tailored for acade
 
 The following table summarizes these aspects for CGAL, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     {
     \setlength{\parindent}{0pt}
@@ -83,7 +83,7 @@ C++, header-only be default\\
 \end{tabular} & Programming languages and language standards supported by the software \\
         \rowcolor{numpexlightergray} Parallelism  & Multithread
  & Parallel computing methods and frameworks utilized by the software. CGAL requires a compiler supporting C++17 or later, and the Intel TBB library for multithreading.\\
-        \rowcolor{white}Data Formats  & 
+        \rowcolor{white}Data Formats  &
  & Data formats that the software can handle or produce. For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
  \\
 \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
@@ -98,16 +98,16 @@ Fedora\\
 Spack\\
 Ubuntu\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & 
+        \rowcolor{white}Testing  &
 
  & On most operating systems, package managers offer CGAL and its essential third party dependencies. Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  & 
+        \rowcolor{numpexlightergray}Containerization  &
  & Container technologies used to package and deploy the software. CGAL uses a custom-tailored test suite running on 22 platforms combining Windows, Linux (Debian, Fedora, Ubuntu), macOS and different compilers (MSVC, Darwin, clang, gcc)\\
         \rowcolor{white} Interfaces  & \begin{tabular}{l}
 Apt-get  on Linux, \\
 and Homebrew on macOS.\\
 \end{tabular} & List of software CGAL has interfaces with.\\
-& & Essential third partie libraries: STL, Boost and MPFR. Optional libraries are listed 
+& & Essential third partie libraries: STL, Boost and MPFR. Optional libraries are listed
 \url{https://doc.cgal.org/latest/Manual/thirdparty.html}{here}.\\
         \bottomrule
     \end{tabular}
@@ -120,13 +120,13 @@ and Homebrew on macOS.\\
 \subsection{Mathematics}
 \label{sec:CGAL:mathematics}
 
-Numerical robustness is a fundamental concern in geometric computing, even more so than in other types of numerical methods due to the dual nature of many algorithmes (combinatorial and continuous). 
-In geometric algorithms, slight inaccuracies in numerical computations can lead to significant errors, such as incorrect topological configurations or degeneracies that disrupt the algorithm's logic. 
+Numerical robustness is a fundamental concern in geometric computing, even more so than in other types of numerical methods due to the dual nature of many algorithmes (combinatorial and continuous).
+In geometric algorithms, slight inaccuracies in numerical computations can lead to significant errors, such as incorrect topological configurations or degeneracies that disrupt the algorithm's logic.
 The CGAL library offers a flexible and powerful solution to this problem by following the exact computation paradigm that leverages interval arithmetic as well as multiple precision arithmetic (\url{https://www.cgal.org/exact.html}). Such a paradigm enables users to avoid rounding errors and ensures robust algorithms.
 
-CGAL leverages generic programming, enabling the use of different components through a versatile C++ templated environment. 
-This approach allows algorithms and data structures to be flexible and reusable across various geometric scenarios. 
-For instance, a 2D convex hull algorithm in CGAL can be applied to an arbitrary 3D plane by utilizing appropriate templated parameters. Similarly, the mesh simplification component can operate any mesh data structures as long as few interface functions are provided. 
+CGAL leverages generic programming, enabling the use of different components through a versatile C++ templated environment.
+This approach allows algorithms and data structures to be flexible and reusable across various geometric scenarios.
+For instance, a 2D convex hull algorithm in CGAL can be applied to an arbitrary 3D plane by utilizing appropriate templated parameters. Similarly, the mesh simplification component can operate any mesh data structures as long as few interface functions are provided.
 Such a templated design ensures that developers can extend or customize components easily to meet specific requirements.
 
 
@@ -144,7 +144,7 @@ The following publications are relevant for mesh generation components in the CG
 \subsection{Acknowledgements}
 \label{sec::CGAL:acknowledgements}
 
-%The software has been developed with the support of the following funding agencies and institutions: 
+%The software has been developed with the support of the following funding agencies and institutions:
 %
 %
 %Acknowledgements not available.

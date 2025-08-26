@@ -3,7 +3,7 @@
 
 
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     { \setlength{\parindent}{0pt}
     \def\arraystretch{1.25}
@@ -49,7 +49,7 @@ FreeFEM is a free open-source software developed at Laboratoire Jacques-Louis Li
 FreeFEM embeds a high-level user-friendly Domain Specific Language (DSL), which allows users with minimal programming knowledge to describe and solve their problems with a few lines of code. Its main objective is to provide easy access to distributed parallel simulations and solvers while hiding technical programming difficulties from the user. FreeFEM is written in C++ for speed, and features easy custom extensions through dynamically-loaded plugins.\\
 On the one hand, FreeFEM’s DSL allows users to easily define and manipulate high-level notions such as variational forms, meshes, and FEM or BEM spaces; on the other hand, the user can also access the underlying data structures and linear algebra (i.e., FreeFEM is not a “black box" that cannot be opened). It allows rapid multiphysics prototyping ; the resulting scripts are  close to their mathematical counterparts. The abstraction of the DSL reduces the gap between mathematical objects and their numerical and practical implementation. As an illustration, below is a sample script setting up and solving a 2D acoustic scattering problem:
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 \begin{minipage}{.45\textwidth}
 \begin{center}
 Code\\[1em]
@@ -76,7 +76,7 @@ FreeFEM is interfaced with state of the art parallel solvers and libraries such 
 \item the HPDDM library, which contains optimized C++ MPI-parallel implementation of the latest domain-decomposition methods,
 \item the HTOOL library, a high-performance parallel library implementing domain-decomposition solvers and Hierarchical matrix (H-matrix)
 compression for BEM operators using hybrid OpenMP-MPI parallelism
-\item the PETSc library (Portable, Extensible Toolkit for Scientific Computation), giving access to a wide variety of solvers in one easy-to-use toolbox. 
+\item the PETSc library (Portable, Extensible Toolkit for Scientific Computation), giving access to a wide variety of solvers in one easy-to-use toolbox.
 \end{itemize}
 
 Being developed hand-in-hand with the team's research in scientific computing, FreeFEM benefits from the fast integration of the latest state of the art research developments in particular regarding fast and robust parallel linear solvers, allowing the software to remain at the forefront in the scientific community and contribute to important applications in various fields such as health, medical imaging, earth science, climatology, computational fluid dynamics, quantum mechanics, finance, ...
@@ -92,7 +92,7 @@ FreeFEM aims to bring scientific computing to everyone, allowing the user to eas
 
 Table~\ref{tab:Freefem++:env} summarizes these aspects for Freefem++, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     {
     \setlength{\parindent}{0pt}
@@ -176,7 +176,7 @@ FreeFEM implements both finite element methods (FEM) and boundary element method
 
 \item[\fullcite{tournier_numerical_2017}] This paper deals with microwave tomography for brain stroke imaging using state-of-the-art numerical modeling and massively parallel computing. It includes the accurate modeling of a whole-microwave measurement system. The inverse problem is solved by a gradient based L-BFGS minimization algorithm. The successive solution of the direct problem in the optimization loop is accelerated using an Optimized Restricted Additive Schwarz (ORAS) preconditioner. This work was awarded the Joseph Fourier-Bull prize in 2015.
 
-\item[\fullcite{sadaka_parallel_2020}] This work presents a FreeFEM Toolbox for the parallel computing of two- or three-dimensional liquid-solid phase-change systems involving natural convection. Parallel 2D and 3D computations of benchmark cases of increasing difficulty are presented: natural convection of air, natural convection of water, melting or solidification of a phase-change material, water freezing. For each case, careful validations are provided and the performance of the code is assessed. 
+\item[\fullcite{sadaka_parallel_2020}] This work presents a FreeFEM Toolbox for the parallel computing of two- or three-dimensional liquid-solid phase-change systems involving natural convection. Parallel 2D and 3D computations of benchmark cases of increasing difficulty are presented: natural convection of air, natural convection of water, melting or solidification of a phase-change material, water freezing. For each case, careful validations are provided and the performance of the code is assessed.
 
 \item[\fullcite{tournier_three-dimensional_2022}] In seismic imaging, efficient frequency-domain full-waveform inversion (FWI) of long-offset node data can be designed with a few discrete frequencies, which lead to modest data volumes to be managed during the inversion process. This requires the solution of large and sparse linear indefinite systems for each frequency with multiple right-hand sides (RHSs). Here we investigate Optimized Restricted Additive Schwarz (ORAS) preconditioners with Robin or Perfectly Matched Layer (PML) interface conditions. Multiple sources are processed in groups with a pseudo-block method. The accuracy, computational cost and scalability of the solver are assessed against several realistic benchmarks.
 
@@ -192,7 +192,7 @@ FreeFEM implements both finite element methods (FEM) and boundary element method
 \subsection{Acknowledgements}
 \label{sec::Freefem++:acknowledgements}
 
-The software has been developed with the support of the following funding agencies, institutions and private companies: 
+The software has been developed with the support of the following funding agencies, institutions and private companies:
 
 \begin{itemize}
 \item Sorbonne Université

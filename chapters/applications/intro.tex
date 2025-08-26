@@ -1,0 +1,25 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
+
+% chapters/applications/intro.tex
+\section{Introduction \& Scope}
+\label{sec:apps-intro}
+
+Work Package 7 (WP7) provides the “glue” for Exa-MA, delivering the CI/CD framework, containerized environments, packaging standards, benchmarking suite, training materials, and automated deployment pipelines that bind together the methodological developments from WP1-WP6 into reproducible, high-performance demonstrators on supercomputers.
+
+This section defines the types of applications within Exa-MA and lays out the purpose, goals, and classification scheme that ensures consistency across mini-apps, extended mini-apps, demonstrators, and proxy-apps.
+
+\subsection{Purpose \& Goals}
+\begin{itemize}
+  \item Align application research scope for WP1-WP6 with project KPIs.
+  \item Agree on key performance metrics and measurement methods.
+  \item Confirm timelines for specification delivery, prototype runs, and benchmarking in D7.1 v2.
+\end{itemize}
+
+\subsection{Types of Applications}
+To ensure coherence across use-cases and scalability targets, Exa-MA classifies applications into four categories:
+\begin{description}
+  \item[Mini-App:] A focused test of a single method or kernel (e.g., FEEL++ mesh operation).
+  \item[Extended Mini-App:] Mini-App plus supporting scripts (I/O stress tests, data generation).
+  \item[Demonstrator:] Integrated workflow spanning multiple WPs to showcase a real-world scientific scenario.
+  \item[Proxy-App:] Representative workload combining three or more WPs to emulate full-stack exascale behavior.
+\end{description}
