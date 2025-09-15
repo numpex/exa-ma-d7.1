@@ -7,11 +7,67 @@
 % • Role in overall strategy (high-dimensional UQ, sensitivity analysis, surrogate‐based UQ)  
 % • List of key tasks T6.1–T6.4
 
+Uncertainty Quantification (UQ) includes several steps, from uncertainty propagation to sensitivity
+analysis, to understand the important often correlated factors and then aim to reduce uncertainty
+through modeling improvements in WP1, finally establishing robust inversion or optimization under
+uncertainties. Enabling UQ in the different scales of a multiscale model remains a challenge that
+exascale computing will help address. The modeling of uncertainties may be strongly (e.g., in the case
+of stochastic equations) or weakly entangled into the models, calling for specific strategies but
+systematically requiring the evaluation of extremely high-dimensional integrals. Again, multi-fidelity
+stochastic or deterministic modeling will enable innovative tractable algorithms.
+
+T6.1 Kernel-based sensitivity analysis for high-dimensional data and integral computing\\
+To handle very high-dimensional and multivariate data implied in exascale applications, tractable and
+relevant extensions of sensitivity analysis built upon kernel-based dependence measures will be
+developed. In addition, optimized computing schemes of high dimensional integrals will be
+investigated, in support of the uncertainty propagation step.
+
+T6.2 UQ in a PDE solving framework \\
+The propagation of uncertainties (on the initial conditions,
+on the coefficients) in complex PDE solutions requires many simulations. Machine learning and
+stochastic spectral methods could provide suitable approximations of the solutions but their calibration
+can exceed by a few orders of magnitude the size of the underlying problems, making HPC strategies
+mandatory.
+
+T6.3 Surrogate modeling for UQ\\
+ Complex multi-physics and/or multi-scale problems often involve
+coupled, nested and chained numerical codes. The building and calibration of a global metamodel
+assembling all prediction uncertainties is a formidable task that requires HPC.
+
+T6.4 Acceleration of the bricks of the UQ process steps by leveraging exascale calculations\\
+The methodological developments of Tasks 6.1 to 6.3 will be integrated, in the opensource platforms
+Uranie and OpenTURNS dedicated to uncertainty quantification, taking advantage of the exascale
+computational properties. Benchmarking on exascale applications will be conducted.
+
+
 \section{Scientific Advances}
 % • Advance 1 (T6.1): …  
 % • Advance 2 (T6.2): …  
 % • Advance 3 (T6.3): …  
 % • etc.
+
+
+
+T6.3 Surrogate modeling for UQ\\
+Neural networks are widely used for their strong representational capacity but face key limitations: the need for a large number of training points (which is often limited in the context of numerical simulation), a lack of explanability and confidence assessment.
+Gaussian processes (GPs) are widely used as a metamodel for emulating time-consuming computer codes because of  their properties, which are particularly interesting when the data are derived from costly simulations:\\
+- they can be interpolating,\\
+- they are highly predictive even with few available observations,\\
+- they allow to work with several input types,\\
+- and most importantly, they intrinsically quantify prediction uncertainty, crucial for reliability, optimization, and sensitivity analysis.
+
+Most existing GP literature focuses on low-dimensional vector inputs. However, many industrial applications involve meshes, represented as graphs with potentially hundreds of thousands of nodes. Conventional methods struggle with such structures.
+
+Our first achievement was to design approaches that learn directly from graphs, making them applicable beyond meshes to molecules, transport, or social networks.
+Since Gaussian process regression is a kernel-based method,
+a new graph kernel, the Sliced Wasserstein Weisfeiler-Lehman (SWWL), was developed to address this challenge. It combines \cite{carpintero2024}:\\
+	1.	a continuous Weisfeiler-Lehman scheme to build node embeddings,\\
+	2.	a Sliced Wasserstein distance to compare graph representations, ensuring positive definiteness of the kernel and significantly reducing computational complexity.
+
+A second challenge involves the outputs, which are not scalars but fields or signals defined on graph nodes of varying sizes. To handle this, a methodology was proposed, combining regularized optimal transport, dimensionality reduction, and GPs indexed by graphs \cite{carpintero2025}.
+
+Additionally, many problems involve categorical variables (e.g., material types). GPs offer flexible ways to model correlations in such spaces. A comparative study was conducted to recommend best practices. Block correlation structures work well when groups of levels are known. When they are not, a clustering-based procedure, relying on the conditional output distributions for each level, can infer these groups effectively without prior kernel training.
+Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters give good results. This is when HPC becomes critical.
 
 \section{Application Showcase}
 % \input{chapters/applications/specs/app-uq-uranie-1}  
@@ -27,6 +83,15 @@
 % • UQ scaling placeholder  
 % • Sensitivity analysis performance placeholder  
 % • Regression test pass-rate placeholder
+
+
+Designing categorical kernels is a major challenge for Gaussian process regression with continuous and categorical inputs. Despite previous studies, it is difficult to identify a preferred method, either because the evaluation metrics,
+the optimization procedure, or the datasets change depending on the study. In particular, reproducible code is rarely available. We are carrying out a reproducible comparative study of all existing categorical kernels
+on many of the test cases investigated so far. We also propose new evaluation metrics inspired by the optimization
+community, which provide quantitative rankings of the methods across several tasks. 
+We will soon make available a package that proposes python routines for the best methods and their best versions.
+
+
 
 \section{Roadmap \& Next Steps}
 % • Deliverables D6.x to complete by Mxx  
