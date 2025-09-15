@@ -1,0 +1,102 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Template}
+
+NOTE: this file contants the template for the description of the benchmark, please copy it and replace the content with you application specifications.
+
+Small abstract of the demonstrator.
+\Cref{tab:app-feelpp-template} describes the specifications of the application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-template} \\
+        name &  \\
+        Partners &  \\
+        PC &  \\
+        Responsible (Permanent) &  \\
+        WP7 Engineer & \\
+        work\_package & \\
+        application\_type & \\
+        purpose & \\
+        Method-Algorithm WP1 & \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        outputs & \\
+        metrics & \\
+        status & \\
+        Benchmark scope & \\
+        Framework & \\
+        parallel\_framework & \\
+        spec\_due & \\
+        proto\_due & \\
+        repo\_url & \url{https://github.com/numpex/??}\\
+    \end{tblr}
+    \caption{Description of the demonstrator \texttt{app-template}.}
+    \label{tab:app-template}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Description of the benchmark}
+
+Description of the benchmark, with some figures.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Benchmarking tools used}
+
+Description of the benchmarking tools used, as well as the metrics that are used.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+  \begin{itemize}
+  \item Meshes: ...
+  \item Setup: ...
+  \item Sif image: ...
+  \item ...
+  \end{itemize}
+
+Include table of figure that are relevant (size of the meshes, etc...)
+
+\subsubsection{Output Data:}
+
+The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.
+Metric:
+\begin{itemize}
+    \item \texttt{benchmark-verification},
+    \item \texttt{strong-scalability},
+    \item \texttt{weak-scalability},
+    \item \texttt{io-scaling}: time taken by the application to read meshes, and to write the solution on disk (especially reading).
+\end{itemize}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Results summary}
+
+
+Insert the numerical solution, and other figures obtained thourght benchmarking measures.
