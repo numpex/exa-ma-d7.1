@@ -1,0 +1,130 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Test I/O at large scale}
+
+
+This mini application tests the input and output of data for \feelpp.
+\Cref{tab:app-feelpp-io} describes the specifications of the application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-feelpp-io} \\
+        name & Test I/O at large scale \\
+        Partners &  Unistra \\
+        PC & PC1 - ExaMA, PC2 - WP2 \\
+        Responsible (Permanent) &  V. Chabannes, C. Prud'homme \\
+        WP7 Engineer & Thomas Saigre (UNISTRA) \\
+        work\_package & WP1 \\
+        application\_type & mini-app \\
+        % purpose & \\
+        % Method-Algorithm WP1 & \\
+        % Method-Algorithm WP2 & \\
+        % Method-Algorithm WP3 & \\
+        % Method-Algorithm WP4 & \\
+        % Method-Algorithm WP5 & \\
+        % Method-Algorithm WP6 & \\
+        % WP7 & \\
+        % outputs & \\
+        % metrics & \\
+        % status & \\
+        % Benchmark scope & \\
+        Framework & Feel++, PETSc \\
+        parallel\_framework & MPI \\
+        % spec\_due & \\
+        % proto\_due & \\
+        repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
+    \end{tblr}
+    \caption{Description of the demonstrator \texttt{app-feelpp-io}.}
+    \label{tab:app-feelpp-io}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Description of the benchmark}
+
+This application consists in a small code that runs a given number of time the following steps:
+\begin{itemize}
+    \item Load a mesh $\mathcal{M}$ with a discretization size $h$,
+    \item Create a functional space $X_h = P_{\text{c},h}^d$ associated to the desired order of discretization $d$,
+    \item Create a vector $u\in X_h$, and export it to the disk,
+    \item Write the loaded mesh on disk.
+\end{itemize}
+
+This process it iterated a given number of times.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Benchmarking tools used}
+
+Description of the benchmarking tools used, as well as the metrics that are used.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+  \begin{itemize}
+  \item Meshes: ...
+  \item Setup: ...
+  \item Sif image: ...
+  \item ...
+  \end{itemize}
+
+\SetTblrInner{rowsep=0pt}
+\begin{table}[!ht]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tblr}{
+        colspec={c*{9}{Q[c, cmd=\pgfmathprintnumber]}},
+        vlines={numpexgray},
+        hlines={numpexgray},
+        row{1,2}={bg=numpexgray, fg=white, font=\bfseries, halign=c, cmd=\normalfont},
+        rowhead=2, % This option excludes the first two rows from the column command
+    }
+    \SetCell[c=4]{c}{Mesh properties} & & & & \SetCell[c=6]{c}{Number of degrees of freedom} & &\\
+        Tag & \# points & \# edge & \# faces & $\mathP_1$ & $\mathP_2$ & $\mathP_3$ & $\mathP_4$ & $\mathP_5$ & $\mathP_6$ \\
+        \texttt{M2} & 120581  & 762245   & 1273293  & 120581  & 882826   & 2918364   & 6858823   & 13335831  & 22981016 \\
+        \texttt{M3} & 207845  & 1373087  & 2318292  & 207845  & 1580932  & 5272311   & 12435031  & 24222141  & 41786690 \\
+        \texttt{M4} & 995906  & 6874446  & 11717323 & 995906  & 7870352  & 26462121  & 62609995  & 122152756 & 210929186 \\
+        \texttt{M5} & 7360346 & 51295490 & 87714470 & 7360346 & 58655836 & 197665796 & 468169551 & 913946426 & 1578775746 \\
+    \end{tblr}
+    }
+
+  \caption{Statistics on meshes of the eye and number of degrees of freedom with respect to finite element approximation}
+  \label{tab:spec:app-feelpp:eye2brain:mesh_stats}
+\end{table}
+
+\subsubsection{Output Data:}
+
+The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.
+Metric:
+\begin{itemize}
+    \item \texttt{benchmark-verification},
+    \item \texttt{strong-scalability},
+    \item \texttt{weak-scalability},
+    \item \texttt{io-scaling}: time taken by the application to read meshes, and to write the solution on disk (especially reading).
+\end{itemize}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Results summary}
+
+
+Insert the numerical solution, and other figures obtained thourght benchmarking measures.
