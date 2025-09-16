@@ -78,10 +78,12 @@ Description of the benchmarking tools used, as well as the metrics that are used
 
 \subsubsection{Input Data:}
   \begin{itemize}
-  \item Meshes: ...
-  \item Setup: ...
-  \item Sif image: ...
-  \item ...
+    \item Meshes: The meshe used for the results shown in the sequel is a mesh 3D mesh of a realistic geometry of a human eyeball \cite{saigre_model_2024}, with various level of refinement. These meshes are denoted \texttt{M2} to \texttt{M5}. The steps to obtaine these meshes are presented in \cite{chabannes_3d_2024}.
+      The characteristics of the mesehs, as well as the number of degree of freedom for various order of discretization is presented in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
+      All the meshes are pre-partitionned, with the application \texttt{feelpp\_mesh\_partitionner}\footnote{\url{https://docs.feelpp.org/user/latest/using/tools/mesh_partitioner.html}}
+    \item Setup: use the function provided by the library \Feelpp, such as mesh manipulation and data exporter.
+      The full source code is available in \texttt{src} directory of the GitHub repository \texttt{apps-feelpp}.
+    \item Sif image: \texttt{feelpp:v0.111.0-preview.10-noble-sif}  (stored in the GitHub registry of \Feelpp)
   \end{itemize}
 
 \SetTblrInner{rowsep=0pt}
@@ -93,7 +95,7 @@ Description of the benchmarking tools used, as well as the metrics that are used
         vlines={numpexgray},
         hlines={numpexgray},
         row{1,2}={bg=numpexgray, fg=white, font=\bfseries, halign=c, cmd=\normalfont},
-        rowhead=2, % This option excludes the first two rows from the column command
+        rowhead=2,
     }
     \SetCell[c=4]{c}{Mesh properties} & & & & \SetCell[c=6]{c}{Number of degrees of freedom} & &\\
         Tag & \# points & \# edge & \# faces & $\mathP_1$ & $\mathP_2$ & $\mathP_3$ & $\mathP_4$ & $\mathP_5$ & $\mathP_6$ \\
@@ -110,16 +112,14 @@ Description of the benchmarking tools used, as well as the metrics that are used
 
 \subsubsection{Output Data:}
 
-The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.
-Metric:
-\begin{itemize}
-    \item \texttt{benchmark-verification},
-    \item \texttt{strong-scalability},
-    \item \texttt{weak-scalability},
-    \item \texttt{io-scaling}: time taken by the application to read meshes, and to write the solution on disk (especially reading).
-\end{itemize}
-
-
+The monitored quantities are the average time for each of the steps run in the loop:
+\begin{inparaenum}[\it(i)]
+\item \texttt{time\_loadMesh}, the time taken to load the mesh from the disk;
+\item \texttt{time\_createFunctionSapce}, the time taken to create the functional space $X_h$ or order $d$;
+\item \texttt{time\_saveMesh}, the time taken to write the mesh data on the disk, in a new file;
+\item \texttt{time\_export}, the time to export the vector $u\in X_h$ to disk, using the \texttt{exporter} functionnality of \Feelpp.
+\end{inparaenum}
+The times are stored in a JSON file during execution.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
