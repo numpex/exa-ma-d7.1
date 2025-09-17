@@ -1,9 +1,9 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
-\section{Test I/O at large scale}
+\section{Mini App: Test I/O at large scale}
 
 
-This mini application tests the input and output of data for \feelpp.
+This mini application tests the input and output of data for \Feelpp.
 \Cref{tab:app-feelpp-io} describes the specifications of the application.
 
 \begin{table}[ht]
@@ -67,7 +67,17 @@ This process it iterated a given number of times.
 
 \subsection{Benchmarking tools used}
 
-Description of the benchmarking tools used, as well as the metrics that are used.
+This mini app can be run with any mesh family.
+The results presented in this document are obtained with a 3D mesh of a realistic geometry of a human eyeball \cite{saigre_model_2024}, with various level of refinement.
+The steps to obtain this mesh, stemming from a human eyeball CAD are presented in \cite{chabannes_3d_2024}.
+\Cref{fig:spec:app-feelpp:eye2brain:mesh} presents the mesh, and the level disparity of the refinement according to the region considered.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{feelpp/feelpp-benchmark-eyemesh.png}
+  \caption{Mesh discretization, with the various regions of the eye.}
+  \label{fig:spec:app-feelpp:eye2brain:mesh}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -78,8 +88,8 @@ Description of the benchmarking tools used, as well as the metrics that are used
 
 \subsubsection{Input Data:}
   \begin{itemize}
-    \item Meshes: The meshe used for the results shown in the sequel is a mesh 3D mesh of a realistic geometry of a human eyeball \cite{saigre_model_2024}, with various level of refinement. These meshes are denoted \texttt{M2} to \texttt{M5}. The steps to obtaine these meshes are presented in \cite{chabannes_3d_2024}.
-      The characteristics of the mesehs, as well as the number of degree of freedom for various order of discretization is presented in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
+    \item Meshes: We have generated meshes of various level of refinement, denoted from \texttt{M2} to \texttt{M5}.
+      The characteristics of the meshes, as well as the number of degree of freedom for various order of discretization is presented in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
       All the meshes are pre-partitionned, with the application \texttt{feelpp\_mesh\_partitionner}\footnote{\url{https://docs.feelpp.org/user/latest/using/tools/mesh_partitioner.html}}
     \item Setup: use the function provided by the library \Feelpp, such as mesh manipulation and data exporter.
       The full source code is available in \texttt{src} directory of the GitHub repository \texttt{apps-feelpp}.
@@ -112,12 +122,12 @@ Description of the benchmarking tools used, as well as the metrics that are used
 
 \subsubsection{Output Data:}
 
-The monitored quantities are the average time for each of the steps run in the loop:
+The monitored quantities are the average times for each of the steps run in the loop described above:
 \begin{inparaenum}[\it(i)]
-\item \texttt{time\_loadMesh}, the time taken to load the mesh from the disk;
+\item \texttt{time\_loadMesh}, the time taken by the application to load the mesh from the disk;
 \item \texttt{time\_createFunctionSapce}, the time taken to create the functional space $X_h$ or order $d$;
 \item \texttt{time\_saveMesh}, the time taken to write the mesh data on the disk, in a new file;
-\item \texttt{time\_export}, the time to export the vector $u\in X_h$ to disk, using the \texttt{exporter} functionnality of \Feelpp.
+\item \texttt{time\_export}, the time to export the vector $u\in X_h$ to disk, using the \texttt{exporter} functionality of \Feelpp.
 \end{inparaenum}
 The times are stored in a JSON file during execution.
 
@@ -127,4 +137,4 @@ The times are stored in a JSON file during execution.
 \subsection{Results summary}
 
 
-Insert the numerical solution, and other figures obtained thourght benchmarking measures.
+Insert the numerical solution, and other figures obtained thought benchmarking measures.

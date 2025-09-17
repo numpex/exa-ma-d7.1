@@ -109,10 +109,10 @@ The performance tools integrated into the \Feelpp-toolboxes framework were used 
 The metrics measured are the execution time of the main components of the simulation.
 We enumerate these parts in the following:
 \begin{enumerate}
-\item \textbf{Init:} load mesh from filesystem and initialize heat toolbox (finite element context and algebraic data structure).
+\item \textbf{Init:} load mesh from file system and initialize heat toolbox (finite element context and algebraic data structure).
 \item \textbf{Assembly:} calculate and assemble the matrix and right-hand side values obtained using the finite element method.
 \item \textbf{Solve:} the linear system by using a preconditioned GMRES.
-\item \textbf{PostProcess:} compute validation measures (temperature at points and heat flux) and export on the filesystem a visualization format (EnSight Gold) of the solution.
+\item \textbf{Post-process:} compute validation measures (temperature at points and heat flux) and export on the file system a visualization format (EnSight Gold) of the solution.
 \end{enumerate}
 
 
