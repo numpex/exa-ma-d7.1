@@ -1,0 +1,86 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Demonstrator of fluid flow}
+
+
+The specifications are identical to what was presented in \Cref{sec:app:specs:app-feelpp-discr-1}.
+In this test case, we use the \Feelpp toolbox fluid.
+\Cref{tab:app-feelpp-discr-1} describes the specifications of the application.
+
+
+\subsection{Description of the benchmark}
+
+The benchmark presented here, denoted by \emph{FDA benchmark}, that was proposed by the US Food and Drug Administration (FDA) in \cite{hariharan_multilaboratory_2011} to assess the stability, accuracy and robustness of computational methods.
+
+The geometry is shown in \Cref{fig:spec:app-feelpp-discr-2:fda:geometry}
+
+\begin{figure}[!ht]
+  \centering
+  \def\svgwidth{\textwidth}
+  \import{graphics/feelpp}{feelpp-fda-2D-geometry.pdf_tex}
+  \caption{FDA benchmark geometry description.}
+  \label{fig:spec:app-feelpp-discr-2:fda:geometry}
+\end{figure}
+
+
+
+\subsection{Benchmarking tools used}
+
+
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure the execution time.
+
+
+
+
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+  \begin{itemize}
+  \item Meshes: We have generated three levels of mesh called \texttt{M1}, \texttt{M2}
+    and \texttt{M3}. These meshes are stored in GMSH format. The statistics can be found in \Cref{tab:spec:app-feelpp-discr-1:thermal_bridges:discr_stat}. We have also prepared for
+    each mesh level a collection of partitioned mesh.
+    The format used is an in-house mesh format of \Feelpp based on
+    JSON+HDF5 file type.
+    The GMSH meshes and the partitioned meshes can be found on our Girder
+    database management, in the \Feelpp collections.
+  \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
+    file and JSON file. These config files are present in the GitHub of \Feelpp.
+  \item Sif image: \texttt{feelpp:v0.111.0-preview.10-noble-sif}  (stored in the GitHub registry of \Feelpp)
+  \end{itemize}
+
+\subsubsection{Output Data:}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Results summary}
+
+
+
+\subsubsection{Numerical solution}
+
+\todo{Insert numerical solution obtained from the toolbox, and the partitioning of the mesh}
+
+
+
+\subsubsection{Mesh converging}
+
+\todo{Insert results of mesh converging, with comparison with the reference values of the benchmark \texttt{benchmark-verification}}
+
+
+
+\subsection{Times of execution}
+
+\todo{Insert results of mesh converging, with comparison with the reference values of the benchmark \texttt{benchmark-verification}}
+
+
+\subsubsection{Scalability on IO}
+
+\todo{Insert results of mesh converging, with comparison with the reference values of the benchmark \texttt{benchmark-verification}}
+
+
+\todo{Add results}

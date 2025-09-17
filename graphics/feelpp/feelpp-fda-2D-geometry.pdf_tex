@@ -1,0 +1,71 @@
+%% Creator: Inkscape 1.4.2 (1:1.4.2+202505120737+ebf0e940d0), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'img-2D-geometry.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%%
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{269.38343811bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.28733253)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{feelpp-fda-2D-geometry.pdf}}%
+    \put(0.76284589,0.21817901){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}Lo\end{tabular}}}}%
+    \put(0.40075003,0.21996085){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}\qty{40}{\milli\meter}\end{tabular}}}}%
+    \put(0.24772398,0.21996085){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}\qty{22.685}{\milli\meter}\end{tabular}}}}%
+    \put(0.11772952,0.21950983){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}Li\end{tabular}}}}%
+    \put(0.4064073,0.03593874){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}\qty{4}{\milli\meter}\end{tabular}}}}%
+    \put(0.0826048,0.01825982){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}\qty{12}{\milli\meter}\end{tabular}}}}%
+    \put(0.04194992,0.10350628){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}\qty{20}{\degree}\end{tabular}}}}%
+    \put(0.23165407,0.02139762){\color[rgb]{0.50196078,0,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}FLow Direction\end{tabular}}}}%
+    \put(0.53375571,0.26040516){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}Sudden expansion\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{feelpp-fda-2D-geometry.pdf}}%
+    \put(0.11552451,0.17275329){\color[rgb]{0,0.30588235,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}Di\end{tabular}}}}%
+    \put(0.25818598,0.27117803){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}Conical\\collector\end{tabular}}}}%
+    \put(0.40164373,0.26035331){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.29999995}\smash{\begin{tabular}[t]{l}Throat\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
