@@ -186,28 +186,42 @@ The times are stored in a JSON file during execution.
 % \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP4.csv}\dataExportData
 % \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP5.csv}\dataExportData
 
+We present in \Cref{fig:specs:app-feelpp-io} the results of execution of this benchmark over the family of mesh, for a various number of parallel tasks.
+The mini-app is run on the cluster Gaya.
+The results presented are obtained with the degree of discretization $\mathP_1$.
+Similar behaviors are observed for other degree of discretization.
+
+Note that some points are missing, either because the memory available on the nodes were too high for a node of Gaya, or because the iterative process described above took more than the time allocated to the job (1 hour).
+
+\todo{continuer à parler des résultats}
+
 
 \begin{figure}
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \plot{\dataLoadMesh}
     \caption{ Load the mesh. }
+    \label{fig:specs:app-feelpp-io:loadmesh}
   \end{subfigure}
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \plot{\dataFunctionSpace}
     \caption{ Time to create function space $X_h$. }
+    \label{fig:specs:app-feelpp-io:functionspace}
   \end{subfigure}
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \plot[(0.99,0.35)]{\dataSaveMesh}
     \caption{ Time to save mesh on disk. }
+    \label{fig:specs:app-feelpp-io:savemesh}
   \end{subfigure}
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \plot[(0.99,0.35)]{\dataExportData}
     \caption{ Write  the vector $u$ on disk. }
+    \label{fig:specs:app-feelpp-io:export}
   \end{subfigure}
   \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at a fixed discretization order ($\mathP_1$).}
+  \label{fig:specs:app-feelpp-io}
 \end{figure}
 
