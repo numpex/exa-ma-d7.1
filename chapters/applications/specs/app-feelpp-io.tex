@@ -137,4 +137,77 @@ The times are stored in a JSON file during execution.
 \subsection{Results summary}
 
 
-Insert the numerical solution, and other figures obtained thought benchmarking measures.
+\newcommand{\plot}[2][(0.99,0.99)]{
+  \begin{tikzpicture}
+    \begin{axis}[
+      % width=\textwidth, height=0.6172\textwidth,
+      xlabel={ Number of tasks }, ylabel={ Time [s] },
+      xtick=data, xtick align=outside,
+      ymode=log,
+      ymajorgrids=true, yminorgrids=true,
+      xmajorgrids=true,
+      xticklabels from table={#2}{resources.tasks},
+      cycle list name=color list, legend style={at={#1},anchor=north east}
+    ]
+      \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=M2] {#2} ;
+      \addlegendentry{ \texttt{M2} }
+      \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=M3] {#2} ;
+      \addlegendentry{ \texttt{M3} }
+      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=M4] {#2} ;
+      \addlegendentry{ \texttt{M4} }
+      \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=M5] {#2} ;
+      \addlegendentry{ \texttt{M5} }
+    \end{axis}
+  \end{tikzpicture}
+  \vspace{-2em}
+}
+
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP1.csv}\dataLoadMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP2.csv}\dataLoadMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP3.csv}\dataLoadMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP4.csv}\dataLoadMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP5.csv}\dataLoadMesh
+
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP1.csv}\dataFunctionSpace
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP2.csv}\dataFunctionSpace
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP3.csv}\dataFunctionSpace
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP4.csv}\dataFunctionSpace
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP5.csv}\dataFunctionSpace
+
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP1.csv}\dataSaveMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP2.csv}\dataSaveMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP3.csv}\dataSaveMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP4.csv}\dataSaveMesh
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP5.csv}\dataSaveMesh
+
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP1.csv}\dataExportData
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP2.csv}\dataExportData
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP3.csv}\dataExportData
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP4.csv}\dataExportData
+% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP5.csv}\dataExportData
+
+
+\begin{figure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \plot{\dataLoadMesh}
+    \caption{ Load the mesh. }
+  \end{subfigure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \plot{\dataFunctionSpace}
+    \caption{ Time to create function space $X_h$. }
+  \end{subfigure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \plot[(0.99,0.35)]{\dataSaveMesh}
+    \caption{ Time to save mesh on disk. }
+  \end{subfigure}
+  \begin{subfigure}[c]{0.49\textwidth}
+    \centering
+    \plot[(0.99,0.35)]{\dataExportData}
+    \caption{ Write  the vector $u$ on disk. }
+  \end{subfigure}
+  \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at a fixed discretization order ($\mathP_1$).}
+\end{figure}
+
