@@ -46,6 +46,8 @@
     "workbench.editor.pinnedTabsOnSeparateRow": true,
     "editor.tabSize": 2,
     "ltex.latex.commands": {
-        "\\SetTblrInner{}": "ignore"
+        "\\SetTblrInner{}": "ignore",
+        "\\plot[]{}{}": "ignore",
+        "\\plot{}{}": "ignore",
     }
 }
