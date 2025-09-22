@@ -92,13 +92,16 @@ More details can be found in \cite{van_landeghem_micro-swimming_2025}.
 \subsection{Benchmarking tools used}
 
 Let $d_h$ be the discrete distance field computed by either method. We compute the error norms
+\begin{subequations}
 \begin{align}
   \Vert d_h - d_{\mathrm{exact}}\Vert_{L^2} &= \left( \sum_{i=1}^N (d_h(\mathbf{x}_i) - d_{\mathrm{exact}}(\mathbf{x}_i))^2
     \right)^{1/2},\\
   \Vert d_h - d_{\mathrm{exact}}\Vert_{L^\infty} &= \max_{i=1,\dots,N} |d_h(\mathbf{x}_i) - d_{\mathrm{exact}}(\mathbf{x}_i)|.
 \end{align}
-We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, verifying that FMM yields $O(h)$ convergence, while ray-tracing achieves machine-precision at vertices.
+\label{eq:specs:feelpp:distance:error}
+\end{subequations}
 
+We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, verifying that FMM yields $O(h)$ convergence, while ray-tracing achieves machine-precision at vertices.
 
 
 
@@ -110,26 +113,16 @@ We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, 
 
 \subsubsection{Input Data:}
   \begin{itemize}
-  \item Meshes: ...
-  \item Setup: ...
-  \item Sif image: ...
-  \item ...
+  \item Meshes: we use a cubic mesh with a various discretization size: $h = 0.12, 0.06, 0.03$ and $0.015$.
+  \item Setup: the FMM method is provided by the core library of \Feelpp, and the BVH implementation uses functionalities of \Feelpp.
+    More details can be found in \cite{van_landeghem_micro-swimming_2025}.
   \end{itemize}
 
-Include table of figure that are relevant (size of the meshes, etc...)
 
 \subsubsection{Output Data:}
 
-The output includes the computed values of validation measure in CSV files format, export visualization files (mesh, partitioning, temperature), and the time taken to perform each simulation step.
-Metric:
-\begin{itemize}
-    \item \texttt{benchmark-verification},
-    \item \texttt{strong-scalability},
-    \item \texttt{weak-scalability},
-    \item \texttt{io-scaling}: time taken by the application to read meshes, and to write the solution on disk (especially reading).
-\end{itemize}
-
-
+The output data monitored are the $L^2$ error committed by the two methods on the benchmark, as described in \Cref{eq:specs:feelpp:distance:error},
+as well as the time of execution to compute the distance for all points $\mathbf{x}_i$ in the mesh.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,4 +156,101 @@ We also present in \Cref{fig:specs:app-feelpp-distance:results:error-bvh} and \C
     \end{subfigure}
     \caption{Numerical results of distance computing.}
     \label{fig:specs:app-feelpp-distance:results}
+\end{figure}
+
+We now present some results of convergence.
+Note that for some cases, such as high meshes, the BVH method did not finish as it require too much memory.
+
+
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/timeBVH1000.csv}\dataTimeBVHnp
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/timeFMM1000.csv}\dataTimeFMMnp
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/errorBVHRay.csv}\dataTimeBVHM
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/convergenceBVH.csv}\dataConvBVH
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/convergenceFMM.csv}\dataConvFMM
+
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.49\textwidth}
+    \begin{tikzpicture}
+    \begin{axis}[
+      width=\textwidth,
+      xlabel={ Number of tasks }, ylabel={ Time [s] },
+      xtick=data, xtick align=outside,
+      ymode=log,
+      ymajorgrids=true, yminorgrids=true,
+      xmajorgrids=true,
+      xticklabels from table={\dataTimeBVHnp}{tasks},
+      cycle list name=color list, legend style={at={(0.99, 0.01)},anchor=south east}
+    ]
+      \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=0.12] {\dataTimeBVHnp} ;
+      \addlegendentry{ $h=0.12$ }
+      \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=0.06] {\dataTimeBVHnp} ;
+      \addlegendentry{ $h=0.06$ }
+      % \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=0.03] {\dataTimeBVHnp} ;
+      % \addlegendentry{ $h=0.03$ }
+      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=0.015] {\dataTimeBVHnp} ;
+      \addlegendentry{ $h=0.015$ }
+      \addplot+[mark=diamond*, dashed, color=customdarkblue, forget plot] table [x expr=\coordindex, y=0.12] {\dataTimeFMMnp} ;
+      \addplot+[mark=diamond*, dashed, color=customcyan, forget plot] table [x expr=\coordindex, y=0.06] {\dataTimeFMMnp} ;
+      % \addplot+[mark=diamond*, dashed, color=custompurple, forget plot] table [x expr=\coordindex, y=0.03] {\dataTimeFMMnp} ;
+      \addplot+[mark=diamond*, dashed, color=customorange, forget plot] table [x expr=\coordindex, y=0.015] {\dataTimeFMMnp} ;
+    \end{axis}
+  \end{tikzpicture}
+    \caption{Evolution of the time for the methods BVH (circle markers and plain line) and FMM (diamonds and dashed line) depending on the number of parallel process. }
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \begin{tikzpicture}
+    \begin{axis}[
+      width=\textwidth,
+      xlabel={ Number of rays }, ylabel={ Error $L^2$ },
+      xtick=data, xtick align=outside,
+      ymode=log,
+      ymajorgrids=true, yminorgrids=true,
+      xmajorgrids=true,
+      xticklabels from table={\dataTimeBVHM}{M},
+      cycle list name=color list, legend style={at={(0.99, 0.01)}, legend style={nodes={scale=0.75, transform shape}}, anchor=south east}
+    ]
+      \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=0.12] {\dataTimeBVHM} ;
+      \addlegendentry{ $h=0.12$ }
+      \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=0.06] {\dataTimeBVHM} ;
+      \addlegendentry{ $h=0.06$ }
+      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=0.03] {\dataTimeBVHM} ;
+      \addlegendentry{ $h=0.03$ }
+      \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=0.015] {\dataTimeBVHM} ;
+      \addlegendentry{ $h=0.015$ }
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Evolution of the BVH error, regarding the number of rays cast.}
+  \vspace{1.7\baselineskip}
+  \end{subfigure}%
+  \hfill%
+  \begin{subfigure}{0.49\textwidth}
+    \begin{tikzpicture}
+    \begin{axis}[
+      width=\textwidth,
+      xlabel={ $h$ }, ylabel={ Error $L^2$ },
+      xtick=data, xtick align=outside,
+      ymode=log, xmode=log,
+      ymin=1e-3,
+      ymajorgrids=true, yminorgrids=true,
+      xmajorgrids=true,
+      xticklabels from table={\dataConvBVH}{h},
+      cycle list name=color list, legend style={at={(0.99, 0.01)}, legend style={nodes={scale=0.75, transform shape}}, anchor=south east}
+    ]
+      \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=1000] {\dataConvBVH} ;
+      \addlegendentry{ $M=1000$ }
+      \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=1500] {\dataConvBVH} ;
+      \addlegendentry{ $M=1500$ }
+      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=2000] {\dataConvBVH} ;
+      \addlegendentry{ $M=2000$ }
+      \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=2500] {\dataConvBVH} ;
+      \addlegendentry{ $M=2500$ }
+      \addplot+[mark=*, color=customgreen] table [x expr=\coordindex, y=FMM] {\dataConvFMM} ;
+      \addlegendentry{ FMM }
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Convergence of the error against mesh size.}
+  \end{subfigure}
+  \caption{Metrics of results for the benchmark distance.}
 \end{figure}
