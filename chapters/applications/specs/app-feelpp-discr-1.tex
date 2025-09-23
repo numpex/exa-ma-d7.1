@@ -208,7 +208,7 @@ Metric:
   \centering
   \captionsetup[subfigure]{justification=centering}
 
-  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_measures.csv}\dataTableMeasures
+  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_measures.csv}\dataTableMeasures
   \def\myLineWidth{2pt}
   \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
   \def\myLineStyleB{dashed}
@@ -310,9 +310,9 @@ Metric:
 
 \foreach [expand list=true] \meshId in {1,2,3} {
 
-  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_M\meshId_P1_discoverer.csv}\dataPa
-  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_M\meshId_P2_discoverer.csv}\dataPb
-  \pgfplotstableread[col sep=comma]{\currfiledir data.old/thermalbridges_M\meshId_P3_discoverer.csv}\dataPc
+  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_M\meshId_P1_discoverer.csv}\dataPa
+  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_M\meshId_P2_discoverer.csv}\dataPb
+  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_M\meshId_P3_discoverer.csv}\dataPc
 
   \begin{figure}
     \centering
