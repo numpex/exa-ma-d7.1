@@ -19,36 +19,36 @@ containers/          % Docker/Apptainer recipes
 
 \subsection{Environment Management}
 \begin{itemize}
-  \item Use \textbf{Spack} to pin exact dependency versions; commit \texttt{spack.lock}.  
-  \item Provide separate envs under \texttt{.spack/dev/} and \texttt{.spack/benchmark/}.  
+  \item Use \textbf{Spack} to pin exact dependency versions; commit \texttt{spack.lock}.
+  \item Provide separate envs under \texttt{.spack/dev/} and \texttt{.spack/benchmark/}.
   \item Document activation in \texttt{.spack/README.md}.
 \end{itemize}
 
 \subsection{CI/CD Pipelines}
 \begin{itemize}
-  \item Define workflows for \texttt{build}, \texttt{test}, \texttt{benchmark}, \texttt{lint}.  
-  \item Reuse WP7 shared actions via \texttt{uses: numpex/wp7-actions/...}.  
+  \item Define workflows for \texttt{build}, \texttt{test}, \texttt{benchmark}, \texttt{lint}.
+  \item Reuse WP7 shared actions via \texttt{uses: numpex/wp7-actions/...}.
   \item On merge to \texttt{develop} and nightly, run full benchmark suite and push metrics to Grafana.
 \end{itemize}
 
 \subsection{Containerization \& Packaging}
 \begin{itemize}
-  \item Multi-stage Dockerfiles / Apptainer recipes in \texttt{containers/}.  
-  \item Base images tagged \texttt{<proj>-v<semver>-<date>}.  
+  \item Multi-stage Dockerfiles / Apptainer recipes in \texttt{containers/}.
+  \item Base images tagged \texttt{<proj>-v<semver>-<date>}.
   \item Leverage Spack inside containers for reproducibility.
 \end{itemize}
 
 \subsection{Framework Examples}
 \begin{description}
-  \item[FEEL++] Clone from \texttt{feelpp-project} template: preconfigured \texttt{src/}, \texttt{.spack/}, CI, containers.  
-  \item[MFEM/FreeFEM++] Apply the same layout and CI conventions.  
+  \item[FEEL++] Clone from \texttt{feelpp-project} template: preconfigured \texttt{src/}, \texttt{.spack/}, CI, containers.
+  \item[MFEM/FreeFEM++] Apply the same layout and CI conventions.
   \item[PETSc] Use \texttt{-log\_view} profiling and conform to the \texttt{tests/} and \texttt{containers/} structure.
 \end{description}
 
 \subsection{Best Practices}
 \begin{itemize}
-  \item Pin all versions; avoid hard-coded paths.  
-  \item Automate benchmarks on PRs (smoke) and nightly (full).  
-  \item Tag releases via GitHub Releases, include PDF report and container digests.  
+  \item Pin all versions; avoid hard-coded paths.
+  \item Automate benchmarks on PRs (smoke) and nightly (full).
+  \item Tag releases via GitHub Releases, include PDF report and container digests.
   \item Link all artifacts (code, containers, datasets) via DOIs for traceability.
 \end{itemize}
