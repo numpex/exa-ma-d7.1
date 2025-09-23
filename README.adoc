@@ -1,5 +1,7 @@
 = Exa-MA D7.1 Report Automation
 :experimental: true
+:toc: preamble
+:toclevels: 3
 //.Zenodo DOI
 //--
 //image::https://zenodo.org/badge/DOI/10.5281/zenodo.13341126.svg[DOI, link=https://doi.org/10.5281/zenodo.13341126]
@@ -10,13 +12,402 @@
 image::https://github.com/numpex/exa-ma-d7.1/actions/workflows/latex.yml/badge.svg["Compile Latex and Release PDF", link="https://github.com/numpex/exa-ma-d7.1/actions/workflows/latex.yml"]
 --
 
+.License
+--
+image::https://licensebuttons.net/l/by/4.0/88x31.png[CC BY 4.0, link="https://creativecommons.org/licenses/by/4.0/"]
+--
+
 == Overview
 
-This repository contains the automated workflow for compiling the Exa-MA D7.1 deliverable using LaTeX. 
-The workflow is designed to compile LaTeX files, create PDF artifacts, and automatically release the generated document via GitHub releases. 
-We use self-hosted runners from UNISTRA labeled `self-texlive` for the LaTeX compilation process.
+This repository contains the Exa-MA D7.1 deliverable document written in LaTeX with automated compilation workflows.
+The project uses LaTeX with the `minted` package for syntax highlighting and requires special compilation flags.
+Documents are automatically compiled using GitHub Actions with self-hosted TeXLive runners and can be compiled locally using various methods.
 
-== Clone the repository
+*Key features:*
+- Automated LaTeX compilation with GitHub Actions
+- VS Code integration with LaTeX Workshop
+- Zotero bibliography management
+- Release automation with version tagging
+- Comprehensive error handling and troubleshooting
+
+== Quick Start
+
+=== Prerequisites
+
+Before compiling, ensure you have:
+- LaTeX distribution (TeX Live recommended)
+- Python with Pygments library (for code syntax highlighting)
+- Git (for version control and hooks)
+
+.Installing Pygments
+[source,shell]
+----
+# On macOS with Homebrew
+brew install pygments
+
+# On Ubuntu/Debian
+sudo apt-get install python3-pygments
+
+# Using pip
+pip install pygments
+----
+
+=== Clone and Setup
+
+[source,shell]
+----
+git clone https://github.com/numpex/exa-ma-d7.1
+cd exa-ma-d7.1
+./a.cli setup # to be done only once after you clone the repo
+----
+
+NOTE: `a.cli` is a shell script to setup the repo, create releases and update bibtex references.
+
+== Compiling the Document
+
+=== Method 1: Using latexmk (Recommended)
+
+The recommended compilation method uses `latexmk` with shell escape enabled:
+
+.Full compilation with latexmk
+[source, shell]
+----
+latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode exa-ma-d7.1.tex
+----
+
+*Key flags explained:*
+- `--shell-escape`: Required for `minted` package (syntax highlighting)
+- `-pdf`: Generate PDF output
+- `-file-line-error`: Show file names and line numbers for errors
+- `-halt-on-error`: Stop compilation on errors
+- `-interaction=nonstopmode`: Continue compilation without user input
+
+=== Method 2: Using VS Code
+
+If you're using VS Code with the LaTeX Workshop extension:
+
+1. Open the project in VS Code
+2. The document will auto-compile when you save any `.tex` file
+3. Use kbd:[Ctrl+Alt+B] (or kbd:[Cmd+Alt+B] on macOS) to manually build
+
+The VS Code configuration is pre-configured in `.vscode/settings.json` with:
+- Auto-build on save enabled
+- Proper `latexmk` recipe with shell escape
+- SyncTeX support for forward/backward search
+
+=== Method 3: Single Pass Compilation
+
+For quick testing (may require multiple runs for references):
+
+.Single pdflatex run
+[source, shell]
+----
+pdflatex --shell-escape exa-ma-d7.1.tex
+----
+
+=== Method 4: Using the CLI Helper
+
+.Clean build artifacts
+[source, shell]
+----
+./a.cli clean
+----
+
+=== Troubleshooting Compilation Issues
+
+**Common errors and solutions:**
+
+.Shell escape not enabled
+----
+Error: Package minted Error: You must invoke LaTeX with the -shell-escape flag.
+----
+*Solution:* Always use `--shell-escape` flag in your compilation command.
+
+.Pygments not found
+----
+Error: Package minted Error: You must have 'pygmentize' installed.
+----
+*Solution:* Install Python and Pygments as shown in the Prerequisites section.
+
+.Missing bibliography
+If references are not showing up, ensure you have the latest `references.bib` file (see Zotero section).
+
+== Bibliography Management with Zotero
+
+The project uses Zotero for bibliography management with the ExaMA shared library.
+
+=== Updating References
+
+To update `references.bib`, you have several options:
+
+==== Option 1: Using the CLI Script (Recommended)
+
+[source,console]
+----
+export ZOTERO_API_KEY=your_api_key_here
+./a.cli update-bibtex
+----
+
+==== Option 2: Manual Download from Zotero
+
+Download `references.bib` by exporting the exa-ma library from the Zotero GUI.
+
+=== Setting Up Zotero API Access
+
+. Go to https://www.zotero.org/settings/security[Zotero Security Settings]
+. Navigate to **Applications** at the bottom
+. Click btn:[Create new private key]
+. Select **Read only** group permissions
+. Click btn:[Save Key]
+. Store the key securely and use it for `ZOTERO_API_KEY`
+
+.Zotero Applications Setup
+image:graphics/zotero/zotero-applications.png[]
+
+.Creating New API Key
+image:graphics/zotero/zotero-newkey.png[]
+
+=== Custom Citation Keys
+
+.Citation Key Setup in Zotero
+[.right]
+image:graphics/zotero/zotero-citation-keys.png[]
+
+To set custom citation keys, add the following to Zotero's **Extra** field:
+
+[source,text]
+----
+Citation Key: author_title_year_type
+----
+
+*Example:* `Citation Key: saigre_coupled_2024_paper`
+
+NOTE: When setting custom keys, ensure uniqueness to avoid conflicts.
+
+== Automated Workflows
+
+=== GitHub Actions Pipeline
+
+The repository uses GitHub Actions for automated compilation and release management:
+
+**Triggers:**
+- Push to any branch: Compiles document and creates artifacts
+- Push version tags (`v*`): Creates official releases with PDF
+
+**Workflow stages:**
+1. **Environment Setup**: Selects appropriate runner (self-hosted `self-texlive` or `ubuntu-latest`)
+2. **Bibliography Update**: Automatically fetches latest references from Zotero (non-main branches)
+3. **LaTeX Compilation**: Compiles document using `latexmk` with shell escape
+4. **Artifact Creation**: Uploads PDF and source files
+5. **Release Management**: Creates GitHub releases for tagged versions
+
+**Self-hosted Runners:**
+The project uses UNISTRA's `self-texlive` runners, pre-configured with:
+- Complete TeXLive installation
+- All required LaTeX packages
+- Optimized compilation environment
+
+=== Release Process
+
+To create a new release:
+
+[source,shell]
+----
+# Create and push a version tag
+./a.cli create v1.0.0
+----
+
+This automatically:
+1. Tags the repository
+2. Updates version information
+3. Triggers GitHub Actions
+4. Creates a release with PDF artifact
+
+=== Development Workflow
+
+. **Setup**: `./a.cli setup` (one-time after clone)
+. **Edit**: Modify `.tex` files as needed
+. **Compile**: Use VS Code auto-build or manual `latexmk`
+. **Clean**: `./a.cli clean` to remove build artifacts
+. **Commit**: Git hooks automatically update version info
+. **Release**: Tag with `./a.cli create vX.Y.Z` for releases
+
+== Project Structure
+
+The repository is organized as follows:
+
+[cols="1,3"]
+|===
+| Directory/File | Description
+
+| `exa-ma-d7.1.tex` | Main LaTeX document
+| `chapters/` | Individual chapters of the deliverable
+| `sections/` | Report sections and content
+| `software/` | Software-specific sections
+| `graphics/` | Images, figures, and visual content
+| `references.bib` | Bibliography file (managed via Zotero)
+| `numpex.sty` | Custom LaTeX style files
+| `a.cli` | Command-line utility script
+| `hooks/` | Git hooks for automation
+| `.vscode/` | VS Code configuration
+| `.github/workflows/` | GitHub Actions workflows
+|===
+
+=== Key Files
+
+**LaTeX Files:**
+- `exa-ma-d7.1.tex`: Main document entry point
+- `defs.tex`: Definitions and macros
+- `*.sty`: Custom style files (`numpex.sty`, `istcover.sty`, etc.)
+
+**Configuration:**
+- `.vscode/settings.json`: VS Code LaTeX Workshop configuration
+- `.github/workflows/latex.yml`: Automated compilation workflow
+- `gitHeadLocal.gin`: Version information (auto-generated)
+
+== Contributing
+
+=== How to Contribute
+
+. **Clone and Setup**:
++
+[source,shell]
+----
+git clone https://github.com/numpex/exa-ma-d7.1
+cd exa-ma-d7.1
+./a.cli setup
+----
+
+. **Make Changes**: Edit LaTeX sources in relevant directories (`chapters/`, `sections/`)
+
+. **Test Compilation**: Ensure document compiles without errors:
++
+[source,shell]
+----
+latexmk --shell-escape -pdf -interaction=nonstopmode exa-ma-d7.1.tex
+----
+
+. **Clean Up**: Remove build artifacts before committing:
++
+[source,shell]
+----
+./a.cli clean
+----
+
+. **Submit**: Create a pull request for review
+
+=== Best Practices
+
+- **Always test compilation** before submitting changes
+- **Use meaningful commit messages** that describe the changes
+- **Update bibliography** when adding new references
+- **Follow LaTeX conventions** for formatting and structure
+- **Clean build artifacts** before committing
+
+== CLI Reference
+
+The `a.cli` script provides several useful commands:
+
+[source,shell]
+----
+# Setup git hooks (run once after clone)
+./a.cli setup
+
+# Clean build artifacts
+./a.cli clean
+
+# Create a new release
+./a.cli create v1.0.0
+
+# List recent releases
+./a.cli list
+
+# Update bibliography from Zotero
+./a.cli update-bibtex
+
+# Get help
+./a.cli --help
+----
+
+== Technical Notes
+
+=== System Requirements
+
+- **LaTeX Distribution**: TeX Live (full installation recommended)
+- **Python**: Version 3.6+ with Pygments library
+- **Git**: For version control and hooks
+- **VS Code** (optional): With LaTeX Workshop extension for optimal experience
+
+=== Self-Hosted Runners
+
+The project uses UNISTRA's specialized `self-texlive` runners with:
+- Pre-installed complete TeXLive distribution
+- All required LaTeX packages
+- Optimized compilation environment
+- Automatic fallback to `ubuntu-latest` if unavailable
+
+=== Compilation Notes
+
+- **Shell escape is mandatory** due to the `minted` package for code highlighting
+- **Multiple passes may be needed** for complete reference resolution
+- **SyncTeX is enabled** for VS Code forward/backward search
+- **Build artifacts are automatically cleaned** in CI/CD pipeline
+
+== Additional Resources
+
+- **AGENTS.md**: Comprehensive LaTeX compilation guide
+- **GitHub Actions**: https://github.com/numpex/exa-ma-d7.1/actions[View build status]
+- **Releases**: https://github.com/numpex/exa-ma-d7.1/releases[Download latest PDF]
+- **Zotero Library**: ExaMA shared bibliography
+- **VS Code LaTeX Workshop**: https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop[Extension documentation]
+
+== License
+
+This project is licensed under the CC License. See the LICENSE file for details.
+
+.GitHub Actions Status
+--
+image::https://github.com/numpex/exa-ma-d7.1/actions/workflows/latex.yml/badge.svg["Compile Latex and Release PDF", link="https://github.com/numpex/exa-ma-d7.1/actions/workflows/latex.yml"]
+--
+
+== Overview
+
+This repository contains the Exa-MA D7.1 deliverable document written in LaTeX with automated compilation workflows.
+The project uses LaTeX with the `minted` package for syntax highlighting and requires special compilation flags.
+Documents are automatically compiled using GitHub Actions with self-hosted TeXLive runners and can be compiled locally using various methods.
+
+Key features::
++
+- Automated LaTeX compilation with GitHub Actions
+- VS Code integration with LaTeX Workshop
+- Zotero bibliography management
+- Release automation with version tagging
+- Comprehensive error handling and troubleshooting
+
+== Quick Start
+
+=== Prerequisites
+
+Before compiling, ensure you have:
+
+- LaTeX distribution (TeX Live recommended)
+- Python with Pygments library (for code syntax highlighting)
+- Git (for version control and hooks)
+
+.Installing Pygments
+[source,shell]
+----
+# On macOS with Homebrew
+brew install pygments
+
+# On Ubuntu/Debian
+sudo apt-get install python3-pygments
+
+# Using pip
+pip install pygments
+----
+
+=== Clone and Setup
 
 
 [source,shell]
@@ -28,123 +419,311 @@ bash a.cli setup # to be done only once after you clone the repo
 
 NOTE: `a.cli` is a shell script to setup the repo, create release and update bibtex references.
 
-== Compiling the deliverable
+== Compiling the Document
 
-.Command line to compile fully the deliverable
+=== Method 1: Using latexmk (Recommended)
+
+The recommended compilation method uses `latexmk` with shell escape enabled:
+
+.Full compilation with latexmk
 [source, shell]
 ----
 latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode exa-ma-d7.1.tex
 ----
 
-.Simple command line to compile once
+Key flags explained::
++
+- `--shell-escape`: Required for `minted` package (syntax highlighting)
+- `-pdf`: Generate PDF output
+- `-file-line-error`: Show file names and line numbers for errors
+- `-halt-on-error`: Stop compilation on errors
+- `-interaction=nonstopmode`: Continue compilation without user input
+
+=== Method 2: Using VS Code
+
+If you're using VS Code with the LaTeX Workshop extension:
+
+1. Open the project in VS Code
+2. The document will auto-compile when you save any `.tex` file
+3. Use kbd:[Ctrl+Alt+B] (or kbd:[Cmd+Alt+B] on macOS) to manually build
+
+The VS Code configuration is pre-configured in `.vscode/settings.json` with:
+
+- Auto-build on save enabled
+- Proper `latexmk` recipe with shell escape
+- SyncTeX support for forward/backward search
+
+=== Method 3: Single Pass Compilation
+
+For quick testing (may require multiple runs for references):
+
+.Single pdflatex run
 [source, shell]
 ----
 pdflatex --shell-escape exa-ma-d7.1.tex
 ----
 
-== Zotero
+=== Method 4: Using the CLI Helper
 
-=== Update Zotero references
-
-To update the references (`references.bib`), you have several options:
-
-Download from Zotero:: download the file references.bib by exporting the exa-ma library from the GUI
-Using `a.cli`:: setup the variable and run `a.cli update-bibtex`
-+
-[,console]
+.Clean build artifacts
+[source, shell]
+----
+./a.cli clean
 ----
 
-export ZOTERO_API_KEY=xxx
-bash ./a.cli update-bibtex
+=== Troubleshooting Compilation Issues
+
+**Common errors and solutions:**
+
+.Shell escape not enabled
 ----
-+
-to create the key go to https://www.zotero.org/settings/security[> Zotero Secutiry page] (and log in) 
-+
-then go to the **Applications** at the bottom of the **Secutiry** page
-+
+Error: Package minted Error: You must invoke LaTeX with the -shell-escape flag.
+----
+*Solution:* Always use `--shell-escape` flag in your compilation command.
+
+.Pygments not found
+----
+Error: Package minted Error: You must have 'pygmentize' installed.
+----
+*Solution:* Install Python and Pygments as shown in the Prerequisites section.
+
+.Missing bibliography
+If references are not showing up, ensure you have the latest `references.bib` file (see Zotero section).
+
+== Bibliography Management with Zotero
+
+The project uses Zotero for bibliography management with the ExaMA shared library.
+
+=== Updating References
+
+To update `references.bib`, you have several options:
+
+==== Option 1: Using the CLI Script (Recommended)
+
+[source,console]
+----
+export ZOTERO_API_KEY=your_api_key_here
+./a.cli update-bibtex
+----
+
+==== Option 2: Manual Download from Zotero
+
+Download `references.bib` by exporting the exa-ma library from the Zotero GUI.
+
+=== Setting Up Zotero API Access
+
+. Go to https://www.zotero.org/settings/security[Zotero Security Settings]
+. Navigate to **Applications** at the bottom
+. Click btn:[Create new private key]
+. Select **Read only** group permissions
+. Click btn:[Save Key]
+. Store the key securely and use it for `ZOTERO_API_KEY`
+
+.Zotero Applications Setup
 image:graphics/zotero/zotero-applications.png[]
-+
-click btn:[Create new private key] then select group permission **Read only*. Then btn:[Save Key]. 
-+
+
+.Creating New API Key
 image:graphics/zotero/zotero-newkey.png[]
-+
-Then keep the key in a safe place and use it to to define `ZOTERO_API_KEY`
 
-=== How to set citation keys 
+=== Custom Citation Keys
 
+.Citation Key Setup in Zotero
 [.right]
 image:graphics/zotero/zotero-citation-keys.png[]
 
+To set custom citation keys, add the following to Zotero's **Extra** field:
 
-To set your own citation key, simply enter the following line in Zotero's **Extra** field:
 [source,text]
 ----
-Citation Key: saigre_coupled_2024_paper
+Citation Key: author_title_year_type
 ----
 
-When the biblio is exported, this key will be used for the reference.
+*Example:* `Citation Key: saigre_coupled_2024_paper`
 
-NOTE: you have then to handle possible conflicts in citation keys yourself in you set them yourself.
+NOTE: When setting custom keys, ensure uniqueness to avoid conflicts.
 
 
-== Workflow Description
 
-The repository utilizes GitHub Actions to automate the following tasks:
+== Automated Workflows
 
-1. Compile the LaTeX document upon each push to specific branches or tags.
-2. Upload the LaTeX artifacts, including the generated PDF, LaTeX sources, and associated files.
-3. Run checks to ensure the document is properly compiled.
-4. Release the compiled document automatically when a version tag is pushed.
+=== GitHub Actions Pipeline
 
-The workflow primarily runs on UNISTRA's self-hosted runners (`self-texlive`) to take advantage of a tailored LaTeX environment optimized for compiling the project’s documents.
+The repository uses GitHub Actions for automated compilation and release management:
 
-== Usage
+Triggers::
++
+- Push to any branch: Compiles document and creates artifacts
+- Push version tags (`v*`): Creates official releases with PDF
 
-To trigger the workflow:
-- Push commits to a branch, or
-- Push a tag with the format `v*` (e.g., `v1.0`, `v1.1-rc`).
+Workflow stages::
++
+1. **Environment Setup**: Selects appropriate runner (self-hosted `self-texlive` or `ubuntu-latest`)
+2. **Bibliography Update**: Automatically fetches latest references from Zotero (non-main branches)
+3. **LaTeX Compilation**: Compiles document using `latexmk` with shell escape
+4. **Artifact Creation**: Uploads PDF and source files
+5. **Release Management**: Creates GitHub releases for tagged versions
 
-The workflow will:
+Self-hosted Runners::
++
+The project uses UNISTRA's `self-texlive` runners, pre-configured with:
+- Complete TeXLive installation
+- All required LaTeX packages
+- Optimized compilation environment
 
-1. Set up the environment using the `self-texlive` runner.
-2. Compile the LaTeX source files into a PDF using `latexmk` with shell escape enabled.
-3. Upload the compiled PDF and other artifacts to GitHub for review.
-4. Automatically create a release when a version tag is pushed.
+=== Release Process
 
-== Workflow Structure
+To create a new release:
 
-The workflow has several stages:
+[source,shell]
+----
+# Create and push a version tag
+./a.cli create v1.0.0
+----
 
-- Workflow Setup: Initializes the environment and selects the appropriate runner (self-hosted or GitHub runner).
-- LaTeX Build: Compiles the LaTeX document using the UNISTRA `self-texlive` runner.
-- Artifact Upload: Uploads the generated PDF and LaTeX sources as artifacts.
-- Release: Packages the compiled artifacts and creates a GitHub release.
+This automatically:
 
-== Directory Structure
+1. Tags the repository
+2. Updates version information
+3. Triggers GitHub Actions
+4. Creates a release with PDF artifact
+
+=== Development Workflow
+
+. **Setup**: `./a.cli setup` (one-time after clone)
+. **Edit**: Modify `.tex` files as needed
+. **Compile**: Use VS Code auto-build or manual `latexmk`
+. **Clean**: `./a.cli clean` to remove build artifacts
+. **Commit**: Git hooks automatically update version info
+. **Release**: Tag with `./a.cli create vX.Y.Z` for releases
+
+== Project Structure
 
 The repository is organized as follows:
 
-- `chapters/`: Contains the individual chapters of the deliverable.
-- `sections/`: Sections of the report.
-- `software/`: Software-related sections.
-- `graphics/`: Image files.
-- `dat/`: Data files used in the report.
-- `hooks/`: Git hooks.
-- `litterature/`: References and bibliography.
-- `README.adoc`: This file, providing an overview of the repository.
-- `a.cli`: Shell script used for setup.
+[cols="1,3"]
+|===
+| Directory/File | Description
 
-== Self-Hosted Runner (`self-texlive`)
+| `exa-ma-d7.1.tex` | Main LaTeX document
+| `chapters/` | Individual chapters of the deliverable
+| `sections/` | Report sections and content
+| `software/` | Software-specific sections
+| `graphics/` | Images, figures, and visual content
+| `references.bib` | Bibliography file (managed via Zotero)
+| `numpex.sty` | Custom LaTeX style files
+| `a.cli` | Command-line utility script
+| `hooks/` | Git hooks for automation
+| `.vscode/` | VS Code configuration
+| `.github/workflows/` | GitHub Actions workflows
+|===
 
-The LaTeX document is built using UNISTRA’s self-hosted runners labeled `self-texlive`. These runners are pre-configured with the necessary TeXLive environment to compile complex LaTeX documents and ensure consistent results. The setup also supports LaTeX packages needed for this project.
+=== Key Files
 
-== How to Contribute
+**LaTeX Files:**
+- `exa-ma-d7.1.tex`: Main document entry point
+- `defs.tex`: Definitions and macros
+- `*.sty`: Custom style files (`numpex.sty`, `istcover.sty`, etc.)
 
-1. Clone the repository.
-2. Make changes to the LaTeX sources in the relevant directories (e.g., `chapters`, `sections`).
-3. Commit and push your changes to a feature branch.
-4. Create a pull request for review.
-5. Once approved, merge the changes to the main branch or a release branch.
+**Configuration:**
+- `.vscode/settings.json`: VS Code LaTeX Workshop configuration
+- `.github/workflows/latex.yml`: Automated compilation workflow
+- `gitHeadLocal.gin`: Version information (auto-generated)
+
+== Technical Notes
+
+=== System Requirements
+
+- **LaTeX Distribution**: TeX Live (full installation recommended)
+- **Python**: Version 3.6+ with Pygments library
+- **Git**: For version control and hooks
+- **VS Code** (optional): With LaTeX Workshop extension for optimal experience
+
+=== Self-Hosted Runners
+
+The project uses UNISTRA's specialized `self-texlive` runners with:
+- Pre-installed complete TeXLive distribution
+- All required LaTeX packages
+- Optimized compilation environment
+- Automatic fallback to `ubuntu-latest` if unavailable
+
+=== Compilation Notes
+
+- **Shell escape is mandatory** due to the `minted` package for code highlighting
+- **Multiple passes may be needed** for complete reference resolution
+- **SyncTeX is enabled** for VS Code forward/backward search
+- **Build artifacts are automatically cleaned** in CI/CD pipeline
+
+== Contributing
+
+=== How to Contribute
+
+. **Clone and Setup**:
++
+[source,shell]
+----
+git clone https://github.com/numpex/exa-ma-d7.1
+cd exa-ma-d7.1
+./a.cli setup
+----
+
+. **Make Changes**: Edit LaTeX sources in relevant directories (`chapters/`, `sections/`)
+
+. **Test Compilation**: Ensure document compiles without errors:
++
+[source,shell]
+----
+latexmk --shell-escape -pdf -interaction=nonstopmode exa-ma-d7.1.tex
+----
+
+. **Clean Up**: Remove build artifacts before committing:
++
+[source,shell]
+----
+./a.cli clean
+----
+
+. **Submit**: Create a pull request for review
+
+=== Best Practices
+
+- **Always test compilation** before submitting changes
+- **Use meaningful commit messages** that describe the changes
+- **Update bibliography** when adding new references
+- **Follow LaTeX conventions** for formatting and structure
+- **Clean build artifacts** before committing
+
+== CLI Reference
+
+The `a.cli` script provides several useful commands:
+
+[source,shell]
+----
+# Setup git hooks (run once after clone)
+./a.cli setup
+
+# Clean build artifacts
+./a.cli clean
+
+# Create a new release
+./a.cli create v1.0.0
+
+# List recent releases
+./a.cli list
+
+# Update bibliography from Zotero
+./a.cli update-bibtex
+
+# Get help
+./a.cli --help
+----
+
+== Additional Resources
+
+- **AGENTS.md**: LaTeX compilation guide
+- **GitHub Actions**: https://github.com/numpex/exa-ma-d7.1/actions[View build status]
+- **Releases**: https://github.com/numpex/exa-ma-d7.1/releases[Download latest PDF]
+- **Zotero Library**: ExaMA shared bibliography
+- **VS Code LaTeX Workshop**: https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop[Extension documentation]
 
 == Notes
 
@@ -158,5 +737,25 @@ The LaTeX document is built using UNISTRA’s self-hosted runners labeled `self-
 
 == License
 
-This project is licensed under the CC License. See the LICENSE file for details.
+This work is licensed under the https://creativecommons.org/licenses/by/4.0/[Creative Commons Attribution 4.0 International License (CC BY 4.0)].
+
+image::https://licensebuttons.net/l/by/4.0/88x31.png[CC BY 4.0, link="https://creativecommons.org/licenses/by/4.0/"]
+
+You are free to:
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material for any purpose, even commercially
+
+Under the following terms:
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made
+
+This document is a deliverable of the **Exa-MA project (ANR-22-EXNU-0002)**, funded by the French National Research Agency (ANR) as part of the NUMPEX program.
+
+**Citation:**
+When referencing this work, please cite as:
+----
+Exa-MA Consortium. (2025). Benchmarking Analysis Report (D7.1). 
+DOI: 10.5281/zenodo.15188286
+----
+
+See the link:LICENSE[LICENSE] file for complete terms.
 
