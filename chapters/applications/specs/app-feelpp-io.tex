@@ -55,12 +55,24 @@ This mini application tests the input and output of data for \Feelpp.
 This application consists in a small code that runs a given number of time the following steps:
 \begin{itemize}
     \item Load a mesh $\mathcal{M}$ with a discretization size $h$,
-    \item Create a functional space $X_h = P_{\text{c},h}^d$ associated to the desired order of discretization $d$,
-    \item Create a vector $u\in X_h$, and export it to the disk,
-    \item Write the loaded mesh on disk.
+    \item create a functional space $X_h = P_{\text{c},h}^d$ associated to the desired order of discretization $d$,
+    \item generate a second functional space, this time vectorial, $\mathbf{X}_h = \left[P_{\text{c},h}^d\right]^3$,
+    \item create a vector $u\in X_h$, and export it to the disk,
+    \item create a vector $\mathbf{u}\in\mathbf{X}_h$, and export it to the disk,
+    \item write the loaded mesh on disk.
 \end{itemize}
 
-This process it iterated a given number of times.
+The export part of the object is done in two ways:
+\begin{inparaenum}[\it (i)]
+  \item write at format HDF5 on the disk directly,
+  \item use the \texttt{exporter} functionality of \Feelpp.
+\end{inparaenum}
+For the second one, we provide more details.
+The two fields are interpolated to a $\mathP_1$ field before being saved on the disk.
+The mesh is also exported in this process.
+The time measured is the time taken to perform projections of $u$ and $\mathbf{u}$, and to save the files.
+
+This whole process it iterated a given number of times.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -137,54 +149,6 @@ The times are stored in a JSON file during execution.
 \subsection{Results summary}
 
 
-\newcommand{\plot}[3][(0.99,0.99)]{
-  \begin{tikzpicture}
-    \begin{axis}[
-      % width=\textwidth, height=0.6172\textwidth,
-      xlabel={ Number of tasks }, ylabel={ Time [s] },
-      xtick=data, xtick align=outside,
-      ymode=log,
-      ymajorgrids=true, yminorgrids=true,
-      xmajorgrids=true,
-      xticklabels from table={#2}{#3},
-      cycle list name=color list, legend style={at={#1},anchor=north east}
-    ]
-      \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=M2] {#2} ;
-      \addlegendentry{ \texttt{M2} }
-      \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=M3] {#2} ;
-      \addlegendentry{ \texttt{M3} }
-      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=M4] {#2} ;
-      \addlegendentry{ \texttt{M4} }
-      \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=M5] {#2} ;
-      \addlegendentry{ \texttt{M5} }
-    \end{axis}
-  \end{tikzpicture}
-  \vspace{-2em}
-}
-
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP1.csv}\dataLoadMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP2.csv}\dataLoadMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP3.csv}\dataLoadMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP4.csv}\dataLoadMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP5.csv}\dataLoadMesh
-
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP1.csv}\dataFunctionSpace
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP2.csv}\dataFunctionSpace
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP3.csv}\dataFunctionSpace
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP4.csv}\dataFunctionSpace
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP5.csv}\dataFunctionSpace
-
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP1.csv}\dataSaveMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP2.csv}\dataSaveMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP3.csv}\dataSaveMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP4.csv}\dataSaveMesh
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP5.csv}\dataSaveMesh
-
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP1.csv}\dataExportData
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP2.csv}\dataExportData
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP3.csv}\dataExportData
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP4.csv}\dataExportData
-% \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP5.csv}\dataExportData
 
 We present in \Cref{fig:specs:app-feelpp-io:np} the results of execution of this benchmark over the family of mesh, for a various number of parallel tasks.
 The mini-app is run on the cluster Gaya.
@@ -193,38 +157,14 @@ Similar behaviors are observed for other degree of discretization.
 
 Note that some points are missing, either because the memory available on the nodes were too high for a node of Gaya, or because the iterative process described above took more than the time allocated to the job (1 hour).
 
-We see that the steps of reading data and of creation of the functional spaces scale well according to the number of parallel process, as pointed out in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace}, with a limit reached at $\texttt{np}=96$ for the small meshes.
+We see that the steps of reading data and of creation of the functional spaces scale well according to the number of parallel process, as pointed out in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=96$ for the small meshes.
 
+On the contrary, the steps where we write data on the disk do not scale when the number of parallel process increases.
+Precisely, this time gets higher, as pointed out in \Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv} or stagnated as shown in \Cref{fig:specs:app-feelpp-io:np:export}.
+This lost of performance can be explained because of the communication of the parallel process that need to coordinate to write data on a single spot on disk.
+As the mesh is already pre-partitionned, we do not have the same issue during the reading step.
 
-\begin{figure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot{\dataLoadMesh}{resources.tasks}
-    \caption{ Load the mesh. }
-    \label{fig:specs:app-feelpp-io:np:loadmesh}
-  \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot{\dataFunctionSpace}{resources.tasks}
-    \caption{ Time to create function space $X_h$. }
-    \label{fig:specs:app-feelpp-io:np:functionspace}
-  \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot[(0.99,0.35)]{\dataSaveMesh}{resources.tasks}
-    \caption{ Time to save mesh at format HDF5 on disk. }
-    \label{fig:specs:app-feelpp-io:np:savemesh}
-  \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot[(0.99,0.35)]{\dataExportData}{resources.tasks}
-    \caption{ Ensight export of the vector $u$ on disk (mesh + field). }
-    \label{fig:specs:app-feelpp-io:np:export}
-  \end{subfigure}
-  \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at a fixed discretization order ($\mathP_1$).}
-  \label{fig:specs:app-feelpp-io:np}
-\end{figure}
-
+\import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
 
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMesh96.csv}\dataLoadMesh
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpace96.csv}\dataFunctionSpace
@@ -232,32 +172,33 @@ We see that the steps of reading data and of creation of the functional spaces s
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportData96.csv}\dataExportData
 
 
+\todo{résultats en fonction de l'ordre de discretization}
 
-\begin{figure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot{\dataLoadMesh}{discretization}
-    \caption{ Load the mesh. }
-    \label{fig:specs:app-feelpp-io:disc:loadmesh}
-  \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot[(0.99,0.35)]{\dataFunctionSpace}{discretization}
-    \caption{ Time to create function space $X_h$. }
-    \label{fig:specs:app-feelpp-io:disc:functionspace}
-  \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot{\dataSaveMesh}{discretization}
-    \caption{ Time to save mesh on disk. }
-    \label{fig:specs:app-feelpp-io:disc:savemesh}
-  \end{subfigure}
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \plot{\dataExportData}{discretization}
-    \caption{ Write  the vector $u$ on disk. }
-    \label{fig:specs:app-feelpp-io:disc:export}
-  \end{subfigure}
-  \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at fixed a number of parallel tasks ($\texttt{np}=96$).}
-  \label{fig:specs:app-feelpp-io:disc}
-\end{figure}
+% \begin{figure}
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \plot{\dataLoadMesh}{discretization}
+%     \caption{ Load the mesh. }
+%     \label{fig:specs:app-feelpp-io:disc:loadmesh}
+%   \end{subfigure}
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \plot[(0.99,0.35)]{\dataFunctionSpace}{discretization}
+%     \caption{ Time to create function space $X_h$. }
+%     \label{fig:specs:app-feelpp-io:disc:functionspace}
+%   \end{subfigure}
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \plot{\dataSaveMesh}{discretization}
+%     \caption{ Time to save mesh on disk. }
+%     \label{fig:specs:app-feelpp-io:disc:savemesh}
+%   \end{subfigure}
+%   \begin{subfigure}[c]{0.49\textwidth}
+%     \centering
+%     \plot{\dataExportData}{discretization}
+%     \caption{ Write  the vector $u$ on disk. }
+%     \label{fig:specs:app-feelpp-io:disc:export}
+%   \end{subfigure}
+%   \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at fixed a number of parallel tasks ($\texttt{np}=96$).}
+%   \label{fig:specs:app-feelpp-io:disc}
+% \end{figure}
