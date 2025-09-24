@@ -46,6 +46,8 @@ computational properties. Benchmarking on exascale applications will be conducte
 % • Advance 3 (T6.3): …  
 % • etc.
 
+T6.2 UQ in a PDE solving framework \\ 
+The development of high-fidelity numerical simulations of physical phenomena increases the dimensionality of both inputs and outputs. While traditional surrogate modeling methods study numerical simulators with one-dimensional output, exascale applications will provides output of very high-dimension such as physical spatial fields. Moreover, such simulators often guarantees the respect of some physical constraints, such that incompressibility for fluid dynamics. Our achievement this year is to propose a multi-output Gaussian process surrogate modeling technique that respect linear physical constraints and scales well with output dimension. A first presentation of the results has been done at \textit{Journées de statistique} 2025. 
 
 
 T6.3 Surrogate modeling for UQ\\
@@ -97,3 +99,6 @@ We will soon make available a package that proposes python routines for the best
 % • Deliverables D6.x to complete by Mxx  
 % • New UQ apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
+
+T6.2 UQ in a PDE solving framework \\ 
+After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variable. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarsed to represent wisely the uncertainty in the simulated physical fields. The work to be done is to defined a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 
