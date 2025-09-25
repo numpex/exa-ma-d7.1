@@ -166,39 +166,8 @@ As the mesh is already pre-partitionned, we do not have the same issue during th
 
 \import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
 
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMesh96.csv}\dataLoadMesh
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpace96.csv}\dataFunctionSpace
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMesh96.csv}\dataSaveMesh
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportData96.csv}\dataExportData
 
 
-\todo{résultats en fonction de l'ordre de discretization}
+\import{chapters/applications/specs/data/app-feelpp-io}{figure-order.tex}
 
-% \begin{figure}
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \plot{\dataLoadMesh}{discretization}
-%     \caption{ Load the mesh. }
-%     \label{fig:specs:app-feelpp-io:disc:loadmesh}
-%   \end{subfigure}
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \plot[(0.99,0.35)]{\dataFunctionSpace}{discretization}
-%     \caption{ Time to create function space $X_h$. }
-%     \label{fig:specs:app-feelpp-io:disc:functionspace}
-%   \end{subfigure}
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \plot{\dataSaveMesh}{discretization}
-%     \caption{ Time to save mesh on disk. }
-%     \label{fig:specs:app-feelpp-io:disc:savemesh}
-%   \end{subfigure}
-%   \begin{subfigure}[c]{0.49\textwidth}
-%     \centering
-%     \plot{\dataExportData}{discretization}
-%     \caption{ Write  the vector $u$ on disk. }
-%     \label{fig:specs:app-feelpp-io:disc:export}
-%   \end{subfigure}
-%   \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at fixed a number of parallel tasks ($\texttt{np}=96$).}
-%   \label{fig:specs:app-feelpp-io:disc}
-% \end{figure}
+\todo{add text}

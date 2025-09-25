@@ -1,13 +1,12 @@
 %!TeX root=../../../../exa-ma-d7.1.tex
 
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMeshP1.csv}\dataLoadMesh
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceP1.csv}\dataFunctionSpace
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceVP1.csv}\dataFunctionSpaceV
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMeshP1.csv}\dataSaveMesh
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportFieldP1.csv}\dataExporField
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportFieldVP1.csv}\dataExporFieldV
-\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportDataP1.csv}\dataExportData
-
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/loadMesh96.csv}\dataLoadMesh
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpace96.csv}\dataFunctionSpace
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/functionSpaceV96.csv}\dataFunctionSpaceV
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/saveMesh96.csv}\dataSaveMesh
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportData96.csv}\dataExportData
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportField96.csv}\dataExporField
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-io/exportFieldV96.csv}\dataExporFieldV
 
 
 
@@ -17,63 +16,67 @@
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=0.8\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataSaveMesh}{resources.tasks},
+      xticklabels from table={\dataLoadMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
       \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=M2] {\dataLoadMesh} ;
-      \addlegendentry{ \texttt{M2} }
+      % \addlegendentry{ \texttt{M2} }
       \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=M3] {\dataLoadMesh} ;
-      \addlegendentry{ \texttt{M3} }
+      % \addlegendentry{ \texttt{M3} }
       \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=M4] {\dataLoadMesh} ;
-      \addlegendentry{ \texttt{M4} }
+      % \addlegendentry{ \texttt{M4} }
       \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=M5] {\dataLoadMesh} ;
-      \addlegendentry{ \texttt{M5} }
+      % \addlegendentry{ \texttt{M5} }
     \end{axis}
     \end{tikzpicture}
     \caption{ Load the mesh. }
-    \label{fig:specs:app-feelpp-io:np:loadmesh}
+    \label{fig:specs:app-feelpp-io:disc:loadmesh}
   \end{subfigure}
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=0.8\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataSaveMesh}{resources.tasks},
+      xticklabels from table={\dataSaveMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
       \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=M2] {\dataSaveMesh} ;
+      \addlegendentry{ \texttt{M2} }
       \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=M3] {\dataSaveMesh} ;
+      \addlegendentry{ \texttt{M3} }
       \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=M4] {\dataSaveMesh} ;
+      \addlegendentry{ \texttt{M4} }
       \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=M5] {\dataSaveMesh} ;
+      \addlegendentry{ \texttt{M5} }
     \end{axis}
     \end{tikzpicture}
     \caption{ Save mesh at format HDF5 on disk. }
-    \label{fig:specs:app-feelpp-io:np:savemesh}
+    \label{fig:specs:app-feelpp-io:disc:savemesh}
   \end{subfigure}
 
-  \begin{subfigure}[c]{0.49\textwidth}
+    \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=0.8\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataFunctionSpace}{resources.tasks},
+      xticklabels from table={\dataSaveMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
@@ -84,19 +87,19 @@
     \end{axis}
     \end{tikzpicture}
     \caption{ Create function space $X_h$. }
-    \label{fig:specs:app-feelpp-io:np:functionspace}
+    \label{fig:specs:app-feelpp-io:disc:functionspace}
   \end{subfigure}
   \begin{subfigure}[c]{0.49\textwidth}
     \centering
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=0.8\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataFunctionSpaceV}{resources.tasks},
+      xticklabels from table={\dataSaveMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
@@ -107,20 +110,20 @@
     \end{axis}
     \end{tikzpicture}
     \caption{ Create vector function space $\mathbf{X}_h$. }
-    \label{fig:specs:app-feelpp-io:np:functionspaceV}
+    \label{fig:specs:app-feelpp-io:disc:functionspaceV}
   \end{subfigure}
 
-  \begin{subfigure}[c]{0.33\textwidth}
+    \begin{subfigure}[c]{0.33\textwidth}
     \centering
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=1.3\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log, ymax=1,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataExporField}{resources.tasks},
+      xticklabels from table={\dataSaveMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
@@ -131,19 +134,19 @@
     \end{axis}
     \end{tikzpicture}
     \caption{ Export the field $u$ at HDF5 format on disk. }
-    \label{fig:specs:app-feelpp-io:np:exportfield}
+    \label{fig:specs:app-feelpp-io:disc:exportfield}
   \end{subfigure}
   \begin{subfigure}[c]{0.33\textwidth}
     \centering
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=1.3\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataExporFieldV}{resources.tasks},
+      xticklabels from table={\dataSaveMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
@@ -154,19 +157,19 @@
     \end{axis}
     \end{tikzpicture}
     \caption{ Export the vector field $\mathbf{u}$ at HDF5 format on disk. }
-    \label{fig:specs:app-feelpp-io:np:exportfieldv}
+    \label{fig:specs:app-feelpp-io:disc:exportfieldv}
   \end{subfigure}
   \begin{subfigure}[c]{0.33\textwidth}
     \centering
     \begin{tikzpicture}
     \begin{axis}[
       width=\textwidth, height=1.3\textwidth,
-      xlabel={ \texttt{np} }, ylabel={ Time [s] },
+      xlabel={ Order of discretization }, ylabel={ Time [s] },
       xtick=data, xtick align=outside,
       ymode=log, ymin=1, ymax=100,
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
-      xticklabels from table={\dataExportData}{resources.tasks},
+      xticklabels from table={\dataSaveMesh}{discretization},
       cycle list name=color list,
       legend style={at={(0.99,0.99)}, anchor=north east}
     ]
@@ -177,8 +180,10 @@
     \end{axis}
     \end{tikzpicture}
     \caption{ Ensight export of the vectors $u$ and $\mathbf{u}$ and the mesh on disk. }
-    \label{fig:specs:app-feelpp-io:np:export}
+    \label{fig:specs:app-feelpp-io:disc:export}
   \end{subfigure}
-  \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at a fixed discretization order ($\mathP_1$). The colors of the plots correspond to the mesh used, as described in the legend of \Cref{fig:specs:app-feelpp-io:np:loadmesh}.}
-  \label{fig:specs:app-feelpp-io:np}
+
+  \caption{Profiling times for the mini-app \texttt{app-feelpp-io}, run on Gaya, at fixed a number of parallel tasks ($\texttt{np}=96$).
+  The colors of the plots correspond to the mesh used, as described in the legend of \Cref{fig:specs:app-feelpp-io:disc:savemesh}}
+  \label{fig:specs:app-feelpp-io:disc}
 \end{figure}
