@@ -135,7 +135,7 @@ The cube is vertically half sliced.
 
 We also present in \Cref{fig:specs:app-feelpp-distance:results:error-bvh} and \Cref{fig:specs:app-feelpp-distance:results:error-bvh} respectively the distribution of the point wise error for the methods FMM and BVH respectively.
 For this specific plot, we took $h=0.06$ and $M=1500$.
-We note that the BVH method results in a smaller global error, while is it more localized for the FMM method.
+We note that the BVH method results in a smaller global error, while it is more localized for the FMM method.
 
 
 \begin{figure}
@@ -168,6 +168,7 @@ Note that for some cases, such as high meshes or high number of ray cast, the BV
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/timeBVH1000.csv}\dataTimeBVHnp
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/speedupBVH1000.csv}\dataSpeedupBVHnp
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/timeFMM1000.csv}\dataTimeFMMnp
+\pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/speedupFMM1000.csv}\dataSpeedupFMMnp
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/errorBVHRay.csv}\dataTimeBVHM
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/convergenceBVH.csv}\dataConvBVH
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/convergenceFMM.csv}\dataConvFMM
@@ -188,17 +189,11 @@ Note that for some cases, such as high meshes or high number of ray cast, the BV
       cycle list name=color list, legend style={at={(0.99, 0.01)},anchor=south east}
     ]
       \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=0.12] {\dataTimeBVHnp} ;
-      \addlegendentry{ $h=0.12$ }
+      % \addlegendentry{ $h=0.12$ }
       \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=0.06] {\dataTimeBVHnp} ;
-      \addlegendentry{ $h=0.06$ }
-      % \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=0.03] {\dataTimeBVHnp} ;
-      % \addlegendentry{ $h=0.03$ }
-      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=0.015] {\dataTimeBVHnp} ;
-      \addlegendentry{ $h=0.015$ }
+      % \addlegendentry{ $h=0.06$ }
       \addplot+[mark=diamond*, dashed, color=customdarkblue, forget plot] table [x expr=\coordindex, y=0.12] {\dataTimeFMMnp} ;
       \addplot+[mark=diamond*, dashed, color=customcyan, forget plot] table [x expr=\coordindex, y=0.06] {\dataTimeFMMnp} ;
-      % \addplot+[mark=diamond*, dashed, color=custompurple, forget plot] table [x expr=\coordindex, y=0.03] {\dataTimeFMMnp} ;
-      \addplot+[mark=diamond*, dashed, color=customorange, forget plot] table [x expr=\coordindex, y=0.015] {\dataTimeFMMnp} ;
     \end{axis}
     \end{tikzpicture}
     \caption{Evolution of the time for the methods BVH and FMM depending on the number of parallel process. }
@@ -214,20 +209,14 @@ Note that for some cases, such as high meshes or high number of ray cast, the BV
       ymajorgrids=true, yminorgrids=true,
       xmajorgrids=true,
       xticklabels from table={\dataSpeedupBVHnp}{tasks},
-      cycle list name=color list, legend style={at={(0.99, 0.99)},anchor=north east}
+      cycle list name=color list, legend style={at={(0.01, 0.01)},anchor=south west}
     ]
       \addplot+[mark=*, color=customdarkblue] table [x expr=\coordindex, y=0.12] {\dataSpeedupBVHnp} ;
       \addlegendentry{ $h=0.12$ }
       \addplot+[mark=*, color=customcyan] table [x expr=\coordindex, y=0.06] {\dataSpeedupBVHnp} ;
       \addlegendentry{ $h=0.06$ }
-      % \addplot+[mark=*, color=custompurple] table [x expr=\coordindex, y=0.03] {\dataSpeedupBVHnp} ;
-      % \addlegendentry{ $h=0.03$ }
-      \addplot+[mark=*, color=customorange] table [x expr=\coordindex, y=0.015] {\dataSpeedupBVHnp} ;
-      \addlegendentry{ $h=0.015$ }
-      \addplot+[mark=diamond*, dashed, color=customdarkblue, forget plot] table [x expr=\coordindex, y=0.12] {\dataSpeedupBVHnp} ;
-      \addplot+[mark=diamond*, dashed, color=customcyan, forget plot] table [x expr=\coordindex, y=0.06] {\dataSpeedupBVHnp} ;
-      % \addplot+[mark=diamond*, dashed, color=custompurple, forget plot] table [x expr=\coordindex, y=0.03] {\dataSpeedupBVHnp} ;
-      \addplot+[mark=diamond*, dashed, color=customorange, forget plot] table [x expr=\coordindex, y=0.015] {\dataSpeedupBVHnp} ;
+      \addplot+[mark=diamond*, dashed, color=customdarkblue, forget plot] table [x expr=\coordindex, y=0.12] {\dataSpeedupFMMnp} ;
+      \addplot+[mark=diamond*, dashed, color=customcyan, forget plot] table [x expr=\coordindex, y=0.06] {\dataSpeedupFMMnp} ;
       % \addplot+[mark=none, dashed, color=black] table [x expr=\coordindex, y=optimal] {\dataSpeedupBVHnp} ;
       % \addlegendentry{Optimal}
     \end{axis}
@@ -236,7 +225,8 @@ Note that for some cases, such as high meshes or high number of ray cast, the BV
     \label{fig:app:feelpp-distance:results:speedup}
     \vspace{0.8\baselineskip}
   \end{subfigure}
-  \caption{Time performance metrics for the mini-app distance: comparison between BVH (circle markers and plain line), and FMM (diamonds and dashed lines).}
+  \caption{Time performance metrics for the mini-app distance: comparison between BVH (circle markers and plain line), and FMM (diamonds and dashed lines).
+  The color of the plot, corresponding to the size of the mesh used is consistent between the two plots.}
 \end{figure}
 
 We show in \Cref{fig:app:feelpp-distance:results:np} the evolution of the time taken by the two methods according to the number of parallel processes used.
@@ -313,7 +303,7 @@ We also see that when more cores are used, we do not see improvement in the time
 
 Now, we focus on the impact of the number of ray cast in the BVH method.
 \Cref{fig:app:feelpp-distance:results:M} displays the evolution of the $L^2$ error depending on the number of ray $M$, for various sizes of mesh.
-We see that the precision of the method is not impacted by this parameter.
+We see that the precision of the method for this specific benchmark is not impacted by this parameter.
 On the other hand, we see that it is impacted by the size of the mesh.
 
 Precisely, we show in \Cref{fig:app:feelpp-distance:results:h} the convergence regarding the size of the discretization, we see a convergence at the order 1.5.
