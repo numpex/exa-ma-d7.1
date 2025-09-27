@@ -167,7 +167,13 @@ As the mesh is already pre-partitionned, we do not have the same issue during th
 \import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
 
 
+\vspace{\baselineskip}
+
+Now, we present in \Cref{fig:specs:app-feelpp-io:disc} the evolution of the time taken by each step, depending on the degree of discretization considered.
+Specifically, we see in \Cref{fig:specs:app-feelpp-io:disc:loadmesh,fig:specs:app-feelpp-io:disc:savemesh} that the mesh manipulation is indeed independent of the degree of discretization.
+
+On the contrary, the other steps are impacted by this degree, as it results in a higher number of degree of freedom, as shown in the mesh statistics in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
+Precisely, we see in \Cref{fig:specs:app-feelpp-io:disc:functionspace,fig:specs:app-feelpp-io:disc:functionspaceV} that the time increases linearly when the order increases, and that this raise of computational time is more important when the program write data on the disk, as shown in \Cref{fig:specs:app-feelpp-io:disc:exportfield,ig:specs:app-feelpp-io:disc:exportfieldV,ig:specs:app-feelpp-io:disc:export}.
 
 \import{chapters/applications/specs/data/app-feelpp-io}{figure-order.tex}
 
-\todo{add text}
