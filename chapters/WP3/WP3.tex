@@ -26,7 +26,7 @@ solvers.
  }
  These de Tom (Frédéric et Theo) \\
 
-{\color{blue} The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf) supported by Exam-Numpex is concerned with domain decomposition preconditioners, the Additive Schwarz method (ASM) with GenEO (Generalized Eigenproblems in the Overlap) coarse space, to solve large, sparse symmetric positive definite (SPD) problems. 
+{\color{blue} The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf) supported by Exama-NumPEx is concerned with domain decomposition preconditioners, the Additive Schwarz method (ASM) with GenEO (Generalized Eigenproblems in the Overlap) coarse space, to solve large, sparse symmetric positive definite (SPD) problems. 
 Through libraries such as HPDDM, these preconditioners have already been efficiently parallelized in their numerical implementations. 
 However, they still require expensive, in time and memory, linear algebra operations in each local subdomain. 
 Motivated by the emergence of fast low precision arithmetic in hardware, the aim of his work is to reduce the computation time and memory foot-print of the ASM-GenEO using mixed precision. 
@@ -37,8 +37,7 @@ These results therefore suggest that preconditioners can be constructed in mixed
 
 
  
- Raphael dans HPDDM (Pierre) et plus bas aussi \\
- 
+The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetric saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
  
  
 To enhance the scalability of
@@ -98,6 +97,8 @@ parallel implementations of these subspace solvers (in close collaboration with 
 
 (Luc + Pierre ) stage d'Erik 
 
+During the master internship of Erik Fabrizzi, funded by Exama-NumPEx, we have been working on a high-performance implementation of Augmented GMRES. Augmented GMRES with mixed precision is an iterative Krylov subspace method designed to accelerate the solution of large, sparse linear systems while reducing computational cost. The augmentation step incorporates approximate solutions or precomputed subspaces (e.g., from deflation or previous solves) to enrich the Krylov basis, improving convergence. By exploiting mixed precision arithmetic—using low precision for operations such as matrix-vector products while retaining higher precision for critical steps such as orthogonalization and residual correction—the method balances efficiency and accuracy. 
+
  \subsubsection{ T3.2.2 Decoupling the data representation from the arithmetic}
 
 The variable accuracy paradigm is a promising avenue to control the memory footprint and the
@@ -109,6 +110,7 @@ modern computing architectures.
 
 (Luc + Manu + Pierre + Théo) stage de Alexandre même si tâche commencée pas à l'endroit prévu 
 
+During the master internship of Alexandre Tabouret, which will be followed up by a Ph.D. thesis starting in October 2025, we have been investigating the combination of relaxed GMRES and adaptive sparse matrix-vector products. Relaxed GMRES is a variant of the GMRES in which the accuracy of matrix–vector products or inner solves is reduced dynamically as iterations progress, since later iterations require less precision to maintain convergence. This relaxation lowers computational cost without significantly impacting accuracy. Adaptive SpMV (sparse matrix–vector multiplication) complements this idea by adjusting arithmetic precision or sparsity handling based on error tolerances or convergence state. Together, relaxed GMRES with adaptive SpMV leverages variable precision and workload reduction to accelerate iterative solvers while preserving numerical stability.
 
 \subsubsection{ 
 T3.2.3 Precision auto-tuning tools
@@ -174,9 +176,9 @@ auto-tuning work from Task 3.2.3.
 % \input additional app specs as needed
 
 \section{Software Framework Contributions}
- • HPDDM: Pierre
+ • HPDDM: new releases this year (from version 2.3.1 to 2.3.5), support from applying the transpose of preconditioners, preliminary support for subdomain computations on (NVIDIA) GPU, interface to MUMPS ICNTL(15), multiple fixes for non-symmetric saddle-point systems
  
- • PETSc enhancements: (Pierre)
+ • PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM
  
  • Composyx: (Luc)
  
