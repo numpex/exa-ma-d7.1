@@ -9,7 +9,7 @@
 
 \section{Scientific Advances}
 
-IMAGES si vous en avez!! 
+%IMAGES si vous en avez!! 
 
 We first intend to design novel or improved numerical kernels that are mostly agnostic of the
 underlying models (e.g., PDE) and approximation techniques (e.g., FEM) for the solution of linear
@@ -24,9 +24,9 @@ solvers.
  \subsection{ 
  Advance 1 (T3.1): Domain decomposition methods with subspace-correction 
  }
- These de Tom (Frédéric et Theo) \\
+ %These de Tom (Frédéric et Theo) \\
 
-{\color{blue} The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf) supported by Exama-NumPEx is concerned with domain decomposition preconditioners, the Additive Schwarz method (ASM) with GenEO (Generalized Eigenproblems in the Overlap) coarse space, to solve large, sparse symmetric positive definite (SPD) problems. 
+{The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf and P.H.~Tournier) supported by Exama-NumPEx is concerned with domain decomposition preconditioners, the Additive Schwarz method (ASM) with GenEO (Generalized Eigenproblems in the Overlap) coarse space, to solve large, sparse symmetric positive definite (SPD) problems. 
 Through libraries such as HPDDM, these preconditioners have already been efficiently parallelized in their numerical implementations. 
 However, they still require expensive, in time and memory, linear algebra operations in each local subdomain. 
 Motivated by the emergence of fast low precision arithmetic in hardware, the aim of his work is to reduce the computation time and memory foot-print of the ASM-GenEO using mixed precision. 
@@ -95,7 +95,7 @@ computed by different numerical variants in a modular manner. To guarantee the f
 quality of the computed solution novel modular, analyses must be developed for enabling composable
 parallel implementations of these subspace solvers (in close collaboration with PC2).
 
-(Luc + Pierre ) stage d'Erik 
+%(Luc + Pierre ) stage d'Erik 
 
 During the master internship of Erik Fabrizzi, funded by Exama-NumPEx, we have been working on a high-performance implementation of Augmented GMRES. Augmented GMRES with mixed precision is an iterative Krylov subspace method designed to accelerate the solution of large, sparse linear systems while reducing computational cost. The augmentation step incorporates approximate solutions or precomputed subspaces (e.g., from deflation or previous solves) to enrich the Krylov basis, improving convergence. By exploiting mixed precision arithmetic—using low precision for operations such as matrix-vector products while retaining higher precision for critical steps such as orthogonalization and residual correction—the method balances efficiency and accuracy. 
 
@@ -108,7 +108,7 @@ computed solutions; this will enable robust implementations of the numerical sol
 collaborations with PC2) fully exploiting the underlying features (memory and processing units) of
 modern computing architectures. 
 
-(Luc + Manu + Pierre + Théo) stage de Alexandre même si tâche commencée pas à l'endroit prévu 
+%(Luc + Manu + Pierre + Théo) stage de Alexandre même si tâche commencée pas à l'endroit prévu 
 
 During the master internship of Alexandre Tabouret, which will be followed up by a Ph.D. thesis starting in October 2025, we have been investigating the combination of relaxed GMRES and adaptive sparse matrix-vector products. Relaxed GMRES is a variant of the GMRES in which the accuracy of matrix–vector products or inner solves is reduced dynamically as iterations progress, since later iterations require less precision to maintain convergence. This relaxation lowers computational cost without significantly impacting accuracy. Adaptive SpMV (sparse matrix–vector multiplication) complements this idea by adjusting arithmetic precision or sparsity handling based on error tolerances or convergence state. Together, relaxed GMRES with adaptive SpMV leverages variable precision and workload reduction to accelerate iterative solvers while preserving numerical stability.
 
@@ -157,7 +157,9 @@ T3.3 Adaptive solution strategies for exascale multiphysical and multiscale mode
  }
   The task will consist of investigating the parallel efficiency of domain decomposition methods for the solution of saddle point problems for coupled multiphysics problems.
 
-(Lukas) 
+  Lukas Spies has started his postdoctoral work in March 2025. He has developed a parallel FreeFEM script that allows for non-matching grids at the interface between two domains. The coupling scheme, analyzed in~\cite{japhet_robin_2014}, is based on the use of Robin interface conditions. An extra level of parallelism comes from the domain decomposition solver in each domain. The global coupled system has a saddle-point structure. A study of various preconditoning strategies is underway. The flexibility and effectiveness of a parallel FreeFEM script is a great asset for numerical tests. 
+
+%(Lukas) 
 
 \subsubsection{ 
 T3.3.2 Exascale resolution for simulations in partitioned coupling
@@ -195,6 +197,9 @@ From WP7
 \section{Roadmap \& Next Steps}
 
 a ecrire dans chaque section, résumer pour chaque section en faisant des références au texte plus haut.
+
+In Task~3.1, the next step related to domain decomposiiton methods with mixed precision is to assess their performance gains using single precision in well-behaved subdomains and double precision in badly behaved subdomains. 
+
 
 Task 3.2.3 (precision auto-tuning tools) will require 
 more results analysis. For instance, for linear system solving, the link between iterative refinement and precision tuning can be explored.
