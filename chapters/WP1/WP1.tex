@@ -8,7 +8,69 @@
 % • List of key tasks T1.1–T1.7
 
 \section{Scientific Advances}
-% • Advance 1 (T1.1): …  
+
+\subsection{Task 1.1 - Feature-preserving alpha wrapping}
+
+The Alpha Wrapping algorithm implemented in the CGAL library provides a robust method for generating a watertight, orientable, and manifold surface mesh that conservatively encloses a 3D input. It is particularly effective when the input is noisy, incomplete, or non-manifold. The algorithm proceeds as follows:
+
+\begin{enumerate}
+\item Delaunay Triangulation: A 3D Delaunay triangulation is constructed from the input geometry, which may consist of point clouds, triangle soups, or polygon soups.
+\item Shrink-Wrapping via Gate Propagation: A priority queue of triangle facets (termed gates) is used to traverse the triangulation from the exterior inward, simulating a wrapping process.
+\item Steiner Point Insertion and Offset Projection: Inner structures and defects are filtered by inserting Steiner points and projecting circumcenters onto a user-defined offset surface.
+\item Surface Extraction: A final surface mesh is extracted from the triangulation, enclosing the input within the prescribed offset.
+\end{enumerate}
+
+The resulting mesh is guaranteed to be watertight, orientable, and 2-manifold, even in the presence of severe input corruption.
+
+Strengths
+\begin{itemize}
+\item Robustness: Handles raw, noisy, and non-manifold input gracefully.
+\item Conservative enclosure: Guarantees that the output mesh strictly contains the input geometry.
+\item Flexibility: Works with triangle soups, polygon soups, and point clouds.
+\item Parameter control: Users can tune two parameters (alpha and offset) to balance tightness vs. mesh simplicity.
+\item Guaranteed termination: Always produces a valid output mesh.
+\end{itemize}
+
+Limitations
+\begin{itemize}
+\item Loss of geometric detail: Fine-scale features, cavities, and internal structures are typically smoothed out.
+\item No Sharp Feature Preservation: The method does not retain sharp edges or creases. Its reliance on Delaunay triangulation and circumradius-based traversal inherently favors smooth, rounded surfaces. Without explicit feature detection or edge-aware refinement, sharp creases are interpreted as noise and are systematically smoothed during wrapping.
+\item Mesh complexity trade-off: Achieving tighter wraps may require additional Steiner points, increasing computational cost and mesh density.
+\end{itemize}
+
+These limitations make the standard Alpha Wrapping algorithm unsuitable for applications such as reverse engineering or CAD, where sharp features are critical. To address this, we investigated a feature-preserving variant of the algorithm.
+
+\paragraph{Feature-Preserving Variant: Salient Steiner Points.}
+
+Our approach modifies the definition of Steiner points computed on-the-fly during wrapping, which combines Delaunay refinement with geometric carving. In the original method, Steiner points are derived either from intersections between Voronoi edges and the offset surface, or from projections of Voronoi vertices onto the offset surface. We propose instead to compute Steiner points that correspond to salient feature locations.
+
+Here, features encompass not only corners and creases, but also less conventional singularities such as cusps, darts, tips, and non-manifold configurations. Detecting such features is inherently ill-posed, and no universal definition of saliency exists. Intuitively, saliency denotes the geometric or perceptual prominence of a feature—typically a crease or corner—relative to its local surface context.
+
+Common approaches estimate saliency via scalar fields that capture local contrast in curvature, dihedral angle, or normal variation. While effective in post-processing, these methods are insufficient for our purposes, as we aim to detect sharp features during the wrapping process. In particular, the local configuration of the evolving wrap must be taken into account. Multi-scale analysis can identify persistent features across resolutions, but it does not incorporate the dynamic context of wrapping.
+
+\paragraph{Visibility-Based Criterion for Salient Point Selection}
+
+A further challenge lies in selecting Steiner points that facilitate subsequent mesh refinement, with the goal of minimizing final mesh complexity and optimizing the complexity–distortion trade-off. After extensive experimentation, we developed a promising criterion based on 3D visibility, tailored to the local wrapping context.
+
+For a candidate Steiner point on the offset surface, we compute a weighted sum of two visibility volumes: (1) The volume visible from the point to the current wrap, and (2) The volume visible from the point to the offset surface itself.
+
+% 2D figure ?
+
+A higher weight is assigned to visibility toward the wrap, reflecting its role in guiding the wrapping frontier. Formally, the visible volume from a point $p$ in a 3D domain $\Omega$ is defined as the set of all points $q \in \Omega$ such that the line segment $\overline{pq}$ lies entirely within $\Omega$, unobstructed by any surface or obstacle.
+
+Computing these volumes is non-trivial due to two factors: (1) Aware Visibility: Even though the wrap is represented as a surface triangle mesh, obstacles necessitate splitting empty tetrahedra (formed by connecting the candidate point to wrap triangles) into smaller tetrahedra to accurately model occlusion, and (2) Offset Geometry: The offset surface is only implicitly defined as the locus of points at a fixed distance from the input, and is piecewise curved, complicating visibility estimation as requiring a cubature or approximations.
+
+Such a visibility-based criterion offers a principled way to select Steiner points that are both geometrically meaningful and computationally advantageous, paving the way for feature-aware alpha wrapping.
+
+
+
+
+
+
+
+
+
+
 % • Advance 2 (T1.2): …  
 % • Advance 3 (T1.4): …  
 % • etc.
@@ -18,9 +80,12 @@
 % \input additional app specs as needed
 
 \section{Software Framework Contributions}
+
+\paragraph{CGAL.}
+
 % • FEEL++: …  
 % • Mmg/ParMmg: …  
-% • CGAL: …  
+
 % • FEEF module: …
 
 \section{Preliminary Benchmarks \& Trends}
