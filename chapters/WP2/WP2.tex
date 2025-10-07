@@ -170,9 +170,18 @@ During the reporting period, we have progressed on the following tasks:
 We also note that T2.6  did not get funding from NumPEx so far.
 
 \section{Application Showcase}
-% \input{chapters/applications/specs/app-scimba-rom-1}  
+% 
+%\input{chapters/applications/specs/app-scimba-rom-1}  
 % \input additional app specs as needed
 
+
+\textbf{Plasma modeling with neural network based methods }\\
+
+Tokamak MHD is a highly HPC-intensive application, especially in terms of memory consumption. Indeed, tokamak MHD codes are implicit and involve the inversion of very large matrices. In this application, the goal is to build a 3D neural network–based solver to compute the equilibrium (Grad–Shafranov equation) and simplified MHD models. The approach relies on time-sequential neural methods of the PINN type, combined with natural gradient optimization, adaptive sampling, and adaptive neural networks.
+
+\textbf{Hybrid numerical for high-dimensional PDEs}\\
+
+We propose to develop a demonstrator of numerical methods that hybridize machine learning with classical approaches. The baseline code will be a DG (Discontinuous Galerkin) solver in which several numerical modules will be made learnable through neural networks (including mesh adaptation, basis functions, fluxes, and preconditioners). The key idea is that the learning components capture the large-scale structures, while the numerical solver focuses on the unresolved scales. These approaches are particularly intended for solving PDEs in high physical dimensions (such as radiative transfer) or with parametric dependencies.
 \section{Software Framework Contributions}
 % • PINN frameworks: …  
 % • Neural Operators: …  
