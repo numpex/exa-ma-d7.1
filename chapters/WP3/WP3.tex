@@ -7,10 +7,6 @@
 % • Role in overall strategy (Krylov solvers, domain decomposition, mixed precision)  
 % • List of key tasks T3.1–T3.3
 
-\section{Scientific Advances}
-
-%IMAGES si vous en avez!! 
-
 We first intend to design novel or improved numerical kernels that are mostly agnostic of the
 underlying models (e.g., PDE) and approximation techniques (e.g., FEM) for the solution of linear
 systems. The envisioned solution techniques are generic in the sense that they do not depend on the
@@ -21,71 +17,112 @@ exploited. The second objective is to fully exploit the extreme parallelism enab
 platforms to design coupled physic solvers that rely on state-of-the-art optimized mono-physics
 solvers.
 
+We recall below the corresponding tasks as described in the original proposal. 
+
+
+
+\subsubsection*{T3.1 Domain decomposition methods with subspace-correction}
+
+ To enhance the scalability of
+multilevel domain decomposition methods, we will investigate theoretically and experiment their
+robustness with respect to inexact setups and applications of the preconditioner that might arise for
+instance from mixed arithmetic calculation, inexact local solves, low rank approximations. The
+validation of these studies will be conducted primarily in the HPDDM library but could also benefit
+others such as Maphys++
+.
+\subsubsection*{T3.2. Exploiting data-sparsity, multiple precision and data compression}
+\paragraph*{T3.2.1 Modular, composable mixed precision Krylov solvers. }
+
+Subspace Krylov exhibits appealing
+features enabling the use of mixed precision arithmetic in different computational steps that might be
+computed by different numerical variants in a modular manner. To guarantee the final numerical
+quality of the computed solution novel modular, analyses must be developed for enabling composable
+parallel implementations of these subspace solvers (in close collaboration with PC2).
+
+\paragraph*{T3.2.2 Decoupling the data representation from the arithmetic: the variable accuracy paradigm}
+
+The variable accuracy paradigm is a promising avenue to control the memory footprint and the
+volume of communication by decoupling the data representation from the arithmetic, while ensuring a
+user-prescribed accuracy. Some analysis must be developed to guarantee the numerical quality of the
+computed solutions; this will enable robust implementations of the numerical solvers (in close
+collaborations with PC2) fully exploiting the underlying features (memory and processing units) of
+modern computing architectures.
+\paragraph*{T3.2.3 Precision auto-tuning tools}
+ Precision auto-tuning tools provide mixed precision versions of
+numerical codes, taking into account accuracy requirements on the results. New algorithms must be
+proposed to improve precision auto-tuning performance and extend it to arbitrary precision.
+Furthermore, new methodologies must be developed to perform autotuning of both numerical formats
+and performance parameters in coupled physics simulations as addressed in Task 3.3.2.
+\paragraph*{T.3.2.4 Silent errors in solution techniques}
+ The objective of this task is to study and design silent
+error detection and hopefully correction that might appear at scale. These evaluations will either be
+tailored to the intrinsic properties of the numerical schemes or based on statistical techniques.
+
+\subsubsection*{T3.3 Adaptive solution strategies for exascale multiphysical and multiscale models}
+\paragraph*{T3.3.1 Many multiphysics problems may be recast as saddle point problems}
+
+ The task will
+consist of investigating the parallel efficiency of domain decomposition methods for the solution of
+saddle point problems for coupled multiphysics problems.
+
+\paragraph*{T3.3.2 Exascale resolution for simulations in partitioned coupling}
+
+ The task will consist of the
+automatic tuning of performance parameters appearing in the partitioned coupling between
+exascale-ready software components. Such parameters (coupling strengths, path between physics,
+adaptive internal convergence criteria…) are intended to be handled through a joint strategy with the
+auto-tuning work from Task 3.2.3.
+
+
+
+\section{Scientific Advances}
+
+%IMAGES si vous en avez!! 
+
+
  \subsection{ 
  Advance 1 (T3.1): Domain decomposition methods with subspace-correction 
  }
  %These de Tom (Frédéric et Theo) \\
+ \subsubsection{Stability with respect to approximate subsolves and round-off errors}
 
-{The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf and P.H.~Tournier) supported by Exama-NumPEx is concerned with domain decomposition preconditioners, the Additive Schwarz method (ASM) with GenEO (Generalized Eigenproblems in the Overlap) coarse space, to solve large, sparse symmetric positive definite (SPD) problems. 
+The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf and P.H.~Tournier) supported by Exama-NumPEx is concerned with domain decomposition preconditioners, the Additive Schwarz method (ASM) with GenEO (Generalized Eigenproblems in the Overlap) coarse space, to solve large, sparse symmetric positive definite (SPD) problems. 
 Through libraries such as HPDDM, these preconditioners have already been efficiently parallelized in their numerical implementations. 
 However, they still require expensive, in time and memory, linear algebra operations in each local subdomain. 
 Motivated by the emergence of fast low precision arithmetic in hardware, the aim of his work is to reduce the computation time and memory foot-print of the ASM-GenEO using mixed precision. 
 To do this, it is necessary to identify the sensitivity of these operations to perturbation and propose an actionable criteria for selecting the appropriate precision for each local subdomain.
 Using the Fictitious Space Lemma, a perturbation theory for the preconditioner and bound the worst-case loss of efficiency of the preconditioner are derived. The results show that  precision selection is guided by the local matrix condition number. 
 Moreover, using FreeFEM, petsc4py, and HPDDM libraries, the theoretical bounds are compared to numerical behaviour of the perturbed preconditioner and are thus validated. 
-These results therefore suggest that preconditioners can be constructed in mixed precision while effectively controlling the loss of efficiency.}
 
-
- 
-The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetric saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
- 
- 
-To enhance the scalability of
+These results therefore suggest that preconditioners can be constructed in mixed precision while effectively controlling the loss of efficiency. In order to apply these theoretical results and enhance the scalability of
 multilevel domain decomposition methods, we will investigate theoretically and experiment their
 robustness with respect to inexact setups and applications of the preconditioner that might arise for
 instance from mixed arithmetic calculation, inexact local solves, low rank approximations. The
 validation of these studies will be conducted primarily in the HPDDM library but could also benefit
-others such as Maphys++
+others such as Maphys++. 
 
-\bigskip
 
+ In this respect, this work is also very closely related to \S~\ref{sec:wp3:T32}. 
+
+
+ \subsubsection{HPDDM for sensitivity analysis}
+ 
+The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetric saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
+ 
+ 
+
+ \subsubsection{Domain decomposition methods for non-SPD problems}
+  \label{sec:wp3:T31:nonSPD}
 For symmetric positive definite (SPD) problems, provably scalable domain decomposition methods are known, even for heterogeneous media and complex PDE systems, such as elasticity problems, in particular thanks to the GenEO preconditioner~\cite{Spillane:2014:ASC, Dolean:2015:IDDSiam}. In a series of recent works, this approach has been extended to several types of non-SPD problems.
 
 A first class of non-SPD problems are saddle point problems whose discretization cannot be written as both symmetric and positive definite; it may be symmetric but not positive definite, or positive definite but not symmetric. For these problems, the GenEO method has been used in~\cite{nataf:hal-02343808} and~\cite{brunelli:hal-05123311} to construct two-level domain decomposition preconditioners for both the primal problem and the Schur complement problem (obtained by eliminating the primal unknown from the system). The novelty of our analysis and construction lies in the combined use of domain decomposition methods of Schwarz type and Neumann–Neumann/FETI type. It is now possible to solve highly heterogeneous nearly incompressible elasticity problems (such as steel-rubber) with a continuous pressure discretization, involving one billion degrees of freedom on 16,000 compute cores.
 
-An algebraic approach has been developed in~\cite{nataf:hal-04536547} to provide a generic way of constructing spectral coarse spaces to be used in two-level domain decomposition preconditioners, that is valid for a large class of non-SPD problems. To our knowledge, this is the first mathematical theory for the restricted additive Schwarz (RAS) method with inexact local solves, such as provided by ILU0 factorizations, the default DD solver in PETSc. It has been successfully applied to convection-diffusion problems and to time-harmonic acoustic propagation problems~\cite{dolean:hal-05241475}. As an illustration of the efficiency of the approach, we provide some weak scaling results extracted from~\cite{dolean:hal-05241475} on the 3D Cobra cavity problem, see Table~\ref{tab:weak_scaling_cobra} and Figure~\ref{fig:solutions_cobra}. 
+An algebraic approach has been developed in~\cite{nataf:hal-04536547} to provide a generic way of constructing spectral coarse spaces to be used in two-level domain decomposition preconditioners, that is valid for a large class of non-SPD problems. To our knowledge, this is the first mathematical theory for the restricted additive Schwarz (RAS) method with inexact local solves, such as provided by ILU0 factorizations, the default DD solver in PETSc. 
 
-\begin{table}[H]
-    \scriptsize
-\begin{center}
-\begin{tabular}{cccc}
-Nb CPUs & Matrix size & Iterations one-level & Iterations two-level~\cite{nataf:hal-04536547} \\
-\hline
-32 & 473004   & 51   &  8 \\
-108 & 1761164  & 157  & 10 \\
-256 & 4140366  & 359  & 14 \\
-500 & 8431281  & 432  & 16 \\
-864 & 13927097 & 942  & 34 \\
-1372 & 18879654 & 1055 & 44 \\
-2048 & 32848020 & 3711 & 60 \\
-2916 & 44520439 & 3398 & 74 \\
-\end{tabular}
-\end{center}
-    \caption{
-		Weak scaling experiment for the cobra cavity test case.
-    }\label{tab:weak_scaling_cobra}
-\end{table}
-\begin{figure}[H]
-    \centering
-	{\includegraphics[width=0.48\textwidth,clip=true,trim=7cm 0cm 7cm 0cm]{./graphics/wp3/cobra_mesh_2.png}}
-	{\includegraphics[width=0.48\textwidth,clip=true,trim=7cm 0cm 7cm 0cm]{./graphics/wp3/cobra_real.png}}
-	\caption{
-		Partitioning of the cobra cavity domain into 2916 subdomains (left) and real part of the total field (right) for wavenumber $k = 360m^{-1}$. 
-    }\label{fig:solutions_cobra}
-\end{figure}
+
 
  \subsection{  Advance 2 (T3.2): Exploiting data-sparsity, multiple precision and data compression}
-
+\label{sec:wp3:T32}
  \subsubsection{ 
  T3.2.1 Modular, composable mixed precision Krylov solvers. 
  }
@@ -168,35 +205,67 @@ T3.3.2 Exascale resolution for simulations in partitioned coupling
 automatic tuning of performance parameters appearing in the partitioned coupling between
 exascale-ready software components. Such parameters (coupling strengths, path between physics,
 adaptive internal convergence criteria…) are intended to be handled through a joint strategy with the
-auto-tuning work from Task 3.2.3.
+auto-tuning work from Task 3.2.3. This task has recently been started with the work of Utpal Kiran at CEA and supported by Exama-Numpex. 
 
- (Utpal)
+ %(Utpal)
 
 
 \section{Application Showcase}
 % \input{chapters/applications/specs/app-hpddm-solver-1}  
 % \input additional app specs as needed
+The work by Parolin and Nataf mentioned in \S~\ref{sec:wp3:T31:nonSPD} has been successfully applied to convection-diffusion problems and to time-harmonic acoustic propagation problems~\cite{dolean:hal-05241475}. As an illustration of the efficiency of the approach, we provide some weak scaling results extracted from~\cite{dolean:hal-05241475} on the 3D Cobra cavity problem, see Table~\ref{tab:weak_scaling_cobra} and Figure~\ref{fig:solutions_cobra}. 
+
+\begin{table}[H]
+    \scriptsize
+\begin{center}
+\begin{tabular}{cccc}
+Nb CPUs & Matrix size & Iterations one-level & Iterations two-level~\cite{nataf:hal-04536547} \\
+\hline
+32 & 473004   & 51   &  8 \\
+108 & 1761164  & 157  & 10 \\
+256 & 4140366  & 359  & 14 \\
+500 & 8431281  & 432  & 16 \\
+864 & 13927097 & 942  & 34 \\
+1372 & 18879654 & 1055 & 44 \\
+2048 & 32848020 & 3711 & 60 \\
+2916 & 44520439 & 3398 & 74 \\
+\end{tabular}
+\end{center}
+    \caption{
+		Weak scaling experiment for the cobra cavity test case.
+    }\label{tab:weak_scaling_cobra}
+\end{table}
+\begin{figure}[H]
+    \centering
+	{\includegraphics[width=0.48\textwidth,clip=true,trim=7cm 0cm 7cm 0cm]{./graphics/wp3/cobra_mesh_2.png}}
+	{\includegraphics[width=0.48\textwidth,clip=true,trim=7cm 0cm 7cm 0cm]{./graphics/wp3/cobra_real.png}}
+	\caption{
+		Partitioning of the cobra cavity domain into 2916 subdomains (left) and real part of the total field (right) for wavenumber $k = 360m^{-1}$. 
+    }\label{fig:solutions_cobra}
+\end{figure}
+Note that the method has also been successfully applied to the generation of synthetic high fidelity data for medical imaging problems, not shown here. 
+
 
 \section{Software Framework Contributions}
  • HPDDM: new releases this year (from version 2.3.1 to 2.3.5), support from applying the transpose of preconditioners, preliminary support for subdomain computations on (NVIDIA) GPU, interface to MUMPS ICNTL(15), multiple fixes for non-symmetric saddle-point systems
  
  • PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM
  
- • Composyx: (Luc)
+ • Composyx: %(Luc)
  
  • %Mixed-precision module: PROMISE (Fabienne)
 The work carried out in Task 3.2.3 (precision auto-tuning tools) has enabled to extend PROMISE to arbitrary precision emulated formats. 
 From an accuracy requirement and a list of native or emulated numerical formats, PROMISE can provide a mixed precision version of C/C++ code using those formats.
 
 \section{Preliminary Benchmarks \& Trends}
-From WP7 
+We are in close connection with the activities of the work-package WP7 where benchmarks related to domain decomposition methods are shown. 
 % • Solver scaling placeholder  
 % • Mixed-precision speedups placeholder  
 % • Regression test pass-rate placeholder
 
 \section{Roadmap \& Next Steps}
 
-a ecrire dans chaque section, résumer pour chaque section en faisant des références au texte plus haut.
+%a ecrire dans chaque section, résumer pour chaque section en faisant des références au texte plus haut.
 
 In Task~3.1, the next step related to domain decomposiiton methods with mixed precision is to assess their performance gains using single precision in well-behaved subdomains and double precision in badly behaved subdomains. 
 
