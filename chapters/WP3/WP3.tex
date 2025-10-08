@@ -99,7 +99,7 @@ multilevel domain decomposition methods, we will investigate theoretically and e
 robustness with respect to inexact setups and applications of the preconditioner that might arise for
 instance from mixed arithmetic calculation, inexact local solves, low rank approximations. The
 validation of these studies will be conducted primarily in the HPDDM library but could also benefit
-others such as Maphys++. 
+others such as composyx. 
 
 
  In this respect, this work is also very closely related to \S~\ref{sec:wp3:T32}. 
@@ -257,6 +257,7 @@ Note that the method has also been successfully applied to the generation of syn
  • PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM
  
  • Composyx: % (en attente de Luc)
+ This work focuses on developing robust and high-performance solutions for large sparse linear systems on modern, increasingly heterogeneous computing platforms. It targets the optimization of domain decomposition algorithms within the Composyx framework, combining direct and iterative methods to improve scalability and accuracy. The approach integrates state-of-the-art libraries for dense and sparse linear algebra and efficient domain partitioning to ensure computational efficiency. Recent work has allowed consolidating performance portability for both MPI + threads and MPI + GPU setups. An Exa-MA engineer has been hired and started on October 1, 2025.
  
  • %Mixed-precision module: PROMISE (Fabienne)
 The work carried out in Task 3.2.3 (precision auto-tuning tools) has enabled to extend PROMISE to arbitrary precision emulated formats. 
