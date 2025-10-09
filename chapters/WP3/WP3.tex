@@ -206,11 +206,10 @@ T3.3 Adaptive solution strategies for exascale multiphysical and multiscale mode
 \subsubsection{ 
 T3.3.2 Exascale resolution for simulations in partitioned coupling
 }
- The task will consist of the
-automatic tuning of performance parameters appearing in the partitioned coupling between
-exascale-ready software components. Such parameters (coupling strengths, path between physics,
-adaptive internal convergence criteria…) are intended to be handled through a joint strategy with the
-auto-tuning work from Task 3.2.3. This task has recently been started with the work of Utpal Kiran at CEA and supported by Exama-Numpex. 
+\label{sec:wp3:T332}
+ The task will consist of the automatic tuning of performance parameters appearing in the partitioned coupling between exascale-ready software components. Such parameters (coupling strengths, path between physics, adaptive internal convergence criteria…) are intended to be handled through a joint strategy with the auto-tuning work from Task 3.2.3. 
+
+Utpal Kiran started his postdoctoral internship in February 2025. The first step of the work is dedicated to produce building blocks for time-evolving coupled problems exhibiting the suitable amount of internal parameters. Basically, the focus is put on assembling both explicit and implicit solvers, for both linear and non-linear problems. The goal is to manage a simple coupled problem, yet showing the sufficient complexity to assess the first strategies regarding the automated setting of coupling parameters during the time iterations, for performance optimization under the condition of preserving simultaneously the stability and the accuracy of the solution. For the small models currently implemented, the performance is simply evaluated with the number of calls to each solver. Actual performance tests with actual representative solvers will be considered in the next steps of the work.
 
  %(Utpal)
 
@@ -281,6 +280,8 @@ more results analysis. For instance, for linear system solving, the link between
 Next steps include the development of new methodologies to perform auto-tuning of both numerical formats and performance parameters in coupled physics simulations as addressed in Task 3.3.2.
 
 Task~3.3.1 in \S~\ref{sec:wp3:T331} will be extended to demanding problems both in terms of problem dimension and in terms of physics. 
+
+Task~3.3.2 in \S~\ref{sec:wp3:T332} will continue the analysis of a \textit{toy} assembly of basic models to test relevant autotuning strategies, prior to transferring the methodology to the coupling of actual large scale physical solvers.
 
 % • Deliverables D3.x to complete by Mxx  
 % • New solver apps to integrate into WP7 CI/CD  
