@@ -174,21 +174,48 @@ We also note that T2.6  did not get funding from NumPEx so far.
 %\input{chapters/applications/specs/app-scimba-rom-1}  
 % \input additional app specs as needed
 
+\textbf{Frequency-domain wave propagation modeling with PINNs} \\
+
+As a first  application showcase, we propose to develop  a hierachy of
+wave propagation  problems modeled by  the Hemholtz equation in  2D by
+increasing   the  frequency   of  the   wave  excitation   source  and
+cconsidering  different  types  of heterogeneity  of  the  propagation
+medium,  from  multilayered  configurations  with  piecewise  constant
+variation  of the  physical parameter,  to continuously  varying medim
+caharacteristic  as  in  acoustic  wave propagation  in  a  geological
+medium.
 
 \textbf{Plasma modeling with neural network based methods }\\
 
-Tokamak MHD is a highly HPC-intensive application, especially in terms of memory consumption. Indeed, tokamak MHD codes are implicit and involve the inversion of very large matrices. In this application, the goal is to build a 3D neural network–based solver to compute the equilibrium (Grad–Shafranov equation) and simplified MHD models. The approach relies on time-sequential neural methods of the PINN type, combined with natural gradient optimization, adaptive sampling, and adaptive neural networks.
+Tokamak MHD is a highly HPC-intensive application, especially in terms
+of  memory consumption.  Indeed, tokamak  MHD codes  are implicit  and
+involve the inversion of very large matrices. In this application, the
+goal  is to  build a  3D neural  network–based solver  to compute  the
+equilibrium (Grad–Shafranov  equation) and simplified MHD  models. The
+approach relies  on time-sequential neural  methods of the  PINN type,
+combined with  natural gradient  optimization, adaptive  sampling, and
+adaptive neural networks.
 
 \textbf{Hybrid numerical for high-dimensional PDEs}\\
 
-We propose to develop a demonstrator of numerical methods that hybridize machine learning with classical approaches. The baseline code will be a DG (Discontinuous Galerkin) solver in which several numerical modules will be made learnable through neural networks (including mesh adaptation, basis functions, fluxes, and preconditioners). The key idea is that the learning components capture the large-scale structures, while the numerical solver focuses on the unresolved scales. These approaches are particularly intended for solving PDEs in high physical dimensions (such as radiative transfer) or with parametric dependencies.
+We  propose  to  develop  a demonstrator  of  numerical  methods  that
+hybridize  machine learning  with classical  approaches. The  baseline
+code will  be a  DG (Discontinuous Galerkin)  solver in  which several
+numerical  modules  will be  made  learnable  through neural  networks
+(including   mesh    adaptation,   basis   functions,    fluxes,   and
+preconditioners). The key idea is that the learning components capture
+the large-scale structures, while the  numerical solver focuses on the
+unresolved  scales. These  approaches  are  particularly intended  for
+solving PDEs in high physical  dimensions (such as radiative transfer)
+or with parametric dependencies.
+
 \section{Software Framework Contributions}
 % • PINN frameworks: …  
 % • Neural Operators: …  
 % • Reduced‐basis toolboxes: …  
 % • NIRB methods: …
 
-\subsection{Main Software Frameworks: Scimba and Feel++}
+\subsection{Main Software Framework: Scimba and Feel++}
 
 Scimba is a  library that implements PINNs or  sequential time methods
 (discrete PINNs,  neural Galerkin  or semi-Lagrangian).  The  code can
@@ -200,14 +227,28 @@ Pytorch, and a simplified version centered around neural approaches in
 Jax is  currently being developed.  The code also implements  EDO flow
 learning methods.  NO methods will also be implemented in the future.
 
-\subsection{Additional Software Frameworks}
+\subsection{Additional Software Framework}
+
+
 
 \section{Preliminary Benchmarks \& Trends}
 % • Surrogate model speedups placeholder  
 % • Error vs.\ basis size placeholder  
 % • Regression test pass-rate placeholder
 
+The  studies  conducted in  T2.1  to  T2.5  are  all in  progress  and
+preliminary results are  available only for validation  purpose of the
+novel methodologies under development. 
+
 \section{Roadmap \& Next Steps}
 % • Deliverables D2.x to complete by Mxx  
 % • New apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
+
+The following deliverables are planned: 
+\begin{itemize}
+\item D2.2-S : Surrogate modeling toolbox - final version planned for M60
+\item D2.3-BR : Benchmarking - final version planned for M60
+\end{itemize}
+
+Benchmarkinkg activities will require interactions with WP7 and in particular T7.1.

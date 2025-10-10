@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "exa-ma-d7.1"
+version = "1.0.0"
+description = "ExaMA D7.1 Benchmarking Analysis Report"
+authors = [
+    {name = "Christophe Prud'homme", email = "christophe.prudhomme@cemosis.fr"},
+]
+dependencies = [
+    "article-cli>=1.0.3",
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8", 
+    "mypy",
+    "pytest",
+]
+
+[tool.article-cli.zotero]
+group_id = 5582837
+output_file = "references.bib"
+
+[tool.article-cli.git]
+auto_push = false
+default_branch = "main"
+
+[tool.article-cli.latex]
+clean_extensions = [
+    ".aux", ".bbl", ".blg", ".log", ".out", ".pyg",
+    ".fls", ".synctex.gz", ".toc", ".fdb_latexmk",
+    ".idx", ".ilg", ".ind", ".chl", ".lof", ".lot"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
