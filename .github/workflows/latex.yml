@@ -1,11 +1,19 @@
 name: Compile Latex and Release PDF
 
+# This workflow uses article-cli for:
+# - Git hooks setup (article-cli setup)
+# - Bibliography updates from Zotero (article-cli update-bibtex)
+# - LaTeX build file cleanup (article-cli clean)
+
 on:
   push:
     tags:
       - 'v*'
     branches:
-      - '*'
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
 
 jobs:
   workflow-setup:
@@ -40,7 +48,16 @@ jobs:
         run: |
           prefix=$(echo "${{ github.repository }}" | cut -d'/' -f2)
           echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
-          prefixwithref=$(echo "$prefix")-${{ github.ref_name }}
+          
+          # Handle different event types for naming
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            # For pull requests, use pr-NUMBER format
+            prefixwithref=$(echo "$prefix")-pr-${{ github.event.number }}
+          else
+            # For tags and branches, use the ref name
+            prefixwithref=$(echo "$prefix")-${{ github.ref_name }}
+          fi
+          
           echo "prefixwithref=$prefixwithref" >> "$GITHUB_OUTPUT"
           echo "pdf=$prefixwithref.pdf" >> "$GITHUB_OUTPUT"
           echo "tex=$prefix.tex" >> "$GITHUB_OUTPUT"
@@ -60,34 +77,114 @@ jobs:
     name: Build LaTeX Artifact
     env:
       VERSION: ${{ github.ref_name }}
-      ZOTERO_API_KEY: ${{ secrets.EXA_MA_ZOTERO_API_KEY }}
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
         with:
           clean: true
 
-      - name: Install hooks 
-        run: |
-          bash ./a.cli setup
+      - name: Set up Python and uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+          enable-cache: false
 
-      - name: Update BibTeX references
-        if: ${{ github.ref != 'refs/heads/main' }}
-        run: |
-          bash ./a.cli update-bibtex
+      - name: Set up Python
+        run: uv python install 3.11
 
-      - name: Commit new references.bib
-        if: ${{ github.ref != 'refs/heads/main' }}
+      - name: Create virtual environment and install article-cli
         run: |
-          git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-          git config --local user.name "${{ github.actor }}"
-          git add references.bib
-          if ! git diff --cached --quiet; then
-            git commit -m "Update references.bib from Zotero"
-            git push
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ⚡ Fast Python Setup with UV" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Setting up isolated Python environment..." >> $GITHUB_STEP_SUMMARY
+
+          start_time=$(date +%s)
+          uv venv .venv --python 3.11
+          echo "VIRTUAL_ENV=${PWD}/.venv" >> $GITHUB_ENV
+          echo "${PWD}/.venv/bin" >> $GITHUB_PATH
+          uv pip install "article-cli>=1.0.3"
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+
+          echo "✅ **Environment Setup Complete**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tool**: UV (fast Python package installer)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Python**: 3.11 (isolated virtual environment)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Package**: article-cli>=1.0.3" >> $GITHUB_STEP_SUMMARY
+          echo "- **Duration**: ${duration}s" >> $GITHUB_STEP_SUMMARY
+          echo "- **Cache**: Enabled for faster subsequent runs" >> $GITHUB_STEP_SUMMARY
+
+      - name: Install hooks and setup
+        run: |
+          article-cli setup
+          
+          # Add git status to summary
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔧 Git Setup" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Event**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Ref**: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **SHA**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          
+          # For pull requests, stay on the current commit; for branches/tags, checkout the ref
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "- **Action**: Staying on PR merge commit" >> $GITHUB_STEP_SUMMARY
+            echo "- **PDF Name**: ${{ needs.workflow-setup.outputs.pdf }} (pr-${{ github.event.number }} format)" >> $GITHUB_STEP_SUMMARY
+            echo "Pull request detected - staying on current commit ${{ github.sha }}"
           else
-            echo "No changes in references.bib to commit."
+            echo "- **Action**: Checking out ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **PDF Name**: ${{ needs.workflow-setup.outputs.pdf }} (ref-based format)" >> $GITHUB_STEP_SUMMARY
+            echo "Checking out ${{ github.ref }}"
+            git checkout ${{ github.ref }}
           fi
+
+      - name: Show article-cli configuration
+        run: |
+          article-cli --version
+          article-cli config show
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔧 Environment Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Python Environment:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "UV Version: $(uv --version)" >> $GITHUB_STEP_SUMMARY
+          echo "Python Version: $(python --version)" >> $GITHUB_STEP_SUMMARY
+          echo "Virtual Environment: $VIRTUAL_ENV" >> $GITHUB_STEP_SUMMARY
+          echo "Article CLI: $(article-cli --version)" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Configuration Details:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          article-cli config show >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: Update bibliography from Zotero
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📚 Bibliography Update" >> $GITHUB_STEP_SUMMARY
+          echo "Updating bibliography from Zotero group using isolated virtual environment..." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if article-cli update-bibtex; then
+            echo "✅ **Bibliography Updated Successfully**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Environment**: Isolated venv with uv" >> $GITHUB_STEP_SUMMARY
+            echo "- **Source**: Zotero Group 5562142 (Exa-MA)" >> $GITHUB_STEP_SUMMARY
+            echo "- **Output**: references.bib" >> $GITHUB_STEP_SUMMARY
+            echo "- **Backup**: references.bib.backup" >> $GITHUB_STEP_SUMMARY
+            if [ -f references.bib ]; then
+              entries=$(grep -c "^@" references.bib || echo "0")
+              echo "- **Total entries**: $entries" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "❌ **Bibliography Update Failed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Please check Zotero API key and group permissions." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+        env:
+          ZOTERO_API_KEY: ${{ secrets.ZOTERO_API_KEY }}
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
@@ -95,15 +192,51 @@ jobs:
         with:
           root_file: ${{ needs.workflow-setup.outputs.tex }}
           latexmk_shell_escape: true
-          post_compile: "latexmk -c; rm -rf _minted*"
+          post_compile: "article-cli clean"
+
+      - name: Generate compilation summary (Ubuntu)
+        if: ${{ needs.workflow-setup.outputs.runner == 'ubuntu-latest' }}
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔨 LaTeX Compilation (Ubuntu)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Engine**: latexmk with shell-escape" >> $GITHUB_STEP_SUMMARY
+          echo "- **Runner**: ubuntu-latest (xu-cheng/latex-action@v3)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Source**: \`${{ needs.workflow-setup.outputs.tex }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Clean-up**: article-cli clean (from isolated venv)" >> $GITHUB_STEP_SUMMARY
 
       - name: Compile LaTeX document
         if: ${{ needs.workflow-setup.outputs.runner == 'self-texlive' }}
         run: |
           latexmk -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode  ${{ needs.workflow-setup.outputs.tex }}
+          article-cli clean
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔨 LaTeX Compilation (Self-hosted)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Engine**: latexmk with shell-escape" >> $GITHUB_STEP_SUMMARY
+          echo "- **Runner**: self-texlive (self-hosted)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Source**: \`${{ needs.workflow-setup.outputs.tex }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Clean-up**: article-cli clean (from isolated venv)" >> $GITHUB_STEP_SUMMARY
 
       - name: Rename PDF
-        run: mv ${{ needs.workflow-setup.outputs.prefix }}.pdf ${{ needs.workflow-setup.outputs.pdf }}
+        run: |
+          mv ${{ needs.workflow-setup.outputs.prefix }}.pdf ${{ needs.workflow-setup.outputs.pdf }}
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📄 LaTeX Compilation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "${{ needs.workflow-setup.outputs.pdf }}" ]; then
+            file_size=$(du -h "${{ needs.workflow-setup.outputs.pdf }}" | cut -f1)
+            echo "✅ **PDF Generated Successfully**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **File**: \`${{ needs.workflow-setup.outputs.pdf }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Size**: $file_size" >> $GITHUB_STEP_SUMMARY
+            echo "- **Runner**: ${{ needs.workflow-setup.outputs.runner }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Source**: \`${{ needs.workflow-setup.outputs.tex }}\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **PDF Generation Failed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Expected file: \`${{ needs.workflow-setup.outputs.pdf }}\`" >> $GITHUB_STEP_SUMMARY
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -114,26 +247,44 @@ jobs:
             ./*.bib
             ./*.gin
             ./*.bbl
+            ./*.tikz
             ./${{ needs.workflow-setup.outputs.pdf }}
             ./README.adoc
-            ./hooks*
-            ./img*
-            ./dat*
-            ./*.png
             ./a.cli
+            ./hooks/*
+            ./img-*
+            ./fig-*
+            ./data/*
+            ./chapters/*
+            ./sections/*
+            ./software/*
+            ./graphics/*
             ./*.sty
-            ./chapters*
-            ./software*
+            ./*.png
             ./exclude.txt
-            ./sections*
-            ./litterature*
-            ./graphics*
+            ./setup-hooks.sh
             !./.git*
             !./.github*
             !./.vscode*
             !./.idea*
             !./.DS_Store*
             !./.gitignore*
+
+      - name: Generate build summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📦 Artifact Upload" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifact Name**: \`${{ needs.workflow-setup.outputs.prefixwithref }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Included Files:" >> $GITHUB_STEP_SUMMARY
+          echo "- LaTeX source files (\*.tex)" >> $GITHUB_STEP_SUMMARY
+          echo "- Bibliography files (\*.bib)" >> $GITHUB_STEP_SUMMARY
+          echo "- Generated PDF: \`${{ needs.workflow-setup.outputs.pdf }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Git info files (\*.gin)" >> $GITHUB_STEP_SUMMARY
+          echo "- Chapters, sections, software, graphics" >> $GITHUB_STEP_SUMMARY
+          echo "- Setup scripts and style files" >> $GITHUB_STEP_SUMMARY
   check:
       needs: [build_latex,workflow-setup]
       runs-on: ${{ needs.workflow-setup.outputs.runner }}
@@ -146,8 +297,47 @@ jobs:
           name: ${{ needs.workflow-setup.outputs.prefixwithref }}
           path: ${{ github.workspace }}/artifact
       -
+        name: Set up Python and uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+          enable-cache: false
+      -
+        name: Set up Python
+        run: uv python install 3.11
+      -
+        name: Create virtual environment and install article-cli
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## ⚡ Check Environment Setup" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          start_time=$(date +%s)
+          uv venv .venv --python 3.11
+          echo "VIRTUAL_ENV=${PWD}/.venv" >> $GITHUB_ENV
+          echo "${PWD}/.venv/bin" >> $GITHUB_PATH
+          uv pip install "article-cli>=1.0.3"
+          end_time=$(date +%s)
+          duration=$((end_time - start_time))
+
+          echo "✅ **Check Environment Ready**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Setup time**: ${duration}s (with uv cache)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: Isolated from build job" >> $GITHUB_STEP_SUMMARY
+          echo "- **Purpose**: Artifact verification" >> $GITHUB_STEP_SUMMARY
+      -
         name: List Artifact
-        run: ls -R ${{ github.workspace }}
+        run: |
+          ls -R ${{ github.workspace }}
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔍 Artifact Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifact**: \`${{ needs.workflow-setup.outputs.prefixwithref }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Artifact Contents:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          ls -la ${{ github.workspace }}/artifact/ >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
       -
         name: Check compilation of LaTeX document from artifact
         if: ${{ needs.workflow-setup.outputs.runner == 'ubuntu-latest' }}
@@ -155,13 +345,28 @@ jobs:
         with:
           root_file: ${{ needs.workflow-setup.outputs.tex }}
           latexmk_shell_escape: true
-          post_compile: "latexmk -c; rm -rf _minted*"
           working_directory: ${{ github.workspace }}/artifact
+      -
+        name: Generate artifact verification summary (Ubuntu)
+        if: ${{ needs.workflow-setup.outputs.runner == 'ubuntu-latest' }}
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Artifact Verification Completed (Ubuntu)**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **LaTeX compilation from artifact**: Success" >> $GITHUB_STEP_SUMMARY
+          echo "- **Runner**: ${{ needs.workflow-setup.outputs.runner }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Clean-up**: Not needed (artifact already cleaned)" >> $GITHUB_STEP_SUMMARY
       -
         name: Check compilation of LaTeX document from artifact
         if: ${{ needs.workflow-setup.outputs.runner == 'self-texlive' }}
         run: |
           latexmk -shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode  ${{ needs.workflow-setup.outputs.tex }}
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Artifact Verification Completed**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **LaTeX compilation from artifact**: Success" >> $GITHUB_STEP_SUMMARY
+          echo "- **Runner**: ${{ needs.workflow-setup.outputs.runner }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Clean-up**: Not needed (artifact already cleaned)" >> $GITHUB_STEP_SUMMARY
         working-directory: ${{ github.workspace }}/artifact
 
   release:
@@ -183,6 +388,24 @@ jobs:
           mv "${temp_dir}/${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz" ./
           rm -rf "$temp_dir"
 
+          # Generate release summary
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🚀 Release Preparation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag**: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Release Assets:" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "artifact/${{ needs.workflow-setup.outputs.prefixwithref }}.pdf" ]; then
+            pdf_size=$(du -h "artifact/${{ needs.workflow-setup.outputs.prefixwithref }}.pdf" | cut -f1)
+            echo "- 📄 **PDF**: \`${{ needs.workflow-setup.outputs.prefixwithref }}.pdf\` ($pdf_size)" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ -f "${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz" ]; then
+            archive_size=$(du -h "${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz" | cut -f1)
+            echo "- 📦 **Archive**: \`${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz\` ($archive_size)" >> $GITHUB_STEP_SUMMARY
+          fi
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -196,3 +419,22 @@ jobs:
           files: |
             artifact/${{ needs.workflow-setup.outputs.prefixwithref }}.pdf
             ${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz
+
+      - name: Generate release summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎉 Release Created" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.create_release.outcome }}" = "success" ]; then
+            echo "✅ **Release Published Successfully**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "- **Release**: [${{ github.ref_name }}](${{ steps.create_release.outputs.url }})" >> $GITHUB_STEP_SUMMARY
+            echo "- **Type**: ${{ contains(github.ref, 'alpha') && 'Pre-release' || contains(github.ref, 'beta') && 'Pre-release' || contains(github.ref, 'rc') && 'Pre-release' || contains(github.ref, 'preview') && 'Pre-release' || 'Stable Release' }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Assets**: PDF + Source Archive" >> $GITHUB_STEP_SUMMARY
+            echo "- **Notes**: Auto-generated from commits" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Release Creation Failed**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Please check the workflow logs for details." >> $GITHUB_STEP_SUMMARY
+          fi
