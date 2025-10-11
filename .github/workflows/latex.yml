@@ -170,7 +170,7 @@ jobs:
             echo "✅ **Bibliography Updated Successfully**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "- **Environment**: Isolated venv with uv" >> $GITHUB_STEP_SUMMARY
-            echo "- **Source**: Zotero Group 5562142 (Exa-MA)" >> $GITHUB_STEP_SUMMARY
+            echo "- **Source**: Zotero Group 5582837 (ExaMA)" >> $GITHUB_STEP_SUMMARY
             echo "- **Output**: references.bib" >> $GITHUB_STEP_SUMMARY
             echo "- **Backup**: references.bib.backup" >> $GITHUB_STEP_SUMMARY
             if [ -f references.bib ]; then
@@ -184,7 +184,7 @@ jobs:
             exit 1
           fi
         env:
-          ZOTERO_API_KEY: ${{ secrets.ZOTERO_API_KEY }}
+          ZOTERO_API_KEY: ${{ secrets.EXA_MA_ZOTERO_API_KEY }}
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
