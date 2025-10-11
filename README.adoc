@@ -65,6 +65,8 @@ NOTE: `a.cli` is a shell script to setup the repo, create releases and update bi
 
 == Compiling the Document
 
+See link:AGENTS.md[AGENTS.md] for  compilation guide and link:FAST-COMPILE.md[FAST-COMPILE.md] for optimization strategies.
+
 === Method 1: Using latexmk (Recommended)
 
 The recommended compilation method uses `latexmk` with shell escape enabled:
@@ -82,7 +84,29 @@ latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstop
 - `-halt-on-error`: Stop compilation on errors
 - `-interaction=nonstopmode`: Continue compilation without user input
 
-=== Method 2: Using VS Code
+=== Method 2: Fast Compilation with a.cli
+
+For faster iteration during development:
+
+.Fast compilation options
+[source, shell]
+----
+# Compile only Work Packages (~10-15 seconds)
+./a.cli compile wp
+
+# Compile specific chapter
+./a.cli compile methodology
+./a.cli compile applications
+./a.cli compile software
+
+# Ultra-fast draft mode (skip images)
+./a.cli compile draft
+
+# Full compilation
+./a.cli compile all
+----
+
+=== Method 3: Using VS Code
 
 If you're using VS Code with the LaTeX Workshop extension:
 
@@ -95,7 +119,7 @@ The VS Code configuration is pre-configured in `.vscode/settings.json` with:
 - Proper `latexmk` recipe with shell escape
 - SyncTeX support for forward/backward search
 
-=== Method 3: Single Pass Compilation
+=== Method 4: Single Pass Compilation
 
 For quick testing (may require multiple runs for references):
 
@@ -105,13 +129,44 @@ For quick testing (may require multiple runs for references):
 pdflatex --shell-escape exa-ma-d7.1.tex
 ----
 
-=== Method 4: Using the CLI Helper
+=== Method 5: Using the CLI Helper
 
 .Clean build artifacts
 [source, shell]
 ----
 ./a.cli clean
 ----
+
+=== Overleaf Workflow for Non-GitHub Users
+
+**For colleagues who prefer Overleaf over GitHub:**
+
+We provide standalone compilation files that compile in ~10-15 seconds instead of 5-10 minutes for the full document.
+
+See link:OVERLEAF-GUIDE.md[📘 Complete Overleaf Guide] for detailed instructions.
+
+.Quick Overleaf workflow
+[source, shell]
+----
+# Export WP1 for Overleaf (creates a ZIP file)
+./sync-overleaf.sh export WP1
+
+# After editing in Overleaf, import changes back
+./sync-overleaf.sh import overleaf-export-WP1.zip WP1
+
+# List all available standalone files
+./sync-overleaf.sh list
+----
+
+*Available standalone files:* `standalone-wp1.tex` through `standalone-wp6.tex`
+
+**Key benefits:**
+
+* ⚡ Fast compilation in Overleaf (~10-15 seconds vs 5-10 minutes)
+* 🎓 No GitHub knowledge required
+* 🔄 Seamless bidirectional sync with repository
+* 🤖 Full document still compiles in CI/CD for releases
+* 📦 Automatic dependency management (graphics, styles, etc.)
 
 === Troubleshooting Compilation Issues
 
