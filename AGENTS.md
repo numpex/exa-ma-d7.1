@@ -238,28 +238,215 @@ rm -rf _minted-exa-ma-d7.1/
 
 ## Release Process
 
-### Using article-cli (Integrated with PyPI)
+Creating a release for the ExaMA D7.1 document involves two main steps: creating an annotated git tag and then creating a GitHub release. The GitHub Actions workflow will automatically compile the LaTeX document and attach the PDF to the release.
+
+### Quick Release Guide
+
+#### 1. Create an Annotated Git Tag
+
+Annotated tags are required for releases. They include metadata like tagger name, email, date, and a message.
+
 ```bash
-# Create and push a version tag
-git tag v1.0.0 -m "Release v1.0.0"
+# For a stable release
+git tag -a v1.0.0 -m "Release v1.0.0 - Description of changes"
+
+# For a release candidate
+git tag -a v1.0.0-rc.1 -m "Release candidate 1 for v1.0.0"
+
+# For a preview/pre-release
+git tag -a v1.0.0-preview.1 -m "Preview release for v1.0.0"
+```
+
+**Version Naming Convention:**
+- **Stable releases**: `vX.Y.Z` (e.g., `v1.0.0`, `v2.1.3`)
+- **Release candidates**: `vX.Y.Z-rc.N` (e.g., `v1.0.0-rc.1`, `v1.0.0-rc.2`)
+- **Preview releases**: `vX.Y.Z-preview.N` (e.g., `v1.90.0-preview.1`)
+- **Alpha releases**: `vX.Y.Z-alpha.N` (e.g., `v2.0.0-alpha.1`)
+- **Beta releases**: `vX.Y.Z-beta.N` (e.g., `v2.0.0-beta.1`)
+
+#### 2. Push the Tag
+
+```bash
+# Push the tag to GitHub
 git push origin v1.0.0
 
-# GitHub Actions will automatically:
-# 1. Compile the LaTeX document
-# 2. Create a release
-# 3. Upload PDF and source archive
+# Or push all tags at once
+git push origin --tags
 ```
 
-### Using legacy a.cli (Local management)
+#### 3. Create GitHub Release
+
+Use the GitHub CLI (`gh`) to create the release from the tag:
+
 ```bash
-# Create release locally
-./a.cli create v1.0.0
+# For a stable release
+gh release create v1.0.0 \
+  --title "Release v1.0.0" \
+  --notes "Description of changes in this release"
 
-# This will:
-# 1. Tag the repository
-# 2. Update version info
-# 3. Push to GitHub
+# For a pre-release (rc, preview, alpha, beta)
+gh release create v1.0.0-rc.1 \
+  --title "Release Candidate v1.0.0-rc.1" \
+  --notes "First release candidate for v1.0.0" \
+  --prerelease
 ```
+
+The `--prerelease` flag marks the release as a pre-release, which is automatically applied for tags containing `rc`, `alpha`, `beta`, or `preview` by the GitHub Actions workflow.
+
+### Complete Release Example
+
+Here's a complete example of creating and releasing version 1.90.0:
+
+```bash
+# Step 1: Ensure you're on the main branch and up to date
+git checkout main
+git pull
+
+# Step 2: Create an annotated tag
+git tag -a v1.90.0 -m "Release v1.90.0 - ExaMA D7.1 Benchmarking Report"
+
+# Step 3: Push the tag to GitHub
+git push origin v1.90.0
+
+# Step 4: Create the GitHub release
+gh release create v1.90.0 \
+  --title "Release v1.90.0" \
+  --notes "ExaMA D7.1 Benchmarking Analysis Report v1.90.0
+
+## Highlights
+- Updated repository structure and documentation
+- Enhanced LaTeX compilation workflow with article-cli
+- Bibliography updates from Zotero
+- Improved CI/CD pipeline with UV and isolated environments
+
+## Compilation
+The PDF has been automatically compiled and attached by the CI/CD workflow.
+
+## Changes
+See the full changelog below for detailed changes."
+```
+
+### Release Candidates Example
+
+For creating release candidates (useful for testing before final release):
+
+```bash
+# First release candidate
+git tag -a v2.0.0-rc.1 -m "Release candidate 1 for v2.0.0"
+git push origin v2.0.0-rc.1
+gh release create v2.0.0-rc.1 \
+  --title "Release Candidate v2.0.0-rc.1" \
+  --notes "First release candidate for v2.0.0 - Please test!" \
+  --prerelease
+
+# Second release candidate (after fixes)
+git tag -a v2.0.0-rc.2 -m "Release candidate 2 for v2.0.0"
+git push origin v2.0.0-rc.2
+gh release create v2.0.0-rc.2 \
+  --title "Release Candidate v2.0.0-rc.2" \
+  --notes "Second release candidate with bug fixes" \
+  --prerelease
+
+# Final stable release
+git tag -a v2.0.0 -m "Release v2.0.0"
+git push origin v2.0.0
+gh release create v2.0.0 \
+  --title "Release v2.0.0" \
+  --notes "Stable release v2.0.0"
+```
+
+### What Happens Automatically
+
+Once you create the GitHub release, the CI/CD workflow (`.github/workflows/latex.yml`) automatically:
+
+1. **Detects the tag**: Triggered by the `v*` tag pattern
+2. **Sets up the environment**: Installs Python, UV, and article-cli
+3. **Updates bibliography**: Fetches latest references from Zotero
+4. **Compiles LaTeX**: Generates the PDF with latexmk and shell-escape
+5. **Creates artifacts**: 
+   - Compiled PDF: `exa-ma-d7.1-vX.Y.Z.pdf`
+   - Source archive: `exa-ma-d7.1-vX.Y.Z.tar.gz`
+6. **Attaches to release**: Uploads both files to the GitHub release
+7. **Marks as pre-release**: Automatically detects `rc`, `alpha`, `beta`, `preview` in tag name
+
+### Viewing Releases
+
+You can view all releases at:
+```
+https://github.com/numpex/exa-ma-d7.1/releases
+```
+
+Or using the GitHub CLI:
+```bash
+# List all releases
+gh release list
+
+# View a specific release
+gh release view v1.90.0
+
+# Download release assets
+gh release download v1.90.0
+```
+
+### Using article-cli for Releases (Alternative Method)
+
+You can also use `article-cli` to create releases, which combines tag creation and git operations:
+
+```bash
+# Using article-cli to create a release tag
+article-cli create v1.0.0
+
+# Then create the GitHub release
+gh release create v1.0.0 \
+  --title "Release v1.0.0" \
+  --notes "Description of changes"
+```
+
+Note: `article-cli create` will:
+- Create an annotated tag
+- Update `gitHeadLocal.gin` with release information
+- Commit the change
+- You still need to use `gh release create` to publish on GitHub
+
+### Semantic Versioning Guidelines
+
+Follow semantic versioning for releases:
+
+- **MAJOR version (X.0.0)**: Incompatible changes, major restructuring
+- **MINOR version (X.Y.0)**: New features, significant updates (backwards compatible)
+- **PATCH version (X.Y.Z)**: Bug fixes, minor updates (backwards compatible)
+
+Examples:
+- `v1.0.0` → `v1.0.1`: Bug fixes in existing content
+- `v1.0.0` → `v1.1.0`: New chapter or significant content addition
+- `v1.0.0` → `v2.0.0`: Major restructuring or complete rewrite
+
+### Troubleshooting Releases
+
+**Issue**: Tag already exists
+```bash
+# Delete local tag
+git tag -d v1.0.0
+
+# Delete remote tag
+git push origin --delete v1.0.0
+
+# Recreate the tag
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin v1.0.0
+```
+
+**Issue**: Release creation failed in CI/CD
+- Check the Actions tab: https://github.com/numpex/exa-ma-d7.1/actions
+- Verify the Zotero API key is set correctly in repository secrets
+- Ensure the tag follows the `v*` pattern
+
+**Issue**: PDF not attached to release
+- Wait for the workflow to complete (check Actions tab)
+- The workflow may take several minutes to compile the LaTeX document
+- Check workflow logs for compilation errors
+
+---
 
 ## Migration Notes
 
