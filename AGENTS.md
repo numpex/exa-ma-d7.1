@@ -238,7 +238,7 @@ rm -rf _minted-exa-ma-d7.1/
 
 ## Release Process
 
-Creating a release for the ExaMA D7.1 document involves two main steps: creating an annotated git tag and then creating a GitHub release. The GitHub Actions workflow will automatically compile the LaTeX document and attach the PDF to the release.
+Creating a release for the ExaMA D7.1 document is simple: just create and push an annotated git tag. The GitHub Actions workflow will automatically compile the LaTeX document, create the GitHub release, and attach the PDF and source archive.
 
 ### Quick Release Guide
 
@@ -274,28 +274,15 @@ git push origin v1.0.0
 git push origin --tags
 ```
 
-#### 3. Create GitHub Release
-
-Use the GitHub CLI (`gh`) to create the release from the tag:
-
-```bash
-# For a stable release
-gh release create v1.0.0 \
-  --title "Release v1.0.0" \
-  --notes "Description of changes in this release"
-
-# For a pre-release (rc, preview, alpha, beta)
-gh release create v1.0.0-rc.1 \
-  --title "Release Candidate v1.0.0-rc.1" \
-  --notes "First release candidate for v1.0.0" \
-  --prerelease
-```
-
-The `--prerelease` flag marks the release as a pre-release, which is automatically applied for tags containing `rc`, `alpha`, `beta`, or `preview` by the GitHub Actions workflow.
+**That's it!** The GitHub Actions workflow will automatically:
+- Compile the LaTeX document
+- Create the GitHub release
+- Attach the PDF and source archive
+- Mark as pre-release if the tag contains `rc`, `alpha`, `beta`, or `preview`
 
 ### Complete Release Example
 
-Here's a complete example of creating and releasing version 1.90.0:
+Here's a complete example of creating and releasing version 1.91.0:
 
 ```bash
 # Step 1: Ensure you're on the main branch and up to date
@@ -303,27 +290,16 @@ git checkout main
 git pull
 
 # Step 2: Create an annotated tag
-git tag -a v1.90.0 -m "Release v1.90.0 - ExaMA D7.1 Benchmarking Report"
+git tag -a v1.91.0 -m "Release v1.91.0 - ExaMA D7.1 Documentation Updates"
 
 # Step 3: Push the tag to GitHub
-git push origin v1.90.0
+git push origin v1.91.0
 
-# Step 4: Create the GitHub release
-gh release create v1.90.0 \
-  --title "Release v1.90.0" \
-  --notes "ExaMA D7.1 Benchmarking Analysis Report v1.90.0
-
-## Highlights
-- Updated repository structure and documentation
-- Enhanced LaTeX compilation workflow with article-cli
-- Bibliography updates from Zotero
-- Improved CI/CD pipeline with UV and isolated environments
-
-## Compilation
-The PDF has been automatically compiled and attached by the CI/CD workflow.
-
-## Changes
-See the full changelog below for detailed changes."
+# That's it! The workflow now automatically:
+# - Compiles the LaTeX document
+# - Creates the GitHub release
+# - Attaches PDF (exa-ma-d7.1-v1.91.0.pdf) and source archive
+# - Generates release notes from commits
 ```
 
 ### Release Candidates Example
@@ -334,25 +310,17 @@ For creating release candidates (useful for testing before final release):
 # First release candidate
 git tag -a v2.0.0-rc.1 -m "Release candidate 1 for v2.0.0"
 git push origin v2.0.0-rc.1
-gh release create v2.0.0-rc.1 \
-  --title "Release Candidate v2.0.0-rc.1" \
-  --notes "First release candidate for v2.0.0 - Please test!" \
-  --prerelease
+# Workflow automatically creates pre-release
 
 # Second release candidate (after fixes)
 git tag -a v2.0.0-rc.2 -m "Release candidate 2 for v2.0.0"
 git push origin v2.0.0-rc.2
-gh release create v2.0.0-rc.2 \
-  --title "Release Candidate v2.0.0-rc.2" \
-  --notes "Second release candidate with bug fixes" \
-  --prerelease
+# Workflow automatically creates pre-release
 
 # Final stable release
 git tag -a v2.0.0 -m "Release v2.0.0"
 git push origin v2.0.0
-gh release create v2.0.0 \
-  --title "Release v2.0.0" \
-  --notes "Stable release v2.0.0"
+# Workflow automatically creates stable release
 ```
 
 ### What Happens Automatically
@@ -390,23 +358,21 @@ gh release download v1.90.0
 
 ### Using article-cli for Releases (Alternative Method)
 
-You can also use `article-cli` to create releases, which combines tag creation and git operations:
+You can also use `article-cli` to create release tags, which handles the git operations:
 
 ```bash
 # Using article-cli to create a release tag
-article-cli create v1.0.0
+python3 -m article_cli create v1.0.0
 
-# Then create the GitHub release
-gh release create v1.0.0 \
-  --title "Release v1.0.0" \
-  --notes "Description of changes"
+# Then push the tag
+git push origin v1.0.0
 ```
 
 Note: `article-cli create` will:
 - Create an annotated tag
 - Update `gitHeadLocal.gin` with release information
 - Commit the change
-- You still need to use `gh release create` to publish on GitHub
+- The GitHub Actions workflow will automatically create the release when you push the tag
 
 ### Semantic Versioning Guidelines
 
