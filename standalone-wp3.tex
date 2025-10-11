@@ -1,0 +1,72 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Standalone WP3 - Fast compilation for Overleaf
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{report}
+
+\usepackage{numpex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage{amsmath}
+\usepackage{empheq}
+\usepackage{fancybox}
+\usepackage{anyfontsize}
+\usepackage{cleveref}
+\usepackage{standalone}
+\usepackage[]{acronym}
+\usepackage{import}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{tabularx,longtable}
+\usepackage{paralist}
+\usepackage{multirow}
+\usepackage{pgf-pie}
+\usepackage{tikz}
+\usepackage{xspace,float,relsize}
+\usepackage{minted}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tabularray}
+\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{positioning,fit,matrix}
+
+\definecolor{bgcolor}{gray}{0.95}
+\definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88}
+
+\hypersetup{
+    pdftitle={WP3 - Solvers (Standalone)},
+    pdfauthor={Exa-MA Consortium},
+    colorlinks=true,
+    citecolor=CustomBlue,
+    linkcolor=CustomBlue,
+    urlcolor=blue
+}
+
+\graphicspath{ {graphics/} }
+\input{defs}
+\urlstyle{same}
+
+\begin{document}
+
+\title{WP3 - Solvers\\
+\large Exa-MA D7.1 Deliverable - Standalone Chapter}
+\author{WP3 Team}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\clearpage
+
+\chapter{WP3 - Solvers}
+\label{chap:wp3}
+
+\subimport{chapters/WP3/}{WP3}
+
+\clearpage
+\bibliography{references}
+\bibliographystyle{apacite}
+
+\end{document}

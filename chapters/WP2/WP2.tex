@@ -1,11 +1,80 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
-%\chapter{Work Package 2: Model Order Reduction \& SciML}
-%\label{chap:wp2}
 
 \section{Objectives \& Context}
 % • Which Exa-MA bottlenecks (B#) WP2 addresses  
 % • Relation to overall strategy (surrogate modeling, physics-informed ML)  
 % • List of key tasks T2.1–T2.6
+
+WP2 is concerned  with the development of model  order reduction (MOR)
+methods,  fast  surrogate  solvers, and  Scientific  Machine  Learning
+(SciML) methods.  In particular, we study non-intrusive approaches for
+designing ultra-fast  surrogate models  of complex  physical problems,
+and  strategies for  leveraging  these surrogates.   We consider  {\bf
+  data-driven} techniques including  comparisons between reduced basis
+methods and  methods based on  neural networks  (NN), as well  as {\bf
+  model-driven} techniques  with a  focus on physics-based  NN models.
+In practice, WP2 comprises the following tasks:
+\begin{itemize}
+\item[T2.1]  Surrogate models  based on  physics-driven Deep  Learning
+  (DL).   Artificial Neural  Networks  (ANNs) approaches  that do  not
+  require labeled data  sets for their training  have been extensively
+  studied  in recent  years.  The  concept of  Physics-Informed Neural
+  Networks (PINNs) is currently the most  popular and is used to solve
+  PDEs,  fractional  equations, integral-differential  equations,  and
+  stochastic PDEs. They  have a great potential of  application to the
+  solution of non-linear, time-dependent,  parameter dependent PDEs or
+  even  to inverse  problems.   However, PINNs  struggle  to scale  to
+  problems  with   larger  domains   and  more   complex,  multi-scale
+  solutions, partly due to the spectral bias of NNs and the increasing
+  size of the underlying PINN  optimization function. To overcome such
+  isses, we propose to combine PINNs with domain decomposition methods
+  (DDM).   Specific  topics  that  are addressed  in  this  task  are:
+  reduction  of  training  cost, influence  of  network  architecture,
+  influence of loss definition and optimization strategy; 
+\item[T2.2]  PDE  operator  learning with  Neural  Operators.   Neural
+  Operators (NO)  are NNs specifically dedicated  to the approximation
+  of inverse PDE operators.  These  methods, such as DeepOnet and FNO,
+  allow for  fast computation  of PDE  solutions for  various physical
+  problems.  In  this task  we  study  NO networks  theoretically  and
+  methodologically,  focusing   on  applying  them  to   more  complex
+  nonlinear problems and difficult geometries,  and working on ways to
+  guarantee the quality of results;
+\item  [T2.3]  Data-driven  MOR. Recent  approaches  include  building
+  nonlinear  reduction  methods,  such   as  using  auto-encoders  and
+  projections or nonlinear corrections to classical methods. This task
+  aims  to  study theoretical  aspects  and  propose new  methods  for
+  nonlinear  reduction   on  difficult   geometries,  hyper-reduction,
+  closure,  and  learning  techniques   for  multiple  objective  cost
+  functions,  and also  to investigate  stochastic versions  with deep
+  generative latent models;  
+\item[T2.4]  Non-intrusive   reduced  basis  methods   for  parametric
+  problems In this  task, we study Non-Intrusive  Reduced Basis (NIRB)
+  methods   to  reduce   the  computational   cost  of   high-fidelity
+  codes. These methods include  operator inference methods that enable
+  the automated affine or  higher-order decomposition of operators and
+  two-grid methods. The offline part of these methods is expensive but
+  performed  only  once,   while  the  online  phase   can  be  vastly
+  accelerated  by  orders  of  magnitude. Both  steady  and  evolution
+  problems are considered  and in this task.  We also  plan to combine
+  these  strategies  with  parallel  in  time  methods  for  parabolic
+  problems;
+\item[T2.5]  Mixing  low-  and  high-fidelity  models.   Multifidelity
+  modeling  (MFM)  uses  a  hierarchy of  lower  fidelity  models,  or
+  surrogate  models,  to reduce  the  computational  cost of  repeated
+  simulations  with high-fidelity  model.  The  lower fidelity  models
+  must, in  general, be chosen  for each  problem, but there  are some
+  general principles  that can be  followed that  we focus on  in this
+  task. Scaling is, once again, a central issue and argues in favor of
+  the Monte Carlo type approaches that we consider in this task;
+\item[T2.6]  Real-time  models  with super  resolution  methods  allow
+  computing an interpolate, which is a fine representation of pictures
+  or functions  using a  coarse representation. Deep  Learning methods
+  provide impressive results in this direction with a nice perspective
+  for  PDEs.  In  this task,  we propose  to extend  these methods  to
+  complex  PDEs   but  also  to  stochastic   processes  (using  deep,
+  generative  models) and  on unstructured  grids (using  graph neural
+  networks).   These   approaches  would  allow   very  low-resolution
+  simulations to be carried out and corrected in real time.
+\end{itemize}  
 
 \section{Scientific Advances}
 % • Advance 1 (T2.1): …  
@@ -13,9 +82,132 @@
 % • Advance 3 (T2.3): …  
 % • etc.
 
+During the reporting period, we have progressed on the following tasks: 
+
+\begin{itemize}
+\item[T2.1] In the  framework of a collaboration  between the Atlantis
+  team (St\'ephane  Lanteri), the Macaron team  (Victor Michel-Dansac)
+  and Eindhoven  University of  Technology (Victorita Dolean),  and in
+  the context of  the Ph.D.  thesis of Daria  Hrebenshchykova, we have
+  studied  a PINN-based  approach  for simulating  high frequency  and
+  multiscale frequency-domain wave propagation  problems. For that, we
+  are building upon the MLFBPINN (Multi-Level Finite Basis PINN) model
+  recently introduced by  Victorita Dolean {\em et al.},  We propose a
+  novel variant  of MLFBPINN where a  local PINN in each  subdomain is
+  trained with a PML (Prefectly-Matched  Layer) on the whole subdomain
+  boundary.  This  is an ongoing  work. In the Macaron  team (Emmanuel
+  Franck,  Victor  Michel  Dansac  and  Laurent  Navoret),  two  other
+  NN-based methods  have been  developed.  Firstly,  a semi-Lagrangian
+  sequential  in time  method coupled  with a  preconditioned gradient
+  method,  which  allows  to   compute  efficiently  high  dimensional
+  (physical  or parametric)  advection-diffusion problems  and kinetic
+  problems such as those modeled with a Vlasov type equation.  In this
+  method   the   collocation   points   are   transported   with   the
+  characteristics and then projected at each time on a NN space.  This
+  method beats the classical approaches fro this type of problems when
+  the dimension is 5 or above.  Seondly, in collaboration with the WP4
+  (Emmanuel Franck, Victor Michel  Dansac, Amaury Bilières and Yannick
+  Privat),  the Macaron  team has  proposed a  new shape  optimization
+  method  for  parametric problems  where  the  PDE solution  and  the
+  mapping between a reference geometry and a new one are computed by a
+  NN.  Additionally using the like between  NNs and ODEs we impose the
+  volume conservation  using a symplectic  NN.  This method  is faster
+  and gives more accurate results than those provided by classical FEM
+  method.
+\item[T2.2]  The Macaron  team (Joubine  Aghili, Emmanuel  Francka and
+  Victor Michel  Dansac), has proposed  a simple method  to accelerate
+  the convergence of nonlinear solvers for PDEs like the Newton method
+  using a Fourier  Neural Operator (FNO).  For that, a  FNO is trained
+  using data and discrete residual  loss to predict the solution using
+  the  source and  the spatial  coefficient for  a nonlinear  elliptic
+  equation.  This  FNO produces  an initial  condition for  the Newton
+  method,  which allows  to capture  very quickly  the coarse  scales.
+  This approach allows to avoid the non-convergence situations that in
+  can face when using the Newton  method, and allows to win between 80
+  and 200\% of CPU time.
+\item[T2.3] In  the framework of  a collaboration between  the Macaron
+  team (Victor Michel Dansac, Vincent  Vigon and Emmanuel Franck), the
+  Atlantis  team  (St\'ephane Lanteri)  and  the  Makutu team  (Hélène
+  Barucq) and  in teh  context of the  postdoctoral project  of Truing
+  Hung, a  nonlinear reduced-order  modeling method has  been proposed
+  for dealing with elliptic PDEs, which  is based on a neural implicit
+  representation  that  allows  to   evaluate  the  solution  and  the
+  derivatives  at each  point without  any interpolation  process.  To
+  increase the accuracy a two-step  method is introduced where one fit
+  the  encoder and  decoder firstly  with  data, and  then refine  the
+  decoding  process  with  a  physical  loss  and  a  Greedy  training
+  algorithm. The final validation of the method is in ongoing.
+\item[T2.4] In the framework of a collaboration between the University
+  of  Strasbourg  (Christophe  Prud’homme   and  Joubine  Aghili)  and
+  Sorbonne University (Yvon Maday), the Ph.D. thesis of Hassan Ballout
+  aims  at  overcoming  the  limitations  of  linear  order  reduction
+  methods,  which  become  ineffective  and very  costly  for  certain
+  classes   of  problems,   particularly  those   involving  transport
+  phenomena.   These  limitations  are formalized  by  the  Kolmogorov
+  $n$-width barrier.  In our research,  we are trying to overcome this
+  barrier  by  using  nonlinear   approximation  techniques.   We  are
+  focusing on the Nonlinear Compressive  Reduced Basis Method.  We are
+  participating in  the analysis and  development of the  method, both
+  theoretically and practically. The  whole process will be integrated
+  and  validated  on  benchmarks  in   CFD  and  heat  transfer,  with
+  optimization for exascale computing.
+\item[T2.5] First, we  note that T2.5 did not get  funding from NumPEx
+  so far. However,  we have proposed new approaches  based on coupling
+  with NNs.  In  the framework of a collaboration  between the Macaron
+  team (Laurent Navoret, Victor Michel Dansac and Emmanuel Franck) and
+  the Makutu  team (Hélène  Barucq and  Florian Faucher),  an original
+  multifidelity  modeling approach  for parametric  problems has  been
+  devised.  The  idea is to  capture coarse scales  with a PINN  for a
+  large-scale  parametric problem,  and then  correct this  prediction
+  online with a FEM.  This multifidelity approach makes it possible to
+  calculate a set of accurate  solutions for a parametric problem with
+  much  lower CPU  time.   In  fact, the  training  is  valid for  all
+  solutions, and the correction requires only a very coarse mesh. This
+  approach could  be generalized  to more  complicated PDEs  and other
+  physical contexts.
+\end{itemize}
+
+We also note that T2.6  did not get funding from NumPEx so far.
+
 \section{Application Showcase}
-% \input{chapters/applications/specs/app-scimba-rom-1}  
+% 
+%\input{chapters/applications/specs/app-scimba-rom-1}  
 % \input additional app specs as needed
+
+\textbf{Frequency-domain wave propagation modeling with PINNs} \\
+
+As a first  application showcase, we propose to develop  a hierachy of
+wave propagation  problems modeled by  the Hemholtz equation in  2D by
+increasing   the  frequency   of  the   wave  excitation   source  and
+cconsidering  different  types  of heterogeneity  of  the  propagation
+medium,  from  multilayered  configurations  with  piecewise  constant
+variation  of the  physical parameter,  to continuously  varying medim
+caharacteristic  as  in  acoustic  wave propagation  in  a  geological
+medium.
+
+\textbf{Plasma modeling with neural network based methods }\\
+
+Tokamak MHD is a highly HPC-intensive application, especially in terms
+of  memory consumption.  Indeed, tokamak  MHD codes  are implicit  and
+involve the inversion of very large matrices. In this application, the
+goal  is to  build a  3D neural  network–based solver  to compute  the
+equilibrium (Grad–Shafranov  equation) and simplified MHD  models. The
+approach relies  on time-sequential neural  methods of the  PINN type,
+combined with  natural gradient  optimization, adaptive  sampling, and
+adaptive neural networks.
+
+\textbf{Hybrid numerical for high-dimensional PDEs}\\
+
+We  propose  to  develop  a demonstrator  of  numerical  methods  that
+hybridize  machine learning  with classical  approaches. The  baseline
+code will  be a  DG (Discontinuous Galerkin)  solver in  which several
+numerical  modules  will be  made  learnable  through neural  networks
+(including   mesh    adaptation,   basis   functions,    fluxes,   and
+preconditioners). The key idea is that the learning components capture
+the large-scale structures, while the  numerical solver focuses on the
+unresolved  scales. These  approaches  are  particularly intended  for
+solving PDEs in high physical  dimensions (such as radiative transfer)
+or with parametric dependencies.
 
 \section{Software Framework Contributions}
 % • PINN frameworks: …  
@@ -23,12 +215,40 @@
 % • Reduced‐basis toolboxes: …  
 % • NIRB methods: …
 
+\subsection{Main Software Framework: Scimba and Feel++}
+
+Scimba is a  library that implements PINNs or  sequential time methods
+(discrete PINNs,  neural Galerkin  or semi-Lagrangian).  The  code can
+handle complex  geometries, adaptive sampling,  and GPU-preconditioned
+optimizers.   It can  use different  types  of models  such as  neural
+networks,   classical   or    nonlinear   kernel   methods,   low-rank
+approximations,  etc.   The  core  library of  Scimba  is  written  in
+Pytorch, and a simplified version centered around neural approaches in
+Jax is  currently being developed.  The code also implements  EDO flow
+learning methods.  NO methods will also be implemented in the future.
+
+\subsection{Additional Software Framework}
+
+
+
 \section{Preliminary Benchmarks \& Trends}
 % • Surrogate model speedups placeholder  
 % • Error vs.\ basis size placeholder  
 % • Regression test pass-rate placeholder
 
+The  studies  conducted in  T2.1  to  T2.5  are  all in  progress  and
+preliminary results are  available only for validation  purpose of the
+novel methodologies under development. 
+
 \section{Roadmap \& Next Steps}
 % • Deliverables D2.x to complete by Mxx  
 % • New apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
+
+The following deliverables are planned: 
+\begin{itemize}
+\item D2.2-S : Surrogate modeling toolbox - final version planned for M60
+\item D2.3-BR : Benchmarking - final version planned for M60
+\end{itemize}
+
+Benchmarkinkg activities will require interactions with WP7 and in particular T7.1.

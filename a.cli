@@ -114,6 +114,81 @@ clean() {
     # clean latex build files
     rm -f *.aux *.bbl *.blg *.log *.out *.pyg *.fls *.synctex* *.toc *.fdb_latexmk *.fls *.idx *.ilg *.ind *.chl *.lof *.lot *.pdf
 }
+
+# Function for fast compilation
+compile() {
+    PART=${1:-"all"}
+    DOC="exa-ma-d7.1.tex"
+    
+    echo "🚀 Fast compilation for: $PART"
+    
+    # Backup original file
+    cp "$DOC" "${DOC}.backup"
+    
+    case $PART in
+        "wp"|"wps")
+            echo "Compiling only Work Packages (WP1-WP6)..."
+            sed -i.tmp 's/%\\includeonly{chapters\/WPs}/\\includeonly{chapters\/WPs}/' "$DOC"
+            ;;
+        "methodology"|"methodo")
+            echo "Compiling only Methodology chapter..."
+            sed -i.tmp 's/%\\includeonly{chapters\/methodology}/\\includeonly{chapters\/methodology}/' "$DOC"
+            ;;
+        "applications"|"apps")
+            echo "Compiling only Applications chapter..."
+            sed -i.tmp 's/%\\includeonly{chapters\/applications}/\\includeonly{chapters\/applications}/' "$DOC"
+            ;;
+        "software"|"soft")
+            echo "Compiling only Software chapter..."
+            sed -i.tmp 's/%\\includeonly{chapters\/software}/\\includeonly{chapters\/software}/' "$DOC"
+            ;;
+        "wp-methodo")
+            echo "Compiling WPs + Methodology..."
+            sed -i.tmp 's/%\\includeonly{chapters\/WPs,chapters\/methodology}/\\includeonly{chapters\/WPs,chapters\/methodology}/' "$DOC"
+            ;;
+        "apps-soft")
+            echo "Compiling Applications + Software..."
+            sed -i.tmp 's/%\\includeonly{chapters\/applications,chapters\/software}/\\includeonly{chapters\/applications,chapters\/software}/' "$DOC"
+            ;;
+        "all")
+            echo "Full compilation..."
+            ;;
+        "draft")
+            echo "Draft mode compilation (ultra-fast)..."
+            pdflatex --shell-escape -interaction=nonstopmode -draftmode "$DOC"
+            echo "✅ Draft compilation completed - check for errors only"
+            return 0
+            ;;
+        *)
+            echo "❌ Unknown part: $PART"
+            echo "Available parts: wp, methodology, applications, software, wp-methodo, apps-soft, all, draft"
+            rm -f "${DOC}.backup"
+            return 1
+            ;;
+    esac
+    
+    # Compile with latexmk
+    echo "📖 Compiling with latexmk..."
+    if latexmk --shell-escape -pdf -interaction=nonstopmode -silent "$DOC"; then
+        echo "✅ Compilation successful!"
+        
+        # Show PDF size and page count
+        if [ -f "exa-ma-d7.1.pdf" ]; then
+            SIZE=$(du -h exa-ma-d7.1.pdf | cut -f1)
+            PAGES=$(pdfinfo exa-ma-d7.1.pdf 2>/dev/null | grep Pages | awk '{print $2}')
+            echo "📄 PDF: $SIZE, $PAGES pages"
+        fi
+    else
+        echo "❌ Compilation failed!"
+        return 1
+    fi
+    
+    # Restore original file
+    mv "${DOC}.backup" "$DOC"
+    rm -f "${DOC}.tmp"
+    
+    echo "🔄 Original file restored"
+}
 # Function to delete a release
 delete_release() {
     VERSION=$1
@@ -255,6 +330,9 @@ case "$1" in
     clean)
         clean
         ;;
+    compile)
+        compile "$2"
+        ;;
     create)
         create_release "$2"
         ;;
@@ -268,7 +346,7 @@ case "$1" in
         update_bibtex2
         ;;
     *)
-        echo "Usage: $0 [options] {setup|create|list|delete|update-bibtex} [version]"
+        echo "Usage: $0 [options] {setup|clean|compile|create|list|delete|update-bibtex} [version]"
         echo "Options:"
         echo "  --zotero-user-id    Zotero User ID (optional, omit if using group id given)"
         echo "  --zotero-api-key    Zotero API Key"
@@ -277,11 +355,17 @@ case "$1" in
         echo "Commands:"
         echo "  setup               : Setup hooks for commit, checkout, and merge"
         echo "  clean               : Clean latex build files"
+        echo "  compile [part]      : Fast compilation (wp, methodology, applications, software, all, draft)"
         echo "  create              : Create a new release with the provided version"
         echo "  list                : List all existing releases"
         echo "  delete              : Delete the release with the provided version"
         echo "  update-bibtex       : Fetch and update the BibTeX file from Zotero"
-        echo "  version             : Optional argument specifying the version for create and delete commands"
+        echo ""
+        echo "Compile examples:"
+        echo "  ./a.cli compile wp           # Compile only Work Packages (fast)"
+        echo "  ./a.cli compile methodology  # Compile only methodology chapter"
+        echo "  ./a.cli compile draft        # Ultra-fast draft mode"
+        echo "  ./a.cli compile all          # Full compilation"
         exit 1
         ;;
 esac
