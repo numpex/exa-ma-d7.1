@@ -161,7 +161,7 @@ We see that the steps of reading data and of creation of the functional spaces s
 
 On the contrary, the steps where we write data on the disk do not scale when the number of parallel process increases.
 Precisely, this time gets higher, as pointed out in \Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv} or stagnated as shown in \Cref{fig:specs:app-feelpp-io:np:export}.
-This lost of performance can be explained because of the communication of the parallel process that need to coordinate to write data on a single spot on disk.
+This loss of performance can be explained because of the communication of the parallel process that need to coordinate to write data on a single spot on disk.
 As the mesh is already pre-partitionned, we do not have the same issue during the reading step.
 
 \import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
