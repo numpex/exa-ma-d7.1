@@ -6,29 +6,101 @@
 % • Which Exa-MA bottlenecks (B#) WP5 addresses  
 % • Role in overall strategy (exascale optimization algorithms, surrogate-based and shape optimization, AutoML)  
 % • List of key tasks T5.1–T5.4
+The objective of this work package is to design and implement general exascale optimization algorithms capable of efficiently and effectively solving Large scale Optimization Problems (LSOPs). Large-scale optimization methods are natural candidates for exascale supercomputers, but their parallelization presents a major challenge: efficiently managing a massive number of irregular tasks on machines with multiple levels of parallelism, heterogeneous computing resources (GPUs, multicore CPUs with diverse architectures) and complex interconnects. Addressing this challenge requires tackling three key issues simultaneously: scalability, heterogeneity, and fault tolerance, which, to our knowledge, have not yet been investigated jointly in the context of parallel optimization.
+
+Our work focuses on three main objectives:
+\begin{itemize}
+\item Exascale combinatorial and continuous. We will explore both exact and iterative approximate methods, including computational intelligence approaches.
+
+\item Exascale surrogate-based optimization. We will develop new parallel surrogate-driven and surrogate-assisted algorithms that address the fundamental components of surrogate-based optimization.
+
+\item Exascale shape optimization – Focusing on multiphysics models, we will design scalable algorithms for shape optimization problems at exascale.
+
+\end{itemize}
+
+The project tasks are described below.
+\begin{enumerate}
+\item T5.1 – Exascale combinatorial and continuous optimization: This task focuses on designing general exascale optimization algorithms. We will consider both exact methods (e.g., branch-and-bound, tree search) and iterative approximate methods (e.g., fractal optimization). The performance of these algorithms will be evaluated using standard benchmarks in combinatorial and continuous optimization. A key focus is decomposition-based exascale optimization, motivated by two goals: Tackling LSOPs that are intractable with traditional algorithms, and leveraging decomposition as a fundamental step in parallelization. The main challenge lies in defining efficient decomposition strategies in decision spaces to achieve ultra-scalable optimization algorithms.
+
+ \item T5.2 – Exascale surrogate-based optimization: This task adapts surrogate-based optimization (SBO) algorithms for exascale HPC systems. Our goal is to design new parallel SBO algorithms that can evaluate multiple candidate solutions per iteration. In the context of learning-based exascale optimization, machine learning will be used to address the challenges posed by expensive function evaluations. We will focus on three key dimensions: Surrogate models, optimizers and their sampling strategies, and coupling between surrogates and optimizers.
+
+ \item T5.3 – Exascale shape optimization: This task develops a toolbox for exascale shape optimization with the aim of improving the performance of existing algorithms. Several research directions will be explored through both theoretical analysis and numerical experiments. In particular, we will investigate the use of different meshes for state and design variables and the integration of reduced models (developed in WP2), such as neural networks, to enable faster evaluations of state and adjoint models during iterations. A careful balance between computational cost and accuracy will be sought.
+
+ \item T5.4 – Exascale optimization for AutoML:
+This task applies exascale optimization techniques to automated machine learning (AutoML), focusing on the automatic design of deep neural networks (DNNs) and fine tuning of large langage models (LLMs). AutoML problems are becoming increasingly complex due to larger datasets and network architectures, with increasing demands on both computation and memory. Exascale optimization will provide the means to improve DNN accuracy, reduce energy consumption and inference time, enhance robustness, and address large-scale and complex learning tasks.
+\end{enumerate}
 
 \section{Scientific Advances}
-% • Advance 1 (T5.1): …  
-% • Advance 2 (T5.2): …  
-% • Advance 3 (T5.3): …  
-% • Advance 4 (T5.4): …
+  
+{\bf Advances T5.1:}
+In the field of exact discrete optimization, efficient parallel branch-and-bound algorithms have been designed and implemented on Petascale architectures. 
+
+\medskip
+
+For continuous optimization, we have developed a generic, scalable, and flexible parallel decomposition approach. This approach is based on fractal decomposition of the decision space. In terms of parallel design, various parallel models have been identified and analyzed. In terms of parallel implementation, intra-node (single GPU using Kokkos, multiple GPU using MPI and Kokkos) and inter-node (multiple heterogeneous CPU-GPU using Kokkos and MPI) implementations have been carried out. The preliminary results show the efficiency and scalability of the proposed massively parallel algorithms. It opens the way towards Exascale computing which will mark a significant milestone in high-performance optimization, enabling unprecedented computational power for solving extremely complex problems across various scientific, engineering, and data-intensive fields.
+
+\medskip
+
+{\bf Advances T5.2:} 
+
+A scalable parallel Bayesian optimization approach for high-dimensional expensive black-box optimization problems has been developed. The approach was implemented using the the MPI+Kokkos programming model. Preliminary results show that the algorithm is scalable, faster and  accurate. Experimental computational studies conducted on the pre-exascale machine LUMI  confirm the scalability of the designed algorithm showcasing super linear and near linear speed ups at 8000 GPUs while targeting search spaces of dimension $10^5$ and beyond.
+
+\medskip
+
+{\bf Advances T5.3:}
+
+In this task, we address a shape optimization problem under a volume-preserving constraint, ensuring that the total volume of the domain remains invariant during the optimization process. To enforce this constraint, the admissible deformation fields are represented as flows of ordinary differential equations, where the associated velocity fields are expressed as the curl of a potential function. This construction guarantees a divergence-free deformation, thereby maintaining the volume of the evolving domain by design. The computation of the shape derivative naturally involves boundary integrals and discontinuities of solution-dependent quantities. In order to obtain a smooth and physically consistent deformation field, a regularization procedure is introduced, leading to a biharmonic boundary value problem. The source term of this problem is determined by the jump of certain quantities across the interface of the optimized shape.
+
+To address this problem efficiently, we propose a neural formulation that replaces traditional finite-element or mesh-based solvers. Once the regularized deformation field is obtained, the level-set function representing the domain boundary is advected according to this field using a neural semi-Lagrangian scheme. This scheme combines the numerical stability of classical semi-Lagrangian advection with the adaptability of neural representations. Moreover, the proposed neural framework is inherently suited for large-scale and high-performance computing architectures. The reliance on neural representations enables massively parallel computations on modern GPU clusters, and the entire pipeline (training, evaluation, and advection) can be efficiently implemented using standard deep learning libraries. Such architectures naturally scale to exascale computing environments. This opens the way for neural exascale shape optimization, combining physical accuracy, geometric flexibility, and computational scalability. We have implemented first versions of this algorithm in the scimba framework.
+
+{\bf Advances T5.4:}
+
+LLMs have revolutionized natural language processing (NLP) by achieving state-of-the-art performance across diverse tasks. However, fine-tuning these models for domain-specific applications is significantly constrained by the computational costs associated with their training. We have proposed two complementary approaches to address the HPO (HyperParamter Optimization) challenge in LLM fine-tuning: BOGP (Bayesian Optimization with Gaussian Process) and PBO (Parallel Bayesian Optimization). On one hand, BO (Bayesian Optimization) efficiently exploits historical knowledge to achieve optimal results within a limited number of evaluations, but its inherently sequential nature poses scalability challenges. On the other hand, PBO enables massive parallelization, making it more scalable but requiring significantly more evaluations to converge. To leverage their complementary strengths for optimizing expensive objective functions, we investigate these methods and propose a hybrid BO-PBO algorithm. This work represents a foundational step toward harnessing the potential of parallel BO-based algorithms for solving expensive optimization problems in exascale computing environments.
 
 \section{Application Showcase}
+
+{\bf Continuous optimization:} The scalability of Fractal optimization has been tested on large scale optimization problems involving thousands of decision variables. These problems are particularly challenging due to the curse of dimensionality, high computational cost, and nonlinear interactions among variables, which render traditional optimization techniques inefficient or infeasible.
+
+For continuous optimisation, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
+
+\medskip
+
+{\bf AutoMl and Bayesian optimization:} The experiments on fine tuning LLMs have been carried out on LlaMa 3.2-1B, a model of the Llama 3 family of model. Llama 3 models were released by Meta AI in the second part of 2024 (from July to December), as open-source (topology and weights) decoder-only models achieving state-of-the-art performance. Among Llama 3 models, Llama 3.2 release propose lightweight models (from 1B to 3B weights, excluding vision models), enabling reproduction of the experiments. For evaluation, Hellaswag dataset was used, with accuracy as the metrics to optimize with HPO. It's a 40k lines datasets released in 2019 as a challenge datasets, with a random performance of 25 \% . All models are also evaluated on MMLU as a testing dataset, to observe HPO over-fitting. 
+
 % \input{chapters/applications/specs/app-opt-combin-1}  
 % \input additional app specs as needed
 
 \section{Software Framework Contributions}
-% • Optimization library A: …  
-% • Surrogate-based optimization toolkit B: …  
+% • Optimization library A: … 
+{\bf Fractal continuous optimization software framework:} The research on continuous optimization, Bayesian optimization, and AutoML applications is integrated within the Fractal Optimization framework.
+
+\medskip
+
+{\bf Branch and bound discrete optimization framework:} The pBB software is initially an implementation of a massively parallel Branch-and-Bound algorithm for
+the exact resolution of permutation-based optimization problems, like Permutation Flow-shop
+Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using
+the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t
+optimization problems than can be solved, going beyond the permutation ones, like Knapsack
+problems. A new data structure named distBag-DFS is proposed for that purpose. In addition,
+a PGAS-guided design approach is used to improve its software productivity-awareness (see
+https://github.com/Guillaume-Helbecque/P3D-DFS). The Chapel language is used for this
+implementation of pBB meeting these genericity and productivity objectives.
+
+\medskip
+
 % • ShapeOpt framework: …  
-% • AutoML optimizer module: …
 
 \section{Preliminary Benchmarks \& Trends}
 % • Optimization scaling placeholder  
-% • Surrogate speedup placeholder  
+% • Surrogate speedup placeholder   
 % • Regression test pass-rate placeholder
 
+All the parallel optimization algorithms developed so far have demonstrated strong scalability on Petaflop-class supercomputers. This is a promising result for their future deployment at the exascale level, as it confirms the efficiency and robustness of the underlying methodologies when scaled to massive computing resources. These encouraging outcomes reinforce our confidence and optimism regarding the feasibility and impact of their forthcoming exascale implementation.
+
 \section{Roadmap \& Next Steps}
+
+The developed optimization algorithms (Continuous and discrete, Bayesian) will be integrated into dedicated software applications, making them accessible for a wide range of use cases and benchmark studies. These applications will serve as both validation tools and practical platforms to demonstrate the effectiveness and versatility of the algorithms across diverse domains. While the core methodologies have been successfully implemented, further software engineering efforts are required to finalize the integration, ensure robustness, and provide user-friendly interfaces. Completing this step will be essential to deliver a fully operational framework ready for large-scale deployment and community use.
+
 % • Deliverables D5.x to complete by Mxx  
 % • New optimization apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  

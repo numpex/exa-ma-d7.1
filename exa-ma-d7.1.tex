@@ -15,10 +15,14 @@
 \usepackage{lipsum}
 \usepackage{cleveref}
 \usepackage{standalone}
-\usepackage[]{acronym}
+\usepackage[printonlyreused,withpage]{acronym}
 \usepackage{import}
 \usepackage{booktabs} % For nicer tables
 \usepackage{geometry}
+% Fix fancyhdr warnings - use recommended values from compilation output
+\setlength{\headheight}{37.92728pt}
+\addtolength{\topmargin}{-1.02pt}
+\setlength{\footskip}{28.91753pt}
 \usepackage{tabularx,longtable}
 \usepackage{paralist} % For compactitem
 \usepackage{multirow} % For multirow in tables
