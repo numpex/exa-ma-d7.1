@@ -238,23 +238,32 @@ rm -rf _minted-exa-ma-d7.1/
 
 ## Release Process
 
-Creating a release for the ExaMA D7.1 document is simple: just create and push an annotated git tag. The GitHub Actions workflow will automatically compile the LaTeX document, create the GitHub release, and attach the PDF and source archive.
+Preferred: use article-cli to create annotated tags after bumping versions. Manual tags still work, but the CLI ensures consistent metadata updates.
 
-### Quick Release Guide
+### Quick Release Guide (article-cli)
 
-#### 1. Create an Annotated Git Tag
-
-Annotated tags are required for releases. They include metadata like tagger name, email, date, and a message.
-
+1) Ensure your working tree is clean and main is up to date
 ```bash
-# For a stable release
-git tag -a v1.0.0 -m "Release v1.0.0 - Description of changes"
+git checkout main
+git pull --ff-only
+```
 
-# For a release candidate
-git tag -a v1.0.0-rc.1 -m "Release candidate 1 for v1.0.0"
+2) Update LaTeX metadata in `exa-ma-d7.1.tex`:
+- Set `\delivVersion{vX.Y.Z}`
+- Add `\istChange{DD/MM/YYYY}{vX.Y.Z}{Authors}{Summary}` at the top of the changelog
 
-# For a preview/pre-release
-git tag -a v1.0.0-preview.1 -m "Preview release for v1.0.0"
+3) Bump `pyproject.toml` version to `X.Y.Z`
+
+4) Commit changes
+```bash
+git add exa-ma-d7.1.tex pyproject.toml AGENTS.md README.adoc
+git commit -m "chore(release): vX.Y.Z"
+```
+
+5) Create and push the tag using article-cli
+```bash
+python3 -m article_cli create vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 **Version Naming Convention:**
@@ -356,19 +365,9 @@ gh release view v1.90.0
 gh release download v1.90.0
 ```
 
-### Using article-cli for Releases (Alternative Method)
+### What `article-cli create` does
 
-You can also use `article-cli` to create release tags, which handles the git operations:
-
-```bash
-# Using article-cli to create a release tag
-python3 -m article_cli create v1.0.0
-
-# Then push the tag
-git push origin v1.0.0
-```
-
-Note: `article-cli create` will:
+`article-cli create vX.Y.Z` will:
 - Create an annotated tag
 - Update `gitHeadLocal.gin` with release information
 - Commit the change
