@@ -1,26 +1,39 @@
+%!TEX root = ../exa-ma-d7.1.tex
 \clearpage
-\chapter{Software}
+\chapter{Software Frameworks powering Applications}
 \label{chap:software}
 
-This chapter presents the software developed within Exa-MA, focusing on features, mathematics, functionalities, publications, acknowledgments, and contact details.
+This chapter presents the Exa-MA \emph{software frameworks} that power our applications—mini‑apps, extended mini‑apps, demonstrators, and proxy‑apps—using the terminology defined in Chapter~\ref{chap:methodology} (Structured Application Definitions). Each framework section briefly explains: (i) what the framework provides, (ii) which Exa‑MA Work Packages benefit, and (iii) which kinds of applications it enables in Chapter~\ref{chap:applications}.
 
-First, we present some general statistics about the software identified for Exa-MA that will present some benchmarking results. 
-Other software (new or existing) will be included in the future versions of this document.
+We first provide general statistics across frameworks (architectures, languages, parallelism, I/O, DevOps). Then, we list the frameworks with concise capability summaries and pointers to their application entry points.
 
-In the context of the D7.1 deliverable, it is essential to clarify the supported features across different hardware configurations, specifically CPUs, GPUs, and hybrid setups. 
-The following classification describes the architectural capabilities that will be benchmarked:
+In the context of D7.1, we also clarify architectural capabilities (CPU/GPU/hybrid) to align with the benchmarking and CI/CD pipelines.
+
+\paragraph{Application taxonomy (from methodology).}
+Following Chapter~\ref{chap:methodology}:
+\begin{description}
+    \item[Mini‑app] Single kernel/algorithm focus (e.g., a preconditioner, mesh tool).
+    \item[Extended mini‑app] Mini‑app with auxiliary scripts/data and I/O benchmarks.
+    \item[Demonstrator] Integrated multi‑WP workflow for a scientific use‑case.
+    \item[Proxy‑app] Representative full‑stack workload ($\geq 3$ WPs) for system tests.
+\end{description}
+
+\paragraph{Framework→Application links.}
+For each framework below, we reference examples in Chapter~\ref{chap:applications} when available (e.g., Feel++ reduced‑basis mini‑apps, HPDDM‑enabled solver demonstrators, FreeFEM++ mesh‑adaptation extended mini‑apps).
+
+The architectural capabilities benchmarked are classified as follows:
 
 \paragraph{CPU Only}
-Software that will exclusively run on CPU architectures (e.g., CGAL, Freefem++, Feel++, Manta). Benchmarks for these codes will only target CPU architectures.
+Framework executes exclusively on CPUs (e.g., CGAL, FreeFEM++, Feel++, Manta). Benchmarks target CPU nodes.
 
 \paragraph{GPU Only}
-Software that will exclusively run on GPU architectures (e.g., Zellij). Benchmarks for these codes will focus solely on GPU architectures.
+Framework executes exclusively on GPUs (e.g., Zellij). Benchmarks target GPU nodes.
 
 \paragraph{CPU or GPU}
-Software that can run on either CPU or GPU but not both simultaneously (e.g., PyTorch, SciMba). In this case, benchmarks will be performed on both CPU and GPU, but no single run will execute on both architectures simultaneously. Some benchmarks may be CPU-only, others GPU-only, depending on the software's capabilities.
+Framework can run on either CPU or GPU, but not concurrently within one run (e.g., PyTorch, SciMba). We benchmark both modes separately.
 
 \paragraph{CPU and GPU}
-Software that supports simultaneous execution on both CPU and GPU during a single simulation run (e.g., TRUST). Benchmarks in this category will involve executing components on both CPU and GPU, ensuring that at least one computational component runs on each architecture.
+Framework supports simultaneous CPU+GPU execution within a single run (e.g., TRUST). Benchmarks verify mixed‑architecture utilization.
 
 \paragraph{Explanation of Benchmarking Criteria}
 \begin{itemize}
@@ -31,7 +44,7 @@ Software that supports simultaneous execution on both CPU and GPU during a singl
 \end{itemize}
 
 
-\section{General Statistics}
+\section{General Statistics across Frameworks}
 \label{sec:software:statistics}
 
 In this section, we provide an overview of the key characteristics and technological choices for the software developed and benchmarked within Exa-MA. 
@@ -40,8 +53,7 @@ These statistics offer insights into the diversity of hardware architectures, pr
 The aim is to highlight the widespread usage of various technologies, demonstrating both the flexibility and the breadth of approaches within the project. 
 Additionally, the DevOps practices employed, such as continuous integration, testing, and deployment, are presented to underscore the commitment to ensuring quality, reliability, and maintainability of the software developed under Exa-MA.
 
-The following subsections shows different aspects of the software involved in the project, from supported architectures and programming languages to specific parallelism technologies, data formats, and DevOps strategies. 
-It helps to assess the readiness of the software for large-scale simulations and benchmarks in exascale computing environments.
+The following subsections show different aspects of the software frameworks involved in the project—supported architectures and programming languages, parallelism technologies, data formats, and DevOps strategies. This helps assess readiness for large‑scale simulations, CI/CD integration, and demonstrator pipelines.
 
 
 \subsection{Architectures}
@@ -173,6 +185,7 @@ The following pie chart~\ref{fig:devops-testing} details the testing practices a
 \end{figure}
 
 
+% Framework descriptions (each subfile may also mention example mini‑apps/demonstrators)
 %\input{software/arcane-framework/arcane-framework.tex}
 \input{software/cgal/cgal.tex}
 \input{software/composyx/composyx.tex}
@@ -188,4 +201,20 @@ The following pie chart~\ref{fig:devops-testing} details the testing practices a
 \input{software/trust-platform/trust-platform.tex}
 \input{software/uranie/uranie.tex}
 \input{software/zellij/zellij.tex}
+
+\section{Frameworks to Applications Mapping (Overview)}
+This section summarizes how frameworks are used to construct applications as per Chapter~\ref{chap:methodology} and Chapter~\ref{chap:applications}. Detailed specifications remain in Chapter~\ref{chap:applications}.
+
+\begin{itemize}
+    \item \textbf{Feel++} → mini‑apps (reduced basis, I/O), demonstrators (thermal, CFD); see Sections on app‑feelpp‑rb, app‑feelpp‑io.
+    \item \textbf{HPDDM} → solver kernels for demonstrators and proxy‑apps (domain decomposition preconditioning).
+    \item \textbf{FreeFEM++} → extended mini‑apps (mesh adaptation with ParMMG), rapid inverse‑problem templates.
+    \item \textbf{CGAL} → geometry/meshing utilities in mini‑apps (wrapping, AABB trees).
+    \item \textbf{SciMba/PyTorch} → surrogates for WP2 integrated into demonstrators (multi‑fidelity modeling).
+    \item \textbf{TRUST} → CPU+GPU demonstrators.
+    \item \textbf{Uranie} → UQ workflows supporting demonstrators and proxy‑apps.
+    \item \textbf{Zellij} → optimization engines inside WP5 demonstrators.
+\end{itemize}
+
+This mapping is non‑exhaustive and will expand as additional applications mature.
 

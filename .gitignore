@@ -25,3 +25,4 @@ exa-ma-d7.1.pdf
 *.lot
 .venv
 .DS_Store
+.vscode/ltex.*

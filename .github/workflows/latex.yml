@@ -237,7 +237,11 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "Expected file: \`${{ needs.workflow-setup.outputs.pdf }}\`" >> $GITHUB_STEP_SUMMARY
           fi
-
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.workflow-setup.outputs.pdf }}
+          path: ${{ needs.workflow-setup.outputs.pdf }}
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:

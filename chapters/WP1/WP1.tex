@@ -102,6 +102,79 @@ Computing these volumes is non-trivial due to two factors: (1) Aware Visibility:
 
 Such a visibility-based criterion offers a principled way to select Steiner points that are both geometrically meaningful and computationally advantageous, paving the way for feature-aware alpha wrapping.
 
+\subsection{Task 1.2 — Adaptive Mesh Refinement for Unstructured Grids at Scale}
+\label{sec:wp1:t1.2}
+
+\paragraph{Objective.}
+Validate and stress-test a fully parallel, metric-driven anisotropic mesh adaptation workflow based on \texttt{MMG/ParMmg} on very large configurations, with two mirrored application paths:
+(i) \textbf{FreeFEM++} + ParMmg (\S\ref{sec:app:specs:app-freefem-parmmg}) and
+(ii) \textbf{Feel++} + ParMmg.
+We target robustness, reproducibility, and scalability (weak/strong) up to multi-node settings and multi-billion element regimes.
+
+\paragraph{Benchmark case \& partners.}
+The common use case is the \emph{Fichera corner} in 3D (re-entrant corner with singular gradients), which is well suited to anisotropic adaptation.
+The FreeFEM++ path is driven by Sorbonne Université and Inria Paris (PC1—ExaMA; contacts: P.~Jolivet, P.-H.~Tournier).
+The Feel++ path is led by Unistra/Cemosis and Inria Paris (PC1—ExaMA; contacts: C.~Prud’homme, V.~Chaban).
+Both are registered as \emph{extended mini-apps} under WP1/WP3.
+
+\paragraph{Workflow.}
+We employ an end-to-end \emph{solve $\rightarrow$ indicators $\rightarrow$ metric $\rightarrow$ parallel adapt $\rightarrow$ transfer} cycle:
+\begin{enumerate}
+  \item \textbf{Indicators/metrics:} various indicators; adapted metric.
+  \item \textbf{Parallel adaptation:} \texttt{ParMmg} (MPI) over a partitioned mesh with graph coloring for safe local ops, interface migration, and dynamic load balancing.
+  \item \textbf{Solution transfer:} conservative $L^2$ or $H^1$/DG-compatible projection; restart the PDE step on the adapted mesh.
+\end{enumerate}
+The two paths share the same metric policies and run matrix to isolate ParMmg scalability from application-layer differences.
+
+
+\paragraph{Run matrix (indicative).}
+Problem sizes from $10^7$ to $10^9+$ elements; process counts spanning single node to multi-rack; anisotropy caps varying by factor; checkpoint cadence for I/O scaling.
+Adaptation remains MPI/CPU; PDE solves may use CPU or GPU, but adaptation timings are reported independently.
+
+\paragraph{Status \& schedule.}
+Both apps are \emph{benchmark-ready}; first coordinated multi-node campaigns are being planned.
+\paragraph{Application registry.}
+\begin{itemize}
+  \item \textbf{app-freefem-parmmg} — Fichera corner; Sorbonne U, Inria Paris; PC1—ExaMA; contacts: P.~Jolivet, P.-H.~Tournier; WP1, WP3; extended mini-app; stack: FreeFEM++, MMG/ParMmg, PETSc; MPI; artifacts: VTK, PETSc binary, XML; KPIs: strong/weak/io scaling; status: benchmark-ready. See \S\ref{sec:app:specs:app-freefem-parmmg}.
+  \item \textbf{app-feelpp-parmmg} — implementation using Feel++ instead of FreeFEM++; Unistra/Cemosis, Inria Paris; PC1—ExaMA; contacts: C.~Prud’homme, V.~Chabannes; WP1, WP3; extended mini-app; stack: Feel++, MMG/ParMmg, PETSc; MPI; artifacts: VTK, PETSc binary, XML; KPIs: strong/weak/io scaling; status: benchmark-ready.
+\end{itemize}
+
+
+\medskip
+
+\subsection{Task 1.4 - Finite Element Exascale Framework (FEEF): High-Order Wave Proxy-App on CPU/GPU}
+\label{sec:wp1:t1.4}
+
+\paragraph{Context \& objective.}
+Within PC5’s working group on Efficient High-Order Discretization, we are developing a \textbf{proxy application for the wave equation} together with a modern, portable \textbf{high-order finite element library} targeting CPU and GPU through \textbf{Kokkos}. The library is built using the \textbf{Feel++} ecosystem and leverages \textbf{C++20/23} (concepts, \texttt{constexpr}, ranges) to (re)implement classical elements and enable rapid construction of new ones.
+
+\paragraph{Scope \& PDE focus.}
+We consider both the second-order form
+\[
+  \partial_{tt} u - c^2 \Delta u = f \quad \text{in }\Omega,
+\]
+and equivalent first-order systems for explicit schemes. Formulations include high-order cG, SIP-DG, and (later) HDG variants, with absorbing/impedance boundary conditions for realistic scenarios.
+
+\paragraph{Library architecture (sketch).}
+\begin{itemize}
+  \item \textbf{Concept-driven interfaces:} compile-time contracts for \emph{Element}, \emph{Basis}, \emph{Quadrature}, \emph{Operator} ensure generic assembly/operators while enabling aggressive inlining and specialization.
+  \item \textbf{High-order kernels:} tensor-product sum-factorization on quads/hexes; warp\&blend/Dubiner bases on simplices; matrix-free operators for mass/stiffness; fused evaluation of basis \& gradients; batched fluxes for DG faces.
+  \item \textbf{Performance portability:} single-source kernels via \textbf{Kokkos} backends (OpenMP, CUDA, HIP); structure-of-arrays layouts; register-/scratch-optimized thread teams; roofline-aware arithmetic intensity tuning.
+  \item \textbf{Time integration:} explicit RK(4/5) and low-storage schemes for DG; Newmark/GEN-alpha for cG when implicit routes are desired; CFL controllers and local time stepping (DG).
+  \item \textbf{Feel++ integration:} mesh/partitioning, boundary condition plumbing, I/O/visualization, and WP7-compatible benchmarking harness (containers, ReFrame).
+\end{itemize}
+
+\paragraph{Benchmarking \& validation.}
+\begin{itemize}
+  \item \textit{Numerics:} $h\!p$-convergence on smooth manufactured solutions; dispersion/dissipation curves for waves; energy conservation diagnostics.
+  \item \textit{Performance:} GFLOP/s, effective bandwidth, arithmetic intensity; strong/weak scaling; operator application cost per DoF; CPU vs.\ GPU speedups for mass, stiffness, and DG flux kernels.
+  \item \textit{Portability:} single codebase across x86/ARM CPUs and NVIDIA/AMD GPUs; backend parity tests in CI.
+\end{itemize}
+
+\paragraph{Current status.}
+Core API skeleton with concepts, reference high-order bases and quadratures, matrix-free mass/stiffness kernels (CPU) and initial GPU bring-up via Kokkos are in progress. The wave proxy-app drives the kernels end-to-end and feeds WP7’s benchmarking pipeline. Next steps include face-term fusion for DG, $H(\mathrm{curl})/H(\mathrm{div})$ spaces, and optimized transfer operators to interface with Task~\ref{sec:wp1:t1.2}.
+
+
 \subsection{Task 1.5 - Exploit non conforming methods for efficient parallel parallel}
 A hybridizable discontinuous Galerkin (HDG) method has been developed to solve the linear anisotropic elastic equation in the frequency domain. HDG discretization allows us to decrease the size of the discrete system while keeping a good conditioning of the global matrix to be inverted. First-order formulation with the compliance tensor and Voigt notation are employed to provide a compact description of the discretized problem and flexibility with highly heterogeneous media. We further focus on the question of optimal choices of stabilization in the definition of HDG numerical traces. For this purpose, we construct a hybridized Godunov-upwind flux for anisotropic elastic media possessing three distinct wavespeeds. This stabilization removes the need to choose a scaling factor, contrary to the identity and Kelvin–Christoffel based stabilizations which are popular choices in the literature. We carry out comparisons among these families for isotropic and anisotropic material, with constant background and highly heterogeneous ones, in two and three dimensions. These experiments establish the optimality of the Godunov stabilization which can be used as a reference choice for a generic material in which different types of waves propagate. This work has been presented in conferences (Eccomas, Waves2025) and is published \cite{pham_numerical_2024}.
 
@@ -119,6 +192,14 @@ The quasi-static problem setting has been adopted for both elasto-acoustic and t
 
 % \input{chapters/applications/specs/app-feelpp-discr-1}  
 % \input additional app specs as needed
+
+\paragraph{Applications mapping.}
+\begin{itemize}
+    \item Thermal bridges demonstrator (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-1}.
+    \item FDA nozzle (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-2}.
+    \item Parallel mesh adaptation with ParMMG (FreeFEM): Section~\ref{sec:app:specs:app-freefem-parmmg}.
+    \item Geometry queries and distances (Feel++): Section~\ref{sec:app:specs:app-feelpp-distance}.
+\end{itemize}
 
 \section{Software Framework Contributions}
 
@@ -144,6 +225,14 @@ Planned improvements include adaptive query reordering to enhance load balance, 
 
 % • FEEF module: …
 
+\paragraph{Frameworks mapping.}
+\begin{itemize}
+    \item Feel++: Section~\ref{sec:Feelpp:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}.
+    \item CGAL: Section~\ref{sec:CGAL:software}\,; 
+    \item MMG/ParMMG;
+    \item Samurai (AMR): Section~\ref{sec:Samurai:software}.
+\end{itemize}
+
 \section{Preliminary Benchmarks \& Trends}
 
 % • Scaling results placeholder  
@@ -155,12 +244,26 @@ Planned improvements include adaptive query reordering to enhance load balance, 
 
 % • Regression test pass-rate placeholder
 
+\paragraph{Benchmarks mapping.}
+\begin{itemize}
+    \item \textbf{Thermal bridges demonstrator (Feel++)} — \Cref{sec:app:specs:app-feelpp-discr-1}. Verification against ISO 10211:2017 reference values with $\mathP_1/\mathP_2/\mathP_3$ elements shows convergence within tolerances (see \Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:measures_convergences}). Strong-scaling on Discoverer up to 96 processes shows decreasing time-to-solution with good efficiency; I/O shows limited scalability (export phase), see performance figures for M1–M3. Metrics: \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling}.
+    \item \textbf{FDA nozzle (Feel++)} — \Cref{sec:app:specs:app-feelpp-discr-2}. Validation vs. FDA experimental data (axial velocity profiles, pressure drop, jet breakdown) with good agreement across Re=500–6500; strong and weak scaling show high parallel efficiency up to $O(10^2)$ processes. Metrics: \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}.
+    \item \textbf{Parallel mesh adaptation with ParMmg (FreeFEM)} — \Cref{sec:app:specs:app-freefem-parmmg}. Status: \emph{benchmark-ready}. Target benchmarks: anisotropic adaptation cycles on Fichera corner; time per adapt cycle, mesh quality, load-balance efficiency, solver convergence. Multi-node campaigns planned; results to be integrated with WP7 artifacts in D7.1 updates.
+    \item \textbf{Geometry queries and distances (Feel++)} — \Cref{sec:app:specs:app-feelpp-distance}. Convergence study on the unit cube shows BVH ray-tracing attains low $L^2$ error with accuracy driven primarily by mesh size ($h$), weak dependence on number of rays $M$; FMM achieves $\mathcal{O}(h)$ and is consistently faster than BVH for tested settings. Parallel scaling shows limited gains beyond small core counts due to algorithmic characteristics and I/O. Metrics: error norms, time-to-solution, speedup.
+\end{itemize}
+
 \section{Roadmap \& Next Steps}
 
 The following deliverables are planned:
 \begin{itemize}
     \item D1.1-S: Software toolboxes for mesh generation and adaptation, space-time discretisation and coupling - final version planned for M60.
     \item D1.3-B: Benchmarking analysis report, including bottlenecks and breakthroughs - final version planned for M60.
+\end{itemize}
+Next steps include:
+\begin{itemize}
+    \item Continue research across T1.1--T1.7 (meshing/adaptation, high-order FE, HDG, time strategies).
+    \item Specify new applications and their benchmarks (ids, inputs/outputs, metrics, acceptance criteria).
+    \item Implement and package these apps following the deliverable/WP7 methodology (containers, ReFrame, reproducible datasets) and integrate results in D7.1 updates.
 \end{itemize}
 Benchmarking activities are performed in interactions with WP7 and in particular T7.1.
 

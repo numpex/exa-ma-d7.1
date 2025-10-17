@@ -1,0 +1,172 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Proposed: Nonlinear Compressive Reduced Basis Methods}
+\label{sec:app:specs:app-feelpp-nlcrb}
+
+\textbf{Status:} This is a \emph{proposed} demonstrator currently in specification phase. Implementation target: 7/1/2026.
+
+This demonstrator will explore nonlinear compressive reduced basis (NLCRB) methods that combine reduced basis techniques with neural network-based compression for highly nonlinear parametric PDEs. This represents a cutting-edge approach at the intersection of model order reduction and machine learning.
+
+\Cref{tab:app-feelpp-nlcrb} describes the specifications of the proposed application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-feelpp-nlcrb} \\
+        name & Nonlinear Compressive Reduced Basis \\
+        Partners & Unistra \\
+        PC & PC1 - ExaMA \\
+        Responsible (Permanent) & C. Prud'homme, J. Aghili \\
+        WP7 Engineer & Thomas Saigre (UNISTRA) \\
+        work\_package & WP2, WP1, WP3 \\
+        application\_type & extended-mini-app \\
+        purpose & Test nonlinear compressive reduced basis methods combining ROM with neural networks \\
+        Method-Algorithm WP1 & unstructured mesh, finite element, spectral element, cG \\
+        Method-Algorithm WP2 & NLCRB, neural network compression, POD \\
+        Method-Algorithm WP3 & domain decomposition, preconditioning, Krylov solvers \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        outputs & JSON config, JSON small-data, Gmsh, JSON reports \\
+        metrics & \texttt{benchmark-verification}, \texttt{basis-size}, \texttt{online-speedup}, \texttt{nn-compression-ratio} \\
+        status & spec-only \\
+        Benchmark scope & multi-node, multi-gpu, hybrid-ROM-ML \\
+        Framework & Feel++, PETSc, PyTorch \\
+        parallel\_framework & MPI, Kokkos, GPU \\
+        spec\_due & 6/15/2025 \\
+        proto\_due & 7/1/2026 \\
+        repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
+    \end{tblr}
+    \caption{Description of the proposed demonstrator \texttt{app-feelpp-nlcrb}.}
+    \label{tab:app-feelpp-nlcrb}
+\end{table}
+
+
+
+\subsection{Motivation and scientific context}
+
+Traditional reduced basis methods excel for linear or mildly nonlinear problems but can struggle with strongly nonlinear phenomena where the solution manifold has high Kolmogorov width. Recent advances in machine learning suggest that neural networks can learn compressed representations of nonlinear solution manifolds more efficiently than linear subspaces.
+
+The NLCRB approach proposes to:
+\begin{enumerate}
+\item Use POD/greedy methods to construct an initial linear reduced basis
+\item Train a neural network encoder-decoder to learn a nonlinear compressed representation
+\item Combine the linear RB approximation with the neural network correction
+\item Leverage GPU acceleration for both the neural network inference and reduced system solution
+\end{enumerate}
+
+This hybrid approach aims to achieve better compression rates (smaller basis size) and faster online evaluation for highly nonlinear problems compared to standard reduced basis methods.
+
+
+
+\subsection{Proposed benchmark problems}
+
+The demonstrator will focus on nonlinear problems where standard RB methods require large basis sizes:
+
+\begin{itemize}
+\item \textbf{Nonlinear heat transfer:} Temperature-dependent conductivity with radiation boundary conditions
+\item \textbf{Navier-Stokes at varying Reynolds numbers:} Strong nonlinearity and potential flow regime changes
+\item \textbf{Hyperelastic materials:} Geometric and material nonlinearities in solid mechanics
+\end{itemize}
+
+Each problem will be parametrized with 4-10 parameters covering geometric, material, and boundary condition variations.
+
+
+
+\subsection{Proposed methodology}
+
+\subsubsection{Phase 1: Data generation (high-fidelity simulations)}
+\begin{itemize}
+\item Generate training dataset using Latin hypercube sampling in parameter space
+\item Solve high-fidelity FEM problems using \Feelpp heat/fluid/solid toolboxes
+\item Target: 500-2000 parameter samples depending on problem complexity
+\item Store full-order solutions and selected output functionals
+\end{itemize}
+
+\subsubsection{Phase 2: Linear reduced basis construction}
+\begin{itemize}
+\item Apply POD to extract dominant modes (baseline approach)
+\item Implement greedy algorithm with a posteriori error estimation
+\item Compare basis sizes required to achieve $10^{-4}$ relative error
+\end{itemize}
+
+\subsubsection{Phase 3: Neural network compression}
+\begin{itemize}
+\item Design autoencoder architecture (encoder: solution → latent code, decoder: latent code → solution)
+\item Train on GPU using PyTorch with physics-informed loss functions
+\item Experiment with different architectures: fully connected, convolutional, graph neural networks
+\item Integrate with \Feelpp data structures for seamless workflow
+\end{itemize}
+
+\subsubsection{Phase 4: Hybrid online phase}
+\begin{itemize}
+\item Implement hybrid online solver: linear RB approximation + NN correction
+\item Measure online speedup vs. high-fidelity solve and vs. standard RB
+\item Benchmark on multi-GPU nodes to exploit parallelism in NN inference
+\item Validate accuracy with held-out test parameter set
+\end{itemize}
+
+
+
+\subsection{Expected performance metrics}
+
+The following metrics will be used to evaluate NLCRB performance:
+
+\begin{itemize}
+\item \texttt{benchmark-verification}: Relative error vs. high-fidelity solutions on test set
+\item \texttt{basis-size}: Effective dimension of compressed representation (NN latent space vs. RB basis size)
+\item \texttt{online-speedup}: Speedup factor compared to:
+  \begin{itemize}
+  \item High-fidelity FEM solve
+  \item Standard linear RB method
+  \end{itemize}
+\item \texttt{nn-compression-ratio}: Ratio of RB basis size to NN latent dimension for same accuracy
+\item \texttt{training-cost}: Offline computational cost including data generation and NN training
+\item \texttt{gpu-efficiency}: GPU utilization during online phase (NN inference + reduced solve)
+\end{itemize}
+
+
+
+\subsection{Technical challenges and risks}
+
+\begin{itemize}
+\item \textbf{Integration complexity:} Interfacing PyTorch with \Feelpp C++ codebase requires careful design
+\item \textbf{Training data requirements:} Highly nonlinear problems may require thousands of high-fidelity solves
+\item \textbf{Generalization:} Neural networks may not extrapolate well outside training parameter range
+\item \textbf{Interpretability:} Understanding when and why NLCRB outperforms standard RB
+\end{itemize}
+
+
+
+\subsection{Success criteria}
+
+The demonstrator will be considered successful if it achieves:
+\begin{enumerate}
+\item 2-5× reduction in effective basis size vs. linear RB for same accuracy (for at least one benchmark problem)
+\item Online speedup of at least 500× vs. high-fidelity (matching or exceeding standard RB)
+\item Robust accuracy ($< 10^{-3}$ relative error) on test parameter set
+\item GPU acceleration demonstrating 5-10× faster online phase vs. CPU-only
+\end{enumerate}
+
+
+
+\subsection{Timeline and deliverables}
+
+\begin{itemize}
+\item \textbf{Q2 2025:} Complete specification document (this document)
+\item \textbf{Q3 2025:} Implement data generation pipeline and baseline linear RB
+\item \textbf{Q4 2025:} Develop neural network architectures and training procedures
+\item \textbf{Q1 2026:} Integration and optimization, multi-GPU implementation
+\item \textbf{Q2 2026:} Benchmarking and validation, prototype due 7/1/2026
+\end{itemize}
+
+\textbf{Note:} This demonstrator represents an ambitious research direction that may evolve based on initial results and computational feasibility.
+

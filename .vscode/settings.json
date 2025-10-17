@@ -43,5 +43,11 @@
     "latex-workshop.latex.build.showOutput": "always",
     "latex-workshop.latex.outDir": "%DIR%",
     "latex-workshop.message.badbox.show": "none",
-    "workbench.editor.pinnedTabsOnSeparateRow": true
+    "workbench.editor.pinnedTabsOnSeparateRow": true,
+    "editor.tabSize": 2,
+    "ltex.latex.commands": {
+        "\\SetTblrInner{}": "ignore",
+        "\\plot[]{}{}": "ignore",
+        "\\plot{}{}": "ignore",
+    }
 }
