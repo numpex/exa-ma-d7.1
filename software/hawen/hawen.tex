@@ -52,9 +52,18 @@ The code uses the Hybridizable Discontinuous Galerkin method (HDG)
 for the discretization. 
 It relies on nonlinear iterative minimization algorithm to solve 
 the quantitative inverse wave problem.
-The code is written in \texttt{Fortran90} and uses \texttt{mpi}
+The code is written in \texttt{Fortran90} and uses \texttt{MPI}
 and \texttt{OpenMP} parallelism.
 
+Summer 2025, Eduard Occhipinti did his M2 internship in the Inria team Makutu, 
+working on the code Hawen. While the internship has been funded independently 
+by the team, his work was carried out in the framework of NumPEx.
+Eduard has used the NVIDIA's NVHPC Toolkit and explored effective strategies 
+for parallelization on GPUs whilst maintaining the current combination of 
+\texttt{MPI} and \texttt{OpenMP} parallelism.
+He has also introduced a recently released GPU accelerated sparse solver, 
+cuDSS, to evaluate its performance for the resolution of the global linear 
+system.
 
 
 \subsection{Purpose}
