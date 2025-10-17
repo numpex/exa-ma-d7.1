@@ -128,17 +128,18 @@ The project automatically compiles on GitHub Actions when:
 ### Zotero Integration
 
 The project is configured to use:
-- **Zotero Group ID**: 5562142 (Exa-MA)
+- **Zotero Group ID**: 5582837
 - **Output File**: references.bib
 - **API Key**: Set via `ZOTERO_API_KEY` environment variable
 
 Configuration is managed in `pyproject.toml`:
 ```toml
-[tool.article-cli]
-zotero_group_id = 5562142
-zotero_group_name = "Exa-MA"
+[tool.article-cli.zotero]
+group_id = 5582837
 output_file = "references.bib"
-git_branch = "main"
+
+[tool.article-cli.git]
+default_branch = "main"
 ```
 
 ## Requirements
@@ -229,6 +230,17 @@ rm -rf _minted-exa-ma-d7.1/
 3. **Update bibliography**: `article-cli update-bibtex`
 4. **Compile**: `latexmk --shell-escape -pdf exa-ma-d7.1.tex`
 5. **Clean**: `article-cli clean`
+
+### Local Dev Environment (uv-based)
+For a quick local environment using uv and a project-specific virtualenv:
+
+```bash
+# one-time: ensure uv is installed (e.g. brew install uv)
+./setup-dev-env.sh
+
+# later: activate the environment
+source .venv-d71/bin/activate
+```
 
 ### Legacy Workflow (Still supported)
 1. **Setup**: `./a.cli setup`
