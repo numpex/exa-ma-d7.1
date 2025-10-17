@@ -114,7 +114,7 @@ During the reporting period, we have progressed on the following tasks:
   volume conservation  using a symplectic  NN.  This method  is faster
   and gives more accurate results than those provided by classical FEM
   method.
-\item[T2.2]  The Macaron  team (Joubine  Aghili, Emmanuel  Francka and
+\item[T2.2]  The Macaron  team (Joubine  Aghili, Emmanuel  Franck and
   Victor Michel  Dansac), has proposed  a simple method  to accelerate
   the convergence of nonlinear solvers for PDEs like the Newton method
   using a Fourier  Neural Operator (FNO).  For that, a  FNO is trained
@@ -174,6 +174,14 @@ We also note that T2.6  did not get funding from NumPEx so far.
 %\input{chapters/applications/specs/app-scimba-rom-1}  
 % \input additional app specs as needed
 
+\paragraph{Applications mapping.}
+\begin{itemize}
+  \item Physics-informed shape optimization with NN (Scimba, proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
+  \item Hybrid numerical/ML solvers (Scimba, proposed): Section~\ref{sec:app:specs:app-scimba-hybrid}.
+  \item Reduced basis thermal fin (Feel++, demonstrator, benchmark-ready): Section~\ref{sec:app:specs:app-feelpp-rb}.
+  \item Nonlinear compressive RB (Feel++, proposed, spec-only): Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
+\end{itemize}
+
 \textbf{Frequency-domain wave propagation modeling with PINNs} \\
 
 As a first  application showcase, we propose to develop  a hierachy of
@@ -230,6 +238,11 @@ learning methods.  NO methods will also be implemented in the future.
 \subsection{Additional Software Framework}
 
 
+\paragraph{Frameworks mapping.}
+\begin{itemize}
+  \item Scimba: Section~\ref{sec:Scimba:software}\,; 
+  \item Feel++: Section~\ref{sec:Feelpp:software}.
+\end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
 % • Surrogate model speedups placeholder  
@@ -239,6 +252,11 @@ learning methods.  NO methods will also be implemented in the future.
 The  studies  conducted in  T2.1  to  T2.5  are  all in  progress  and
 preliminary results are  available only for validation  purpose of the
 novel methodologies under development. 
+
+\paragraph{Benchmarks mapping.}
+\begin{itemize}
+  \item Surrogate accuracy vs. speedup and RB offline/online timing integrated with WP7 (T7.1) and reported alongside the corresponding application benchmarks when available.
+\end{itemize}
 
 \section{Roadmap \& Next Steps}
 % • Deliverables D2.x to complete by Mxx  

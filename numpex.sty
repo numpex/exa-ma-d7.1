@@ -123,8 +123,8 @@
 \setlength{\cftbeforesecskip}{2mm}
 \setlength{\cftbeforesubsecskip}{0.5mm}
 \setlength{\cftsecindent}{0mm}
-\setlength{\cftsubsecindent}{4mm}
-\setlength{\cftsubsubsecindent}{8mm}
+\setlength{\cftsubsecindent}{5mm}
+\setlength{\cftsubsubsecindent}{10mm}
 \renewcommand{\cftsecpagefont}{\normalsize}
 \renewcommand{\cftsubsecpagefont}{\small}
 \renewcommand{\cftsecaftersnum}{.}
@@ -133,10 +133,11 @@
 \renewcommand{\cftsecdotsep}{0.5}
 \renewcommand{\cftsubsecdotsep}{0.5}
 \renewcommand{\cftsubsubsecdotsep}{0.5}
-\addtolength{\cftsecnumwidth}{-2mm}
-\addtolength{\cftsubsecnumwidth}{-3mm}
-\addtolength{\cftsubsubsecnumwidth}{-5mm}
-\cftsetpnumwidth{5mm}
+% Set proper width for section numbers (e.g., "10.2" needs ~10mm)
+\setlength{\cftsecnumwidth}{10mm}
+\setlength{\cftsubsecnumwidth}{14mm}
+\setlength{\cftsubsubsecnumwidth}{18mm}
+\cftsetpnumwidth{8mm}
 }
 
 % lof design
@@ -148,12 +149,13 @@
 \setlength{\cftafterloftitleskip}{3mm}
 \renewcommand{\cftloftitlefont}{\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}
 \renewcommand{\cftfigleader}{\small\cftdotfill{\cftfigdotsep}}
-\renewcommand{\cftfigdotsep}{\cftdotsep}
-\renewcommand{\cftdotsep}{0.5}
+\renewcommand{\cftfigdotsep}{0.5}
 \renewcommand*\cftfigpresnum{Figure~}
-\settowidth{\cftfignumwidth}{\cftfigpresnum}
-\addtolength{\cftfignumwidth}{5mm}
+% Calculate proper width for "Figure 10.13:" - measure actual text
+\settowidth{\cftfignumwidth}{\cftfigpresnum 10.10}
+\addtolength{\cftfignumwidth}{2mm}
 \renewcommand{\cftfigaftersnum}{:~}
+\cftsetpnumwidth{8mm}
 }
 
 % lot design
@@ -165,12 +167,13 @@
 \setlength{\cftafterlottitleskip}{3mm}
 \renewcommand{\cftlottitlefont}{\normalfont\fontsize{18}{23}\sffamily\bfseries\color{numpexblue}}
 \renewcommand{\cfttableader}{\small\cftdotfill{\cfttabdotsep}}
-\renewcommand{\cfttabdotsep}{\cftdotsep}
-\renewcommand{\cftdotsep}{0.5}
+\renewcommand{\cfttabdotsep}{0.5}
 \renewcommand*\cfttabpresnum{Table~}
-\settowidth{\cfttabnumwidth}{\cfttabpresnum}
-\addtolength{\cfttabnumwidth}{5mm}
+% Calculate proper width for "Table 10.13:" - measure actual text
+\settowidth{\cfttabnumwidth}{\cfttabpresnum 10.10}
+\addtolength{\cfttabnumwidth}{2mm}
 \renewcommand{\cfttabaftersnum}{:~}
+\cftsetpnumwidth{8mm}
 }
 
 \logo{\includegraphics[scale=0.465]{graphics/logo-numpex-exama-vector.png}}

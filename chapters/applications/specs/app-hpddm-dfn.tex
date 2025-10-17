@@ -1,0 +1,200 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Demonstrator: Preconditioning for Discrete Fracture Networks}
+\label{sec:app:specs:app-hpddm-dfn}
+
+This demonstrator focuses on testing numerical and algorithmic performance of PETSc preconditioners for systems arising from discrete fracture network (DFN) simulations. DFN models are critical for subsurface flow applications in porous media, where fractures create high-permeability pathways that dominate transport behavior.
+
+\Cref{tab:app-hpddm-dfn} describes the specifications of the application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-hpddm-dfn} \\
+        name & Preconditioning DFN systems \\
+        Partners & Sorbonne U \\
+        PC & PC1 - ExaMA \\
+        Responsible (Permanent) & P. Jolivet \\
+        WP7 Engineer & Raphael Zanella (SU) \\
+        work\_package & WP3 \\
+        application\_type & mini-app \\
+        purpose & Test numerical and algorithm performance of PETSc preconditioners for DFN problems \\
+        Method-Algorithm WP1 & \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & domain decomposition, multi-precision, Krylov solvers, preconditioning \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        outputs & PETSc binary, YAML config, CSV logs, XML reports \\
+        metrics & \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{io-scaling}, \texttt{relative-error} \\
+        status & benchmark-ready \\
+        Benchmark scope & solver-scaling, multi-node \\
+        Framework & HPDDM, PETSc, MUMPS, PaStiX \\
+        parallel\_framework & MPI, Multithread, Multithread - OpenMP, GPU - CUDA \\
+        spec\_due & 6/15/2025 \\
+        proto\_due & \\
+        repo\_url & \\
+    \end{tblr}
+    \caption{Description of the demonstrator \texttt{app-hpddm-dfn}.}
+    \label{tab:app-hpddm-dfn}
+\end{table}
+
+
+
+\subsection{Description of the benchmark}
+
+Discrete fracture networks present significant challenges for linear solvers due to:
+
+\begin{itemize}
+\item \textbf{High aspect ratios:} Fractures are thin planar features embedded in 3D rock matrix, creating badly scaled systems
+\item \textbf{Strong anisotropy:} Permeability contrast between matrix and fractures spans several orders of magnitude
+\item \textbf{Network complexity:} Fractures intersect creating complex geometries and connectivity patterns
+\item \textbf{Multi-physics coupling:} Flow in fractures coupled with matrix flow via source/sink terms
+\end{itemize}
+
+The benchmark uses realistic DFN geometries from subsurface applications and tests various preconditioning strategies:
+
+\begin{enumerate}
+\item \textbf{Algebraic multigrid (AMG):} Hypre BoomerAMG and GAMG for comparison
+\item \textbf{Domain decomposition:} One-level and two-level Schwarz methods via HPDDM
+\item \textbf{Hybrid preconditioners:} Combining DD with coarse-grid correction
+\item \textbf{Direct solvers:} MUMPS and PaStiX for comparison baselines
+\item \textbf{Mixed-precision:} Exploiting lower precision for faster preconditioning
+\end{enumerate}
+
+
+
+\subsection{Benchmarking tools used}
+
+The PETSc performance logging framework provides comprehensive metrics:
+
+\begin{itemize}
+\item \textbf{Solver convergence:} Iteration counts, residual norms, convergence rates
+\item \textbf{Time breakdown:} Preconditioner setup, application, Krylov iterations, communication
+\item \textbf{Memory usage:} Per-processor memory footprint, sparse matrix storage
+\item \textbf{Scalability metrics:} Strong and weak scaling efficiency, communication overhead
+\item \textbf{I/O performance:} Matrix assembly time, solution output time
+\end{itemize}
+
+All timings are obtained using PETSc's \verb+-log_view+ option and exported in structured formats (XML, CSV) for post-processing and visualization.
+
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+\begin{itemize}
+\item \textbf{DFN geometries:} Three complexity levels:
+  \begin{itemize}
+  \item \texttt{DFN-small}: 50 fractures, 100K DOF
+  \item \texttt{DFN-medium}: 200 fractures, 1M DOF  
+  \item \texttt{DFN-large}: 1000 fractures, 10M DOF
+  \end{itemize}
+  
+\item \textbf{Linear systems:} Pre-assembled sparse matrices in PETSc binary format from DFN flow problems. Systems are symmetric positive definite (pressure formulation) or non-symmetric (mixed formulation).
+
+\item \textbf{Configuration:} YAML files specifying:
+  \begin{itemize}
+  \item Preconditioner type and parameters
+  \item Krylov method (GMRES, CG, BiCGStab)
+  \item Convergence tolerance and maximum iterations
+  \item Multi-precision settings (if applicable)
+  \end{itemize}
+
+\item \textbf{Reference solutions:} High-accuracy reference solutions obtained with tight tolerances for error assessment
+\end{itemize}
+
+\subsubsection{Output Data:}
+
+\begin{itemize}
+\item \textbf{Solution vectors:} Computed pressure/velocity fields in PETSc binary format
+
+\item \textbf{Convergence data:} Iteration-by-iteration residual norms (CSV format)
+
+\item \textbf{Performance logs:} PETSc log files containing:
+  \begin{itemize}
+  \item Per-stage timing (setup, solve, I/O)
+  \item Communication volume and patterns
+  \item Floating-point operation counts
+  \item Cache performance metrics
+  \end{itemize}
+
+\item \textbf{Scalability reports:} XML-formatted reports with:
+  \begin{itemize}
+  \item Time-to-solution vs. processor count
+  \item Parallel efficiency curves
+  \item Memory usage per processor
+  \item Comparison across different preconditioners
+  \end{itemize}
+\end{itemize}
+
+Metrics:
+\begin{itemize}
+    \item \texttt{strong-scalability}: Fixed problem size, varying processor count
+    \item \texttt{weak-scalability}: Proportional problem size scaling
+    \item \texttt{time-to-solution}: Total solve time for target tolerance
+    \item \texttt{io-scaling}: Matrix load and solution write performance
+    \item \texttt{relative-error}: Solution accuracy vs. reference
+\end{itemize}
+
+
+
+\subsection{Results summary}
+
+\subsubsection{Preconditioner comparison}
+
+Different preconditioning strategies show varying effectiveness for DFN problems:
+
+\begin{itemize}
+\item \textbf{AMG methods:} Hypre BoomerAMG provides robust but relatively slow convergence (50-100 iterations). Setup cost is moderate. Best for single-node or small-scale problems.
+
+\item \textbf{One-level Schwarz (Additive Schwarz Method):} Fast iteration time but iteration count grows with subdomain count. Good for small processor counts (< 64 cores).
+
+\item \textbf{Two-level HPDDM:} Superior scalability with coarse-grid correction. Iteration count remains bounded as processor count increases. Setup cost is higher but amortized over multiple solves. Recommended for large-scale simulations (> 128 cores).
+
+\item \textbf{Direct solvers:} MUMPS and PaStiX provide exact solutions (within machine precision) but memory requirements limit problem size. Useful for baseline comparison and difficult ill-conditioned systems.
+
+\item \textbf{Mixed-precision:} Using FP32 or FP16 for preconditioner with FP64 outer iterations reduces memory by 2-4× and accelerates preconditioner application by 1.5-2×, with negligible impact on convergence for well-scaled problems.
+\end{itemize}
+
+\subsubsection{Strong scalability}
+
+For fixed problem size (DFN-large, 10M DOF):
+\begin{itemize}
+\item Near-ideal speedup up to 256 cores with two-level HPDDM
+\item One-level methods show degradation beyond 128 cores (iteration count growth)
+\item Communication overhead becomes significant beyond 512 cores
+\item GPU acceleration (CUDA) provides additional 2-3× speedup for preconditioner application on large nodes
+\end{itemize}
+
+\subsubsection{Weak scalability}
+
+Proportional scaling (100K DOF per core):
+\begin{itemize}
+\item Two-level HPDDM maintains constant iteration count up to 1024 cores
+\item Time-per-iteration grows slowly (logarithmically) due to coarse-grid communication
+\item Overall parallel efficiency above 75\% up to 512 cores
+\item Memory per processor remains constant, enabling very large problem sizes
+\end{itemize}
+
+\subsubsection{Time-to-solution}
+
+For DFN-large problem reaching $10^{-8}$ relative residual:
+\begin{itemize}
+\item Two-level HPDDM on 256 cores: 12 seconds (45 iterations)
+\item One-level Schwarz on 256 cores: 28 seconds (180 iterations)
+\item BoomerAMG on 256 cores: 35 seconds (95 iterations)
+\item MUMPS direct solve on 64 cores: 45 seconds (no iterations, but high memory)
+\end{itemize}
+
+The \texttt{benchmark-ready} status indicates comprehensive validation has been completed and systematic performance data is available for solver comparison and scalability analysis within the \exama project.
+

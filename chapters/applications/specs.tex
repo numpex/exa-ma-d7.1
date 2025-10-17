@@ -3,9 +3,10 @@
 \section{Application Specifications}
 \label{sec:apps-specs}
 
-All Exa-MA applications are documented via a standardized spreadsheet template. Key metadata fields ensure traceability, reproducibility, and consistent benchmarking.
+All Exa‑MA applications are documented via a standardized spreadsheet template. The metadata recorded here underpins traceability, reproducibility, and consistent benchmarking, and directly drives CI pipelines and reports.
 
 \subsection{Core Metadata}
+Identifiers and ownership establish responsibility and uniquely reference each application.
 \begin{itemize}
   \item \texttt{id}: Unique identifier for the application.  
   \item \texttt{name}: Descriptive title.  
@@ -16,12 +17,14 @@ All Exa-MA applications are documented via a standardized spreadsheet template. 
 \end{itemize}
 
 \subsection{Scientific Purpose \& Methods}
+Each specification states the scientific objective and summarizes the algorithms, with clear links to the contributing work packages.
 \begin{itemize}
   \item \texttt{purpose}: Short description of scientific goal.  
   \item \texttt{method\_algorithm\_WPx}: Summary of algorithms under test (e.g., DG, ROM, Newton–Krylov).
 \end{itemize}
 
 \subsection{Technical Metadata}
+The software and parallel stack document portability and scaling characteristics.
 \begin{itemize}
   \item \texttt{framework}: Software framework (FEEL++, MFEM, PyTorch…).  
   \item \texttt{parallel\_framework}: MPI, OpenMP, CUDA, Kokkos.  
@@ -29,6 +32,7 @@ All Exa-MA applications are documented via a standardized spreadsheet template. 
 \end{itemize}
 
 \subsection{Inputs \& Outputs}
+Inputs and outputs specify data formats and serialization choices to enable reuse and downstream analysis.
 \begin{itemize}
   \item \texttt{inputs}: File formats (VTK, HDF5, JSON, MatrixMarket…).  
   \item \texttt{outputs}: Data products (HDF5 fields, CSV logs, VTK views…).  
@@ -36,6 +40,7 @@ All Exa-MA applications are documented via a standardized spreadsheet template. 
 \end{itemize}
 
 \subsection{Metrics}
+Common metrics enable verification and performance comparisons across applications.
 \begin{itemize}
   \item Verification: \texttt{analytical-solution-match}, \texttt{manufactured-solution}.  
   \item Performance: \texttt{time-to-solution}, \texttt{strong-scalability}, \texttt{roofline-analysis}.  
@@ -90,12 +95,14 @@ PINN-residual-loss         & PDE residual norm in Physics-Informed Neural Networ
 \end{longtable}
 
 \subsection{Status \& Scope}
+Status and scope indicate maturity and the breadth of benchmarking.
 \begin{itemize}
   \item \texttt{status}: \{spec-only, prototype-ready, verified, benchmark-ready, packaged, …\}  
   \item \texttt{benchmark\_scope}: \{single-node, multi-node, multi-gpu, full-system, not-benchmarked\}
 \end{itemize}
 
 \subsection{Planning \& Documentation}
+Planning fields anchor timelines and provide pointers to source code and documentation.
 \begin{itemize}
   \item \texttt{spec\_due}, \texttt{proto\_due}: Dates for spec and prototype.  
   \item \texttt{repo\_url}, \texttt{tex\_url}: Links to code and docs.  

@@ -58,10 +58,10 @@ pip install pygments
 ----
 git clone https://github.com/numpex/exa-ma-d7.1
 cd exa-ma-d7.1
-./a.cli setup # to be done only once after you clone the repo
+article-cli setup # to be done only once after you clone the repo
 ----
 
-NOTE: `a.cli` is a shell script to setup the repo, create releases and update bibtex references.
+NOTE: `article-cli` is the recommended tool to setup the repo, create releases and update bibtex references. The legacy `a.cli` script still exists but is deprecated.
 
 == Compiling the Document
 
@@ -84,26 +84,21 @@ latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstop
 - `-halt-on-error`: Stop compilation on errors
 - `-interaction=nonstopmode`: Continue compilation without user input
 
-=== Method 2: Fast Compilation with a.cli
+=== Method 2: Helper commands with article-cli
 
-For faster iteration during development:
+For faster iteration during development, use `article-cli` to manage common tasks (clean, update bibliography). For compilation, prefer the latexmk recipe above or VS Code auto-build.
 
-.Fast compilation options
+.Common helper commands
 [source, shell]
 ----
-# Compile only Work Packages (~10-15 seconds)
-./a.cli compile wp
+# Setup hooks (run once after clone)
+article-cli setup
 
-# Compile specific chapter
-./a.cli compile methodology
-./a.cli compile applications
-./a.cli compile software
+# Update bibliography from Zotero
+article-cli update-bibtex
 
-# Ultra-fast draft mode (skip images)
-./a.cli compile draft
-
-# Full compilation
-./a.cli compile all
+# Clean build artifacts
+article-cli clean
 ----
 
 === Method 3: Using VS Code
@@ -134,7 +129,7 @@ pdflatex --shell-escape exa-ma-d7.1.tex
 .Clean build artifacts
 [source, shell]
 ----
-./a.cli clean
+article-cli clean
 ----
 
 === Overleaf Workflow for Non-GitHub Users
@@ -195,12 +190,12 @@ The project uses Zotero for bibliography management with the ExaMA shared librar
 
 To update `references.bib`, you have several options:
 
-==== Option 1: Using the CLI Script (Recommended)
+==== Option 1: Using article-cli (Recommended)
 
 [source,console]
 ----
 export ZOTERO_API_KEY=your_api_key_here
-./a.cli update-bibtex
+article-cli update-bibtex
 ----
 
 ==== Option 2: Manual Download from Zotero
@@ -264,26 +259,35 @@ The project uses UNISTRA's `self-texlive` runners, pre-configured with:
 
 === Release Process
 
-To create a new release:
+To create a new release (preferred flow):
 
 [source,shell]
 ----
-# Create and push a version tag
-./a.cli create v1.0.0
-----
+# 1) Ensure main is up to date
+git checkout main
+git pull --ff-only
 
-This automatically:
-1. Tags the repository
-2. Updates version information
-3. Triggers GitHub Actions
-4. Creates a release with PDF artifact
+# 2) Bump version and changelog in exa-ma-d7.1.tex
+#    - Set \delivVersion{vX.Y.Z}
+#    - Add new \istChange{DD/MM/YYYY}{vX.Y.Z}{Authors}{Summary}
+
+# 3) Update pyproject.toml version to X.Y.Z
+
+# 4) Commit changes
+git add exa-ma-d7.1.tex pyproject.toml
+git commit -m "chore(release): vX.Y.Z"
+
+# 5) Create an annotated tag and push using article-cli
+python3 -m article_cli create vX.Y.Z
+git push origin vX.Y.Z
+----
 
 === Development Workflow
 
-. **Setup**: `./a.cli setup` (one-time after clone)
+. **Setup**: `article-cli setup` (one-time after clone)
 . **Edit**: Modify `.tex` files as needed
 . **Compile**: Use VS Code auto-build or manual `latexmk`
-. **Clean**: `./a.cli clean` to remove build artifacts
+. **Clean**: `article-cli clean` to remove build artifacts
 . **Commit**: Git hooks automatically update version info
 . **Release**: Tag with `./a.cli create vX.Y.Z` for releases
 
@@ -302,7 +306,7 @@ The repository is organized as follows:
 | `graphics/` | Images, figures, and visual content
 | `references.bib` | Bibliography file (managed via Zotero)
 | `numpex.sty` | Custom LaTeX style files
-| `a.cli` | Command-line utility script
+| `a.cli` | Legacy helper script (deprecated; use article-cli)
 | `hooks/` | Git hooks for automation
 | `.vscode/` | VS Code configuration
 | `.github/workflows/` | GitHub Actions workflows
@@ -330,7 +334,7 @@ The repository is organized as follows:
 ----
 git clone https://github.com/numpex/exa-ma-d7.1
 cd exa-ma-d7.1
-./a.cli setup
+article-cli setup
 ----
 
 . **Make Changes**: Edit LaTeX sources in relevant directories (`chapters/`, `sections/`)
@@ -346,7 +350,7 @@ latexmk --shell-escape -pdf -interaction=nonstopmode exa-ma-d7.1.tex
 +
 [source,shell]
 ----
-./a.cli clean
+article-cli clean
 ----
 
 . **Submit**: Create a pull request for review
@@ -372,16 +376,16 @@ The `a.cli` script provides several useful commands:
 ./a.cli clean
 
 # Create a new release
-./a.cli create v1.0.0
+python3 -m article_cli create v1.0.0
 
 # List recent releases
-./a.cli list
+git tag --list 'v*'
 
 # Update bibliography from Zotero
-./a.cli update-bibtex
+article-cli update-bibtex
 
 # Get help
-./a.cli --help
+article-cli --help
 ----
 
 == Technical Notes

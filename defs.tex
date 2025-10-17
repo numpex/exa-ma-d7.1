@@ -14,6 +14,8 @@
 \newcommand{\mathP}{\mathbb{P}}
 \newcommand{\mathR}{\mathbb{R}}
 \newcommand{\mathC}{\mathbb{C}}
+% Convenience command for polynomial spaces P_k
+\newcommand{\Pk}[1]{\mathbb{P}_{#1}}
 
 
 
@@ -70,3 +72,48 @@
     \end{axis}
 \end{tikzpicture}
 }
+
+
+%%% START MACRO FOR ANNOTATION OF TRIANGLE WITH SLOPE %%%.
+\newcommand{\logLogSlopeTriangle}[6][]
+{
+    % #1. Optional text to display after the slope value.
+    % #2. Relative offset in x direction.
+    % #3. Width in x direction, so xA-xB.
+    % #4. Relative offset in y direction.
+    % #5. Slope d(y)/d(log10(x)).
+    % #6. Plot options.
+
+    \pgfplotsextra
+    {
+        \pgfkeysgetvalue{/pgfplots/xmin}{\xmin}
+        \pgfkeysgetvalue{/pgfplots/xmax}{\xmax}
+        \pgfkeysgetvalue{/pgfplots/ymin}{\ymin}
+        \pgfkeysgetvalue{/pgfplots/ymax}{\ymax}
+
+        % Calculate auxiliary quantities, in relative sense.
+        \pgfmathsetmacro{\xArel}{#2}
+        \pgfmathsetmacro{\yArel}{#4}
+        \pgfmathsetmacro{\xBrel}{#2-#3}
+        \pgfmathsetmacro{\yBrel}{\yArel}
+        \pgfmathsetmacro{\xCrel}{\xArel}
+
+        \pgfmathsetmacro{\lnxB}{\xmin*(1-(#2-#3))+\xmax*(#2-#3)} % in [xmin,xmax].
+        \pgfmathsetmacro{\lnxA}{\xmin*(1-#2)+\xmax*#2} % in [xmin,xmax].
+        \pgfmathsetmacro{\lnyA}{\ymin*(1-#4)+\ymax*#4} % in [ymin,ymax].
+        \pgfmathsetmacro{\lnyC}{\lnyA+#5*(\lnxA-\lnxB)}
+        \pgfmathsetmacro{\yCrel}{(\lnyC-\ymin)/(\ymax-\ymin)} %
+
+        % Define coordinates for \draw. MIND THE 'rel axis cs' as opposed to the 'axis cs'.
+        \coordinate (A) at (rel axis cs:\xArel, \yArel);
+        \coordinate (B) at (rel axis cs:\xBrel, \yBrel);
+        \coordinate (C) at (rel axis cs:\xCrel, \yCrel);
+
+        % Draw slope triangle.
+        \draw[#6]   (A) -- % node[pos=0.5,anchor=north] {1}
+                    (B) --
+                    (C) -- node[pos=0.5, anchor=west] {\pgfmathprintnumber[precision=2]{#5} #1}
+                    cycle;
+    }
+}
+%%% END MACRO FOR ANNOTATION OF TRIANGLE WITH SLOPE %%%.

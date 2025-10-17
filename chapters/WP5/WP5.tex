@@ -5,7 +5,7 @@
 \section{Objectives \& Context}
 % • Which Exa-MA bottlenecks (B#) WP5 addresses  
 % • Role in overall strategy (exascale optimization algorithms, surrogate-based and shape optimization, AutoML)  
-% • List of key tasks T5.1–T5.4
+% • List of key tasks T5.1-T5.4
 The objective of this work package is to design and implement general exascale optimization algorithms capable of efficiently and effectively solving Large scale Optimization Problems (LSOPs). Large-scale optimization methods are natural candidates for exascale supercomputers, but their parallelization presents a major challenge: efficiently managing a massive number of irregular tasks on machines with multiple levels of parallelism, heterogeneous computing resources (GPUs, multicore CPUs with diverse architectures) and complex interconnects. Addressing this challenge requires tackling three key issues simultaneously: scalability, heterogeneity, and fault tolerance, which, to our knowledge, have not yet been investigated jointly in the context of parallel optimization.
 
 Our work focuses on three main objectives:
@@ -14,19 +14,19 @@ Our work focuses on three main objectives:
 
 \item Exascale surrogate-based optimization. We will develop new parallel surrogate-driven and surrogate-assisted algorithms that address the fundamental components of surrogate-based optimization.
 
-\item Exascale shape optimization – Focusing on multiphysics models, we will design scalable algorithms for shape optimization problems at exascale.
+\item Exascale shape optimization - Focusing on multiphysics models, we will design scalable algorithms for shape optimization problems at exascale.
 
 \end{itemize}
 
 The project tasks are described below.
 \begin{enumerate}
-\item T5.1 – Exascale combinatorial and continuous optimization: This task focuses on designing general exascale optimization algorithms. We will consider both exact methods (e.g., branch-and-bound, tree search) and iterative approximate methods (e.g., fractal optimization). The performance of these algorithms will be evaluated using standard benchmarks in combinatorial and continuous optimization. A key focus is decomposition-based exascale optimization, motivated by two goals: Tackling LSOPs that are intractable with traditional algorithms, and leveraging decomposition as a fundamental step in parallelization. The main challenge lies in defining efficient decomposition strategies in decision spaces to achieve ultra-scalable optimization algorithms.
+\item T5.1 - Exascale combinatorial and continuous optimization: This task focuses on designing general exascale optimization algorithms. We will consider both exact methods (e.g., branch-and-bound, tree search) and iterative approximate methods (e.g., fractal optimization). The performance of these algorithms will be evaluated using standard benchmarks in combinatorial and continuous optimization. A key focus is decomposition-based exascale optimization, motivated by two goals: Tackling LSOPs that are intractable with traditional algorithms, and leveraging decomposition as a fundamental step in parallelization. The main challenge lies in defining efficient decomposition strategies in decision spaces to achieve ultra-scalable optimization algorithms.
 
- \item T5.2 – Exascale surrogate-based optimization: This task adapts surrogate-based optimization (SBO) algorithms for exascale HPC systems. Our goal is to design new parallel SBO algorithms that can evaluate multiple candidate solutions per iteration. In the context of learning-based exascale optimization, machine learning will be used to address the challenges posed by expensive function evaluations. We will focus on three key dimensions: Surrogate models, optimizers and their sampling strategies, and coupling between surrogates and optimizers.
+ \item T5.2 - Exascale surrogate-based optimization: This task adapts surrogate-based optimization (SBO) algorithms for exascale HPC systems. Our goal is to design new parallel SBO algorithms that can evaluate multiple candidate solutions per iteration. In the context of learning-based exascale optimization, machine learning will be used to address the challenges posed by expensive function evaluations. We will focus on three key dimensions: Surrogate models, optimizers and their sampling strategies, and coupling between surrogates and optimizers.
 
- \item T5.3 – Exascale shape optimization: This task develops a toolbox for exascale shape optimization with the aim of improving the performance of existing algorithms. Several research directions will be explored through both theoretical analysis and numerical experiments. In particular, we will investigate the use of different meshes for state and design variables and the integration of reduced models (developed in WP2), such as neural networks, to enable faster evaluations of state and adjoint models during iterations. A careful balance between computational cost and accuracy will be sought.
+ \item T5.3 - Exascale shape optimization: This task develops a toolbox for exascale shape optimization with the aim of improving the performance of existing algorithms. Several research directions will be explored through both theoretical analysis and numerical experiments. In particular, we will investigate the use of different meshes for state and design variables and the integration of reduced models (developed in WP2), such as neural networks, to enable faster evaluations of state and adjoint models during iterations. A careful balance between computational cost and accuracy will be sought.
 
- \item T5.4 – Exascale optimization for AutoML:
+ \item T5.4 - Exascale optimization for AutoML:
 This task applies exascale optimization techniques to automated machine learning (AutoML), focusing on the automatic design of deep neural networks (DNNs) and fine tuning of large langage models (LLMs). AutoML problems are becoming increasingly complex due to larger datasets and network architectures, with increasing demands on both computation and memory. Exascale optimization will provide the means to improve DNN accuracy, reduce energy consumption and inference time, enhance robustness, and address large-scale and complex learning tasks.
 \end{enumerate}
 
@@ -63,6 +63,13 @@ LLMs have revolutionized natural language processing (NLP) by achieving state-of
 
 For continuous optimisation, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
 
+\paragraph{Applications mapping.}
+\begin{itemize}
+	\item Fractal optimization (proposed): Section~\ref{sec:app:specs:app-zellij}.
+	\item Shape optimization with NN (Scimba, proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
+	\item Shape optimization with FEM (FreeFEM, proposed): Section~\ref{sec:app:specs:app-ffpp-shape-opt-fem}.
+\end{itemize}
+
 \medskip
 
 {\bf AutoMl and Bayesian optimization:} The experiments on fine tuning LLMs have been carried out on LlaMa 3.2-1B, a model of the Llama 3 family of model. Llama 3 models were released by Meta AI in the second part of 2024 (from July to December), as open-source (topology and weights) decoder-only models achieving state-of-the-art performance. Among Llama 3 models, Llama 3.2 release propose lightweight models (from 1B to 3B weights, excluding vision models), enabling reproduction of the experiments. For evaluation, Hellaswag dataset was used, with accuracy as the metrics to optimize with HPO. It's a 40k lines datasets released in 2019 as a challenge datasets, with a random performance of 25 \% . All models are also evaluated on MMLU as a testing dataset, to observe HPO over-fitting. 
@@ -90,12 +97,22 @@ implementation of pBB meeting these genericity and productivity objectives.
 
 % • ShapeOpt framework: …  
 
+\paragraph{Frameworks mapping.}
+\begin{itemize}
+	\item Zellij: Section~\ref{sec:Zellij:software}\,; Scimba: Section~\ref{sec:Scimba:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}.
+\end{itemize}
+
 \section{Preliminary Benchmarks \& Trends}
 % • Optimization scaling placeholder  
 % • Surrogate speedup placeholder   
 % • Regression test pass-rate placeholder
 
 All the parallel optimization algorithms developed so far have demonstrated strong scalability on Petaflop-class supercomputers. This is a promising result for their future deployment at the exascale level, as it confirms the efficiency and robustness of the underlying methodologies when scaled to massive computing resources. These encouraging outcomes reinforce our confidence and optimism regarding the feasibility and impact of their forthcoming exascale implementation.
+
+\paragraph{Benchmarks mapping.}
+\begin{itemize}
+	\item COCO/BBOB-LS, CEC-LSGO, and LLM fine-tuning HPO integrated with WP7 benchmarking and attached to corresponding application benchmarks.
+\end{itemize}
 
 \section{Roadmap \& Next Steps}
 
@@ -104,3 +121,4 @@ The developed optimization algorithms (Continuous and discrete, Bayesian) will b
 % • Deliverables D5.x to complete by Mxx  
 % • New optimization apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
+

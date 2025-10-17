@@ -3,32 +3,101 @@
 % \label{chap:wp4}
 
 \section{Objectives \& Context}
-% • Which Exa-MA bottlenecks (B#) WP4 addresses  
-% • Role in overall strategy (deterministic/stochastic inversion, multi-fidelity)  
-% • List of key tasks T4.1–T4.5
+\label{sec:wp4:objectives}
+
+Work Package 4 focuses on combining data and models through the formulation and solution of inverse problems. 
+The approach covers both deterministic and stochastic models and methods, considering observation sparsity and sufficiency. 
+Multi-fidelity models (MFM), including reduced-order and AI-based surrogates, are studied for the solution of inverse problems at exascale.
+
+\paragraph{Relation to Exa-MA Bottlenecks.}
+WP4 directly addresses several exascale bottlenecks:
+\begin{itemize}
+\item \textbf{[B7] Exascale Algorithms:} Redesigning inverse problem algorithms to improve scalability, reduce communication, and enhance computational efficiency.
+\item \textbf{[B8] Discovery, design, and decision algorithms:} Focus on ensembles of many small runs for uncertainty quantification and parameter optimization in inverse problems.
+\item \textbf{[B9] Resilience, robustness and accuracy:} Ensuring inverse problem solutions are correct, reproducible, and verifiable.
+\item \textbf{[B10] Scientific productivity:} Providing tools for scientists to use exascale systems productively for data assimilation and inverse problems.
+\item \textbf{[B13] Opportunity to integrate uncertainties:} Directly incorporating uncertainties into the core of inverse problem calculations.
+\end{itemize}
+
+\paragraph{Strategic Role in Exa-MA.}
+WP4 builds upon the foundational work of WP1 (discretization), WP2 (model order reduction and surrogates), and WP3 (solvers) to enable:
+\begin{itemize}
+\item \textbf{Deterministic inversion:} Variational methods with time-parallel approaches and hybrid ensemble-variational techniques.
+\item \textbf{Stochastic inversion:} Stochastic differential equations (SDEs) and stochastic partial differential equations (SPDEs) for realistic system representations.
+\item \textbf{Multi-fidelity strategies:} Leveraging surrogate models (from WP2) to accelerate inverse problem solutions through optimal scheduling between high-fidelity and reduced-order models.
+\item \textbf{Observation strategies:} Improved treatment of observation error statistics and alternative metrics based on transport theory.
+\end{itemize}
+
+\paragraph{Key Tasks (T4.1--T4.5).}
+\begin{itemize}
+\item \textbf{T4.1 Deterministic methods:} Enhance variational methods with time-parallel approaches and hybrid ensemble-variational techniques.
+\item \textbf{T4.2 Stochastic methods:} Develop stochastic inversion based on Itô theory (SDEs) and SPDE formulations.
+\item \textbf{T4.3 Observations:} Improve observation error statistics modeling and develop alternative metrics based on transport theory.
+\item \textbf{T4.4 Multi-fidelity modeling:} Leverage reduced-order models and Physics-Informed Neural Networks (PINNs) from WP2.
+\item \textbf{T4.5 Multi-fidelity scheduling:} Develop optimal scheduling strategies for combining high-fidelity and reduced-order models.
+\end{itemize}
+
+\paragraph{Starting Activities (October 2025).}
+WP4 activities are officially launching in October 2025, with two PhD students beginning their research:
+\begin{itemize}
+\item \textbf{PhD 1:} TBD
+\item \textbf{PhD 2:} TBD 
+\end{itemize}
+
+The work will be conducted in close collaboration with Inria teams (lead), UNISTRA, and external partners including CEA and industrial stakeholders interested in data assimilation for climate modeling, geophysics, and energy applications.
 
 \section{Scientific Advances}
-% • Advance 1 (T4.1): …  
-% • Advance 2 (T4.2): …  
-% • Advance 3 (T4.3): …  
-% • etc.
+
+\noindent\textit{Status.} WP4 activities start in October 2025. This section outlines planned research directions and activities; no scientific advances are reported yet for this period.
+
 
 \section{Application Showcase}
-% \input{chapters/applications/specs/app-invprob-1}  
-% \input additional app specs as needed
+\label{sec:wp4:applications}
+
+WP4 addresses inverse problems and data assimilation across multiple application domains. 
+For this period, the focus is on a single application that demonstrates the methods developed in this work package:
+
+\paragraph{Ensemble Kalman Inversion (app-eki).}
+The ensemble Kalman inversion application (detailed in Section~\ref{sec:app:specs:app-eki}) demonstrates \emph{stochastic inverse problems} and \emph{stochastic data assimilation} using an ensemble approach in a geophysics context. It directly relates to Tasks 4.2 (stochastic methods) and 4.3 (observation strategies).
+
+\begin{itemize}
+	\item \textbf{Type}: mini-app; \textbf{Objective}: demonstrate feasibility of ensemble Kalman filter based inversion of a simplified wave equation
+	\item \textbf{Numerics}: spectral element; dG/hdG
+	\item \textbf{Domain}: Geophysics
+	\item \textbf{Parallel}: MPI (ensemble mode)
+	\item \textbf{Frameworks}: PETSc, GeoS
+	\item \textbf{Benchmarks/KPIs}: manufactured-solution; weak-scalability
+	\item \textbf{Status}: spec-only (proposed)
+	\item \textbf{Timeline}: 2026-10-01 \textrightarrow{} 2027-01-15
+	\item \textbf{Teams}: Inria BXSO, Université Grenoble Alpes; PC1—ExaMA; PI: M. Asch
+\end{itemize}
+
+For detailed application specifications, see Chapter~\ref{chap:applications}.
+
+\paragraph{Applications mapping.}
+\begin{itemize}
+	\item Ensemble Kalman Inversion (proposed): Section~\ref{sec:app:specs:app-eki}.
+\end{itemize}
 
 \section{Software Framework Contributions}
-% • Variational assimilation modules: …  
-% • Stochastic inversion tools: …  
-% • Multi-fidelity scheduling library: …  
-% • Observation error metrics: …
+\label{sec:wp4:software}
+WP4 contributes to and leverages several software frameworks within Exa-MA:
+
+\paragraph{Frameworks mapping.}
+\begin{itemize}
+	\item PETSc (ensemble management, solvers, TAO)
+	\item GeoS (geophysical modeling stack)
+\end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
-% • Inversion scaling placeholder  
-% • Multi-fidelity speedups placeholder  
-% • Regression test pass-rate placeholder
+\label{sec:wp4:benchmarks}
 
 \section{Roadmap \& Next Steps}
-% • Deliverables D4.x to complete by Mxx  
-% • New inverse problem apps to integrate into WP7 CI/CD  
-% • Dependencies on WP7 infrastructure (containers, ReFrame)  
+\label{sec:wp4:roadmap}
+
+WP4 activities officially start in October 2025. The immediate next steps include:
+\begin{itemize}
+	\item Kick-off PhD positions (Oct 2025): finalize topics and 12-18 month milestones.
+	\item app-eki specification: write the application spec (numerics, data model, KPIs, containers), define manufactured-solution test and weak-scaling plan; align with Section~\ref{sec:app:specs:app-eki}.
+	\item Implementation (prototype → full): implement a prototype (forward solver + EKI loop) with PETSc/GeoS and MPI-ensemble; containerize and add CI smoke tests; iterate toward the planned app timeline (2026-10 to 2027-01).
+\end{itemize}
