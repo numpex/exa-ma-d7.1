@@ -1,0 +1,92 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Demonstrator: Parallel Anisotropic Mesh Adaptation with ParMmg}
+\label{sec:app:specs:app-freefem-parmmg}
+
+This demonstrator tests the performance of ParMmg for distributed anisotropic mesh adaptation within the FreeFEM++ framework. The benchmark uses the classic Fichera corner problem to evaluate adaptive mesh refinement strategies.
+
+\Cref{tab:app-freefem-parmmg} describes the specifications of the application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-freefem-parmmg} \\
+        name & Fichera corner with ParMmg \\
+        Partners & Sorbonne U, Inria PARIS \\
+        PC & PC1 - ExaMA \\
+        Responsible (Permanent) & P. Jolivet; P.-H. Tournier \\
+        WP7 Engineer & \\
+        work\_package & WP1, WP3 \\
+        application\_type & extended-mini-app \\
+        purpose & Test ParMmg performance for distributed anisotropic mesh adaptation \\
+        Method-Algorithm WP1 & mesh adaptation, unstructured mesh, finite element \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & preconditioning \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        outputs & in-house, YAML config, VTK, PETSc binary, XML reports \\
+        metrics & \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling} \\
+        status & benchmark-ready \\
+        Benchmark scope & multi-node, method-verification, workflow-component \\
+        Framework & Freefem++, MMG/ParMMG, PETSc \\
+        parallel\_framework & MPI \\
+        spec\_due & 6/15/2025 \\
+        proto\_due & \\
+        repo\_url & \\
+    \end{tblr}
+    \caption{Description of the demonstrator \texttt{app-freefem-parmmg}.}
+    \label{tab:app-freefem-parmmg}
+\end{table}
+
+\subsection{Description of the benchmark}
+
+The Fichera corner is a classical benchmark for adaptive mesh refinement featuring a re-entrant corner singularity. The domain is a cube with one corner removed, and the problem consists of solving Laplace's equation with appropriate boundary conditions.
+
+Key features tested:
+\begin{itemize}
+\item \textbf{Anisotropic adaptation:} ParMmg adapts the mesh based on solution gradients and Hessian information
+\item \textbf{Load balancing:} Dynamic redistribution as mesh evolves during adaptation cycles
+\item \textbf{Quality preservation:} Maintaining element quality during parallel remeshing
+\item \textbf{Workflow integration:} Coupling solve-adapt-solve cycles with FreeFEM++
+\end{itemize}
+
+\subsection{Benchmarking methodology}
+
+Adaptive refinement cycles:
+\begin{enumerate}
+\item Solve PDE on current mesh using FreeFEM++
+\item Compute metric tensor field from solution
+\item Call ParMmg for parallel mesh adaptation
+\item Interpolate solution to new mesh
+\item Repeat until convergence or maximum refinement level
+\end{enumerate}
+
+Performance metrics focus on:
+\begin{itemize}
+\item Time per adaptation cycle
+\item Mesh quality evolution
+\item Load balancing efficiency
+\item Solver convergence on adapted meshes
+\end{itemize}
+
+\subsection{Expected results}
+
+The demonstrator validates:
+\begin{itemize}
+\item Effective anisotropic mesh adaptation near singularities
+\item Strong scaling up to 128-256 cores
+\item Weak scaling with proportional mesh growth
+\item I/O performance for mesh and solution data
+\end{itemize}
+
+\textbf{Status:} \texttt{benchmark-ready} - validated and ready for systematic HPC benchmarking.
+

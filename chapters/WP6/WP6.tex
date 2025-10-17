@@ -75,11 +75,21 @@ Some of these procedures are, however, computationally intensive as the standard
 % \input{chapters/applications/specs/app-uq-uranie-1}  
 % \input additional app specs as needed
 
+\paragraph{Applications mapping.}
+\begin{itemize}
+	\item Ensemble Kalman Inversion (proposed, with UQ): Section~\ref{sec:app:specs:app-eki}.
+\end{itemize}
+
 \section{Software Framework Contributions}
 % • Uranie enhancements: …  
 % • OpenTURNS integration: …  
 % • Kernel-based sensitivity module: …  
 % • High-dimensional integral computation library: …
+
+\paragraph{Frameworks mapping.}
+\begin{itemize}
+	\item Uranie: Section~\ref{sec:Uranie:software}\,; OpenTURNS (if applicable); Scimba for surrogate UQ: Section~\ref{sec:Scimba:software}.
+\end{itemize}
 
 During the period end of 2024 to Septembre 2025, two new updates of the URANIE platform have been developed. 
 URANIE v4.9.0 main improvements are:
@@ -140,6 +150,11 @@ on many of the test cases investigated so far. We also propose new evaluation me
 community, which provide quantitative rankings of the methods across several tasks. 
 We will soon make available a package that proposes python routines for the best methods and their best versions.
 
+\paragraph{Benchmarks mapping.}
+\begin{itemize}
+	\item Sensitivity analysis kernels (HSIC, Sobol, Cramér–von Mises) and UQ pipelines integrated in WP7 (T7.1) and connected to the corresponding application benchmarks where available.
+\end{itemize}
+
 
 
 \section{Roadmap \& Next Steps}
@@ -149,3 +164,4 @@ We will soon make available a package that proposes python routines for the best
 
 T6.2 UQ in a PDE solving framework \\ 
 After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variable. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarsed to represent wisely the uncertainty in the simulated physical fields. The work to be done is to defined a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 
+

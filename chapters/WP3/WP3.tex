@@ -249,24 +249,44 @@ Nb CPUs & Matrix size & Iterations one-level & Iterations two-level~\cite{nataf:
 \end{figure}
 Note that the method has also been successfully applied to the generation of synthetic high fidelity data for medical imaging problems, not shown here. 
 
+\paragraph{Applications mapping.}
+\begin{itemize}
+  \item HPDDM DFN demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
+  \item FreeFEM + ParMMG mesh adaptation: Section~\ref{sec:app:specs:app-freefem-parmmg}.
+  \item Feel++ discr apps using PETSc (preconditioning): Sections~\ref{sec:app:specs:app-feelpp-discr-1},\ref{sec:app:specs:app-feelpp-discr-2}.
+\end{itemize}
+
 
 \section{Software Framework Contributions}
- • HPDDM: new releases this year (from version 2.3.1 to 2.3.5), support from applying the transpose of preconditioners, preliminary support for subdomain computations on (NVIDIA) GPU, interface to MUMPS ICNTL(15), multiple fixes for non-symmetric saddle-point systems
- 
- • PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM
- 
- • Composyx: % (en attente de Luc)
- This work focuses on developing robust and high-performance solutions for large sparse linear systems on modern, increasingly heterogeneous computing platforms. It targets the optimization of domain decomposition algorithms within the Composyx framework, combining direct and iterative methods to improve scalability and accuracy. The approach integrates state-of-the-art libraries for dense and sparse linear algebra and efficient domain partitioning to ensure computational efficiency. Recent work has allowed consolidating performance portability for both MPI + threads and MPI + GPU setups. An Exa-MA engineer has been hired and started on October 1, 2025.
- 
- • %Mixed-precision module: PROMISE (Fabienne)
-The work carried out in Task 3.2.3 (precision auto-tuning tools) has enabled to extend PROMISE to arbitrary precision emulated formats. 
-From an accuracy requirement and a list of native or emulated numerical formats, PROMISE can provide a mixed precision version of C/C++ code using those formats.
+\begin{itemize}
+  \item HPDDM: new releases this year (from version 2.3.1 to 2.3.5), support for applying the transpose of preconditioners, preliminary support for subdomain computations on (NVIDIA) GPU, interface to MUMPS ICNTL(15), multiple fixes for non-symmetric saddle-point systems.
+  \item PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM.
+  \item Feel++: used in applications to generate and prepare problem data (meshes, linear systems, preconditioning contexts) consumed by PETSc; interoperates through PETSc interfaces.
+  \item Composyx: % (en attente de Luc)
+  This work focuses on developing robust and high-performance solutions for large sparse linear systems on modern, increasingly heterogeneous computing platforms. It targets the optimization of domain decomposition algorithms within the Composyx framework, combining direct and iterative methods to improve scalability and accuracy. The approach integrates state-of-the-art libraries for dense and sparse linear algebra and efficient domain partitioning to ensure computational efficiency. Recent work has allowed consolidating performance portability for both MPI + threads and MPI + GPU setups. An Exa-MA engineer has been hired and started on October 1, 2025.
+  \item Mixed-precision module: PROMISE (Fabienne). The work carried out in Task 3.2.3 (precision auto-tuning tools) has enabled extending PROMISE to arbitrary precision emulated formats. From an accuracy requirement and a list of native or emulated numerical formats, PROMISE can provide a mixed precision version of C/C++ code using those formats.
+\end{itemize}
+
+\paragraph{Frameworks Mapping.}
+\begin{itemize}
+  \item HPDDM: Section~\ref{sec:HPDDM:software}\,; 
+  \item FreeFEM++: Section~\ref{sec:Freefem++:software}\,; 
+  \item Feel++ (apps/data prep for PETSc): Section~\ref{sec:Feelpp:software}\,; 
+  \item Composyx: see WP3 text above.
+  \item PETSc.
+  \item PROMISE (precision auto-tuning): see WP3 text above.
+\end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
 We are in close connection with the activities of the work-package WP7 where benchmarks related to domain decomposition methods are shown. 
 % • Solver scaling placeholder  
 % • Mixed-precision speedups placeholder  
 % • Regression test pass-rate placeholder
+
+\paragraph{Benchmarks mapping.}
+\begin{itemize}
+  \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra} and per-application benchmark sections when available.
+\end{itemize}
 
 \section{Roadmap \& Next Steps}
 
@@ -286,6 +306,24 @@ Task~3.3.2 in \S~\ref{sec:wp3:T332} will continue the analysis of a \textit{toy}
 % • Deliverables D3.x to complete by Mxx  
 % • New solver apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
+
+\subsection{Mapping: Applications, Frameworks, Benchmarks}
+\label{sec:wp3:mapping}
+  	extbf{Applications}
+\begin{itemize}
+  \item HPDDM DFN demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
+  \item FreeFEM + ParMMG mesh adaptation: Section~\ref{sec:app:specs:app-freefem-parmmg}.
+  \item Feel++ discr apps using HPDDM (preconditioning): Sections~\ref{sec:app:specs:app-feelpp-discr-1},\ref{sec:app:specs:app-feelpp-discr-2}.
+\end{itemize}
+  	extbf{Frameworks}
+\begin{itemize}
+  \item HPDDM: Section~\ref{sec:HPDDM:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}\,; Feel++ (apps/data prep for PETSc): Section~\ref{sec:Feelpp:software}\,; Composyx: see WP3 text above; PETSc.
+  \item PROMISE (precision auto-tuning): Section~\ref{sec:Maphys++:software} or WP3 text above.
+\end{itemize}
+  	extbf{Benchmarks}
+\begin{itemize}
+  \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra}.
+\end{itemize}
 
 
 

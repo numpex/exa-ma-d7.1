@@ -1,0 +1,173 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Proposed Applications - Early Stage Specifications}
+\label{sec:app:specs:proposed}
+
+This section describes applications currently in brainstorming or early specification stages. These represent planned future work within the \exama project.
+
+\subsection{Optimization and Inverse Problems}
+
+\subsubsection{app-eki: Ensemble Kalman Inversion}
+\label{sec:app:specs:app-eki}
+
+\textbf{Status:} Proposed (spec-only) | \textbf{Partners:} Inria BXSO, U Grenoble Alpes | \textbf{Target:} 1/15/2027
+
+\textbf{Purpose:} Demonstrate feasibility of ensemble Kalman filter based inversion of a simplified wave equation for geophysics applications.
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP1: Spectral element, dG/hdG discretization
+\item WP4: Stochastic inverse problems, ensemble-based data assimilation
+\item WP6: Uncertainty propagation
+\end{itemize}
+
+\textbf{Framework:} PETSc, GeoS | \textbf{Parallel:} MPI (ensemble mode)
+
+\textbf{Metrics:} manufactured-solution validation, weak-scalability
+
+\textbf{Scientific Context:} Ensemble Kalman inversion provides a derivative-free approach to inverse problems by treating inversion as a filtering problem. The method is particularly attractive for high-dimensional parameter spaces where gradient computation is expensive or unavailable.
+
+---
+
+\subsubsection{app-zellij: Continuous Optimization Solver}
+\label{sec:app:specs:app-zellij}
+
+\textbf{Status:} Brainstorming | \textbf{Partners:} Inria Lille | \textbf{Responsible:} E-G. Talbi
+
+\textbf{Purpose:} Solver for continuous optimization problems with focus on WP5 algorithms.
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP5: Iterative optimization methods, metaheuristics
+\end{itemize}
+
+\textbf{Framework:} Zellij | \textbf{Status:} Early brainstorming phase
+
+\textbf{Note:} This application is in early conceptual development. Further specification required before implementation can begin.
+
+---
+
+\subsubsection{app-ffpp-shape-opt-fem: Shape Optimization with FEM}
+\label{sec:app:specs:app-ffpp-shape-opt-fem}
+
+\textbf{Status:} Brainstorming | \textbf{Partners:} Unistra | \textbf{Responsible:} Victor Dansac
+
+\textbf{Purpose:} Demonstrate new shape optimization algorithm with volume preservation using finite element formulation.
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP5: Iterative methods, shape optimization, volume preservation
+\end{itemize}
+
+\textbf{Framework:} FreeFEM++ | \textbf{Parallel:} Sequential (initial version)
+
+\textbf{Scientific Context:} Volume-preserving shape optimization is important for applications where total volume must remain constant (e.g., aircraft design, biological shape evolution). The FEM formulation provides flexibility in handling complex geometries.
+
+---
+
+\subsubsection{app-scimba-shape-opt-nn: Shape Optimization with Neural Networks}
+\label{sec:app:specs:app-scimba-shape-opt-nn}
+
+\textbf{Status:} Brainstorming | \textbf{Partners:} Unistra | \textbf{Responsible:} Victor Dansac
+
+\textbf{Purpose:} Demonstrate new shape optimization algorithm with volume preservation using neural network formulation.
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP5: Shape optimization, iterative methods, neural network surrogates
+\end{itemize}
+
+\textbf{Framework:} Scimba | \textbf{Parallel:} GPU
+
+\textbf{Scientific Context:} Neural network-based shape representation offers potential advantages over traditional mesh-based approaches: smooth parameterization, automatic differentiability, and natural regularization through network architecture.
+
+---
+
+\subsection{Machine Learning for Scientific Computing}
+
+\subsubsection{app-scimba-plasma: Plasma Simulation with Neural Networks}
+\label{sec:app:specs:app-scimba-plasma}
+
+\textbf{Status:} Proposed | \textbf{Partners:} Unistra | \textbf{Responsible:} Emmanuel Franck
+
+\textbf{Purpose:} Demonstrate neural network algorithms for 3D tokamak plasma simulation (mini-app).
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP2: Neural network-based PDE solvers, physics-informed neural networks
+\end{itemize}
+
+\textbf{Framework:} Scimba | \textbf{Application Domain:} Plasma physics, fusion energy
+
+\textbf{Scientific Context:} Plasma simulation in tokamaks requires solving high-dimensional kinetic equations. Neural networks offer potential for learning reduced models that capture essential physics while being computationally tractable.
+
+---
+
+\subsubsection{app-scimba-hybrid: Hybrid Numerical Methods}
+\label{sec:app:specs:app-scimba-hybrid}
+
+\textbf{Status:} Proposed | \textbf{Partners:} Unistra | \textbf{Responsible:} Emmanuel Franck
+
+\textbf{Purpose:} Test numerical hybrid methods on high-dimensional physical and parametric PDE problems (demonstrator).
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP2: Hybrid numerical-ML methods, high-dimensional PDEs
+\end{itemize}
+
+\textbf{Framework:} Scimba
+
+\textbf{Scientific Context:} Hybrid approaches combine traditional numerical methods (FEM, FV, spectral) with machine learning components. This can provide the best of both worlds: guaranteed conservation properties and numerical stability from classical methods, with efficiency and adaptivity from ML.
+
+---
+
+\subsection{Feel++ Toolboxes at Scale}
+
+\subsubsection{app-feelpp-toolbox: Multi-Physics Toolbox Benchmark}
+\label{sec:app:specs:app-feelpp-toolbox}
+
+\textbf{Status:} Proposed | \textbf{Partners:} Unistra | \textbf{Responsible:} V. Chabannes; C. Prud'homme
+
+\textbf{Purpose:} Test \Feelpp toolboxes at scale across multiple physics domains (demonstrator).
+
+\textbf{Test Cases:}
+\begin{itemize}
+\item \textbf{Heat:} Eye2brain and thermal bridges applications
+\item \textbf{Solid mechanics:} NAFEMS LE-10 benchmark
+\item \textbf{Thermoelectric:} HiFiMagnet application
+\item \textbf{Fluid:} FDA benchmark
+\end{itemize}
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP1: Multi-physics coupling, finite elements
+\item WP3: Domain decomposition, iterative solvers
+\end{itemize}
+
+\textbf{Framework:} Feel++, PETSc | \textbf{Target date:} 6/15/2025
+
+\textbf{Note:} This demonstrator consolidates multiple physics applications to provide a comprehensive evaluation of the \Feelpp toolbox ecosystem at HPC scale.
+
+---
+
+\subsection{Development Timeline}
+
+The proposed applications follow a staged development approach:
+
+\begin{enumerate}
+\item \textbf{Q2 2025:} Complete specifications for spec-only applications (EKI, NLCRB, toolboxes)
+\item \textbf{Q3 2025:} Initial prototypes for brainstorming applications (Zellij, shape optimization)
+\item \textbf{Q4 2025 - Q1 2026:} Full implementation of spec-only applications
+\item \textbf{Q2 2026:} Integration and benchmarking of Scimba applications
+\item \textbf{Q3 2026:} Validation and documentation for all new demonstrators
+\end{enumerate}
+
+\subsection{Notes on Status Definitions}
+
+\begin{itemize}
+\item \textbf{brainstorming:} Initial concept phase, requirements not yet finalized
+\item \textbf{spec-only:} Specification complete, implementation not yet started
+\item \textbf{in-development:} Active implementation ongoing
+\item \textbf{benchmark-ready:} Validated and ready for systematic HPC benchmarking
+\end{itemize}
+

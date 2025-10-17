@@ -4,9 +4,10 @@
 \section{Application Frameworks \& Best Practices}
 \label{sec:apps-framework}
 
-High-performance Exa-MA applications—mini-apps through demonstrators—must follow a unified framework to ensure reproducibility, portability, and maintainability.
+High‑performance Exa‑MA applications—mini‑apps through demonstrators—follow a unified framework to ensure reproducibility, portability, and maintainability, with minimal templates and CI hooks to apply the same conventions everywhere.
 
 \subsection{Repository Layout}
+A common structure makes code, tests, and artifacts predictable across projects and easy to navigate.
 All repositories conform to:
 \begin{verbatim}
 src/                 % core code
@@ -18,6 +19,7 @@ containers/          % Docker/Apptainer recipes
 \end{verbatim}
 
 \subsection{Environment Management}
+Pinned environments ensure that development and benchmarking run with identical dependencies and settings.
 \begin{itemize}
   \item Use \textbf{Spack} to pin exact dependency versions; commit \texttt{spack.lock}.
   \item Provide separate envs under \texttt{.spack/dev/} and \texttt{.spack/benchmark/}.
@@ -25,6 +27,7 @@ containers/          % Docker/Apptainer recipes
 \end{itemize}
 
 \subsection{CI/CD Pipelines}
+Automated workflows standardize building, testing, and benchmarking, and leverage shared actions across repositories.
 \begin{itemize}
   \item Define workflows for \texttt{build}, \texttt{test}, \texttt{benchmark}, \texttt{lint}.
   \item Reuse WP7 shared actions via \texttt{uses: numpex/wp7-actions/...}.
@@ -32,6 +35,7 @@ containers/          % Docker/Apptainer recipes
 \end{itemize}
 
 \subsection{Containerization \& Packaging}
+Container images and versioning conventions provide reproducible execution on laptops and supercomputers alike.
 \begin{itemize}
   \item Multi-stage Dockerfiles / Apptainer recipes in \texttt{containers/}.
   \item Base images tagged \texttt{<proj>-v<semver>-<date>}.
@@ -39,6 +43,7 @@ containers/          % Docker/Apptainer recipes
 \end{itemize}
 
 \subsection{Framework Examples}
+Templates accelerate setup while preserving profiling and testing conventions.
 \begin{description}
   \item[FEEL++] Clone from \texttt{feelpp-project} template: preconfigured \texttt{src/}, \texttt{.spack/}, CI, containers.
   \item[MFEM/FreeFEM++] Apply the same layout and CI conventions.
@@ -46,6 +51,7 @@ containers/          % Docker/Apptainer recipes
 \end{description}
 
 \subsection{Best Practices}
+These practices avoid configuration drift and enable unattended benchmarking.
 \begin{itemize}
   \item Pin all versions; avoid hard-coded paths.
   \item Automate benchmarks on PRs (smoke) and nightly (full).

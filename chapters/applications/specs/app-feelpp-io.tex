@@ -1,9 +1,11 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
 \section{Mini App: Test I/O at large scale}
+\label{sec:app:specs:app-feelpp-io}
 
+This mini application tests the input and output of data for \Feelpp at large scale.
+The I/O operations measured here are representative of those performed in the demonstrators described in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, where mesh loading and field export can become performance bottlenecks for large-scale simulations.
 
-This mini application tests the input and output of data for \Feelpp.
 \Cref{tab:app-feelpp-io} describes the specifications of the application.
 
 \begin{table}[ht]
@@ -19,27 +21,27 @@ This mini application tests the input and output of data for \Feelpp.
         id & \texttt{app-feelpp-io} \\
         name & Test I/O at large scale \\
         Partners &  Unistra \\
-        PC & PC1 - ExaMA, PC2 - WP2 \\
+        PC & PC1 - ExaMA, PC2 - ExaSoft \\
         Responsible (Permanent) &  V. Chabannes, C. Prud'homme \\
         WP7 Engineer & Thomas Saigre (UNISTRA) \\
-        work\_package & WP1 \\
+        work\_package & WP1, WP6 \\
         application\_type & mini-app \\
-        % purpose & \\
-        % Method-Algorithm WP1 & \\
-        % Method-Algorithm WP2 & \\
-        % Method-Algorithm WP3 & \\
-        % Method-Algorithm WP4 & \\
-        % Method-Algorithm WP5 & \\
-        % Method-Algorithm WP6 & \\
-        % WP7 & \\
-        % outputs & \\
-        % metrics & \\
-        % status & \\
-        % Benchmark scope & \\
+        purpose & Benchmark parallel I/O performance for mesh loading and field export operations \\
+        Method-Algorithm WP1 & finite element spaces, mesh partitioning \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & parallel I/O, HDF5, file system performance \\
+        WP7 & \\
+        outputs & HDF5 data files, VTK/EnSight exports, JSON performance metrics \\
+        metrics & \texttt{io-scaling}, \texttt{strong-scalability} \\
+        status & benchmark-ready \\
+        Benchmark scope & io-performance, scaling-analysis \\
         Framework & Feel++, PETSc \\
         parallel\_framework & MPI \\
-        % spec\_due & \\
-        % proto\_due & \\
+        spec\_due & 6/15/2025 \\
+        proto\_due & 7/1/2025 \\
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
     \end{tblr}
     \caption{Description of the demonstrator \texttt{app-feelpp-io}.}
