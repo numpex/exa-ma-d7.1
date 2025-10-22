@@ -19,8 +19,7 @@ designed to avoid/reduce/minimize communications.\\
 This point is related to the bottlenecks [B7, B10].
 \end{itemize}
 
-This work package is ambitious and hence includes many tasks and subtasks. \textcolor{red}{from IR : on peut citer le document scientifique ici??} The thematic of the main tasks are recalled hereafter.
-\textcolr{blue}{fromLN: je suggère plutôt: This work package proposes an extensive list of tasks that are relevant when dealing with the two above topics. Here is a list followed by a description when it is actually addressed with financial support of Exa-MA.}
+This work package is ambitious and hence includes many tasks and subtasks. The thematic of the main tasks are recalled hereafter, with a focus on those that received targeted Exa-MA support.
 \begin{itemize}
     \item {\bf T1.1: Mesh generation}\\
     %This task embeds valid large-scale generation, mesh generation for non-conforming methods and all-hexahedral block grids.
@@ -65,7 +64,8 @@ The Alpha Wrapping algorithm implemented in the CGAL library provides a robust m
 
 The resulting mesh is guaranteed to be watertight, adjustable, and 2-manifold, even in the presence of severe input corruption.
 
-Strengths
+\paragraph{Strengths.}
+Key benefits observed during the 2024-2025 validation campaigns include:
 \begin{itemize}
 \item Robustness: Handles raw, noisy, and non-manifold input gracefully.
 \item Conservative enclosure: Guarantees that the output mesh strictly contains the input geometry.
@@ -74,10 +74,11 @@ Strengths
 \item Guaranteed termination: Always produces a valid output mesh.
 \end{itemize}
 
-Limitations
+\paragraph{Limitations.}
+The current implementation still exhibits the following constraints that guide the roadmap:
 \begin{itemize}
 \item Loss of geometric detail: Fine-scale features, cavities, and internal structures are typically smoothed out.
-\item No Sharp Feature Preservation: The method does not retain sharp edges or creases. Its reliance on Delaunay triangulation and circumradius-based traversal inherently favors smooth, rounded surfaces. Without explicit feature detection or edge-aware refinement, sharp creases are interpreted as noise and are systematically smoothed during wrapping.
+\item No sharp feature preservation: The method does not retain sharp edges or creases. Its reliance on Delaunay triangulation and circumradius-based traversal inherently favors smooth, rounded surfaces. Without explicit feature detection or edge-aware refinement, sharp creases are interpreted as noise and are systematically smoothed during wrapping.
 \item Mesh complexity trade-off: Achieving tighter wraps may require additional Steiner points, increasing computational cost and mesh density.
 \end{itemize}
 

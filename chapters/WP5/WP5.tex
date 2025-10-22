@@ -43,7 +43,7 @@ For continuous optimization, we have developed a generic, scalable, and flexible
 
 {\bf Advances T5.2:} 
 
-A scalable parallel Bayesian optimization approach for high-dimensional expensive black-box optimization problems has been developed. The approach was implemented using the the MPI+Kokkos programming model. Preliminary results show that the algorithm is scalable, fast and  accurate. Experimental computational studies conducted on the pre-exascale machine LUMI  confirm the scalability of the designed algorithm showcasing super linear and near linear speed ups at 8000 GPUs while targeting search spaces of dimension $10^5$ and beyond.
+A scalable parallel Bayesian optimization approach for high-dimensional expensive black-box optimization problems has been developed. The approach was implemented using the MPI+Kokkos programming model. Preliminary results show that the algorithm is scalable, fast and  accurate. Experimental computational studies conducted on the pre-exascale machine LUMI  confirm the scalability of the designed algorithm showcasing super linear and near linear speed ups at 8000 GPUs while targeting search spaces of dimension $10^5$ and beyond.
 
 \medskip
 
@@ -61,7 +61,7 @@ LLMs have revolutionized natural language processing (NLP) by achieving state-of
 
 {\bf Continuous optimization:} The scalability of Fractal optimization has been tested on large scale optimization problems involving thousands of decision variables. These problems are particularly challenging due to the curse of dimensionality, high computational cost, and nonlinear interactions among variables, which render traditional optimization techniques inefficient or infeasible.
 
-For continuous optimisation, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
+For continuous optimization, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
 
 \paragraph{Applications mapping.}
 \begin{itemize}
@@ -72,7 +72,7 @@ For continuous optimisation, widely used scalable benchmark suites include the C
 
 \medskip
 
-{\bf AutoMl and Bayesian optimization:} The experiments on fine tuning LLMs have been carried out on LlaMa 3.2-1B, a model of the Llama 3 family of model. Llama 3 models were released by Meta AI in the second part of 2024 (from July to December), as open-source (topology and weights) decoder-only models achieving state-of-the-art performance. Among Llama 3 models, Llama 3.2 release propose lightweight models (from 1B to 3B weights, excluding vision models), enabling reproduction of the experiments. For evaluation, Hellaswag dataset was used, with accuracy as the metrics to optimize with HPO. It's a 40k lines datasets released in 2019 as a challenge datasets, with a random performance of 25 \% . All models are also evaluated on MMLU as a testing dataset, to observe HPO over-fitting. 
+{\bf AutoML and Bayesian optimization:} The experiments on fine-tuning LLMs have been carried out on LLaMA 3.2-1B, a compact member of the LLaMA 3 family released by Meta AI in late 2024 as an open-source decoder-only model. For evaluation, the HellaSwag dataset was used with accuracy as the optimization metric for HPO; this 40k-line benchmark, introduced in 2019, has a random-guess baseline of 25\%. All models are also evaluated on MMLU as a hold-out test set to monitor potential HPO over-fitting. 
 
 % \input{chapters/applications/specs/app-opt-combin-1}  
 % \input additional app specs as needed

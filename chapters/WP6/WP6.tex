@@ -46,11 +46,11 @@ computational properties. Benchmarking on exascale applications will be conducte
 % • Advance 3 (T6.3): …  
 % • etc.
 
-T6.2 UQ in a PDE solving framework \\ 
-The development of high-fidelity numerical simulations of physical phenomena increases the dimensionality of both inputs and outputs. While traditional surrogate modeling methods study numerical simulators with one-dimensional output, exascale applications will provides output of very high-dimension such as physical spatial fields. Moreover, such simulators often guarantees the respect of some physical constraints, such that incompressibility for fluid dynamics. Our achievement this year is to propose a multi-output Gaussian process surrogate modeling technique that respect linear physical constraints and scales well with output dimension. A first presentation of the results has been done at \textit{Journées de statistique} 2025. 
+\paragraph{T6.2 UQ in a PDE solving framework.}
+The development of high-fidelity numerical simulations of physical phenomena increases the dimensionality of both inputs and outputs. While traditional surrogate modeling methods study numerical simulators with one-dimensional output, exascale applications provide outputs of very high dimension such as physical spatial fields. Moreover, such simulators often guarantee compliance with physical constraints, such as incompressibility for fluid dynamics. Our achievement this year is a multi-output Gaussian-process surrogate modeling technique that respects linear physical constraints and scales well with output dimension. A first presentation of the results was given at \textit{Journées de statistique} 2025.
 
 
-T6.3 Surrogate modeling for UQ\\
+\paragraph{T6.3 Surrogate modeling for UQ.}
 Neural networks are widely used for their strong representational capacity but face key limitations: the need for a large number of training points (which is often limited in the context of numerical simulation), a lack of explanability and confidence assessment.
 Gaussian processes (GPs) are widely used as a metamodel for emulating time-consuming computer codes because of  their properties, which are particularly interesting when the data are derived from costly simulations:\\
 - they can be interpolating,\\
@@ -75,7 +75,7 @@ Some of these procedures are, however, computationally intensive as the standard
 % \input{chapters/applications/specs/app-uq-uranie-1}  
 % \input additional app specs as needed
 
-\paragraph{Applications mapping.}
+\paragraph{Applications mapping.} Current application links to WP7 include:
 \begin{itemize}
 	\item Ensemble Kalman Inversion (proposed, with UQ): Section~\ref{sec:app:specs:app-eki}.
 \end{itemize}
@@ -86,12 +86,12 @@ Some of these procedures are, however, computationally intensive as the standard
 % • Kernel-based sensitivity module: …  
 % • High-dimensional integral computation library: …
 
-\paragraph{Frameworks mapping.}
+\paragraph{Frameworks mapping.} The following software ecosystems are directly impacted:
 \begin{itemize}
 	\item Uranie: Section~\ref{sec:Uranie:software}\,; OpenTURNS (if applicable); Scimba for surrogate UQ: Section~\ref{sec:Scimba:software}.
 \end{itemize}
 
-During the period end of 2024 to Septembre 2025, two new updates of the URANIE platform have been developed. 
+During the period from late 2024 to September 2025, two new updates of the URANIE platform have been developed.
 URANIE v4.9.0 main improvements are:
 \begin{itemize}
 	\item \textbf{Methods developments:}

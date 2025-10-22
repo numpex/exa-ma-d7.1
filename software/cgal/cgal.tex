@@ -79,18 +79,19 @@ The following table summarizes these aspects for CGAL, providing a  view of its 
     \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white} Languages  & \begin{tabular}{l}
-C++, header-only be default\\
+C++, header-only by default\\
 \end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray} Parallelism  & Multithread
+        \rowcolor{numpexlightergray} Parallelism  & Multithreaded kernels via Intel oneTBB; experimental task-based GPU bridges
  & Parallel computing methods and frameworks utilized by the software. CGAL requires a compiler supporting C++17 or later, and the Intel TBB library for multithreading.\\
-        \rowcolor{white}Data Formats  &
- & Data formats that the software can handle or produce. For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
- \\
+        \rowcolor{white}Data Formats  & OFF, OBJ, STL, PLY, Medit (.mesh), VTK, Avizo, TetGen & Data formats that the software can handle or produce. For 3D meshes, CGAL can output Medit, VTK, Avizo and Tetgen. The input can be provided in different forms: implicit or explicit. It can read surface meshes in OBJ or OFF formats.\\
+\\
 \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
 None at the moment\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Integration\\
+Nightly cross-platform dashboards\\
+Release automation via GitHub Actions\\
 \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
 Debian\\
@@ -98,10 +99,17 @@ Fedora\\
 Spack\\
 Ubuntu\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  &
-
+        \rowcolor{white}Testing  & \begin{tabular}{l}
+CTest-driven regression suites\\
+22-platform pre-release farm\\
+Static analysis (clang-tidy, cppcheck)\\
+\end{tabular}
  & On most operating systems, package managers offer CGAL and its essential third party dependencies. Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  &
+        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+Docker images on GitHub Packages\\
+Apptainer recipes via Spack CI\\
+Reproducible developer environments (Dev Containers)\\
+\end{tabular}
  & Container technologies used to package and deploy the software. CGAL uses a custom-tailored test suite running on 22 platforms combining Windows, Linux (Debian, Fedora, Ubuntu), macOS and different compilers (MSVC, Darwin, clang, gcc)\\
         \rowcolor{white} Interfaces  & \begin{tabular}{l}
 Apt-get  on Linux, \\

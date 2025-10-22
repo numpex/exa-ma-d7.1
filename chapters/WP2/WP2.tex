@@ -4,14 +4,14 @@
 % • Relation to overall strategy (surrogate modeling, physics-informed ML)  
 % • List of key tasks T2.1–T2.6
 
-WP2 is concerned  with the development of model  order reduction (MOR)
-methods,  fast  surrogate  solvers, and  Scientific  Machine  Learning
-(SciML) methods.  In particular, we study non-intrusive approaches for
-designing ultra-fast  surrogate models  of complex  physical problems,
-and  strategies for  leveraging  these surrogates.   We consider  {\bf
-  data-driven} techniques including  comparisons between reduced basis
-methods and  methods based on  neural networks  (NN), as well  as {\bf
-  model-driven} techniques  with a  focus on physics-based  NN models.
+WP2 is concerned with the development of model order reduction (MOR)
+methods, fast surrogate solvers, and Scientific Machine Learning
+(SciML) methods. In particular, we study non-intrusive approaches for
+designing ultra-fast surrogate models of complex physical problems,
+and strategies for leveraging these surrogates. We consider {\bf
+  data-driven} techniques including comparisons between reduced basis
+methods and methods based on neural networks (NN), as well as {\bf
+  model-driven} techniques with a focus on physics-based NN models.
 In practice, WP2 comprises the following tasks:
 \begin{itemize}
 \item[T2.1]  Surrogate models  based on  physics-driven Deep  Learning
@@ -25,8 +25,8 @@ In practice, WP2 comprises the following tasks:
   even  to inverse  problems.   However, PINNs  struggle  to scale  to
   problems  with   larger  domains   and  more   complex,  multi-scale
   solutions, partly due to the spectral bias of NNs and the increasing
-  size of the underlying PINN  optimization function. To overcome such
-  isses, we propose to combine PINNs with domain decomposition methods
+  size of the underlying PINN optimization function. To overcome such
+  issues, we propose to combine PINNs with domain decomposition methods
   (DDM).   Specific  topics  that  are addressed  in  this  task  are:
   reduction  of  training  cost, influence  of  network  architecture,
   influence of loss definition and optimization strategy; 
@@ -93,42 +93,20 @@ During the reporting period, we have progressed on the following tasks:
   are building upon the MLFBPINN (Multi-Level Finite Basis PINN) model
   recently introduced by  Victorita Dolean {\em et al.},  We propose a
   novel variant  of MLFBPINN where a  local PINN in each  subdomain is
-  trained with a PML (Prefectly-Matched  Layer) on the whole subdomain
-  boundary.  This  is an ongoing  work. In the Macaron  team,  two  other
-  NN-based methods  have been  developed. Firstly, a semi-Lagrangian
-  sequential  in time  method coupled  with a  preconditioned gradient
-  method,  which  allows  to   compute  efficiently  high  dimensional
-  (physical  or parametric)  advection-diffusion problems  and kinetic
-  problems such as those modeled with a Vlasov type equation. In this
-  method   the   collocation   points   are   transported   with   the
-  characteristics and then projected at each time on a NN space.  This
-  method beats the classical approaches fro this type of problems when
-  the dimension is 5 or above.  Secondly, in collaboration with the WP4,  the Macaron  team has  proposed a  new shape  optimization
-  method  for  parametric problems  where  the  PDE solution  and  the
-  mapping between a reference geometry and a new one are computed by a
-  NN.  Additionally using the like between  NNs and ODEs we impose the
-  volume conservation  using a symplectic NN.  This method  is faster
-  and gives more accurate results than those provided by classical FEM
-  method.
+  trained with a PML (Perfectly-Matched Layer) on the whole subdomain
+  boundary. This ongoing work sits alongside two other NN-based methods developed within the Macaron team. Firstly, a semi-Lagrangian sequential-in-time method coupled with a preconditioned gradient method computes high-dimensional (physical or parametric) advection-diffusion problems and kinetic models such as those governed by Vlasov-type equations. In this method the collocation points are transported along the characteristics and then projected at each time on an NN space. This method beats classical approaches for these problems when the dimension is five or above. Secondly, in collaboration with WP4, the Macaron team has proposed a new shape optimization method for parametric problems where both the PDE solution and the mapping between a reference geometry and a new one are computed by an NN. Additionally, using the link between NNs and ODEs we impose volume conservation with a symplectic NN. This method is faster and gives more accurate results than classical FEM approaches.
 \item[T2.2]  The Macaron  team has proposed  a simple method  to accelerate
   the convergence of nonlinear solvers for PDEs like the Newton method
   using a Fourier  Neural Operator (FNO).  For that, a  FNO is trained
   using data and discrete residual  loss to predict the solution using
   the  source and  the spatial  coefficient for  a nonlinear  elliptic
-  equation.  This  FNO produces  an initial  condition for  the Newton
-  method,  which allows  to capture  very quickly  the coarse  scales.
-  This approach allows to avoid the non-convergence situations that in
-  can face when using the Newton  method, and allows to win between 80
-  and 200\% of CPU time.
+  equation. This FNO produces an initial condition for the Newton method, which allows us to capture the coarse scales very quickly. This approach avoids the non-convergence situations that one can face when using the Newton method and delivers between 80 and 200\% of CPU time savings.
 \item[T2.3] In  the framework of  a collaboration between  the Macaron
   team, the Atlantis and  the Makutu team and  in the context of a  postdoctoral project, a  nonlinear reduced-order  modeling method has  been proposed
   for dealing with elliptic PDEs, which  is based on a neural implicit
   representation  that  allows  to   evaluate  the  solution  and  the
   derivatives  at each  point without  any interpolation  process.  To
-  increase the accuracy a two-step  method is introduced where one fit
-  the  encoder and  decoder firstly  with  data, and  then refine  the
-  decoding  process  with  a  physical  loss  and  a  Greedy  training
-  algorithm. The final validation of the method is in ongoing.
+  increase the accuracy a two-step method is introduced where we first fit the encoder and decoder with data, and then refine the decoding process with a physical loss and a greedy training algorithm. The final validation of the method is ongoing.
 \item[T2.4] In the framework of a collaboration between the University
   of  Strasbourg  and
   Sorbonne University, a Ph.D. thesis aims  at  overcoming  the  limitations  of  linear  order  reduction
@@ -142,8 +120,7 @@ During the reporting period, we have progressed on the following tasks:
   theoretically and practically. The  whole process will be integrated
   and  validated  on  benchmarks  in   CFD  and  heat  transfer,  with
   optimization for exascale computing.
-\item[T2.5] First, we  note that T2.5 did not get  funding from NumPEx
-  so far. However,  we have proposed new approaches  based on coupling
+\item[T2.5] First, we note that T2.5 has not yet received NumPEx funding. However,  we have proposed new approaches  based on coupling
   with NNs.  In  the framework of a collaboration  between the Macaron
   team and the Makutu  team,  an original multifidelity  modeling approach  for parametric  problems has  been
   devised.  The  idea is to  capture coarse scales  with a PINN  for a
@@ -156,7 +133,7 @@ During the reporting period, we have progressed on the following tasks:
   physical contexts.
 \end{itemize}
 
-We also note that T2.6  did not get funding from NumPEx so far.
+We also note that T2.6 did not receive NumPEx funding during this reporting period.
 
 \section{Application Showcase}
 % 
