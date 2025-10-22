@@ -2,6 +2,86 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Executive Summary
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section*{Executive Summary}
+\addcontentsline{toc}{section}{Executive Summary}
+\label{sec:summary}
+
+\noindent
+\textbf{Scope.} This edition (v2025) of Deliverable D7.1 consolidates, in a single annual
+\emph{mega-deliverable}, the scientific advances of WP1--WP6 and their software production,
+benchmarking and methodology (WP7). It provides a 360° view: methods \textrightarrow\ software
+\textrightarrow\ mini-apps/demonstrators \textrightarrow\ metrics, with traceable artefacts (code, containers,
+datasets, scripts, logs). % see Exec. Summary and ToC for structure
+% (source: D7.1 structure and methodology)
+% (PDF executive summary and Chapter 8)
+% 
+
+\medskip
+\noindent
+\textbf{Highlights (2024--2025).}
+\begin{itemize}
+  \item \emph{WP1 Discretization.} Robust meshing and adaptation at scale, including
+        feature-aware workflows and fully parallel anisotropic adaptation with ParMmg (Fichera),
+        plus a high-order wave proxy-app (CPU/GPU). % WP1§2.1--2.3
+  \item \emph{WP2 MOR/Surrogates/SciML.} PINNs with domain decomposition, FNO-based
+        warm-starts for nonlinear solves, nonlinear ROM with neural implicit representations. % WP2§3.2
+  \item \emph{WP3 Solvers.} GenEO extensions to non-SPD systems; mixed-precision and
+        variable-accuracy Krylov (PROMISE); fault-tolerant PCG patterns; partitioned coupling
+        building blocks. % WP3§4.2
+  \item \emph{WP4 Data Assimilation.} Launch of stochastic inversion (EKI mini-app spec) with
+        manufactured tests and ensemble-MPI design. % WP4§5.3
+  \item \emph{WP5 Optimization.} Fractal continuous optimization at scale; parallel Bayesian
+        optimization for expensive objectives; neural level-set shape optimization. % WP5§6.2
+  \item \emph{WP6 UQ.} Multi-output GP surrogates with physical constraints; graph-indexed
+        kernels (SWWL) for mesh/graph outputs; categorical-kernel benchmarks. % WP6§7.2--7.5
+\end{itemize}
+
+\medskip
+\noindent
+\textbf{Applications and demonstrators (selection).}
+Thermal bridges validation (Feel++), FDA nozzle (Navier–Stokes), geometry distance/BVH vs FMM,
+parallel anisotropic mesh adaptation (ParMmg), reduced-basis thermal fin, and HPDDM–DFN. % Ch.10
+
+\medskip
+\noindent
+\textbf{Software production and benchmarking.}
+We apply a unified methodology (Chap.~8): CI/CD with nightly/non-regression and ReFrame,
+containerized runs (Docker/Apptainer), FAIR data/DOIs (Zenodo), energy/perf/scaling metrics,
+and acceptance criteria per application tier (mini-app, extended mini-app, demonstrator). % Ch.8
+
+\medskip
+\noindent
+\textbf{KPI snapshot (targets and current status).}
+\begin{center}
+\begin{tabular}{l p{6cm} p{4cm}}
+\toprule
+\textbf{KPI} & \textbf{Target} & \textbf{Current Status (2025)} \\
+\midrule
+Level 1 demonstrators at scale & At least 3 per WP (except WP7) & \texttt{\{kpi-l1-demos\}} \\
+Level 2 demonstrators at scale & At least 5 total & \texttt{\{kpi-l2-demos\}} \\
+Production applications with Exa-MA tools & 5 mini-apps, 4 proxy apps; ~20 libraries impacted & \texttt{\{kpi-mini\}} / \texttt{\{kpi-proxy\}} \\
+Software stack validation scale & Full Exascale level & \texttt{\{kpi-scale\}} \\
+Training participants & More than 100 trainees (PC0 KPI-5) & \texttt{\{kpi-train\}} \\
+Scientific publications & More than 50 papers & \texttt{\{kpi-pubs\}} \\
+NumPEx ecosystem contribution & Conformity with PC0 KPI-7--10 & \texttt{\{kpi-upstr\}} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent
+\textbf{Why it matters.} (i) \emph{Sovereign, open, reproducible} stack at scale; (ii) \emph{Measurable
+impact} via transparent KPIs and re-usable artefacts; (iii) \emph{Ecosystem leverage} across FR/EU/US
+software with upstream contributions.
+
+\medskip
+\noindent
+\textbf{Outlook (next 12 months).}
+Raise demonstrator TRLs (validation against data), broaden GPU portability, densify auto-bench
+pipelines, and extend UQ/DA integration into applications; keep annual refresh with KPI deltas.
+
+
 
 \clearpage
 \section*{Executive Summary}
