@@ -86,8 +86,7 @@ During the reporting period, we have progressed on the following tasks:
 
 \begin{itemize}
 \item[T2.1] In the  framework of a collaboration  between the Atlantis
-  team (St\'ephane  Lanteri), the Macaron team  (Victor Michel-Dansac)
-  and Eindhoven  University of  Technology (Victorita Dolean),  and in
+  team, the Macaron team and Eindhoven  University of  Technology,  and in
   the context of  the Ph.D.  thesis of Daria  Hrebenshchykova, we have
   studied  a PINN-based  approach  for simulating  high frequency  and
   multiscale frequency-domain wave propagation  problems. For that, we
@@ -95,27 +94,23 @@ During the reporting period, we have progressed on the following tasks:
   recently introduced by  Victorita Dolean {\em et al.},  We propose a
   novel variant  of MLFBPINN where a  local PINN in each  subdomain is
   trained with a PML (Prefectly-Matched  Layer) on the whole subdomain
-  boundary.  This  is an ongoing  work. In the Macaron  team (Emmanuel
-  Franck,  Victor  Michel  Dansac  and  Laurent  Navoret),  two  other
-  NN-based methods  have been  developed.  Firstly,  a semi-Lagrangian
+  boundary.  This  is an ongoing  work. In the Macaron  team,  two  other
+  NN-based methods  have been  developed. Firstly, a semi-Lagrangian
   sequential  in time  method coupled  with a  preconditioned gradient
   method,  which  allows  to   compute  efficiently  high  dimensional
   (physical  or parametric)  advection-diffusion problems  and kinetic
-  problems such as those modeled with a Vlasov type equation.  In this
+  problems such as those modeled with a Vlasov type equation. In this
   method   the   collocation   points   are   transported   with   the
   characteristics and then projected at each time on a NN space.  This
   method beats the classical approaches fro this type of problems when
-  the dimension is 5 or above.  Seondly, in collaboration with the WP4
-  (Emmanuel Franck, Victor Michel  Dansac, Amaury Bilières and Yannick
-  Privat),  the Macaron  team has  proposed a  new shape  optimization
+  the dimension is 5 or above.  Secondly, in collaboration with the WP4,  the Macaron  team has  proposed a  new shape  optimization
   method  for  parametric problems  where  the  PDE solution  and  the
   mapping between a reference geometry and a new one are computed by a
   NN.  Additionally using the like between  NNs and ODEs we impose the
-  volume conservation  using a symplectic  NN.  This method  is faster
+  volume conservation  using a symplectic NN.  This method  is faster
   and gives more accurate results than those provided by classical FEM
   method.
-\item[T2.2]  The Macaron  team (Joubine  Aghili, Emmanuel  Franck and
-  Victor Michel  Dansac), has proposed  a simple method  to accelerate
+\item[T2.2]  The Macaron  team has proposed  a simple method  to accelerate
   the convergence of nonlinear solvers for PDEs like the Newton method
   using a Fourier  Neural Operator (FNO).  For that, a  FNO is trained
   using data and discrete residual  loss to predict the solution using
@@ -126,10 +121,7 @@ During the reporting period, we have progressed on the following tasks:
   can face when using the Newton  method, and allows to win between 80
   and 200\% of CPU time.
 \item[T2.3] In  the framework of  a collaboration between  the Macaron
-  team (Victor Michel Dansac, Vincent  Vigon and Emmanuel Franck), the
-  Atlantis  team  (St\'ephane Lanteri)  and  the  Makutu team  (Hélène
-  Barucq) and  in teh  context of the  postdoctoral project  of Truing
-  Hung, a  nonlinear reduced-order  modeling method has  been proposed
+  team, the Atlantis and  the Makutu team and  in the context of a  postdoctoral project, a  nonlinear reduced-order  modeling method has  been proposed
   for dealing with elliptic PDEs, which  is based on a neural implicit
   representation  that  allows  to   evaluate  the  solution  and  the
   derivatives  at each  point without  any interpolation  process.  To
@@ -138,9 +130,8 @@ During the reporting period, we have progressed on the following tasks:
   decoding  process  with  a  physical  loss  and  a  Greedy  training
   algorithm. The final validation of the method is in ongoing.
 \item[T2.4] In the framework of a collaboration between the University
-  of  Strasbourg  (Christophe  Prud’homme   and  Joubine  Aghili)  and
-  Sorbonne University (Yvon Maday), the Ph.D. thesis of Hassan Ballout
-  aims  at  overcoming  the  limitations  of  linear  order  reduction
+  of  Strasbourg  and
+  Sorbonne University, a Ph.D. thesis aims  at  overcoming  the  limitations  of  linear  order  reduction
   methods,  which  become  ineffective  and very  costly  for  certain
   classes   of  problems,   particularly  those   involving  transport
   phenomena.   These  limitations  are formalized  by  the  Kolmogorov
@@ -154,9 +145,7 @@ During the reporting period, we have progressed on the following tasks:
 \item[T2.5] First, we  note that T2.5 did not get  funding from NumPEx
   so far. However,  we have proposed new approaches  based on coupling
   with NNs.  In  the framework of a collaboration  between the Macaron
-  team (Laurent Navoret, Victor Michel Dansac and Emmanuel Franck) and
-  the Makutu  team (Hélène  Barucq and  Florian Faucher),  an original
-  multifidelity  modeling approach  for parametric  problems has  been
+  team and the Makutu  team,  an original multifidelity  modeling approach  for parametric  problems has  been
   devised.  The  idea is to  capture coarse scales  with a PINN  for a
   large-scale  parametric problem,  and then  correct this  prediction
   online with a FEM.  This multifidelity approach makes it possible to
@@ -187,10 +176,10 @@ We also note that T2.6  did not get funding from NumPEx so far.
 As a first  application showcase, we propose to develop  a hierachy of
 wave propagation  problems modeled by  the Hemholtz equation in  2D by
 increasing   the  frequency   of  the   wave  excitation   source  and
-cconsidering  different  types  of heterogeneity  of  the  propagation
+considering  different  types  of heterogeneity  of  the  propagation
 medium,  from  multilayered  configurations  with  piecewise  constant
 variation  of the  physical parameter,  to continuously  varying medim
-caharacteristic  as  in  acoustic  wave propagation  in  a  geological
+characteristic  as  in  acoustic  wave propagation  in  a  geological
 medium.
 
 \textbf{Plasma modeling with neural network based methods }\\

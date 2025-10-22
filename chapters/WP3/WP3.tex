@@ -51,7 +51,7 @@ modern computing architectures.
  Precision auto-tuning tools provide mixed precision versions of
 numerical codes, taking into account accuracy requirements on the results. New algorithms must be
 proposed to improve precision auto-tuning performance and extend it to arbitrary precision.
-Furthermore, new methodologies must be developed to perform autotuning of both numerical formats
+Furthermore, new methodologies must be developed to perform auto tuning of both numerical formats
 and performance parameters in coupled physics simulations as addressed in Task 3.3.2.
 \paragraph*{T.3.2.4 Silent errors in solution techniques}
  The objective of this task is to study and design silent
@@ -90,7 +90,7 @@ The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf and P.H.~
 Through libraries such as HPDDM, these preconditioners have already been efficiently parallelized in their numerical implementations. 
 However, they still require expensive, in time and memory, linear algebra operations in each local subdomain. 
 Motivated by the emergence of fast low precision arithmetic in hardware, the aim of his work is to reduce the computation time and memory foot-print of the ASM-GenEO using mixed precision. 
-To do this, it is necessary to identify the sensitivity of these operations to perturbation and propose an actionable criteria for selecting the appropriate precision for each local subdomain.
+To do this, it is necessary to identify the sensitivity of these operations to perturbation and propose an actionable criterion for selecting the appropriate precision for each local subdomain.
 Using the Fictitious Space Lemma, a perturbation theory for the preconditioner and bound the worst-case loss of efficiency of the preconditioner are derived. The results show that  precision selection is guided by the local matrix condition number. 
 Moreover, using FreeFEM, petsc4py, and HPDDM libraries, the theoretical bounds are compared to numerical behaviour of the perturbed preconditioner and are thus validated. 
 
@@ -107,7 +107,7 @@ others such as composyx.
 
  \subsubsection{HPDDM for sensitivity analysis}
  
-The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetric saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
+The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetrical saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
  
  
 
@@ -292,7 +292,8 @@ We are in close connection with the activities of the work-package WP7 where ben
 
 %a ecrire dans chaque section, résumer pour chaque section en faisant des références au texte plus haut.
 
-In Task~3.1, the next step in \S~\ref{sec:wp3:T31:ddmroundoff} related to domain decomposiiton methods with mixed precision is to assess their performance gains using single precision in well-behaved subdomains and double precision in badly behaved subdomains. As for \S~\ref{sec:wp3:T31:nonSPD}, we intend to test this new framework on low frequency Maxwell problems which are slightly non positive and which appear in many engineering applications. 
+In Task~3.1, the next step in \S~\ref{sec:wp3:T31:ddmroundoff} related to domain decomposition 
+methods with mixed precision is to assess their performance gains using single precision in well-behaved subdomains and double precision in badly behaved subdomains. As for \S~\ref{sec:wp3:T31:nonSPD}, we intend to test this new framework on low frequency Maxwell problems which are slightly non positive and which appear in many engineering applications. 
 
 
 Task 3.2.3 (precision auto-tuning tools) will require 
