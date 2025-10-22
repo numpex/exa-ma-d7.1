@@ -3,7 +3,7 @@
 \section{Demonstrator: FDA nozzle (incompressible Navier--Stokes)}
 \label{sec:app:specs:app-feelpp-discr-2}
 
-We present here the demonstrator to numerically solve the incompressible Navier--Stokes equations using stabilized finite element methods for the \emph{FDA medical device nozzle benchmark}. This benchmark, proposed by the US Food and Drug Administration, is widely used to assess stability, accuracy, and robustness of CFD solvers for biomedical applications \cite{hariharan_multilaboratory_2011,stewart_assessment_2012}. The specifications follow a similar structure to the elliptic PDE demonstrator in \Cref{sec:app:specs:app-feelpp-discr-1}, adapted to fluid dynamics. We use the \Feelpp fluid toolbox.
+This demonstrator solves the incompressible Navier--Stokes equations for the \emph{FDA medical device nozzle} using stabilized finite element methods (PSPG/SUPG). The benchmark, proposed by the US Food and Drug Administration, is widely used to assess stability, accuracy, and robustness of CFD solvers \cite{hariharan_multilaboratory_2011,stewart_assessment_2012}. The specifications mirror the elliptic PDE demonstrator in \Cref{sec:app:specs:app-feelpp-discr-1}, adapted to fluid dynamics, and use the \Feelpp fluid toolbox.
 
 \Cref{tab:app-feelpp-discr-2} describes the specifications of the application.
 
@@ -51,7 +51,7 @@ We present here the demonstrator to numerically solve the incompressible Navier-
 
 The benchmark presented here, denoted by \emph{FDA nozzle benchmark}, was proposed by the US Food and Drug Administration (FDA) in \cite{hariharan_multilaboratory_2011} to assess the stability, accuracy and robustness of computational fluid dynamics methods for biomedical device applications. The benchmark has become a standard validation case for incompressible flow solvers.
 
-The geometry consists of an idealized medical device nozzle with a sudden contraction followed by a gradual expansion, as shown in \Cref{fig:spec:app-feelpp-discr-2:fda:geometry}. The benchmark tests the solver's ability to capture:
+The geometry consists of an idealized medical device nozzle with a sudden contraction followed by a gradual expansion (\Cref{fig:spec:app-feelpp-discr-2:fda:geometry}). The benchmark tests the solver's ability to capture:
 \begin{itemize}
 \item Laminar to transitional flow regimes (Reynolds numbers from 500 to 6500)
 \item Flow acceleration through the nozzle throat
@@ -103,7 +103,8 @@ The metrics measured are the execution time of the main components of the Navier
 
 \subsubsection{Input Data:}
   \begin{itemize}
-  \item \textbf{Meshes:} We have generated three levels of mesh refinement called \texttt{M1}, \texttt{M2}, and \texttt{M3} for the FDA nozzle geometry. These meshes are stored in GMSH format. The statistics are presented in \Cref{tab:spec:app-feelpp-discr-2:fda:discr_stat}. Pre-partitioned meshes are also available in the \Feelpp in-house format (JSON+HDF5) for parallel simulations. All meshes are available in the \Feelpp Girder database.
+  \item \textbf{Meshes:} We  generat three levels of mesh refinement called \texttt{M1}, \texttt{M2}, \texttt{M3} and possibly more for the FDA nozzle geometry. 
+  These meshes are stored in GMSH format. The statistics are presented in \Cref{tab:spec:app-feelpp-discr-2:fda:discr_stat}. Pre-partitioned meshes are also available in the \Feelpp in-house format (JSON+HDF5) for parallel simulations. All meshes are available in the \Feelpp Girder database.
   
   \item \textbf{Flow parameters:} The benchmark is run for multiple Reynolds numbers: Re = 500 (steady laminar), Re = 2000 (steady transitional), Re = 3500 (transitional), and Re = 6500 (transitional/turbulent). Fluid properties: density $\rho = 1056$ kg/m³ (blood analog), dynamic viscosity $\mu = 0.00345$ Pa·s.
   
@@ -153,81 +154,8 @@ Benchmark metrics include:
 \end{itemize}
 
 
+\textbf{Status:} \texttt{benchmark-ready} - validated and ready for systematic HPC benchmarking.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Results summary}
-
-The FDA nozzle benchmark has been executed on high-performance computing systems for the three mesh refinement levels and multiple Reynolds numbers. The results demonstrate the accuracy of the stabilized finite element method for incompressible flow and the scalability of the parallel implementation.
-
-\subsubsection{Numerical solution}
-
-The computed flow fields exhibit the expected physics of flow through a sudden contraction-expansion geometry. Key flow features captured by the simulation include:
-
-\begin{itemize}
-\item \textbf{Jet formation:} As the flow accelerates through the throat, a high-velocity jet forms with peak velocities reaching 2-3 times the mean inlet velocity for higher Reynolds numbers.
-
-\item \textbf{Recirculation zones:} In the expansion region, flow separation creates recirculation zones along the walls. The size and intensity of these zones increase with Reynolds number, consistent with experimental observations.
-
-\item \textbf{Jet breakdown:} For Re $\geq$ 3500, the central jet becomes unstable and breaks down into smaller-scale structures downstream. The breakdown location moves upstream as Reynolds number increases.
-
-\item \textbf{Pressure recovery:} The pressure distribution shows the expected drop through the contraction followed by gradual recovery in the expansion region. The pressure gradient drives the recirculating flow near the walls.
-\end{itemize}
-
-Visualization of the velocity magnitude and streamlines reveals the complex 3D flow structure, including asymmetric features that emerge at higher Reynolds numbers. The mesh partitioning strategy ensures good load balancing across processors for efficient parallel computation.
-
-\subsubsection{Validation against FDA reference data}
-
-Quantitative comparison with FDA experimental measurements demonstrates good agreement:
-
-\begin{itemize}
-\item \textbf{Axial velocity profiles:} The computed centerline and cross-sectional velocity profiles match the experimental data within measurement uncertainty for all Reynolds numbers. The jet width and peak velocity location are accurately captured.
-
-\item \textbf{Pressure drop:} The total pressure drop from inlet to outlet agrees with measurements to within 5\% for laminar cases (Re = 500, 2000) and within 10\% for transitional cases (Re = 3500, 6500).
-
-\item \textbf{Recirculation metrics:} The length of the primary recirculation zone and reattachment point location match experimental observations. Secondary recirculation zones observed in experiments are also captured by the simulations.
-
-\item \textbf{Mesh convergence:} Refinement from M1 to M3 demonstrates mesh convergence for all validation metrics. The differences between M2 and M3 results are less than 2\%, indicating mesh-independent solutions are achieved.
-\end{itemize}
-
-The \texttt{benchmark-verification} metric follows the FDA assessment criteria and reporting conventions \cite{stewart_assessment_2012}.
-
-\subsection{Performance analysis}
-
-\subsubsection{Execution time breakdown}
-
-The performance analysis reveals the computational cost distribution for the Navier-Stokes solver:
-
-\begin{itemize}
-\item \textbf{Initialization (5-10\%):} Mesh loading and finite element space construction scale well with processor count. The initialization cost is amortized over the simulation time for transient cases.
-
-\item \textbf{Assembly (20-30\%):} The non-linear assembly of the Navier-Stokes residual and Jacobian dominates for low Reynolds numbers where Newton convergence is rapid. The stabilization terms (PSPG/SUPG) add modest overhead.
-
-\item \textbf{Linear solve (50-70\%):} The preconditioned GMRES iterations consume the majority of time, especially at high Reynolds numbers where more linear iterations are required per Newton step. Block preconditioners for the velocity-pressure coupling are essential for performance.
-
-\item \textbf{Post-processing (5-10\%):} Export and validation measure computation time grows with mesh size but remains a small fraction of total cost.
-\end{itemize}
-
-\subsubsection{Strong scalability}
-
-Strong scaling tests with fixed problem size (M2 and M3 meshes) demonstrate:
-\begin{itemize}
-\item Near-ideal speedup up to 64-96 processors for all Reynolds numbers
-\item Parallel efficiency above 80\% for processor counts up to 128
-\item Communication overhead becomes significant beyond 256 processors for M2 mesh (diminishing returns)
-\item Linear solver shows good scaling due to effective domain decomposition preconditioning
-\end{itemize}
-
-\subsubsection{Weak scalability}
-
-Weak scaling tests with proportional mesh refinement show:
-\begin{itemize}
-\item Constant execution time per processor up to 512 processors
-\item Slightly increasing time for larger processor counts due to increased surface-to-volume ratio in domain decomposition
-\item Assembly phase maintains excellent weak scaling throughout the range
-\item Linear solver shows more sensitivity to processor count, typical of iterative methods
-\end{itemize}
-
-The \texttt{strong-scalability} and \texttt{weak-scalability} metrics confirm that the parallel implementation is suitable for large-scale CFD simulations on modern HPC systems.
-

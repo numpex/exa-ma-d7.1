@@ -3,7 +3,7 @@
 \section{Compute distance to a range of entities}
 \label{sec:app:specs:app-feelpp-distance}
 
-This mini application focuses on computing signed distance fields on unstructured meshes, a fundamental operation in level-set methods, shape optimization, and computational geometry. Unlike the PDE solver demonstrators in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, this application compares algorithmic approaches (Fast Marching Method vs. ray-tracing with Bounding Volume Hierarchies) rather than discretization methods.
+This mini-app computes signed distance fields on unstructured meshes, a fundamental operation in level-set methods, shape optimization, and computational geometry. Unlike the PDE solver demonstrators in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, it compares algorithmic approaches (Fast Marching Method vs. BVH-based ray tracing) rather than discretization methods.
 
 \Cref{tab:app-feelpp-distance} describes the specifications of the application.
 
@@ -103,7 +103,7 @@ Let $d_h$ be the discrete distance field computed by either method. We compute t
 \label{eq:specs:feelpp:distance:error}
 \end{subequations}
 
-We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, verifying that FMM yields $O(h)$ convergence, while ray-tracing achieves machine-precision at vertices.
+We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, verifying that FMM yields $O(h)$ convergence, while ray tracing achieves machine precision at vertices.
 
 
 
@@ -115,8 +115,8 @@ We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, 
 
 \subsubsection{Input Data:}
   \begin{itemize}
-  \item Meshes: we use a cubic mesh with a various discretization size: $h = 0.12, 0.06, 0.03$ and $0.015$.
-  \item Setup: the FMM method is provided by the core library of \Feelpp, and the BVH implementation uses functionalities of \Feelpp.
+  \item Meshes: we use cubic meshes with various discretization sizes: $h = 0.12, 0.06, 0.03, 0.015$.
+  \item Setup: the FMM method is provided by the core library of \Feelpp, and the BVH implementation uses \Feelpp functionality.
     More details can be found in \cite{van_landeghem_micro-swimming_2025}.
   \end{itemize}
 
@@ -131,11 +131,11 @@ as well as the time of execution to compute the distance for all points $\mathbf
 
 \subsection{Results summary}
 
-We present in this section the results of the benchmark described above.
+We present results for the benchmark described above.
 In \Cref{fig:specs:app-feelpp-distance:results:distance}, we show the exact distance between each point of the cube to the border.
-The cube is vertically half sliced.
+The cube is vertically half-sliced.
 
-We also present in \Cref{fig:specs:app-feelpp-distance:results:error-fmm} and \Cref{fig:specs:app-feelpp-distance:results:error-bvh} respectively the distribution of the point wise error for the methods FMM and BVH respectively.
+\Cref{fig:specs:app-feelpp-distance:results:error-fmm} and \Cref{fig:specs:app-feelpp-distance:results:error-bvh} show the distribution of the pointwise error for FMM and BVH, respectively.
 For this specific plot, we took $h=0.06$ and $M=1500$.
 We note that the BVH method results in a smaller global error, while it is more localized for the FMM method.
 
@@ -164,7 +164,7 @@ We note that the BVH method results in a smaller global error, while it is more 
 \end{figure}
 
 We now present some results of convergence.
-Note that for some cases, such as high meshes or high number of ray cast, the BVH method did not finish as it require too much memory.
+Note that in some cases (very fine meshes or large numbers of rays), the BVH method did not finish due to memory requirements.
 
 
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/timeBVH1000.csv}\dataTimeBVHnp

@@ -3,7 +3,7 @@
 \section{Mini App: Test I/O at large scale}
 \label{sec:app:specs:app-feelpp-io}
 
-This mini application tests the input and output of data for \Feelpp at large scale.
+This mini-app tests large-scale I/O for \Feelpp.
 The I/O operations measured here are representative of those performed in the demonstrators described in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, where mesh loading and field export can become performance bottlenecks for large-scale simulations.
 
 \Cref{tab:app-feelpp-io} describes the specifications of the application.
@@ -54,27 +54,27 @@ The I/O operations measured here are representative of those performed in the de
 
 \subsection{Description of the benchmark}
 
-This application consists in a small code that runs a given number of time the following steps:
+This mini-app repeats the following steps a given number of times:
 \begin{itemize}
-    \item Load a mesh $\mathcal{M}$ with a discretization size $h$,
-    \item create a functional space $X_h = P_{\text{c},h}^d$ associated to the desired order of discretization $d$,
-    \item generate a second functional space, this time vectorial, $\mathbf{X}_h = \left[P_{\text{c},h}^d\right]^3$,
-    \item create a vector $u\in X_h$, and export it to the disk,
-    \item create a vector $\mathbf{u}\in\mathbf{X}_h$, and export it to the disk,
-    \item write the loaded mesh on disk.
+    \item Load a mesh $\mathcal{M}$ with discretization size $h$,
+    \item Create a function space $X_h = P_{\text{c},h}^d$ for the desired discretization order $d$,
+    \item Create a vector-valued function space $\mathbf{X}_h = \left[P_{\text{c},h}^d\right]^3$,
+    \item Create a vector $u\in X_h$ and export it to disk,
+    \item Create a vector $\mathbf{u}\in\mathbf{X}_h$ and export it to disk,
+    \item Write the loaded mesh to disk.
 \end{itemize}
 
-The export part of the object is done in two ways:
+Exports are performed in two ways:
 \begin{inparaenum}[\it (i)]
   \item write at format HDF5 on the disk directly,
   \item use the \texttt{exporter} functionality of \Feelpp.
 \end{inparaenum}
-For the second one, we provide more details.
+For the second, we provide more details.
 The two fields are interpolated to a $\mathP_1$ field before being saved on the disk.
 The mesh is also exported in this process.
-The time measured is the time taken to perform projections of $u$ and $\mathbf{u}$, and to save the files.
+The time measured is the time to perform projections of $u$ and $\mathbf{u}$ and to save the files.
 
-This whole process it iterated a given number of times.
+This whole process is iterated a given number of times.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -102,9 +102,9 @@ The steps to obtain this mesh, stemming from a human eyeball CAD are presented i
 
 \subsubsection{Input Data:}
   \begin{itemize}
-    \item Meshes: We have generated meshes of various level of refinement, denoted from \texttt{M2} to \texttt{M5}.
-      The characteristics of the meshes, as well as the number of degree of freedom for various order of discretization is presented in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
-      All the meshes are pre-partitionned, with the application \texttt{feelpp\_mesh\_partitionner}\footnote{\url{https://docs.feelpp.org/user/latest/using/tools/mesh_partitioner.html}}
+    \item Meshes: We have generated meshes of various refinement levels, denoted \texttt{M2} to \texttt{M5}.
+      The characteristics of the meshes, as well as the number of degrees of freedom for various discretization orders, are presented in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
+      All meshes are pre-partitioned with the application \texttt{feelpp\_mesh\_partitionner}\footnote{\url{https://docs.feelpp.org/user/latest/using/tools/mesh_partitioner.html}}
     \item Setup: use the function provided by the library \Feelpp, such as mesh manipulation and data exporter.
       The full source code is available in \texttt{src} directory of the GitHub repository \texttt{apps-feelpp}.
     \item Sif image: \texttt{feelpp:v0.111.0-preview.10-noble-sif}  (stored in the GitHub registry of \Feelpp)
@@ -152,19 +152,19 @@ The times are stored in a JSON file during execution.
 
 
 
-We present in \Cref{fig:specs:app-feelpp-io:np} the results of execution of this benchmark over the family of mesh, for a various number of parallel tasks.
+We present in \Cref{fig:specs:app-feelpp-io:np} results over the mesh family for various numbers of parallel tasks.
 The mini-app is run on the cluster Gaya.
 The results presented are obtained with the degree of discretization $\mathP_1$.
-Similar behaviors are observed for other degree of discretization.
+Similar behavior is observed for other discretization orders.
 
-Note that some points are missing, either because the memory available on the nodes was too high for a node of Gaya, or because the iterative process described above took more than the time allocated to the job (1 hour).
+Note that some points are missing, either because the memory required exceeded what was available on a node of Gaya, or because the iterative process took longer than the job time limit (1 hour).
 
-We see that the steps of reading data and of creation of the functional spaces scale well according to the number of parallel process, as pointed out in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=96$ for the small meshes.
+We see that mesh reading and function-space creation scale well with the number of parallel processes, as shown in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=96$ for the small meshes.
 
-On the contrary, the steps where we write data on the disk do not scale when the number of parallel process increases.
-Precisely, this time gets higher, as pointed out in \Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv} or stagnated as shown in \Cref{fig:specs:app-feelpp-io:np:export}.
-This loss of performance can be explained because of the communication of the parallel process that need to coordinate to write data on a single spot on disk.
-As the mesh is already pre-partitionned, we do not have the same issue during the reading step.
+Conversely, the steps writing data to disk do not scale with more parallel processes.
+Times increase (\Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv}) or stagnate (\Cref{fig:specs:app-feelpp-io:np:export}).
+This loss of performance stems from coordination among parallel processes when writing to a single destination.
+Because the mesh is pre-partitioned, the reading step does not suffer the same issue.
 
 \import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
 
@@ -174,8 +174,7 @@ As the mesh is already pre-partitionned, we do not have the same issue during th
 Now, we present in \Cref{fig:specs:app-feelpp-io:disc} the evolution of the time taken by each step, depending on the degree of discretization considered.
 Specifically, we see in \Cref{fig:specs:app-feelpp-io:disc:loadmesh,fig:specs:app-feelpp-io:disc:savemesh} that the mesh manipulation is indeed independent of the degree of discretization.
 
-On the contrary, the other steps are impacted by this degree, as it results in a higher number of degree of freedom, as shown in the mesh statistics in \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}.
-Precisely, we see in \Cref{fig:specs:app-feelpp-io:disc:functionspace,fig:specs:app-feelpp-io:disc:functionspaceV} that the time increases linearly when the order increases, and that this raise of computational time is more important when the program write data on the disk, as shown in \Cref{fig:specs:app-feelpp-io:disc:exportfield,fig:specs:app-feelpp-io:disc:exportfieldv,fig:specs:app-feelpp-io:disc:export}.
+Conversely, other steps are impacted by the discretization order through the increased number of degrees of freedom (see \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}).
+In \Cref{fig:specs:app-feelpp-io:disc:functionspace,fig:specs:app-feelpp-io:disc:functionspaceV}, time increases roughly linearly with order, with a larger increase for disk writes (\Cref{fig:specs:app-feelpp-io:disc:exportfield,fig:specs:app-feelpp-io:disc:exportfieldv,fig:specs:app-feelpp-io:disc:export}).
 
 \import{chapters/applications/specs/data/app-feelpp-io}{figure-order.tex}
-
