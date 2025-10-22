@@ -4,11 +4,11 @@
 \label{chap:methodology}
 
 \section{Introduction}
-This chapter presents the updated methodology for benchmarking, testing, and validating Exa-MA software in preparation for exascale deployment. Building on v1.1.1 and the guidelines defined in the Exa-MA Application Frameworks \& Infrastructure Guide (v0.3), we now introduce:
+This chapter presents the updated methodology for benchmarking, testing, and validating Exa-MA software in preparation for exascale deployment. In continuity with v1.1.1 and the Exa-MA Application Frameworks \& Infrastructure Guide), we focus on operational practices and measurable outcomes. We introduce:
 
 \begin{itemize}
   \item \textbf{Energy efficiency metrics} alongside performance and scalability.
-  \item \textbf{Expanded hardware coverage}: EuroHPC systems, multi-GPU clusters.
+  \item \textbf{Expanded hardware coverage}: including EuroHPC systems and multi-GPU clusters.
   \item \textbf{Automated CI/CD pipelines} for nightly benchmarks and non-regression.
   \item \textbf{Enhanced data management}: DOIs, Zenodo archiving, FAIR datasets.
   \item \textbf{Structured application definitions}: mini-apps, extended mini-apps, demonstrators, proxy-apps as per the application framework.
@@ -18,7 +18,7 @@ This chapter presents the updated methodology for benchmarking, testing, and val
 This methodology ensures that all Exa-MA applications—whether mini-apps or full demonstrators—adhere to a unified set of practices for reproducibility, portability, and high performance.
 
 \section{Key Objectives and Bottlenecks}
-We revisit our original aims under WP7 and map them to the primary bottlenecks (B1--B13):
+We revisit our original aims under WP7 and map them to the primary bottlenecks (B1--B13); this mapping guides prioritization and evaluation:
 
 \begin{itemize}
   \item \textbf{Performance \& Scalability} (\ac{B2}, \ac{B7})
@@ -30,13 +30,13 @@ We revisit our original aims under WP7 and map them to the primary bottlenecks (
 \end{itemize}
 
 \section{Structured Application Definitions}
-Following the Application Framework, Exa-MA categorizes software artifacts into:
+Following the Application Framework, we use the following categories to align scope with testing depth and reporting:
 
 \begin{description}
-  \item[Mini-App] Focused test of a single kernel or algorithm (e.g., mesh processing in FEEL++).
-  \item[Extended Mini-App] Mini-app plus supporting scripts (I/O benchmarks, data generation).
+  \item[Mini-App] Isolates a single kernel or algorithm (e.g., mesh processing in FEEL++).
+  \item[Extended Mini-App] Mini-app with supporting scripts for I/O and data generation.
   \item[Demonstrator] Integrated multi-WP workflow illustrating a real-world use case.
-  \item[Proxy-App] Representative full-stack workload combining three or more WPs for system-level tests.
+  \item[Proxy-App] Representative full-stack workload spanning three or more WPs for system-level tests.
 \end{description}
 
 Each application is documented with core metadata (ID, name, WP, partners), scientific purpose, technical metadata (framework, languages), inputs/outputs, metrics, status, and planning, ensuring traceability and unified benchmarking.
@@ -52,19 +52,19 @@ Our approach rests on four pillars:
 
 \section{Benchmark Phases and Metrics}
 \subsection{Baseline Performance}
-Single-node runs: time-to-solution, memory footprint.
+Establish the reference on a single node, reporting time-to-solution and memory footprint; these results anchor scaling and energy studies.
 
 \subsection{Scalability Tests}
-Weak and strong scaling up to tens of thousands of cores or GPUs.
+Exercise weak and strong scaling across large CPU/GPU counts; compare efficiency relative to the baseline.
 
 \subsection{Energy Efficiency}
-Power profiling via RAPL, NVML; metrics: joules per operation, flops-per-watt.
+Profile power via RAPL/NVML and report energy-to-solution metrics (e.g., joules per operation, flops per watt) under comparable workloads.
 
 \subsection{Hybrid Workloads}
-Simultaneous CPU+GPU benchmarks ensuring balanced utilization.
+Run concurrent CPU+GPU workloads to assess balance and end-to-end throughput on heterogeneous nodes.
 
 \section{Automation and CI/CD}
-ReFrame test suites trigger on merge to `develop` and nightly:
+We codify the methodology in CI/CD; ReFrame test suites run on merges and on nightly schedules:
 \begin{itemize}
   \item Container builds (Spack, Singularity, Docker).
   \item Execution of all benchmark phases.
@@ -76,11 +76,11 @@ ReFrame test suites trigger on merge to `develop` and nightly:
 All inputs, outputs, and logs are versioned with DOIs in Zenodo. Datasets and results comply with FAIR principles, using HDF5 (and DAOS) for scalable, fault-tolerant I/O.
 
 \section{Fault Tolerance and Resilience}
-Beyond checkpoint/restart, we will integrate:
+Beyond checkpoint/restart, we complement with:
 \begin{itemize}
   \item ULFM-based MPI recovery.
-  \item SCR scalable checkpointing.
-  \item In-situ fault injection campaigns at multiple levels.
+  \item SCR-based scalable checkpointing.
+  \item In-situ fault injection at multiple levels.
 \end{itemize}
 
 \section{Toolchain and Technologies}
