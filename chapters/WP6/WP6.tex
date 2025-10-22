@@ -69,7 +69,7 @@ a new graph kernel, the Sliced Wasserstein Weisfeiler-Lehman (SWWL), was develop
 A second challenge involves the outputs, which are not scalars but fields or signals defined on graph nodes of varying sizes. To handle this, a methodology was proposed, combining regularized optimal transport, dimensionality reduction, and GPs indexed by graphs \cite{carpintero2025}.
 
 Additionally, many problems involve categorical variables (e.g., material types). GPs offer flexible ways to model correlations in such spaces. A comparative study was conducted to recommend best practices. Block correlation structures work well when groups of levels are known. When they are not, a clustering-based procedure, relying on the conditional output distributions for each level, can infer these groups effectively without prior kernel training.
-Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters give good results. This is when HPC becomes critical.
+Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters gives good results. This is when HPC becomes critical.
 
 \section{Application Showcase}
 % \input{chapters/applications/specs/app-uq-uranie-1}  
@@ -163,5 +163,5 @@ We will soon make available a package that proposes python routines for the best
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
 
 T6.2 UQ in a PDE solving framework \\ 
-After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variable. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarsed to represent wisely the uncertainty in the simulated physical fields. The work to be done is to defined a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 
+After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variables. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarse to represent wisely the uncertainty in the simulated physical fields. The work to be done is to define a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 
 
