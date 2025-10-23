@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "exa-ma-d7.1"
-version = "1.92.0"
+version = "1.93.0"
 description = "ExaMA D7.1 Benchmarking Analysis Report"
 authors = [
     {name = "Christophe Prud'homme", email = "christophe.prudhomme@cemosis.fr"},
