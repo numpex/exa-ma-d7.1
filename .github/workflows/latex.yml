@@ -102,7 +102,7 @@ jobs:
           echo "Setting up isolated Python environment..." >> $GITHUB_STEP_SUMMARY
 
           start_time=$(date +%s)
-          uv venv .venv --python 3.11
+          uv venv .venv --python 3.11 --clear
           echo "VIRTUAL_ENV=${PWD}/.venv" >> $GITHUB_ENV
           echo "${PWD}/.venv/bin" >> $GITHUB_PATH
           uv pip install "article-cli>=1.0.3"
@@ -319,7 +319,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           start_time=$(date +%s)
-          uv venv .venv --python 3.11
+          uv venv .venv --python 3.11 --clear
           echo "VIRTUAL_ENV=${PWD}/.venv" >> $GITHUB_ENV
           echo "${PWD}/.venv/bin" >> $GITHUB_PATH
           uv pip install "article-cli>=1.0.3"
