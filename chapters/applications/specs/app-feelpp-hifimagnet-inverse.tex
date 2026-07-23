@@ -1,0 +1,15 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+\VThreeApplicationDraft{app-feelpp-hifimagnet-inverse}
+{HiFiMagnet thermoelectric parameter inversion}
+{C. Prud'homme; V. Chabannes}
+{WP1, WP2, WP3, WP4, WP6}{extended-mini-app}
+{Estimate electrical, thermal, contact and cooling parameters from voltage, temperature and optional magnetic observations at several imposed-current operating points.}
+{Feel++, PETSc/TAO, HPDDM; MPI, Kokkos and HIP}{spec-only}
+
+\paragraph{Specification boundary.}
+The output is a calibrated parameter vector or field and reconstructed
+observables, not an operating control.  \texttt{BM-FEEL-HIFI-INV-01} is a
+proposed verification/scalability record based on Taylor-gradient tests,
+parameter recovery and observation misfit.
+\todo{Supply the reviewed objective/regularization, synthetic or measured data,
+identifiability protocol, implementation commit, machine and raw evidence.}

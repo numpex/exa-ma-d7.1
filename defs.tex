@@ -1,4 +1,6 @@
 \def\todo#1{{\color{numpexred}\textbf{TODO:} ``#1''}}
+% Standalone WP documents do not define a DOI; the main document overrides this.
+\doiNumber{}
 \def\hyperride{Exa-MA}
 \def\exama{\ac{exama}\xspace}
 \def\exasoft{\textsc{Exa-Soft}\xspace}
@@ -17,6 +19,62 @@
 % Convenience command for polynomial spaces P_k
 \newcommand{\Pk}[1]{\mathbb{P}_{#1}}
 
+% D7.1 v3 integration-draft guidance.  These commands provide presentation only:
+% the editable instructions and advance records remain in each assigned WP file.
+\newcommand{\WPUpdateNote}[1]{%
+\par\smallskip
+\noindent{\color{gray}\small\textbf{2026 update.} #1}
+\par\smallskip
+}
+
+\newcommand{\WPFieldHint}[1]{%
+{\color{gray}\emph{#1}}%
+}
+
+\newenvironment{WPAdvanceRecord}[1]{%
+\begin{longtable}{@{}p{0.29\textwidth}p{0.66\textwidth}@{}}
+\caption{Annual advance record \texttt{#1}.}
+\label{tab:advance:#1}\\
+\toprule
+\textbf{Field} & \textbf{Contribution} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Field} & \textbf{Contribution} \\
+\midrule
+\endhead
+Advance ID & \texttt{#1} \\
+}{%
+\bottomrule
+\end{longtable}
+}
+
+% Compact metadata block for application specifications introduced during the
+% v3 integration pass.  Scientific detail remains an explicit owner TODO until
+% a reviewed specification and versioned evidence are available.
+\newcommand{\VThreeApplicationDraft}[8]{%
+\section{Application: \texttt{#1}}
+\label{sec:app:specs:#1}
+\begin{longtable}{@{}p{0.28\textwidth}p{0.67\textwidth}@{}}
+\toprule
+\textbf{Field} & \textbf{Details} \\
+\midrule
+\endhead
+id & \texttt{#1} \\
+name & #2 \\
+Responsible & #3 \\
+work\_package & #4 \\
+application\_type & #5 \\
+purpose & #6 \\
+Framework & #7 \\
+operational status & #8 \\
+scientific specification & \todo{Owner review and versioned specification required.} \\
+software version/commit & \todo{Pin before reporting results.} \\
+evidence/raw data & \todo{Provide a durable URL or DOI.} \\
+\bottomrule
+\end{longtable}
+}
+
 
 
 % \barChart
@@ -32,6 +90,7 @@
 %
 % Example:
 %   \barChart[ybar,bar width=10pt]{\addplot coordinates {(A,1) (B,2)};}
+\makeatletter
 \newcommand{\barChart}[2][ybar]{
   \begin{tikzpicture}
     \begin{axis}[
@@ -72,6 +131,7 @@
     \end{axis}
 \end{tikzpicture}
 }
+\makeatother
 
 
 %%% START MACRO FOR ANNOTATION OF TRIANGLE WITH SLOPE %%%.

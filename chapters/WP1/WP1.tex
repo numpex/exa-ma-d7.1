@@ -1,8 +1,23 @@
 %!TEX root = ../../../exa-ma-d7.1.tex
+% D7.1 V3 / v2.90.0 -- WP1 CONTRIBUTION
+%
+% The content inherited from v2 is provided as a starting point.
+% The WP leader/editor must:
+% 1. review, validate, update or remove all inherited text;
+% 2. identify explicitly what is new in 2026;
+% 3. distinguish 2026 achievements from earlier baseline results;
+% 4. connect the advances to Exa-MA software and applications;
+% 5. associate applications with verification, validation or performance benchmarks;
+% 6. report scientific, numerical and performance results;
+% 7. provide software versions, machine configurations, references and evidence links;
+% 8. identify missing application or benchmark mappings instead of inventing connections.
 %\chapter{Work Package 1: Discretization}
 %\label{chap:wp1}
 
 \section{Objectives \& Context}
+\WPUpdateNote{Review the inherited scope and task descriptions, and update the
+2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
+is retained as context.}
 % • Which Exa-MA bottlenecks (B#) WP1 addresses  
 % • Relation to overall strategy (high-order methods, meshing, adaptivity)  
 % • List of key tasks T1.1–T1.7
@@ -48,9 +63,39 @@ This work package is ambitious and hence includes many tasks and subtasks. The t
 %
 \end{itemize} 
 
+\clearpage
+\section{Main advances in 2026}
+\label{sec:wp1-main-advances-2026}
+\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
+application and benchmark identifiers stable so that contributions can be
+compared across annual reports.}
+
+% Duplicate this record in WP1.tex for each main 2026 advance and replace the
+% compact field cues with factual entries.  Do not edit the central table style.
+\begin{WPAdvanceRecord}{WP1-A2026-1}
+Exa-MA task and bottleneck & \WPFieldHint{T1.x; Bx} \\
+Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
+Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
+Implementing software & \WPFieldHint{Software; repository} \\
+Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
+Associated application ID & \WPFieldHint{app-...} \\
+Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
+Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
+Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
+Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
+Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
+Limitations and next step & \WPFieldHint{Limitation; next step} \\
+Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
+\WPUpdateNote{Update the inherited task subsections with the work performed in
+2026.  Separate new achievements from the 2024--2025 baseline and cite the
+corresponding annual advance records.}
 
 \subsection{Task 1.1 - Mesh generation}
+\WPUpdateNote{Update the mesh-generation advances, results, software evidence
+and limitations for 2026.}
 The advances in this task concern valid large-scale generation and especially feature-preserving Alpha wrapping.
 
 The Alpha Wrapping algorithm implemented in the CGAL library provides a robust method for generating a watertight, adjustable, and manifold surface mesh that conservatively encloses a 3D input. It is particularly effective when the input is noisy, incomplete, or non-manifold. The algorithm proceeds as follows:
@@ -107,6 +152,8 @@ Computing these volumes is non-trivial due to two factors: (1) Aware Visibility:
 Such a visibility-based criterion offers a principled way to select Steiner points that are both geometrically meaningful and computationally advantageous, paving the way for feature-aware alpha wrapping.
 
 \subsection{Task 1.2 — Adaptive Mesh Refinement for Unstructured Grids at Scale}
+\WPUpdateNote{Update the 2026 ParMmg/MMG work, measured scaling results and
+versioned evidence.}
 \label{sec:wp1:t1.2}
 
 \paragraph{Objective.}
@@ -147,6 +194,8 @@ Both apps are \emph{benchmark-ready}; first coordinated multi-node campaigns are
 \medskip
 
 \subsection{Task 1.4 - Finite Element Exascale Framework (FEEF): High-Order Wave Proxy-App on CPU/GPU}
+\WPUpdateNote{Update the 2026 high-order CPU/GPU work, application status and
+machine-level evidence.}
 \label{sec:wp1:t1.4}
 
 \paragraph{Context \& objective.}
@@ -180,9 +229,13 @@ Core API skeleton with concepts, reference high-order bases and quadratures, mat
 
 
 \subsection{Task 1.5 - Exploit non conforming methods for efficient parallel parallel}
+\WPUpdateNote{Update the 2026 non-conforming-method work and distinguish
+implemented results from planned developments.}
 A hybridizable discontinuous Galerkin (HDG) method has been developed to solve the linear anisotropic elastic equation in the frequency domain. HDG discretization allows us to decrease the size of the discrete system while keeping a good conditioning of the global matrix to be inverted. First-order formulation with the compliance tensor and Voigt notation are employed to provide a compact description of the discretized problem and flexibility with highly heterogeneous media. We further focus on the question of optimal choices of stabilization in the definition of HDG numerical traces. For this purpose, we construct a hybridized Godunov-upwind flux for anisotropic elastic media possessing three distinct wavespeeds. This stabilization removes the need to choose a scaling factor, contrary to the identity and Kelvin–Christoffel based stabilizations which are popular choices in the literature. We carry out comparisons among these families for isotropic and anisotropic material, with constant background and highly heterogeneous ones, in two and three dimensions. These experiments establish the optimality of the Godunov stabilization which can be used as a reference choice for a generic material in which different types of waves propagate. This work has been presented in conferences (Eccomas, Waves2025) and is published \cite{pham_numerical_2024}.
 
 \subsection{Task 1.7 -  Efficient multimodel/multiphysics coupling}
+\WPUpdateNote{Update the 2026 coupling work, cross-WP dependencies, software
+versions and validated results.}
 We have launched a work on efficient multiphysics partitioned strategies in the HPC framework. Our approach is intended to be as generic as possible and to consider black-box physical solvers. The application of interest will be elasto-acoustic and thermal-elastic problems.\\
 This work is carried out since November 2024 by Pierre Dubois, PhD student, managed by the CEA team (Isabelle Ramière, Raphaël Prat) and the Inria Makutu project team (Hélène Barucq).
 
@@ -193,6 +246,8 @@ The quasi-static problem setting has been adopted for both elasto-acoustic and t
 
 
 \section{Application Showcase}
+\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
+result to an annual advance and benchmark, and flag missing mappings explicitly.}
 
 % \input{chapters/applications/specs/app-feelpp-discr-1}  
 % \input additional app specs as needed
@@ -206,6 +261,8 @@ The quasi-static problem setting has been adopted for both elasto-acoustic and t
 \end{itemize}
 
 \section{Software Framework Contributions}
+\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
+software descriptions only as dated context.}
 
 \paragraph{CGAL.} The AABB tree component of CGAL provides an efficient hierarchy of axis aligned bounding boxes that accelerates collision detection and distance queries. The hierarchy enables rapid culling of non‑candidates through AABB–AABB and query‑AABB intersection tests.  
 
@@ -238,6 +295,8 @@ Planned improvements include adaptive query reordering to enhance load balance, 
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
+\WPUpdateNote{Replace planned or expected results with measured 2026 values only
+when the configuration, baseline and evidence are available.}
 
 % • Scaling results placeholder  
 
@@ -257,6 +316,8 @@ Planned improvements include adaptive query reordering to enhance load balance, 
 \end{itemize}
 
 \section{Roadmap \& Next Steps}
+\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
+2026 advances and benchmark evidence have been validated.}
 
 The following deliverables are planned:
 \begin{itemize}

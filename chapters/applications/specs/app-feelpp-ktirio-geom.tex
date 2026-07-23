@@ -1,0 +1,18 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+\VThreeApplicationDraft{app-feelpp-ktirio-geom}
+{Terrain generation}
+{V. Chabannes; C. Prud'homme}
+{WP1}{demonstrator}
+{Generate a city mesh including elevation, roads, water bodies and land markers.}
+{Feel++, CGAL, multithreaded execution}{benchmark-in-progress}
+
+\paragraph{Versioned implementation evidence.}
+At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{\texttt{bf1febf}},
+the application repository contains Grenoble and Perlin terrain JSON inputs and
+plot configurations under \texttt{src/ktirio-geom/terrain}.  This proves an
+executable configuration exists, not that benchmark results are available.
+
+\paragraph{Benchmark contract.}
+\texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and
+time-to-solution.  \todo{Clarify how Sheet weak/strong scalability metrics apply
+to the single-node scope; add machine, thread counts, repetitions and raw data.}

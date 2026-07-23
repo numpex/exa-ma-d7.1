@@ -59,7 +59,7 @@
 
 \definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88} % RoyalBlue
 \hypersetup{
-	pdftitle={Benchmarking analysis report},
+	pdftitle={Exa-MA v2.90.0 integration draft for v3.0.0},
 	pdfauthor={[Christophe Prud'homme (UNISTRA), Pierre Alliez (INRIA), Vincent Chabannes (UNISTRA), Rudy Chocat (CEA), Emmanuel Franck (INRIA), Vincent Fraucher (CEA), Floriant Faucher (INRIA), Clément Gauchy (CEA), Christos Georgiadis (INRIA), Luc Giraud (INRIA), Frédéric Hecht (SU), Guillaume Helbecque (U Luxembourg), Pierre Jolivet (CNRS), Olivier Jamond (CEA), Pierre Ledac (CEA), Nouredine Melab (U. Lille), Victor Michel-Dansac (INRIA), Frédéric Nataf (SU), Lucas Palazzolo (INRIA), Yannick Privat (UL), Thomas Saigre-Tardif (UNISTRA), Rudy Chocat (CEA), El-Ghazali Talbi (U Lille), Pierre Henri Tournier (SU), Christophe Trophime (CNRS), Céline Van Landeghem (UNISTRA), Raphael Zanella (SU)
     ]},
 	pdfkeywords={HPC, Exascale, Benchmarking},
@@ -73,10 +73,9 @@
 \makeatletter
 % Deal with stackedplots
 \newcommand\resetstackedplots{
-\makeatletter
 \pgfplots@stacked@isfirstplottrue
-\makeatother
 }
+\makeatother
 
 \IfFileExists{.git/gitHeadInfo.gin}{
     \usepackage[pcount,grumpy,mark,markifdirty]{gitinfo2}
@@ -117,23 +116,24 @@
  \delivWPName{Showroom, Benchmarking and Co-Design coordination}
 
 % Deliverable Number and Title (according to DoA)
-\delivNumber{D1.1;D2.1;D3.1;D4.1;D5.1;D6.1;D7.1}
+\delivNumber{D1.1;D2.1;D3.1;D4.1;D5.1;D6.1;D7.1;D7.3}
 
-\delivName{Methodology, Application framework and Benchmarking Analysis Report}
+\delivName{Methodology, Application Framework and Benchmarking Analysis Report\\[0.8ex]
+\textit{v2.90.0 integration draft -- final target v3.0.0, 14 October 2026}}
 
 % DOI Number (will be provided by the coordinator)
 \doiNumber{10.5281/zenodo.15188286} % leave empty if no DOI Number is provided
 
 % Deliverable Short Title
-\delivShortTile{BAR}
+\delivShortTile{BAR -- v3 integration draft}
 
 % Deliverable Responsible Partner
 \delivResponsible{UNISTRA}
 
 % Deliverable Version, Contractual and Actual Date, Dissemination Level, Type
-\delivVersion{v2.0.0}
-\ContractualDate{15/10/2025}
-\ActualDate{\today}
+\delivVersion{v2.90.0}
+\ContractualDate{14/10/2026 (final v3.0.0)}
+\ActualDate{23/07/2026 (integration draft)}
 \delivDissLevel{PU} % PU, PP, RE, CO
 \delivType{Report}
 
@@ -153,6 +153,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Change Log
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%`'
+\istChange{23/07/2026}{v2.90.0}{Christophe Prud'homme (UNISTRA)}{Integration draft for v3.0.0: retained the v2 WP hierarchy, added annual advance records and section update notes, reconciled application and benchmark registries, and integrated former D7.3 training material}
 \istChange{12/11/2025}{v2.0.0}{Christophe Prud'homme (UNISTRA), Thomas Saigre (UNISTRA)}{Major release: Complete file inclusion tracking (31 files) with various minor updates and consistency improvements all over the document}
 \istChange{23/10/2025}{v1.93.0}{Christophe Prud'homme (UNISTRA)}{Publication statistics analysis and document type classification, minor edits}
 \istChange{23/10/2025}{v1.92.0}{Christophe Prud'homme (UNISTRA), Hélène Barucq (Inria)}{KPI table with current status; WP4 itemize fix; review patches applied; WP1-6 updates}
@@ -222,9 +223,12 @@
 \part{WP1-6: Scientific Advances}
 \import{chapters/}{WPs}
 \part{WP7: Showroom, Benchmarking and Co-Design Coordination}
+\import{chapters/WP7/}{WP7}
 \import{chapters/}{methodology}
 \import{chapters/}{software}
 \import{chapters/}{applications}
+\import{chapters/}{benchmarks}
+\import{chapters/}{training}
 
 \chapter{Conclusions}
 \label{chap:conclusions}
