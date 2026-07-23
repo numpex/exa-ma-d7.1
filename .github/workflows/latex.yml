@@ -11,9 +11,11 @@ on:
       - 'v*'
     branches:
       - 'main'
+      - 'd7.1-v3'
   pull_request:
     branches:
       - 'main'
+      - 'd7.1-v3'
 
 jobs:
   workflow-setup:

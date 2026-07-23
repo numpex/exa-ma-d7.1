@@ -1,0 +1,15 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+\VThreeApplicationDraft{app-feelpp-hifimagnet-optcontrol}
+{HiFiMagnet robust optimal operation and control}
+{C. Prud'homme; V. Chabannes}
+{WP1, WP2, WP3, WP5, WP6}{extended-mini-app}
+{Determine coil-group currents and cooling controls that reach a target magnetic field while limiting power, temperature, voltage and actuator constraints.}
+{Feel++, PETSc/TAO, HPDDM, Sage-HPC; MPI, Kokkos and HIP}{spec-only}
+
+\paragraph{Specification boundary.}
+The output is an operating/control vector and its engineering margins, not
+calibrated material parameters.  \texttt{BM-FEEL-HIFI-CTRL-01} is a proposed
+verification/scalability record based on Taylor-gradient tests, target-field
+error, constraint violation and KKT residual.
+\todo{Supply the reviewed objectives/constraints, uncertainty scenarios,
+implementation commit, reference solution, machine and raw evidence.}

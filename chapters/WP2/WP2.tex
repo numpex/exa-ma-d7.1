@@ -1,5 +1,15 @@
 
+% D7.1 V3 / v2.90.0 -- WP2 CONTRIBUTION
+%
+% Inherited v2 content is a starting point. Review, validate, update or remove it;
+% identify 2026 advances; separate them from earlier results; link advances to
+% software, applications and benchmarks; provide versions, configurations,
+% references and evidence; and flag missing mappings instead of inventing them.
+
 \section{Objectives \& Context}
+\WPUpdateNote{Review the inherited scope and task descriptions, and update the
+2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
+is retained as context.}
 % • Which Exa-MA bottlenecks (B#) WP2 addresses  
 % • Relation to overall strategy (surrogate modeling, physics-informed ML)  
 % • List of key tasks T2.1–T2.6
@@ -76,7 +86,35 @@ In practice, WP2 comprises the following tasks:
   simulations to be carried out and corrected in real time.
 \end{itemize}  
 
+\clearpage
+\section{Main advances in 2026}
+\label{sec:wp2-main-advances-2026}
+\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
+application and benchmark identifiers stable so that contributions can be
+compared across annual reports.}
+
+% Duplicate this record in WP2.tex for each main 2026 advance and replace the
+% compact field cues with factual entries.  Do not edit the central table style.
+\begin{WPAdvanceRecord}{WP2-A2026-1}
+Exa-MA task and bottleneck & \WPFieldHint{T2.x; Bx} \\
+Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
+Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
+Implementing software & \WPFieldHint{Software; repository} \\
+Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
+Associated application ID & \WPFieldHint{app-...} \\
+Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
+Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
+Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
+Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
+Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
+Limitations and next step & \WPFieldHint{Limitation; next step} \\
+Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
+\WPUpdateNote{Update the inherited advances with the work performed in 2026.
+Separate new achievements from the 2024--2025 baseline and cite the corresponding
+annual advance records.}
 % • Advance 1 (T2.1): …  
 % • Advance 2 (T2.2): …  
 % • Advance 3 (T2.3): …  
@@ -136,6 +174,8 @@ During the reporting period, we have progressed on the following tasks:
 We also note that T2.6 did not receive NumPEx funding during this reporting period.
 
 \section{Application Showcase}
+\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
+result to an annual advance and benchmark, and flag missing mappings explicitly.}
 % 
 %\input{chapters/applications/specs/app-scimba-rom-1}  
 % \input additional app specs as needed
@@ -184,12 +224,16 @@ solving PDEs in high physical  dimensions (such as radiative transfer)
 or with parametric dependencies.
 
 \section{Software Framework Contributions}
+\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
+software descriptions only as dated context.}
 % • PINN frameworks: …  
 % • Neural Operators: …  
 % • Reduced‐basis toolboxes: …  
 % • NIRB methods: …
 
 \subsection{Main Software Framework: Scimba and Feel++}
+\WPUpdateNote{Update the Scimba and Feel++ contributions, versions and supporting
+evidence for 2026.}
 
 Scimba is a  library that implements PINNs or  sequential time methods
 (discrete PINNs,  neural Galerkin  or semi-Lagrangian).  The  code can
@@ -202,6 +246,8 @@ Jax is  currently being developed.  The code also implements  EDO flow
 learning methods.  NO methods will also be implemented in the future.
 
 \subsection{Additional Software Framework}
+\WPUpdateNote{Update this subsection only for additional software that supported
+an identified 2026 advance.}
 
 
 \paragraph{Frameworks mapping.}
@@ -211,6 +257,8 @@ learning methods.  NO methods will also be implemented in the future.
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
+\WPUpdateNote{Replace planned or expected results with measured 2026 values only
+when the configuration, baseline and evidence are available.}
 % • Surrogate model speedups placeholder  
 % • Error vs.\ basis size placeholder  
 % • Regression test pass-rate placeholder
@@ -225,6 +273,8 @@ novel methodologies under development.
 \end{itemize}
 
 \section{Roadmap \& Next Steps}
+\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
+2026 advances and benchmark evidence have been validated.}
 % • Deliverables D2.x to complete by Mxx  
 % • New apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  

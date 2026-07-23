@@ -1,0 +1,60 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Standalone WP7 - v3 integration draft
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{report}
+\usepackage{numpex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp,amsmath,empheq,fancybox,anyfontsize,cleveref,standalone,import}
+\usepackage[printonlyreused,withpage]{acronym}
+\usepackage{booktabs,geometry,tabularx,longtable,paralist,multirow,pgf-pie,tikz}
+\setlength{\headheight}{37.92728pt}
+\addtolength{\topmargin}{-1.02pt}
+\setlength{\footskip}{28.91753pt}
+\usepackage{xspace,float,relsize,minted,siunitx,currfile,pgfplots,pgfplotstable,tabularray}
+\DeclareSIUnit\mmHg{mmHg}
+\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{positioning,fit,matrix}
+\definecolor{bgcolor}{gray}{0.95}
+\definecolor{lightblue}{RGB}{173,216,230}
+\definecolor{darkgreen}{RGB}{0,100,0}
+\definecolor{pink}{RGB}{255,192,203}
+\definecolor{lime}{RGB}{210,250,100}
+\definecolor{skyblue}{RGB}{135,206,235}
+\definecolor{peach}{RGB}{255,229,180}
+\definecolor{lavender}{RGB}{230,190,255}
+\definecolor{customdarkblue}{HTML}{0C2472}
+\definecolor{customcyan}{HTML}{00BFFF}
+\definecolor{customorange}{HTML}{F1892C}
+\definecolor{customyellow}{HTML}{FFD700}
+\definecolor{custompurple}{HTML}{800080}
+\definecolor{customgreen}{HTML}{00FF00}
+\definecolor{CustomBlue}{rgb}{0.25,0.41,0.88}
+\makeatletter
+\newcommand\resetstackedplots{\pgfplots@stacked@isfirstplottrue}
+\makeatother
+\hypersetup{pdftitle={WP7 - v2.90.0 integration draft},pdfauthor={Exa-MA Consortium},colorlinks=true,citecolor=CustomBlue,linkcolor=CustomBlue,urlcolor=blue}
+\graphicspath{{graphics/}}
+\input{defs}
+\urlstyle{same}
+\begin{document}
+\title{WP7 - Showroom, Benchmarking, Co-Design and Training\\
+\large Exa-MA D7.1 v2.90.0 integration draft - Standalone Chapter\\
+\normalsize Final target v3.0.0 -- 14 October 2026}
+\author{WP7 Team}
+\date{23 July 2026}
+\maketitle
+\tableofcontents
+\clearpage
+\input{sections/abbreviations}
+\subimport{chapters/WP7/}{WP7}
+\import{chapters/}{methodology}
+\import{chapters/}{software}
+\import{chapters/}{applications}
+\import{chapters/}{benchmarks}
+\import{chapters/}{training}
+\clearpage
+\bibliography{references}
+\bibliographystyle{apacite}
+\end{document}
