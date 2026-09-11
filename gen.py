@@ -1,678 +1,312 @@
-from collections import Counter
-from jinja2 import Environment, FileSystemLoader
-import os
-import pandas as pd
-from tabulate import tabulate
-import numpy as np
-# Specify the path to your Excel file
-file_path = 'exama-software.xlsx'
-# Define the sheet name or index
-sheet_name = 'Software'
+# /// script
+# requires-python = ">=3.9"
+# dependencies = ["jinja2>=3.1,<4", "openpyxl>=3.1,<4"]
+# ///
+"""Generate one framework's metadata without changing its editorial fiche.
 
-# Load the specified range of the Excel sheet into a DataFrame
-# Assuming the data starts from the first row and first column, and ends at column 'X' (24th) and row 46
-df = pd.read_excel(file_path, sheet_name=sheet_name,engine='openpyxl')
+Run: uv run gen.py --help
+The historical bulk generator is archived in scripts/legacy_gen.py.
+"""
 
-benchmarked_software = df[df['Benchmarked'].str.contains('CPU|GPU|HYBRID', na=False)]
-
-# replace # in Languages with Sharp
-benchmarked_software['Languages'] = benchmarked_software['Languages'].str.replace(
-    '#', '\#')
-benchmarked_software['Interfaces'] = benchmarked_software['Interfaces'].str.replace(
-    '_', '\_')
-def software_prefix(sofware):
-    name = software['Software']
-    return name.replace('+', 'p').replace(' ', '-').replace('/', '-').lower()
-
-
-
-# get boolean value of 'Yes' or 'No' for columns 
-def is_benchmarked_in(wp,row):
-    # check that the string WP is in the column name
-    return row[f"{wp} Benchmarked"]
-
-
-def check_ci(entry):
-#    print(entry)
-    if (entry['DevOps'] == 'None') or pd.isnull(entry['DevOps']):
-        return 'None'
-    do = entry['DevOps'].replace('\n', ' ')  # Clean up the string
-
-    ci_keywords = ['Continuous Integration', 'Continuous Delivery',
-                   'Continuous Deployment', 'Continuous Benchmarking']
-    # Find all CI-related keywords that are present
-    found_keywords = [keyword for keyword in ci_keywords if keyword in do]
-
-    # Convert list of found keywords to a string separated by commas
-    res = ', '.join(found_keywords)
-
-    # Print the software and what was found (for debugging)
-    #print(f"{entry['Software']} :  {do} --> {res}")
-
-    return res if res else 'None'  # Return 'None' if no keywords found
-
-def check_packaging(entry):
-    package_keywords = ['Packages - Debian', 'Packages - Ubuntu', 'Packages - Fedora',
-                        'Packages - GUIX-HPC', 'Packages - Spack', 'Packages - Other']
-    if (entry['DevOps'] == 'None') or pd.isnull(entry['DevOps']):
-        return 'None'
-    do = entry['DevOps'].replace('\n', ' ')  # Clean up the string
-    found_keywords = [keyword for keyword in package_keywords if keyword in do]
-    res = ', '.join(found_keywords.replace('Packages - ', '') for found_keywords in found_keywords)
-    #print(f"{entry['Software']} :  {do} --> {res}")
-    return res if res else 'None'
-
-
-def check_containers(entry):
-    container_keywords = ['Container - Docker', 'Container - Singularity',
-                          'Container - Apptainer', 'Container - Other']
-    if (entry['DevOps'] == 'None') or pd.isnull(entry['DevOps']):
-        return 'None'
-    do = entry['DevOps'].replace('\n', ' ')  # Clean up
-    found_keywords = [keyword for keyword in container_keywords if keyword in do]
-    res = ', '.join(found_keywords.replace('Container - ', '') for found_keywords in found_keywords)
-    #print(f"{entry['Software']} :  {do} --> {res}")
-    return res if res else 'None'
-
-
-def check_tests(entry):
-    test_keywords = ['Test - Unit', 'Test - Verification',
-                     'Test - Validation', 'Test - Fuzzy', 'Test - Functional']
-    if (entry['DevOps'] == 'None') or pd.isnull(entry['DevOps']):
-        return 'None'
-    do = entry['DevOps'].replace('\n', ' ')  # Clean up
-    found_keywords = [keyword for keyword in test_keywords if keyword in do]
-    res = ', '.join(found_keywords.replace('Test - ', '') for found_keywords in found_keywords)
-    #print(f"{entry['Software']} :  {do} --> {res}")
-    return res if res else 'None'
-
-
-def check_bottlenecks(entry):
-    bottleneck_entries = ['B1 - Energy Efficiency',
-                     'B2 - Interconnect Technology',
-                     'B3 - Memory Technology',
-                     'B4 - Scalable System Software',
-                     'B5 - Programming Systems',
-                     'B6 - Data Management',
-                     'B7 - Exascale Algorithms',
-                     'B8 - Discovery, Design, and Decision Algorithms',
-                     'B9 - Resilience, Robustness, and Accuracy',
-                     'B10 - Scientific Productivity',
-                     'B11 - Reproducibility and Replicability of Computation',
-                     'B12 - Pre/Post Processing and In-Situ Processing',
-                     'B13 - Integration of Uncertainties into Core Calculations]',
-    ]
-    if (entry['Bottlenecks'] == 'None') or pd.isnull(entry['Bottlenecks']):
-        return 'None'
-    print(entry['Bottlenecks'])
-    do = entry['Bottlenecks'].replace('\n', ' ').replace('"','')  # Clean up
-    found_keywords = [keyword for keyword in bottleneck_entries if keyword in do]
-    res = ', '.join(keywords.replace('Test - ', '')
-                    for keywords in found_keywords)
-    # print(f"{entry['Software']} :  {do} --> {res}")
-    return res if res else 'None'
-
-
-def generate_latex_table(desc, input_string, strip=True):
-
-    # Split the input string by comma
-    if strip:
-        items = [item.strip() for item in input_string.split(',')]
-    else:
-        items = [input_string]
-    items.sort()
-    # Start the LaTeX table
-    latex_code = '\\begin{tabular}{!{\\color{numpexgray}\\vrule}p{.25\\linewidth}!{\\color{numpexgray}\\vrule}p{.6885\\linewidth}!{\\color{numpexgray}\\vrule}}\n'
-    latex_code += '    \n'
-    latex_code += '    \\rowcolor{numpexgray}{\\rule{0pt}{2.5ex}\\color{white}\\bf' + f' {desc}' + '} &  {\\rule{0pt}{2.5ex}\\color{white}\\bf Short Description }\\\\ \n'
-    latex_code += '    \n'
-
-    # Add each item as a new row
-    for index,item in enumerate(items):
-        if index % 2 == 0:
-            latex_code += '\\rowcolor{white}'+f'    {item} & provide short description here \\\\\n'
-        else:
-            latex_code += '\\rowcolor{numpexlightergray}' + \
-                f'    {item} & provide short description here \\\\\n'
-#        latex_code += '    \\bottomrule\n'
-
-    # End the LaTeX table
-    latex_code += '\\end{tabular}'
-
-    return latex_code
-
-
-def generate_latex_table_simple(input_string, strip=True):
-    if pd.isnull(input_string):
-        items = ['None']
-    elif strip:
-        items = [item.strip() for item in input_string.split(',')]
-    else:
-        items = [input_string]
-    items.sort()
-    latex_code = '\\begin{tabular}{l}\n'
-    for index, item in enumerate(items):
-        latex_code += f'{item}\\\\\n'
-    latex_code += '\\end{tabular}'
-
-    return latex_code
-
-# Apply functions to create new columns based on 'DevOps'
-benchmarked_software['CI'] = benchmarked_software.apply(lambda row: check_ci(row), axis=1)
-benchmarked_software['Packaging'] = benchmarked_software.apply(lambda row: check_packaging(row), axis=1)
-benchmarked_software['Containers'] = benchmarked_software.apply(lambda row: check_containers(row), axis=1)
-benchmarked_software['Tests'] = benchmarked_software.apply(lambda row: check_tests(row), axis=1)
-benchmarked_software['Bottlenecks'] = benchmarked_software.apply(
-    lambda row: check_bottlenecks(row), axis=1)
-
-
-def normalize_archs(arch_string):
-    # Define a dictionary to map various input forms to standardized forms
-    arch_map = {
-        'CPU Only': ['CPU ONLY'],
-        'GPU Only': ['GPU ONLY'],
-        'CPU or GPU': ['CPU OR GPU'],
-        'CPU and GPU': ['CPU AND GPU'],
-        'Indirect': ['INDIRECT'],
-        'Not Yet Benchmarked': ['NOT YET']
-    }
-
-    # Split the string by commas and strip spaces
-    archs = [arch.strip().upper() for arch in arch_string.split(',')]
-    normalized_archs = []
-
-    # Normalize each architecture entry
-    for arch in archs:
-        found = False
-        print(f"arch: {arch}\n")
-        # Check each category for a match
-        for standard, variations in arch_map.items():
-            if arch in variations:
-                normalized_archs.append(standard)
-                found = True
-                break
-        # If no predefined category matches, classify as 'Unknown'
-        if not found:
-            normalized_archs.append('Unknown')
-
-    return normalized_archs
-    
-def normalize_languages(lang_string):
-    # Split the string by commas and strip spaces
-    languages = [lang.strip() for lang in lang_string.split(',')]
-    # Normalize C++ entries
-    normalized_languages = []
-    for lang in languages:
-        if 'C++' in lang:
-            # Consolidate all C++ variations
-            normalized_languages.append(lang)
-        else:
-            normalized_languages.append(lang)
-    return normalized_languages
-
-
-def normalize_data_formats(data_string):
-    # Split the string by commas and strip spaces
-    if pd.isnull(data_string):
-        return ['None']
-    formats = [format.strip() for format in data_string.split(',')]
-    normalized_formats = []
-    for format in formats:
-        # Normalize specific formats
-        if 'JSON' in format.upper():
-            normalized_formats.append('JSON')
-        elif 'XML' in format.upper():
-            normalized_formats.append('XML')
-        elif 'YAML' in format.upper():
-            normalized_formats.append('YAML')
-        elif 'HDF5' in format.upper():
-            normalized_formats.append('HDF5')
-        elif 'DATABASE' in format.upper():
-            normalized_formats.append('Database')
-        elif 'DATA-MANAGEMENT' in format.upper():
-            normalized_formats.append('Data-management system')
-        elif 'IN-HOUSE' in format.upper():
-            normalized_formats.append('in-house format')
-        elif 'VTK' in format.upper():
-            normalized_formats.append('VTK')
-        elif 'ENSIGHT' in format.upper():
-            normalized_formats.append('Ensight')
-        elif 'GMSH' in format.upper():
-            normalized_formats.append('Gmsh and associated formats')
-        elif 'MED' in format.upper():
-            normalized_formats.append('MED')
-        elif 'ADIOS' in format.upper():
-            normalized_formats.append('Adios')
-        elif 'ASCII' in format.upper():
-            normalized_formats.append('ASCII')
-        elif 'ROOT' in format.upper():
-            normalized_formats.append('ROOT')
-        elif 'SQL' in format.upper():
-            normalized_formats.append('SQL')
-        elif 'NETCDF' in format.upper():
-            normalized_formats.append('netcdf')
-        elif 'MFRONT' in format.upper():
-            normalized_formats.append('MFront')
-        else:
-            normalized_formats.append(format)  # Default case if no matches
-    return normalized_formats
-
-
-def normalize_parallelism(parallelism_string):
-    # Split the string by commas and strip spaces
-    technologies = [tech.strip() for tech in parallelism_string.split(',')]
-    normalized_technologies = []
-    for tech in technologies:
-        # Normalize specific parallelism technologies
-        if 'MPI' in tech.upper():
-            normalized_technologies.append('MPI')
-        elif 'MULTITHREAD' in tech.upper():
-            normalized_technologies.append('Multithread')
-        elif 'CHAPEL' in tech.upper():
-            normalized_technologies.append('Chapel')
-        elif 'GPU' in tech.upper():  # Capture all GPU-related entries
-            normalized_technologies.append('GPU')
-        elif 'TASK BASED' in tech.upper():  # Generalize all task-based parallelism
-            normalized_technologies.append('Task based')
-        elif 'C++' in tech.upper() and 'PARALLELISM' in tech.upper():
-            normalized_technologies.append('Parallelism - C++')
-        else:
-            normalized_technologies.append(tech)  # Default case if no matches
-    return normalized_technologies
-
-
-def normalize_resilience(resilience_string):
-    # Split the string by commas and strip spaces
-    technologies = [tech.strip() for tech in resilience_string.split(',')]
-    normalized_technologies = []
-    for tech in technologies:
-        tech = tech.split('-')[0]
-        # Normalize specific parallelism technologies
-        if 'CHECKPOINT RESTART' in tech.upper():
-            normalized_technologies.append('Checkpoint/Restart')
-        elif 'ULFM' in tech.upper():
-            normalized_technologies.append('ULFM')
-        elif 'FTI' in tech.upper():
-            normalized_technologies.append('FTI')
-        else:
-            normalized_technologies.append(tech)  # Default case if no matches
-    return normalized_technologies
-
-
-def normalize_devops(devops_string):
-    categories = {
-        'CI/CD': [],
-        'Packaging': [],
-        'Testing': [],
-        'Containers': []
-    }
-    if pd.isnull(devops_string):
-        return {
-            'CI/CD': ['None'],
-            'Packaging': ['None'],
-            'Testing': ['None'],
-            'Containers': ['None']
-        }
-    entries = [entry.strip() for entry in devops_string.split(',')]
-
-    for entry in entries:
-        if 'Continuous' in entry:
-            categories['CI/CD'].append(entry)
-        elif 'Container' in entry:
-            if 'Apptainer' in entry or 'Singularity' in entry:
-                categories['Containers'].append('Apptainer/Singularity')
-            else:
-                categories['Containers'].append(entry.split('-')[1].strip())
-        elif 'Packages' in entry:
-            # Group Debian and Ubuntu into Debian-based packaging
-            if 'Debian' in entry or 'Ubuntu' in entry:
-                categories['Packaging'].append('Debian-based')
-            else:
-                categories['Packaging'].append(entry.split('-')[1].strip())
-        elif 'Test' in entry:
-            print(entry)
-            categories['Testing'].append(entry.split('-')[1].strip())
-    if not categories['CI/CD']:
-        categories['CI/CD'].append('None')
-    if not categories['Packaging']:
-        categories['Packaging'].append('None')
-    if not categories['Containers']:
-        categories['Containers'].append('None')
-    if not categories['Testing']:
-        categories['Testing'].append('None')
-    
-    return categories
-
-stats_software=benchmarked_software
-
-stats_software['Benchmarked'] = stats_software['Benchmarked'].apply(
-    lambda x: ', '.join(normalize_archs(x)))
-# Apply normalization to the Languages column
-stats_software['Languages'] = stats_software['Languages'].apply(
-    lambda x: ', '.join(normalize_languages(x)))
-stats_software['Parallelism'] = stats_software['Parallelism'].apply(
-    lambda x: ', '.join(normalize_parallelism(x)))
-stats_software['Data'] = stats_software['Data'].apply(
-    lambda x: ', '.join(normalize_data_formats(x)))
-stats_software['DevOps CI/CD'] = stats_software['DevOps'].apply(
-    lambda x: ', '.join(normalize_devops(x)['CI/CD']))
-stats_software['DevOps Packaging'] = stats_software['DevOps'].apply(
-    lambda x: ', '.join(normalize_devops(x)['Packaging']))
-stats_software['DevOps Containers'] = stats_software['DevOps'].apply(
-    lambda x: ', '.join(normalize_devops(x)['Containers']))
-stats_software['DevOps Testing'] = stats_software['DevOps'].apply(
-    lambda x: ', '.join(normalize_devops(x)['Testing']))
-
-def count_frequencies(df,column,debug=False):
-    items = []
-    df[column].dropna().apply(lambda x: items.extend(x.split(', ')))
-    if debug:
-        print(items)
-    return Counter(items)
-
-archs_freq = count_frequencies(stats_software,'Benchmarked')
-print(archs_freq)
-languages_freq = count_frequencies(stats_software,'Languages')
-parallelism_freq = count_frequencies(stats_software,'Parallelism')
-data_freq = count_frequencies(stats_software,'Data')
-resilience_freq = count_frequencies(stats_software, 'Resilience')
-
-devops_cicd_freq = count_frequencies(stats_software, 'DevOps CI/CD')
-devops_packaging_freq = count_frequencies(stats_software, 'DevOps Packaging')
-devops_containers_freq = count_frequencies(stats_software, 'DevOps Containers')
-devops_testing_freq = count_frequencies(stats_software, 'DevOps Testing',debug=True)
-
-
-def tikz_pie_chart(data, title, caption, label):
-    colors = [
-        "red",       # Bright enough to contrast well with black
-        "orange",    # Good contrast with black
-        "yellow",    # Excellent for black text
-        "lime",      # Lighter shade of green
-        "skyblue",   # A lighter blue that contrasts well with black
-        "pink",      # Naturally light and offers good readability
-        "cyan",      # Light and vibrant, contrasting with black
-        "magenta",   # Bright and pops against black
-        "peach",     # Soft and visible against black
-        "lavender"   # Light and easy on the eyes with black text
-    ]
-    chart = "\\begin{figure}[H]\n\\centering\n\\begin{tikzpicture}\n"
-    chart += "\\pie[text=legend, color={"
-    chart += ", ".join(colors[:len(data)]) + "}, sum=auto]"
-    chart += "{"
-    chart += ", ".join([f"{value}/{key}" for key, value in data.items()])
-    chart += "}\n\\end{tikzpicture}\n"
-    chart += f"\\caption{{{caption}}}\n"
-    chart += f"\\label{{fig:{label}}}\n"
-    chart += "\\end{figure}\n"
-    return chart
-
-arch_chart = tikz_pie_chart(archs_freq, "Benchmarked Architectures", caption="Distribution of benchmarked hardware architectures", label="arch")
-languages_chart = tikz_pie_chart(languages_freq, "Languages", caption="Distribution of programming languages", label="languages")
-parallelism_chart = tikz_pie_chart(parallelism_freq, "Parallelism", caption="Distribution of parallelism technologies", label="parallelism")  
-data_chart = tikz_pie_chart(data_freq, "Data", caption="Distribution of data formats", label="data")
-resilience_chart = tikz_pie_chart(
-    resilience_freq, "Resilience", caption="Distribution of Resilience strategies", label="resilience")
-devops_cicd_chart = tikz_pie_chart(
-    devops_cicd_freq, "DevOps", caption="Distribution of DevOps CI/CD/CD", label="devops-cicd")
-devops_packaging_chart = tikz_pie_chart(
-    devops_packaging_freq, "DevOps", caption="Distribution of DevOps Packaging", label="devops-packaging")
-devops_containers_chart = tikz_pie_chart(
-    devops_containers_freq, "DevOps", caption="Distribution of DevOps Containers", label="devops-containers")
-devops_testing_chart = tikz_pie_chart(
-    devops_testing_freq, "DevOps", caption="Distribution of DevOps Testing", label="devops-testing")        
-
-
-#for wp in range(1,8):
-#    df[f'Benchmarked in WP{wp}'] = df.apply(
-#        lambda row: is_benchmarked_in(f'WP{wp}', row), axis=1)
-#    b_df=df[df[f'Benchmarked in WP{wp}'] == True]['Software']
-#    print(f"WP{wp} : {b_df.values}")
-
-#print("feel++:", is_benchmarked_in('WP1',df[df['Software']=='Feel++']))
+import argparse
+import csv
+from datetime import date
+import io
 import json
-for index,software in benchmarked_software.iterrows():
+from pathlib import Path
+import re
+import sys
+from urllib.parse import parse_qs, quote, urlencode, urlsplit
+from urllib.request import urlopen
 
-    software_json = json.loads(software.to_json())
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-    print(software_json)
-
-# Sample data, replace with your actual data source
-software_list = [
-    {
-        "categories": [ "WP7" ],
-        "name": "Arcane Framework",
-        "email": "lydie.grospellier@cea.fr",
-        "architecture": "HYBRID",
-        "repository": "https://github.com/arcaneframework/framework"
-    },
-    {
-        "categories": ["WP1"],
-        "name": "CGAL",
-        "email": "pierre.alliez@inria.fr",
-        "architecture": "CPU",
-        "repository": "https://github.com/CGAL"
-    },
-    {
-        "categories": ["WP2"],
-        "name": "Scimba",
-        "email": "emmanuel.franck@inria.fr, matthieu.boileau@math.unistra.fr, victor.michel-dansac@inria.fr",
-        "architecture": "GPU",
-        "repository": "https://gitlab.inria.fr/scimba/scimba"
-    },
-    {
-        "categories": ["WP1","WP2","WP3","WP4","WP5","WP7"],
-        "name": "Feel++",
-        "email": "vincent.chabannes@cemosis.fr, christophe.prudhomme@cemosis.fr",
-        "architecture": "CPU",
-        "repository": "https://github.com/feelpp/feelpp"
-    },
-    {
-        "categories": ["WP1", "WP2", "WP3", "WP4", "WP7"],
-        "name": "FreeFem++",
-        "email": "frederic.hecht@sorbonne-universite.fr, pierre.jolivet@sorbonne-universite.fr",
-        "architecture": "CPU",
-        "repository": "https://github.com/FreeFem/FreeFem-sources"
-    },
-    {
-        "categories": ["WP1","WP3","WP4"],
-        "name": "Hawen",
-        "email": "florian.faucher@inria.fr",
-        "architecture": "CPU",
-        "repository": "https://gitlab.com/ffaucher/hawen"
-    },
-    {
-        "categories": ["WP1"],
-        "name": "Samurai",
-        "email": "loic.gouarin@polytechnique.edu",
-        "architecture": "CPU",
-        "repository": "https://github.com/hpc-maths/samurai"
-    },
-    {
-        "categories": ["WP3"],
-        "name": "HPDDM",
-        "email": "pierre.joliv.et",
-        "architecture": "CPU",
-        "repository": "https://github.com/hpddm/hpddm"
-    },
-    {
-        "categories": ["WP3"],
-        "name": "MaHyCo",
-        "email": "jean-philippe.perlat@cea.fr",
-        "architecture": "HYBRID",
-        "repository": "URL not visible"
-    },
-    {
-        "categories": ["WP7"],
-        "name": "MANTA",
-        "email": "olivier.jamond@cea.fr",
-        "architecture": "CPU",
-        "repository": "URL not visible"
-    },
-    {
-        "categories": ["WP3"],
-        "name": "Maphys++",
-        "email": "gilles.marait@inria.fr",
-        "architecture": "HYBRID",
-        "repository": "https://gitlab.inria.fr/solverstack/maphys/maphyspp"
-    },
-    {
-        "categories": ["WP1"],
-        "name": "MMG-ParMMG",
-        "email": "No visible email",
-        "architecture": "CPU",
-        "repository": "URL not visible"
-    },
-    {
-        "categories": ["WP5"],
-        "name": "pBB",
-        "email": "noureddine.melab@univ-lille.fr",
-        "architecture": "HYBRID",
-        "repository": "https://gitlab.inria.fr/igmys/permutationbb"
-    },
-    {
-        "categories": ["WP7"],
-        "name": "TRUST Platform",
-        "email": "pierre.ledac@cea.fr",
-        "architecture": "HYBRID",
-        "repository": "https://github.com/cea-trust-platform"
-    },
-    {
-        "categories": ["WP6"],
-        "name": "Uranie",
-        "email": "rudy.chocat@cea.fr, jean-baptiste.blanchard@cea.fr",
-        "architecture": "CPU",
-        "repository": "https://sourceforge.net/projects/uranie/"
-    },
-    {
-
-        "categories": ["WP5"],
-        "name": "Zellij",
-        "email": "el-ghazali.talbi@univ-lille.fr",
-        "architecture": "GPU",
-        "repository": "https://github.com/ThomasFirmin/zellij"
-    }
-]
-WPs = {
-    "WP1": "WP1 - Discretization",
-    "WP2": "WP2 - Model order, Surrogate, Scientific Machine Learning methods",
-    "WP3": "WP3 - Solvers",
-    "WP4": "WP4 - Data assimilation",
-    "WP5": "WP5 - Optimization",
-    "WP6": "WP6 - Uncertainty quantification",
-    "WP7": "Mini-Apps and Proxy-Apps"
+ROOT = Path(__file__).resolve().parent
+MARKER = "% Generated by gen.py; edit the catalogue snapshot, not this file.\n"
+LATEX = {
+    "\\": r"\textbackslash{}",
+    "&": r"\&",
+    "%": r"\%",
+    "$": r"\$",
+    "#": r"\#",
+    "_": r"\_",
+    "{": r"\{",
+    "}": r"\}",
+    "~": r"\textasciitilde{}",
+    "^": r"\textasciicircum{}",
 }
 
-# Set up Jinja2 environment for LaTeX
-env = Environment(
-    block_start_string='\BLOCK{',
-    block_end_string='}',
-    variable_start_string='\VAR{',
-    variable_end_string='}',
-    comment_start_string='\#{',
-    comment_end_string='}',
-    # Adjust the path to where your template file is stored
-    loader=FileSystemLoader(searchpath="./")
-)
 
-# Load template from file
-template_desc = env.get_template('templates/desc-software.tex')
-template_wp = env.get_template('templates/wp-software.tex')
-template_soft = env.get_template('templates/software.tex')
-# for software in software_list:
-#     rendered = template.render(software=software)
-# 
-#     # Define file name
-#     file_name = f"sections/sw-{software['name'].replace(' ', '_').lower()}.tex"
-#     with open(file_name, 'w') as f:
-#         f.write(rendered)
-#     print(f"Generated LaTeX file for {software['name']} at {file_name}")
-# 
+def clean(value):
+    return "" if value is None else str(value).strip()
 
-# Directory for sections if not already created
-os.makedirs('chapters', exist_ok=True)
-os.makedirs('software',exist_ok=True)
 
-# Dictionary to store LaTeX content per category
-latex_content_per_category = {}
-software_list = dict()
-software_list['arch_chart'] = arch_chart
-software_list['languages_chart'] = languages_chart
-software_list['parallelism_chart'] = parallelism_chart
-software_list['data_chart'] = data_chart
-software_list['resilience_chart'] = resilience_chart
-software_list['devops_cicd_chart'] = devops_cicd_chart
-software_list['devops_packaging_chart'] = devops_packaging_chart
-software_list['devops_containers_chart'] = devops_containers_chart
-software_list['devops_testing_chart'] = devops_testing_chart
-software_list["software"] = ""
-# sort software_list with respect to name in lexical order
-#software_list = sorted(software_list, key=lambda x: x['name'])
-for index,software in benchmarked_software.iterrows():
-    software_json = json.loads(software.to_json())
-    software_json['name'] = software['Software']
-    for column_name in ['Emails','Consortium', 'Partner', 'License', 'Bottlenecks', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'Resilience', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience','Interfaces']:
-        software_json[column_name] = generate_latex_table_simple(
-            input_string=software[column_name])
-    desc = template_desc.render(software= software_json)
-    name = software['Software']
-    prefix = software_prefix(software)
-    os.makedirs(f'software/{prefix}', exist_ok=True)
-    software_json['prefix'] = prefix
-    software_list["software"] += '\input{software/'+f'{prefix}/{prefix}.tex'+'}\n'
-    
-    with open(f'software/{prefix}/{prefix}.tex', 'w') as f:
-        f.write(desc)
-    # Loop through all categories for the current software
-    for wpindex in range(1,7):
-        category = f'WP{wpindex}'
-        print(f"category: {category}")
-        if is_benchmarked_in(category,software):
-            software_json = json.loads(software.to_json())
-            software_json['name'] = software['Software']
-            software_json['WP'] = generate_latex_table(
-                desc="Features", input_string=software[category])
-            software_json['BottlenecksT'] = generate_latex_table(
-                desc="Bottlenecks", input_string=software['Bottlenecks'])
-            for column_name in ['Emails', 'Consortium', 'Partner', 'License', 'Bottlenecks', 'Languages', 'Benchmarked', 'Parallelism', 'Data', 'Resilience', 'DevOps', 'CI', 'Packaging', 'Containers', 'Tests', 'Resilience', 'Interfaces']:
-                software_json[column_name] = generate_latex_table_simple(
-                    input_string=software[column_name])
-            software_json['Emails'] = generate_latex_table_simple(
-                input_string=software['Emails'])
-            wp = template_wp.render(software=software_json,wp=category,bottlenecks=software_json['BottlenecksT'])
-            # Ensure the category has an entry in the dictionary
-            if category not in latex_content_per_category:
-                latex_content_per_category[category] = []
-            # Append the rendered content to the category
-            software_json['wp'] = wp
-            #print(software['rendered'])
-            latex_content_per_category[category].append(software_json)
-            os.makedirs(f'software/{prefix}/{category}', exist_ok=True)
-            with open(f'software/{prefix}/{category}/{category}.tex', 'w') as f:
-                f.write(wp)
-            print(f"- Generated LaTeX file for {name} in category {category}: software/{prefix}/{category}/{category}.tex")
+def latex(value):
+    """Escape source text once, including backslashes and multiline cells."""
+    return "".join(LATEX.get(c, c) for c in " ".join(clean(value).split()))
 
-with open('chapters/software.tex', 'w') as f:
-    f.write(template_soft.render(software=software_list))
 
-# sort latex_content_per_category with respect to category in lexical order
-latex_content_per_category = dict(sorted(latex_content_per_category.items()))
-# Now, generate a .tex file for each category containing all relevant software entries
-with open('chapters/00-index.tex', 'a') as main_index:
-    for category, software_list in latex_content_per_category.items():
-        # create the directory for the category
-        os.makedirs(f'chapters/{category}', exist_ok=True)
-        main_index.write('\chapter{'+f'{WPs[category]}'+'}\n')
-        main_index.write('\clearpage\n\subimport{'+f'./{category}'+'}{00-index}\n\n')
-        with open(f'chapters/{category}/00-index.tex', 'w') as index:
-            for i,software in benchmarked_software.iterrows():
-                #software_json = software.to_json()
-                #name = software['Software']
+def link(value, label):
+    value = clean(value)
+    parsed = urlsplit(value)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        raise ValueError("Expected an HTTP(S) URL: " + value)
+    value = quote(value, safe=":/?&=+#%@-._~")
+    return r"\href{" + latex(value) + "}{" + latex(label) + "}"
 
-                prefix = software_prefix(software)
-                #content_list = software['wp']
-                # include the software in the category file
-                if is_benchmarked_in(category,software):
-                    index.write('\input{software/'+f'{prefix}/{category}/{category}.tex'+'}\n')
-                #index.write('\input{software/'+f'{prefix}/{category}/{category}.tex'+'}\n')
 
+def benchmark_flag(value):
+    """Google exports use strings; bool('FALSE') must not mean benchmarked."""
+    if value is None or clean(value) == "":
+        return None
+    token = clean(value).casefold()
+    if token in {"true", "yes", "1", "1.0"}:
+        return True
+    if token in {"false", "no", "0", "0.0"}:
+        return False
+    raise ValueError("Invalid WP benchmark flag: " + repr(value))
+
+
+def select_row(rows, framework, source):
+    rows = iter(rows)
+    headers = [clean(h) for h in next(rows, [])]
+    name_key = "Name" if "Name" in headers else "Software"
+    if name_key not in headers:
+        raise ValueError("Expected a Name (Frameworks) or Software column")
+    nonempty = [h for h in headers if h]
+    if len(nonempty) != len(set(nonempty)):
+        raise ValueError("Duplicate column names in catalogue")
+    matches = []
+    for number, values in enumerate(rows, 2):
+        entry = dict(zip(headers, values))
+        if clean(entry.get(name_key)).casefold() == framework.strip().casefold():
+            entry = {key: value for key, value in entry.items() if key}
+            entry["Name"] = clean(entry[name_key])
+            if name_key == "Software":
+                del entry["Software"]
+            matches.append({"source": dict(source, row=number), "framework": entry})
+    if len(matches) != 1:
+        raise ValueError(
+            f"Expected one exact match for {framework!r}; found {len(matches)}"
+        )
+    return matches[0]
+
+
+def load_local(path, framework, sheet=None):
+    source = {"file": path.name, "retrieved_at": date.today().isoformat()}
+    if path.suffix.lower() == ".json":
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if clean(data["framework"]["Name"]).casefold() != framework.strip().casefold():
+            raise ValueError("Snapshot does not match the requested framework")
+        return data
+    if path.suffix.lower() == ".csv":
+        with path.open(encoding="utf-8-sig", newline="") as stream:
+            return select_row(
+                csv.reader(stream), framework, dict(source, sheet=sheet or "Catalogue")
+            )
+    if path.suffix.lower() != ".xlsx":
+        raise ValueError("Input must be .xlsx, .csv, or a catalogue .json snapshot")
+    from openpyxl import load_workbook
+
+    workbook = load_workbook(path, read_only=True, data_only=True)
+    try:
+        if sheet is None:
+            sheet = next(
+                (s for s in ("Frameworks", "Software") if s in workbook.sheetnames),
+                None,
+            )
+        if sheet not in workbook.sheetnames:
+            raise ValueError("No Frameworks/Software worksheet; specify --sheet")
+        return select_row(
+            workbook[sheet].iter_rows(values_only=True),
+            framework,
+            dict(source, sheet=sheet),
+        )
+    finally:
+        workbook.close()
+
+
+def load_google(url, framework, sheet=None):
+    """Read-only CSV export; private sheets can be exported and passed as input.
+
+    No credentials or cookies are requested or stored.
+    """
+    parsed = urlsplit(url)
+    match = re.fullmatch(r"/spreadsheets/d/([A-Za-z0-9_-]+)(?:/.*)?", parsed.path)
+    if parsed.scheme != "https" or parsed.netloc != "docs.google.com" or not match:
+        raise ValueError("--sheet-url must be a docs.google.com spreadsheet URL")
+    query = parse_qs(parsed.query)
+    fragment = parse_qs(parsed.fragment)
+    gid = fragment.get("gid", query.get("gid", ["0"]))[0]
+    if not gid.isdigit():
+        raise ValueError("Sheet gid must be an integer")
+    export = f"https://docs.google.com/spreadsheets/d/{match[1]}/export?"
+    export += urlencode({"format": "csv", "gid": gid})
+    with urlopen(export, timeout=30) as response:
+        payload = response.read(5_000_001)
+        if "html" in response.headers.get("Content-Type", "").lower():
+            raise ValueError("Sheet requires authentication; export it and use --input")
+    if len(payload) > 5_000_000:
+        raise ValueError("CSV export exceeds 5 MB")
+    source = {"url": url, "gid": gid, "retrieved_at": date.today().isoformat()}
+    if sheet:
+        source["sheet"] = sheet
+    return select_row(
+        csv.reader(io.StringIO(payload.decode("utf-8-sig"))), framework, source
+    )
+
+
+def render(data):
+    entry, source = data["framework"], data["source"]
+    fields = [
+        ("Name", "Framework"),
+        ("Partner", "Exa-MA partner"),
+        ("Emails", "Contacts"),
+        ("Consortium", "Consortium"),
+        ("License", "Licence category (survey)"),
+        ("Benchmarked", "Architecture category (survey)"),
+        ("Bottlenecks", "Bottlenecks"),
+        ("Languages", "Languages"),
+        ("Parallelism", "Parallel programming"),
+        ("Data", "Data formats"),
+        ("DevOps", "Development practices"),
+        ("Resilience", "Resilience"),
+        ("Training", "Training resources"),
+        ("API", "API policy"),
+        ("Metadata", "Metadata / versioning"),
+        ("Interfaces", "Interfaces"),
+    ]
+    rows = [
+        (latex(label), latex(entry[key]))
+        for key, label in fields
+        if clean(entry.get(key))
+    ]
+    for key, label in [
+        ("Repository", "Source repository"),
+        ("Docs", "Documentation"),
+        ("Training URL", "Training material"),
+        ("Channels", "Support"),
+    ]:
+        if clean(entry.get(key)):
+            rows.append((label, link(entry[key], label)))
+    work_packages = [
+        (f"WP{i}", latex(entry[f"WP{i}"]))
+        for i in range(1, 8)
+        if clean(entry.get(f"WP{i}"))
+    ]
+    flags = [
+        (f"WP{i}", benchmark_flag(entry.get(f"WP{i} Benchmarked"))) for i in range(1, 8)
+    ]
+    checked = [wp for wp, flag in flags if flag is True]
+    missing = [wp for wp, flag in flags if flag is None]
+    status = (
+        "Benchmark flags checked in the survey: " + ", ".join(checked) + "."
+        if checked
+        else "No WP benchmark flag is checked in this snapshot."
+    )
+    if missing:
+        status += " Flags not supplied: " + ", ".join(missing) + "."
+    source_name = source.get("sheet", "Catalogue")
+    if source.get("row"):
+        source_name += ", row " + str(source["row"])
+    source_label = (
+        link(source["url"], source_name) if source.get("url") else latex(source_name)
+    )
+    environment = Environment(
+        loader=FileSystemLoader(ROOT / "templates"),
+        undefined=StrictUndefined,
+        autoescape=False,
+        block_start_string=r"\BLOCK{",
+        block_end_string="}",
+        variable_start_string=r"\VAR{",
+        variable_end_string="}",
+        comment_start_string=r"\#{",
+        comment_end_string="}",
+        keep_trailing_newline=True,
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
+    return MARKER + environment.get_template("framework-metadata.tex.j2").render(
+        rows=rows,
+        work_packages=work_packages,
+        status=latex(status),
+        source=source_label,
+        retrieved_at=latex(source["retrieved_at"]),
+    )
+
+
+def validate_output(path):
+    if path.exists() and not path.read_text(encoding="utf-8").startswith(MARKER):
+        raise ValueError(f"Refusing to overwrite non-generated file: {path}")
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument(
+        "--input", type=Path, help="Local XLSX, CSV, or selected-row JSON snapshot"
+    )
+    inputs.add_argument(
+        "--sheet-url", help="Google Sheets URL (unauthenticated CSV export)"
+    )
+    parser.add_argument(
+        "--framework", required=True, help="Exact name, case-insensitive"
+    )
+    parser.add_argument("--sheet", help="XLSX defaults to Frameworks, then Software")
+    parser.add_argument(
+        "--output", type=Path, help="Metadata file; otherwise print to stdout"
+    )
+    parser.add_argument(
+        "--snapshot",
+        type=Path,
+        help="Save selected row and provenance to a NEW JSON file",
+    )
+    parser.add_argument(
+        "--check", action="store_true", help="Check --output without writing"
+    )
+    args = parser.parse_args(argv)
+    if args.check and (not args.output or args.snapshot):
+        parser.error("--check requires --output and cannot be combined with --snapshot")
+    paths = [p.resolve() for p in (args.input, args.output, args.snapshot) if p]
+    if len(paths) != len(set(paths)):
+        parser.error("Input, output, and snapshot paths must be distinct")
+    try:
+        data = (
+            load_local(args.input, args.framework, args.sheet)
+            if args.input
+            else load_google(args.sheet_url, args.framework, args.sheet)
+        )
+        text = render(data)
+        if args.check:
+            if (
+                not args.output.exists()
+                or args.output.read_text(encoding="utf-8") != text
+            ):
+                raise ValueError(
+                    "Generated metadata is out of date: " + str(args.output)
+                )
+            return 0
+        # Validate both destinations before any write.
+        if args.snapshot and args.snapshot.exists():
+            raise ValueError(
+                "Snapshot already exists; use a new path and review the diff"
+            )
+        if args.output:
+            validate_output(args.output)
+        if args.snapshot:
+            args.snapshot.parent.mkdir(parents=True, exist_ok=True)
+            with args.snapshot.open("x", encoding="utf-8") as stream:
+                json.dump(data, stream, ensure_ascii=False, indent=2)
+                stream.write("\n")
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(text, encoding="utf-8")
+        else:
+            sys.stdout.write(text)
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        parser.error(str(error))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

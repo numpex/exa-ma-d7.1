@@ -1,0 +1,73 @@
+%!TEX root = ../../exa-ma-d7.1.tex
+\section{Software: FUnTiDES}
+\label{sec:FUnTiDES:software}
+
+\paragraph{Developer review.}
+Aurélien Citrain and Hélène Barucq: please check the scientific scope,
+supported configurations and software policies below, and add the reference
+publications. Application and benchmark associations will be agreed separately.
+
+\subsection{Purpose and scientific scope}
+FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a library for
+two- and three-dimensional acoustic and elastic wave propagation, developed
+by the Inria Makutu team. It combines a C++17 computational backend with
+Python bindings and provides high-order spectral element methods (SEM).
+The catalogue also reports discontinuous Galerkin methods for acoustics;
+the repository contains acoustic DG implementations and an accompanying
+Python example. The scope of supported DG configurations should be confirmed
+by the developers; the survey's broader \emph{dG/hdG} category is not a claim
+of HDG support.
+
+\subsection{Catalogue information}
+\label{sec:FUnTiDES:metadata}
+\input{software/funtides/metadata.tex}
+
+\subsection{Implementation and available evidence}
+Kokkos provides the performance-portability layer for the C++ backend.
+The catalogue lists OpenMP, CUDA and MPI, and the upstream repository
+provides MPI examples. The README marks the pybind11 Python bindings as
+experimental.
+
+The repository's licence file specifies \textbf{CeCILL-C}, refining the
+generic CeCILL category used in the catalogue.
+The build uses CMake. The upstream README describes C++ and Python unit
+tests, validation against analytical solutions, and performance benchmarks.
+CPU and GPU baseline files are present in the repository. None of these
+upstream resources is treated here as a completed Exa-MA benchmark campaign.
+
+\paragraph{Documentation and training.}
+The README provides build instructions, examples, and commands for tests
+and benchmarks. The survey records documentation as the training resource,
+not an Exa-MA training event.
+
+\subsection{Position in Exa-MA}
+The catalogue identifies discretization topics for WP1 and geophysics
+and proxy-app topics for WP7, with B7 (Exascale Algorithms) as the
+reported bottleneck.
+At this stage, no Exa-MA application, mini-app, extended mini-app,
+demonstrator, proxy-app or benchmark record is associated with FUnTiDES.
+The upstream project's use of the term \emph{proxy application} does not
+automatically qualify an example as an Exa-MA proxy-app under the
+project's application taxonomy.
+
+\paragraph{Points to complete with the developers.}
+Confirm the intended WP contributions and tested CPU/GPU/MPI configurations;
+clarify consortium membership, resilience mechanisms, API stability and
+versioning/metadata policies; supply the preferred publications or software
+citation. These fields are not supplied in the catalogue snapshot, rather
+than known to be absent from the software.
+
+\subsection{Sources for this draft}
+The catalogue snapshot is retained in
+\texttt{software/funtides/catalogue.json}.
+The upstream checks refer to commit
+\href{https://github.com/FUnTiDES-sim/FUnTiDES/tree/47b0fbe3621e826d4ea18fc27446759e17a1e886}{\texttt{47b0fbe3621e}}
+(consulted on 11 September 2026):
+\begin{itemize}
+    \item \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/47b0fbe3621e826d4ea18fc27446759e17a1e886/README.md}{README}: scope, build, bindings, validation and benchmark commands.
+    \item \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/47b0fbe3621e826d4ea18fc27446759e17a1e886/LICENCE.md}{Licence}
+    and \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/47b0fbe3621e826d4ea18fc27446759e17a1e886/cmake/CompilerConfig.cmake}{compiler configuration}.
+    \item \href{https://github.com/FUnTiDES-sim/FUnTiDES/tree/47b0fbe3621e826d4ea18fc27446759e17a1e886/src/solver/fe/DG}{Acoustic DG implementation},
+    \href{https://github.com/FUnTiDES-sim/FUnTiDES/tree/47b0fbe3621e826d4ea18fc27446759e17a1e886/examples/fe}{Python and MPI examples},
+    and \href{https://github.com/FUnTiDES-sim/FUnTiDES/tree/47b0fbe3621e826d4ea18fc27446759e17a1e886/tests/benchmarks/baselines}{upstream benchmark baselines}.
+\end{itemize}
