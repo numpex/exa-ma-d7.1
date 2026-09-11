@@ -180,7 +180,11 @@
 \def\Security#1{\gdef\deliv@security{#1}}
 \def\ContractualDate#1{\gdef\deliv@contrdate{#1}}
 \def\ActualDate#1{\gdef\deliv@actdate{#1}}
-\def\delivNumber#1{\gdef\deliv@number{#1}}
+\def\delivNumber#1{%
+  \gdef\deliv@number{#1}%
+  \gdef\deliv@footerlabel{Deliverable #1}%
+}
+\def\delivFooterLabel#1{\gdef\deliv@footerlabel{#1}}
 \def\delivName#1{\gdef\deliv@name{#1}}
 \def\doiNumber#1{\gdef\doi@number{#1}}
 \def\delivShortTile#1{\gdef\deliv@stitle{#1}}
@@ -263,7 +267,7 @@
 \cfoot{\fancyplain{}{
 	\begin{tabular}{m{0.25\linewidth} m{0.47\linewidth} m{0.25\linewidth}}
 %		\hline
-		{\footnotesize Deliverable \deliv@number} & 
+		{\footnotesize \deliv@footerlabel} &
 		\ifx\doi@number\empty
 		\else
 		\centering {\footnotesize doi:\href{https://doi.org/\doi@number}{\doi@number}} 
