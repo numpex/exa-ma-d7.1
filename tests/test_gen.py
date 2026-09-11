@@ -1,11 +1,26 @@
 import io
 import json
 from pathlib import Path
+import re
 
 from openpyxl import Workbook
 import pytest
 
 import gen
+
+
+def test_funtides_uses_standard_software_sectioning():
+    template = (gen.ROOT / "templates/desc-software.tex").read_text(encoding="utf-8")
+    fiche = (gen.ROOT / "software/funtides/funtides.tex").read_text(encoding="utf-8")
+    headings = r"\\subsection\{([^}]+)\}"
+    expected = re.findall(headings, template)
+    # This optional extension is also used by the FreeFEM++ and HPDDM fiches.
+    expected.insert(expected.index("Mathematics"), "Application entry points")
+    assert re.findall(headings, fiche) == expected
+    # General information precedes the numbered subsections in the template.
+    assert fiche.index(r"\input{software/funtides/metadata.tex}") < fiche.index(
+        r"\subsection{Software summary}"
+    )
 
 
 @pytest.fixture
