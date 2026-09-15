@@ -8,7 +8,7 @@
 
 \paragraph{Versioned implementation evidence.}
 At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{\texttt{bf1febf}},
-the application repository contains Grenoble and Perlin terrain JSON inputs and
+the application repository contains Grenoble, Tokyo and Perlin terrain JSON inputs and
 plot configurations under \texttt{src/ktirio-geom/terrain}.  This proves an
 executable configuration exists, not that benchmark results are available.
 
@@ -16,3 +16,198 @@ executable configuration exists, not that benchmark results are available.
 \texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and
 time-to-solution.  \todo{Clarify how Sheet weak/strong scalability metrics apply
 to the single-node scope; add machine, thread counts, repetitions and raw data.}
+
+
+
+\subsection{Description of the benchmark}
+
+This benchmark evaluates the performance and single-node scalability of the \texttt{Ktirio-Geom} terrain generation pipeline.
+The workflow is designed to construct a watertight and conforming 3D surface triangulation of a city environment by merging raw elevation height fields with GIS overlay data (such as buildings, roads, and water bodies).
+
+
+
+\subsection{Benchmarking tools used}
+
+This benchmark was performed on the gaya supercomputer, using feelpp.benchmaring v4.0.0.
+Performance measurements were collected using internal timing instrumentation integrated into Ktirio-Geom.
+Each stage of the pipeline reports elapsed wall-clock time, with additional per-thread statistics for multithreaded sections.
+
+For tile-level parallel operations, the benchmark reports the longest executing thread, reflecting the critical path and providing a conservative estimate of scalability limits.
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+
+The considered use case for this benchmark is the generation of a city mesh for Tokyo.
+The domain consists of a $9 \times 9$ tile grid at zoom level 16, around $\sim 20 \text{ km}^2$.
+The input data consists of:
+
+\begin{itemize}
+    \item Elevation grids representing terrain height fields
+    \item Overlay features in GIS format, for buildings, roads, water bodies, landuse, etc.
+    \item Vertical separation between contour lines is set to 10m.
+    \item he simplification threshold influencing contour line simplification is set to 0.1. Meaning that around 10\% of points from each contour line will be conserved.
+\end{itemize}
+
+\subsubsection{Output Data:}
+
+The output consists of a conforming terrain surface triangulation, with tagged features (water,roads,buildings,... ) and timing metrics for each major processing stage. These outputs are suitable for visualization, simulation preprocessing, and further geometric analysis.
+
+
+
+\subsection{Results summary}
+
+
+As expected, only the \textit{createMesh} stage scales well with increasing thread counts, as it is the only fully parallelized stage.
+The \textit{createMesh} stage is composed of three main sub-steps:
+
+\begin{enumerate}
+  \item Pre-processing: This step involves synchronizing neighboring tiles and preparing the data structures for mesh generation. It is done sequentially.
+  \item Creating tile meshes: Each tile is processed independently to generate its local mesh. This step is fully parallelized across available threads. Each tile is assigned to a thread, handled by a thread pool, and the mesh is generated using CGAL's constrained Delaunay triangulation package.
+  \item Post-processing: After all tile meshes are generated, they are merged into a single global mesh. This mesh is then autorefined to ensure watertightness. Finally, the flat mesh is elevated and some affine transformations are applied to correctly position the tile with respect to the global coordinate system. This step is also done sequentially.
+\end{enumerate}
+
+
+
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-feelpp-ktirio-geom/TerrainTimes.csv}}\dataTerrainGenTimes
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-feelpp-ktirio-geom/TerrainCreateMeshTimes.csv}}\dataCreateMeshTimes
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-feelpp-ktirio-geom/TerrainCreateMeshTimesRelative.csv}}\dataTerrainCreateMeshTimesRelative
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-feelpp-ktirio-geom/TerrainCreateTileMeshesSpeedup.csv}}\dataTerrainCreateTileMeshesSpeedup
+
+% ---------------------------------------------------------
+% FIGURE 1: Overall Pipeline Times
+% ---------------------------------------------------------
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.9\textwidth, height=7cm,
+      ymin=0,
+      xlabel={Max Workers},
+      ylabel={Execution time (s)},
+      xtick=data,
+      xticklabels from table={\dataTerrainGenTimes}{max_workers},
+      xticklabel style={font=\small},
+      yticklabel style={font=\small},
+      ymajorgrids=true, grid style={dashed, gray!40},
+      legend columns=4,
+      legend style={at={(0.5,-0.2)}, anchor=north, font=\small, draw=none}
+    ]
+      \addplot+[thick, mark=*, color=blue] table [x expr=\coordindex, y=createMesh] {\dataTerrainGenTimes};
+      \addlegendentry{createMesh}
+
+      \addplot+[thick, mark=square*, color=red] table [x expr=\coordindex, y=exportMesh] {\dataTerrainGenTimes};
+      \addlegendentry{exportMesh}
+
+      \addplot+[thick, mark=triangle*, color=green!60!black] table [x expr=\coordindex, y=preprocess] {\dataTerrainGenTimes};
+      \addlegendentry{preprocess}
+
+      \addplot+[thick, mark=diamond*, color=orange] table [x expr=\coordindex, y=updateForUse] {\dataTerrainGenTimes};
+      \addlegendentry{updateForUse}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Terrain generation scaling performance across all processing stages.}
+  \label{fig:terrain_overall_times}
+\end{figure}
+
+% ---------------------------------------------------------
+% FIGURE 2: Grouped createMesh Breakdown (Absolute & Relative)
+% ---------------------------------------------------------
+\begin{figure}[H]
+  \centering
+  % Left Plot: Absolute Times
+  \begin{minipage}{0.48\textwidth}
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=\textwidth, height=6.5cm,
+        ymin=0,
+        xlabel={Max Workers},
+        ylabel={Execution time (s)},
+        xtick=data,
+        xticklabels from table={\dataCreateMeshTimes}{max_workers},
+        xticklabel style={font=\scriptsize},
+        yticklabel style={font=\scriptsize},
+        ymajorgrids=true, grid style={dashed, gray!40},
+        legend style={at={(0.5,-0.25)}, anchor=north, font=\scriptsize, draw=none}
+      ]
+        \addplot+[thick, mark=*, color=black] table [x expr=\coordindex, y=Total] {\dataCreateMeshTimes};
+        \addlegendentry{Total}
+
+        \addplot+[thick, mark=square*, color=red!80!black] table [x expr=\coordindex, y=createTileMeshes] {\dataCreateMeshTimes};
+        \addlegendentry{createTileMeshes}
+
+        \addplot+[thick, mark=triangle*, color=green!60!black] table [x expr=\coordindex, y=postProcess] {\dataCreateMeshTimes};
+        \addlegendentry{postProcess}
+
+        \addplot+[thick, mark=diamond*, color=blue!80!black] table [x expr=\coordindex, y=preProcess] {\dataCreateMeshTimes};
+        \addlegendentry{preProcess}
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}\hfill
+  % Right Plot: Relative Stacked Times
+  \begin{minipage}{0.48\textwidth}
+    \begin{tikzpicture}
+      \begin{axis}[
+        width=\textwidth, height=6.5cm,
+        ymin=0, ymax=100,
+        xlabel={Max Workers},
+        ylabel={Relative time (\%)},
+        xtick=data,
+        xticklabels from table={\dataTerrainCreateMeshTimesRelative}{max_workers},
+        xticklabel style={font=\scriptsize},
+        yticklabel style={font=\scriptsize},
+        ymajorgrids=true, grid style={dashed, gray!40},
+        ybar stacked, bar width=12pt,
+        legend style={at={(0.5,-0.25)}, anchor=north, font=\scriptsize, draw=none}
+      ]
+        \addplot+[ybar, fill=red!70, draw=black!70] table [x expr=\coordindex, y=createTileMeshes] {\dataTerrainCreateMeshTimesRelative};
+        \addlegendentry{createTileMeshes}
+
+        \addplot+[ybar, fill=green!70, draw=black!70] table [x expr=\coordindex, y=postProcess] {\dataTerrainCreateMeshTimesRelative};
+        \addlegendentry{postProcess}
+
+        \addplot+[ybar, fill=blue!70, draw=black!70] table [x expr=\coordindex, y=preProcess] {\dataTerrainCreateMeshTimesRelative};
+        \addlegendentry{preProcess}
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}
+  \caption{Breakdown of the \textit{createMesh} stage in absolute execution time (left) and relative proportions (right).}
+  \label{fig:createmesh_breakdown}
+\end{figure}
+
+% ---------------------------------------------------------
+% FIGURE 3: Speedup of createTileMeshes
+% ---------------------------------------------------------
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.8\textwidth, height=6.5cm,
+      ymin=0,
+      xlabel={Max Workers},
+      ylabel={Speedup},
+      xtick=data,
+      xticklabels from table={\dataTerrainCreateTileMeshesSpeedup}{max_workers},
+      xticklabel style={font=\small},
+      yticklabel style={font=\small},
+      ymajorgrids=true, grid style={dashed, gray!40},
+      legend style={at={(0.05,0.95)}, anchor=north west, font=\small}
+    ]
+      % Plot optimal and half-optimal bounds (No fillbetween library needed)
+      \addplot[thick, dashed, color=black] table [x expr=\coordindex, y=optimal] {\dataTerrainCreateTileMeshesSpeedup};
+      \addlegendentry{Optimal}
+
+      \addplot[thick, dotted, color=black] table [x expr=\coordindex, y=half-optimal] {\dataTerrainCreateTileMeshesSpeedup};
+      \addlegendentry{Half-optimal}
+
+      % Plot actual speedup
+      \addplot+[thick, mark=*, mark size=2pt, color=red!80!black] table [x expr=\coordindex, y=createTileMeshes] {\dataTerrainCreateTileMeshesSpeedup};
+      \addlegendentry{createTileMeshes actual}
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Parallel speedup for the \textit{createTileMeshes} computation compared to theoretical boundaries.}
+  \label{fig:speedup_createtilemeshes}
+\end{figure}
