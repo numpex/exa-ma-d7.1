@@ -119,6 +119,7 @@ We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, 
   \item Meshes: we use cubic meshes with various discretization sizes: $h = 0.12, 0.06, 0.03, 0.015$.
   \item Setup: the FMM method is provided by the core library of \Feelpp, and the BVH implementation uses \Feelpp functionality.
     More details can be found in \cite{van_landeghem_micro-swimming_2025}.
+  \item Parameters: the number of rays $M$ is a key parameter for the BVH method, and we test $M = 100, 500, 1000$.
   \end{itemize}
 
 
@@ -137,7 +138,7 @@ In \Cref{fig:specs:app-feelpp-distance:results:distance}, we show the exact dist
 The cube is vertically half-sliced.
 
 \Cref{fig:specs:app-feelpp-distance:results:error-fmm} and \Cref{fig:specs:app-feelpp-distance:results:error-bvh} show the distribution of the pointwise error for FMM and BVH, respectively.
-For this specific plot, we took $h=0.06$ and $M=500$.
+For this specific plot, we took $h=0.06$ and $M=1500$.
 We note that the BVH method results in a smaller global error, while it is more localized for the FMM method.
 
 
@@ -160,7 +161,7 @@ We note that the BVH method results in a smaller global error, while it is more 
         \caption{Error by the method BVH: $|d_\mathrm{BVH}-d_\mathrm{exact}|$.}
         \label{fig:specs:app-feelpp-distance:results:error-bvh}
     \end{subfigure}
-    \caption{Numerical results of distance computing, with $h=0.06$ and $M=500$.}
+    \caption{Numerical results of distance computing, with $h=0.06$ and $M=1500$.}
     \label{fig:specs:app-feelpp-distance:results}
 \end{figure}
 
