@@ -1,4 +1,4 @@
-%!TEX root = ../../exa-ma-d7.1.tex
+!TEX root = ../../exa-ma-d7.1.tex
 \section{Software: FUnTiDES}
 \label{sec:FUnTiDES:software}
 
@@ -31,6 +31,8 @@ reported bottleneck.
 \subsection{Programming and Computational Environment}
 \label{sec:FUnTiDES:environment_capabilities}
 % To be completed by the FUnTiDES developers.
+
+
 \begin{table}[h!]
     \centering
     {
@@ -41,13 +43,13 @@ reported bottleneck.
     \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
         \rowcolor{white}Languages  & \begin{tabular}{l}
-Fortran\\
+C++\\
 \end{tabular} & 
-FUnTiDES is developed in C++ and has a python interface. \\
+FUnTiDES is developed mainly in C++. \\
         \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
 MPI\\
 Multithread\\
-\end{tabular} & FUnTiDES relies on Kokkos for multithreading on GPU/CPU. It also has MPI decomposition\\
+\end{tabular} & FUnTiDES relies on Kokkos for multithreading on GPU/CPU. It also has MPI decomposition \\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 ADIOS\\
 \end{tabular} & Data formats that the software can handle or produce.
@@ -58,7 +60,7 @@ None\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 None\\
-\end{tabular} & CPU Ci is deployed on Github with CodeCoverage verification.  \\
+\end{tabular} & CPU CI is deployed on Github with CodeCoverage verification.  \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
 None\\
 \end{tabular} & Software packaging and distribution.\\
@@ -72,7 +74,7 @@ None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
 
-\end{tabular} & List of software FUnTiDES has interfaces with.
+\end{tabular} & List of software FUnTiDES has interfaces with. \\
         \bottomrule
     \end{tabular}
     }}
@@ -94,38 +96,35 @@ project's application taxonomy.
 
 \subsection{Mathematics}
 \label{sec:FUnTiDES:mathematics}
-% To be completed by the FUnTiDES developers.
+ To be completed by the FUnTiDES developers.
 
-FUntIDES solves numerically the second order wave equation for sevral types of media media.
-It uses the Spectral Element Method (SEm), Discontinuous Galerkin Method (DGm and a coupling between both (DG-SEm) as space discretization, 
+FUntIDES solves numerically the second order wave equation for several types of media.
+It uses the Spectral Element Method (SEm), Discontinuous Galerkin Method (DGm) and a coupling between both (DG-SEm) as space discretization, 
 the discretization in time been done using a second order Leap-Frog scheme.
 
 In the case of acoustic medium, we seek the scalar pressure \textit{p} such as:
 
-  \begin{equation}
-    \label{eq:acoustic wave equation}
-    \left\{
-    \begin{aligned}
-      &\frac{1}{c^2} \frac{\partial^2 p}{\partial t^2}(\x,t)-\Delta{p(\x,t)}  = f(\x,t) &\text{in} \quad \Omega \times [0,T] \\ 
-      &\alpha\frac{\partial p}{\partial t}(\x,t) + \frac{\partial p}{\partial n}(\x,t)                              =0        &\text{on} \quad  \partial \Omega \times [0,T] \\
-      & p(\x,0) = p_0(\x), \; \dfrac{\partial p}{\partial t}(\x,0) = p_1(\x) &\text{in} \Omega
-     \end{aligned}
-     \right.
-     \end{equation}
-
+\begin{equation}
+  \label{eq:acoustic wave equation}
+  \left\{
+  \begin{array}{ll}
+    {\displaystyle \frac{1}{c^2} \frac{\partial^2 p}{\partial t^2}(\mathbf{x},t) - \Delta{p(\mathbf{x},t)}} = f(\mathbf{x},t) & \mbox{in} \quad \Omega \times [0,T] \\[2ex]
+    \alpha {\displaystyle \frac{\partial p}{\partial t}(\mathbf{x},t) + \frac{\partial p}{\partial n}(\mathbf{x},t)} = 0 & \mbox{on} \quad \partial \Omega \times [0,T] \\[2ex]
+    p(\mathbf{x},0) = p_0(\mathbf{x}), \; {\displaystyle \frac{\partial p}{\partial t}}(\mathbf{x},0) = p_1(\mathbf{x}) & \mbox{in} \quad \Omega
+  \end{array}
+  \right.
+\end{equation}
  where $c$ is the acoustic wave speed and $f$ the source term. As boundary condition the code allows for Dirichlet boundary for the top boundary of the domain and Absorbing Boundary Condition (ABC) everywhere else.
 
-In the constext of elastic mediumn, we seek for the displasment vector $\textbf{u}$ wich verify: 
+In the context of elastic mediumn, we seek for the displasment vector $\textbf{u}$ which satisfy: 
 
 \begin{equation}
   \left\{
-  \begin{aligned}
-  &\rho \frac{\partial^2 \mathbf{u}}{\partial t^2} = \div (\underline{\underline{C}}(\underline{\underline{\epsilon}}(\mathbf{u}))) + \mathbf{f},~~~ \text{in}~~~ \Omega \times [0,T) \\
-  & \alpha \frac{\partial \mathbf{u}}{\partial t} + (\underline{\underline{C}} (\underline{\underline{\epsilon}}(\mathbf{u}))) \mathbf{n} = 0, ~~~
-  \text{in}~~~ \partial \Omega \times [0,T)\\
-  & \mathbf{u}(\mathbf{x},0) = \mathbf{u}_0, \frac{\partial \mathbf{u}}{\partial t} (\mathbf{x},0) = \mathbf{u}_1 ~~~
-  \text{in}~~~ \Omega 
-  \end{aligned}
+  \begin{array}{l}
+    \rho {\displaystyle \frac{\partial^2 \mathbf{u}}{\partial t^2}} = \mathrm{div} \, (\underline{\underline{C}}(\underline{\underline{\epsilon}}(\mathbf{u}))) + \mathbf{f}, \quad \mbox{in } \Omega \times [0,T) \\[2ex]
+    \alpha {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} + (\underline{\underline{C}} (\underline{\underline{\epsilon}}(\mathbf{u}))) \mathbf{n} = 0, \quad \mbox{in } \partial \Omega \times [0,T) \\[2ex]
+    \mathbf{u}(\mathbf{x},0) = \mathbf{u}_0, \; {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} (\mathbf{x},0) = \mathbf{u}_1 \quad \mbox{in } \Omega 
+  \end{array}
   \right.
 \end{equation}
 
