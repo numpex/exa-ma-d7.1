@@ -13,10 +13,12 @@ plot configurations under \texttt{src/ktirio-geom/terrain}.  This proves an
 executable configuration exists, not that benchmark results are available.
 
 \paragraph{Benchmark contract.}
-\texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and
-time-to-solution.  \todo{Clarify how Sheet weak/strong scalability metrics apply
-to the single-node scope; add machine, thread counts, repetitions and raw data.}
-
+\texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and time-to-solution.
+Within this single-node scope, strong scalability is evaluated by maintaining a fixed global problem size (the 81-tile Tokyo grid) while scaling the worker thread count ($t \in \{1, 2, 4, 8, 16, 32, 64\}$) to measure the reduction in time-to-solution.
+Weak scalability is excluded for this specific use case.
+All benchmarks were executed on a single 128-core compute node of the Gaya supercomputer.
+Testing is intentionally capped at 64 threads to match the physical boundaries of a single CPU socket and the available task-level parallelism.
+Measurements reflect a single execution pass per thread count, with raw timing metrics exported directly as JSON files.
 
 
 \subsection{Description of the benchmark}
