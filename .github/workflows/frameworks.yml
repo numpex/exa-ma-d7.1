@@ -1,0 +1,48 @@
+name: Framework fiche
+
+on:
+  pull_request:
+    branches: [main, d7.1-v3]
+    paths:
+      - gen.py
+      - tests/test_gen.py
+      - templates/framework-metadata.tex.j2
+      - software/funtides/**
+      - standalone-funtides.tex
+      - .github/workflows/frameworks.yml
+      - '*.sty'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generator:
+    name: Test framework generator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: latest
+          enable-cache: false
+      - run: uv python install 3.11
+      - name: Test imports, write protection and snapshot reproducibility
+        run: >-
+          uv run --no-project --python 3.11
+          --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4'
+          --with pytest python -m pytest tests/test_gen.py -q
+
+  preview:
+    name: Build FUnTiDES review PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: xu-cheng/latex-action@v3
+        with:
+          root_file: standalone-funtides.tex
+      - uses: actions/upload-artifact@v4
+        with:
+          name: funtides-framework-preview
+          path: standalone-funtides.pdf
+          if-no-files-found: error

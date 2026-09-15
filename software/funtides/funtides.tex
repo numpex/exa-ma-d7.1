@@ -1,0 +1,143 @@
+!TEX root = ../../exa-ma-d7.1.tex
+\section{Software: FUnTiDES}
+\label{sec:FUnTiDES:software}
+
+\paragraph{Developer review.}
+Aurélien Citrain and Hélène Barucq: please check the scientific scope,
+supported configurations and software policies below, and add the reference
+publications. Application and benchmark associations will be agreed separately.
+
+\paragraph{Points to complete with the developers.}
+Confirm the intended WP contributions (WP1, WP7?) and tested CPU/GPU/MPI configurations;
+clarify consortium membership, resilience mechanisms, API stability and
+versioning/metadata policies; supply the preferred publications or software
+citation. These fields are not supplied in the catalogue snapshot, rather
+than known to be absent from the software.
+
+\label{sec:FUnTiDES:metadata}
+\input{software/funtides/metadata.tex}
+
+\subsection{Software summary}
+\label{sec:FUnTiDES:summary}
+
+FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when calculating the adjoint gradients of the FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
+
+\subsection{Purpose}
+\label{sec:FUnTiDES:purpose}
+The catalogue identifies discretization topics for WP1 and geophysics
+and proxy-app topics for WP7, with B7 (Exascale Algorithms) as the
+reported bottleneck.
+
+\subsection{Programming and Computational Environment}
+\label{sec:FUnTiDES:environment_capabilities}
+% To be completed by the FUnTiDES developers.
+
+
+\begin{table}[h!]
+    \centering
+    {
+    \setlength{\parindent}{0pt}
+    \def\arraystretch{1.25}
+    \arrayrulecolor{numpexgray}
+    {\fontsize{9}{11}\selectfont
+    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
+        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
+        \rowcolor{white}Languages  & \begin{tabular}{l}
+C++\\
+\end{tabular} & 
+FUnTiDES is developed mainly in C++. \\
+        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+MPI\\
+Multithread\\
+\end{tabular} & FUnTiDES relies on Kokkos for multithreading on GPU/CPU. It also has MPI decomposition \\
+        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+ADIOS\\
+\end{tabular} & Data formats that the software can handle or produce.
+Mesh is for the moment only generate by the solver. The I/O fir receiver output and snapshots is handle by ADIOS.
+\\
+        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+None\\
+\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
+        \rowcolor{white}DevOps & \begin{tabular}{l}
+None\\
+\end{tabular} & CPU CI is deployed on Github with CodeCoverage verification.  \\
+        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+None\\
+\end{tabular} & Software packaging and distribution.\\
+        \rowcolor{white}Testing  & \begin{tabular}{l}
+Analytic solutions\\
+\end{tabular} & Numerical solution are validated against an analytical solution for the acoustic and elastic case.
+Not included in CI for now (will be when CI GPU will be deployed)
+\\
+        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+None\\
+\end{tabular} & Container technologies used to package and deploy the software.\\
+        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+
+\end{tabular} & List of software FUnTiDES has interfaces with. \\
+        \bottomrule
+    \end{tabular}
+    }}
+    \caption{FunTiDES programming and computational environment}
+    \label{table:funtides-environment}
+\end{table}
+
+
+
+\paragraph{Documentation and training.}
+
+\subsection{Application entry points}
+\label{sec:FUnTiDES:applications}
+At this stage, no Exa-MA application, mini-app, extended mini-app,
+demonstrator, proxy-app or benchmark record is associated with FUnTiDES.
+The upstream project's use of the term \emph{proxy application} does not
+automatically qualify an example as an Exa-MA proxy-app under the
+project's application taxonomy.
+
+\subsection{Mathematics}
+\label{sec:FUnTiDES:mathematics}
+ To be completed by the FUnTiDES developers.
+
+FUntIDES solves numerically the second order wave equation for several types of media.
+It uses the Spectral Element Method (SEm), Discontinuous Galerkin Method (DGm) and a coupling between both (DG-SEm) as space discretization, 
+the discretization in time been done using a second order Leap-Frog scheme.
+
+In the case of acoustic medium, we seek the scalar pressure \textit{p} such as:
+
+\begin{equation}
+  \label{eq:acoustic wave equation}
+  \left\{
+  \begin{array}{ll}
+    {\displaystyle \frac{1}{c^2} \frac{\partial^2 p}{\partial t^2}(\mathbf{x},t) - \Delta{p(\mathbf{x},t)}} = f(\mathbf{x},t) & \mbox{in} \quad \Omega \times [0,T] \\[2ex]
+    \alpha {\displaystyle \frac{\partial p}{\partial t}(\mathbf{x},t) + \frac{\partial p}{\partial n}(\mathbf{x},t)} = 0 & \mbox{on} \quad \partial \Omega \times [0,T] \\[2ex]
+    p(\mathbf{x},0) = p_0(\mathbf{x}), \; {\displaystyle \frac{\partial p}{\partial t}}(\mathbf{x},0) = p_1(\mathbf{x}) & \mbox{in} \quad \Omega
+  \end{array}
+  \right.
+\end{equation}
+ where $c$ is the acoustic wave speed and $f$ the source term. As boundary condition the code allows for Dirichlet boundary for the top boundary of the domain and Absorbing Boundary Condition (ABC) everywhere else.
+
+In the context of elastic mediumn, we seek for the displasment vector $\textbf{u}$ which satisfy: 
+
+\begin{equation}
+  \left\{
+  \begin{array}{l}
+    \rho {\displaystyle \frac{\partial^2 \mathbf{u}}{\partial t^2}} = \mathrm{div} \, (\underline{\underline{C}}(\underline{\underline{\epsilon}}(\mathbf{u}))) + \mathbf{f}, \quad \mbox{in } \Omega \times [0,T) \\[2ex]
+    \alpha {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} + (\underline{\underline{C}} (\underline{\underline{\epsilon}}(\mathbf{u}))) \mathbf{n} = 0, \quad \mbox{in } \partial \Omega \times [0,T) \\[2ex]
+    \mathbf{u}(\mathbf{x},0) = \mathbf{u}_0, \; {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} (\mathbf{x},0) = \mathbf{u}_1 \quad \mbox{in } \Omega 
+  \end{array}
+  \right.
+\end{equation}
+
+where  $\underline{\underline{C}}$ is the elasticity tensor which entries can vary depends if you are in an isotropic or anisotropic media
+and $\underline{\underline{\epsilon}}$  is the strain tensor.
+
+FUnTiDES is able to solve forward and inverse problem using Full WaveForm Inversion (FWI) algorithm.
+
+
+\subsection{Relevant Publications}
+\label{sec:FUnTiDES:publications}
+% To be completed by the FUnTiDES developers.
+
+\subsection{Acknowledgements}
+\label{sec:FUnTiDES:acknowledgements}
+% To be completed by the FUnTiDES developers.
