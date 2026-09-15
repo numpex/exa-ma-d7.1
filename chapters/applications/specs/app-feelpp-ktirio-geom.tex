@@ -23,9 +23,12 @@ Measurements reflect a single execution pass per thread count, with raw timing m
 
 \subsection{Description of the benchmark}
 
-This benchmark evaluates the performance and single-node scalability of the \texttt{Ktirio-Geom} terrain generation pipeline.
+The benchmark assesses the ability of Ktirio-Geom to generate simulation-ready city meshes from heterogeneous geospatial data.
+The objective is to characterize the execution time of the terrain generation pipeline and the scalability of its multithreaded processing stages on a single compute node.
 The workflow is designed to construct a watertight and conforming 3D surface triangulation of a city environment by merging raw elevation height fields with GIS overlay data (such as buildings, roads, and water bodies).
 
+The resulting mesh represents the terrain surface, with elevation and GIS features incorporated into the geometric representation.
+Feature tags are preserved to support subsequent visualization, simulation preprocessing, and geometric analysis.
 
 
 \subsection{Benchmarking tools used}
@@ -44,33 +47,63 @@ For tile-level parallel operations, the benchmark reports the longest executing 
 
 The considered use case for this benchmark is the generation of a city mesh for Tokyo.
 The domain consists of a $9 \times 9$ tile grid at zoom level 16, around $\sim 20 \text{ km}^2$.
+
+The experiments were conducted on a single Gaya compute node equipped with 128 physical CPU cores. The benchmark uses up to 64 worker threads and does not rely on hyperthreading.
+
 The input data consists of:
 
 \begin{itemize}
     \item Elevation grids representing terrain height fields
     \item Overlay features in GIS format, for buildings, roads, water bodies, landuse, etc.
     \item Vertical separation between contour lines is set to 10m.
-    \item he simplification threshold influencing contour line simplification is set to 0.1. Meaning that around 10\% of points from each contour line will be conserved.
+    \item The simplification threshold influencing contour line simplification is set to 0.1. Meaning that around 10\% of points from each contour line will be conserved.
 \end{itemize}
 
 \subsubsection{Output Data:}
 
 The output consists of a conforming terrain surface triangulation, with tagged features (water,roads,buildings,... ) and timing metrics for each major processing stage. These outputs are suitable for visualization, simulation preprocessing, and further geometric analysis.
 
-
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{feelpp/feelpp-benchmark-terrain_mesh_tokyo_full.png}
+    \subcaption{Full-domain view of the generated Tokyo terrain mesh.}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{feelpp/feelpp-benchmark-terrain_mesh_tokyo_detail.png}
+    \subcaption{Detailed view of the generated triangulation.}
+  \end{minipage}
+  \caption{Generated terrain mesh for the Tokyo test case.}
+  \label{fig:terrain_mesh_output}
+\end{figure}
 
 \subsection{Results summary}
 
+The benchmark results show that the scalability of the terrain generation pipeline is primarily determined by the \textit{createMesh} stage. Increasing the number of worker threads reduces the execution time of the parallel portions of this stage, while the remaining processing stages exhibit limited scalability.
 
-As expected, only the \textit{createMesh} stage scales well with increasing thread counts, as it is the only fully parallelized stage.
-The \textit{createMesh} stage is composed of three main sub-steps:
+The \textit{createMesh} stage consists of three main steps:
 
 \begin{enumerate}
-  \item Pre-processing: This step involves synchronizing neighboring tiles and preparing the data structures for mesh generation. It is done sequentially.
-  \item Creating tile meshes: Each tile is processed independently to generate its local mesh. This step is fully parallelized across available threads. Each tile is assigned to a thread, handled by a thread pool, and the mesh is generated using CGAL's constrained Delaunay triangulation package.
-  \item Post-processing: After all tile meshes are generated, they are merged into a single global mesh. This mesh is then autorefined to ensure watertightness. Finally, the flat mesh is elevated and some affine transformations are applied to correctly position the tile with respect to the global coordinate system. This step is also done sequentially.
+    \item Pre-processing: Synchronization of neighboring tiles and preparation of the data structures required for mesh generation. This step is performed sequentially.
+    \item Tile mesh generation: Each tile is processed independently to generate its local mesh. This step is parallelized across worker threads using a thread pool. The local meshes are generated using CGAL's constrained Delaunay triangulation package.
+    \item Post-processing: The local meshes are merged into a single global mesh, which is then autoreﬁned to ensure watertightness. The mesh is subsequently elevated and transformed to its global coordinate system. Autorefinement is parallelized, while elevation and affine transformations are performed sequentially.
 \end{enumerate}
 
+
+The benchmark results show that the scalability of the terrain generation pipeline is primarily determined by the \textit{createMesh} stage.
+As shown in \Cref{fig:terrain_overall_times}, increasing the number of worker threads significantly reduces the execution time of this stage, while the other stages of the pipeline remain largely unchanged.
+
+Within \textit{createMesh}, the main source of scalability is the \textit{createTileMeshes} step.
+As shown in \Cref{fig:createmesh_breakdown}, its execution time decreases from 117.18s with one worker to 4.57s with 32 workers.
+This corresponds to a measured speedup of 25.63$\times$, close to the ideal 32$\times$ speedup.
+The corresponding speedup is shown in \Cref{fig:speedup_createtilemeshes}.
+
+Beyond 32 workers, the performance no longer improves.
+With 64 workers, \textit{createTileMeshes} takes 5.01s, resulting in a lower speedup of 23.37$\times$.
+At this point, \textit{postProcess} becomes the dominant component of \textit{createMesh}, accounting for approximately 66\% of its execution time at both 32 and 64 workers.
+Increasing the number of workers therefore provides no further benefit for the complete \textit{createMesh} stage in a 64-physical-core environment.
 
 
 \pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-feelpp-ktirio-geom/TerrainTimes.csv}}\dataTerrainGenTimes
@@ -102,9 +135,6 @@ The \textit{createMesh} stage is composed of three main sub-steps:
 
       \addplot+[thick, mark=square*, color=red] table [x expr=\coordindex, y=exportMesh] {\dataTerrainGenTimes};
       \addlegendentry{exportMesh}
-
-      \addplot+[thick, mark=triangle*, color=green!60!black] table [x expr=\coordindex, y=preprocess] {\dataTerrainGenTimes};
-      \addlegendentry{preprocess}
 
       \addplot+[thick, mark=diamond*, color=orange] table [x expr=\coordindex, y=updateForUse] {\dataTerrainGenTimes};
       \addlegendentry{updateForUse}
