@@ -3,7 +3,8 @@
 \section{Compute distance to a range of entities}
 \label{sec:app:specs:app-feelpp-distance}
 
-This mini-app computes signed distance fields on unstructured meshes, a fundamental operation in level-set methods, shape optimization, and computational geometry. Unlike the PDE solver demonstrators in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, it compares algorithmic approaches (Fast Marching Method vs. BVH-based ray tracing) rather than discretization methods.
+This mini-app computes signed distance fields on unstructured meshes, a fundamental operation in level-set methods, shape optimization, and computational geometry.
+Unlike the PDE solver demonstrators in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, it compares algorithmic approaches (Fast Marching Method vs. BVH-based ray tracing) rather than discretization methods.
 
 \Cref{tab:app-feelpp-distance} describes the specifications of the application.
 
@@ -136,7 +137,7 @@ In \Cref{fig:specs:app-feelpp-distance:results:distance}, we show the exact dist
 The cube is vertically half-sliced.
 
 \Cref{fig:specs:app-feelpp-distance:results:error-fmm} and \Cref{fig:specs:app-feelpp-distance:results:error-bvh} show the distribution of the pointwise error for FMM and BVH, respectively.
-For this specific plot, we took $h=0.06$ and $M=1500$.
+For this specific plot, we took $h=0.06$ and $M=500$.
 We note that the BVH method results in a smaller global error, while it is more localized for the FMM method.
 
 
@@ -159,7 +160,7 @@ We note that the BVH method results in a smaller global error, while it is more 
         \caption{Error by the method BVH: $|d_\mathrm{BVH}-d_\mathrm{exact}|$.}
         \label{fig:specs:app-feelpp-distance:results:error-bvh}
     \end{subfigure}
-    \caption{Numerical results of distance computing, with $h=0.06$ and $M=1500$.}
+    \caption{Numerical results of distance computing, with $h=0.06$ and $M=500$.}
     \label{fig:specs:app-feelpp-distance:results}
 \end{figure}
 
@@ -281,18 +282,16 @@ We also see that when more cores are used, we do not see improvement in the time
         anchor=south east
       }
     ]
-      \addplot+[mark=*, color=customdarkblue, mark options={ fill=customdarkblue }, line width=1pt] table [x=h, y=1000] {\dataConvBVH} ;
+      \addplot+[mark=*, color=customdarkblue, mark options={ fill=customdarkblue }, line width=1pt] table [x=h, y=100] {\dataConvBVH} ;
+      \addlegendentry{ $M=100$ }
+      \addplot+[mark=*, color=customcyan, mark options={ fill=customcyan }, line width=1pt] table [x=h, y=500] {\dataConvBVH} ;
+      \addlegendentry{ $M=500$ }
+      \addplot+[mark=*, color=customorange, mark options={ fill=customorange }, line width=1pt] table [x=h, y=1000] {\dataConvBVH} ;
       \addlegendentry{ $M=1000$ }
-      \addplot+[mark=*, color=customcyan, mark options={ fill=customcyan }, line width=1pt] table [x=h, y=1500] {\dataConvBVH} ;
-      \addlegendentry{ $M=1500$ }
-      \addplot+[mark=*, color=customorange, mark options={ fill=customorange }, line width=1pt] table [x=h, y=2000] {\dataConvBVH} ;
-      \addlegendentry{ $M=2000$ }
-      \addplot+[mark=*, color=custompurple, mark options={ fill=custompurple }, line width=1pt] table [x=h, y=2500] {\dataConvBVH} ;
-      \addlegendentry{ $M=2500$ }
       \addplot+[mark=*, color=customgreen, mark options={ fill=customgreen }, line width=1pt] table [x=h, y=FMM] {\dataConvFMM} ;
       \addlegendentry{ FMM }
 
-      \addplot+[color=black, dashed, mark=none, line width=1pt] table[x=h, y={create col/linear regression={y=1000}}]{\dataConvBVH};
+      \addplot+[color=black, dashed, mark=none, line width=1pt] table[x=h, y={create col/linear regression={y=100}}]{\dataConvBVH};
 
     \end{axis}
     \end{tikzpicture}
