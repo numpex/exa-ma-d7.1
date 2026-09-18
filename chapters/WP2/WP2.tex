@@ -10,8 +10,8 @@
 \WPUpdateNote{Review the inherited scope and task descriptions, and update the
 2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
 is retained as context.}
-% • Which Exa-MA bottlenecks (B#) WP2 addresses  
-% • Relation to overall strategy (surrogate modeling, physics-informed ML)  
+% • Which Exa-MA bottlenecks (B#) WP2 addresses
+% • Relation to overall strategy (surrogate modeling, physics-informed ML)
 % • List of key tasks T2.1–T2.6
 
 WP2 is concerned with the development of model order reduction (MOR)
@@ -39,7 +39,7 @@ In practice, WP2 comprises the following tasks:
   issues, we propose to combine PINNs with domain decomposition methods
   (DDM).   Specific  topics  that  are addressed  in  this  task  are:
   reduction  of  training  cost, influence  of  network  architecture,
-  influence of loss definition and optimization strategy; 
+  influence of loss definition and optimization strategy;
 \item[T2.2]  PDE  operator  learning with  Neural  Operators.   Neural
   Operators (NO)  are NNs specifically dedicated  to the approximation
   of inverse PDE operators.  These  methods, such as DeepOnet and FNO,
@@ -55,7 +55,7 @@ In practice, WP2 comprises the following tasks:
   nonlinear  reduction   on  difficult   geometries,  hyper-reduction,
   closure,  and  learning  techniques   for  multiple  objective  cost
   functions,  and also  to investigate  stochastic versions  with deep
-  generative latent models;  
+  generative latent models;
 \item[T2.4]  Non-intrusive   reduced  basis  methods   for  parametric
   problems In this  task, we study Non-Intrusive  Reduced Basis (NIRB)
   methods   to  reduce   the  computational   cost  of   high-fidelity
@@ -84,7 +84,7 @@ In practice, WP2 comprises the following tasks:
   generative  models) and  on unstructured  grids (using  graph neural
   networks).   These   approaches  would  allow   very  low-resolution
   simulations to be carried out and corrected in real time.
-\end{itemize}  
+\end{itemize}
 
 \clearpage
 \section{Main advances in 2026}
@@ -115,12 +115,12 @@ Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \WPUpdateNote{Update the inherited advances with the work performed in 2026.
 Separate new achievements from the 2024--2025 baseline and cite the corresponding
 annual advance records.}
-% • Advance 1 (T2.1): …  
-% • Advance 2 (T2.2): …  
-% • Advance 3 (T2.3): …  
+% • Advance 1 (T2.1): …
+% • Advance 2 (T2.2): …
+% • Advance 3 (T2.3): …
 % • etc.
 
-During the reporting period, we have progressed on the following tasks: 
+During the reporting period, we have progressed on the following tasks:
 
 \begin{itemize}
 \item[T2.1] In the  framework of a collaboration  between the Atlantis
@@ -176,8 +176,8 @@ We also note that T2.6 did not receive NumPEx funding during this reporting peri
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
 result to an annual advance and benchmark, and flag missing mappings explicitly.}
-% 
-%\input{chapters/applications/specs/app-scimba-rom-1}  
+%
+%\input{chapters/applications/specs/app-scimba-rom-1}
 % \input additional app specs as needed
 
 \paragraph{Applications mapping.}
@@ -226,24 +226,29 @@ or with parametric dependencies.
 \section{Software Framework Contributions}
 \WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
 software descriptions only as dated context.}
-% • PINN frameworks: …  
-% • Neural Operators: …  
-% • Reduced‐basis toolboxes: …  
+% • PINN frameworks: …
+% • Neural Operators: …
+% • Reduced‐basis toolboxes: …
 % • NIRB methods: …
 
 \subsection{Main Software Framework: Scimba and Feel++}
 \WPUpdateNote{Update the Scimba and Feel++ contributions, versions and supporting
 evidence for 2026.}
 
-Scimba is a  library that implements PINNs or  sequential time methods
+Scimba is a  library that implements PINNs or  time-sequential methods
 (discrete PINNs,  neural Galerkin  or semi-Lagrangian).  The  code can
 handle complex  geometries, adaptive sampling,  and GPU-preconditioned
 optimizers.   It can  use different  types  of models  such as  neural
 networks,   classical   or    nonlinear   kernel   methods,   low-rank
-approximations,  etc.   The  core  library of  Scimba  is  written  in
-Pytorch, and a simplified version centered around neural approaches in
-Jax is  currently being developed.  The code also implements  EDO flow
-learning methods.  NO methods will also be implemented in the future.
+approximations,  etc.
+In addition, the code also implements various optimization algorithms.
+Moreover, it also implements continuous and discontinuous finite element solvers
+on unstructured quadrangle meshes,
+as well as their time-dependent counterparts.
+The code is written in Python and uses Jax for automatic differentiation
+(making all solvers differentiable) and GPU acceleration.
+The PyTorch version of Scimba is maintained but no longer improved,
+and further development will focus on the Jax version.
 
 \subsection{Additional Software Framework}
 \WPUpdateNote{Update this subsection only for additional software that supported
@@ -252,20 +257,20 @@ an identified 2026 advance.}
 
 \paragraph{Frameworks mapping.}
 \begin{itemize}
-  \item Scimba: Section~\ref{sec:Scimba:software}\,; 
+  \item Scimba: Section~\ref{sec:Scimba:software}\,;
   \item Feel++: Section~\ref{sec:Feelpp:software}.
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only
 when the configuration, baseline and evidence are available.}
-% • Surrogate model speedups placeholder  
-% • Error vs.\ basis size placeholder  
+% • Surrogate model speedups placeholder
+% • Error vs.\ basis size placeholder
 % • Regression test pass-rate placeholder
 
 The  studies  conducted in  T2.1  to  T2.5  are  all in  progress  and
 preliminary results are  available only for validation  purpose of the
-novel methodologies under development. 
+novel methodologies under development.
 
 \paragraph{Benchmarks mapping.}
 \begin{itemize}
@@ -275,11 +280,11 @@ novel methodologies under development.
 \section{Roadmap \& Next Steps}
 \WPUpdateNote{Update the remaining limitations and 2027 next steps after the
 2026 advances and benchmark evidence have been validated.}
-% • Deliverables D2.x to complete by Mxx  
-% • New apps to integrate into WP7 CI/CD  
-% • Dependencies on WP7 infrastructure (containers, ReFrame)  
+% • Deliverables D2.x to complete by Mxx
+% • New apps to integrate into WP7 CI/CD
+% • Dependencies on WP7 infrastructure (containers, ReFrame)
 
-The following deliverables are planned: 
+The following deliverables are planned:
 \begin{itemize}
 \item D2.2-S : Surrogate modeling toolbox - final version planned for M60
 \item D2.3-BR : Benchmarking - final version planned for M60
