@@ -96,12 +96,12 @@ The following table summarizes these aspects for Scimba, providing a  view of it
                  & \begin{tabular}{l}
                        Python \\
                    \end{tabular}
-                 & Scimba is written in \texttt{Python}, using the \texttt{pytorch} library for ML and differentiable computing.                      \\
+                 & Scimba is written in \texttt{Python}, using the \texttt{JAX} and \texttt{pytorch} libraries for ML and differentiable computing.                      \\
                 \rowcolor{numpexlightergray}Parallelism
                  & \begin{tabular}{l}
                        GPU, CPU (shared) \\
                    \end{tabular}
-                 & Scimba takes advantage of the intrinsic parallelization capabilities of \texttt{pytorch} (shared-memory CPU and GPU, by default).  \\
+                 & Scimba takes advantage of the intrinsic parallelization capabilities of  \texttt{JAX} and  \texttt{pytorch} (shared-memory CPU and GPU, by default).  \\
                 \rowcolor{white}Data Formats
                  & input: none;
                 output: \texttt{.pth} \& image files
@@ -125,7 +125,7 @@ The following table summarizes these aspects for Scimba, providing a  view of it
                  & \begin{tabular}{l}
                        pytest \\
                    \end{tabular}
-                 & Tests are provided for core functionalities, available by running \texttt{pytest}. \\
+                 & Tests are provided for core functionalities, available by running \texttt{pytest}. Regression tests and benchmarks are in the process of being added. \\
                 \rowcolor{numpexlightergray}Containerization
                  & \begin{tabular}{l}
                        None \\
@@ -203,6 +203,8 @@ or numerical methods
 (e.g. Neural Galerkin~\cite{bruna_neural_2024})
 are also available in Scimba.
 
+It also implement continuous and discontinuous finite element solvers on unstructured quadrangle meshes, as well as their time-dependent counterparts.
+
 % \subsection{Relevant Publications}
 % \label{sec:Scimba:publications}
 
@@ -216,5 +218,5 @@ Scimba has mainly been developed by Inria research scientists.
 Other contributors include students and researchers
 from the University of Strasbourg and CEA Cadarache.
 For the moment, no specific funding has been dedicated to Scimba.
-Exa-MA has supported the internships of Marie Sengler (Strasbourg) and Daria Hrebenshchykova (Sophia-Antipolis), who both worked with Scimba.
-
+Exa-MA has supported the internships of Marie Sengler (Strasbourg) and Daria Hrebenshchykova (Sophia-Antipolis, who went on to work as a PhD student, also supported by Exa-MA), who both worked with Scimba.
+Exa-MA has also supported the PhD of Amaury Bélières-Frendo (Strasbourg), who worked on Physics-informed shape optimization with neural networks (Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}).
