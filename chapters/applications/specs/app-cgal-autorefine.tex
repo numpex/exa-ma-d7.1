@@ -8,8 +8,11 @@
 
 \paragraph{Proposed benchmark contract.}
 \texttt{BM-CGAL-AUTOREFINE-01} is limited to a proposal for single-node thread
-scaling with time-to-solution.  \todo{Provide a versioned application repository,
-input mesh series, validity oracle, CPU model, thread placement and repetitions.}
+scaling with time-to-solution.
+At inspected commit \href{https://github.com/numpex/apps-cgal/commit/774f40bb6bf2d42f08468284e55ce7e93d446b4b}{\texttt{774f40bb6bf2d42f08468284e55ce7e93d446b4b}},
+the application repository contains the autorefinement minimal example, input meshes and JSON benchmark and plot configurations under \texttt{src/app-cgal-autorefine/}.
+This proves an executable configuration exists, not that benchmark results are available.
+\todo{provide validity oracle, CPU model, thread placement and repetitions.}
 
 
 
@@ -64,7 +67,7 @@ The primary monitored quantity is the total execution time of the mesh autorefin
 
 \Cref{fig:autorefine-exec-times} and \Cref{fig:autorefine-speedup} illustrate the multithreaded performance of the CGAL autorefinement algorithm for various mesh sizes using up to 64 threads.
 As observed, the parallel efficiency is highly constrained.
-While there is a slight decrease in execution time when moving from 1 to 2 or 4 threads, the speedup plateaus significantly below the optimal theoretical limit, achieving a maximum speedup of only ~2x to 2.5x on 8 threads.
+While there is a slight decrease in execution time when moving from 1 to 2 or 4 threads, the speedup plateaus significantly below the optimal theoretical limit, achieving a maximum speedup of only ~1.5x to 2x on 16 threads.
 This poor scaling suggests a high level of sequential overhead, data dependency, or thread contention during concurrent local mesh updates.
 
 
