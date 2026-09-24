@@ -35,7 +35,7 @@ Performance measurements were collected using internal timing instrumentation.
 \subsubsection{Input Data:}
 
 \begin{itemize}
-\item \textbf{Input Meshes:} Initial two flat grid triangle meshes of varying sizes, containing between 100 and 1000 triangles each.
+\item \textbf{Input Meshes:} Initial two flat grid triangle meshes of varying sizes of side lengths ranging from 100 to 1000 points.
 \item \textbf{Setup:} Utilizes the CGAL framework’s mesh refinement functions, with shared-memory multithreading enabled via Intel TBB (Threading Building Blocks).
 \item \textbf{Execution Environment:}  Single-node execution to measure shared-memory performance and potential thread contention.
 \end{itemize}
@@ -111,7 +111,7 @@ This poor scaling suggests a high level of sequential overhead, data dependency,
 
     \end{axis}
   \end{tikzpicture}
-  \caption{Execution times of the CGAL autorefinement algorithm for various mesh sizes (100, 300, 500, 700, and 1000 triangles) }
+  \caption{Execution times of the CGAL autorefinement algorithm for various mesh sizes }
   \label{fig:autorefine-exec-times}
 \end{figure}
 
@@ -146,28 +146,28 @@ This poor scaling suggests a high level of sequential overhead, data dependency,
 
       % Plot actual speedup
       \addplot[thick, mark=*, color=blue] table [x expr=\coordindex, y=100] {\dataAutorefSpeedup};
-      \addlegendentry{100 triangles}
+      \addlegendentry{100 }
 
       \addplot+[thick, mark=*, color=red] table [x expr=\coordindex, y=300] {\dataAutorefSpeedup};
-      \addlegendentry{300 triangles}
+      \addlegendentry{300 }
 
       \addplot+[thick, mark=*, color=orange] table [x expr=\coordindex, y=500] {\dataAutorefSpeedup};
-      \addlegendentry{500 triangles}
+      \addlegendentry{500 }
 
       \addplot+[thick, mark=*, color=purple] table [x expr=\coordindex, y=700] {\dataAutorefSpeedup};
-      \addlegendentry{700 triangles}
+      \addlegendentry{700 }
 
       \addplot+[thick, mark=*, color=green] table [x expr=\coordindex, y=1000] {\dataAutorefSpeedup};
-      \addlegendentry{1000 triangles}
+      \addlegendentry{1000 }
 
     \end{axis}
   \end{tikzpicture}
-  \caption{Speedup of the CGAL autorefinement algorithm for various mesh sizes (100, 300, 500, 700, and 1000 triangles) }
+  \caption{Speedup of the CGAL autorefinement algorithm for various mesh sizes }
   \label{fig:autorefine-speedup}
 \end{figure}
 
 \Cref{fig:autorefine-algo-complexity}  illustrates the time complexity of the autorefinement algorithm.
-The execution time exhibits a non-linear (convex) growth with respect to the initial number of triangles.
+The execution time exhibits a non-linear (convex) growth with respect to the initial grid size.
 This behavior reflects the increasing computational cost associated with searching, verifying geometric properties, and maintaining the internal data structures as the mesh density increases.
 
 
@@ -181,10 +181,10 @@ This behavior reflects the increasing computational cost associated with searchi
     \begin{axis}[
       width=0.9\textwidth, height=7cm,
       ymin=0,
-      xlabel={Max Workers},
+      xlabel={#Triangles},
       ylabel={Execution time (s)},
       xtick=data,
-      xticklabels from table={\dataAutorefComplexity}{triangles},
+      xticklabels from table={\dataAutorefComplexity}{grid_size},
       xticklabel style={font=\small},
       yticklabel style={font=\small},
       ymajorgrids=true, grid style={dashed, gray!40},
@@ -195,6 +195,15 @@ This behavior reflects the increasing computational cost associated with searchi
 
     \end{axis}
   \end{tikzpicture}
-  \caption{Algorithmic time complexity of autorefinement algorithm, with 64 threads, for various mesh sizes (100, 300, 500, 700, and 1000 triangles) }
+  \caption{Algorithmic time complexity of autorefinement algorithm, with 64 threads, for various mesh sizes }
   \label{fig:autorefine-algo-complexity}
 \end{figure}
+
+
+
+%---------------------------------------------------------
+% FIGURE 4: Weak scaling
+%---------------------------------------------------------
+
+
+
