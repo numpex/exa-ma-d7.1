@@ -63,6 +63,81 @@ article-cli setup # to be done only once after you clone the repo
 
 NOTE: `article-cli` is the recommended tool to setup the repo, create releases and update bibtex references. The legacy `a.cli` script still exists but is deprecated.
 
+== Updating a Framework Fiche
+
+The targeted Python generator imports one framework from the current
+*Frameworks / Name* catalogue schema or the legacy *Software / Software*
+schema. It accepts an Excel export (.xlsx), CSV, or a selected-row JSON
+snapshot. Dependencies are declared in the script and installed by uv;
+no project installation or bibliography update is needed.
+
+.Reproduce the FUnTiDES metadata from the committed snapshot
+[source,shell]
+----
+uv run gen.py --input software/funtides/catalogue.json \
+  --framework FUnTiDES --output software/funtides/metadata.tex
+
+# Verify reproducibility without writing
+uv run gen.py --input software/funtides/catalogue.json \
+  --framework FUnTiDES --output software/funtides/metadata.tex --check
+----
+
+.Import a new Excel export into review files
+[source,shell]
+----
+uv run gen.py --input /path/to/catalogue.xlsx --framework FUnTiDES \
+  --snapshot /tmp/funtides-new.json --output /tmp/funtides-metadata.tex
+----
+
+For Excel input, the generator chooses Frameworks first, then Software.
+Use --sheet to override the worksheet. Names must match exactly
+(case-insensitive); absent or duplicate matches are errors.
+
+.Fetch a Google Sheets tab through its read-only CSV export
+[source,shell]
+----
+uv run gen.py \
+  --sheet-url 'https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?gid=0' \
+  --sheet Frameworks --framework FUnTiDES \
+  --snapshot /tmp/funtides-live.json --output /tmp/funtides-live.tex
+----
+
+The direct export needs unauthenticated read access. For a private sheet,
+download an Excel/CSV export from your authenticated Google session, or
+use an authenticated connector to obtain the selected row. Do not change
+the sheet's sharing permissions for the generator. The command stores no
+credentials and never writes to Google Sheets.
+
+Review the new snapshot before replacing the committed one. Only the
+selected framework is retained, with its source, row and retrieval date.
+Snapshots must be written to a new path; existing snapshots are protected.
+Omitting --output prints LaTeX to standard output.
+
+The generated *metadata.tex* is separate from the editable scientific text
+in *software/funtides/funtides.tex*. The generator refuses to overwrite a
+file without its generated-file marker. It never rewrites chapter indexes,
+other framework fiches, application records, WP benchmark sections or
+statistics. Empty fields remain unspecified and unchecked WP flags are
+not converted into completed benchmarking campaigns.
+Description and Comments cells remain in the JSON snapshot for editorial
+review; they are not injected into the scientific prose automatically.
+The original bulk generator is preserved in *scripts/legacy_gen.py* for
+reference only: it overwrites editorial content and should not be used
+for routine updates.
+
+.Tests and developer-review PDF
+[source,shell]
+----
+uv run --no-project --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4' \
+  --with pytest python -m pytest tests/test_gen.py -q
+latexmk -norc --shell-escape -pdf -halt-on-error standalone-funtides.tex
+----
+
+The framework CI workflow checks the generator and publishes the standalone
+fiche as the *funtides-framework-preview* artifact. The normal LaTeX workflow
+also compiles the fiche inside the full deliverable.
+No application or benchmark association is introduced by this first fiche.
+
 == Compiling the Document
 
 See link:AGENTS.md[AGENTS.md] for  compilation guide and link:FAST-COMPILE.md[FAST-COMPILE.md] for optimization strategies.
