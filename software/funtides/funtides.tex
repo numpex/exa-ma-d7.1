@@ -2,17 +2,17 @@
 \section{Software: FUnTiDES}
 \label{sec:FUnTiDES:software}
 
-\paragraph{Developer review.}
-Aurélien Citrain and Hélène Barucq: please check the scientific scope,
-supported configurations and software policies below, and add the reference
-publications. Application and benchmark associations will be agreed separately.
-
-\paragraph{Points to complete with the developers.}
-Confirm the intended WP contributions (WP1, WP7?) and tested CPU/GPU/MPI configurations;
-clarify consortium membership, resilience mechanisms, API stability and
-versioning/metadata policies; supply the preferred publications or software
-citation. These fields are not supplied in the catalogue snapshot, rather
-than known to be absent from the software.
+%\paragraph{Developer review.}
+%Aurélien Citrain and Hélène Barucq: please check the scientific scope,
+%supported configurations and software policies below, and add the reference
+%publications. Application and benchmark associations will be agreed separately.
+%
+%\paragraph{Points to complete with the developers.}
+%Confirm the intended WP contributions (WP1, WP7?) and tested CPU/GPU/MPI configurations;
+%clarify consortium membership, resilience mechanisms, API stability and
+%versioning/metadata policies; supply the preferred publications or software
+%citation. These fields are not supplied in the catalogue snapshot, rather
+%than known to be absent from the software.
 
 \label{sec:FUnTiDES:metadata}
 \input{software/funtides/metadata.tex}
@@ -20,7 +20,7 @@ than known to be absent from the software.
 \subsection{Software summary}
 \label{sec:FUnTiDES:summary}
 
-FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when calculating the adjoint gradients of the FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
+FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when calculating of the gradient of the cost function in FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
 
 \subsection{Purpose}
 \label{sec:FUnTiDES:purpose}
@@ -56,13 +56,13 @@ ADIOS\\
 Mesh is for the moment only generate by the solver. The I/O fir receiver output and snapshots is handle by ADIOS.
 \\
         \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
-None\\
+To confirm\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
-None\\
+CI on Github (only CPUfor now)\\
 \end{tabular} & CPU CI is deployed on Github with CodeCoverage verification.  \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
-None\\
+To confirm\\
 \end{tabular} & Software packaging and distribution.\\
         \rowcolor{white}Testing  & \begin{tabular}{l}
 Analytic solutions\\
@@ -70,7 +70,7 @@ Analytic solutions\\
 Not included in CI for now (will be when CI GPU will be deployed)
 \\
         \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
-None\\
+To confirm\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
         \rowcolor{white}Interfaces  & \begin{tabular}{l}
 
