@@ -170,7 +170,7 @@ For faster iteration during development, use `article-cli` to manage common task
 article-cli setup
 
 # Update bibliography from Zotero
-article-cli update-bibtex
+./a.cli update-bibtex
 
 # Clean build artifacts
 article-cli clean
@@ -259,23 +259,57 @@ If references are not showing up, ensure you have the latest `references.bib` fi
 
 == Bibliography Management with Zotero
 
-The project uses Zotero for bibliography management with the ExaMA shared library.
+The project uses Zotero group `5582837` as its shared bibliography.
+The `numpex/exama` repository retrieves HAL records and files them in Zotero's
+`Our Publications/WP1` through `WP7` collections. This repository only retrieves
+the bibliography; it does not import HAL records or assign work packages.
+
+The scheduled `bibtex.yml` workflow retrieves references daily at *05:17 UTC*,
+one hour after the Exa-MA HAL-to-Zotero job. Both workflows also support manual
+dispatch. Schedules run from the default branch and may be delayed by GitHub;
+the time offset is not a dependency between workflows.
+
+Set the repository or organization Actions secret `ZOTERO_API_KEY` for this
+repository. Read access to the group is sufficient here; the `exama` importer
+requires write access. The secret value is never stored in the repository.
+
+Retrieval preserves existing citation keys, matches records by Zotero item ID,
+DOI, URL, or title/year, and collapses identical exports. Ambiguous matches
+retain the existing entry and appear in the `bibliography-report` artifact.
+Unmatched local entries remain available, including manually added references.
+The `zotero-key` BibTeX field records identity for subsequent updates.
+Empty Zotero placeholders are skipped. Different records sharing an export key
+receive a stable Zotero-item suffix when necessary.
+
+The file is replaced atomically only after a complete, consistent, validated
+download. Unchanged entries produce no commit. The workflow commits only
+`references.bib`; branch rules must allow its `GITHUB_TOKEN` to push. Such commits
+do not trigger another Actions build. LaTeX builds use the committed bibliography
+snapshot without contacting Zotero.
 
 === Updating References
 
 To update `references.bib`, you have several options:
 
-==== Option 1: Using article-cli (Recommended)
+==== Option 1: Using the validated repository exporter (Recommended)
 
 [source,console]
 ----
 export ZOTERO_API_KEY=your_api_key_here
-article-cli update-bibtex
+uv run --no-project --python 3.11 --with bibtexparser==1.4.3 \
+  python scripts/update_bibliography.py --check --report /tmp/bibliography-report.json
+# Remove --check to update references.bib after inspecting the report.
+# The legacy entry point now invokes the same exporter:
+./a.cli update-bibtex
 ----
 
 ==== Option 2: Manual Download from Zotero
 
 Download `references.bib` by exporting the exa-ma library from the Zotero GUI.
+
+Direct GUI or `article-cli update-bibtex` exports do not perform this repository's
+citation-key reconciliation. Avoid replacing the document bibliography with
+them without checking that all existing citation keys are preserved.
 
 === Setting Up Zotero API Access
 
@@ -321,7 +355,7 @@ The repository uses GitHub Actions for automated compilation and release managem
 
 **Workflow stages:**
 1. **Environment Setup**: Selects appropriate runner (self-hosted `self-texlive` or `ubuntu-latest`)
-2. **Bibliography Update**: Automatically fetches latest references from Zotero (non-main branches)
+2. **Bibliography Snapshot**: Uses committed references, refreshed by the daily Zotero workflow
 3. **LaTeX Compilation**: Compiles document using `latexmk` with shell escape
 4. **Artifact Creation**: Uploads PDF and source files
 5. **Release Management**: Creates GitHub releases for tagged versions
@@ -457,7 +491,7 @@ python3 -m article_cli create v1.0.0
 git tag --list 'v*'
 
 # Update bibliography from Zotero
-article-cli update-bibtex
+./a.cli update-bibtex
 
 # Get help
 article-cli --help
