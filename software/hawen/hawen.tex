@@ -21,7 +21,7 @@ Inria BXSO\\
 florian.faucher@inria.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-CPU Only\\
+CPU, GPU in progress.\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Repository} & \href{https://gitlab.com/ffaucher/hawen}{https://gitlab.com/ffaucher/hawen} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
@@ -54,6 +54,8 @@ It relies on nonlinear iterative minimization algorithm to solve
 the quantitative inverse wave problem.
 The code is written in \texttt{Fortran90} and uses \texttt{mpi}
 and \texttt{OpenMP} parallelism.
+Recently, it has been updated to better use GPU, with preliminary
+results reported in \cite{Occhipinti2025}.
 
 
 
@@ -204,6 +206,7 @@ in the context of seismic imaging, cf. \cite{Virieux2009} for a review.
 
 Here is a list of relevant publications related to the software:
 \begin{itemize}
+\item \cite{hal_05393820}: 3D simulations of gravito-acoustic waves in the Sun up to the photosphere.
 \item \cite{faucher_hawen_2021}: Reference of the software in the journal of open-source software;
 \item \cite{Faucher2020adjoint}:
       Mathematical details of the adjoint-state method in the framework 
@@ -221,6 +224,8 @@ Here is a list of relevant publications related to the software:
 \item \cite{Liu2024,Benitez2024}: 
       Use of the software in the context of data science and
       for benchmarks.
+\item \cite{Occhipinti2025}: In this Master thesis, we start the implementation
+      of GPU features for \hawen~to better use hybrid architectures.
 \end{itemize}
 
 
