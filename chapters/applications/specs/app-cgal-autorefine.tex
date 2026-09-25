@@ -8,5 +8,202 @@
 
 \paragraph{Proposed benchmark contract.}
 \texttt{BM-CGAL-AUTOREFINE-01} is limited to a proposal for single-node thread
-scaling with time-to-solution.  \todo{Provide a versioned application repository,
-input mesh series, validity oracle, CPU model, thread placement and repetitions.}
+scaling with time-to-solution.
+At inspected commit \href{https://github.com/numpex/apps-cgal/commit/774f40bb6bf2d42f08468284e55ce7e93d446b4b}{\texttt{774f40bb6bf2d42f08468284e55ce7e93d446b4b}},
+the application repository contains the autorefinement minimal example, input meshes and JSON benchmark and plot configurations under \texttt{src/app-cgal-autorefine/}.
+This proves an executable configuration exists, not that benchmark results are available.
+\todo{provide validity oracle, CPU model, thread placement and repetitions.}
+
+
+
+\subsection{Description of the benchmark}
+
+This benchmark evaluates the performance of the mesh autorefinement algorithm provided by CGAL.
+The routine takes two grid meshes and merges them, then it refines it so that all triangles and edges are correctly connected.
+
+Input meshes and resulting mesh can be seen on \Cref{fig:autorefine_io}.
+
+
+\subsection{Benchmarking tools used}
+
+This benchmark was performed on one node of the gaya supercomputer, using feelpp.benchmaring (v4.0.0).
+Performance measurements were collected using internal timing instrumentation.
+
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data:}
+
+\begin{itemize}
+\item \textbf{Input Meshes:} Initial two flat grid triangle meshes of varying sizes of side lengths ranging from 100 to 1000 points.
+\item \textbf{Setup:} Utilizes the CGAL framework’s mesh refinement functions, with shared-memory multithreading enabled via Intel TBB (Threading Building Blocks).
+\item \textbf{Execution Environment:}  Single-node execution to measure shared-memory performance and potential thread contention.
+\end{itemize}
+
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{cgal/autoref_input_meshes.png}
+    \subcaption{Input Meshes}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{cgal/autoref_output_mesh.png}
+    \subcaption{Output Mesh}
+  \end{minipage}
+  \caption{Input and Output Meshes for the Autorefinement Benchmark}
+  \label{fig:autorefine_io}
+\end{figure}
+
+
+
+\subsubsection{Output Data:}
+
+The primary monitored quantity is the total execution time of the mesh autorefinement algorithm. These timings are recorded and analyzed to compute the parallel speedup and evaluate the algorithmic time complexity as the problem size scales.
+
+\subsection{Results summary}
+
+\Cref{fig:autorefine-exec-times} and \Cref{fig:autorefine-speedup} illustrate the multithreaded performance of the CGAL autorefinement algorithm for various mesh sizes using up to 64 threads.
+As observed, the parallel efficiency is highly constrained.
+While there is a slight decrease in execution time when moving from 1 to 2 or 4 threads, the speedup plateaus significantly below the optimal theoretical limit, achieving a maximum speedup of only ~1.5x to 2x on 16 threads.
+This poor scaling suggests a high level of sequential overhead, data dependency, or thread contention during concurrent local mesh updates.
+
+
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-cgal-autorefine/Multithreaded-Performance.csv}}\dataAutorefPerf
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-cgal-autorefine/Speedup.csv}}\dataAutorefSpeedup
+\pgfplotstableread[col sep=comma]{\detokenize{chapters/applications/specs/data/app-cgal-autorefine/Complexity64.csv}}\dataAutorefComplexity64
+
+
+% ---------------------------------------------------------
+% FIGURE 1: Execution Times
+% ---------------------------------------------------------
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.9\textwidth, height=7cm,
+      ymin=0,
+      xlabel={Max Workers},
+      ylabel={Execution time (s)},
+      xtick=data,
+      xticklabels from table={\dataAutorefPerf}{max_workers},
+      xticklabel style={font=\small},
+      yticklabel style={font=\small},
+      ymajorgrids=true, grid style={dashed, gray!40},
+    ]
+      \addplot+[thick, mark=*, color=blue] table [x expr=\coordindex, y=100] {\dataAutorefPerf};
+      \addlegendentry{100}
+
+      \addplot+[thick, mark=*, color=red] table [x expr=\coordindex, y=300] {\dataAutorefPerf};
+      \addlegendentry{300}
+
+      \addplot+[thick, mark=*, color=orange] table [x expr=\coordindex, y=500] {\dataAutorefPerf};
+      \addlegendentry{500}
+
+      \addplot+[thick, mark=*, color=purple] table [x expr=\coordindex, y=700] {\dataAutorefPerf};
+      \addlegendentry{700}
+
+      \addplot+[thick, mark=*, color=green] table [x expr=\coordindex, y=1000] {\dataAutorefPerf};
+      \addlegendentry{1000}
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Execution times of the CGAL autorefinement algorithm for various mesh sizes }
+  \label{fig:autorefine-exec-times}
+\end{figure}
+
+
+
+% ---------------------------------------------------------
+% FIGURE 2: Speedup
+% ---------------------------------------------------------
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.8\textwidth, height=6.5cm,
+      ymin=0,
+      xlabel={Max Workers},
+      ylabel={Speedup},
+      xtick=data,
+      xticklabels from table={\dataAutorefSpeedup}{max_workers},
+      xticklabel style={font=\small},
+      yticklabel style={font=\small},
+      ymajorgrids=true, grid style={dashed, gray!40},
+      legend columns=4,
+      legend style={at={(0.5,-0.2)}, anchor=north, font=\small, draw=none}
+    ]
+      % Plot optimal and half-optimal bounds
+      % \addplot[thick, dashed, color=black] table [x expr=\coordindex, y=optimal] {\dataAutorefSpeedup};
+      % \addlegendentry{Optimal}
+      %
+      % \addplot[thick, dotted, color=black] table [x expr=\coordindex, y=half-optimal] {\dataAutorefSpeedup};
+      % \addlegendentry{Half-optimal}
+
+      % Plot actual speedup
+      \addplot[thick, mark=*, color=blue] table [x expr=\coordindex, y=100] {\dataAutorefSpeedup};
+      \addlegendentry{100 }
+
+      \addplot+[thick, mark=*, color=red] table [x expr=\coordindex, y=300] {\dataAutorefSpeedup};
+      \addlegendentry{300 }
+
+      \addplot+[thick, mark=*, color=orange] table [x expr=\coordindex, y=500] {\dataAutorefSpeedup};
+      \addlegendentry{500 }
+
+      \addplot+[thick, mark=*, color=purple] table [x expr=\coordindex, y=700] {\dataAutorefSpeedup};
+      \addlegendentry{700 }
+
+      \addplot+[thick, mark=*, color=green] table [x expr=\coordindex, y=1000] {\dataAutorefSpeedup};
+      \addlegendentry{1000 }
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Speedup of the CGAL autorefinement algorithm for various mesh sizes }
+  \label{fig:autorefine-speedup}
+\end{figure}
+
+\Cref{fig:autorefine-algo-complexity}  illustrates the time complexity of the autorefinement algorithm.
+The execution time exhibits a non-linear (convex) growth with respect to the initial grid size.
+This behavior reflects the increasing computational cost associated with searching, verifying geometric properties, and maintaining the internal data structures as the mesh density increases.
+
+
+%---------------------------------------------------------
+% FIGURE 3: Algorithmic Complexity
+%---------------------------------------------------------
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=0.9\textwidth, height=7cm,
+      ymin=0,
+      xlabel={Triangles},
+      ylabel={Execution time (s)},
+      xtick=data,
+      xticklabels from table={\dataAutorefComplexity}{triangles},
+      xticklabel style={font=\small},
+      yticklabel style={font=\small},
+      ymajorgrids=true, grid style={dashed, gray!40},
+      legend columns=4,
+      legend style={at={(0.5,-0.2)}, anchor=north, font=\small, draw=none}
+    ]
+      \addplot[thick, mark=*, color=blue] table [x expr=\coordindex, y=Autorefine] {\dataAutorefComplexity};
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Algorithmic time complexity of autorefinement algorithm, with 64 threads, for various mesh sizes }
+  \label{fig:autorefine-algo-complexity}
+\end{figure}
+
+
+
+%---------------------------------------------------------
+% FIGURE 4: Weak scaling
+%---------------------------------------------------------
+
+
+

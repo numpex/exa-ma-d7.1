@@ -102,7 +102,6 @@ of this benchmark and the domain decomposition by material.% the 3D temperature 
 
 \subsection{Benchmarking tools used}
 
-
 The performance tools integrated into the \Feelpp-toolboxes framework were used to measure the execution time.
 
 The metrics measured are the execution time of the main components of the simulation.
@@ -131,7 +130,7 @@ We enumerate these parts in the following:
     database management, in the \Feelpp collections.
   \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
     file and JSON file. These config files are present in the GitHub of \Feelpp.
-  \item Sif image: \texttt{feelpp:v0.111.0-preview.10-noble-sif}  (stored in the GitHub registry of \Feelpp)
+  \item Sif image: \texttt{feelpp:v0.111.0-preview.13-noble-sif}  (stored in the GitHub registry of \Feelpp)
   \end{itemize}
 
 \subsubsection{Output Data:}
@@ -174,6 +173,7 @@ Metric:
 \subsection{Results summary}
 
 The thermal bridges benchmark has been executed on the Discoverer supercomputer at Unistra for the three mesh refinement levels (M1, M2, M3) using finite element approximations of order 1, 2, and 3. The results demonstrate both the accuracy of the numerical method through comparison with ISO 10211:2017 reference values, and the scalability of the implementation across multiple processors.
+The results demonstrate both the accuracy of the numerical method through comparison with ISO 10211:2017 reference values, and the scalability of the implementation across multiple processors.
 
 \subsubsection{Numerical solution}
 
@@ -217,15 +217,12 @@ The benchmark metric \texttt{benchmark-verification} confirms that the \Feelpp t
 
   \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_measures.csv}\dataTableMeasures
   \def\myLineWidth{2pt}
-  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
+  \def\myLineStyleA{loosely dashdotdotted}
   \def\myLineStyleB{dashed}
   \def\myLineStyleC{solid}
 
   \def\myAddPlot#1#2#3#4{
     \addplot[#3,every mark/.append style={solid},
-    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
-    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
-    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
       x filter/.code={
         \pgfmathparse{\thisrow{PolyOrder}==#2}
         \ifnum0=\pgfmathresult
@@ -244,20 +241,13 @@ The benchmark metric \texttt{benchmark-verification} confirms that the \Feelpp t
       \begin{tikzpicture}
         \begin{axis}[
           width=\textwidth, height=0.6172\textwidth,
-          % width=\textwidth, height=1.2\textheight,
           xtick=data,
           xticklabel={M$\pgfmathprintnumber{\tick}$},
-          xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
+          xmajorgrids=true,
           ymajorgrids=true, yminorgrids=true,
           minor y tick num=2,
-          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-          % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
           xlabel={Mesh levels}, ylabel={#4},
-          % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-          % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
-          % columns=3},
           legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
-          % #2
           ]
 
           \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
