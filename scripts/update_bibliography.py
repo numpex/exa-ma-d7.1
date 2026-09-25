@@ -86,7 +86,11 @@ def parse(content):
 
 
 def entries(content):
-    return {entry["ID"]: entry for entry in parse(content).entries}
+    result = {entry["ID"]: entry for entry in parse(content).entries}
+    keys = [key.casefold() for key in result]
+    if len(keys) != len(set(keys)):
+        raise ValueError("BibTeX citation keys collide when case is ignored")
+    return result
 
 
 def normalized(value):
@@ -110,6 +114,35 @@ def signature(entry):
     )
 
 
+def bibtex_name_initials(value):
+    """Protect Unicode given-name initials that BibTeX 0.99 abbreviates badly."""
+    replacements = {"Ø": r"{\O}", "ø": r"{\o}"}
+    accents = {
+        "\u0300": "`",
+        "\u0301": "'",
+        "\u0302": "^",
+        "\u0303": "~",
+        "\u0308": '"',
+        "\u030a": "r",
+        "\u030c": "v",
+    }
+
+    def replace_initial(match):
+        letter = match.group(2)
+        if letter in replacements:
+            encoded = replacements[letter]
+        else:
+            decomposed = unicodedata.normalize("NFD", letter)
+            if len(decomposed) != 2 or decomposed[1] not in accents:
+                raise ValueError(f"Unsupported BibTeX name initial: {letter}")
+            encoded = "{\\" + accents[decomposed[1]] + decomposed[0] + "}"
+        return match.group(1) + encoded
+
+    return re.sub(r"(^|,\s)([^\W\d_])(?=\w)", lambda match: (
+        replace_initial(match) if ord(match.group(2)) > 127 else match.group(0)
+    ), value)
+
+
 def reconcile(old, records):
     """Keep local keys, deduplicate identical exports, retain unmatched local sources.
 
@@ -127,6 +160,17 @@ def reconcile(old, records):
         if len(parsed) != 1:
             raise ValueError("Expected one BibTeX entry per Zotero item")
         entry = next(iter(parsed.values()))
+        for name_field in ("author", "editor"):
+            if name_field in entry:
+                entry[name_field] = bibtex_name_initials(entry[name_field])
+        # Zenodo deposits are repository records, not journal articles. An
+        # article without a journal also breaks apacite when all entries are cited.
+        if (
+            entry["ENTRYTYPE"].lower() == "article"
+            and not entry.get("journal")
+            and entry.get("publisher", "").casefold() == "zenodo"
+        ):
+            entry["ENTRYTYPE"] = "misc"
         group = groups.setdefault(
             signature(entry), {"entry": entry, "keys": [], "citation_keys": set()}
         )
@@ -198,6 +242,24 @@ def reconcile(old, records):
                     "zotero_keys": [c["zotero-key"] for c in candidates],
                 }
             )
+    # BibTeX treats citation keys case-insensitively. Keep the first key (and
+    # therefore any pre-existing citation) and suffix later colliding items.
+    seen = set()
+    key_renames = []
+    for key in list(result):
+        if key.casefold() in seen:
+            item = result.pop(key)
+            zotero_key = item.get("zotero-key")
+            if not zotero_key:
+                raise ValueError(f"Cannot disambiguate citation key: {key}")
+            replacement = f"{key}_{zotero_key}"
+            if replacement.casefold() in seen or replacement in result:
+                raise ValueError(f"Unresolved citation-key collision: {replacement}")
+            item["ID"] = replacement
+            result[replacement] = item
+            key_renames.append({"from": key, "to": replacement})
+            key = replacement
+        seen.add(key.casefold())
     report = {
         "zotero_items": len(records),
         "empty_items_skipped": skipped_empty,
@@ -206,6 +268,7 @@ def reconcile(old, records):
         "added": len(set(result) - set(old)),
         "updated": sum(result[k] != old[k] for k in old),
         "conflicts": conflicts,
+        "case_insensitive_key_renames": key_renames,
     }
     return result, report
 

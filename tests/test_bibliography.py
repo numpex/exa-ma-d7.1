@@ -76,6 +76,52 @@ def test_conflicting_duplicate_key_has_stable_suffix(tmp_path):
     assert not update(output, rows)
 
 
+def test_bibtex_case_insensitive_collision_gets_stable_zotero_suffix(tmp_path):
+    output = tmp_path / "references.bib"
+    rows = [
+        record(BIB.replace("stable_key", "MixedCase"), "FIRST"),
+        record(
+            BIB.replace("stable_key", "mixedcase")
+            .replace("An article", "A different article")
+            .replace("10.123/test", "10.123/other"),
+            "SECOND",
+        ),
+    ]
+    update(output, rows)
+    assert set(entries(output.read_text())) == {"MixedCase", "mixedcase_SECOND"}
+    assert not update(output, rows)
+
+
+def test_case_insensitive_duplicate_keys_are_rejected():
+    with pytest.raises(ValueError, match="case is ignored"):
+        entries(BIB + BIB.replace("stable_key", "STABLE_KEY"))
+
+
+def test_zenodo_deposit_without_journal_is_exported_as_misc(tmp_path):
+    output = tmp_path / "references.bib"
+    deposit = (
+        "@article{zenodo_deposit, title={A deposited work}, "
+        "author={Doe, Jane}, year={2024}, publisher={Zenodo}, "
+        "doi={10.5281/zenodo.12345}}\n"
+    )
+    update(output, [record(deposit)])
+    assert entries(output.read_text())["zenodo_deposit"]["ENTRYTYPE"] == "misc"
+
+
+def test_unicode_given_name_initials_are_bibtex_safe(tmp_path):
+    output = tmp_path / "references.bib"
+    accented = (
+        "@article{initials, title={Names}, "
+        "author={Jensen, Øyvind and Vázquez Mayagoitia, Álvaro}, "
+        "year={2026}, journal={Example}}\n"
+    )
+    update(output, [record(accented)])
+    authors = entries(output.read_text())["initials"]["author"]
+    assert r"Jensen, {\O}yvind" in authors
+    assert r"Vázquez Mayagoitia, {\'A}lvaro" in authors
+    assert not update(output, [record(accented)])
+
+
 def test_conflicting_updates_leave_existing_entry_unchanged(tmp_path):
     output = tmp_path / "references.bib"
     output.write_text(BIB)
