@@ -166,8 +166,6 @@ We note that the BVH method results in a smaller global error, while it is more 
 \end{figure}
 
 We now present some results of convergence.
-Note that in some cases (very fine meshes or large numbers of rays), the BVH method did not finish due to memory requirements.
-
 
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/timeBVH1000.csv}\dataTimeBVHnp
 \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-distance/speedupBVH1000.csv}\dataSpeedupBVHnp
@@ -292,7 +290,7 @@ We also see that when more cores are used, we do not see improvement in the time
       \addplot+[mark=*, color=customgreen, mark options={ fill=customgreen }, line width=1pt] table [x=h, y=FMM] {\dataConvFMM} ;
       \addlegendentry{ FMM }
 
-      \addplot+[color=black, dashed, mark=none, line width=1pt] table[x=h, y={create col/linear regression={y=100}}]{\dataConvBVH};
+      \addplot+[color=black, dashed, mark=none, line width=1pt] table[x=h, y={create col/linear regression={y=1000}}]{\dataConvBVH};
 
     \end{axis}
     \end{tikzpicture}
