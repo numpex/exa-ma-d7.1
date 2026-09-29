@@ -12,7 +12,7 @@ scaling with time-to-solution.
 At inspected commit \href{https://github.com/numpex/apps-cgal/commit/774f40bb6bf2d42f08468284e55ce7e93d446b4b}{\texttt{774f40b}},
 the application repository contains the autorefinement minimal example, input meshes and JSON benchmark and plot configurations under \texttt{src/app-cgal-autorefine/}.
 This proves an executable configuration exists, not that benchmark results are available.
-\todo{provide validity oracle, CPU model, thread placement and repetitions.}
+\todo{provide validity oracle}
 
 
 
@@ -29,6 +29,8 @@ Input meshes and resulting mesh can be seen on \Cref{fig:autorefine_io}.
 This benchmark was performed on one node of the gaya supercomputer, using feelpp.benchmaring (v4.0.0).
 Performance measurements were collected using internal timing instrumentation.
 
+Gaya nodes are equipped with AMD EPYC 7552 64 core processor and 512 GB of RAM.
+For these performance measurements, the execution environment was strictly configured to allocate exactly one thread per task. Additionally, each benchmark task was executed in a single pass with no repetitions.
 
 \subsection{Input/Output Dataset Description}
 
