@@ -160,7 +160,7 @@ Similar behavior is observed for other discretization orders.
 
 Note that some points are missing, either because the memory required exceeded what was available on a node of Gaya, or because the iterative process took longer than the job time limit (1 hour).
 
-We see that mesh reading and function-space creation scale well with the number of parallel processes, as shown in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=96$ for the small meshes.
+We see that mesh reading and function-space creation scale well with the number of parallel processes, as shown in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=128$ for the small meshes.
 
 Conversely, the steps writing data to disk do not scale with more parallel processes.
 Times increase (\Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv}) or stagnate (\Cref{fig:specs:app-feelpp-io:np:export}).
