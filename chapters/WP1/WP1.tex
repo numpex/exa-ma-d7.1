@@ -151,6 +151,72 @@ Computing these volumes is non-trivial due to two factors: (1) Aware Visibility:
 
 Such a visibility-based criterion offers a principled way to select Steiner points that are both geometrically meaningful and computationally advantageous, paving the way for feature-aware alpha wrapping.
 
+
+%====== ktirio-geom =========
+
+\todo{Christophe}
+\paragraph{ktirio-geom}
+
+Roof generation:
+\begin{itemize}
+    \item Ridged roofs ( hipped, gabled, Mansard, Gambrel, Saltbox ): Apply a Constrained Delaunay Triangulation 2 (CGAL) to interior straight skeletons(CGAL), then extrude each vertex depending on its speed and the wanted roof height. (e.g hipped roofs have uniform weights)
+    \item Conic Roofs ( Pyramidal, Dome, Onion) : Compute the input polygon's barycenter, then for each input vertex, vertices are created on the mesh given a resolution and the apex point of the roof, a fan triangulation is applied.
+\end{itemize}
+
+Elevation generation:
+\begin{itemize}
+    \item Reading and preprocessing of elevation data (height matrix) and overlay features ( road multilines, building footprint polygons, water polygons ). Multithreaded
+    \item Create a structured grid mesh for each tile with elevation data. Multithreaded
+    \item Assigning tile neighbors and compute elevation ghost cells. Requires thread sync
+    \item For each tile, compute contour lines using a Marching Triangles approach, depending on a desired distance between isolines. Multithreaded
+    \item Insert the contour lines (as polylines) into a Constrained Delaunay Triangulation 2 (CGAL)
+    \item Apply polyline simplification with a given simplification threshold (10\% of vertices kept)
+    \item Clip all overlay features to the tile domain
+    \item Preprocess and insert overlay features as constraints to the CDT2, elevation data for features is interpolated.
+    \item Flood fill the triangulation to tag the overlay features depending on their constraint ID.
+    \item Convert the CDT2 into Ktirio's mesh data structure.
+    \item All tile meshes are merged together. Requires Sync
+    \item The final mesh is postprocessed : we remove duplicate points, we autorefine triangles adjacent to tile boundaries (the rest of the mesh is already watertight and correctly connected), set elevation data to the vertices and apply transformations (dilation) if needed.
+\end{itemize}
+
+
+Overlay features:
+\begin{itemize}
+    \item Multilines from features are buffered for a given offset depending on the feature type and class (highways, paths, ...). Then polygon repear is applied to the buffered geometries and a boolean union is applied to combine the geometries from a same feature.
+    \item There is an option to use CGAL's new 2D alpha wrapping in order to merge geometries from different features. (e.g. combining all railway tracks, or all the lanes of a highway)
+\end{itemize}
+
+Surface Remeshing:
+\begin{itemize}
+    \item We have implemented remeshing of surface meshes using CGAL's isotropic remeshing, with custom sizing fields.
+    \item Given a surface, we convert it to a polygon soup, while using property maps to preserve patches and constraints.
+    \item Remeshing is applied, without allowing constraint collapsing, but allowing splits. Mesh markers are correctly preserved after the remeshing process
+    \item We can specify the edge markers to consider as constraints.
+    \item 4 Overloads:
+        \begin{itemize}
+            \item passing just a target edge length: uniform remeshing
+            \item passing min, max target edge length, and a tolerance : Adaptive remeshing
+            \item a vector of (triangle marker name, target edge lenght) pairs : Domains have different characteristic sizes depending on how triangles are marked
+            \item a functor taking a Mesh triangle and returning a the target edge length.
+        \end{itemize}
+\end{itemize}
+
+
+CCDT3 usage (surface tetrahedralization) and isotropic remeshing:
+\begin{itemize}
+    \item We have implemented surface tetrahedralization using CGAL's Conforming Constrained Delaunay Triangulation 3
+    \item An arbitrary surface mesh is first converted to a polygon soup. Then tetrahedralized using CGAL's package.
+    \item We apply a BFS to remove cells outside the domain, and to mark each closed volume separately, using subdomain indices.
+    \item Optionally apply CGAL::tetrahedral\_isotropic\_remeshing for a given target edge length.
+    \item Convert the mesh into Ktirio's mesh data structure, using tetrahedrons as mesh entities.
+\end{itemize}
+
+%===========================
+
+
+
+
+
 \subsection{Task 1.2 — Adaptive Mesh Refinement for Unstructured Grids at Scale}
 \WPUpdateNote{Update the 2026 ParMmg/MMG work, measured scaling results and
 versioned evidence.}
