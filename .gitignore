@@ -26,3 +26,7 @@ exa-ma-d7.1.pdf
 .venv
 .DS_Store
 .vscode/ltex.*
+__pycache__/
+.pytest_cache/
+/output/pdf/
+/standalone-funtides.pdf
