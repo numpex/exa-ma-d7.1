@@ -7,22 +7,25 @@
 % references and evidence; and flag missing mappings instead of inventing them.
 
 \section{Objectives \& Context}
-\WPUpdateNote{Review the inherited scope and task descriptions, and update the
-2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
-is retained as context.}
+
+\WPUpdateNote{Review the  inherited scope  and task  descriptions, and
+  update the 2026 priorities and Exa-MA bottlenecks.  Identify earlier
+  material by year when it is retained as context.}
+
 % • Which Exa-MA bottlenecks (B#) WP2 addresses  
 % • Relation to overall strategy (surrogate modeling, physics-informed ML)  
 % • List of key tasks T2.1–T2.6
 
-WP2 is concerned with the development of model order reduction (MOR)
-methods, fast surrogate solvers, and Scientific Machine Learning
-(SciML) methods. In particular, we study non-intrusive approaches for
-designing ultra-fast surrogate models of complex physical problems,
-and strategies for leveraging these surrogates. We consider {\bf
-  data-driven} techniques including comparisons between reduced basis
-methods and methods based on neural networks (NN), as well as {\bf
-  model-driven} techniques with a focus on physics-based NN models.
+WP2 is concerned  with the development of model  order reduction (MOR)
+methods,  fast  surrogate  solvers, and  Scientific  Machine  Learning
+(SciML) methods. In particular,  we study non-intrusive approaches for
+designing ultra-fast  surrogate models  of complex  physical problems,
+and  strategies  for leveraging  these  surrogates.  We consider  {\bf
+  data-driven} techniques including  comparisons between reduced basis
+methods and  methods based on  neural networks  (NN), as well  as {\bf
+  model-driven} techniques  with a  focus on physics-based  NN models.
 In practice, WP2 comprises the following tasks:
+
 \begin{itemize}
 \item[T2.1]  Surrogate models  based on  physics-driven Deep  Learning
   (DL).   Artificial Neural  Networks  (ANNs) approaches  that do  not
@@ -87,14 +90,14 @@ In practice, WP2 comprises the following tasks:
 \end{itemize}  
 
 \clearpage
+
 \section{Main advances in 2026}
 \label{sec:wp2-main-advances-2026}
-\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
-application and benchmark identifiers stable so that contributions can be
-compared across annual reports.}
 
-% Duplicate this record in WP2.tex for each main 2026 advance and replace the
-% compact field cues with factual entries.  Do not edit the central table style.
+\WPUpdateNote{Complete one  record for  each main 2026  advance.  Keep
+  the advance,  application and  benchmark identifiers stable  so that
+  contributions can be compared across annual reports.}
+
 \begin{WPAdvanceRecord}{WP2-A2026-1}
 Exa-MA task and bottleneck & \WPFieldHint{T2.x; Bx} \\
 Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
@@ -112,9 +115,11 @@ Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
 \section{Scientific Advances}
-\WPUpdateNote{Update the inherited advances with the work performed in 2026.
-Separate new achievements from the 2024--2025 baseline and cite the corresponding
-annual advance records.}
+
+\WPUpdateNote{Update the inherited advances with the work performed in
+  2026.  Separate  new achievements  from the 2024--2025  baseline and
+  cite the corresponding annual advance records.}
+
 % • Advance 1 (T2.1): …  
 % • Advance 2 (T2.2): …  
 % • Advance 3 (T2.3): …  
@@ -124,93 +129,148 @@ During the reporting period, we have progressed on the following tasks:
 
 \begin{itemize}
 \item[T2.1] In the  framework of a collaboration  between the Atlantis
-  team, the Macaron team and Eindhoven  University of  Technology,  and in
-  the context of  the Ph.D.  thesis of Daria  Hrebenshchykova, we have
-  studied  a PINN-based  approach  for simulating  high frequency  and
+  team, the Macaron  team and Eindhoven University  of Technology, and
+  in the  context of  the Ph.D.  thesis  of Daria  Hrebenshchykova, we
+  have studied a PINN-based approach for simulating high frequency and
   multiscale frequency-domain wave propagation  problems. For that, we
   are building upon the MLFBPINN (Multi-Level Finite Basis PINN) model
   recently introduced by  Victorita Dolean {\em et al.},  We propose a
   novel variant  of MLFBPINN where a  local PINN in each  subdomain is
-  trained with a PML (Perfectly-Matched Layer) on the whole subdomain
-  boundary. This ongoing work sits alongside two other NN-based methods developed within the Macaron team. Firstly, a semi-Lagrangian sequential-in-time method coupled with a preconditioned gradient method computes high-dimensional (physical or parametric) advection-diffusion problems and kinetic models such as those governed by Vlasov-type equations. In this method the collocation points are transported along the characteristics and then projected at each time on an NN space. This method beats classical approaches for these problems when the dimension is five or above. Secondly, in collaboration with WP4, the Macaron team has proposed a new shape optimization method for parametric problems where both the PDE solution and the mapping between a reference geometry and a new one are computed by an NN. Additionally, using the link between NNs and ODEs we impose volume conservation with a symplectic NN. This method is faster and gives more accurate results than classical FEM approaches.
-\item[T2.2]  The Macaron  team has proposed  a simple method  to accelerate
-  the convergence of nonlinear solvers for PDEs like the Newton method
-  using a Fourier  Neural Operator (FNO).  For that, a  FNO is trained
-  using data and discrete residual  loss to predict the solution using
-  the  source and  the spatial  coefficient for  a nonlinear  elliptic
-  equation. This FNO produces an initial condition for the Newton method, which allows us to capture the coarse scales very quickly. This approach avoids the non-convergence situations that one can face when using the Newton method and delivers between 80 and 200\% of CPU time savings.
+  trained with a PML (Perfectly-Matched  Layer) on the whole subdomain
+  boundary. \textcolor{blue}{The  main advance in the  period has been
+    the  extension  of the  MLFBPINN  model  to deal  with  parametric
+    problems .  As  a first step, we focus on  the parameterization of
+    the position of the wave  source (right-hand side of the Helmholtz
+    equation).   Moreover, we  also consider  the possibility  to have
+    multiple sources  in the  propagation domain.}  This  ongoing work
+  sits alongside other NN-based methods developed in the Macaron team.
+  A   semi-Lagrangian  sequential-in-time   method,  coupled   with  a
+  preconditioned    gradient     method,    solves    high-dimensional
+  advection–diffusion  problems and  kinetic  models  of Vlasov  type:
+  collocation  points are  transported along  the characteristics  and
+  projected at each time step onto  an NN space, which beats classical
+  approaches from  dimension five upwards. We  also propose Lagrangian
+  approaches  that  learn the  flow  itself,  either through  physical
+  losses or through particles, and  which remain accurate in turbulent
+  regimes even in dimension six. Finally, in collaboration with WP4, a
+  shape optimization method for  parametric problems computes both the
+  PDE solution  and the  mapping from a  reference geometry  with NNs,
+  volume conservation  being imposed  by a  symplectic NN  through the
+  link  between NNs  and ODEs;  it is  faster and  more accurate  than
+  classical  FEM  approaches.   \textcolor{blue}{Finally,  during  the
+    period, in the  context of a Master internship (not  funded by the
+    Exa-MA project) in the Atlantis team, we have studied the cioncept
+    of Fourier Neural Operator  (FNO) and its Physics-Informed variant
+    (PINO)  for  bulding  fast  surrogate  models  of  two-dimensional
+    frequency-domain electromagnetic  wave propagation.  We  have been
+    able  to   design  such   surrogates  for  both   the  dielecrtric
+    permittivityand  the wave  frequency.  In  addition, FNO  and PINO
+    models have  also been  developed for  geoemtrically parameterized
+    wave scattering problems.}
+\item[T2.2] The Macaron  team has proposed a simple  way to accelerate
+  nonlinear PDE solvers  such as Newton's method  using an FNO.Trained
+  on  data and  on  a discrete  residual loss,  the  FNO predicts  the
+  solution of  a nonlinear elliptic  equation from the source  and the
+  spatial  coefficient, and  supplies Newton's  initial guess:  coarse
+  scales  are  captured  immediately, the  non-convergence  situations
+  Newton  can face  are  avoided, and  CPU time  savings  reach 80  to
+  200$\%$.  We are also designing a neural operator for wave problems,
+  combining  Green's   kernels  and   fundamental  solutions   with  a
+  transformer  architecture, and  aimed  at both  the  direct and  the
+  inverse  problem.  In the  homogeneous  case,  the operator  already
+  reaches an error of about 0.1 to 0.2$\%$.
+
 \item[T2.3] In  the framework of  a collaboration between  the Macaron
-  team, the Atlantis and  the Makutu team and  in the context of a  postdoctoral project, a  nonlinear reduced-order  modeling method has  been proposed
-  for dealing with elliptic PDEs, which  is based on a neural implicit
-  representation  that  allows  to   evaluate  the  solution  and  the
-  derivatives  at each  point without  any interpolation  process.  To
-  increase the accuracy a two-step method is introduced where we first fit the encoder and decoder with data, and then refine the decoding process with a physical loss and a greedy training algorithm. The final validation of the method is ongoing.
+  team,  the Atlantis  and the  Makutu team  and in  the context  of a
+  postdoctoral project, a nonlinear  reduced-order modeling method has
+  been proposed  for dealing with elliptic  PDEs, which is based  on a
+  neural implicit representation that  allows to evaluate the solution
+  and the derivatives at each point without any interpolation process.
+  To increase  the accuracy a  two-step method is introduced  where we
+  first fit  the encoder and  decoder with  data, and then  refine the
+  decoding  process  with  a  physical  loss  and  a  greedy  training
+  algorithm. The final validation of the method is ongoing.
 \item[T2.4] In the framework of a collaboration between the University
-  of  Strasbourg  and
-  Sorbonne University, a Ph.D. thesis aims  at  overcoming  the  limitations  of  linear  order  reduction
-  methods,  which  become  ineffective  and very  costly  for  certain
-  classes   of  problems,   particularly  those   involving  transport
-  phenomena.   These  limitations  are formalized  by  the  Kolmogorov
-  $n$-width barrier.  In our research,  we are trying to overcome this
-  barrier  by  using  nonlinear   approximation  techniques.   We  are
-  focusing on the Nonlinear Compressive  Reduced Basis Method.  We are
-  participating in  the analysis and  development of the  method, both
-  theoretically and practically. The  whole process will be integrated
-  and  validated  on  benchmarks  in   CFD  and  heat  transfer,  with
-  optimization for exascale computing.
-\item[T2.5] First, we note that T2.5 has not yet received NumPEx funding. However,  we have proposed new approaches  based on coupling
+  of  Strasbourg  and Sorbonne  University,  a  Ph.D. thesis  aims  at
+  overcoming the limitations of  linear order reduction methods, which
+  become ineffective and very costly  for certain classes of problems,
+  particularly those involving transport phenomena.  These limitations
+  are  formalized  by  the   Kolmogorov  $n$-width  barrier.   In  our
+  research, we are trying to  overcome this barrier by using nonlinear
+  approximation  techniques.    We  are  focusing  on   the  Nonlinear
+  Compressive  Reduced  Basis Method.   We  are  participating in  the
+  analysis  and  development of  the  method,  both theoretically  and
+  practically. The whole  process will be integrated  and validated on
+  benchmarks in CFD and heat  transfer, with optimization for exascale
+  computing.
+\item[T2.5]  First, we  note that  T2.5  has not  yet received  NumPEx
+  funding. However, we have proposed  new approaches based on coupling
   with NNs.  In  the framework of a collaboration  between the Macaron
-  team and the Makutu  team,  an original multifidelity  modeling approach  for parametric  problems has  been
-  devised.  The  idea is to  capture coarse scales  with a PINN  for a
-  large-scale  parametric problem,  and then  correct this  prediction
-  online with a FEM.  This multifidelity approach makes it possible to
-  calculate a set of accurate  solutions for a parametric problem with
-  much  lower CPU  time.   In  fact, the  training  is  valid for  all
-  solutions, and the correction requires only a very coarse mesh. This
-  approach could  be generalized  to more  complicated PDEs  and other
-  physical contexts.
+  team  and  the  Makutu  team,  an  original  multifidelity  modeling
+  approach for parametric  problems has been devised.  The  idea is to
+  capture  coarse scales  with  a PINN  for  a large-scale  parametric
+  problem, and then  correct this prediction online with  a FEM.  This
+  multifidelity  approach makes  it  possible to  calculate  a set  of
+  accurate  solutions for  a parametric  problem with  much lower  CPU
+  time.  In  fact, the training  is valid  for all solutions,  and the
+  correction requires only a very  coarse mesh. This approach could be
+  generalized to more complicated PDEs and other physical contexts.
 \end{itemize}
 
-We also note that T2.6 did not receive NumPEx funding during this reporting period.
+We also  note that  T2.6 did  not receive  NumPEx funding  during this
+reporting period.
 
 \section{Application Showcase}
-\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
-result to an annual advance and benchmark, and flag missing mappings explicitly.}
-% 
-%\input{chapters/applications/specs/app-scimba-rom-1}  
-% \input additional app specs as needed
+
+\WPUpdateNote{Confirm  the application  IDs and  maturity below,  link
+  each reported  result to an  annual advance and benchmark,  and flag
+  missing mappings explicitly.}
 
 \paragraph{Applications mapping.}
 \begin{itemize}
-  \item Physics-informed shape optimization with NN (Scimba, proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
-  \item Hybrid numerical/ML solvers (Scimba, proposed): Section~\ref{sec:app:specs:app-scimba-hybrid}.
-  \item Reduced basis thermal fin (Feel++, demonstrator, benchmark-ready): Section~\ref{sec:app:specs:app-feelpp-rb}.
-  \item Nonlinear compressive RB (Feel++, proposed, spec-only): Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
+  \item   Physics-informed  shape   optimization   with  NN   (Scimba,
+    proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
+  \item    Hybrid    numerical/ML    solvers    (Scimba,    proposed):
+    Section~\ref{sec:app:specs:app-scimba-hybrid}.
+  \item   Reduced    basis   thermal   fin    (Feel++,   demonstrator,
+    benchmark-ready): Section~\ref{sec:app:specs:app-feelpp-rb}.
+  \item  Nonlinear  compressive   RB  (Feel++,  proposed,  spec-only):
+    Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
 \end{itemize}
 
 \textbf{Frequency-domain wave propagation modeling with PINNs} \\
 
 As a first  application showcase, we propose to develop  a hierachy of
 wave propagation  problems modeled by  the Hemholtz equation in  2D by
-increasing   the  frequency   of  the   wave  excitation   source  and
-considering  different  types  of heterogeneity  of  the  propagation
-medium,  from  multilayered  configurations  with  piecewise  constant
-variation  of the  physical parameter,  to continuously  varying medim
-characteristic  as  in  acoustic  wave propagation  in  a  geological
-medium.
+increasing the frequency of the wave excitation source and considering
+different  types  of heterogeneity  of  the  propagation medium,  from
+multilayered configurations  with piecewise constant variation  of the
+physical parameter, to continuously varying medim characteristic as in
+acoustic wave propagation in a geological medium.  \textcolor{blue}{On
+  one  hand, these  problems  will be  considered  for evaluating  the
+  performance of the proposed Multi-Level Finite Basis PINN models. On
+  the  other  hand,   we  also  propose  to   showcase  the  surrogate
+  capabilities of these PINN models  through the resolution of inverse
+  problems for acoutic wave proipagation.}
 
-\textbf{Plasma modeling with neural network based methods }\\
 
-Tokamak MHD is a highly HPC-intensive application, especially in terms
-of  memory consumption.  Indeed, tokamak  MHD codes  are implicit  and
-involve the inversion of very large matrices. In this application, the
-goal  is to  build a  3D neural  network–based solver  to compute  the
-equilibrium (Grad–Shafranov  equation) and simplified MHD  models. The
-approach relies  on time-sequential neural  methods of the  PINN type,
-combined with  natural gradient  optimization, adaptive  sampling, and
-adaptive neural networks.
+\textbf{Plasma modeling with neural network based methods } \\
 
-\textbf{Hybrid numerical for high-dimensional PDEs}\\
+Tokamak simulation  is a highly HPC-intensive  application, especially
+in terms of memory consumption: MHD codes are implicit and involve the
+inversion of very large matrices, while kinetic models add the cost of
+resolving  turbulence.  The goal  of  this  application is  a  coupled
+kinetic–MHD  solver  built on  neural  methods,  targeting a  full  3D
+tokamak  geometry of  JET or  ITER type.   On the  MHD side,  a neural
+solver   computes  the   equilibrium  (Grad–Shafranov   equation)  and
+simplified  MHD  models, avoiding  the  very  large matrix  inversions
+altogether. It  relies on time-sequential  neural methods of  the PINN
+type, combined  with natural gradient optimization,  adaptive sampling
+and adaptive  neural networks.  On  the kinetic side,  neural particle
+methods are combined with learned flow  maps, which give access to the
+turbulent regime. Coupling the two is the objective.
+
+\textbf{Hybrid numerical for high-dimensional PDEs} \\
 
 We  propose  to  develop  a demonstrator  of  numerical  methods  that
 hybridize  machine learning  with classical  approaches. The  baseline
@@ -224,31 +284,48 @@ solving PDEs in high physical  dimensions (such as radiative transfer)
 or with parametric dependencies.
 
 \section{Software Framework Contributions}
-\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
-software descriptions only as dated context.}
+
+\WPUpdateNote{Update releases,  commits or  PRs delivered in  2026 and
+  retain older software descriptions only as dated context.}
+
 % • PINN frameworks: …  
 % • Neural Operators: …  
 % • Reduced‐basis toolboxes: …  
 % • NIRB methods: …
 
 \subsection{Main Software Framework: Scimba and Feel++}
-\WPUpdateNote{Update the Scimba and Feel++ contributions, versions and supporting
-evidence for 2026.}
 
-Scimba is a  library that implements PINNs or  sequential time methods
-(discrete PINNs,  neural Galerkin  or semi-Lagrangian).  The  code can
-handle complex  geometries, adaptive sampling,  and GPU-preconditioned
-optimizers.   It can  use different  types  of models  such as  neural
-networks,   classical   or    nonlinear   kernel   methods,   low-rank
-approximations,  etc.   The  core  library of  Scimba  is  written  in
-Pytorch, and a simplified version centered around neural approaches in
-Jax is  currently being developed.  The code also implements  EDO flow
-learning methods.  NO methods will also be implemented in the future.
+\WPUpdateNote{Update the Scimba and Feel++ contributions, versions and
+  supporting evidence for 2026.}
+
+Scimba is a  SciML library organised around a  single unifying notion:
+the  approximation  space.  The  same  interface  describes  a  neural
+network, a finite element or discontinuous Galerkin basis, a kernel or
+a low-rank  model, so that residuals  and losses are written  once and
+apply to all of them.  It implements PINNs and sequential time methods
+(discrete PINNs, neural Galerkin, semi-Lagrangian) as well as ODE flow
+learning,  with   complex  geometries,   adaptive  sampling   and  GPU
+natural-gradient  preconditioned  optimizers.   The  core  library  is
+written in PyTorch. Development now  focuses on the JAX version, which
+has grown well  beyond its initial neural scope  along three connected
+directions: PINNs and their time-sequential variants; a full classical
+discretisation layer  — continuous and discontinuous  Galerkin, finite
+volumes,  isogeometric B-splines  —  on  mapped, block-structured  and
+unstructured  meshes, with  matrix-free  solvers, preconditioners  and
+multigrid;  and the  hybrid methods  where the  two meet,  such as  DG
+schemes  whose basis  or  geometric mapping  is  learned, and  inverse
+problems where a physical coefficient  is recovered through the solver
+itself.  Because  the entire JAX  code is differentiable,  a classical
+solver can  be placed inside a  learning loop and a  learned component
+inside a classical scheme. Neural  operators are being developed along
+the  same lines,  in  a  physics-informed form  —  degrees of  freedom
+predicted on  a fixed or  learned basis, hence evaluable  anywhere and
+carrying a PDE residual — and in a purely discrete, data-driven form.
 
 \subsection{Additional Software Framework}
-\WPUpdateNote{Update this subsection only for additional software that supported
-an identified 2026 advance.}
 
+\WPUpdateNote{Update this subsection only for additional software that
+  supported an identified 2026 advance.}
 
 \paragraph{Frameworks mapping.}
 \begin{itemize}
@@ -257,8 +334,11 @@ an identified 2026 advance.}
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
-\WPUpdateNote{Replace planned or expected results with measured 2026 values only
-when the configuration, baseline and evidence are available.}
+
+\WPUpdateNote{Replace planned  or expected results with  measured 2026
+  values  only  when  the  configuration, baseline  and  evidence  are
+  available.}
+
 % • Surrogate model speedups placeholder  
 % • Error vs.\ basis size placeholder  
 % • Regression test pass-rate placeholder
@@ -269,12 +349,16 @@ novel methodologies under development.
 
 \paragraph{Benchmarks mapping.}
 \begin{itemize}
-  \item Surrogate accuracy vs. speedup and RB offline/online timing integrated with WP7 (T7.1) and reported alongside the corresponding application benchmarks when available.
+  \item Surrogate  accuracy vs.  speedup and RB  offline/online timing
+    integrated   with   WP7   (T7.1)  and   reported   alongside   the
+    corresponding application benchmarks when available.
 \end{itemize}
 
 \section{Roadmap \& Next Steps}
-\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
-2026 advances and benchmark evidence have been validated.}
+
+\WPUpdateNote{Update  the remaining  limitations and  2027 next  steps
+  after the 2026 advances and benchmark evidence have been validated.}
+
 % • Deliverables D2.x to complete by Mxx  
 % • New apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
