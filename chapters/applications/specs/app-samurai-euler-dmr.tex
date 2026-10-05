@@ -1,0 +1,279 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Double Mach reflection on an adaptive mesh}
+\label{sec:app:specs:app-samurai-euler-dmr}
+
+This mini-app measures the strong and weak scalability of samurai (see
+\Cref{sec:Samurai:software}) on the double Mach reflection, a standard test
+case for the compressible Euler equations. Unlike the Burgers benchmark of
+\Cref{sec:app:specs:app-samurai-burgers-2d}, the adapted mesh is not balanced
+a priori: the refined cells gather along the shocks, the contact
+discontinuity and the jet near the wall, and their distribution changes as the
+flow develops.
+
+\Cref{tab:app-samurai-euler-dmr} describes the specifications of the
+application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-samurai-euler-dmr} \\
+        name & Double Mach reflection, strong and weak scaling \\
+        Partners & IPP \\
+        PC & PC1 - ExaMA \\
+        Responsible (Permanent) & L. Gouarin \\
+        WP7 Engineer & \todo{To be confirmed} \\
+        work\_package & WP1 \\
+        application\_type & mini-app \\
+        purpose & Strong and weak scalability of an adaptive finite volume solver for the compressible Euler equations with strong shocks \\
+        Method-Algorithm WP1 & adaptive Cartesian mesh (interval representation), multiresolution analysis, finite volume, HLLC Riemann solver, MUSCL reconstruction, Strang splitting \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        metrics & \SetCell{l} \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{regression-test-pass} \\
+        status & benchmark-in-progress (repository-only, not yet in the operational Sheet) \\
+        Benchmark scope & multi-node, full-system \\
+        Framework & samurai \\
+        parallel\_framework & MPI \\
+        repo\_url & \url{https://github.com/hpc-maths/samurai-euler}\\
+    \end{tblr}
+    \caption{Description of the mini-app \texttt{app-samurai-euler-dmr}.}
+    \label{tab:app-samurai-euler-dmr}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Description of the benchmark}
+
+We solve the two-dimensional compressible Euler equations
+\begin{equation}\label{eq:specs:samurai:euler}
+  \partial_t
+  \begin{pmatrix} \rho \\ \rho \mathbf{u} \\ \rho E \end{pmatrix}
+  + \nabla\cdot
+  \begin{pmatrix} \rho \mathbf{u} \\ \rho \mathbf{u}\otimes\mathbf{u} + p\,\mathbf{I} \\ (\rho E + p)\,\mathbf{u} \end{pmatrix}
+  = 0,
+  \qquad
+  p = (\gamma - 1)\left(\rho E - \frac{1}{2}\rho |\mathbf{u}|^2\right),
+\end{equation}
+for an ideal gas with $\gamma = 1.4$. The set-up is the one of section IVa of Woodward and
+Colella, J. Comput. Phys. 54 (1984), \href{https://doi.org/10.1016/0021-9991(84)90142-6}{doi:10.1016/0021-9991(84)90142-6}.
+\todo{Add Woodward \& Colella (1984) to the Zotero library and replace the inline reference by a citation.} A Mach 10 shock hits a
+30 degree ramp, represented by a reflecting wall along the bottom of the domain
+$[0,4]\times[0,1]$ from $x_0 = 1/6$. At $t = 0$, the shock makes an angle of
+$60^\circ$ with the $x$-axis and passes through $(x_0, 0)$. The gas at rest in
+front of it is in the state $\mathbf{U}_R$, with $(\rho, p) = (1.4, 1)$, so
+that its sound speed is 1. The Rankine-Hugoniot conditions give the post-shock
+state $\mathbf{U}_L$, with $\rho = 8$, $p = 116.5$ and a velocity of magnitude
+$8.25$ normal to the shock.
+
+\Cref{fig:specs:samurai:dmr:setup} shows the initial condition and the boundary
+conditions. The left boundary and the part of the bottom boundary upstream of
+$x_0$ impose $\mathbf{U}_L$. Downstream of $x_0$, the bottom boundary is a
+reflecting wall. The top boundary follows the exact position of the shock,
+\begin{equation}\label{eq:specs:samurai:dmr:shock}
+  x_s(t) = x_0 + \frac{1 + 20\,t}{\sqrt{3}},
+\end{equation}
+and imposes $\mathbf{U}_L$ for $x < x_s(t)$ and $\mathbf{U}_R$ beyond. The right
+boundary is an outflow.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[x=3.1cm, y=3.1cm, font=\small]
+    \def\xz{0.16667}
+    \def\xs{0.74402}
+    % initial states on each side of the shock
+    \fill[customorange!25] (0,0) -- (\xz,0) -- (\xs,1) -- (0,1) -- cycle;
+    \fill[customdarkblue!8] (\xz,0) -- (4,0) -- (4,1) -- (\xs,1) -- cycle;
+    \node at (0.25,0.78) {$\mathbf{U}_L$};
+    \node at (2.3,0.5) {$\mathbf{U}_R$};
+    % initial shock, angle with the x-axis and post-shock velocity
+    \draw[very thick, customorange!80!black] (\xz,0) -- (\xs,1);
+    \draw (\xz+0.16,0) arc (0:60:0.16);
+    \node at (\xz+0.24,0.11) {\footnotesize $60^\circ$};
+    \draw[->, thick] (0.10,0.50) -- ++(0.866*0.22,-0.5*0.22) node[below left=-1pt] {\footnotesize $\mathbf{u}_L$};
+    % domain
+    \draw[thick] (0,0) rectangle (4,1);
+    % bottom: imposed state upstream of x0, reflecting wall downstream
+    \draw[ultra thick, customorange!80!black] (0,0) -- (\xz,0);
+    \draw[ultra thick] (\xz,0) -- (4,0);
+    \foreach \x in {0.25,0.35,...,4.0} \draw (\x,0) -- ++(-0.05,-0.06);
+    \node[below left=2pt and -1pt] at (\xz,0) {$\mathbf{U}_L$};
+    \draw (\xz,0) -- (\xz,-0.2) node[below] {$x_0$};
+    \node[below=6pt] at (2.1,0) {reflecting wall};
+    % top: exact shock position x_s(t)
+    \draw (\xs,1) -- (\xs,1.1) node[above] {$x_s(t)$};
+    \draw[->] (\xs+0.03,1.05) -- (\xs+0.35,1.05);
+    \node[above=2pt] at (\xs/2,1) {$\mathbf{U}_L$};
+    \node[above=2pt] at (2.3,1) {$\mathbf{U}_R$};
+    % left and right
+    \node[left] at (0,0.5) {$\mathbf{U}_L$};
+    \node[right, rotate=90, anchor=north] at (4.04,0.5) {outflow};
+  \end{tikzpicture}
+  \caption{Double Mach reflection: initial condition and boundary conditions on
+    the domain $[0,4]\times[0,1]$. $\mathbf{U}_L$ is the post-shock state, $\rho = 8$, $p = 116.5$,
+    $\mathbf{u}_L = 8.25\,(\sin 60^\circ, -\cos 60^\circ)$, and $\mathbf{U}_R$
+    the gas at rest, $\rho = 1.4$, $p = 1$, $\mathbf{u}_R = 0$. The shock starts
+    at $x_0 = 1/6$ on the bottom boundary, and $x_s(t)$ is its exact position on
+    the top boundary, given by \eqref{eq:specs:samurai:dmr:shock}.}
+  \label{fig:specs:samurai:dmr:setup}
+\end{figure}
+
+The simulation runs until $T_f = 0.2$. The reflected shocks, the Mach stem and
+the jet that rolls up along the wall are thin structures in a large domain at
+rest or in uniform motion, which is the configuration where mesh adaptation
+pays off.
+
+\paragraph{Numerical method.}
+The fluxes are computed with the HLLC Riemann solver on face values
+reconstructed by MUSCL with the monotonized central limiter, on a stencil of
+four cells. The time integration is a Strang splitting,
+$X(\Delta t/2)\,Y(\Delta t)\,X(\Delta t/2)$, in which each directional sweep
+uses the Hancock predictor, with $\mathrm{CFL} = 0.4$. The mesh is adapted at
+every time step by multiresolution analysis
+\cite{cohen_fully_2003,bellotti_multidimensional_2022} on relative details,
+between the levels $\ell_{\min}$ and $\ell_{\max}$, with the threshold set by
+\texttt{-{}-mr-eps}. The mesh adaptation uses a prediction operator specific to the
+Euler variables.
+
+\paragraph{Strong scaling.}
+The levels $(\ell_{\min}, \ell_{\max})$ and the threshold are fixed, and the
+number of MPI processes $P$ increases from a reference count $P_0$. We report
+the speedup and the parallel efficiency
+\begin{equation}\label{eq:specs:samurai:dmr:strong}
+  S(P) = \frac{T(P_0)}{T(P)}, \qquad E_s(P) = \frac{P_0}{P}\,S(P),
+\end{equation}
+where $T(P)$ is the time to solution on $P$ processes.
+
+\paragraph{Weak scaling.}
+Each refinement of the finest level multiplies the number of cells of the
+uniform mesh by 4 in two dimensions. The weak scaling increases $\ell_{\max}$ by
+one each time $P$ is multiplied by 4. On an adapted mesh, however, the number
+of cells does not grow by a factor 4 per level. The refined cells follow
+discontinuities, which are curves in the plane, and their share of the mesh
+drops as the resolution increases. The number of time steps also doubles with
+each level, through the CFL condition. The time to solution alone is therefore
+not a fair measure of weak scaling here. We use the throughput per process
+instead,
+\begin{equation}\label{eq:specs:samurai:dmr:weak}
+  E_w(P) = \frac{N_{\mathrm{cu}}(P) / \left(P\, T(P)\right)}{N_{\mathrm{cu}}(P_0) / \left(P_0\, T(P_0)\right)},
+\end{equation}
+where $N_{\mathrm{cu}}(P)$ is the number of cell updates of the run, one cell
+advanced by one time step counting as one update. We also report the number of
+cells per process at the initial and final times, so that the reader can see
+how far the run is from constant work per process.
+
+\todo{Confirm the levels, the threshold and the process counts of both protocols.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Benchmarking tools used}
+
+The benchmark is the \texttt{euler\_2d} program of samurai-euler, which builds
+samurai with MPI. The test case is selected with
+\texttt{-{}-test-case double\_mach\_reflection}. The default final time of the
+program is $0.25$, so the runs must set \texttt{-{}-Tf 0.2}. A run reads
+\begin{verbatim}
+mpiexec -n 64 ./euler_2d --test-case double_mach_reflection --Tf 0.2 \
+        --order 2 --scheme hllc --min-level <lmin> --max-level <lmax> \
+        --metrics-file dmr_np64.json --timers
+\end{verbatim}
+
+The option \texttt{-{}-metrics-file} writes the performance metrics of the run in
+JSON. Each rank accumulates them on its own subdomain, and they are reduced
+once at the end of the run: cell counts and cell updates are summed over the
+ranks, and times are taken on the slowest rank. The file contains
+\begin{itemize}
+\item the time to solution, which covers the time loop only (initialization and
+  file writing are measured but kept out of it);
+\item the share of the time to solution spent in mesh adaptation;
+\item the number of cell updates and the throughput in millions of cell updates
+  per second (Mcu/s);
+\item the number of cells and the sparsity index (cells of the adapted mesh over
+  cells of the uniform mesh at $\ell_{\max}$) at the initial and final times.
+\end{itemize}
+The \texttt{-{}-timers} option of samurai adds a breakdown of the time spent in
+mesh adaptation, ghost updates and the numerical scheme.
+
+The regression tests of samurai-euler compare the double Mach reflection on a
+uniform mesh with reference fields for the HLL, HLLC and Rusanov solvers, which
+gives the \texttt{regression-test-pass} metric.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+  \begin{itemize}
+  \item No external dataset: the domain, the initial state and the boundary
+    conditions are defined in \texttt{euler/init/double\_mach.hpp}, and the
+    mesh is generated from the command-line parameters.
+  \item Parameters: mesh levels (\texttt{-{}-min-level}, \texttt{-{}-max-level}),
+    multiresolution threshold (\texttt{-{}-mr-eps}), final time (\texttt{-{}-Tf}),
+    Riemann solver (\texttt{-{}-scheme}), order (\texttt{-{}-order}), slope limiter
+    (\texttt{-{}-slope-limiter}), CFL number (\texttt{-{}-cfl}).
+  \item Software: samurai-euler commit \texttt{b5eeb01}, built against
+    samurai with \texttt{SAMURAI\_WITH\_MPI=ON}. The samurai-euler and samurai
+    commits of the runs will be pinned with the results.
+  \end{itemize}
+
+\subsubsection{Output Data:}
+  \begin{itemize}
+  \item The JSON metrics file and the timers report of each run.
+  \item Optionally, the density, the pressure and the level of each cell in
+    HDF5/XDMF format, to compare the solution with the published reference.
+  \end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Results summary}
+
+No scaling result is reported in this version of the deliverable. The next
+version will give, for each run, the machine (one of those listed in Appendix A),
+the compiler and MPI versions, the number of processes per node, the load
+balancing settings and the number of repetitions. It will show
+\begin{itemize}
+\item the density and the level of the cells at $T_f$;
+\item for the strong scaling, the time to solution, the share of mesh
+  adaptation, and $S(P)$ and $E_s(P)$ of \eqref{eq:specs:samurai:dmr:strong};
+\item for the weak scaling, the number of cells per process and $E_w(P)$ of
+  \eqref{eq:specs:samurai:dmr:weak}.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Challenges identified}
+
+\begin{itemize}
+\item The refined cells move with the shocks, so a partition that is balanced
+  at the start of the run does not stay balanced. The strong scaling depends on
+  how often, and at what cost, the load is redistributed between the processes.
+\item The mesh is adapted at every time step. Its share of the time to
+  solution is a direct measure of the overhead of the adaptation, and it must
+  stay bounded as $P$ grows for the adaptive run to keep its advantage over a
+  uniform mesh.
+\item At fixed threshold, the sparsity index decreases with $\ell_{\max}$, so
+  the weak scaling cannot keep the work per process constant. The throughput
+  per process of \eqref{eq:specs:samurai:dmr:weak} corrects for this, but only
+  if the cost of a cell update does not depend on the resolution.
+\end{itemize}

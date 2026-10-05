@@ -1,0 +1,192 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+
+\section{Weak scaling of an adaptive Burgers solver}
+\label{sec:app:specs:app-samurai-burgers-2d}
+
+This mini-app measures the weak scalability of the distributed adaptive mesh of
+samurai (see \Cref{sec:Samurai:software}) on the two-dimensional inviscid
+Burgers equation. The test case is built so that every MPI process carries
+exactly the same adapted mesh and the same amount of work. Any loss of
+efficiency as the number of processes grows therefore comes from the
+communications and from the distributed mesh adaptation, not from load
+imbalance.
+
+\Cref{tab:app-samurai-burgers-2d} describes the specifications of the
+application.
+
+\begin{table}[ht]
+    \centering
+    \begin{tblr}{
+        colspec = {l X[10cm]},
+        row{odd} = {numpexlightergray},
+        hlines = {0.1pt, numpexgray},
+        vlines = {numpexgray},
+        row{1} = {numpexgray, fg=white, font=\bfseries},
+    }
+        Field & Details \\
+        id & \texttt{app-samurai-burgers-2d} \\
+        name & Adaptive Burgers 2D, weak scaling \\
+        Partners & IPP \\
+        PC & PC1 - ExaMA \\
+        Responsible (Permanent) & L. Gouarin \\
+        WP7 Engineer & \todo{To be confirmed} \\
+        work\_package & WP1 \\
+        application\_type & mini-app \\
+        purpose & Weak scalability of the distributed multiresolution mesh adaptation on a load-balanced nonlinear transport problem \\
+        Method-Algorithm WP1 & adaptive Cartesian mesh (interval representation), multiresolution analysis, finite volume, OSMP scheme, Strang splitting \\
+        Method-Algorithm WP2 & \\
+        Method-Algorithm WP3 & \\
+        Method-Algorithm WP4 & \\
+        Method-Algorithm WP5 & \\
+        Method-Algorithm WP6 & \\
+        WP7 & \\
+        metrics & \SetCell{l} \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{regression-test-pass} \\
+        status & benchmark-in-progress (repository-only, not yet in the operational Sheet) \\
+        Benchmark scope & multi-node, full-system \\
+        Framework & samurai \\
+        parallel\_framework & MPI \\
+        repo\_url & \url{https://github.com/hpc-maths/samurai}\\
+    \end{tblr}
+    \caption{Description of the mini-app \texttt{app-samurai-burgers-2d}.}
+    \label{tab:app-samurai-burgers-2d}
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Description of the benchmark}
+
+We solve the two-dimensional inviscid Burgers equation
+\begin{equation}\label{eq:specs:samurai:burgers}
+  \partial_t u + \partial_x \left(\frac{u^2}{2}\right) + \partial_y \left(\frac{u^2}{2}\right) = 0,
+\end{equation}
+with periodic boundary conditions. On the reference box $[-1,1]^2$, the
+initial condition is a Gaussian bump
+\begin{equation}\label{eq:specs:samurai:burgers:init}
+  u_0(x,y) = \frac{1}{2} \exp\left(-50\left[(x-x_c)^2 + (y-y_c)^2\right]\right),
+\end{equation}
+whose centre $(x_c, y_c)$ is shifted by $0.25$ from the centre of the box in
+each direction. The nonlinear flux steepens the bump into a shock, so the
+adapted mesh follows a moving, localized discontinuity until the final time
+$T_f$.
+
+\paragraph{Construction of the weak scaling.}
+With $P = n_x \times n_y$ MPI processes, the global domain is a grid of
+$n_x \times n_y$ copies of the reference box. The process of rank $r$ owns the
+copy translated by $2\,(r \bmod n_x, \lfloor r / n_x \rfloor)$, and its
+initial condition is \eqref{eq:specs:samurai:burgers:init} expressed relative
+to its own box. Since the global problem is periodic with the period of the
+reference box, every subdomain holds the same solution and the same adapted
+mesh, up to a translation. The work per process is therefore constant by
+construction, and the ideal weak scaling is a constant time to solution.
+
+At every time step, the program compares each subdomain with its MPI neighbours,
+level by level, and stops with an error if the adapted meshes differ. This
+check verifies that the parallel mesh adaptation gives the same result as
+on a single process, and that the load stays balanced throughout the run.
+
+\paragraph{Numerical method.}
+The mesh is adapted at every time step by multiresolution analysis
+\cite{cohen_fully_2003,bellotti_multidimensional_2022}, with threshold
+$\varepsilon = 10^{-3}$, between the levels $\ell_{\min}$ and $\ell_{\max}$
+(4 and 10 by default), with a graduation width of 2. The flux is discretized
+with the one-step monotonicity-preserving (OSMP) scheme of Daru and Tenaud
+\todo{Add Daru \& Tenaud, J. Comput. Phys. (2004) to the Zotero library and cite it here.}
+on a four-cell stencil. The two directions are coupled by a Strang splitting,
+$X(\Delta t/2)\,Y(\Delta t)\,X(\Delta t/2)$. The time step is fixed for the
+whole run from the finest level the mesh may reach,
+$\Delta t = \mathrm{CFL}\,\Delta x_{\ell_{\max}} / \max|u_0|$ with
+$\mathrm{CFL} = 0.95$, so that it stays the same whatever the number of
+processes.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Benchmarking tools used}
+
+The benchmark is the demo \texttt{demos/FiniteVolume/burgers\_os\_2d\_mpi.cpp}
+of samurai, built with \texttt{SAMURAI\_WITH\_MPI=ON}. The process grid is set
+with \texttt{-{}-npx} and \texttt{-{}-npy}, and the program refuses to run if
+$n_x n_y \neq P$. A run on 8 processes reads
+\begin{verbatim}
+mpiexec -n 8 ./finite-volume-burgers-os-2d-mpi --npx=4 --npy=2 \
+        --min-level=4 --max-level=10 --Tf=0.5 --no-output --timers
+\end{verbatim}
+
+The \texttt{-{}-timers} option prints the built-in timers of samurai at the end
+of the run. They split the wall-clock time between mesh adaptation, ghost
+updates and the numerical scheme. \texttt{-{}-no-output} removes file writing
+from the measurement.
+
+Let $T(P)$ be the time to solution on $P$ processes, taken on the slowest rank.
+We report the weak scaling efficiency
+\begin{equation}\label{eq:specs:samurai:burgers:weak-efficiency}
+  E_w(P) = \frac{T(1)}{T(P)},
+\end{equation}
+for the whole time loop and for each of the timed components. Since the work
+per process does not depend on $P$, the difference between $E_w(P)$ and 1
+measures the parallel overhead directly.
+
+The same program runs in the continuous integration of samurai on 2, 4, 8 and 9
+processes, with several process-grid shapes ($2\times1$, $1\times2$, $4\times2$,
+$2\times4$, $3\times3$). This gives a \texttt{regression-test-pass} metric for
+the distributed mesh adaptation at small scale.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+  \begin{itemize}
+  \item No external dataset: the domain, the initial condition and the mesh are
+    generated by the program from its command-line parameters.
+  \item Parameters: process grid (\texttt{-{}-npx}, \texttt{-{}-npy}), mesh levels
+    (\texttt{-{}-min-level}, \texttt{-{}-max-level}), final time (\texttt{-{}-Tf}),
+    CFL number (\texttt{-{}-cfl}) and multiresolution threshold
+    (\texttt{-{}-mr-eps}).
+  \item Software: samurai commit \texttt{1894c71}. The commit of the runs will
+    be pinned with the results.
+  \end{itemize}
+
+\subsubsection{Output Data:}
+  \begin{itemize}
+  \item The timers report of each run, with the number of processes and the
+    process grid.
+  \item Optionally, the solution and the level of each cell in HDF5/XDMF
+    format (\texttt{-{}-nfiles}), to check the adapted mesh visually.
+  \end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Results summary}
+
+No scaling result is reported in this version of the deliverable. The next
+version will give, for each run, the machine (one of those listed in Appendix A),
+the compiler and MPI versions, the number of processes per node, the mesh
+levels, the final time and the number of repetitions. It will show the time to
+solution of each timed component and the efficiency $E_w(P)$ of
+\eqref{eq:specs:samurai:burgers:weak-efficiency} against $P$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Challenges identified}
+
+\begin{itemize}
+\item The mesh comparison between neighbours runs inside the time loop and ends
+  with a global reduction. Its cost has to be timed separately, or the check
+  disabled for the timing runs, so that it is not counted as overhead of the
+  mesh adaptation.
+\item The test case balances the load by construction. It measures the cost of
+  the communications and of the distributed adaptation, but not the effect of
+  an unbalanced adapted mesh. The double Mach reflection benchmark
+  (\Cref{sec:app:specs:app-samurai-euler-dmr}) covers that case.
+\end{itemize}
