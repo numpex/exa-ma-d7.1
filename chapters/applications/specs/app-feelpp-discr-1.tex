@@ -310,13 +310,15 @@ The performance analysis focuses on the scalability of the main computational co
 \Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M1,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M2,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M3} present both grouped and stacked bar charts showing the execution time breakdown for each mesh level and polynomial order. Key performance insights include:
 
 \begin{itemize}
-\item \textbf{Initialization:} The mesh loading and toolbox initialization (blue bars) shows good scalability, with decreasing times as processor count increases. This validates the efficiency of the parallel mesh partitioning strategy.
+\item \textbf{Preprocessing:} The mesh loading and toolbox initialization (blue bars) shows good scalability, with decreasing times as processor count increases. This validates the efficiency of the parallel mesh partitioning strategy.
 
-\item \textbf{Assembly:} The finite element assembly phase (cyan bars) represents a significant portion of total time and scales well for all mesh levels. Higher-order elements ($\mathP_3$) require more assembly time due to increased quadrature points and local matrix sizes.
+\item \textbf{Assembly:} The finite element assembly phase (purple bars) represents a significant portion of total time and scales well for all mesh levels. Higher-order elements ($\mathP_3$) require more assembly time due to increased quadrature points and local matrix sizes.
+
+\item \textbf{Solve:} The linear system solve phase (cyan bars) exhibits strong scalability, particularly for larger meshes (M2 and M3). The use of preconditioned GMRES allows for efficient convergence, and the solver time decreases with increasing processor count.
 
 \item \textbf{Post-processing:} The export and validation phase (orange bars) remains relatively constant across processor counts, as it involves I/O operations that are less amenable to parallelization.
 
-\item \textbf{Strong scalability:} The total execution time decreases as the number of processors increases from 1 to 96, demonstrating effective parallel efficiency. The speedup is particularly pronounced for the larger meshes (M2 and M3) where the computational workload per processor remains substantial.
+\item \textbf{Strong scalability:} The total execution time decreases as the number of processors increases, demonstrating effective parallel efficiency. The speedup is particularly pronounced for the larger meshes (M2 and M3) where the computational workload per processor remains substantial.
 
 \item \textbf{Load balancing:} The consistent performance across different processor counts indicates effective domain decomposition and minimal load imbalance.
 \end{itemize}
