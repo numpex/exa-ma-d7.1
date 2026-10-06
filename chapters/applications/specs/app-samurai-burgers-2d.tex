@@ -91,8 +91,7 @@ The mesh is adapted at every time step by multiresolution analysis
 \cite{cohen_fully_2003,bellotti_multidimensional_2022}, with threshold
 $\varepsilon = 10^{-3}$, between the levels $\ell_{\min}$ and $\ell_{\max}$
 (4 and 10 by default), with a graduation width of 2. The flux is discretized
-with the one-step monotonicity-preserving (OSMP) scheme of Daru and Tenaud
-\todo{Add Daru \& Tenaud, J. Comput. Phys. (2004) to the Zotero library and cite it here.}
+with the one-step monotonicity-preserving (OSMP) scheme \cite{daru_high_2004}
 on a four-cell stencil. The two directions are coupled by a Strang splitting,
 $X(\Delta t/2)\,Y(\Delta t)\,X(\Delta t/2)$. The time step is fixed for the
 whole run from the finest level the mesh may reach,
