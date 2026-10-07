@@ -4,16 +4,18 @@
 {V. Chabannes; C. Prud'homme; P. Alliez}
 {WP1}{mini-app}
 {Test the parallel performance of triangle-mesh autorefinement.}
-{CGAL, Intel TBB}{brainstorming}
+{CGAL, Intel TBB}{benchmark-ready}
 
 \paragraph{Proposed benchmark contract.}
-\texttt{BM-CGAL-AUTOREFINE-01} is limited to a proposal for single-node thread
-scaling with time-to-solution.
-At inspected commit \href{https://github.com/numpex/apps-cgal/commit/774f40bb6bf2d42f08468284e55ce7e93d446b4b}{\texttt{774f40b}},
+\texttt{BM-CGAL-AUTOREFINE-01} defines a single-node thread-scaling benchmark measuring time-to-solution for the CGAL mesh autorefinement algorithm.
+At the inspected commitAt inspected commit \href{https://github.com/numpex/apps-cgal/commit/774f40bb6bf2d42f08468284e55ce7e93d446b4b}{\texttt{774f40b}},
 the application repository contains the autorefinement minimal example, input meshes and JSON benchmark and plot configurations under \texttt{src/app-cgal-autorefine/}.
-This proves an executable configuration exists, not that benchmark results are available.
-\todo{provide validity oracle}
 
+The benchmark has been executed on a single node of the Gaya cluster, for mesh sizes ranging from 100 to 1000 points per grid side and for up to 64 threads.
+The resulting measurements are reported in this specification.
+
+A benchmark result is considered valid when the autorefinement application completes successfully and produces the expected autorefined output mesh.
+Execution time is measured by the application's internal timing instrumentation for the autorefinement operation. Each configuration is executed once, with the requested number of threads allocated to a single node.
 
 
 \subsection{Description of the benchmark}
