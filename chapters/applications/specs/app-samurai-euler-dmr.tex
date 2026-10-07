@@ -1,15 +1,17 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
+%!TEX root = ../../../exa-ma-d7.1.tex
 
 \section{Double Mach reflection on an adaptive mesh}
 \label{sec:app:specs:app-samurai-euler-dmr}
 
-This mini-app measures the strong and weak scalability of samurai (see
-\Cref{sec:Samurai:software}) on the double Mach reflection, a standard test
+This mini-app measures the strong scalability of samurai (see
+\Cref{sec:Samurai:software}), and its throughput when the resolution grows
+with the number of processes, on the double Mach reflection, a standard test
 case for the compressible Euler equations. Unlike the Burgers benchmark of
 \Cref{sec:app:specs:app-samurai-burgers-2d}, the adapted mesh is not balanced
 a priori: the refined cells gather along the shocks, the contact
 discontinuity and the jet near the wall, and their distribution changes as the
-flow develops.
+flow develops. The mini-app is therefore also the test case on which we compare
+the load balancing strategies of samurai.
 
 \Cref{tab:app-samurai-euler-dmr} describes the specifications of the
 application.
@@ -25,24 +27,24 @@ application.
     }
         Field & Details \\
         id & \texttt{app-samurai-euler-dmr} \\
-        name & Double Mach reflection, strong and weak scaling \\
+        name & Double Mach reflection, strong scaling and scaled-resolution series \\
         Partners & IPP \\
         PC & PC1 - ExaMA \\
         Responsible (Permanent) & L. Gouarin \\
-        WP7 Engineer & \todo{To be confirmed} \\
+        WP7 Engineer &  \\
         work\_package & WP1 \\
         application\_type & mini-app \\
-        purpose & Strong and weak scalability of an adaptive finite volume solver for the compressible Euler equations with strong shocks \\
-        Method-Algorithm WP1 & adaptive Cartesian mesh (interval representation), multiresolution analysis, finite volume, HLLC Riemann solver, MUSCL reconstruction, Strang splitting \\
+        purpose & Strong scalability, and throughput at a resolution growing with the number of processes, of an adaptive finite volume solver for the compressible Euler equations with strong shocks, and comparison of the dynamic load balancing strategies of samurai \\
+        Method-Algorithm WP1 & mesh adaptation, multiresolution analysis, finite volume, dynamic load balancing \\
         Method-Algorithm WP2 & \\
         Method-Algorithm WP3 & \\
         Method-Algorithm WP4 & \\
         Method-Algorithm WP5 & \\
         Method-Algorithm WP6 & \\
         WP7 & \\
-        metrics & \SetCell{l} \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{regression-test-pass} \\
-        status & benchmark-in-progress (repository-only, not yet in the operational Sheet) \\
-        Benchmark scope & multi-node, full-system \\
+        metrics & \SetCell{l} \texttt{strong-scalability}, \texttt{time-to-solution}, \texttt{regression-test-pass} \\
+        status & benchmark-in-progress \\
+        Benchmark scope & multi-node \\
         Framework & samurai \\
         parallel\_framework & MPI \\
         repo\_url & \url{https://github.com/hpc-maths/samurai-euler}\\
@@ -146,6 +148,45 @@ between the levels $\ell_{\min}$ and $\ell_{\max}$, with the threshold set by
 \texttt{-{}-mr-eps}. The mesh adaptation uses a prediction operator specific to the
 Euler variables.
 
+\paragraph{Load balancing.}
+Since the mesh is adapted at every time step, the load of each process changes
+as the shocks move. samurai redistributes the cells, and the fields defined on
+them, with a load balancing module made of a driver and interchangeable
+partitioning strategies:
+\begin{itemize}
+\item space-filling curves, with the Morton or the Hilbert ordering
+  \cite{bader_space-filling_2013}. The cells are sorted along the curve, which
+  is cut into $P$ segments of equal weight. The Hilbert curve gives more compact
+  subdomains, the Morton keys are cheaper to compute;
+\item diffusion. A discrete heat equation on the graph of the MPI neighbours
+  \cite{cybenko_dynamic_1989} gives the load that each process sends to each
+  of its neighbours, and the process cedes layers of cells along the
+  corresponding interfaces. Cells only move between neighbours, and the balance
+  is reached over several calls;
+\item graph partitioning of the face-adjacent cells, which reduces the number of
+  ghost cells, with ParMETIS \cite{karypis_parallel_1996} or PT-Scotch
+  \cite{chevalier_pt-scotch_2008}. The adaptive repartitioning of ParMETIS
+  starts from the current partition to limit the migration, while PT-Scotch
+  partitions from scratch at every call;
+\item a void strategy that moves no cell. It measures the fixed cost of the
+  driver and gives the unbalanced reference run.
+\end{itemize}
+Each cell carries a weight, uniform by default, set per level or read from a
+field. The driver rebalances when the imbalance $\max_p L_p / \bar{L} - 1$ of
+the weighted loads $L_p$ exceeds a threshold, 5\% by default.
+
+The double Mach reflection puts these strategies under conditions they handle
+differently. The imbalance grows continuously as the shocks cross the domain,
+the refined region is made of thin curved bands, and the jet concentrates cells
+near the wall. At fixed mesh parameters and fixed $P$, we run the benchmark with
+each strategy and measure the imbalance before and after each call, the number
+of migrated cells, the time spent in partitioning and migration, and the effect
+of the shape of the subdomains on the ghost updates and on the time to
+solution. The rebalancing frequency is varied as well. Repeating the
+comparison along the strong scaling and scaled-resolution series shows how the
+balance between the quality of a partition, its cost and the data it moves changes
+with $P$.
+
 \paragraph{Strong scaling.}
 The levels $(\ell_{\min}, \ell_{\max})$ and the threshold are fixed, and the
 number of MPI processes $P$ increases from a reference count $P_0$. We report
@@ -155,26 +196,30 @@ the speedup and the parallel efficiency
 \end{equation}
 where $T(P)$ is the time to solution on $P$ processes.
 
-\paragraph{Weak scaling.}
+\paragraph{Scaled-resolution series.}
+This series increases $\ell_{\max}$ by one each time $P$ is multiplied by 4.
 Each refinement of the finest level multiplies the number of cells of the
-uniform mesh by 4 in two dimensions. The weak scaling increases $\ell_{\max}$ by
-one each time $P$ is multiplied by 4. On an adapted mesh, however, the number
-of cells does not grow by a factor 4 per level. The refined cells follow
+uniform mesh by 4 in two dimensions, so a uniform mesh would keep the same
+number of cells per process. On an adapted mesh, however, the number of cells
+does not grow by a factor 4 per level. The refined cells follow
 discontinuities, which are curves in the plane, and their share of the mesh
 drops as the resolution increases. The number of time steps also doubles with
-each level, through the CFL condition. The time to solution alone is therefore
-not a fair measure of weak scaling here. We use the throughput per process
-instead,
-\begin{equation}\label{eq:specs:samurai:dmr:weak}
-  E_w(P) = \frac{N_{\mathrm{cu}}(P) / \left(P\, T(P)\right)}{N_{\mathrm{cu}}(P_0) / \left(P_0\, T(P_0)\right)},
+each level, through the CFL condition. The work per process therefore changes
+along the series, so the series is not a weak scaling, and the time to
+solution alone is not a fair measure. We report instead the relative throughput
+per process
+\begin{equation}\label{eq:specs:samurai:dmr:throughput}
+  R(P) = \frac{N_{\mathrm{cu}}(P) / \left(P\, T(P)\right)}{N_{\mathrm{cu}}(P_0) / \left(P_0\, T(P_0)\right)},
 \end{equation}
 where $N_{\mathrm{cu}}(P)$ is the number of cell updates of the run, one cell
-advanced by one time step counting as one update. We also report the number of
-cells per process at the initial and final times, so that the reader can see
-how far the run is from constant work per process.
+advanced by one time step counting as one update. This ratio normalizes by the
+work actually done, which suits an adaptive mesh.
 
-\todo{Confirm the levels, the threshold and the process counts of both protocols.}
-
+The number of cells at the initial and final times does not describe the work
+accumulated over the run. To show how far each run is from constant work per
+process, we also report the cell updates per process $N_{\mathrm{cu}}(P)/P$ and
+the distribution of the load over the processes during the run, given by the
+minimum, mean and maximum of the loads $L_p$ at each time step.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -188,8 +233,16 @@ program is $0.25$, so the runs must set \texttt{-{}-Tf 0.2}. A run reads
 \begin{verbatim}
 mpiexec -n 64 ./euler_2d --test-case double_mach_reflection --Tf 0.2 \
         --order 2 --scheme hllc --min-level <lmin> --max-level <lmax> \
-        --metrics-file dmr_np64.json --timers
+        --load-balancing-at <n> --metrics-file dmr_np64.json --timers
 \end{verbatim}
+
+With \texttt{-{}-load-balancing-at N}, the mesh adaptation rebalances the load
+every $N$ adaptations, with the Hilbert curve and a uniform weight. The option
+is 0 by default, which disables load balancing. The other strategies, the
+weights and the per-call statistics of the driver (imbalance before and after,
+migrated cells) are currently only available through the C++ API of samurai.
+For the runs of this benchmark, we will make the choice of strategy available
+on the command line of \texttt{euler\_2d}.
 
 The option \texttt{-{}-metrics-file} writes the performance metrics of the run in
 JSON. Each rank accumulates them on its own subdomain, and they are reduced
@@ -205,7 +258,9 @@ ranks, and times are taken on the slowest rank. The file contains
   cells of the uniform mesh at $\ell_{\max}$) at the initial and final times.
 \end{itemize}
 The \texttt{-{}-timers} option of samurai adds a breakdown of the time spent in
-mesh adaptation, ghost updates and the numerical scheme.
+mesh adaptation, ghost updates and the numerical scheme. It also reports the
+time spent in load balancing, split between partitioning and migration, and,
+for ParMETIS and PT-Scotch, the construction of the cell graph.
 
 The regression tests of samurai-euler compare the double Mach reflection on a
 uniform mesh with reference fields for the HLL, HLLC and Rusanov solvers, which
@@ -226,10 +281,10 @@ gives the \texttt{regression-test-pass} metric.
   \item Parameters: mesh levels (\texttt{-{}-min-level}, \texttt{-{}-max-level}),
     multiresolution threshold (\texttt{-{}-mr-eps}), final time (\texttt{-{}-Tf}),
     Riemann solver (\texttt{-{}-scheme}), order (\texttt{-{}-order}), slope limiter
-    (\texttt{-{}-slope-limiter}), CFL number (\texttt{-{}-cfl}).
-  \item Software: samurai-euler commit \texttt{b5eeb01}, built against
-    samurai with \texttt{SAMURAI\_WITH\_MPI=ON}. The samurai-euler and samurai
-    commits of the runs will be pinned with the results.
+    (\texttt{-{}-slope-limiter}), CFL number (\texttt{-{}-cfl}), rebalancing
+    frequency (\texttt{-{}-load-balancing-at}).
+  \item Software: a tagged samurai release. The release used for the runs
+    will be reported with the results.
   \end{itemize}
 
 \subsubsection{Output Data:}
@@ -253,8 +308,13 @@ balancing settings and the number of repetitions. It will show
 \item the density and the level of the cells at $T_f$;
 \item for the strong scaling, the time to solution, the share of mesh
   adaptation, and $S(P)$ and $E_s(P)$ of \eqref{eq:specs:samurai:dmr:strong};
-\item for the weak scaling, the number of cells per process and $E_w(P)$ of
-  \eqref{eq:specs:samurai:dmr:weak}.
+\item for the scaled-resolution series, the cell updates per process
+  $N_{\mathrm{cu}}(P)/P$, the distribution of the load over the processes
+  during the run, and the relative throughput per process $R(P)$ of
+  \eqref{eq:specs:samurai:dmr:throughput};
+\item for each load balancing strategy, the imbalance before and after
+  rebalancing, the number of migrated cells, the time spent in partitioning and
+  migration, and the time to solution.
 \end{itemize}
 
 
@@ -267,12 +327,18 @@ balancing settings and the number of repetitions. It will show
 \item The refined cells move with the shocks, so a partition that is balanced
   at the start of the run does not stay balanced. The strong scaling depends on
   how often, and at what cost, the load is redistributed between the processes.
+  The strategies trade the quality of the partition against its cost and the
+  number of migrated cells, and the best trade-off may change with $P$.
 \item The mesh is adapted at every time step. Its share of the time to
   solution is a direct measure of the overhead of the adaptation, and it must
   stay bounded as $P$ grows for the adaptive run to keep its advantage over a
   uniform mesh.
 \item At fixed threshold, the sparsity index decreases with $\ell_{\max}$, so
-  the weak scaling cannot keep the work per process constant. The throughput
-  per process of \eqref{eq:specs:samurai:dmr:weak} corrects for this, but only
-  if the cost of a cell update does not depend on the resolution.
+  the scaled-resolution series cannot keep the work per process constant. The
+  relative throughput per process of \eqref{eq:specs:samurai:dmr:throughput}
+  normalizes by the work done, but the comparison is only fair if the cost of
+  a cell update does not depend on the resolution. Reporting the load distribution
+  during the run also requires the metrics file to record the per-process load
+  over time, since it currently gives cell counts at the initial and final
+  times only.
 \end{itemize}

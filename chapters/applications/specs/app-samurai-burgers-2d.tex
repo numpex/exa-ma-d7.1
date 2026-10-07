@@ -1,4 +1,4 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
+%!TEX root = ../../../exa-ma-d7.1.tex
 
 \section{Weak scaling of an adaptive Burgers solver}
 \label{sec:app:specs:app-samurai-burgers-2d}
@@ -29,11 +29,11 @@ application.
         Partners & IPP \\
         PC & PC1 - ExaMA \\
         Responsible (Permanent) & L. Gouarin \\
-        WP7 Engineer & \todo{To be confirmed} \\
+        WP7 Engineer &  \\
         work\_package & WP1 \\
         application\_type & mini-app \\
         purpose & Weak scalability of the distributed multiresolution mesh adaptation on a load-balanced nonlinear transport problem \\
-        Method-Algorithm WP1 & adaptive Cartesian mesh (interval representation), multiresolution analysis, finite volume, OSMP scheme, Strang splitting \\
+        Method-Algorithm WP1 & mesh adaptation, multiresolution analysis, finite volume\\
         Method-Algorithm WP2 & \\
         Method-Algorithm WP3 & \\
         Method-Algorithm WP4 & \\
@@ -41,8 +41,8 @@ application.
         Method-Algorithm WP6 & \\
         WP7 & \\
         metrics & \SetCell{l} \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{regression-test-pass} \\
-        status & benchmark-in-progress (repository-only, not yet in the operational Sheet) \\
-        Benchmark scope & multi-node, full-system \\
+        status & benchmark-in-progress \\
+        Benchmark scope & multi-node \\
         Framework & samurai \\
         parallel\_framework & MPI \\
         repo\_url & \url{https://github.com/hpc-maths/samurai}\\
@@ -83,8 +83,8 @@ construction, and the ideal weak scaling is a constant time to solution.
 
 At every time step, the program compares each subdomain with its MPI neighbours,
 level by level, and stops with an error if the adapted meshes differ. This
-check verifies that the parallel mesh adaptation gives the same result as
-on a single process, and that the load stays balanced throughout the run.
+check ensures that the adapted mesh is the same on every subdomain, and
+therefore that the load stays balanced throughout the run.
 
 \paragraph{Numerical method.}
 The mesh is adapted at every time step by multiresolution analysis
@@ -148,8 +148,8 @@ the distributed mesh adaptation at small scale.
     (\texttt{-{}-min-level}, \texttt{-{}-max-level}), final time (\texttt{-{}-Tf}),
     CFL number (\texttt{-{}-cfl}) and multiresolution threshold
     (\texttt{-{}-mr-eps}).
-  \item Software: samurai commit \texttt{1894c71}. The commit of the runs will
-    be pinned with the results.
+  \item Software: a tagged samurai release. The release used for the runs
+    will be reported with the results.
   \end{itemize}
 
 \subsubsection{Output Data:}
@@ -179,13 +179,7 @@ solution of each timed component and the efficiency $E_w(P)$ of
 
 \subsection{Challenges identified}
 
-\begin{itemize}
-\item The mesh comparison between neighbours runs inside the time loop and ends
-  with a global reduction. Its cost has to be timed separately, or the check
-  disabled for the timing runs, so that it is not counted as overhead of the
-  mesh adaptation.
-\item The test case balances the load by construction. It measures the cost of
-  the communications and of the distributed adaptation, but not the effect of
-  an unbalanced adapted mesh. The double Mach reflection benchmark
-  (\Cref{sec:app:specs:app-samurai-euler-dmr}) covers that case.
-\end{itemize}
+The test case balances the load by construction. It measures the cost of
+the communications and of the distributed adaptation, but not the effect of
+an unbalanced adapted mesh. The double Mach reflection benchmark
+(\Cref{sec:app:specs:app-samurai-euler-dmr}) covers that case.
