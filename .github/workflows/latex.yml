@@ -6,6 +6,7 @@ name: Compile Latex and Release PDF
 # - LaTeX build file cleanup (article-cli clean)
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
