@@ -53,7 +53,8 @@ jobs:
             Refresh the shared Zotero bibliography while preserving existing citation keys.
 
             The retrieval report is available in the bibliography workflow artifacts.
-            Review and merge after the LaTeX checks pass.
+            Auto-merge is enabled; GitHub merges after the required review,
+            LaTeX checks, and branch protections are satisfied.
       # Explicit dispatch ensures checks run for a PR created with GITHUB_TOKEN.
       - name: Run LaTeX checks on the bibliography branch
         if: >-
@@ -66,3 +67,23 @@ jobs:
         run: |
           gh workflow run latex.yml --ref "$UPDATE_BRANCH"
           echo "Bibliography update proposed: $PR_URL" >> "$GITHUB_STEP_SUMMARY"
+      - name: Request Copilot review for the bibliography pull request
+        if: steps.bibliography_pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.bibliography_pr.outputs.pull-request-number }}
+        run: |
+          # Fail closed if the automation PR contains any other file.
+          gh pr view "$PR_NUMBER" --json files --jq '.files[].path' > /tmp/bibliography-pr-files
+          test "$(cat /tmp/bibliography-pr-files)" = 'references.bib'
+          gh api "repos/$GH_REPO/pulls/$PR_NUMBER/requested_reviewers" \
+            --method POST -f 'reviewers[]=copilot-pull-request-reviewer[bot]'
+      - name: Enable auto-merge for the bibliography pull request
+        if: steps.bibliography_pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ steps.bibliography_pr.outputs.pull-request-url }}
+        run: |
+          PR_HEAD=$(gh pr view "$PR_URL" --json headRefOid --jq .headRefOid)
+          gh pr merge "$PR_URL" --auto --squash --match-head-commit "$PR_HEAD"
