@@ -211,8 +211,10 @@ download. The workflow proposes changes to `references.bib` through a single
 pull request on `automation-zotero-bibliography`, updating it as needed instead
 of pushing to protected `main`. Unchanged entries produce no new commit.
 GitHub Actions must be allowed to create pull requests in the repository settings.
-The workflow explicitly dispatches the LaTeX checks for new or updated proposals;
-review and merge the pull request after the checks pass. References become
+The workflow explicitly dispatches the LaTeX checks for new or updated proposals
+and enables squash auto-merge. Review the pull request; GitHub merges it only
+after the required approval, LaTeX checks, and branch protections are satisfied.
+Repository auto-merge must be enabled. References become
 available on `main` after that merge. LaTeX builds use the committed bibliography
 snapshot without contacting Zotero.
 
