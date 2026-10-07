@@ -285,6 +285,15 @@ T3.3 Adaptive solution strategies for exascale multiphysical and multiscale mode
 
   Lukas Spies has started his postdoctoral work in March 2025. He has developed a parallel FreeFEM script that allows for non-matching grids at the interface between two domains. The coupling scheme, analyzed in~\cite{japhet_robin_2014}, is based on the use of Robin interface conditions. An extra level of parallelism comes from the domain decomposition solver in each domain. The global coupled system has a saddle-point structure. A study of various preconditoning strategies is underway. The flexibility and effectiveness of a parallel FreeFEM script is a great asset for numerical tests. 
 
+More recently, in the context of fluid-structure interaction, work has been conducted on approximating the Dirichlet-to-Neumann ($\mathrm{DtN}$) operator.
+
+This operator frequently appears in the literature on the numerical simulation of such phenomena. In Robin-Robin type methods 
+%\cite{gerbeau2003added}
+, the zeroth-order parameter serves as an approximation of the $\mathrm{DtN}$ operator. The concept of added mass, which is fundamental to the stability of explicit couplings between solvers, also involves this operator indirectly. Furthermore, large-scale simulations are often performed using domain decomposition methods ($\mathrm{DDM}$). Therefore, the interaction between the $\mathrm{DtN}$ approximation and $\mathrm{DDM}$ needed to be investigated.
+
+The core approach of this work consists in using the coarse spaces of $\mathrm{GenEO}$-type $\mathrm{DDM}$ \cite{Spillane:2014:ASC} to construct a reduced-order or low-rank approximation of the $\mathrm{DtN}$ operator. The $\mathrm{DtN}$ approximation was formulated for a global discretization of the problem via the mortar element method \cite{japhet_robin_2014}. Implementation was carried out using the FreeFEM language \cite{hecht_new_2012}. Initial results on a Poisson problem are very encouraging and validate this new technique.
+
+This approach is applicable to fluid-structure interaction problems involving an incompressible, irrotational fluid described by a scalar potential. To accommodate more general physics, we are currently investigating cases where the fluid is modeled by the Stokes system. This will require the coarse space constructed in \cite{nataf:hal-02343808} for saddle-point problems.
 %(Lukas) 
 
 \subsubsection{ 
