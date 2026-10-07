@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+  actions: write
 
 concurrency:
   group: zotero-bibliography
@@ -18,6 +20,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: astral-sh/setup-uv@v6
       - name: Test bibliography reconciliation
         run: uv run --no-project --python 3.11 --with pytest --with bibtexparser==1.4.3 python -m pytest tests/test_bibliography.py -q --disable-warnings
@@ -35,15 +39,30 @@ jobs:
           path: bibliography-report.json
           if-no-files-found: warn
           retention-days: 30
-      - name: Commit bibliography only when changed
+      - name: Open or update bibliography pull request
+        id: bibliography_pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          add-paths: references.bib
+          base: main
+          branch: automation-zotero-bibliography
+          delete-branch: true
+          commit-message: "chore: retrieve Zotero bibliography"
+          title: "Update Zotero bibliography"
+          body: |
+            Refresh the shared Zotero bibliography while preserving existing citation keys.
+
+            The retrieval report is available in the bibliography workflow artifacts.
+            Review and merge after the LaTeX checks pass.
+      # Explicit dispatch ensures checks run for a PR created with GITHUB_TOKEN.
+      - name: Run LaTeX checks on the bibliography branch
+        if: >-
+          steps.bibliography_pr.outputs.pull-request-operation == 'created' ||
+          steps.bibliography_pr.outputs.pull-request-operation == 'updated'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPDATE_BRANCH: automation-zotero-bibliography
+          PR_URL: ${{ steps.bibliography_pr.outputs.pull-request-url }}
         run: |
-          if git diff --quiet -- references.bib; then
-            echo "Bibliography unchanged" >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-          git add references.bib
-          git -c core.hooksPath=/dev/null commit -m "chore: retrieve Zotero bibliography"
-          git push
-          echo "Updated references.bib from Zotero" >> "$GITHUB_STEP_SUMMARY"
+          gh workflow run latex.yml --ref "$UPDATE_BRANCH"
+          echo "Bibliography update proposed: $PR_URL" >> "$GITHUB_STEP_SUMMARY"
