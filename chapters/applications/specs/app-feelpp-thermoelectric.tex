@@ -16,18 +16,9 @@ The geometry used in this benchmark performance is illustrated in
 composed of a large number of components, with some very thin parts.
 
 \paragraph{Benchmarking Tools Used}
-The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}) and \textbf{Discoverer} supercomputer (see
-\Cref{sec:arch:eurohpc-ju}).
-The performance tools integrated into the \Feelpp-toolboxes framework were used to measure
-the execution time.
-Moreover, we need to say that we have used several \Feelpp installations
-\begin{itemize}
-\item \textbf{Gaya} : native application from Ubuntu packages of Jammy OS.
-\item \textbf{Discoverer} : Apptainer with \Feelpp SIF image based on Ubuntu
-  Noble OS.
-\end{itemize}
-Note: the \Feelpp version is identical but the dependencies (like Petsc)
-which are of course more recent with Noble.
+The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}).
+The performance tools integrated into the \Feelpp-toolboxes framework were used to measure the execution time.
+We have used the \Feelpp native application from Ubuntu packages of Jammy OS.
 
 The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
 \begin{itemize}
@@ -112,11 +103,10 @@ thermoelectric problem. We have the temperature solution and other quantities
 evaluated at \textbf{PostProcess} phase such as current density, electric
 potential, and electric fields.
 
-The performance analysis has been done in two supercomputers, Gaya and
-Discoverer. For each of them, we have run the benchmark with discretizations P1
-and P2. About the \Feelpp distribution, we use native Ubuntu Jammy packages for
-Gaya, and Apptainer (with Ubuntu) for Discoverer. The results on these machines
-are illustrated in
+The performance analysis has been in the Gaya cluster.
+We have run the benchmark with discretizations P1 and P2.
+About the \Feelpp distribution, we use native Ubuntu Jammy packages in Gaya.
+The results on these machines are illustrated in
 \cref{fig:spec:app-feelpp:hl-31:results:performance_times_M1_gaya} %,fig:feelpp:spec:hl-31:results:performance_times_M1_discoverer
 respectively. The measures presented are the time-consuming of simulation
 components related to WP1, namely \textbf{Init}, \textbf{Solve}, and
