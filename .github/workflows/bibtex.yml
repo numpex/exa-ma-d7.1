@@ -67,6 +67,18 @@ jobs:
         run: |
           gh workflow run latex.yml --ref "$UPDATE_BRANCH"
           echo "Bibliography update proposed: $PR_URL" >> "$GITHUB_STEP_SUMMARY"
+      - name: Request Copilot review for the bibliography pull request
+        if: steps.bibliography_pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.bibliography_pr.outputs.pull-request-number }}
+        run: |
+          # Fail closed if the automation PR contains any other file.
+          gh pr view "$PR_NUMBER" --json files --jq '.files[].path' > /tmp/bibliography-pr-files
+          test "$(cat /tmp/bibliography-pr-files)" = 'references.bib'
+          gh api "repos/$GH_REPO/pulls/$PR_NUMBER/requested_reviewers" \
+            --method POST -f 'reviewers[]=copilot-pull-request-reviewer[bot]'
       - name: Enable auto-merge for the bibliography pull request
         if: steps.bibliography_pr.outputs.pull-request-number != ''
         env:
