@@ -32,7 +32,6 @@ which are of course more recent with Noble.
 The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
 \begin{itemize}
 \item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
-\item \textbf{Assembly}: calculate and assemble the matrix and rhs values obtained using the finite element method
 \item \textbf{Solve}: the linear system by using a preconditioned GMRES.
 \item \textbf{PostProcess}: Export on the filesystem a visualization format (EnsighGold) of the
   solution and other fields of interest such as current density and electric field.
@@ -120,7 +119,7 @@ Gaya, and Apptainer (with Ubuntu) for Discoverer. The results on these machines
 are illustrated in
 \cref{fig:spec:app-feelpp:hl-31:results:performance_times_M1_gaya} %,fig:feelpp:spec:hl-31:results:performance_times_M1_discoverer
 respectively. The measures presented are the time-consuming of simulation
-components related to WP1, namely \textbf{Init}, \textbf{Assembly}, and
+components related to WP1, namely \textbf{Init}, \textbf{Solve}, and
 \textbf{PostProcess}.
 
 In each case analyzed, we have very good scalability, in the sense that we
@@ -182,7 +181,7 @@ ready to go up to larger problems and more complex modeling.
       ]{
         {table=##1,column=Init,legend=Init,color=customdarkblue},
         {table=##1,column={Create Mesh},legend={Create Mesh},color=custompurple},
-        {table=##1,column=Solve,legend=Assembly,color=customcyan},
+        {table=##1,column=Solve,legend=Solve,color=customcyan},
         {table=##1,column=Export,legend=PostProcess,color=customorange}
       }
     }
@@ -217,7 +216,7 @@ ready to go up to larger problems and more complex modeling.
           \addlegendentry{Create Mesh}
 
           \addplot[thick, mark=triangle*, mark size=1.5pt, color=customcyan] table [x expr=\coordindex, y=Solve] {##2};
-          \addlegendentry{Assembly}
+          \addlegendentry{Solve}
 
           \addplot[thick, mark=diamond*, mark size=1.5pt, color=customorange] table [x expr=\coordindex, y=Export] {##2};
           \addlegendentry{PostProcess}
