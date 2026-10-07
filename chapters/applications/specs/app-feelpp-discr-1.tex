@@ -307,14 +307,20 @@ The benchmark metric \texttt{benchmark-verification} confirms that the \Feelpp t
 
 The performance analysis focuses on the scalability of the main computational components: initialization, assembly, solving, and post-processing. Execution times were measured on the Gaya supercomputer at Unistra for strong scalability tests, where the problem size remains constant while increasing the number of processors.
 
-\Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M1,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M2,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M3} present both grouped and stacked bar charts showing the execution time breakdown for each mesh level and polynomial order. Key performance insights include:
+\Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M1,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M2,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M3} present both grouped and stacked bar charts showing the execution time breakdown for each mesh level and polynomial order.
+Due to large memory requirements, the M3 mesh was only tested with polynomial orders $\mathP_1$ and $\mathP_2$ for the Gaya cluster.
+
+Key performance insights include:
 
 \begin{itemize}
 \item \textbf{Preprocessing:} The mesh loading and toolbox initialization (blue bars) shows good scalability, with decreasing times as processor count increases. This validates the efficiency of the parallel mesh partitioning strategy.
 
 \item \textbf{Assembly:} The finite element assembly phase (purple bars) represents a significant portion of total time and scales well for all mesh levels. Higher-order elements ($\mathP_3$) require more assembly time due to increased quadrature points and local matrix sizes.
 
-\item \textbf{Solve:} The linear system solve phase (cyan bars) exhibits strong scalability, particularly for larger meshes (M2 and M3). The use of preconditioned GMRES allows for efficient convergence, and the solver time decreases with increasing processor count.
+\item \textbf{Solve:} The linear system solve phase (cyan bars) exhibits a clear scaling limit of 1 node (128 cores).
+    The M1 mesh appears to be too small to effectively showcase parallel efficiency, while M2 and M3 demonstrate better scalability due to larger problem sizes.
+    However, the M2 and M3 meshes show a scaling limit of 1 node. Beyond this point, increasing the number of processes provides little or no additional performance benefit, and the solve time may increase.
+   The use of preconditioned GMRES contributes to efficient convergence, but communication overhead becomes more pronounced at higher processor counts.
 
 \item \textbf{Post-processing:} The export and validation phase (orange bars) remains relatively constant across processor counts, as it involves I/O operations that are less amenable to parallelization.
 
@@ -323,18 +329,21 @@ The performance analysis focuses on the scalability of the main computational co
 \item \textbf{Load balancing:} The consistent performance across different processor counts indicates effective domain decomposition and minimal load imbalance.
 \end{itemize}
 
-The benchmark metrics \texttt{strong-scalability} and \texttt{weak-scalability} confirm that the \Feelpp implementation achieves efficient parallel performance suitable for large-scale thermal analysis applications.
+The benchmark metric \texttt{strong-scalability} highlights the parallel performance of the current \Feelpp implementation and identifies a scaling limit at 128 cores for the solve phase.
 
 
 \foreach [expand list=true] \meshId in {1,2,3} {
 
   \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P1_gaya.csv}\dataPa
   \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P2_gaya.csv}\dataPb
-  \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P3_gaya.csv}\dataPc
 
   \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P1_speedup_gaya.csv}\dataSpeedupPa
   \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P2_speedup_gaya.csv}\dataSpeedupPb
-  \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P3_speedup_gaya.csv}\dataSpeedupPc
+
+  \ifnum\meshId<3
+    \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P3_gaya.csv}\dataPc
+    \pgfplotstableread[col sep=comma]{chapters/applications/specs/data/app-feelpp-discr-1/thermalbridges_M\meshId_P3_speedup_gaya.csv}\dataSpeedupPc
+  \fi
 
   \begin{figure}
     \centering
@@ -414,22 +423,24 @@ The benchmark metrics \texttt{strong-scalability} and \texttt{weak-scalability} 
       \speedupPlot{dataSpeedupPb}{\dataSpeedupPb}
       \caption{\texttt{M\meshId} - \texttt{$P_2$}}
     \end{subfigure}
-    \hfill
-    \vspace*{0.04\textwidth}
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarPlot{dataPc}{\dataPc}
-      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \speedupPlot{dataSpeedupPc}{\dataSpeedupPc}
-      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
-    \end{subfigure}
-    \caption{Thermal bridges benchmarks - Execution time of main simulation components
-      - Mesh \texttt{M\meshId} - Gaya}
-    \label{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M\meshId}
+    \ifnum\meshId<3
+        \hfill
+        \vspace*{0.04\textwidth}
+        \begin{subfigure}[c]{0.49\textwidth}
+          \centering
+          \chartBarPlot{dataPc}{\dataPc}
+          \caption{\texttt{M\meshId} - \texttt{$P_3$}}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[c]{0.49\textwidth}
+          \centering
+          \speedupPlot{dataSpeedupPc}{\dataSpeedupPc}
+          \caption{\texttt{M\meshId} - \texttt{$P_3$}}
+        \end{subfigure}
+        \caption{Thermal bridges benchmarks - Execution time of main simulation components
+          - Mesh \texttt{M\meshId} - Gaya}
+        \label{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M\meshId}
+    \fi
   \end{figure}
 }
 
