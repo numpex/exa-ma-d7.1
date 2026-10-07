@@ -1,4 +1,5 @@
-!TEX root = ../../exa-ma-d7.1.tex
+%TEX root = ../../exa-ma-d7.1.tex
+
 \section{Software: FUnTiDES}
 \label{sec:FUnTiDES:software}
 
@@ -21,6 +22,18 @@
 \label{sec:FUnTiDES:summary}
 
 FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when calculating of the gradient of the cost function in FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
+
+All this features are available on the last commit of the code: at the following address \href{URL}{https://github.com/FUnTiDES-sim/FUnTiDES}
+
+The SEm implementation is in the following file: 
+\begin{itemize}
+  \item For acoustic and elastic:
+   \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/impl/common/include/sem_solver_impl.h}{sem\_solver\_impl.h}
+  \item For elasto-acoustic coupling: 
+  \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/impl/acoustoelastic/include/sem_solver_acoustoelastic_impl.h}{sem\_solver\_acoustoelastic\_impl.h}
+\end{itemize}
+
+The DG implementation is on the following file \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/DG/impl/common/include/dg_solver_impl.h}{dg\_solver\_impl.h} and the DGSEm coupled solver is here: \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/DG-SEm/impl/common/include/dg-sem_solver_impl.h}{dg-sem\_solver\_impl.h}
 
 \subsection{Purpose}
 \label{sec:FUnTiDES:purpose}
@@ -114,9 +127,11 @@ In the case of acoustic medium, we seek the scalar pressure \textit{p} such as:
   \end{array}
   \right.
 \end{equation}
- where $c$ is the acoustic wave speed and $f$ the source term. As boundary condition the code allows for Dirichlet boundary for the top boundary of the domain and Absorbing Boundary Condition (ABC) everywhere else.
+ where $c$ is the acoustic wave speed and $f$ the source term. 
+ For the integral on $\partial \Omega$, if $\alpha=0$, we have a Dirichlet boundary condition, and if $\alpha=\frac{1}{c}$ we get a first 
+ order Absorbing Boundary Condition (ABC).
 
-In the context of elastic medium, we seek for the displasment vector $\textbf{u}$ which satisfy: 
+In the context of elastic medium, we seek for the displacement vector $\textbf{u}$ which satisfy: 
 
 \begin{equation}
   \left\{
@@ -130,6 +145,16 @@ In the context of elastic medium, we seek for the displasment vector $\textbf{u}
 
 where  $\underline{\underline{C}}$ is the elasticity tensor which entries can vary depends if you are in an isotropic or anisotropic media
 and $\underline{\underline{\epsilon}}$  is the strain tensor.
+
+ Here $\alpha$ is a vector which if it is zero gives a Dirichlet boundary condition, and is defined for the ABC as follow: 
+\begin{equation}
+  \alpha = \rho V_p\mathbf{n} + \rho V_s \tau_1 + \rho Vs \tau_2
+\end{equation}
+
+where $\mathbf{n}$ is the normal outwardly directed to the domain $\Omega$ and $\tau_1$, $\tau_2$ are such as: 
+\begin{equation}
+  \mathbf{n} \dot \tau_1=0, \mathbf{n} \dot \tau_2 = 0, \tau_1 \dot \tau_2 = 0
+\end{equation}
 
 FUnTiDES is able to solve forward and inverse problem using Full WaveForm Inversion (FWI) algorithm via python scripts (thanks to the python binding).
 
