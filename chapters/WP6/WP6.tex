@@ -2,7 +2,17 @@
 % \chapter{Work Package 6: Uncertainty Quantification}
 % \label{chap:wp6}
 
+% D7.1 V3 / v2.90.0 -- WP6 CONTRIBUTION
+%
+% Inherited v2 content is a starting point. Review, validate, update or remove it;
+% identify 2026 advances; separate them from earlier results; link advances to
+% software, applications and benchmarks; provide versions, configurations,
+% references and evidence; and flag missing mappings instead of inventing them.
+
 \section{Objectives \& Context}
+\WPUpdateNote{Review the inherited scope and task descriptions, and update the
+2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
+is retained as context.}
 % • Which Exa-MA bottlenecks (B#) WP6 addresses  
 % • Role in overall strategy (high-dimensional UQ, sensitivity analysis, surrogate‐based UQ)  
 % • List of key tasks T6.1–T6.4
@@ -40,17 +50,45 @@ Uranie and OpenTURNS dedicated to uncertainty quantification, taking advantage o
 computational properties. Benchmarking on exascale applications will be conducted.
 
 
+\clearpage
+\section{Main advances in 2026}
+\label{sec:wp6-main-advances-2026}
+\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
+application and benchmark identifiers stable so that contributions can be
+compared across annual reports.}
+
+% Duplicate this record in WP6.tex for each main 2026 advance and replace the
+% compact field cues with factual entries.  Do not edit the central table style.
+\begin{WPAdvanceRecord}{WP6-A2026-1}
+Exa-MA task and bottleneck & \WPFieldHint{T6.x; Bx} \\
+Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
+Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
+Implementing software & \WPFieldHint{Software; repository} \\
+Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
+Associated application ID & \WPFieldHint{app-...} \\
+Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
+Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
+Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
+Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
+Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
+Limitations and next step & \WPFieldHint{Limitation; next step} \\
+Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
+\WPUpdateNote{Update the inherited uncertainty-quantification advances with the
+work performed in 2026.  Separate new achievements from the earlier baseline and
+cite the corresponding annual advance records.}
 % • Advance 1 (T6.1): …  
 % • Advance 2 (T6.2): …  
 % • Advance 3 (T6.3): …  
 % • etc.
 
-T6.2 UQ in a PDE solving framework \\ 
-The development of high-fidelity numerical simulations of physical phenomena increases the dimensionality of both inputs and outputs. While traditional surrogate modeling methods study numerical simulators with one-dimensional output, exascale applications will provides output of very high-dimension such as physical spatial fields. Moreover, such simulators often guarantees the respect of some physical constraints, such that incompressibility for fluid dynamics. Our achievement this year is to propose a multi-output Gaussian process surrogate modeling technique that respect linear physical constraints and scales well with output dimension. A first presentation of the results has been done at \textit{Journées de statistique} 2025. 
+\paragraph{T6.2 UQ in a PDE solving framework.}
+The development of high-fidelity numerical simulations of physical phenomena increases the dimensionality of both inputs and outputs. While traditional surrogate modeling methods study numerical simulators with one-dimensional output, exascale applications provide outputs of very high dimension such as physical spatial fields. Moreover, such simulators often guarantee compliance with physical constraints, such as incompressibility for fluid dynamics. Our achievement this year is a multi-output Gaussian-process surrogate modeling technique that respects linear physical constraints and scales well with output dimension. A first presentation of the results was given at \textit{Journées de statistique} 2025.
 
 
-T6.3 Surrogate modeling for UQ\\
+\paragraph{T6.3 Surrogate modeling for UQ.}
 Neural networks are widely used for their strong representational capacity but face key limitations: the need for a large number of training points (which is often limited in the context of numerical simulation), a lack of explanability and confidence assessment.
 Gaussian processes (GPs) are widely used as a metamodel for emulating time-consuming computer codes because of  their properties, which are particularly interesting when the data are derived from costly simulations:\\
 - they can be interpolating,\\
@@ -69,29 +107,33 @@ a new graph kernel, the Sliced Wasserstein Weisfeiler-Lehman (SWWL), was develop
 A second challenge involves the outputs, which are not scalars but fields or signals defined on graph nodes of varying sizes. To handle this, a methodology was proposed, combining regularized optimal transport, dimensionality reduction, and GPs indexed by graphs \cite{carpintero2025}.
 
 Additionally, many problems involve categorical variables (e.g., material types). GPs offer flexible ways to model correlations in such spaces. A comparative study was conducted to recommend best practices. Block correlation structures work well when groups of levels are known. When they are not, a clustering-based procedure, relying on the conditional output distributions for each level, can infer these groups effectively without prior kernel training.
-Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters give good results. This is when HPC becomes critical.
+Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters gives good results. This is when HPC becomes critical.
 
 \section{Application Showcase}
+\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
+result to an annual advance and benchmark, and flag missing mappings explicitly.}
 % \input{chapters/applications/specs/app-uq-uranie-1}  
 % \input additional app specs as needed
 
-\paragraph{Applications mapping.}
+\paragraph{Applications mapping.} Current application links to WP7 include:
 \begin{itemize}
 	\item Ensemble Kalman Inversion (proposed, with UQ): Section~\ref{sec:app:specs:app-eki}.
 \end{itemize}
 
 \section{Software Framework Contributions}
+\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
+software descriptions only as dated context.}
 % • Uranie enhancements: …  
 % • OpenTURNS integration: …  
 % • Kernel-based sensitivity module: …  
 % • High-dimensional integral computation library: …
 
-\paragraph{Frameworks mapping.}
+\paragraph{Frameworks mapping.} The following software ecosystems are directly impacted:
 \begin{itemize}
 	\item Uranie: Section~\ref{sec:Uranie:software}\,; OpenTURNS (if applicable); Scimba for surrogate UQ: Section~\ref{sec:Scimba:software}.
 \end{itemize}
 
-During the period end of 2024 to Septembre 2025, two new updates of the URANIE platform have been developed. 
+During the period from late 2024 to September 2025, two new updates of the URANIE platform have been developed.
 URANIE v4.9.0 main improvements are:
 \begin{itemize}
 	\item \textbf{Methods developments:}
@@ -139,6 +181,8 @@ URANIE v4.10.0 main improvements are:
 
 
 \section{Preliminary Benchmarks \& Trends}
+\WPUpdateNote{Replace planned or expected results with measured 2026 values only
+when the configuration, baseline and evidence are available.}
 % • UQ scaling placeholder  
 % • Sensitivity analysis performance placeholder  
 % • Regression test pass-rate placeholder
@@ -158,10 +202,11 @@ We will soon make available a package that proposes python routines for the best
 
 
 \section{Roadmap \& Next Steps}
+\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
+2026 advances and benchmark evidence have been validated.}
 % • Deliverables D6.x to complete by Mxx  
 % • New UQ apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
 
 T6.2 UQ in a PDE solving framework \\ 
-After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variable. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarsed to represent wisely the uncertainty in the simulated physical fields. The work to be done is to defined a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 
-
+After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variables. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarse to represent wisely the uncertainty in the simulated physical fields. The work to be done is to define a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 

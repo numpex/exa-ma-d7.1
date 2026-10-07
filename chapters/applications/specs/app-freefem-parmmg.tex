@@ -3,7 +3,7 @@
 \section{Demonstrator: Parallel Anisotropic Mesh Adaptation with ParMmg}
 \label{sec:app:specs:app-freefem-parmmg}
 
-This demonstrator tests the performance of ParMmg for distributed anisotropic mesh adaptation within the FreeFEM++ framework. The benchmark uses the classic Fichera corner problem to evaluate adaptive mesh refinement strategies.
+This demonstrator evaluates ParMmg for distributed anisotropic mesh adaptation within the FreeFEM++ framework. The benchmark uses the classic Fichera corner problem to assess adaptive mesh refinement strategies and end‑to‑end workflow integration.
 
 \Cref{tab:app-freefem-parmmg} describes the specifications of the application.
 
@@ -49,7 +49,7 @@ This demonstrator tests the performance of ParMmg for distributed anisotropic me
 
 \subsection{Description of the benchmark}
 
-The Fichera corner is a classical benchmark for adaptive mesh refinement featuring a re-entrant corner singularity. The domain is a cube with one corner removed, and the problem consists of solving Laplace's equation with appropriate boundary conditions.
+The Fichera corner is a classical benchmark for adaptive mesh refinement featuring a re‑entrant corner singularity. The domain is a cube with one corner removed; we solve Laplace's equation with appropriate boundary conditions.
 
 Key features tested:
 \begin{itemize}
@@ -89,4 +89,3 @@ The demonstrator validates:
 \end{itemize}
 
 \textbf{Status:} \texttt{benchmark-ready} - validated and ready for systematic HPC benchmarking.
-

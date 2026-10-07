@@ -1,0 +1,66 @@
+%!TEX root = ../../exa-ma-d7.1.tex
+\chapter{Benchmark registry}
+\label{chap:benchmark-registry}
+
+\section{Reconstruction method and Sheet data-quality issue}
+The live \emph{Benchmarks} tab was inspected on 23 July 2026.  Cell A1 returns
+\texttt{\#REF!}: the array result cannot expand because it would overwrite C4.
+C4 contains the literal ``CPU or GPU'' and I4 contains \texttt{TRUE}.  The broken
+array was not copied into this report and the live workbook was not edited.  The
+importable reconstruction is \texttt{data/benchmark-registry-v3.csv}; before a
+future Sheet repair, the current tab should be exported, the blocking cells and
+intended array formula reviewed with its owner, and the import applied to a
+separate verified range or replacement tab.
+
+Records below were reconstructed from the live Application metrics/scope/status,
+the version-controlled specifications, the Demonstrator and Demonstrator tests
+tabs, and observable repository files.  The Demonstrator tests tab provides no
+completed V\&V record: all displayed non-regression, verification and validation
+flags were \texttt{FALSE}.  A Sheet status such as ``benchmark-ready'' is
+therefore not promoted to an evidence-based benchmark stage.
+
+\section{Normalized registry}
+Every record has exactly one application owner in this draft.  The CSV contains
+the full normalized fields: owner and WPs, category and scope, repository and
+commit, configuration, machine/resources, toolchain, baseline, scientific and
+performance KPIs, repetitions, evidence, latest run, summary and limitations.
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth}>{\raggedright\arraybackslash}p{0.30\textwidth}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.16\textwidth}@{}}
+\caption{Evidence-based benchmark registry stage.}
+\label{tab:v3-benchmark-registry}\\
+\toprule
+\textbf{Benchmark ID} & \textbf{Application ID} & \textbf{Category} & \textbf{Stage} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Benchmark ID} & \textbf{Application ID} & \textbf{Category} & \textbf{Stage} \\
+\midrule
+\endhead
+\nolinkurl{BM-FEEL-DISCR1-01} & \nolinkurl{app-feelpp-discr-1} & verification; performance & results available \\
+\nolinkurl{BM-FEEL-DIST-01} & \nolinkurl{app-feelpp-distance} & verification; performance & results available \\
+\nolinkurl{BM-FEEL-NLCRB-01} & \nolinkurl{app-feelpp-nlcrb} & verification; performance & specification complete \\
+\nolinkurl{BM-FEEL-RB-01} & \nolinkurl{app-feelpp-rb} & verification; performance & executable \\
+\nolinkurl{BM-FEEL-IO-01} & \nolinkurl{app-feelpp-io} & performance; scalability & results available \\
+\nolinkurl{BM-HPDDM-DFN-01} & \nolinkurl{app-hpddm-dfn} & verification; performance & specification complete \\
+\nolinkurl{BM-FF-PARMMG-01} & \nolinkurl{app-freefem-parmmg} & verification; performance & specification complete \\
+\nolinkurl{BM-EKI-01} & \nolinkurl{app-eki} & verification; scalability & proposed benchmark \\
+\nolinkurl{BM-FEEL-THERMOMECA-01} & \nolinkurl{app-feelpp-thermomeca-1} & verification; performance & implementation in progress \\
+\nolinkurl{BM-FEEL-KTIRIO-01} & \nolinkurl{app-feelpp-ktirio-geom} & verification; performance & executable \\
+\nolinkurl{BM-CGAL-AUTOREFINE-01} & \nolinkurl{app-cgal-autorefine} & verification; performance & proposed benchmark \\
+\nolinkurl{BM-CGAL-CDT2-01} & \nolinkurl{app-cgal-cdt2} & verification; performance & proposed benchmark \\
+\nolinkurl{BM-CGAL-CCDT3-01} & \nolinkurl{app-cgal-ccdt3} & verification; performance & proposed benchmark \\
+\nolinkurl{BM-PETSC-MIXED-01} & \nolinkurl{app-petsc-mixed-precision} & verification; energy & implementation in progress \\
+\nolinkurl{BM-FEEL-MI300A-01} & \nolinkurl{app-feelpp-mi300a-fem} & verification; performance & implementation in progress \\
+\nolinkurl{BM-FEEL-HIFI-INV-01} & \nolinkurl{app-feelpp-hifimagnet-inverse} & verification; performance & proposed benchmark \\
+\nolinkurl{BM-FEEL-HIFI-CTRL-01} & \nolinkurl{app-feelpp-hifimagnet-optcontrol} & verification; performance & proposed benchmark \\
+\nolinkurl{BM-FEEL-DISCR2-01} & \nolinkurl{app-feelpp-discr-2} & validation; performance & specification complete \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+No reconstructed record is labelled \emph{reproducible}: none of the reviewed
+evidence packages supplied all pinned software, input data, machine/toolchain,
+resource counts, repetition/variability information and durable raw-data link.

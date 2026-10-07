@@ -2,7 +2,17 @@
 %\chapter{Work Package 3: Solvers for Linear Algebra \& Multiphysics}
 %\label{chap:wp3}
 
+% D7.1 V3 / v2.90.0 -- WP3 CONTRIBUTION
+%
+% Inherited v2 content is a starting point. Review, validate, update or remove it;
+% identify 2026 advances; separate them from earlier results; link advances to
+% software, applications and benchmarks; provide versions, configurations,
+% references and evidence; and flag missing mappings instead of inventing them.
+
 \section{Objectives \& Context}
+\WPUpdateNote{Review the inherited scope and task descriptions, and update the
+2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
+is retained as context.}
 % • Which Exa-MA bottlenecks (B#) WP3 addresses  
 % • Role in overall strategy (Krylov solvers, domain decomposition, mixed precision)  
 % • List of key tasks T3.1–T3.3
@@ -29,7 +39,6 @@ robustness with respect to inexact setups and applications of the preconditioner
 instance from mixed arithmetic calculation, inexact local solves, low rank approximations. The
 validation of these studies will be conducted primarily in the HPDDM library but could also benefit
 others such as Composyx.
-.
 \subsubsection*{T3.2. Exploiting data-sparsity, multiple precision and data compression}
 \paragraph*{T3.2.1 Modular, composable mixed precision Krylov solvers. }
 
@@ -51,7 +60,7 @@ modern computing architectures.
  Precision auto-tuning tools provide mixed precision versions of
 numerical codes, taking into account accuracy requirements on the results. New algorithms must be
 proposed to improve precision auto-tuning performance and extend it to arbitrary precision.
-Furthermore, new methodologies must be developed to perform autotuning of both numerical formats
+Furthermore, new methodologies must be developed to perform auto tuning of both numerical formats
 and performance parameters in coupled physics simulations as addressed in Task 3.3.2.
 \paragraph*{T.3.2.4 Silent errors in solution techniques}
  The objective of this task is to study and design silent
@@ -75,7 +84,35 @@ auto-tuning work from Task 3.2.3.
 
 
 
+\clearpage
+\section{Main advances in 2026}
+\label{sec:wp3-main-advances-2026}
+\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
+application and benchmark identifiers stable so that contributions can be
+compared across annual reports.}
+
+% Duplicate this record in WP3.tex for each main 2026 advance and replace the
+% compact field cues with factual entries.  Do not edit the central table style.
+\begin{WPAdvanceRecord}{WP3-A2026-1}
+Exa-MA task and bottleneck & \WPFieldHint{T3.x; Bx} \\
+Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
+Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
+Implementing software & \WPFieldHint{Software; repository} \\
+Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
+Associated application ID & \WPFieldHint{app-...} \\
+Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
+Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
+Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
+Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
+Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
+Limitations and next step & \WPFieldHint{Limitation; next step} \\
+Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
+\WPUpdateNote{Update the inherited solver advances with the work performed in
+2026.  Separate new achievements from the 2024--2025 baseline and cite the
+corresponding annual advance records.}
 
 %IMAGES si vous en avez!! 
 
@@ -90,7 +127,7 @@ The PhD subject of Tom Caruso (advisors: P.~Jolivet, T.~Mary, F.~Nataf and P.H.~
 Through libraries such as HPDDM, these preconditioners have already been efficiently parallelized in their numerical implementations. 
 However, they still require expensive, in time and memory, linear algebra operations in each local subdomain. 
 Motivated by the emergence of fast low precision arithmetic in hardware, the aim of his work is to reduce the computation time and memory foot-print of the ASM-GenEO using mixed precision. 
-To do this, it is necessary to identify the sensitivity of these operations to perturbation and propose an actionable criteria for selecting the appropriate precision for each local subdomain.
+To do this, it is necessary to identify the sensitivity of these operations to perturbation and propose an actionable criterion for selecting the appropriate precision for each local subdomain.
 Using the Fictitious Space Lemma, a perturbation theory for the preconditioner and bound the worst-case loss of efficiency of the preconditioner are derived. The results show that  precision selection is guided by the local matrix condition number. 
 Moreover, using FreeFEM, petsc4py, and HPDDM libraries, the theoretical bounds are compared to numerical behaviour of the perturbed preconditioner and are thus validated. 
 
@@ -102,12 +139,12 @@ validation of these studies will be conducted primarily in the HPDDM library but
 others such as composyx. 
 
 
- In this respect, this work is also very closely related to \S~\ref{sec:wp3:T32}. 
+In this respect, this work is also very closely related to \Cref{sec:wp3:T32}. 
 
 
  \subsubsection{HPDDM for sensitivity analysis}
  
-The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetric saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
+The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetrical saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
  
  
 
@@ -147,7 +184,14 @@ modern computing architectures.
 
 %(Luc + Manu + Pierre + Théo) stage de Alexandre même si tâche commencée pas à l'endroit prévu 
 
-During the master internship of Alexandre Tabouret, which will be followed up by a Ph.D. thesis starting in October 2025, we have been investigating the combination of relaxed GMRES and adaptive sparse matrix-vector products. Relaxed GMRES is a variant of the GMRES in which the accuracy of matrix–vector products or inner solves is reduced dynamically as iterations progress, since later iterations require less precision to maintain convergence. This relaxation lowers computational cost without significantly impacting accuracy. Adaptive SpMV (sparse matrix–vector multiplication) complements this idea by adjusting arithmetic precision or sparsity handling based on error tolerances or convergence state. Together, relaxed GMRES with adaptive SpMV leverages variable precision and workload reduction to accelerate iterative solvers while preserving numerical stability.
+Within the framework of Alexandre Tabouret, in collaboration between LIP6 and Inria Concace, we introduce a doubly adaptive precision variant of restarted generalized minimal residual (GMRES) for modern multicore processors that combines two complementary mechanisms to reduce solver cost: relaxed GMRES, which progressively enlarges the admissible matrix-vector product error during the iterations, and the adaptive precision sparse matrix-vector product (SpMV) algorithm, which stores matrix entries in heterogeneous precisions according to their magnitudes and a given accuracy. The proposed method couples temporal relaxation of the admissible perturbation with spatial precision assignment, storing each matrix entry in the lowest format compatible with the current SpMV error bound. Because the theoretical error bound is often conservative in practice, we introduce several relaxation heuristics and combine them with restarted GMRES to preserve attainable accuracy while increasing the use of low precisions. Numerical experiments show that this doubly adaptive strategy exploits low precision more effectively than either mechanism used independently, achieving speedups of up to 1.6× over a double precision GMRES baseline while preserving the target backward error across a broad range of problems.
+We refer to~\cite{agullo:hal-05640635} for a more detailed description of this research activity.
+
+% Manu/Théo: à valider
+Through the recently start PhD thesis of Maël Olivier, carried out  in collaboration between Inria Concace and LIP6, we aim to revisit classical results in numerical error analysis, which are traditionally derived from a worst-case perspective, by developing probabilistic approaches to error propagation.
+Classical forward and backward error analyses provide powerful and mathematically rigorous guarantees, but their worst-case nature can sometimes lead to overly pessimistic estimates, particularly for large-scale computations involving many operations. In practice, rounding errors often exhibit statistical properties and may partially compensate for one another rather than accumulate in the worst possible way. A probabilistic description of error propagation could therefore provide sharper and more representative estimates of the behavior observed in realistic computations, while also offering a better understanding of the variability and reliability of numerical results.
+This question becomes particularly relevant in the context of emerging computing architectures and mixed-precision algorithms. Modern processors, especially those originally designed for artificial intelligence and machine learning workloads, increasingly provide efficient support for reduced-precision arithmetic formats that differ substantially from the precisions traditionally used in scientific computing. Exploiting these formats can offer significant gains in performance, energy efficiency, and memory usage, but it also raises new questions about the accuracy and reliability of large-scale numerical computations.
+The objective of the thesis is therefore to develop a probabilistic framework for the analysis and propagation of rounding errors, to establish theoretical results and practical error estimates, and to investigate their relevance for large-scale numerical linear algebra and mixed-precision computations. Ultimately, we hope that this approach will complement classical worst-case analyses and provide more realistic tools for assessing numerical accuracy and reliability on next-generation computing architectures.
 
 \subsubsection{ 
 T3.2.3 Precision auto-tuning tools
@@ -156,38 +200,78 @@ T3.2.3 Precision auto-tuning tools
 Precision auto-tuning tools provide mixed precision versions of
 numerical codes, taking into account accuracy requirements on the results. 
 % ajout par Frédéric suite au commentaire de @Christophe (2025-10-08-15:06) ...
-Achieving optimal performance in numerical computations often hinges on aggressively quantizing arithmetic and data to low-precision formats or rigorous rounding error analysis to retain numerical accuracy. The PROMISE (PRecision OptiMISE) software provides a task-specific validation using  \href{https://cadna.lip6.fr/}{CADNA}  (https://cadna.lip6.fr) for automated precision tuning, enabling a balance between computational efficiency and numerical fidelity. PROMISE allows for customized precision formats to examine the low-precision potential in a suite of numerical algorithms for performance gains, offering actionable insights into selecting optimal precision levels for diverse algorithms.
+Achieving optimal performance in numerical computations often hinges on aggressively quantizing arithmetic and data to low-precision formats or rigorous rounding error analysis to retain numerical accuracy. The \href{https://promise.lip6.fr/}{PROMISE} (PRecision OptiMISE) software provides a task-specific validation using  \href{https://cadna.lip6.fr/}{CADNA}  for automated precision tuning, enabling a balance between computational efficiency and numerical fidelity. PROMISE allows for customized precision formats to examine the low-precision potential in a suite of numerical algorithms for performance gains, offering actionable insights into selecting optimal precision levels for diverse algorithms.
 % ... fin de l'ajout
-It also has the particularity to combine precision auto-tuning and numerical validation thanks to stochastic arithmetic implemented in the CADNA library. 
-First versions of PROMISE 
-could provide transformed user codes that mix FP64, FP32 and FP16 numerical formats. 
-With the emergence of various new numerical formats, it became necessary to extend PROMISE to arbitrary precision. This task has been carried out with
-Xinye Chen, post-doc in Sorbonne Université supported by Exama-NumPEx. 
-PROMISE has been combined with the \href{https://github.com/oprecomp/FloatX}{FloatX} library that provides user-defined types with both an arbitrary mantissa length and an arbitrary exponent length. 
-This has implied the extension of FloatX to enable the use of mathematical functions with arbitrary precision arguments. 
-From the expected accuracy in the results and a list of native or emulated numerical formats, PROMISE automatically transforms an input code into a mixed precision version using the types in the given list. This new version of PROMISE has been successfully tested on various numerical analysis
-codes and Machine Learning codes, including codes from the Rodinia Benchmark suite, and has shown the potential for using low precision settings. 
-Besides, the codes tested with PROMISE form a publicly available set of benchmarks for precision auto-tuning tools.
+It has the particularity to combine precision auto-tuning and
+numerical validation thanks to stochastic arithmetic implemented in
+the CADNA library.  First versions of PROMISE could provide
+transformed user codes that mix FP64, FP32 and FP16 numerical formats.
+With the emergence of various new numerical formats, it became
+necessary to extend PROMISE to arbitrary precision. 
+PROMISE now integrates the
+\href{https://github.com/oprecomp/FloatX}{FloatX} library, extended to
+support mathematical functions with arbitrary-precision arguments and
+user-defined mantissa and exponent lengths. Running on CPU, PROMISE
+automatically generates mixed-precision code from a target accuracy
+and a list of native or emulated numerical formats. The resulting type
+configurations can be used on both CPUs and GPUs. Tests on numerical
+analysis and machine learning codes, including Rodinia benchmarks,
+demonstrate its potential for low-precision computation. GPU
+performance evaluations, notably with 16- and 8-bit formats, 
+confirm that PROMISE-derived precision assignments substantially reduce 
+device memory usage and can improve runtime. 
+The test codes are publicly available as benchmarks for
+precision auto-tuning tools.
+This research activity is described in \url{https://hal.science/hal-05651002}
+and led to presentations in international conferences (ILAS, SIAM PP).
+In addition, PROMISE has recently been ported to GPU using a GPU
+version of CADNA, enabling direct generation of mixed-precision GPU
+code.
+
+These works have been carried out with Xinye Chen, post-doc in
+Sorbonne Université for two years (2024-2026) supported by
+Exama-NumPEx.
+
 
 %New algorithms must be proposed to improve precision auto-tuning performance and extend it to arbitrary precision.
 %Furthermore, new methodologies must be developed to perform auto-tuning of both numerical formats and performance parameters in coupled physics simulations as addressed in Task 3.3.2.
 %(Fabienne) post doc de Xinye 
 
 
-\subsubsection{ 
-T.3.2.4 Silent errors in solution techniques
-}
- The objective of this task is to study and design silent
-error detection and hopefully correction that might appear at scale.  
-%These evaluations will either be tailored to the intrinsic properties of the numerical schemes or based on statistical techniques.
-Hence, we have investigated how to protect numerical iterative algorithms from all types of errors that can strike at scale: fail-stop errors (a.k.a. failures) and silent errors, striking both as computation errors
- and memory bit-flips. We have combined various techniques: detectors for computation errors,
-  checksums for memory errors,  and checkpoint/restart for failures.  The objective is to minimize the expected time per iteration of the algorithm. We designed a hierarchical pattern that combines and interleaves all these fault-tolerance mechanisms, and we determined
-  the optimal periodic pattern that achieves this objective. We instantiated these results for the performance analysis of the Preconditioned Conjugate Gradient (PCG) algorithm, reporting several scenarios where the optimal pattern dramatically decreases the overhead due to error mitigation.
+\subsubsection{T.3.2.4 Silent errors in solution techniques}
 
-  This work was conducted with an internship student, Alix Tremodeux, co-advised by the Roma and Concace teams~\cite{tremodeux:hal-04872041}, and it led to a publication that will appear in the International Journal of High-Performance Computing Application (IJHPCA)~\cite{tremodeux:hal-05234063}.
+The objective of this task is to cope with silent
+errors on large-scale platforms and to design strategies
+to mitigate such errors using detection mechanisms and checkpoints. 
+The goal is to have a correct and efficient execution despite the errors. 
+ 
+In 2026, Robin Bo\"ezennec started a postdoc  in April 2026, supported by ExaMA-NumPEx
+in the ROMA Inria team (with Anne Benoit and Yves Robert), working in 
+collaboration with Thomas Hérault (TOPAL Inria team) and the CONCACE Inria team
+in Bordeaux. We have advanced in two different directions. 
 
-%(Anne ) stage d'Alix article publié suite au stage ++ 
+First, we have developed, analyzed, and
+tested algorithmic strategies to reduce the overhead from 
+error mitigation when dealing with parallel iterative applications.
+Correctness can be assessed either by comparison (as in replication) 
+or by using partial detectors, which are able to detect all
+silent errors eventually, but only after a random upper-bounded
+number of iterations. Our new strategies outperform both the
+standard replication approach and the state-of-the-art
+strategy from the literature, previously
+developed with Alix Tremodeux within ExaMA. 
+
+From a practical point of view, 
+starting from the conjugate gradient of composyx (see \url{https://gitlab.inria.fr/composyx}), 
+we have implemented another version of the code that is resilient 
+to both soft errors and crashes. 
+Soft errors are mitigated through a combination of detectors and memory checkpoints. When a detector detects a soft error through a drastic change of the intermediate results, it loads the in-memory checkpoint and resumes computations from there. There is always a single checkpoint in memory, which is periodically updated.
+Resilience to crashes is achieved through disk saves made using VeloC (see \url{https://github.com/ecp-veloc/veloc}). Each time a crash occurs, the conjugate gradient restarts from the latest VeloC saves. At any point, there are always two disk checkpoints. They are also updated periodically, but one is purposefully left in an older state. The reason behind this is that soft errors may take a few iterations to be detected, hence if the iteration resumes several times from a checkpoint without being able to advance further, the restart checkpoint is probably also corrupted, so the execution starts again from the older checkpoint. This older checkpoint is kept in the disk to persist in case of crashes.
+We implemented soft errors through random bit flips and crashes through C++ exceptions. 
+The next steps are to switch to SIGKILL to simulate crashes, and then to deploy 
+a fault resilient conjugate gradient on a cluster.
+
+
  
  \subsection{ 
 T3.3 Adaptive solution strategies for exascale multiphysical and multiscale models
@@ -215,6 +299,8 @@ Utpal Kiran started his postdoctoral internship in February 2025. The first step
 
 
 \section{Application Showcase}
+\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
+result to an annual advance and benchmark, and flag missing mappings explicitly.}
 % \input{chapters/applications/specs/app-hpddm-solver-1}  
 % \input additional app specs as needed
 The work by Parolin and Nataf mentioned in \S~\ref{sec:wp3:T31:nonSPD} has been successfully applied to convection-diffusion problems and to time-harmonic acoustic propagation problems~\cite{dolean:hal-05241475}. As an illustration of the efficiency of the approach, we provide some weak scaling results extracted from~\cite{dolean:hal-05241475} on the 3D Cobra cavity problem, see Table~\ref{tab:weak_scaling_cobra} and Figure~\ref{fig:solutions_cobra}. 
@@ -258,6 +344,8 @@ Note that the method has also been successfully applied to the generation of syn
 
 
 \section{Software Framework Contributions}
+\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
+software descriptions only as dated context.}
 \begin{itemize}
   \item HPDDM: new releases this year (from version 2.3.1 to 2.3.5), support for applying the transpose of preconditioners, preliminary support for subdomain computations on (NVIDIA) GPU, interface to MUMPS ICNTL(15), multiple fixes for non-symmetric saddle-point systems.
   \item PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM.
@@ -278,6 +366,8 @@ Note that the method has also been successfully applied to the generation of syn
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
+\WPUpdateNote{Replace planned or expected results with measured 2026 values only
+when the configuration, baseline and evidence are available.}
 We are in close connection with the activities of the work-package WP7 where benchmarks related to domain decomposition methods are shown. 
 % • Solver scaling placeholder  
 % • Mixed-precision speedups placeholder  
@@ -289,10 +379,13 @@ We are in close connection with the activities of the work-package WP7 where ben
 \end{itemize}
 
 \section{Roadmap \& Next Steps}
+\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
+2026 advances and benchmark evidence have been validated.}
 
 %a ecrire dans chaque section, résumer pour chaque section en faisant des références au texte plus haut.
 
-In Task~3.1, the next step in \S~\ref{sec:wp3:T31:ddmroundoff} related to domain decomposiiton methods with mixed precision is to assess their performance gains using single precision in well-behaved subdomains and double precision in badly behaved subdomains. As for \S~\ref{sec:wp3:T31:nonSPD}, we intend to test this new framework on low frequency Maxwell problems which are slightly non positive and which appear in many engineering applications. 
+In Task~3.1, the next step in \S~\ref{sec:wp3:T31:ddmroundoff} related to domain decomposition 
+methods with mixed precision is to assess their performance gains using single precision in well-behaved subdomains and double precision in badly behaved subdomains. As for \S~\ref{sec:wp3:T31:nonSPD}, we intend to test this new framework on low frequency Maxwell problems which are slightly non positive and which appear in many engineering applications. 
 
 
 Task 3.2.3 (precision auto-tuning tools) will require 
@@ -308,6 +401,8 @@ Task~3.3.2 in \S~\ref{sec:wp3:T332} will continue the analysis of a \textit{toy}
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
 
 \subsection{Mapping: Applications, Frameworks, Benchmarks}
+\WPUpdateNote{Reconcile this mapping with the application and benchmark
+registries, retaining explicit gaps where no justified link exists.}
 \label{sec:wp3:mapping}
   	extbf{Applications}
 \begin{itemize}
@@ -318,16 +413,11 @@ Task~3.3.2 in \S~\ref{sec:wp3:T332} will continue the analysis of a \textit{toy}
   	extbf{Frameworks}
 \begin{itemize}
   \item HPDDM: Section~\ref{sec:HPDDM:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}\,; Feel++ (apps/data prep for PETSc): Section~\ref{sec:Feelpp:software}\,; Composyx: see WP3 text above; PETSc.
-  \item PROMISE (precision auto-tuning): Section~\ref{sec:Maphys++:software} or WP3 text above.
+  \item PROMISE (precision auto-tuning): Composyx/Maphys++ context in Section~\ref{sec:Composyx:software} or WP3 text above.
 \end{itemize}
   	extbf{Benchmarks}
 \begin{itemize}
   \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra}.
 \end{itemize}
-
-
-
-
-
 
 

@@ -1,0 +1,54 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{Operational application registry for v3}
+\label{sec:v3-application-registry}
+
+The operational identity, ownership, WP mapping and status below were read from
+the \emph{Applications} tab of the \href{https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?gid=1301884928}{Software and Demonstrators}
+workbook on 23 July 2026.  The tab contained 23 non-empty IDs (rows 2--24).
+The version-controlled \texttt{app-feelpp-discr-2} specification is retained as
+a repository-only record pending an editorial decision.  Empty fields and
+status conflicts are not completed by inference; the full reconciliation and
+actions are recorded in \texttt{data/application-reconciliation-v3.csv}.
+
+\begin{longtable}{@{}p{0.23\textwidth}p{0.10\textwidth}p{0.15\textwidth}p{0.16\textwidth}p{0.15\textwidth}p{0.13\textwidth}@{}}
+\caption{Application registry reconciled for the v2.90.0 integration draft.}
+\label{tab:v3-application-registry}\\
+\toprule
+\textbf{Application ID} & \textbf{Sheet row} & \textbf{WP(s)} & \textbf{Framework} & \textbf{Status} & \textbf{Benchmark ID} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Application ID} & \textbf{Sheet row} & \textbf{WP(s)} & \textbf{Framework} & \textbf{Status} & \textbf{Benchmark ID} \\
+\midrule
+\endhead
+\texttt{app-feelpp-discr-1} & 2 & 1, 3 & Feel++, PETSc & benchmark-ready & \texttt{BM-FEEL-DISCR1-01} \\
+\texttt{app-feelpp-distance} & 3 & 1 & Feel++ & benchmark-ready & \texttt{BM-FEEL-DIST-01} \\
+\texttt{app-feelpp-nlcrb} & 4 & 1, 2, 3 & Feel++, PETSc, PyTorch & spec-only & \texttt{BM-FEEL-NLCRB-01} \\
+\texttt{app-feelpp-rb} & 5 & 1, 2, 3 & Feel++ & benchmark-ready & \texttt{BM-FEEL-RB-01} \\
+\texttt{app-feelpp-io} & 6 & 1 & Feel++, PETSc & status missing & \texttt{BM-FEEL-IO-01} \\
+\texttt{app-feelpp-toolbox} & 7 & 1, 3 & Feel++ & status missing & --- \\
+\texttt{app-hpddm-dfn} & 8 & 3 & HPDDM, PETSc & benchmark-ready & \texttt{BM-HPDDM-DFN-01} \\
+\texttt{app-freefem-parmmg} & 9 & 1, 3 & FreeFEM++, ParMmg & benchmark-ready & \texttt{BM-FF-PARMMG-01} \\
+\texttt{app-zellij} & 10 & 5 & Zellij & brainstorming & --- \\
+\texttt{app-eki} & 11 & 4 & PETSc, GeoS & spec-only & \texttt{BM-EKI-01} \\
+\texttt{app-freefem-shape-opt-fem} & 12 & 5 & FreeFEM++ & brainstorming & --- \\
+\texttt{app-scimba-shape-opt-nn} & 13 & 5 & Scimba & brainstorming & --- \\
+\texttt{app-scimba-plasma} & 14 & 2 & \todo{Sheet field} & status missing & --- \\
+\texttt{app-scimba-hybrid} & 15 & 2 & \todo{Sheet field} & status missing & --- \\
+\texttt{app-feelpp-thermomeca-1} & 16 & 1, 3 & Feel++ & implementation-in-progress & \texttt{BM-FEEL-THERMOMECA-01} \\
+\texttt{app-feelpp-ktirio-geom} & 17 & 1 & Feel++, CGAL & benchmark-in-progress & \texttt{BM-FEEL-KTIRIO-01} \\
+\texttt{app-cgal-autorefine} & 18 & 1 & CGAL & brainstorming & \texttt{BM-CGAL-AUTOREFINE-01} \\
+\texttt{app-cgal-cdt2} & 19 & 1 & CGAL & brainstorming & \texttt{BM-CGAL-CDT2-01} \\
+\texttt{app-cgal-ccdt3} & 20 & 1 & CGAL & brainstorming & \texttt{BM-CGAL-CCDT3-01} \\
+\texttt{app-petsc-mixed-precision} & 21 & 3 & PETSc, HPDDM, MUMPS & implementation-in-progress & \texttt{BM-PETSC-MIXED-01} \\
+\texttt{app-feelpp-mi300a-fem} & 22 & 1, 3, 7 & Feel++, PETSc, HPDDM & implementation-in-progress & \texttt{BM-FEEL-MI300A-01} \\
+\texttt{app-feelpp-hifimagnet-inverse} & 23 & 1, 2, 3, 4, 6 & Feel++, PETSc/TAO, HPDDM & spec-only & \texttt{BM-FEEL-HIFI-INV-01} \\
+\texttt{app-feelpp-hifimagnet-optcontrol} & 24 & 1, 2, 3, 5, 6 & Feel++, PETSc/TAO, HPDDM & spec-only & \texttt{BM-FEEL-HIFI-CTRL-01} \\
+\texttt{app-feelpp-discr-2} & --- & 1, 3, 4 & Feel++, PETSc & repository-only; review & \texttt{BM-FEEL-DISCR2-01} \\
+\bottomrule
+\end{longtable}
+
+``Benchmark-ready'' is reproduced only as a Sheet identity/status value.  It is
+not treated as evidence that an executable, results or a reproducible package
+exist; the evidence-based stage is reported separately in
+\Cref{tab:v3-benchmark-registry}.

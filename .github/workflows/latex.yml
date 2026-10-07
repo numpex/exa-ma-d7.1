@@ -2,18 +2,21 @@ name: Compile Latex and Release PDF
 
 # This workflow uses article-cli for:
 # - Git hooks setup (article-cli setup)
-# - Bibliography updates from Zotero (article-cli update-bibtex)
+# - Bibliography retrieved separately by the scheduled bibtex.yml workflow
 # - LaTeX build file cleanup (article-cli clean)
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
     branches:
       - 'main'
+      - 'd7.1-v3'
   pull_request:
     branches:
       - 'main'
+      - 'd7.1-v3'
 
 jobs:
   workflow-setup:
@@ -100,7 +103,7 @@ jobs:
           echo "Setting up isolated Python environment..." >> $GITHUB_STEP_SUMMARY
 
           start_time=$(date +%s)
-          uv venv .venv --python 3.11
+          uv venv .venv --python 3.11 --clear
           echo "VIRTUAL_ENV=${PWD}/.venv" >> $GITHUB_ENV
           echo "${PWD}/.venv/bin" >> $GITHUB_PATH
           uv pip install "article-cli>=1.0.3"
@@ -159,32 +162,10 @@ jobs:
           article-cli config show >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
 
-      - name: Update bibliography from Zotero
+      - name: Check repository bibliography
         run: |
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## 📚 Bibliography Update" >> $GITHUB_STEP_SUMMARY
-          echo "Updating bibliography from Zotero group using isolated virtual environment..." >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if article-cli update-bibtex; then
-            echo "✅ **Bibliography Updated Successfully**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "- **Environment**: Isolated venv with uv" >> $GITHUB_STEP_SUMMARY
-            echo "- **Source**: Zotero Group 5582837 (ExaMA)" >> $GITHUB_STEP_SUMMARY
-            echo "- **Output**: references.bib" >> $GITHUB_STEP_SUMMARY
-            echo "- **Backup**: references.bib.backup" >> $GITHUB_STEP_SUMMARY
-            if [ -f references.bib ]; then
-              entries=$(grep -c "^@" references.bib || echo "0")
-              echo "- **Total entries**: $entries" >> $GITHUB_STEP_SUMMARY
-            fi
-          else
-            echo "❌ **Bibliography Update Failed**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Please check Zotero API key and group permissions." >> $GITHUB_STEP_SUMMARY
-            exit 1
-          fi
-        env:
-          ZOTERO_API_KEY: ${{ secrets.EXA_MA_ZOTERO_API_KEY }}
+          test -s references.bib
+          echo "Using the committed references.bib snapshot (updated daily by bibtex.yml)." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
@@ -317,7 +298,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           start_time=$(date +%s)
-          uv venv .venv --python 3.11
+          uv venv .venv --python 3.11 --clear
           echo "VIRTUAL_ENV=${PWD}/.venv" >> $GITHUB_ENV
           echo "${PWD}/.venv/bin" >> $GITHUB_PATH
           uv pip install "article-cli>=1.0.3"

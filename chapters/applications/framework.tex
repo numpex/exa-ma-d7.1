@@ -7,8 +7,7 @@
 High‑performance Exa‑MA applications—mini‑apps through demonstrators—follow a unified framework to ensure reproducibility, portability, and maintainability, with minimal templates and CI hooks to apply the same conventions everywhere.
 
 \subsection{Repository Layout}
-A common structure makes code, tests, and artifacts predictable across projects and easy to navigate.
-All repositories conform to:
+A common structure makes code, tests, and artifacts predictable; repositories conform to:
 \begin{verbatim}
 src/                 % core code
 tests/               % unit, regression, convergence tests
@@ -27,15 +26,15 @@ Pinned environments ensure that development and benchmarking run with identical 
 \end{itemize}
 
 \subsection{CI/CD Pipelines}
-Automated workflows standardize building, testing, and benchmarking, and leverage shared actions across repositories.
+Automated workflows standardize build, test, and benchmark; shared actions keep repositories consistent.
 \begin{itemize}
   \item Define workflows for \texttt{build}, \texttt{test}, \texttt{benchmark}, \texttt{lint}.
   \item Reuse WP7 shared actions via \texttt{uses: numpex/wp7-actions/...}.
-  \item On merge to \texttt{develop} and nightly, run full benchmark suite and push metrics to Grafana.
+  \item On merges and nightly runs, execute the full benchmark suite and push metrics to Grafana.
 \end{itemize}
 
 \subsection{Containerization \& Packaging}
-Container images and versioning conventions provide reproducible execution on laptops and supercomputers alike.
+Container images and versioning conventions ensure reproducible execution locally and on supercomputers.
 \begin{itemize}
   \item Multi-stage Dockerfiles / Apptainer recipes in \texttt{containers/}.
   \item Base images tagged \texttt{<proj>-v<semver>-<date>}.

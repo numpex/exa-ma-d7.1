@@ -1,0 +1,22 @@
+%!TEX root = ../../../../exa-ma-d7.1.tex
+\VThreeApplicationDraft{app-feelpp-mi300a-fem}
+{MI300A high-order finite-element kernels and HiFiMagnet}
+{C. Prud'homme; V. Chabannes; P. Jolivet}
+{WP1, WP3, WP7}{extended-mini-app}
+{Benchmark the forward nonlinear thermoelectric high-field-magnet model at fixed accuracy, including solver behaviour, device residency and CPU/APU performance.}
+{Feel++, PETSc, HPDDM; MPI, Kokkos and HIP}{implementation-in-progress}
+
+\paragraph{Scope boundary.}
+This record covers only the shared forward operator.  Parameter inversion and
+optimal control are separate applications.  The Sheet describes a future MI300A
+campaign; this integration draft does not present that allocation or campaign as
+a completed result.
+
+\paragraph{Evidence and benchmark contract.}
+The inspected \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{application commit}
+contains a HiFiMagnet thermoelectric JSON configuration under
+\texttt{src/app-feelpp-toolbox/thermoelectric/hifimagnet}.  It does not yet
+establish a dedicated executable benchmark or MI300A result for this ID.
+\texttt{BM-FEEL-MI300A-01} therefore remains implementation in progress.
+\todo{Pin the executable/config, input data, native and container environments,
+MI300A topology, fixed-accuracy baseline, repetitions and raw-data location.}

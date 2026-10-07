@@ -2,55 +2,83 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Executive Summary
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \clearpage
 \section*{Executive Summary}
 \addcontentsline{toc}{section}{Executive Summary}
 \label{sec:summary}
 
-This deliverable, D7.1 of the Exa-MA project within the PEPR NumPEx program, is the first in a series of annual benchmarking reports aimed at advancing high-performance computing towards and beyond the exascale barrier. Exa-MA (\emph{Methods and Algorithms for Exascale}) focuses on developing relevant numerical methods and ensuring that software is production-ready for exascale computing by the end of the project.
+\noindent
+\textbf{Scope.} This edition (v2025) of Deliverable D7.1 consolidates, in a single annual
+\emph{mega-deliverable}, the scientific advances of WP1--WP6 and their software production,
+benchmarking and methodology (WP7). It provides a 360° view: methods \textrightarrow\ software
+\textrightarrow\ mini-apps/demonstrators \textrightarrow\ metrics, with traceable artefacts (code, containers,
+datasets, scripts, logs). % see Exec. Summary and ToC for structure
+% (source: D7.1 structure and methodology)
+% (PDF executive summary and Chapter 8)
+% 
 
-\subsection*{Summary}
-
-Exascale computing promises significant breakthroughs across various disciplines by enabling simulations and analyses at unprecedented scales and resolutions. Realizing this potential requires overcoming substantial challenges in numerical methods, algorithms, software architecture, scalability, efficiency, and resilience.
-
-This report introduces a  benchmarking methodology designed for developing and evaluating numerical methods and software tailored to exascale computing environments. The methodology addresses key bottlenecks identified in exascale systems, including interconnect technology, memory hierarchy, data management, exascale algorithms, and reproducibility challenges. 
-It integrates several core components:
-
+\medskip
+\noindent
+\textbf{Highlights (2024--2025).}
 \begin{itemize}
-    \item \textbf{Development of Numerical Methods and Algorithms}: Advancing state-of-the-art methods and algorithms optimized for exascale architectures.
-    \item \textbf{Testing and Validation Processes}: Establishing structured non-regression testing, verification, and validation to ensure correctness and performance integrity across updates.
-    \item \textbf{Benchmarking Strategy}: Implementing a phased approach to measure performance, scalability, and energy efficiency on advanced computational architectures (CPU, GPU, and hybrid systems).
-    \item \textbf{Data Management and I/O Strategies}: Addressing I/O bottlenecks through efficient data management techniques.
-    \item \textbf{Profiling and Measurement Tools}: Utilizing advanced tools to gather detailed performance insights across different architectures.
-    \item \textbf{Containerization and Packaging}: Employing technologies to ensure reproducible and portable execution environments.
-    \item \textbf{Continuous Integration and Deployment (CI/CD)}: Integrating continuous benchmarking and regression testing into CI/CD pipelines to maintain reproducibility and sustained high performance.
-    \item \textbf{Fault Tolerance Strategies}: Developing mechanisms to enhance system resilience and data integrity.
+  \item \emph{WP1 Discretization.} Robust meshing and adaptation at scale, including
+        feature-aware workflows and fully parallel anisotropic adaptation with ParMmg (Fichera),
+        plus a high-order wave proxy-app (CPU/GPU). % WP1§2.1--2.3
+  \item \emph{WP2 MOR/Surrogates/SciML.} PINNs with domain decomposition, FNO-based
+        warm-starts for nonlinear solves, nonlinear ROM with neural implicit representations. % WP2§3.2
+  \item \emph{WP3 Solvers.} GenEO extensions to non-SPD systems; mixed-precision and
+        variable-accuracy Krylov (PROMISE); fault-tolerant PCG patterns; partitioned coupling
+        building blocks. % WP3§4.2
+  \item \emph{WP4 Data Assimilation.} Launch of stochastic inversion (EKI mini-app spec) with
+        manufactured tests and ensemble-MPI design. % WP4§5.3
+  \item \emph{WP5 Optimization.} Fractal continuous optimization at scale; parallel Bayesian
+        optimization for expensive objectives; neural level-set shape optimization. % WP5§6.2
+  \item \emph{WP6 UQ.} Multi-output GP surrogates with physical constraints; graph-indexed
+        kernels (SWWL) for mesh/graph outputs; categorical-kernel benchmarks. % WP6§7.2--7.5
 \end{itemize}
 
-The document provides an overview of the software developed within Exa-MA, focusing on their features and parallel capabilities. General statistics offer insights into their characteristics and technological choices, such as supported architectures, programming languages, parallelism technologies, data formats, and DevOps practices.
+\medskip
+\noindent
+\textbf{Applications and demonstrators (selection).}
+Thermal bridges validation (Feel++), FDA nozzle (Navier–Stokes), geometry distance/BVH vs FMM,
+parallel anisotropic mesh adaptation (ParMmg), reduced-basis thermal fin, and HPDDM–DFN. % Ch.10
 
-In the work package chapters (WP1 to WP6), we present software relevant to each area, listing the numerical methods and algorithms they implement, parallel capabilities, benchmarks developed, challenges identified, and a 12-month roadmap for each. The work packages cover:
+\medskip
+\noindent
+\textbf{Software production and benchmarking.}
+We apply a unified methodology (Chap.~8): CI/CD with nightly/non-regression and ReFrame,
+containerized runs (Docker/Apptainer), FAIR data/DOIs (Zenodo), energy/perf/scaling metrics,
+and acceptance criteria per application tier (mini-app, extended mini-app, demonstrator). % Ch.8
 
-\begin{itemize}
-    \item \textbf{WP1 - Discretization}: Advancements in discretization methods for exascale computing.
-    \item \textbf{WP2 - Model Order, Surrogate, Scientific Machine Learning Methods}: Development of reduced-order models, surrogate modeling, and scientific machine learning techniques.
-    \item \textbf{WP3 - Solvers}: Scalable solver algorithms suitable for exascale architectures.
-    \item \textbf{WP4 - Data Assimilation}: Methods and tools for inverse problems and data assimilation in large-scale simulations.
-    \item \textbf{WP5 - Optimization}: Optimization techniques for exascale applications, including shape optimization and auto-ML tuning.
-    \item \textbf{WP6 - Uncertainty Quantification}: Methods for quantifying uncertainty in computational models at exascale.
-\end{itemize}
+\medskip
+\noindent
+\textbf{KPI snapshot (targets and current status).}
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{6cm}}
+\toprule
+\textbf{KPI} & \textbf{Target} & \textbf{Current Status (2025)} \\
+\midrule
+Level 1 demonstrators at scale & At least 3 per WP (except WP7) & 2 mini-apps defined and specified (WP1), implemented and part of the benchmarking process \\
+Level 2 demonstrators at scale & At least 5 total & 6 extended mini-apps and demonstrators specified; 2 implemented and 1 participating in the benchmarking process \\
+Production applications with Exa-MA tools & 5 mini-apps, 4 proxy apps; ~20 libraries impacted & About 12 frameworks impacted; 1 proxy app under development \\
+Software stack validation scale & Full Exascale level & Not measured for now \\
+Training participants & More than 100 trainees (PC0 KPI-5) & 1 training on CI/CD in HPC environment (March 2025, 40 participants via EuroHPC)\\
+Scientific publications & More than 50 papers & 36 Publications comprise 16 preprints/working papers, 8 journal articles, 4 conference papers, 3 proceedings, 2 poster communications, 1 lecture, 1 book, and 1 report. \\
+NumPEx ecosystem contribution & Conformity with PC0 KPI-7--10 & collaborations between PC1/PC2/PC3; upstream patches merged into identified frameworks \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-\subsection*{Recommendations}
+\medskip
+\noindent
+\textbf{Why it matters.} (i) \emph{Sovereign, open, reproducible} stack at scale; (ii) \emph{Measurable
+impact} via transparent KPIs and re-usable artefacts; (iii) \emph{Ecosystem leverage} across FR/EU/US
+software with upstream contributions.
 
-We recommend adopting the proposed benchmarking methodology across the Exa-MA project to ensure that the numerical methods and software tools meet the computational demands of exascale applications while adhering to principles of energy efficiency, scalability, robustness, reproducibility, maintainability, and sustainability. This methodology is key to the project's long-term success, establishing standardized practices that facilitate ongoing development and adaptation to evolving technologies.
+\medskip
+\noindent
+\textbf{Outlook (next 12 months).}
+Include new application specifications, implementations and benchmarking, broaden GPU portability, densify auto-bench
+pipelines; keep annual refresh with KPI deltas; common milestones with PC1/PC2/PC3.
 
-\subsection*{Justification}
 
-Implementing this methodology is crucial for overcoming the challenges associated with exascale computing. By focusing on advanced numerical methods and rigorous testing practices, the Exa-MA project can create high-quality, efficient, and sustainable tools. This approach contributes to the broader high-performance computing community by providing insights and frameworks applicable to other exascale initiatives.
-
-\subsection*{Conclusion}
-
-By developing advanced numerical methods and employing our  benchmarking methodology, the Exa-MA project aims to meet the high computational demands of future exascale applications while adhering to essential principles like energy efficiency and scalability. Sharing our methodology and findings contributes to the broader HPC community's efforts to overcome exascale computing challenges and promotes sustainable practices needed for future scientific breakthroughs.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

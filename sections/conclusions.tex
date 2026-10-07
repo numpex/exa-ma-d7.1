@@ -7,56 +7,52 @@
 \section{Conclusions}
 \label{sec:conclusions}
 
-In this deliverable, we have presented the initial benchmarking efforts and methodologies developed within the Exa-MA project, a component of the PEPR NumPEx program. 
-The Exa-MA project aims to advance high-performance computing towards and beyond the exascale barrier by developing relevant numerical methods and ensuring that software is production-ready for exascale computing by the project's conclusion.
+In this deliverable, we present consolidated benchmarking efforts and methodology within the Exa-MA project (PEPR NumPEx). 
+Exa-MA advances high-performance computing towards exascale by developing relevant numerical methods and ensuring software is production-ready by the project's conclusion.
 
-We introduced a  benchmarking methodology designed to  address the challenges and bottlenecks associated with exascale computing. 
-This methodology focuses on several critical aspects:
+We introduced a benchmarking methodology designed to address exascale challenges and identified bottlenecks. 
+It focuses on:
 
 \begin{itemize}
-    \item \textbf{Development of Numerical Methods and Algorithms}: Advancing state-of-the-art methods optimized for exascale architectures.
-    \item \textbf{Testing and Validation Processes}: Establishing structured non-regression testing, verification, and validation to ensure correctness and performance integrity.
-    \item \textbf{Benchmarking Strategy}: Implementing a phased approach to measure performance, scalability, and energy efficiency on advanced computational architectures.
-    \item \textbf{Data Management and I/O Strategies}: Addressing I/O bottlenecks through efficient data management techniques.
-    \item \textbf{Profiling and Measurement Tools}: Utilizing advanced tools to gather detailed performance insights.
-    \item \textbf{Containerization and Packaging}: Ensuring reproducible and portable execution environments.
-    \item \textbf{Continuous Integration and Deployment (CI/CD)}: Maintaining reproducibility and sustained high performance through continuous benchmarking and regression testing.
-    \item \textbf{Fault Tolerance Strategies}: Enhancing system resilience and data integrity.
+    \item \textbf{Structured application definitions}: Mini-apps, extended mini-apps, demonstrators, and proxy-apps with tiered acceptance criteria.
+    \item \textbf{Testing and validation}: Non-regression, verification, and validation to ensure correctness and performance integrity.
+    \item \textbf{Benchmark phases}: Baseline, scalability, energy, and hybrid CPU+GPU runs, with expanded hardware coverage (EuroHPC, multi-GPU nodes; see Chapter~\ref{chap:methodology}).
+    \item \textbf{Energy metrics}: Integration alongside performance and scalability (e.g., energy-to-solution, FLOPS/W).
+    \item \textbf{Data management and I/O}: FAIR datasets and DOIs (Zenodo), scalable I/O (HDF5/DAOS) to address bottlenecks.
+    \item \textbf{Automation (CI/CD)}: ReFrame-based suites on merges and nightlies; containerized runs (Docker/Apptainer/Spack) for reproducibility.
+    \item \textbf{Profiling and measurement}: Using established toolchains for actionable performance profiles.
+    \item \textbf{Fault tolerance}: Beyond checkpoint/restart, the available framework are not currently exploited by the identified frameworks.
 \end{itemize}
 
-The document provided an overview of the software developed within Exa-MA, highlighting their features, parallel capabilities, and the technologies employed. General statistics offered insights into their characteristics and technological choices, emphasizing the diversity and adaptability of the project's software components.
+The document overviews Exa-MA software, highlighting features, parallel capabilities, and technologies. Standardized specifications (metadata, inputs/outputs, metrics, status, planning) ensure traceability and drive CI and reporting, while general statistics emphasize diversity and adaptability across the stack.
 
-In the work package chapters (WP1 to WP6), we presented software relevant to each focus area, detailing the numerical methods and algorithms they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap for each. 
-This  approach ensures that all aspects of exascale computing, from discretization to uncertainty quantification, are addressed cohesively.
+In the work package chapters (WP1--WP6), we detail methods and algorithms, parallel capabilities, benchmarks and metrics, identified challenges, and a 12-month roadmap. 
+This ensures that all aspects of exascale computing, from discretization to uncertainty quantification, are addressed cohesively.
 
-The initial benchmarking results present the initial state in developing exascale-ready numerical methods and software tools. 
-The challenges identified during this process have informed our future work.
-Depending on the software, the presentation of the results vary and we have in general an unbalanced presentation not only within each workpackage  but also across the workpackages.
-We do not feel that this is a problem, as the various software are in different stages of development and benchamarking and the benchmarking results are not yet all readily available.
-However, during the coming months we should strive to setup the methodology for all software and be able any moment to present current results.
-The next release of this documentation should have a more balanced systematic presentation of the results within and across the workpackages.
+The initial benchmarking results establish a baseline for exascale-ready methods and software. 
+The challenges identified inform our next steps. Given the varying maturity across software, presentations remain uneven within and across work packages. This is expected at this stage. In the coming months, we will apply the shared methodology across all software and maintain up-to-date results. The next release will present a more systematic, balanced view within and across work packages.
 
 
 \section*{Future Work}
 
-Looking ahead, the Exa-MA project will continue to refine and expand upon the methodologies and tools presented in this deliverable. 
-Our future efforts will focus on:
+Looking ahead, we will refine and expand the methodology and tools presented here. 
+Priorities include:
 
 \begin{itemize}
-    \item \textbf{Incorporating new methods and algorithms}: Developing and integrating novel numerical methods and algorithms optimized for exascale architectures.
-    \item \textbf{Enhancing Scalability and Performance}: Further optimizing numerical methods and software tools to fully leverage emerging exascale platforms, ensuring efficient utilization of computational resources.
-    
-    \item \textbf{Extending Benchmarking Metrics}: Incorporating new metrics and evaluation criteria relevant to exascale computing, such as energy consumption, resilience, and data movement efficiency.
-    \item \textbf{Fault Tolerance Mechanisms}: Implementing fault tolerance strategies to maintain resilience in the face of hardware and software failures common in exascale environments.
-    \item \textbf{Strengthening Community Collaboration}: Engaging with the broader HPC community to share insights, tools, and best practices, fostering a collaborative ecosystem that accelerates progress.
-    \item \textbf{Addressing Identified Challenges}: Focusing research and development efforts on overcoming the specific bottlenecks and challenges identified in this initial benchmarking phase.
+    \item \textbf{New specs, implementations, benchmarking}: Add application specifications, deliver implementations, and expand automated benchmarks.
+    \item \textbf{GPU portability and scaling}: Broaden GPU portability and improve strong/weak scaling on EuroHPC-class systems.
+    \item \textbf{Auto-bench pipelines}: Densify CI/CD pipelines (frequence to be decided + non-regression) and reporting, keeping artefacts FAIR and reproducible.
+    \item \textbf{Metrics}: Extend energy and resilience metrics; track data-movement efficiency and KPI deltas year-over-year.
+    \item \textbf{Fault tolerance}: improve fault-tolerance support.
+    \item \textbf{Standardization}: Harmonize acceptance criteria and reporting across tiers and WPs; align milestones with PC1/PC2/PC3.
+    \item \textbf{Collaboration}: Share best practices and tooling across the NumPEx ecosystem and partners.
 \end{itemize}
 
 \section*{Final Remarks}
 
-This deliverable marks a significant step towards advancing exascale computing by providing a structured approach to the development and benchmarking of numerical methods, algorithms, and software. By adhering to the proposed benchmarking methodology and continuously improving our approaches, we aim to make substantial contributions to the field of high-performance computing.
+This deliverable advances our structured approach to developing and benchmarking numerical methods, algorithms, and software. By applying the unified methodology—application tiers, phased benchmarks (including energy), CI/CD automation, and FAIR data—we aim to deliver reproducible, portable, and performant exascale-ready software.
 
-The progress achieved thus far in some of the software demonstrates the feasibility and importance of a methodical approach to overcoming the challenges of exascale computing. 
+The progress achieved thus far demonstrates the feasibility and importance of a methodical approach to overcoming exascale challenges. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -291,10 +291,10 @@ As the number of cores increases, we also observe a proportional increase in tim
 
 
 \paragraph{Challenges Identified}
-Several challenges were encountered during the benchmarking process: \textbf{??}
+Several challenges were encountered during the benchmarking process:
 \begin{itemize}
-    \item \textbf{Memory Usage:}
-    \item \textbf{Parallelization Inefficiencies:}
-    \item \textbf{Cache and Memory Bottlenecks:}
+    \item \textbf{Memory usage:} the largest mesh (\texttt{Mr6}) cannot complete on a single 128-core node because of memory limitations, requiring multi-node execution to progress.
+    \item \textbf{Parallelization inefficiencies:} despite the decrease in absolute runtimes, the nonlinear solve and assembly phases remain the dominant contributors, signalling limited scaling benefits for those kernels when adding nodes.
+    \item \textbf{Cache and I/O bottlenecks:} as the number of cores increases, the proportion of time spent exporting results grows due to the larger data volumes written to disk, stressing memory bandwidth and storage throughput.
 \end{itemize}
 

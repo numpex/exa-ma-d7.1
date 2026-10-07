@@ -1,12 +1,10 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
-%\chapter{Work Package 5: Optimization}
-%\label{chap:wp5}
-
 \section{Objectives \& Context}
-% • Which Exa-MA bottlenecks (B#) WP5 addresses  
-% • Role in overall strategy (exascale optimization algorithms, surrogate-based and shape optimization, AutoML)  
+\WPUpdateNote{Review the inherited scope and task descriptions, and update the 2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it is retained as context.}
+% • Which Exa-MA bottlenecks (B#) WP5 addresses
+% • Role in overall strategy (exascale optimization algorithms,
+% surrogate-based and shape optimization, AutoML)
 % • List of key tasks T5.1-T5.4
-The objective of this work package is to design and implement general exascale optimization algorithms capable of efficiently and effectively solving Large scale Optimization Problems (LSOPs). Large-scale optimization methods are natural candidates for exascale supercomputers, but their parallelization presents a major challenge: efficiently managing a massive number of irregular tasks on machines with multiple levels of parallelism, heterogeneous computing resources (GPUs, multicore CPUs with diverse architectures) and complex interconnects. Addressing this challenge requires tackling three key issues simultaneously: scalability, heterogeneity, and fault tolerance, which, to our knowledge, have not yet been investigated jointly in the context of parallel optimization.
+The objective of this work package is to design and implement general exascale optimization algorithms capable of efficiently and effectively solving Large scale Optimization Problems (LSOPs). Large-scale optimization methods are natural candidates for Exascale supercomputers, but their parallelization presents a major challenge: efficiently managing a massive number of irregular tasks on machines with multiple levels of parallelism, heterogeneous computing resources (GPUs, multicore CPUs with diverse architectures) and complex interconnects. Addressing this challenge requires tackling three key issues simultaneously: scalability, heterogeneity, and fault tolerance, which, to our knowledge, have not yet been investigated jointly in the context of parallel optimization.
 
 Our work focuses on three main objectives:
 \begin{itemize}
@@ -20,105 +18,241 @@ Our work focuses on three main objectives:
 
 The project tasks are described below.
 \begin{enumerate}
-\item T5.1 - Exascale combinatorial and continuous optimization: This task focuses on designing general exascale optimization algorithms. We will consider both exact methods (e.g., branch-and-bound, tree search) and iterative approximate methods (e.g., fractal optimization). The performance of these algorithms will be evaluated using standard benchmarks in combinatorial and continuous optimization. A key focus is decomposition-based exascale optimization, motivated by two goals: Tackling LSOPs that are intractable with traditional algorithms, and leveraging decomposition as a fundamental step in parallelization. The main challenge lies in defining efficient decomposition strategies in decision spaces to achieve ultra-scalable optimization algorithms.
+\item T5.1 - Exascale combinatorial and continuous optimization: This task focuses on designing general exascale optimization algorithms. We will consider both exact methods (e.g., branch-and-bound, tree search)
+and iterative approximate methods (e.g., fractal optimization). The performance of these algorithms will be evaluated using standard benchmarks in combinatorial and continuous optimization. A key focus is decomposition-based exascale optimization, motivated by two goals: Tackling LSOPs that are intractable with traditional algorithms, and leveraging decomposition as a fundamental step in parallelization. The main challenge lies in defining efficient decomposition strategies in decision spaces to achieve ultra-scalable optimization algorithms.
 
- \item T5.2 - Exascale surrogate-based optimization: This task adapts surrogate-based optimization (SBO) algorithms for exascale HPC systems. Our goal is to design new parallel SBO algorithms that can evaluate multiple candidate solutions per iteration. In the context of learning-based exascale optimization, machine learning will be used to address the challenges posed by expensive function evaluations. We will focus on three key dimensions: Surrogate models, optimizers and their sampling strategies, and coupling between surrogates and optimizers.
+\item T5.2 - Exascale surrogate-based optimization: This task adapts surrogate-based optimization (SBO) algorithms for exascale HPC systems. Our goal is to design new parallel SBO algorithms that can evaluate
+multiple candidate solutions per iteration. In the context of learning-based exascale optimization, machine learning will be used to address the challenges posed by expensive function evaluations. We will focus on three key dimensions: Surrogate models, optimizers and their sampling strategies, and coupling between surrogates and optimizers.
 
- \item T5.3 - Exascale shape optimization: This task develops a toolbox for exascale shape optimization with the aim of improving the performance of existing algorithms. Several research directions will be explored through both theoretical analysis and numerical experiments. In particular, we will investigate the use of different meshes for state and design variables and the integration of reduced models (developed in WP2), such as neural networks, to enable faster evaluations of state and adjoint models during iterations. A careful balance between computational cost and accuracy will be sought.
+\item T5.3 - Exascale shape optimization: This task develops a toolbox for exascale shape optimization with the aim of improving the performance of existing algorithms. Several research directions will be explored through both theoretical analysis and numerical experiments. In particular, we will investigate the use of different meshes for state and design variables and the integration of reduced models (developed in WP2), such as neural networks, to enable faster evaluations of state and adjoint models during iterations. A careful balance between
+computational cost and accuracy will be sought.
 
- \item T5.4 - Exascale optimization for AutoML:
-This task applies exascale optimization techniques to automated machine learning (AutoML), focusing on the automatic design of deep neural networks (DNNs) and fine tuning of large langage models (LLMs). AutoML problems are becoming increasingly complex due to larger datasets and network architectures, with increasing demands on both computation and memory. Exascale optimization will provide the means to improve DNN accuracy, reduce energy consumption and inference time, enhance robustness, and address large-scale and complex learning tasks.
+\item T5.4 - Exascale optimization for AutoML: This task applies exascale optimization techniques to automated machine learning (AutoML), focusing on the automatic design of deep neural networks (DNNs) and fine tuning of large langage models (LLMs). AutoML problems are becoming increasingly complex due to larger datasets and
+network architectures, with increasing demands on both computation and memory. Exascale optimization will provide the means to improve DNN accuracy, reduce energy consumption and inference time, enhance robustness, and address large-scale and complex learning tasks.
 \end{enumerate}
 
+\clearpage
+\section{Main advances in 2026}
+\label{sec:wp5-main-advances-2026}
+
+\begin{WPAdvanceRecord}{WP5-A2026-1}
+Exa-MA task and bottleneck & T5.1; scalable and resilient fractal decomposition \\
+Concise description of the 2026 advance & Fractal-based Decomposition (FBD) component study, VQE deployment, and fault-tolerant execution \\
+Responsible contributors and institutions & E-M. M. EL-khadiri, E-G. Talbi; INRIA \\
+Implementing software & Exa-Zellij \\
+Software release, commit or PR & Exa-Zellij \\
+Associated application ID & \texttt{app-zellij}; VQE application \\
+Associated benchmark ID & FBD component and parallel-quality studies; VQE equal-work studies \\
+Scientific or numerical result & Two decompositions improve on the reference in 42/48 FBD tasks; PFDA-BS is in the best group in 39/40 and 23/24 VQE comparisons \\
+Performance or scalability result & VQE retains 60.98\% efficiency on 8,000 LUMI-G GPUs; at 40 JUPITER ranks, 133/144 FBD outcomes remain within 1\% of one-rank quality \\
+Evidence and raw-data location & \url{https://github.com/MehdielKhadiri/Exa-Zellij} \\
+Maturity & Integrated, benchmarked, and reproducible \\
+Limitations and next step & Physical-QPU validation and larger elastic fault-injection experiments \\
+Cross-WP contribution or dependency & \\
+\end{WPAdvanceRecord}
+
+\begin{WPAdvanceRecord}{WP5-A2026-2}
+Exa-MA task and bottleneck & T5.2; exascale surrogate-based optimization \\
+Concise description of the 2026 advance & Fractal Bayesian Optimization (FBO) family development and validation \\
+Responsible contributors and institutions & E-M. M. EL-khadiri, E-G. Talbi; INRIA \\
+Implementing software & Exa-Zellij \\
+Software release, commit or PR & Exa-Zellij \\
+Associated application ID & \texttt{app-zellij} \\
+Associated benchmark ID & COCO/BBOB-LS, CEC-LSGO, Grid'5000, and LUMI-G studies \\
+Scientific or numerical result & ASTRA-FBO ranks first on 103/108 objective--budget tasks, wins 31/34 minimum-versus-maximum-budget comparisons, and wins paired majorities over Random, Sobol, CMA-ES, and NGOpt on COCO/BBOB-LS at $B=d$ \\
+Performance or scalability result & Approximately 85\% strong-scaling efficiency on 1,000 LUMI-G nodes (8,000 GPUs) \\
+Evidence and raw-data location & \url{https://github.com/MehdielKhadiri/Exa-Zellij} \\
+Maturity & Integrated, benchmarked, and reproducible \\
+Limitations and next step & Broaden shifted, noisy, and family-interaction studies \\
+Cross-WP contribution or dependency & \\
+\end{WPAdvanceRecord}
+
+\begin{WPAdvanceRecord}{WP5-A2026-3}
+Exa-MA task and bottleneck & T5.4; exascale optimization for AutoML \\
+Concise description of the 2026 advance & Exact-budget layer-wise KV-cache configuration of LLMs \\
+Responsible contributors and institutions & E-M. M. EL-khadiri, E-G. Talbi; INRIA \\
+Implementing software & Exa-Zellij \\
+Software release, commit or PR & Exa-Zellij \\
+Associated application ID & TriFBO-KV LLM inference application \\
+Associated benchmark ID & LongBench, RULER, and SCBench \\
+Scientific or numerical result & 33/36 task-specific and 41/54 generic-transfer wins over the strongest budget-matched static policy \\
+Performance or scalability result & Independent MPI candidate evaluation with exact-budget duplicate avoidance \\
+Evidence and raw-data location & \url{https://github.com/MehdielKhadiri/Exa-Zellij} \\
+Maturity & Integrated, benchmarked, and reproducible \\
+Limitations and next step & Extend beyond static layer-wise precision policies \\
+Cross-WP contribution or dependency & \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
-  
+
 {\bf Advances T5.1:}
-In the field of exact discrete optimization, efficient parallel branch-and-bound algorithms have been designed and implemented on Petascale architectures. 
+In the field of exact discrete optimization, efficient parallel branch-and-bound algorithms have been designed and implemented on Petascale architectures.
 
 \medskip
 
-For continuous optimization, we have developed a generic, scalable, and flexible parallel decomposition approach. This approach is based on fractal decomposition of the decision space. In terms of parallel design, various parallel models have been identified and analyzed. In terms of parallel implementation, intra-node (single GPU using Kokkos, multiple GPU using MPI and Kokkos) and inter-node (multiple heterogeneous CPU-GPU using Kokkos and MPI) implementations have been carried out. The preliminary results show the efficiency and scalability of the proposed massively parallel algorithms. It opens the way towards Exascale computing which will mark a significant milestone in high-performance optimization, enabling unprecedented computational power for solving extremely complex problems across various scientific, engineering, and data-intensive fields.
+\textbf{Fractal-Based Decomposition (FBD) family and parallel validation.}
+The Fractal-Based Decomposition (FBD) framework was consolidated as five configurable components: decomposition, exploration, scoring, tree search, and exploitation. A 4,344-record sequential study identified geometry, probing, and local exploitation as the principal sources of variation. Voronoi-style and simplex-lite decompositions each improved on the hypersphere reference in 42 of 48 matched tasks and tied in six. A complementary 576-run JUPITER study evaluated six configurations up to 40 GPUs; at 40 ranks, 133 of 144 paired outcomes remained within one percent of their one-rank solution quality.
+
+\textbf{VQE application.}
+PFDA-BS instance of FBD was deployed as a complete VQE optimizer through a narrow interface between the C++ MPI--Kokkos search and a Python/PennyLane/JAX UCCSD evaluator. The workflow retained 60.98\% strong-scaling efficiency on 1,000 LUMI-G nodes (8,000 GPUs). Under matched evaluation accounting, PFDA-BS was in the best accuracy group in 39/40 comparisons with standard black-box optimizers and 23/24 comparisons with quantum-aware optimizers.
+\textbf{Fault tolerance.}
+Exa-Zellij now checkpoints active regions, incumbents, and search archives at safe tree boundaries. Checksummed rolling generations, automatic restart, and elastic repartitioning allow FBD executions to resume with a changed MPI worker set without modifying the objective.
 
 \medskip
 
-{\bf Advances T5.2:} 
+{\bf Advances T5.2:}
 
-A scalable parallel Bayesian optimization approach for high-dimensional expensive black-box optimization problems has been developed. The approach was implemented using the the MPI+Kokkos programming model. Preliminary results show that the algorithm is scalable, faster and  accurate. Experimental computational studies conducted on the pre-exascale machine LUMI  confirm the scalability of the designed algorithm showcasing super linear and near linear speed ups at 8000 GPUs while targeting search spaces of dimension $10^5$ and beyond.
+\textbf{Fractal Bayesian Optimization (FBO) family and scalability.}
+Fractal Bayesian Optimization (FBO) augments the distributed FBD tree with surrogate and acquisition guidance so expensive evaluations are concentrated on promising regions. Its MPI--Kokkos implementation retained about 85\% strong-scaling efficiency on 1,000 LUMI-G nodes (8,000 GPUs), demonstrating that surrogate-based optimization can preserve useful parallel efficiency at very large allocation scale.
+
+\textbf{ASTRA-FBO.}
+ASTRA-FBO instance of FBO combines hypersphere decomposition, a PCA-embedded Gaussian process, acquisition-guided region selection, depth-aware budgeting, and surrogate-guided exploitation. Across 108 matched objective--budget tasks from 20 to 10,000 dimensions, it ranked first on 103. At the smallest budget, it also beat competitors evaluated at their largest available budget in 31 of 34 comparisons, establishing competitive solution quality and sample efficiency in high-dimensional, low-budget regimes. The latest COCO/BBOB-Large Scale study extends this evidence to all 24 functions and 15 instances. At the evaluation-starved budget $B=d$, ASTRA-FBO records 1,762/2,160 wins against Random, 1,716/2,160 against Sobol, 1,353/2,160 against CMA-ES, and 1,699/2,160 against NGOpt. Against completed Bayesian baselines at the same budget, it also wins paired majorities over HEBO (673/1,080), BoTorch-EI (651/1,080), and TuRBO-1 (634/1,080); TuRBO-TS is essentially tied in aggregate, with a 1.05$\times$ baseline-to-ASTRA geometric regret ratio.
 
 \medskip
 
 {\bf Advances T5.3:}
 
-In this task, we address a shape optimization problem under a volume-preserving constraint, ensuring that the total volume of the domain remains invariant during the optimization process. To enforce this constraint, the admissible deformation fields are represented as flows of ordinary differential equations, where the associated velocity fields are expressed as the curl of a potential function. This construction guarantees a divergence-free deformation, thereby maintaining the volume of the evolving domain by design. The computation of the shape derivative naturally involves boundary integrals and discontinuities of solution-dependent quantities. In order to obtain a smooth and physically consistent deformation field, a regularization procedure is introduced, leading to a biharmonic boundary value problem. The source term of this problem is determined by the jump of certain quantities across the interface of the optimized shape.
+In this task, we address a shape optimization problem under a
+volume-preserving constraint, ensuring that the total volume of the
+domain remains invariant during the optimization process. To enforce
+this constraint, the admissible deformation fields are represented as
+flows of ordinary differential equations, where the associated velocity
+fields are expressed as the curl of a potential function. This
+construction guarantees a divergence-free deformation, thereby
+maintaining the volume of the evolving domain by design. The computation
+of the shape derivative naturally involves boundary integrals and
+discontinuities of solution-dependent quantities. In order to obtain a
+smooth and physically consistent deformation field, a regularization
+procedure is introduced, leading to a biharmonic boundary value problem.
+The source term of this problem is determined by the jump of certain
+quantities across the interface of the optimized shape.
 
-To address this problem efficiently, we propose a neural formulation that replaces traditional finite-element or mesh-based solvers. Once the regularized deformation field is obtained, the level-set function representing the domain boundary is advected according to this field using a neural semi-Lagrangian scheme. This scheme combines the numerical stability of classical semi-Lagrangian advection with the adaptability of neural representations. Moreover, the proposed neural framework is inherently suited for large-scale and high-performance computing architectures. The reliance on neural representations enables massively parallel computations on modern GPU clusters, and the entire pipeline (training, evaluation, and advection) can be efficiently implemented using standard deep learning libraries. Such architectures naturally scale to exascale computing environments. This opens the way for neural exascale shape optimization, combining physical accuracy, geometric flexibility, and computational scalability. We have implemented first versions of this algorithm in the scimba framework.
+To address this problem efficiently, we propose a neural formulation
+that replaces traditional finite-element or mesh-based solvers. Once the
+regularized deformation field is obtained, the level-set function
+representing the domain boundary is advected according to this field
+using a neural semi-Lagrangian scheme. This scheme combines the
+numerical stability of classical semi-Lagrangian advection with the
+adaptability of neural representations. Moreover, the proposed neural
+framework is inherently suited for large-scale and high-performance
+computing architectures. The reliance on neural representations enables
+massively parallel computations on modern GPU clusters, and the entire
+pipeline (training, evaluation, and advection) can be efficiently
+implemented using standard deep learning libraries. Such architectures
+naturally scale to exascale computing environments. This opens the way
+for neural exascale shape optimization, combining physical accuracy,
+geometric flexibility, and computational scalability. We have
+implemented first versions of this algorithm in the scimba framework.
 
 {\bf Advances T5.4:}
 
-LLMs have revolutionized natural language processing (NLP) by achieving state-of-the-art performance across diverse tasks. However, fine-tuning these models for domain-specific applications is significantly constrained by the computational costs associated with their training. We have proposed two complementary approaches to address the HPO (HyperParamter Optimization) challenge in LLM fine-tuning: BOGP (Bayesian Optimization with Gaussian Process) and PBO (Parallel Bayesian Optimization). On one hand, BO (Bayesian Optimization) efficiently exploits historical knowledge to achieve optimal results within a limited number of evaluations, but its inherently sequential nature poses scalability challenges. On the other hand, PBO enables massive parallelization, making it more scalable but requiring significantly more evaluations to converge. To leverage their complementary strengths for optimizing expensive objective functions, we investigate these methods and propose a hybrid BO-PBO algorithm. This work represents a foundational step toward harnessing the potential of parallel BO-based algorithms for solving expensive optimization problems in exascale computing environments.
+We have developed the TriFBO-KV algorithm which applies parallel fractal Bayesian optimization to exact-budget layer-wise KV-cache quantization in LLMs. It searches the complete declared K/V precision space using
+trisection, a PCA-embedded Gaussian-process surrogate, and parallel candidate evaluation. A continuous-to-discrete interface enforces the target cache budget, avoids duplicate LLM evaluations, and performs budget-preserving discrete refinement.
+
+The study covers LLMs from 7B to 65B parameters on LongBench, RULER, and SCBench. TriFBO-KV beats the strongest budget-matched static policy in 33/36 task-specific conditions. A generic mixed-workload search also
+produces a frozen candidate set that contains a downstream winner in 41/54 conditions, showing that parallel black-box optimization can adapt expert compression mechanisms without prescribing a fixed layer profile.
 
 \section{Application Showcase}
 
-{\bf Continuous optimization:} The scalability of Fractal optimization has been tested on large scale optimization problems involving thousands of decision variables. These problems are particularly challenging due to the curse of dimensionality, high computational cost, and nonlinear interactions among variables, which render traditional optimization techniques inefficient or infeasible.
+{\bf Continuous optimization:} The scalability of Fractal optimization has been tested on large scale optimization problems involving thousands of decision variables. These problems are particularly challenging due
+to the curse of dimensionality, high computational cost, and nonlinear interactions among variables, which render traditional optimization techniques inefficient or infeasible.
 
-For continuous optimisation, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
+For continuous optimization, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions
+specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can
+also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
+
+\textbf{T5.1--T5.2 applications.} FBD and FBO were evaluated through large synthetic component studies and two complete external-objective workflows. PFDA-BS couples FBD to a GPU-accelerated UCCSD evaluator for VQE, while ASTRA-FBO validates surrogate-guided high-dimensional search from 20 to 10,000 variables. Both use the MPI--Kokkos execution layer and exchange compact search state rather than objective internals.
 
 \paragraph{Applications mapping.}
 \begin{itemize}
-	\item Fractal optimization (proposed): Section~\ref{sec:app:specs:app-zellij}.
-	\item Shape optimization with NN (Scimba, proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
-	\item Shape optimization with FEM (FreeFEM, proposed): Section~\ref{sec:app:specs:app-ffpp-shape-opt-fem}.
+     \item Fractal optimization (proposed):
+Section~\ref{sec:app:specs:app-zellij}.
+     \item PFDA-BS VQE and ASTRA-FBO: T5.1 and T5.2 applications
+implemented through the Exa-Zellij objective interface.
+     \item Shape optimization with NN (Scimba, proposed):
+Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
+     \item Shape optimization with FEM (FreeFEM, proposed):
+Section~\ref{sec:app:specs:app-freefem-shape-opt-fem}.
 \end{itemize}
 
 \medskip
 
-{\bf AutoMl and Bayesian optimization:} The experiments on fine tuning LLMs have been carried out on LlaMa 3.2-1B, a model of the Llama 3 family of model. Llama 3 models were released by Meta AI in the second part of 2024 (from July to December), as open-source (topology and weights) decoder-only models achieving state-of-the-art performance. Among Llama 3 models, Llama 3.2 release propose lightweight models (from 1B to 3B weights, excluding vision models), enabling reproduction of the experiments. For evaluation, Hellaswag dataset was used, with accuracy as the metrics to optimize with HPO. It's a 40k lines datasets released in 2019 as a challenge datasets, with a random performance of 25 \% . All models are also evaluated on MMLU as a testing dataset, to observe HPO over-fitting. 
+{\bf AutoML and Bayesian optimization:} The developed algorithm TriFBO-KV configures layer-wise Key/Value cache precision under an exact memory budget. The application evaluates static policies for 7B--65B LLMs on LongBench, RULER, and SCBench, supporting both task-specific optimization and generic-to-downstream transfer without requiring gradients or prescribed layer-importance profiles.
 
-% \input{chapters/applications/specs/app-opt-combin-1}  
+% \input{chapters/applications/specs/app-opt-combin-1}
 % \input additional app specs as needed
 
 \section{Software Framework Contributions}
-% • Optimization library A: … 
+
+% • Optimization library A: …
 {\bf Fractal continuous optimization software framework:} The research on continuous optimization, Bayesian optimization, and AutoML applications is integrated within the Fractal Optimization framework.
+
+The 2026 framework separates a common MPI--Kokkos execution layer from task-specific search and objective modules. T5.1 contributes the configurable FBD path, the PFDA-BS VQE adapter, and resumable
+checkpoint/restart. T5.2 contributes the surrogate-driven FBO path and ASTRA-FBO configuration. T5.4 contributes TriFBO-KV's exact-budget ontinuous-to-discrete policy interface and PyTorch/Hugging Face
+evaluator. The same runtime can therefore change optimization families or external objectives without rewriting distributed coordination. The implementation is available at
+\url{https://github.com/MehdielKhadiri/Exa-Zellij}.
 
 \medskip
 
-{\bf Branch and bound discrete optimization framework:} The pBB software is initially an implementation of a massively parallel Branch-and-Bound algorithm for
-the exact resolution of permutation-based optimization problems, like Permutation Flow-shop
-Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is designed using
-the bare-metal MPI+X approach. First, pBB has been extended to improve its genericity w.r.t
-optimization problems than can be solved, going beyond the permutation ones, like Knapsack
-problems. A new data structure named distBag-DFS is proposed for that purpose. In addition,
-a PGAS-guided design approach is used to improve its software productivity-awareness (see
-https://github.com/Guillaume-Helbecque/P3D-DFS). The Chapel language is used for this
+{\bf Branch and bound discrete optimization framework:} The pBB software
+is initially an implementation of a massively parallel Branch-and-Bound
+algorithm for
+the exact resolution of permutation-based optimization problems, like
+Permutation Flow-shop
+Scheduling (see https://gitlab.inria.fr/jgmys/permutationbb). pBB is
+designed using
+the bare-metal MPI+X approach. First, pBB has been extended to improve
+its genericity w.r.t
+optimization problems than can be solved, going beyond the permutation
+ones, like Knapsack
+problems. A new data structure named distBag-DFS is proposed for that
+purpose. In addition,
+a PGAS-guided design approach is used to improve its software
+productivity-awareness (see
+https://github.com/Guillaume-Helbecque/P3D-DFS). The Chapel language is
+used for this
 implementation of pBB meeting these genericity and productivity objectives.
 
 \medskip
 
-% • ShapeOpt framework: …  
+% • ShapeOpt framework: …
 
 \paragraph{Frameworks mapping.}
 \begin{itemize}
-	\item Zellij: Section~\ref{sec:Zellij:software}\,; Scimba: Section~\ref{sec:Scimba:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}.
+     \item Zellij: Section~\ref{sec:Zellij:software}\,; Scimba:
+Section~\ref{sec:Scimba:software}\,; FreeFEM++:
+Section~\ref{sec:Freefem++:software}.
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
-% • Optimization scaling placeholder  
-% • Surrogate speedup placeholder   
+
+% • Optimization scaling placeholder
+% • Surrogate speedup placeholder
 % • Regression test pass-rate placeholder
 
-All the parallel optimization algorithms developed so far have demonstrated strong scalability on Petaflop-class supercomputers. This is a promising result for their future deployment at the exascale level, as it confirms the efficiency and robustness of the underlying methodologies when scaled to massive computing resources. These encouraging outcomes reinforce our confidence and optimism regarding the feasibility and impact of their forthcoming exascale implementation.
+All the parallel optimization algorithms developed so far have
+demonstrated strong scalability on Petaflop-class supercomputers. This
+is a promising result for their future deployment at the exascale level,
+as it confirms the efficiency and robustness of the underlying
+methodologies when scaled to massive computing resources. These
+encouraging outcomes reinforce our confidence and optimism regarding the
+feasibility and impact of their forthcoming exascale implementation.
+
+\textbf{T5.1.} Fractal-based Decomposition study contains 4,344 sequential records and 576 JUPITER runs; two decomposition variants improve on the reference in 42/48 matched tasks, and 133/144 outcomes at 40 ranks remain within one percent of one-rank quality. The VQE workflow retains 60.98\% efficiency on 8,000 LUMI-G GPUs and reaches the best accuracy group in 39/40 black-box and 23/24 quantum-aware comparisons.
+
+\textbf{T5.2.} Fractal Bayesian Optimization retains approximately 85\% strong-scaling efficiency on 8,000 LUMI-G GPUs. ASTRA-FBO ranks first on 103/108 objective--budget tasks and wins 31/34 minimum-versus-maximum-budget comparisons. On the 24-function, 15-instance COCO/BBOB-Large Scale grid at $B=d$, it wins paired majorities over seven baselines and remains essentially tied with TuRBO-TS.
+
+\textbf{T5.4.} TriFBO-KV wins 33/36 task-specific and 41/54 generic-transfer comparisons against the strongest budget-matched static KV policy across LLMs up to 65B parameters.
 
 \paragraph{Benchmarks mapping.}
 \begin{itemize}
-	\item COCO/BBOB-LS, CEC-LSGO, and LLM fine-tuning HPO integrated with WP7 benchmarking and attached to corresponding application benchmarks.
+\item COCO/BBOB-LS, CEC-LSGO, and LLM application benchmarks.
 \end{itemize}
 
 \section{Roadmap \& Next Steps}
+\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
+2026 advances and benchmark evidence have been validated.}
 
 The developed optimization algorithms (Continuous and discrete, Bayesian) will be integrated into dedicated software applications, making them accessible for a wide range of use cases and benchmark studies. These applications will serve as both validation tools and practical platforms to demonstrate the effectiveness and versatility of the algorithms across diverse domains. While the core methodologies have been successfully implemented, further software engineering efforts are required to finalize the integration, ensure robustness, and provide user-friendly interfaces. Completing this step will be essential to deliver a fully operational framework ready for large-scale deployment and community use.
 
-% • Deliverables D5.x to complete by Mxx  
-% • New optimization apps to integrate into WP7 CI/CD  
-% • Dependencies on WP7 infrastructure (containers, ReFrame)  
-
+The next steps for these contributions are to validate T5.1 elastic recovery at larger allocations and connect PFDA-BS to a physical-QPU backend; broaden T5.2 FBO studies to shifted, noisy, and interacting family configurations; and extend the T5.4 TriFBO-KV interface beyond static layer-wise precision policies.
