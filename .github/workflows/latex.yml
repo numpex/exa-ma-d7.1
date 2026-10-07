@@ -6,6 +6,7 @@ name: Compile Latex and Release PDF
 # - LaTeX build file cleanup (article-cli clean)
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
@@ -172,7 +173,16 @@ jobs:
         with:
           root_file: ${{ needs.workflow-setup.outputs.tex }}
           latexmk_shell_escape: true
-          post_compile: "article-cli clean"
+
+      - name: Restore workspace ownership and clean container build files
+        if: ${{ always() && needs.workflow-setup.outputs.runner == 'ubuntu-latest' }}
+        run: |
+          # The container can create root-owned files in the mounted checkout.
+          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE"
+          if [ -x .venv/bin/article-cli ]; then
+            .venv/bin/article-cli clean
+          fi
+          test -z "$(find "$GITHUB_WORKSPACE" -uid 0 -print -quit)"
 
       - name: Generate compilation summary (Ubuntu)
         if: ${{ needs.workflow-setup.outputs.runner == 'ubuntu-latest' }}
@@ -183,7 +193,7 @@ jobs:
           echo "- **Engine**: latexmk with shell-escape" >> $GITHUB_STEP_SUMMARY
           echo "- **Runner**: ubuntu-latest (xu-cheng/latex-action@v3)" >> $GITHUB_STEP_SUMMARY
           echo "- **Source**: \`${{ needs.workflow-setup.outputs.tex }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **Clean-up**: article-cli clean (from isolated venv)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Clean-up**: Restore runner ownership, then article-cli clean on the host" >> $GITHUB_STEP_SUMMARY
 
       - name: Compile LaTeX document
         if: ${{ needs.workflow-setup.outputs.runner == 'self-texlive' }}
