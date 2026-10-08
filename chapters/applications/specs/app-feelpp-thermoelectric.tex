@@ -1,8 +1,23 @@
 
-\subsubsection{Demonstrator: Thermo-Electric Coupling}
 \label{sec:app:specs:thermoelectric:hl-31}
 
-%Thermo Electric coupling in a complex geometry.
+\VThreeApplicationDraft{app-feelpp-thermoelectric}
+{Demonstrator: Thermo-Electric Coupling}
+{V. Chabannes; C. Prud'homme}
+{WP1}{demonstrator}
+{Model the temperature field and electric current distribution in a high field resistive magnet}
+{Feel++, strong-scalability}{benchmark-ready}
+
+\paragraph{Versioned implementation evidence.}
+At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/b06798a39d941bcdf5f4840622efad1c2b43fd23}{\texttt{b06798a}},
+the application repository contains the necessary JSON configuration files for \textit{feelpp.benchmarking} for the HL-31 benchmark under \texttt{src/app-feelpp-thermoelectric/}.
+
+\paragraph{Benchmark contract.}
+\texttt{BM-FEEL-THERMOELECTRIC-01} covers the performance evaluation of the thermoelectric coupling problem in a high field resistive magnet.
+The benchmark measures the execution time of the main components of the simulation, including initialization, solving the linear system, and post-processing.
+The benchmark is executed on the Gaya supercomputer, using the Feel++ framework and the thermoelectric toolbox.
+Execution was performed with a single mesh and finite element discretizations (P1 and P2), for up to 2 compute nodes (256 tasks).
+
 
 \paragraph{Description}
 
