@@ -207,9 +207,19 @@ Empty Zotero placeholders are skipped. Different records sharing an export key
 receive a stable Zotero-item suffix when necessary.
 
 The file is replaced atomically only after a complete, consistent, validated
-download. Unchanged entries produce no commit. The workflow commits only
-`references.bib`; branch rules must allow its `GITHUB_TOKEN` to push. Such commits
-do not trigger another Actions build. LaTeX builds use the committed bibliography
+download. The workflow proposes changes to `references.bib` through a single
+pull request on `automation-zotero-bibliography`, updating it as needed instead
+of pushing to protected `main`. Unchanged entries produce no new commit.
+GitHub Actions must be allowed to create pull requests in the repository settings.
+The workflow explicitly dispatches the LaTeX checks for new or updated proposals
+and requests Copilot review only after verifying that the PR changes exactly
+`references.bib`, then enables squash auto-merge. GitHub merges it only after
+the required approval, LaTeX checks, and branch protections are satisfied.
+Repository auto-merge must be enabled. To count Copilot approval, enable it in
+Copilot code review settings and restrict the approval file paths to
+`references.bib`; the organization policy must permit this repository.
+References become
+available on `main` after that merge. LaTeX builds use the committed bibliography
 snapshot without contacting Zotero.
 
 === Updating References
