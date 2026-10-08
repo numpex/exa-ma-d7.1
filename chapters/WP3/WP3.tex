@@ -109,6 +109,38 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+\begin{WPAdvanceRecord}{WP3-A2026-2}
+Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms), B10 (Scientific Productivity) \\
+Concise description of the 2026 advance & PETSc-native GPU backend for \texttt{PCHPDDM}: the internal data structures and the deflation kernel of HPDDM were moved onto PETSc \texttt{Vec}/\texttt{Mat} objects whose type follows the input operators (CPU or CUDA); new PETSc dense-matrix APIs were added \\
+Responsible contributors and institutions & E.~Fabrizzi (Sorbonne Universit\'e, LIP6); P.~Jolivet (CNRS, LIP6) \\
+Implementing software & HPDDM (\url{https://github.com/hpddm/hpddm}); PETSc \texttt{KSPHPDDM}/\texttt{PCHPDDM} \\
+Software release, commit or PR & HPDDM 2.4.0 ; PETSc 3.25 \\
+Associated application ID & No mapping yet \\
+Associated benchmark ID & No mapping yet  \\
+Scientific or numerical result & Numerical method unchanged; registered CUDA regression cases include \texttt{harmonic\_overlap\_1\_cuda} and \texttt{geneo\_transpose\_cuda} in PETSc \texttt{src/ksp/ksp/tutorials/ex76.c} \\
+Performance or scalability result & Not measured yet \\
+Evidence and raw-data location & \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148}; \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}; versioned tests and supporting changes in \cref{sec:HPDDM:2026}. No benchmark logs reported \\
+Maturity & Integrated (released) \\
+Limitations and next step & Coarse-operator assembly and factorization remain on the host; device support in this HPDDM path is limited to CUDA. Next: measure host/device transfers during setup and application, move coarse operations to the device, and extend support to Kokkos \\
+Cross-WP contribution or dependency & WP7: benchmarking and applications\\
+\end{WPAdvanceRecord}
+
+\begin{WPAdvanceRecord}{WP3-A2026-3}
+Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms), B10 (Scientific Productivity) \\
+Concise description of the 2026 advance & Subdomains shared by multiple MPI processes in \texttt{PCHPDDM}: sub-communicator and leader per subdomain, coarse operator contributions computed by all processes of a subdomain and assembled by its leader, \texttt{PCGASM} as one-level smoother \\
+Responsible contributors and institutions & E.~Fabrizzi (Sorbonne Universit\'e, LIP6); P.~Jolivet (CNRS, LIP6) \\
+Implementing software & HPDDM (\url{https://github.com/hpddm/hpddm}); PETSc \texttt{KSPHPDDM}/\texttt{PCHPDDM} \\
+Software release, commit or PR & Development version, not yet released; \todo{Record the prototype revision.} \\
+Associated application ID & No mapping yet \\
+Associated benchmark ID & No mapping yet \\
+Scientific or numerical result & Regression success is reported for the existing one-subdomain-per-process path; the new shared-subdomain path is exercised only by a local driver and has no registered regression test \\
+Performance or scalability result & Not measured yet \\
+Evidence and raw-data location & Development branch; not public. \todo{Provide the revision, driver, test commands and outputs, and an accessible evidence location.} \\
+Maturity & Prototype \\
+Limitations and next step & Two levels only; no block splitting, harmonic overlap, \texttt{-pc\_hpddm\_levels\_1\_st\_pc\_type mat} or Schur complement preconditioning; no registered test. Next: register a test, lift these restrictions, release \\
+  Cross-WP contribution or dependency & WP7: benchmarking and applications \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited solver advances with the work performed in
 2026.  Separate new achievements from the 2024--2025 baseline and cite the
@@ -146,7 +178,22 @@ In this respect, this work is also very closely related to \Cref{sec:wp3:T32}.
  
 The ability to apply the transpose of a preconditioner is particularly valuable for sensitivity analysis and adjoint-based computations, where one needs to propagate perturbations backward through the system. This capability ensures consistency between forward and adjoint solves, improving the reliability of derivative-based optimization. This feature was recently added to HPDDM. For the coarsest level, efficiency has been further enhanced by the use of analysis by block in MUMPS, which exploits the block structure of the system to reduce the cost of symbolic factorization and accelerate the setup phase of the direct solver. Finally, for unsymmetrical saddle-point systems, techniques originally developed for least-squares problems—such as normal equation reformulations—have been adapted to handle the indefiniteness and non-symmetry, providing robust and scalable convergence even in challenging PDE-constrained optimization and computational fluid dynamics. 
  
- 
+\subsubsection{HPDDM on GPUs through PETSc, and subdomains shared by multiple processes}
+\label{sec:wp3:T31:hpddm-petsc}
+In 2026, the coupling between HPDDM and PETSc was tightened: the partition of unity, the deflation space, and the coarse-correction work vectors of \texttt{PCHPDDM} now use PETSc \texttt{Vec} and \texttt{Mat} objects.
+Supported operations are delegated to PETSc~\cite{balay_petsc_2024}, reducing device-specific code in this part of HPDDM while retaining the numerical method.
+The CPU/CUDA backend is released in HPDDM 2.4.0 and PETSc 3.25.
+The associated PETSc additions are memory-type-aware dense-matrix constructors and array replacement, and \texttt{MatDiagonalScale()} support for sequential CUDA/HIP dense matrices.
+This does not make the full preconditioner device resident: coarse-operator assembly and factorization remain on the host, and transfers during both setup and application must be assessed.
+
+A separate prototype allows several MPI processes to share one subdomain and use parallel direct solvers for its local problems.
+A sub-communicator groups these processes; they compute coarse-operator contributions collectively, with assembly coordinated by a subdomain leader.
+The one-level smoother uses \texttt{PCGASM}.
+This work aims to relax the one-subdomain-per-process constraint; its effects on memory use, load balance and time-to-solution remain to be measured.
+The current restrictions and missing registered tests are recorded in \cref{tab:advance:WP3-A2026-3}.
+
+Implementation links, release information and regression-test sources are provided in \cref{sec:HPDDM:2026}.
+The annual records \cref{tab:advance:WP3-A2026-2,tab:advance:WP3-A2026-3} distinguish the released backend from the prototype; neither record reports an application performance result.
 
  \subsubsection{Domain decomposition methods for non-SPD problems}
   \label{sec:wp3:T31:nonSPD}
@@ -347,8 +394,8 @@ Note that the method has also been successfully applied to the generation of syn
 \WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
 software descriptions only as dated context.}
 \begin{itemize}
-  \item HPDDM: new releases this year (from version 2.3.1 to 2.3.5), support for applying the transpose of preconditioners, preliminary support for subdomain computations on (NVIDIA) GPU, interface to MUMPS ICNTL(15), multiple fixes for non-symmetric saddle-point systems.
-  \item PETSc enhancements: new releases this year (from version 3.22 to 3.24), interface to MUMPS ICNTL(15) used by HPDDM, new automatic Fortran binding generation for better interoperability between C, C++ and Fortran, new API PCMatApplyTranspose() and PCShellSetMatApplyTranspose() used by HPDDM.
+  \item HPDDM: release 2.4.0 (March 2026) with the PETSc-native device backend of \texttt{PCHPDDM} (\cref{tab:advance:WP3-A2026-2}); support for subdomains shared by multiple processes in development (\cref{tab:advance:WP3-A2026-3}); complex scalars with CUDA in \texttt{KSPHPDDM} (\href{https://github.com/hpddm/hpddm/pull/147}{PR \#147}, \href{https://gitlab.com/petsc/petsc/-/merge_requests/9140}{PETSc MR !9140}). (2025: releases 2.3.1 to 2.3.5, support for applying the transpose of preconditioners, preliminary support for subdomain computations on NVIDIA GPU, interface to MUMPS ICNTL(15), fixes for non-symmetric saddle-point systems.)
+  \item PETSc enhancements: release 3.25 with \texttt{MatCreateDenseWithMemType()}, \texttt{MatDenseReplaceArrayWithMemType()}, \texttt{MatDiagonalScale()} support for sequential CUDA/HIP dense matrices, and the updated \texttt{PCHPDDM} (see \cref{sec:HPDDM:2026} for the corresponding merge requests). PETSc 3.26 adds \texttt{deflated\_reversed}, which applies the coarse correction after the fine correction (\href{https://gitlab.com/petsc/petsc/-/merge_requests/9548}{MR !9548}). (2025: releases 3.22 to 3.24, interface to MUMPS ICNTL(15) used by HPDDM, automatic Fortran bindings, new API \texttt{PCMatApplyTranspose()} and \texttt{PCShellSetMatApplyTranspose()} used by HPDDM.)
   \item Feel++: used in applications to generate and prepare problem data (meshes, linear systems, preconditioning contexts) consumed by PETSc; interoperates through PETSc interfaces.
   \item Composyx: % (en attente de Luc)
   This work focuses on developing robust and high-performance solutions for large sparse linear systems on modern, increasingly heterogeneous computing platforms. It targets the optimization of domain decomposition algorithms within the Composyx framework, combining direct and iterative methods to improve scalability and accuracy. The approach integrates state-of-the-art libraries for dense and sparse linear algebra and efficient domain partitioning to ensure computational efficiency. Recent work has allowed consolidating performance portability for both MPI + threads and MPI + GPU setups. An Exa-MA engineer has been hired and started on October 1, 2025.
