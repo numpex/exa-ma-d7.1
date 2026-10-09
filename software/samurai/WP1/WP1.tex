@@ -61,7 +61,7 @@ flows, plasma discharge, lithium battery simulation... with several  institution
     \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Features} &  {\rule{0pt}{2.5ex}\color{white}\bf Short Description }\\
 
     \rowcolor{white}    mesh adaptation & AMR with heuristic criteria and multiresolution based on wavelets \\
-    \rowcolor{numpexlightergray}   load balancing & Space filling curve (Hilbert or Morton) or diffusion algorithm \\
+    \rowcolor{numpexlightergray}   load balancing & Space-filling curves (Hilbert or Morton), diffusion, graph partitioning (ParMETIS or PT-Scotch) \\
     \rowcolor{white}   sparse Cartesian mesh & A new data structure based on intervals and algebra of set \\
     \rowcolor{numpexlightergray}   grid operators & Provide several operators to make prediction or projection of a field \\
     \rowcolor{white}  numerical schemes & Provide numerical schemes such as finite volume schemes \\
@@ -86,12 +86,13 @@ When we use mesh adaptation methods, we do so in a dynamic context: in other wor
 \item How can we ensure that there is always a good distribution of the load balancing between the processes?
 \end{itemize}
 
-samurai offers two types of load balancing: the best known is the use of a space filling curve (Hilbert and Morton are implemented), the other solution is the use of a diffusion algorithm. The most complicated aspect here is adapting these solutions to the interval data structure. This is a work in progress, but it is important if we want to achieve good scalability for the target applications.
+Since release 0.31, samurai has a load balancing module that redistributes the cells, and the fields defined on them, between the MPI processes. A driver performs the migration and delegates the choice of the destination of each cell to an interchangeable strategy: space-filling curves with the Hilbert or the Morton ordering \cite{bader_space-filling_2013}, a diffusion algorithm that only moves cells between neighbouring processes \cite{cybenko_dynamic_1989}, or graph partitioning with ParMETIS \cite{karypis_parallel_1996} or PT-Scotch \cite{chevalier_pt-scotch_2008}. Each cell carries a weight, and the driver rebalances when the imbalance of the weighted loads exceeds a threshold. The strategies work on the interval data structure, which was the main difficulty, and the MPI layer handles the subdomains of any shape they produce. The multiresolution adaptation can call the driver every $N$ adaptations. The double Mach reflection benchmark of \Cref{sec:app:specs:app-samurai-euler-dmr} compares the strategies on a mesh whose load moves with the shocks.
 
 \subsection{Initial Performance Metrics}
 \label{sec:WP1:Samurai:metrics}
 
 The benchmarks in this WP study the overall performance of samurai in terms of the cost of mesh adaptation compared with the calculation of the refined solution everywhere, and also in terms of the calculation times associated with the numerical schemes. We first propose to carry out a comparative study with equivalent open source software such as \href{https://github.com/AMReX-Codes/amrex}{AMRex}, \href{https://github.com/vanreeslab/murphy}{Murphy}, \href{https://github.com/Dyablo-HPC/Dyablo}{Dyablo}, \href{https://github.com/paralab/Dendro-5.01}{Dendro}. A second study will focus on two practical applications.
+The parallel scalability of samurai will be measured with the two benchmarks described in \Cref{sec:app:specs:app-samurai-burgers-2d,sec:app:specs:app-samurai-euler-dmr}, and the results will be presented in the next version of this deliverable.
 
 \subsubsection{Benchmark \#1: AMR software performance comparaison}
 
