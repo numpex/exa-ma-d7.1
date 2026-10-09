@@ -165,6 +165,17 @@ FreeFEM is used in several applications described in Chapter~\ref{chap:applicati
 
 FreeFEM implements both finite element methods (FEM) and boundary element methods (BEM) for the solution of partial differential equations (PDEs) in complex geometries. It uses various mathematically sound numerical algorithms to enhance the accuracy and speed of the simulations, from metric-based adaptive mesh refinement to provably robust multilevel domain decomposition solvers. It allows for the joint use of real and complex variables.
 
+\subsection{Ongoing developments}
+\label{sec:Freefem++:ongoing}
+
+Relevant developments in 2026 include:
+
+\paragraph{Rewrite parallel data structures} Define new data structures for distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential to a parallel script with minimal changes, e.g. by changing the type of the mesh variable from 'mesh' to 'Dmesh'. Ongoing developments are done in the \textit{distributed-meshes} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/distributed-meshes}.
+
+\paragraph{Implement new low-rank approximation techniques for BEM matrices} Interface the \textit{theia} library from Igor Chollet in HTOOL and FreeFEM implementing new hybrid cross approximation (HCA) techniques for low-rank compression of BEM operators. Ongoing developments are done in the \textit{add\_HCA} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/add_HCA}.
+
+\paragraph{Write a FreeFEM debugger} The debugger will allow the user to pause the execution at any time and inspect FreeFEM variables. Ongoing developments are done in the \textit{debugger} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/debugger}.
+
 
 \subsection{Relevant Publications}
 \label{sec:Freefem++:publications}
