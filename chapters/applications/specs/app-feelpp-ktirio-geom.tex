@@ -11,6 +11,72 @@ At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41
 the application repository contains Grenoble, Tokyo and Perlin terrain JSON inputs and
 plot configurations under \texttt{src/ktirio-geom/terrain}.
 
+\subsection{Ktirio-Geom implementation developments in 2026}
+\label{sec:app:ktirio-geom:implementation-2026}
+
+The 2026 developments in the CGAL-based Ktirio-Geom implementation cover
+roof generation, tiled terrain construction, geographic-overlay processing,
+surface remeshing and volume tetrahedralization. The terrain demonstrator
+below exercises part of these capabilities; its timings concern terrain
+generation rather than the full library. The implementation details complement
+the methodological contribution described under WP1 Task~1.1.
+
+\paragraph{Roof generation.}
+Ridged roofs, including hipped, gabled, Mansard, Gambrel and Saltbox roofs,
+are constructed by applying CGAL's two-dimensional constrained Delaunay
+triangulation to interior straight skeletons. Vertices are elevated according
+to their propagation speeds and the requested roof height; hipped roofs use
+uniform weights. Pyramidal, dome and onion roofs use the footprint barycentre
+and a prescribed apex. Intermediate vertices are generated from the footprint
+vertices at the requested resolution and connected by a fan triangulation.
+
+\paragraph{Tiled terrain generation.}
+Elevation height matrices and overlay features, including road multilines,
+building footprints and water polygons, are read and preprocessed using
+multiple threads. A structured grid carrying elevation data is constructed
+for each tile. Neighbour assignment and elevation ghost-cell computation
+require synchronization. Contour lines are then extracted independently for
+each tile using marching triangles with a prescribed elevation interval.
+The contour polylines are inserted into CGAL's two-dimensional constrained
+Delaunay triangulation and simplified using a configurable threshold;
+the supplied configuration retains approximately 10\% of contour vertices.
+Overlay features are clipped to the tile domain, preprocessed and inserted
+as constraints, with their elevations interpolated from the terrain data.
+A flood-fill traversal tags features according to constraint identifiers,
+and each triangulation is converted to Ktirio's mesh data structure.
+Tile meshes are merged at a synchronization stage. Postprocessing removes
+duplicate points and autorefines triangles adjacent to tile boundaries,
+while tile interiors are already watertight and connected. Vertex elevations
+are then assigned and geometric transformations, including dilation, applied
+when required.
+
+\paragraph{Geographic-overlay processing.}
+Multiline features are buffered with an offset determined by feature type
+and class, such as highways or paths. Polygon repair is applied to the
+buffered geometries, followed by Boolean union to combine components of
+the same feature. An optional two-dimensional alpha-wrapping procedure from
+CGAL merges geometries belonging to different features, for example railway
+tracks or separate highway lanes.
+
+\paragraph{Surface remeshing and sizing fields.}
+CGAL's isotropic remeshing is integrated with custom sizing fields. Input
+surfaces are converted to polygon soups, using property maps to retain
+patches and constraints. Edge markers select the constraints to preserve:
+constrained edges may be split but not collapsed, and mesh markers are
+retained after remeshing. Four interfaces accept, respectively, a uniform
+target edge length; minimum and maximum target lengths with a tolerance
+for adaptive remeshing; pairs of triangle-marker names and target lengths
+to assign different characteristic sizes to marked regions; or a functor
+returning a target edge length for a mesh triangle.
+
+\paragraph{Volume tetrahedralization and remeshing.}
+An input surface mesh is converted to a polygon soup and tetrahedralized
+using CGAL's Conforming Constrained Delaunay Triangulation in three dimensions.
+A breadth-first traversal removes cells outside the domain and assigns
+distinct subdomain indices to enclosed volumes. Optional tetrahedral
+isotropic remeshing uses a prescribed target edge length. The resulting
+tetrahedra are converted to Ktirio's mesh data structure.
+
 \paragraph{Benchmark contract.}
 \texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and time-to-solution.
 Within this single-node scope, strong scalability is evaluated by maintaining a fixed global problem size (the 81-tile Tokyo grid) while scaling the worker thread count ($t \in \{1, 2, 4, 8, 16, 32, 64\}$) to measure the reduction in time-to-solution.
