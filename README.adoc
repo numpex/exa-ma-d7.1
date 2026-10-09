@@ -189,10 +189,11 @@ The `numpex/exama` repository retrieves HAL records and files them in Zotero's
 `Our Publications/WP1` through `WP7` collections. This repository only retrieves
 the bibliography; it does not import HAL records or assign work packages.
 
-The scheduled `bibtex.yml` workflow retrieves references daily at *05:17 UTC*,
-one hour after the Exa-MA HAL-to-Zotero job. Both workflows also support manual
-dispatch. Schedules run from the default branch and may be delayed by GitHub;
-the time offset is not a dependency between workflows.
+During v3 preparation, the scheduled `bibtex.yml` workflow retrieves references
+hourly at minute *:17 UTC*. After v3 is complete, restore the previous daily
+schedule at *05:17 UTC* (`17 5 * * *`). The Exa-MA HAL-to-Zotero workflow runs
+separately; both workflows also support manual dispatch. Scheduled runs use
+the default branch and may be delayed by GitHub.
 
 Set the repository or organization Actions secret `ZOTERO_API_KEY` for this
 repository. Read access to the group is sufficient here; the `exama` importer
