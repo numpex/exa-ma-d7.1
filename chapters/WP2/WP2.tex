@@ -114,6 +114,83 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+% HPC@Maths team (CMAP), scientific machine learning activity.
+\begin{WPAdvanceRecord}{WP2-A2026-2}
+Exa-MA task and bottleneck & T2.3 (closure of reduced models), B7, B9 \\
+Concise description of the 2026 advance & A state-dependent regularisation
+parameter for the five-moment closure of the one-dimensional
+Bhatnagar--Gross--Krook (BGK) equation, fitted to kinetic data, together with
+an analysis of the closure error against hyperbolicity and against the
+time-step restriction of an explicit scheme. \\
+Responsible contributors and institutions & Rémy Hos\-sein\-khan-Bou\-cher and Marc
+Massot, HPC@Maths team, CMAP, École polytechnique \\
+Implementing software & \texttt{learning\_moments\_kinetics} (PyTorch),
+private GitHub repository \texttt{ReHoss/learning\_moments\_kinetics}, access
+on request (\texttt{remy.hosseinkhan@polytechnique.edu}) \\
+Software release, commit or PR & No public release. Snapshot: commit
+\texttt{883fa02} (6 October 2026) \\
+Associated application ID & \texttt{app-kinetic-moment-closure} \\
+Associated benchmark ID & No mapping yet \\
+Scientific or numerical result & The attainable reduction of the closure error
+is bounded by the flux values that the regularised family attains. The flux
+Jacobian of the fitted closure depends on the gradient of the parameter field,
+so hyperbolicity at each fixed parameter value does not guarantee
+hyperbolicity of the fitted closure. \\
+Performance or scalability result & Not measured yet \\
+Evidence and raw-data location & Manuscript in preparation: R.
+Hos\-sein\-khan-Bou\-cher, D. Biasone, M. Massot, \textit{A state-dependent
+regularisation parameter for the five-moment kinetic closure: accuracy against
+stiffness}, version of 6 October 2026 (commit \texttt{8adbca9}). Working
+report: \textit{An a-posteriori benchmark of moment closures for the
+one-dimensional five-moment kinetic system}, version of 12 September 2026
+(commit \texttt{b932eaf}). Code, data and both documents in the repository
+listed above. \\
+Maturity & prototype \\
+Limitations and next step & One space dimension. Hyperbolicity is tested on
+sampled states only. Learned closures from an earlier training protocol have
+been deployed in the finite-volume solver for the five-moment system, on a
+two-stream Riemann problem and a continuous shock structure, against a
+reference BGK solution. The fields selected under the final protocol of the
+manuscript are evaluated on sampled kinetic states only. Next step: deployment
+of these fields in the finite-volume solver, with execution-time
+measurements. \\
+Cross-WP contribution or dependency & None identified yet \\
+\end{WPAdvanceRecord}
+
+% HPC@Maths team (CMAP), scientific machine learning activity, T2.1.
+\begin{WPAdvanceRecord}{WP2-A2026-3}
+Exa-MA task and bottleneck & T2.1 (physics-driven deep learning), B9 \\
+Concise description of the 2026 advance & Exact imposition of the terminal
+condition in neural approximations of solutions to parabolic PDEs, and the
+effect of the extension of the terminal datum on the source term of the
+equation solved by the network component. \\
+Responsible contributors and institutions & Rémy Hos\-sein\-khan-Bou\-cher
+(HPC@Maths team) and Charles-Albert Lehalle, CMAP, École polytechnique, with
+Nicolas Baradel \\
+Implementing software & Research repository (PyTorch), access on request
+(\texttt{remy.hosseinkhan@polytechnique.edu}) \\
+Software release, commit or PR & No public release. Snapshot: commit
+\texttt{c773a46} (29 September 2026) \\
+Associated application ID & \texttt{app-parabolic-terminal-constraint} \\
+Associated benchmark ID & No mapping yet \\
+Scientific or numerical result & Extensions built from the semigroup of the
+principal part of the operator reduce the source term to its lower-order part,
+which is square-integrable under explicit conditions on the regularity of the
+datum. \\
+Performance or scalability result & Wall-clock measurements available,
+pending inclusion. No parallel scalability study yet. \\
+Evidence and raw-data location & Working notes (Overleaf project, snapshot of
+1 October 2026, access on request), including R. Hos\-sein\-khan-Bou\-cher, N.
+Baradel, C.-A. Lehalle, \textit{Methodology: On boundary-constrained learning
+of partial differential equations}. Code in the repository listed above. \\
+Maturity & method \\
+Limitations and next step & Analysis restricted to linear parabolic operators
+and to the terminal condition. Next step: Dirichlet boundary conditions
+combined with the terminal condition, and sequences of terminal-value problems
+coupled by an obstacle condition. \\
+Cross-WP contribution or dependency & None identified yet \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 
 \WPUpdateNote{Update the inherited advances with the work performed in
@@ -167,6 +244,22 @@ During the reporting period, we have progressed on the following tasks:
     permittivityand  the wave  frequency.  In  addition, FNO  and PINO
     models have  also been  developed for  geoemtrically parameterized
     wave scattering problems.}
+
+  % HPC@Maths team (CMAP), scientific machine learning activity, T2.1.
+  Within the HPC@Maths team (CMAP, École polytechnique), the scientific
+  machine learning activity is led by Rémy Hos\-sein\-khan-Bou\-cher, whose
+  postdoctoral position has been funded by Exa-MA since 1 December 2025.
+  This activity contributes to T2.1 and T2.3. Under T2.1, the exact imposition of the terminal condition in neural
+  approximations of solutions to parabolic PDEs is studied, in
+  collaboration with Charles-Albert Lehalle and Nicolas Baradel. The
+  terminal condition is built into the trial solution through an
+  extension of the terminal datum, and the choice of this extension
+  determines the source term of the equation solved by the network
+  component. Extensions built from the semigroup of the principal part of
+  the operator reduce this source term to its lower-order part, which is
+  square-integrable under explicit conditions on the regularity of the
+  datum (\Cref{tab:advance:WP2-A2026-3}). The combination of the terminal
+  condition with Dirichlet boundary conditions is in progress.
 \item[T2.2] The Macaron  team has proposed a simple  way to accelerate
   nonlinear PDE solvers  such as Newton's method  using an FNO.Trained
   on  data and  on  a discrete  residual loss,  the  FNO predicts  the
@@ -190,6 +283,38 @@ During the reporting period, we have progressed on the following tasks:
   first fit  the encoder and  decoder with  data, and then  refine the
   decoding  process  with  a  physical  loss  and  a  greedy  training
   algorithm. The final validation of the method is ongoing.
+
+  Within the scientific machine learning activity of the HPC@Maths
+  team, Rémy Hos\-sein\-khan-Bou\-cher and Marc Massot study learned
+  closures of moment models for kinetic equations. A moment
+  model replaces a kinetic equation, posed in physical and velocity
+  space, by a finite system of balance laws in physical space. It is
+  therefore a reduced model, whose closure expresses the highest-order
+  flux as a function of the lower-order moments. For the five-moment
+  system of the one-dimensional Bhatnagar--Gross--Krook (BGK) equation,
+  the entropy-based closure has no closed form and is singular on a
+  half-line whose endpoint is the equilibrium state. A one-parameter
+  regularisation of a closed-form approximation of this closure removes
+  the singularity. In this work, the regularisation parameter is made a
+  function of the state and fitted to kinetic data. The analysis relates
+  the attainable reduction of the closure error to two structural
+  constraints: the hyperbolicity of the closed system and the time-step
+  restriction of an explicit scheme. The kinetic reference data are
+  produced by a discrete-velocity BGK solver. Learned closures from an
+  earlier training protocol have been deployed in a finite-volume solver
+  for the five-moment system, on a two-stream Riemann problem and a
+  continuous shock structure, and compared with the reference BGK
+  solution. The fields selected under the final protocol of the
+  manuscript are evaluated on sampled kinetic states only, and their
+  deployment in the solver is planned. Both
+  solvers are implemented in PyTorch and are differentiable, so that
+  gradients propagate through the flux computation of the macroscopic
+  scheme. The computations used GENCI resources on Jean Zay (IDRIS) and
+  Adastra (CINES). A manuscript is in preparation
+  (\Cref{tab:advance:WP2-A2026-2}). The work was presented at the
+  Congrès National d'Analyse Numérique (CANUM 2026), in a minisymposium
+  on machine learning for the numerical solution of partial differential
+  equations organised by Rémy Hos\-sein\-khan-Bou\-cher.
 \item[T2.4] In the framework of a collaboration between the University
   of  Strasbourg  and Sorbonne  University,  a  Ph.D. thesis  aims  at
   overcoming the limitations of  linear order reduction methods, which
