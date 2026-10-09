@@ -297,6 +297,16 @@ Utpal Kiran started his postdoctoral internship in February 2025. The first step
 
  %(Utpal)
 
+ 
+\subsection{ 
+AI and Preconditioning 
+ }
+
+ The PhD work of Brieuc Antoine dit Urban (funded by Numpex, IFPEN and ONERA) focused on developing parallelizable preconditioning methods based on learning approaches, such as graph neural networks (GNNs), aimed at reducing the computational cost of solving sparse, ill-conditioned linear systems originating from numerical simulations at IFPEN and Onera.
+ First, we studied an existing method from the literature, Neural-IF, and identified factors preventing the achievement of an optimal preconditioning for systems derived from 1D Poisson equations. This led us to develop a hybrid model incorporating classical factorization formulas directly within the definition of the GNN, without sacrificing its highly parallelizable nature. This model also allows for the integration of physical parameters related to the underlying partial differential equations, as well as other parameters associated with the solvers' discretization choices.
+ We demonstrated, through a theoretical study, that under the assumption of optimal training, a single hybrid model yields preconditioning comparable to that of the IC(0) method for any system originating from a family of 2D Poisson problems with circular boundary conditions. We conducted experimental performance studies of this hybrid model on sets of linear systems from an IFPEN solver, showing, however, that it results in 10% more iterations compared to IC(0) in both 2D and 3D.
+ One research direction consists in using a different loss function that directly accounts for the low-frequency eigenvalues of the preconditioned systems, similar to the mIC(0) method. Initial experimental results show that it is possible to reproduce the performance of this method using a hybrid model for elliptic problems. Future work will focus on extending these results to non-elliptic problems.
+
 
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
