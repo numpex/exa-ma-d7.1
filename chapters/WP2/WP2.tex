@@ -98,20 +98,24 @@ In practice, WP2 comprises the following tasks:
   the advance,  application and  benchmark identifiers stable  so that
   contributions can be compared across annual reports.}
 
+% Duplicate this record for each other main 2026 WP2 advance (WP2-A2026-2, ...).
 \begin{WPAdvanceRecord}{WP2-A2026-1}
-Exa-MA task and bottleneck & \WPFieldHint{T2.x; Bx} \\
-Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
-Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
-Implementing software & \WPFieldHint{Software; repository} \\
-Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
-Associated application ID & \WPFieldHint{app-...} \\
-Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
-Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
-Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
-Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
-Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
-Limitations and next step & \WPFieldHint{Limitation; next step} \\
-Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
+Exa-MA task and bottleneck & T2.1 (physics-driven DL), T2.2 (neural operators); B7 Exascale Algorithms, B10 Scientific Productivity \\
+Concise description of the 2026 advance & Rewrite of Scimba in JAX, extended with a differentiable classical discretisation layer (continuous and discontinuous Galerkin, finite volumes, isogeometric B-splines on mapped, block-structured and unstructured meshes; matrix-free solvers, preconditioners, multigrid) and hybrid methods (DG schemes with learned basis or mapping, inverse problems solved through the solver). Baseline (2024--2025): PyTorch library (PINNs, neural Galerkin) and a DG prototype just started on Cartesian meshes. \\
+Responsible contributors and institutions & Emmanuel Franck, Victor Michel-Dansac, Rémi Imbach (Inria, MACARON team, Strasbourg); Frédérique Lecourtier (Inria, MIMESIS team, Strasbourg); Matthieu Boileau (CNRS, IRMA, Strasbourg) \\
+Implementing software & Scimba, module \texttt{scimba\_jax}; \href{https://gitlab.com/scimba/scimba}{gitlab.com/scimba/scimba} (same repository as the PyTorch version) \\
+Software release, commit or PR & Version 1.4.0, tag \href{https://gitlab.com/scimba/scimba/-/tags/v1.4.0}{\texttt{v1.4.0}} (commit \href{https://gitlab.com/scimba/scimba/-/commit/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b}{\texttt{1ab96a32}}, 9 October 2026); \texttt{scimba\_jax} first released in beta in version 1.3.0 (20 March 2026) \\
+Associated application ID & \texttt{app-scimba-hybrid} (Section~\ref{sec:app:specs:app-scimba-hybrid}); \texttt{app-scimba-plasma} (Section~\ref{sec:app:specs:app-scimba-plasma}), through the Vlasov--Poisson bump-on-tail example, which couples the JAX neural semi-Lagrangian method with an FFT, PINN or FE Poisson solver \\
+Associated benchmark ID & No BM identifier yet; covered by the Scimba benchmark families \texttt{dg\_convergence}, \texttt{fem\_convergence}, \texttt{dg\_learned\_basis}, \texttt{kernel\_learned\_basis} and \texttt{inverse\_reaction} \\
+Scientific or numerical result & Benchmarks of version 1.4.0 (commit \texttt{81f550dd}), relative $L^2$ errors against exact solutions.
+\emph{Convergence:} on the Laplacian in 1D and 2D, DG-SIPG with a Lagrange basis of degree $p = 1, 2, 3$ reaches the optimal order $p+1$ (observed orders within $0.02$ of it); conforming Lagrange, B-spline, Nédélec and Raviart--Thomas elements reach their expected orders.
+\emph{Multigrid:} for degree-2 DG and FE on seven 2D geometries (square, mapped, unstructured and multi-patch disks), going from about $10^4$ to $4 \times 10^4$ DOFs leaves the Krylov iteration count with a multigrid preconditioner and cellwise Schwarz smoother between 6 and 11 (DG) and between 2 and 4 (FE), while it roughly doubles with Jacobi (from 574--1279 to 1144--2426 for DG). For Helmholtz at $k = 100$ (51\,842 DOFs), BiCGSTAB fails alone and converges in 29 iterations with a two-level shifted-Laplacian multigrid.
+\emph{Learned DG basis}, against the classical basis at the same number of DOFs: error divided by about 1250 (1D Laplacian, 50 DOFs), $3 \times 10^4$ (1D Laplacian, 10 DOFs), 3 to 7 (1D convection-dominated problem, 100 DOFs) and 1.6 (2D disk, 90 DOFs), for 30 to 60~s of training on one GPU; the variant with a learned mesh mapping does not yet improve on the classical basis \\
+Performance or scalability result & No scalability study (single GPU). The loss and computing time of 18 of the 19 JAX benchmark families are archived for commit \texttt{81f550dd} (attached to version 1.4.0) on an NVIDIA H100 NVL node and on a Tesla P100 node \\
+Evidence and raw-data location & \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/fem}{FE} and \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg}{DG} examples; \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{learned DG examples}; gradient checks against finite differences in \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_fe_projection.py}{\texttt{test\_variables\_fe\_projection.py}} and \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_dg_projection.py}{\texttt{test\_variables\_dg\_projection.py}}; \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/benchmarks/nonregression/results/dev/81f550dd}{archived benchmark results} \\
+Maturity & Classical solvers: integrated and benchmarked (released in 1.4.0, unit-tested, archived benchmarks). Hybrid methods: prototype (examples and benchmark families) \\
+Limitations and next step & No 3D meshes; single GPU; learned components used in isolated examples, and the learned mesh mapping does not yet improve on the classical basis. Next: 3D meshes, hybridization of DG and FE schemes with neural approaches as standard building blocks, multi-GPU parallelization, a common functional interface for the PyTorch and JAX backends \\
+Cross-WP contribution or dependency & None formalized; the benchmark families are candidates for integration with WP7 (T7.1) \\
 \end{WPAdvanceRecord}
 
 \section{Scientific Advances}
@@ -128,8 +132,8 @@ Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 During the reporting period, we have progressed on the following tasks:
 
 \begin{itemize}
-\item[T2.1] In the  framework of a collaboration  between the Atlantis
-  team, the Macaron  team and Eindhoven University  of Technology, and
+\item[T2.1] In the  framework of a collaboration  between the ATLANTIS
+  team, the MACARON  team and Eindhoven University  of Technology, and
   in the  context of  the Ph.D.  thesis  of Daria  Hrebenshchykova, we
   have studied a PINN-based approach for simulating high frequency and
   multiscale frequency-domain wave propagation  problems. For that, we
@@ -143,7 +147,7 @@ During the reporting period, we have progressed on the following tasks:
     the position of the wave  source (right-hand side of the Helmholtz
     equation).   Moreover, we  also consider  the possibility  to have
     multiple sources  in the  propagation domain.}  This  ongoing work
-  sits alongside other NN-based methods developed in the Macaron team.
+  sits alongside other NN-based methods developed in the MACARON team.
   A   semi-Lagrangian  sequential-in-time   method,  coupled   with  a
   preconditioned    gradient     method,    solves    high-dimensional
   advection–diffusion  problems and  kinetic  models  of Vlasov  type:
@@ -159,7 +163,7 @@ During the reporting period, we have progressed on the following tasks:
   link  between NNs  and ODEs;  it is  faster and  more accurate  than
   classical  FEM  approaches.   \textcolor{blue}{Finally,  during  the
     period, in the  context of a Master internship (not  funded by the
-    Exa-MA project) in the Atlantis team, we have studied the cioncept
+    Exa-MA project) in the ATLANTIS team, we have studied the cioncept
     of Fourier Neural Operator  (FNO) and its Physics-Informed variant
     (PINO)  for  bulding  fast  surrogate  models  of  two-dimensional
     frequency-domain electromagnetic  wave propagation.  We  have been
@@ -167,21 +171,34 @@ During the reporting period, we have progressed on the following tasks:
     permittivityand  the wave  frequency.  In  addition, FNO  and PINO
     models have  also been  developed for  geoemtrically parameterized
     wave scattering problems.}
-\item[T2.2] The Macaron  team has proposed a simple  way to accelerate
+\item[T2.2] The MACARON  team has proposed a simple  way to accelerate
   nonlinear PDE solvers  such as Newton's method  using an FNO.Trained
   on  data and  on  a discrete  residual loss,  the  FNO predicts  the
   solution of  a nonlinear elliptic  equation from the source  and the
   spatial  coefficient, and  supplies Newton's  initial guess:  coarse
   scales  are  captured  immediately, the  non-convergence  situations
-  Newton  can face  are  avoided, and  CPU time  savings  reach 80  to
-  200$\%$.  We are also designing a neural operator for wave problems,
+  Newton  can face  are  avoided~\cite{aghili_accelerating_2024}.  The
+  baseline  is  a Jacobian-free  Newton--Krylov  solver  started from  the
+  naive initial guess $(1, \dots,  1)$, and the gain in CPU time, training
+  time excluded,  is  $G_\text{CPU} = (S_\text{CPU} -  1) \times 100$, with
+  $S_\text{CPU}$ the  ratio of  the CPU  times of the  two solves.  On the
+  1D  problem  $u  -  \alpha_0  \,  \partial_x(K  \,  |u|^4  \,
+  \partial_x u) = \Phi$  with homogeneous Dirichlet boundary conditions,
+  discretized by finite differences, the mean gain over 25 to 50 random
+  choices of $\Phi$ and $K$  ranges from 82 to 230$\%$ on meshes of 200
+  to 600 points ($\alpha_0 \in \{2, 5, 8\}$), and from 500 to 5000$\%$ on
+  a coarse mesh of 100 points.  In 2D, on meshes of $40^2$ to $100^2$
+  points, the mean CPU time is divided by 1.6 to 2.4.
+  We are also designing a neural operator for wave problems,
   combining  Green's   kernels  and   fundamental  solutions   with  a
   transformer  architecture, and  aimed  at both  the  direct and  the
-  inverse  problem.  In the  homogeneous  case,  the operator  already
-  reaches an error of about 0.1 to 0.2$\%$.
+  inverse  problem.  In the  homogeneous  case,  a preliminary  test on
+  an academic problem  with an exact solution gives an  $L^2$ error of
+  about 0.1  to  0.2$\%$  (JAX implementation,  run on  a local
+  machine).
 
-\item[T2.3] In  the framework of  a collaboration between  the Macaron
-  team,  the Atlantis  and the  Makutu team  and in  the context  of a
+\item[T2.3] In  the framework of  a collaboration between  the MACARON
+  team,  the ATLANTIS  and the  MAKUTU team  and in  the context  of a
   postdoctoral project, a nonlinear  reduced-order modeling method has
   been proposed  for dealing with elliptic  PDEs, which is based  on a
   neural implicit representation that  allows to evaluate the solution
@@ -205,8 +222,8 @@ During the reporting period, we have progressed on the following tasks:
   computing.
 \item[T2.5]  First, we  note that  T2.5  has not  yet received  NumPEx
   funding. However, we have proposed  new approaches based on coupling
-  with NNs.  In  the framework of a collaboration  between the Macaron
-  team  and  the  Makutu  team,  an  original  multifidelity  modeling
+  with NNs.  In  the framework of a collaboration  between the MACARON
+  team  and  the  MAKUTU  team,  an  original  multifidelity  modeling
   approach for parametric  problems has been devised.  The  idea is to
   capture  coarse scales  with  a PINN  for  a large-scale  parametric
   problem, and then  correct this prediction online with  a FEM.  This
@@ -231,14 +248,27 @@ reporting period.
   \item   Physics-informed  shape   optimization   with  NN   (Scimba,
     proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
   \item    Hybrid    numerical/ML    solvers    (Scimba,    proposed):
-    Section~\ref{sec:app:specs:app-scimba-hybrid}.
+    Section~\ref{sec:app:specs:app-scimba-hybrid}.  This is the application
+    that exercises the  new JAX cG/dG solvers, the  differentiable solvers
+    and  the  learned basis  or  mapping  (advance record  WP2-A2026-1).
+    Responsible: Emmanuel Franck.  Maturity: in development.
+    Implementation: \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{learned DG examples}
+    in Scimba~1.4.0.
+  \item  Plasma modeling  with  neural  network based  methods  (Scimba,
+    proposed):   Section~\ref{sec:app:specs:app-scimba-plasma}.
+    Maturity: in development.  The JAX version provides the neural
+    semi-Lagrangian method and a
+    \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/time_discrete_neural_methods/neural_sl/advanced_examples/vlasov_poisson_1d_1v_bump_on_tail.py}{Vlasov--Poisson
+    bump-on-tail example} in which the Poisson equation is solved by an
+    FFT, a PINN or the new FE solver.
   \item   Reduced    basis   thermal   fin    (Feel++,   demonstrator,
     benchmark-ready): Section~\ref{sec:app:specs:app-feelpp-rb}.
   \item  Nonlinear  compressive   RB  (Feel++,  proposed,  spec-only):
     Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
 \end{itemize}
 
-\textbf{Frequency-domain wave propagation modeling with PINNs} \\
+\textbf{Frequency-domain wave propagation modeling with PINNs}
+
 
 As a first  application showcase, we propose to develop  a hierachy of
 wave propagation  problems modeled by  the Hemholtz equation in  2D by
@@ -251,10 +281,11 @@ acoustic wave propagation in a geological medium.  \textcolor{blue}{On
   performance of the proposed Multi-Level Finite Basis PINN models. On
   the  other  hand,   we  also  propose  to   showcase  the  surrogate
   capabilities of these PINN models  through the resolution of inverse
-  problems for acoutic wave proipagation.}
+  problems for acoutic wave propagation.}
 
 
-\textbf{Plasma modeling with neural network based methods } \\
+\textbf{Plasma modeling with neural network based methods}
+(\texttt{app-scimba-plasma}) \\
 
 Tokamak simulation  is a highly HPC-intensive  application, especially
 in terms of memory consumption: MHD codes are implicit and involve the
@@ -270,7 +301,8 @@ and adaptive  neural networks.  On  the kinetic side,  neural particle
 methods are combined with learned flow  maps, which give access to the
 turbulent regime. Coupling the two is the objective.
 
-\textbf{Hybrid numerical for high-dimensional PDEs} \\
+\textbf{Hybrid numerical for high-dimensional PDEs}
+(\texttt{app-scimba-hybrid}) \\
 
 We  propose  to  develop  a demonstrator  of  numerical  methods  that
 hybridize  machine learning  with classical  approaches. The  baseline
@@ -315,12 +347,53 @@ unstructured  meshes, with  matrix-free  solvers, preconditioners  and
 multigrid;  and the  hybrid methods  where the  two meet,  such as  DG
 schemes  whose basis  or  geometric mapping  is  learned, and  inverse
 problems where a physical coefficient  is recovered through the solver
-itself.  Because  the entire JAX  code is differentiable,  a classical
-solver can  be placed inside a  learning loop and a  learned component
-inside a classical scheme. Neural  operators are being developed along
-the  same lines,  in  a  physics-informed form  —  degrees of  freedom
-predicted on  a fixed or  learned basis, hence evaluable  anywhere and
-carrying a PDE residual — and in a purely discrete, data-driven form.
+itself.   Because   these  JAX   solvers   are   written  with   JAX's
+differentiable,  traceable  operations,  a  classical  solver  can  be
+placed  inside a  learning  loop  and a  learned  component inside  a
+classical  scheme.   For the  elliptic  FE, DG  and $\varphi$-FEM
+schemes and the collocation solvers, the  gradient of a solve is given
+by an implicit-function adjoint: the backward pass is one adjoint solve
+at the converged  solution, and does not go through  the Newton or Krylov
+iterations.   The  differentiated quantities  are physical  coefficients
+and the parameters of a basis,  a numerical flux, a post-processing
+operator  or a geometric  mapping.  The  mesh itself  is not
+differentiable,  but its mapping is.  The PyTorch version does not
+provide these classical solvers.  Neural
+operators are  being  developed along  the  same  lines, in  a
+physics-informed form ---  degrees of freedom predicted on  a fixed or
+learned basis, hence evaluable anywhere and carrying a PDE residual ---
+and in a purely discrete, data-driven form.
+
+\paragraph{Versions and evidence.}
+\begin{itemize}
+  \item Both versions live in the same public repository,
+    \href{https://gitlab.com/scimba/scimba}{gitlab.com/scimba/scimba}
+    (MIT license), and are released together: version 1.4.0, tag
+    \href{https://gitlab.com/scimba/scimba/-/tags/v1.4.0}{\texttt{v1.4.0}}
+    (commit \href{https://gitlab.com/scimba/scimba/-/commit/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b}{\texttt{1ab96a32}},
+    9 October 2026).
+  \item  PyTorch   version  (\texttt{scimba\_torch}, maintained):  fully
+    tested; new developments go mostly to the JAX version.
+  \item JAX version (\texttt{scimba\_jax}): beta since version 1.3.0
+    (20 March 2026).
+  \item  Representative   cG/dG   examples   and   tests:
+    \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/fem}{FE} and
+    \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg}{DG} examples (55 scripts) and
+    \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation}{100 test files};
+    integrated and tested.
+  \item Hybrid  examples (learned basis or  mapping, inverse problems):
+    \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{seven learned
+    DG examples} (basis, SIPG penalty, post-processing operator, mesh
+    mapping in 1D and 2D, inverse reaction coefficient, PINN enrichment of
+    a DG/FE decomposition) and the benchmark families
+    \texttt{dg\_learned\_basis}, \texttt{kernel\_learned\_basis} and
+    \texttt{inverse\_reaction}; prototype.
+  \item   Gradient-verification   tests: the implicit adjoint is
+    compared with finite differences through FE and DG solves in
+    \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_fe_projection.py}{\texttt{test\_variables\_fe\_projection.py}}
+    and
+    \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_dg_projection.py}{\texttt{test\_variables\_dg\_projection.py}}.
+\end{itemize}
 
 \subsection{Additional Software Framework}
 
@@ -349,6 +422,14 @@ novel methodologies under development.
 
 \paragraph{Benchmarks mapping.}
 \begin{itemize}
+  \item Scimba: 19 \href{https://benchopt.github.io}{benchopt} benchmark
+    families for the JAX version (PINNs, neural operators, FE and DG
+    convergence, learned DG bases, inverse problem, preconditioners,
+    nonlinear solvers, \dots), measuring loss and computing time.  The
+    results of commit \texttt{81f550dd}, attached to version 1.4.0, are
+    \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/benchmarks/nonregression/results/dev/81f550dd}{archived in
+    the repository} for an NVIDIA H100 NVL node and a Tesla P100 node,
+    and serve as a non-regression reference.  No BM identifier yet.
   \item Surrogate  accuracy vs.  speedup and RB  offline/online timing
     integrated   with   WP7   (T7.1)  and   reported   alongside   the
     corresponding application benchmarks when available.
@@ -370,3 +451,15 @@ The following deliverables are planned:
 \end{itemize}
 
 Benchmarkinkg activities will require interactions with WP7 and in particular T7.1.
+
+For Scimba, the 2027 roadmap is the following:
+\begin{itemize}
+\item support three-dimensional meshes in the FE and DG solvers;
+\item truly hybridize DG and FE schemes with neural approaches, now that
+  most classical components are coded in the JAX version;
+\item provide a double backend, PyTorch and JAX, behind a common
+  functional programming interface;
+\item parallelize on multiple GPUs;
+\item split the code into several repositories, to handle license
+  conflicts with contributions from industrial or academic partners.
+\end{itemize}

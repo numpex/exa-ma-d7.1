@@ -30,7 +30,7 @@
                        CPU or GPU \\
                    \end{tabular}                                                                   \\
                 \rowcolor{white}\textbf{Repository}
-                 & \href{https://gitlab.inria.fr/scimba/scimba}{https://gitlab.inria.fr/scimba/scimba} \\
+                 & \href{https://gitlab.com/scimba/scimba}{https://gitlab.com/scimba/scimba} \\
                 \rowcolor{numpexlightergray}\textbf{License}
                  & \begin{tabular}{l}
                        MIT \\
@@ -74,8 +74,16 @@ In~\cref{tab:WP2:Scimba:features} we provide a summary of the software features 
                  & implementation of machine learning architectures
                 (MLPs, PointNets, \dots)                                  \\
                 \rowcolor{white} classical methods
-                 & started implementing a fully differentiable
-                DG method on multi-dimensional Cartesian meshes           \\
+                 & JAX version (2026): continuous and discontinuous
+                Galerkin, finite volumes and isogeometric B-splines on
+                mapped, block-structured and unstructured meshes, with
+                matrix-free solvers, preconditioners and multigrid,
+                differentiable through JAX
+                (2024--2025: DG prototype on Cartesian meshes)            \\
+                \rowcolor{numpexlightergray} hybrid methods
+                 & JAX version (2026): DG schemes with learned basis
+                or geometric mapping; inverse problems solved through
+                the classical solver                                      \\
             \end{tabular}
         }
     }
@@ -91,6 +99,8 @@ In~\cref{tab:WP2:Scimba:features} we provide a summary of the software features 
     \item Parallel programming environment:
           automatic parallelization tools called within \texttt{PyTorch}
           (e.g. GPU parallelization with CUDA or shared-memory parallelization with OpenMP)
+          for the PyTorch version, and just-in-time compilation with XLA
+          on CPU or GPU for the JAX version
     \item Parallel computation environment: computing servers of IRMA (Unistra), described in Appendix~\ref{sec:app:architectures}.
     \item This software is designed to be used on a single node at the moment.
           Parallelization on multiple nodes is in the roadmap.
@@ -139,7 +149,63 @@ In~\cref{tab:WP2:Scimba:features} we provide a summary of the software features 
 \subsection{12-Month Roadmap}
 \label{sec:WP2:Scimba:roadmap}
 
-In this section, describe the roadmap for improving benchmarks and addressing the challenges identified. This should include:
+\paragraph{Work done in 2026.}
+\begin{itemize}
+    \item \textbf{Public release:} Scimba is now developed in a public repository
+          (\href{https://gitlab.com/scimba/scimba}{https://gitlab.com/scimba/scimba}, MIT license),
+          with a website and documentation at \href{https://www.scimba.org}{https://www.scimba.org}.
+          Versions 1.0.0 (October 2025) to 1.4.0 (October 2026) were released over the period,
+          and the package can be installed from PyPI.
+          On every merge request, the continuous integration runs the formatting and linting checks
+          and the unit tests, in parallel on GPU runners, with cached JIT compilations for JAX.
+    \item \textbf{JAX version:} a second backend, \texttt{scimba\_jax}, was released in beta with version 1.3.0 (March 2026).
+          The PyTorch version, \texttt{scimba\_torch}, is still maintained and tested,
+          but most new developments now go to the JAX version.
+          Version 1.4.0 adds to it a classical discretization layer:
+          continuous and discontinuous Galerkin, finite volume and $\varphi$-FEM schemes
+          on Cartesian, block-structured, unstructured and manifold meshes,
+          with Krylov, Newton and Anderson solvers, preconditioners and multigrid,
+          as well as time-dependent FE and DG schemes.
+          Since these solvers are written with JAX operations, they can be differentiated
+          and placed inside a training loop.
+          On the neural side, the JAX version provides PINNs and discrete PINNs,
+          energy natural gradient with adaptive regularization, the neural semi-Lagrangian method,
+          physics-informed and discrete neural operators, and POD-based reduced-order models.
+    \item \textbf{Hybrid methods:} DG schemes whose basis or geometric mapping is learned,
+          learned bases combined with multigrid, and the recovery of a reaction coefficient
+          through the solver (inverse problem) are available as examples and benchmarks.
+          A Vlasov--Poisson bump-on-tail example couples the neural semi-Lagrangian method
+          for the distribution function with an FFT, PINN or finite element solver for the Poisson equation.
+    \item \textbf{Benchmarks and results retention:} the benchmark suite planned in 2025 now exists.
+          Based on \href{https://benchopt.github.io}{benchopt}, it measures the loss and the computing time of the solvers.
+          The JAX version has 19 benchmark families (among which DG and FE convergence, hyperbolic DG,
+          learned DG bases, Navier--Stokes preconditioners, nonlinear solvers, neural operators and PINNs),
+          and the PyTorch version has benchmarks comparing optimizers.
+          They run either locally or through SLURM on a GPU cluster, with one family per GPU.
+          Results are archived in the repository by commit and machine,
+          and a report page compares any two archived runs,
+          which provides a non-regression check along the history of the code.
+\end{itemize}
+
+\paragraph{Roadmap for the next 12 months.}
+\begin{itemize}
+    \item \textbf{3D meshes:} support three-dimensional meshes in the FE and DG solvers.
+    \item \textbf{Hybridization:} so far, neural and classical components mostly coexist,
+          and interact through learned bases or mappings in a few examples.
+          Now that most classical components are coded in the JAX version,
+          we plan to truly hybridize DG and FE schemes with neural approaches,
+          so that classical solvers inside neural training,
+          and neural components inside classical schemes,
+          become standard building blocks of the library rather than isolated examples.
+    \item \textbf{Double backend:} provide the PyTorch and JAX backends
+          behind a common functional programming interface.
+    \item \textbf{Multi-GPU parallelization:} the code currently runs on a single GPU;
+          we plan to distribute computations over several GPUs.
+    \item \textbf{Repository structure:} split the code into several repositories,
+          to handle license conflicts with contributions from industrial or academic partners.
+\end{itemize}
+
+For reference, the roadmap written in 2025 for the PyTorch version was the following.
 \begin{itemize}
     \item \textbf{Data Improvements:} As a physics-informed machine learning framework, input data of Scimba will consist in small \texttt{json} (or \texttt{yaml}, etc.) files containing the parameters of the PDEs to solve and the neural networks solving them. Output files, in \texttt{PyTorch}'s \texttt{.pth} format, contain the trained neural networks; figures showing approximate solutions are produced. At the moment, no input data management is available, but it is planned to be implemented in the next 12 months. Output data is created and locally saved, but not clearly managed at the moment.
     \item \textbf{Methodology Application:} No clear benchmark is available at the moment, but the software is being tested on a variety of problems, from simple ODEs to more complex PDEs. At the moment, around 50 examples are available, but without clear benchmarking. The roadmap includes the implementation of a benchmark suite, with a variety of problems and datasets, to test the software's performance and scalability.
@@ -166,13 +232,13 @@ In~\cref{tab:WP2:Scimba:bottlenecks}, we briefly discuss the bottleneck roadmap 
 
                 \rowcolor{white}
                 B10 - Scientific Productivity
-                 & At the moment, each example needs to be run manually.
-                The roadmap includes a way to automatically
-                run relevant examples, based on input data.
-                Future developments will include continuous benchmarking,
-                in the form of a CI/CD pipeline.
-                Some unit tests are already available,
-                but their generalization is part of the roadmap.          \\
+                 & Most examples still need to be run manually.
+                We are making this automatic with the benchmark suite
+                based on \href{https://benchopt.github.io}{benchopt},
+                which already runs 19 benchmark families
+                for the JAX version, locally or through SLURM,
+                and archives their results by commit.
+                Unit tests run in the CI on every merge request.          \\
                 \rowcolor{numpexlightergray}
                 B11 - Reproducibility and Replicability of Computation
                  & At the moment, input data is hard-coded in examples.
