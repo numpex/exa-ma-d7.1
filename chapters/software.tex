@@ -47,6 +47,10 @@ Framework supports simultaneous CPU+GPU execution within a single run (e.g., TRU
 \section{General Statistics across Frameworks}
 \label{sec:software:statistics}
 
+The charts in this section retain the previous catalogue snapshot.
+They have not yet been recomputed to include the newly registered FUnTiDES
+framework (Section~\ref{sec:FUnTiDES:software}).
+
 In this section, we provide an overview of the key characteristics and technological choices for the software developed and benchmarked within Exa-MA. 
 These statistics offer insights into the diversity of hardware architectures, programming languages, and parallel computing technologies utilized across the different software packages. 
 
@@ -191,6 +195,7 @@ The following pie chart~\ref{fig:devops-testing} details the testing practices a
 \input{software/composyx/composyx.tex}
 \input{software/feelpp/feelpp.tex}
 \input{software/freefempp/freefempp.tex}
+\input{software/funtides/funtides.tex}
 \input{software/hawen/hawen.tex}
 \input{software/hpddm/hpddm.tex}
 %%\input{software/mahyco/mahyco.tex}
@@ -207,6 +212,7 @@ This section summarizes how frameworks are used to construct applications as per
 
 \begin{itemize}
     \item \textbf{Feel++} → mini‑apps (reduced basis, I/O), demonstrators (thermal, CFD); see Sections on app‑feelpp‑rb, app‑feelpp‑io.
+    \item \textbf{FUnTiDES}: framework registered; no Exa-MA application or benchmark association yet. See Section~\ref{sec:FUnTiDES:software}.
     \item \textbf{HPDDM} → solver kernels for demonstrators and proxy‑apps (domain decomposition preconditioning).
     \item \textbf{FreeFEM++} → extended mini‑apps (mesh adaptation with ParMMG), rapid inverse‑problem templates.
     \item \textbf{CGAL} → geometry/meshing utilities in mini‑apps (wrapping, AABB trees).
@@ -217,4 +223,3 @@ This section summarizes how frameworks are used to construct applications as per
 \end{itemize}
 
 This mapping is non‑exhaustive and will expand as additional applications mature.
-
