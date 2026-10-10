@@ -3,6 +3,24 @@
 % Filtered out: 1 empty entries
 % Generated: 2025-10-17 06:56:49}
 
+@article{abboud_uncertainty_2026,
+ abstract = {Predicting fuel assembly bow in pressurized water reactors requires solving tightly coupled fluid-structure interaction problems, whose direct simulations can be computationally prohibitive, making large-scale uncertainty quantification very challenging. This work introduces a general mathematical framework for coupling Gaussian process surrogate models representing distinct physical solvers, aimed at enabling rigorous uncertainty quantification in coupled multiphysics systems. A theoretical analysis establishes that the predictive variance of the coupled GP system remains bounded under mild regularity and stability assumptions, ensuring that uncertainty does not grow uncontrollably through the iterative coupling process. The methodology is then applied to the coupled hydraulic-structural simulation of the fuel assembly bow, enabling global sensitivity analysis and full uncertainty quantification at a fraction of the computational cost of direct code coupling. The results demonstrate accurate uncertainty propagation and stable predictions, establishing a solid mathematical basis for surrogate-based coupling in large-scale multiphysics simulations.},
+ author = {Abboud, Ali and De Lambert, Stanislas and Garnier, Josselin and Leturcq, Bertrand},
+ doi = {10.1615/Int.J.UncertaintyQuantification.2026063470},
+ issn = {2152-5080},
+ journal = {International Journal for Uncertainty Quantification},
+ language = {en},
+ number = {4},
+ pages = {53--82},
+ shorttitle = {{UNCERTAINTY} {QUANTIFICATION} {IN} {COUPLED} {MULTIPHYSICS} {SYSTEMS} {VIA} {GAUSSIAN} {PROCESS} {SURROGATES}},
+ title = {{UNCERTAINTY} {QUANTIFICATION} {IN} {COUPLED} {MULTIPHYSICS} {SYSTEMS} {VIA} {GAUSSIAN} {PROCESS} {SURROGATES}: {APPLICATION} {TO} {FUEL} {ASSEMBLY} {BOW}},
+ url = {https://www.dl.begellhouse.com/journals/52034eb04b657aea,3f7a3597603a2f0b,52357a630f97b7bb.html},
+ urldate = {2026-10-10},
+ volume = {16},
+ year = {2026},
+ zotero-key = {SJRGBRJD}
+}
+
 @misc{Achim2025Aristotle,
  author = {Achim, Tudor and Best, Alex and Der, Kevin and Fédérico, Mathïs and Gukov, Sergei and Halpern-Leister, Daniel and Henningsgard, Kirsten and Kudryashov, Yury and {others}},
  keywords = {Exa-MA, Formal proof agents, agentic AI},
@@ -311,7 +329,7 @@ tex.eprint: https://epubs.siam.org/doi/pdf/10.1137/1.9781611974546},
  author = {Bader, Michael},
  copyright = {http://www.springer.com/tdm},
  doi = {10.1007/978-3-642-31046-1},
- isbn = {9783642310454 9783642310461},
+ isbn = {978-3-642-31045-4 978-3-642-31046-1},
  publisher = {Springer Berlin Heidelberg},
  series = {Texts in {Computational} {Science} and {Engineering}},
  title = {Space-{Filling} {Curves}},
@@ -2577,7 +2595,7 @@ DistBag‐DFS
  author = {Karypis, George and Kumar, Vipin},
  booktitle = {Proceedings of the 1996 {ACM}/{IEEE} conference on {Supercomputing}},
  doi = {10.1145/369028.369103},
- isbn = {9780897918541},
+ isbn = {978-0-89791-854-1},
  language = {en},
  month = {November},
  pages = {35},
@@ -2717,6 +2735,23 @@ DistBag‐DFS
  url = {https://computing.llnl.gov/projects/scalable-checkpoint-restart-for-mpi},
  year = {2024},
  zotero-key = {JJKJAPSY}
+}
+
+@article{lartaud_solving_2026,
+ author = {Lartaud, Paul and Humbert, Philippe and Garnier, Josselin},
+ doi = {10.1080/00401706.2025.2561745},
+ issn = {0040-1706, 1537-2723},
+ journal = {Technometrics},
+ language = {en},
+ month = {January},
+ number = {1},
+ pages = {172--185},
+ title = {Solving {Bayesian} {Inverse} {Problems} {Using} {Gaussian} {Process} {Regression} with {Goal}-{Oriented} {Active} {Learning}},
+ url = {https://www.tandfonline.com/doi/full/10.1080/00401706.2025.2561745},
+ urldate = {2026-10-10},
+ volume = {68},
+ year = {2026},
+ zotero-key = {MHJKCDY9}
 }
 
 @phdthesis{lecointre_hydrogen_2022,
@@ -2935,6 +2970,21 @@ DistBag‐DFS
  volume = {627},
  year = {2024},
  zotero-key = {3DR8RG4K}
+}
+
+@misc{nassouradine_multi-output_2026,
+ abstract = {We address the simultaneous prediction of multiple high-dimensional physical fields governed by linear equality constraints, a setting that arises in many real-world applications in physics machine learning. Gaussian process (GP) regression is a widely used surrogate modeling approach due to its effectiveness in small-sample regimes and its ability to provide uncertainty quantification. However, applying GP models in this setting raises two major challenges: the high dimensionality of the discretized output fields and the enforcement of the physical constraint in predictions. For the latter, a common strategy consists in deducing one output from the others via the constraint relation. Through a benchmark, we show that this deductive approach is sensitive to the arbitrary choice of which output to deduce, affecting both predictive accuracy and uncertainty quantification. Consequently, there is a need for an approach that treats all fields symmetrically while strictly respecting the underlying physics. Motivated by these limitations, we propose a robust framework for jointly modeling constrained multi-field data. Our approach first leverages a specific PCA procedure for multi-field data, coined row-wise PCA, which has the interesting property of preserving the constraint in the latent space. Since standard PCA strategies for multi-field data do not preserve such constraints, we investigate theoretically the optimality of the row-wise choice. In a second step, we consider a linearly-constrained multi-output GP approach based on a specific kernel parametrization which is trained on the latent space of row-wise PCA. The proposed framework is validated on a population dynamics problem and on an industrial CFD application, which involves the prediction of Reynolds stress tensor components under the incompressibility constraint.},
+ author = {Nassouradine, Mahamat Hamdan and Gauchy, Clément and Angeli, Pierre-Emmanuel and Veiga, Sébastien da},
+ doi = {10.48550/arXiv.2608.25709},
+ keywords = {Computer Science - Machine Learning, Statistics - Machine Learning},
+ month = {August},
+ note = {arXiv:2608.25709 [stat.ML]},
+ publisher = {arXiv},
+ title = {Multi-output {Gaussian} process prediction of physical fields under linear equality constraints},
+ url = {http://arxiv.org/abs/2608.25709},
+ urldate = {2026-10-10},
+ year = {2026},
+ zotero-key = {VWFELA4R}
 }
 
 @article{nataf:hal-02343808,
@@ -3788,6 +3838,25 @@ M0 : 1, 64, 128, 256, 384, 512, 640, 768M1 : 1, 64, 128, 256, 384, 512, 640, 768
  url = {https://arxiv.org/abs/2409.11363},
  year = {2024},
  zotero-key = {I4DYTCW6}
+}
+
+@article{sire_bayesian_2025,
+ abstract = {Numerical simulations are widely used to predict the behavior of physical systems, with Bayesian approaches being
+particularly well suited for this purpose. However, experimental observations are necessary to calibrate certain simulator parameters for the prediction. In this work, we use a multi-output simulator to predict all its outputs, including those that have never been experimentally observed. This situation is referred to as the transposition context. To accurately quantify the discrepancy between model outputs and real data in this context, conventional methods cannot be applied, and the Bayesian calibration must be augmented by incorporating a joint model error across all outputs.
+To achieve this, the proposed method is to consider additional input parameters within a hierarchical Bayesian model, which includes hyperparameters for the prior distribution of the calibration variables. This approach is applied to a computer code with three outputs that models the Taylor cylinder impact test with a small number of observations. The outputs are considered as the observed variables one at a time, to work with three different transposition situations. The proposed method is compared with other approaches that embed model errors to demonstrate the significance of the hierarchical formulation.},
+ author = {Sire, Charlie and Garnier, Josselin and Kerleguer, Baptiste and Durantin, Céric and Defaux, Gilles and Perrin, Guillaume},
+ doi = {10.1615/Int.J.UncertaintyQuantification.2025056586},
+ issn = {2152-5080},
+ journal = {International Journal for Uncertainty Quantification},
+ language = {en},
+ number = {6},
+ pages = {37--59},
+ title = {{BAYESIAN} {CALIBRATION} {FOR} {PREDICTION} {IN} {A} {MULTI}-{OUTPUT} {TRANSPOSITION} {CONTEXT}},
+ url = {https://www.dl.begellhouse.com/journals/52034eb04b657aea,20a9076b6379ec5e,022985b5623a2a30.html},
+ urldate = {2026-10-10},
+ volume = {15},
+ year = {2025},
+ zotero-key = {EHV27SMZ}
 }
 
 @book{slurm_development_team_slurm_2024,
