@@ -136,22 +136,7 @@ software descriptions only as dated context.}
 % • OpenTURNS integration: …  
 % • Kernel-based sensitivity module: …  
 % • High-dimensional integral computation library: …
-Between late 2025 and September 2026, \href{https://uranie.cea.fr/ressources/releasenotes}{two releases of the URANIE platform} were delivered: v4.10.0 and v4.11.0.
-
-\paragraph{URANIE v4.10.0.}
-\begin{itemize}
-	\item \textbf{Methods development:}
-	\begin{itemize}
-		\item Added the \texttt{Sensitivity::TCramerVonMises} class to compute Cram\'er--von Mises indices.
-		\item Added a module to \texttt{TMetropHasting} to continue an existing Metropolis--Hastings computation for a given number of additional iterations, with minor adjustments to ease restarting the \texttt{TMetropHasting} constructor with cleared \texttt{tds} attributes.
-		\item \texttt{DataServer} can now read (\texttt{fileDataReadCSV}) and export (\texttt{exportDataCSV}) CSV files.
-		\item Added an Ishigami binary (mainly for training sessions).
-		\item Relauncher: improved support for launching complex codes (file sharing between codes, MPI-parallel code calls); beta version, not yet documented.
-		\item Launcher: use of Boost.Process, which should allow better scaling with a large number of CPUs.
-	\end{itemize}
-	\item \textbf{Corrections and modifications:} correction and improvement of the \texttt{THSIC} class.
-	\item \textbf{User manual:} added a macro for \texttt{TCramerVonMises}.
-\end{itemize}
+In 2026, \href{https://uranie.cea.fr/ressources/releasenotes}{one release of the URANIE platform} was delivered: v4.11.0.
 
 \paragraph{URANIE v4.11.0.}
 \begin{itemize}
