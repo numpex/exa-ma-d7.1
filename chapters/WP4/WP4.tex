@@ -48,10 +48,10 @@ WP4 builds upon the foundational work of WP1 (discretization), WP2 (model order 
 \end{itemize}
 
 \paragraph{Starting Activities (October 2025).}
-WP4 activities are officially launching in October 2025, with two PhD students beginning their research:
+WP4 activities spun up in October 2025, with two PhD students beginning their research:
 \begin{itemize}
 \item \textbf{PhD 1:} On Bayesian Inverse Problems for Wave Propagation towards Exascale, on the topic of Ensemble and Machine Learning Methods for Bayesian Inverse Problems. 
-\item \textbf{PhD 2:} Topic finalization is under way.
+\item \textbf{PhD 2:} Computational Bayesian optimal sensor placement for ocean models.
 \end{itemize}
 
 The work will be conducted in close collaboration with Inria teams (lead), UNISTRA, and external partners including CEA and industrial stakeholders interested in data assimilation for climate modeling, geophysics, and energy applications.
@@ -86,7 +86,21 @@ Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 performed in 2026.  Separate new achievements from the earlier baseline and cite
 the corresponding annual advance records.}
 
-\noindent\textit{Status.} WP4 activities start in October 2025. This section outlines planned research directions and activities; no scientific advances are reported yet for this period.
+\subsection{Task 4.1 - Deterministic methods}
+
+Operational four-dimensional variational data assimilation (4D-Var) systems are moving toward unprecedented resolutions and model complexity, requiring scalable algorithmic solutions suitable for next-generation exascale supercomputers. The dominant computational bottleneck in incremental 4D-Var lies in the inner loop, which repeatedly solves high-dimensional linear systems using conjugate gradient iterations. While spectral Limited-Memory Preconditioners (LMPs) can significantly accelerate convergence, building them via exact or Krylov-based eigensolvers becomes computationally prohibitive and essentially serial. To address this, the current project task focused on designing and benchmarking highly parallelizable preconditioning techniques using multi-fidelity modelling and randomised linear algebra.
+
+The methodology relies on a randomised sketching approach based on the Nyström approximation to construct spectral LMPs during the critical first outer-loop iteration. Because matrix-vector products within this sketching phase are completely decoupled, the design achieves excellent parallel scalability across large compute node allocations. Additionaly rather than applying costly high-fidelity model propagators during the preconditioner setup,we evaluated the use of lower-fidelity representations, such as reduced-precision operators or simplified physical propagators. Using Löwner ordering and perturbation theory, explicit bounds were established to characterize when a low-fidelity constructed preconditioner guarantees improved condition numbers for the high-fidelity system.
+
+For scenarios where this strict theoretical condition is not satisfied, such as over longer assimilation windows, an alternative hybrid multi-fidelity sketching strategy was developed. This approach captures the dominant eigenspace by enriching random subspaces with inexpensive low-fidelity applications before performing minimal high-fidelity refinement. These approaches were numerically validated on a two-dimensional Shallow-Water equations benchmark in a double-gyre oceanic circulation setup.  
+
+\subsection{Task 4.3 - Observation}
+
+Designing an optimal observation network for geophysical applications requires strategically placing sensors to capture the most valuable data while strictly limiting the number of costly physical deployments. In Bayesian optimal experimental design, this challenge is often formulated as the maximization of the Expected Information Gain (EIG) to select the most informative data acquisitions. This capability is critical for next-generation exascale systems where physical experiments or high-fidelity simulations are exceptionally expensive. However, computing the EIG for nonlinear forward models and non-Gaussian priors—which are typical in complex earth sciences—is usually prohibitive. Standard estimators rely on costly nested Monte Carlo sampling that scales poorly and creates severe computational bottlenecks. To overcome these limitations, the current project task focused on establishing a tractable, theoretically grounded framework for large-scale experimental design by deriving new certified upper and lower bounds on the EIG.
+
+Using dimensional logarithmic Sobolev inequalities, this work reformulates the EIG bounds entirely in terms of signal-to-noise ratios, preserving a simple matrix-based structure that relies solely on covariance and Fisher information matrices. To that goal we introduce two distinct families of bounds: conservative bounds designed to retain the maximum information content of the entire dataset, and incremental bounds tailored for sequentially designing the observation network. To further reduce computational burdens, we introduced practical approximations for the Fisher-information matrices that require only a small number of forward model gradient evaluations, effectively bypassing the nested-sampling bottleneck altogether.
+
+These approaches were numerically validated using a parametrized partial differential equation based on the viscous Burgers model, which is often used as a proxy for fluid and geophysical dynamics. The experiments demonstrated that the tightness of the proposed bounds is directly controlled by the nonlinearity of the forward model, and the method successfully recovers the exact EIG value in linear-Gaussian limits. By replacing expensive nested sampling with scalable, gradient-based matrix diagnostics, we provide an efficient, highly parallelizable alternative to direct EIG estimation.
 
 
 \section{Application Showcase}
