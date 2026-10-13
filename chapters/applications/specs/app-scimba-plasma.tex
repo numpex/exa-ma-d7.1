@@ -1,0 +1,46 @@
+%!TEX root = ../../../standalone/applications/app-scimba-plasma.tex
+\ApplicationFicheHeading{app-scimba-plasma}
+\textbf{app-scimba-plasma: Plasma Simulation with Neural Networks}
+\label{sec:app:specs:app-scimba-plasma}
+
+\input{chapters/applications/metadata/app-scimba-plasma}
+
+\subsection{Description of the benchmark}
+\textbf{Status:} Implementation in progress (Sheet status, 9 October 2026) | \textbf{Partners:} Unistra | \textbf{Responsible:} Emmanuel Franck
+
+\textbf{Purpose:} Demonstrate neural network algorithms for 3D tokamak plasma simulation (mini-app).
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP2: Neural network-based PDE solvers, physics-informed neural networks
+\end{itemize}
+
+\textbf{Framework:} Scimba | \textbf{Application Domain:} Plasma physics, fusion energy
+
+\textbf{Scientific Context:} Plasma simulation in tokamaks requires solving high-dimensional kinetic equations. Neural networks offer potential for learning reduced models that capture essential physics while being computationally tractable.
+
+\noindent\textbf{Planned validation:} Manufactured-solution error, as recorded in the
+operational catalogue. No executable snapshot or validation result has been
+supplied for this refresh; operational status is not treated as measured evidence.
+
+\subsection{Benchmarking methodology}
+\begin{description}
+  \item[Method-Algorithm WP1:] unstructured mesh, finite element
+  \item[Method-Algorithm WP2:] PINN, NN/Autoencoder
+  \item[Method-Algorithm WP3:] krylov solver, preconditioning
+  \item[Framework:] Scimba
+  \item[parallel\_framework:] GPU
+  \item[metrics:] manufactured-solution
+\end{description}
+\todo[app-scimba-plasma / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+\todo[app-scimba-plasma / inputs]{Sheet field missing.}
+
+\subsubsection{Output Data}
+\todo[app-scimba-plasma / outputs]{Sheet field missing.}
+
+\subsection{Results summary}
+\todo[app-scimba-plasma / results summary]{Results summary to be supplied by contributors.}
