@@ -1,0 +1,42 @@
+% Shared engine for generated standalone/applications/<id>.tex entry points.
+% Compile from the repository root. Scientific content remains in the fiches.
+\documentclass[11pt]{report}
+\input{standalone/application-preamble}
+\providecommand{\ApplicationId}{app-samurai-cwipi}
+\providecommand{\ApplicationSpec}{\ApplicationId}
+\providecommand{\ApplicationGroupedSource}{}
+\newif\ifApplicationHasCitations
+\makeatletter
+\AtBeginDocument{%
+  \pretocmd{\@cite}{\global\ApplicationHasCitationstrue}{}{}%
+  \pretocmd{\@citex}{\global\ApplicationHasCitationstrue}{}{}}
+\makeatother
+\begin{document}
+\chapter{Application specification}
+\ifx\ApplicationGroupedSource\empty
+  \IfFileExists{chapters/applications/specs/\ApplicationSpec.tex}{%
+    \import{chapters/applications/specs/}{\ApplicationSpec}}{%
+    \section{\texttt{\ApplicationId}}
+    \textbf{Catalogue preview.} The dedicated scientific fiche is pending.
+    This preview records the current catalogue fields without duplicating
+    scientific contributions in other PRs.
+    \input{chapters/applications/metadata/\ApplicationId}}
+\else
+  \noindent\textbf{Shared fiche.} This preview selects the existing application
+  text from \nolinkurl{\ApplicationGroupedSource}. Its inherited planning
+  statements should be checked against the current application catalogue.
+  \begingroup
+    \let\subsubsection\section
+    % catchfilebetweentags normally discards line endings while retokenizing.
+    % Keep normal TeX line endings so the authored blank lines remain paragraphs.
+    \makeatletter
+    \patchcmd{\CatchFBT@Fin@l}{\endlinechar\m@ne}{\endlinechar=13\relax}{}{}
+    \makeatother
+    \ExecuteMetaData[\ApplicationGroupedSource]{\ApplicationId}
+  \endgroup
+\fi
+\ifApplicationHasCitations
+  \bibliography{references}
+  \bibliographystyle{apacite}
+\fi
+\end{document}

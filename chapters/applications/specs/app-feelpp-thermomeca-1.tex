@@ -5,6 +5,11 @@
 {WP1, WP3}{demonstrator}
 {Demonstrate partitioned static linear thermoelastic coupling on a fixed reference mesh with displacement-dependent effective thermal conductivity; verify equivalence with explicit mesh deformation and assess HPC scalability.}
 {Feel++, MPI}{implementation-in-progress}
+\subsection{Description of the benchmark}
+Demonstrate partitioned static linear thermoelastic coupling on a fixed reference mesh using displacement-dependent effective thermal conductivity; verify equivalence with explicit mesh deformation and assess HPC scalability.
+
+\subsection{Benchmarking methodology}
+
 
 \paragraph{Benchmark contract.}
 Scope: multi-node, solver scaling and method verification.  Candidate metrics:
@@ -16,3 +21,23 @@ inspected for this draft; therefore \texttt{BM-FEEL-THERMOMECA-01} remains
 \paragraph{Required owner input.}
 \todo{Provide the reviewed coupling equations, equivalence tolerance, reference
 dataset, Feel++ commit, launch configuration, machine description and raw results.}
+\begin{description}
+  \item[Method-Algorithm WP1:] finite element, multiphysics coupling
+  \item[Method-Algorithm WP3:] multiphysics coupling, domain decomposition methods, preconditioning
+  \item[Framework:] Feel++
+  \item[parallel\_framework:] MPI
+  \item[Benchmark scope:] multi-node, solver-scaling, method-verification
+  \item[metrics:] strong-scalability, time-to-solution, relative-error
+\end{description}
+\todo[app-feelpp-thermomeca-1 / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+Gmsh, JSON config
+
+\subsubsection{Output Data}
+HDF5 fields, CSV predictions
+
+\subsection{Results summary}
+\todo[app-feelpp-thermomeca-1 / results summary]{Results summary to be supplied by contributors.}
