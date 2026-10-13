@@ -15,7 +15,8 @@ def pr(head="current", requested=None, reviews=None):
 
 def test_unchanged_export_and_base_leave_existing_pr_alone():
     assert not needs_update(b"main", b"pending", b"pending", "base", "base")
-    actions = followups("current", pr(), [{"status": "completed"}])
+    actions = followups("current", pr(requested=[{"login": "Copilot"}]),
+                        [{"status": "completed"}])
     assert not actions["run_checks"]
     assert not actions["request_review"]
     assert not actions["enable_auto_merge"]
@@ -43,19 +44,27 @@ def test_existing_run_for_head_prevents_duplicate_dispatch(status):
 
 
 def test_missing_checks_are_repaired_without_repeated_review():
-    actions = followups("current", pr(), [])
+    actions = followups("current", pr(requested=[{"login": "Copilot"}]), [])
     assert actions["run_checks"]
     assert not actions["request_review"]
 
 
-def test_new_head_requests_review_but_already_requested_or_reviewed_does_not():
-    assert followups("old", pr(), [])["request_review"]
+def test_unchanged_head_retries_missing_review_without_repeating_checks():
+    actions = followups("current", pr(), [{"status": "completed"}])
+    assert actions["request_review"]
+    assert not actions["run_checks"]
+    assert not actions["enable_auto_merge"]
+
+
+@pytest.mark.parametrize("previous_head", ["old", "current"])
+def test_missing_review_is_requested_unless_pending_or_completed_for_head(previous_head):
+    assert followups(previous_head, pr(), [])["request_review"]
     requested = [{"login": "copilot-pull-request-reviewer[bot]"}]
-    assert not followups("old", pr(requested=requested), [])["request_review"]
+    assert not followups(previous_head, pr(requested=requested), [])["request_review"]
     reviews = [{"author": {"login": "Copilot"}, "commit": {"oid": "current"}}]
-    assert not followups("old", pr(reviews=reviews), [])["request_review"]
+    assert not followups(previous_head, pr(reviews=reviews), [])["request_review"]
     reviews[0]["commit"]["oid"] = "old"
-    assert followups("old", pr(reviews=reviews), [])["request_review"]
+    assert followups(previous_head, pr(reviews=reviews), [])["request_review"]
 
 
 def test_missing_auto_merge_is_enabled_once():

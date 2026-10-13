@@ -34,7 +34,6 @@ def followups(previous_head, pr, latex_runs):
     if [file["path"] for file in pr["files"]] != ["references.bib"]:
         raise ValueError("Bibliography automation PR must change only references.bib")
     head = pr["headRefOid"]
-    changed = head != previous_head
     requested = any(user.get("login") in COPILOT for user in pr["reviewRequests"])
     reviewed = any(review["author"]["login"] in COPILOT
                    and review["commit"]["oid"] == head for review in pr["reviews"])
@@ -42,7 +41,8 @@ def followups(previous_head, pr, latex_runs):
             # Queued, running, successful and failed runs all count. Do not retry
             # a failed build every hour; an explicit rerun remains possible.
             "run_checks": not latex_runs,
-            "request_review": changed and not requested and not reviewed,
+            # Retry an interrupted or failed request even when the head is unchanged.
+            "request_review": not requested and not reviewed,
             "enable_auto_merge": pr["autoMergeRequest"] is None}
 
 
