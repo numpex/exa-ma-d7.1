@@ -5,8 +5,32 @@
 {WP1}{mini-app}
 {Demonstrate weak and strong scalability of conforming constrained Delaunay triangulation for tetrahedral meshes and remeshing.}
 {CGAL, Intel TBB}{brainstorming}
+\subsection{Description of the benchmark}
+Demonstrate the weak and strong scalability of the conforming constrained delaunay triangulation algorithm for tetrahedral meshes and tetrahedral remeshing.
+
+\subsection{Benchmarking methodology}
+
 
 \paragraph{Proposed benchmark contract.}
 \texttt{BM-CGAL-CCDT3-01} is a proposed single-node thread-scaling study.
 \todo{Provide the executable, tetrahedral input series, conformity/quality
 acceptance criteria, baseline, machine and variability protocol.}
+\begin{description}
+  \item[Method-Algorithm WP1:] unstructured mesh
+  \item[Framework:] CGAL
+  \item[parallel\_framework:] Multithread - TBB
+  \item[Benchmark scope:] single-node
+  \item[metrics:] weak-scalability, strong-scalability
+\end{description}
+\todo[app-cgal-ccdt3 / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+\todo[app-cgal-ccdt3 / inputs]{Sheet field missing.}
+
+\subsubsection{Output Data}
+\todo[app-cgal-ccdt3 / outputs]{Sheet field missing.}
+
+\subsection{Results summary}
+\todo[app-cgal-ccdt3 / results summary]{Results summary to be supplied by contributors.}

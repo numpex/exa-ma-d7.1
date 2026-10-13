@@ -1,6 +1,8 @@
 %!TEX root = ../../../exa-ma-d7.1.tex
 
-\section{Demonstrator: FDA nozzle (incompressible Navier--Stokes)}
+\ApplicationFicheHeading{app-feelpp-discr-2}
+\textbf{Demonstrator: FDA nozzle (incompressible Navier--Stokes)}
+
 \label{sec:app:specs:app-feelpp-discr-2}
 
 This demonstrator solves the incompressible Navier--Stokes equations for the \emph{FDA medical device nozzle} using stabilized finite element methods (PSPG/SUPG). The benchmark, proposed by the US Food and Drug Administration, is widely used to assess stability, accuracy, and robustness of CFD solvers \cite{hariharan_multilaboratory_2011,stewart_assessment_2012}. The specifications mirror the elliptic PDE demonstrator in \Cref{sec:app:specs:app-feelpp-discr-1}, adapted to fluid dynamics, and use the \Feelpp fluid toolbox.
@@ -74,7 +76,9 @@ The FDA provides reference experimental data including axial velocity profiles a
 
 
 
-\subsection{Validation protocol and benchmarking tools}
+
+\subsection{Benchmarking methodology}
+\subsubsection{Validation protocol and benchmarking tools}
 
 The validation protocol follows the recommendations in \cite{hariharan_multilaboratory_2011,stewart_assessment_2012}:
 \begin{itemize}
@@ -159,3 +163,6 @@ Benchmark metrics include:
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Results summary}
+\todo[app-feelpp-discr-2 / results summary]{Results summary to be supplied by contributors.}

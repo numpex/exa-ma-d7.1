@@ -1,6 +1,8 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
-\section{Demonstrator: Preconditioning for Discrete Fracture Networks}
+\ApplicationFicheHeading{app-hpddm-dfn}
+\textbf{Demonstrator: Preconditioning for Discrete Fracture Networks}
+
 \label{sec:app:specs:app-hpddm-dfn}
 
 This mini-application is intended to evaluate PETSc/HPDDM preconditioners for
@@ -82,7 +84,9 @@ Subdomains shared by several MPI processes remain a prototype
 systems remain to be validated.
 
 
-\subsection{Benchmarking tools used}
+
+\subsection{Benchmarking methodology}
+\subsubsection{Benchmarking tools used}
 
 PETSc event logging, convergence monitoring and post-processing will provide the following metrics:
 
@@ -103,6 +107,59 @@ Setup, solve and transfer costs will be reported separately, with repeated
 runs to assess variability.
 
 
+
+\subsubsection{Preconditioner comparison}
+
+No validated measurements are reported here. The following comparisons are
+planned; results require identified datasets, configurations and raw logs.
+
+The preconditioner comparison will assess:
+
+\begin{itemize}
+\item \textbf{AMG methods:} Measure convergence, setup and solve costs for HYPRE BoomerAMG and GAMG.
+
+\item \textbf{One-level Schwarz (Additive Schwarz Method):} Measure iteration time and iteration-count growth with subdomain count.
+
+\item \textbf{Two-level HPDDM:} Measure the effect of coarse-grid correction on convergence and scalability, including setup cost and its amortization over multiple solves.
+
+\item \textbf{Direct solvers:} Use MUMPS and PaStiX as comparison baselines where memory permits; verify reference-solution accuracy, especially for ill-conditioned systems.
+
+\item \textbf{Mixed-precision:} Compare supported precision configurations with an FP64 baseline, measuring memory, time, convergence, and solution error according to \cref{sec:app:specs:app-petsc-mixed-precision}.
+\end{itemize}
+
+\subsubsection{Strong scalability}
+
+For a fixed, identified DFN problem (DFN-large, 10M unknowns):
+\begin{itemize}
+\item Measure speedup and parallel efficiency with two-level HPDDM
+\item Track iteration-count growth for one-level methods
+\item Quantify communication overhead as the process count increases
+\item Compare CPU and CUDA configurations, including host work and transfer costs during setup and application
+\end{itemize}
+
+\subsubsection{Weak scalability}
+
+For a documented problem sequence with controlled work (100k unknowns) per process:
+\begin{itemize}
+\item Track iteration counts for two-level HPDDM
+\item Measure time per iteration and the contribution of coarse-grid communication
+\item Report parallel efficiency relative to an identified baseline
+\item Measure memory per process as the global problem grows
+\end{itemize}
+
+\subsubsection{Time-to-solution}
+
+For each identified DFN problem at fixed residual and solution-error targets, report:
+\begin{itemize}
+\item Two-level HPDDM: setup and solve times, iteration count and resources
+\item One-level Schwarz: setup and solve times, iteration count and resources
+\item BoomerAMG: setup and solve times, iteration count and resources
+\item MUMPS direct solve: factorization and solve times, memory use and resources
+\end{itemize}
+
+\todo{Publish the versioned driver, datasets, numerical acceptance criteria,
+machine and allocation requirements, measurement methods, repetition count,
+raw logs and analysis scripts; reconcile the declared application status.}
 
 \subsection{Input/Output Dataset Description}
 
@@ -166,61 +223,4 @@ Metrics:
 
 
 \subsection{Results summary}
-
-\subsubsection{Preconditioner comparison}
-
-No validated measurements are reported here. The following comparisons are
-planned; results require identified datasets, configurations and raw logs.
-
-The preconditioner comparison will assess:
-
-\begin{itemize}
-\item \textbf{AMG methods:} Measure convergence, setup and solve costs for HYPRE BoomerAMG and GAMG.
-
-\item \textbf{One-level Schwarz (Additive Schwarz Method):} Measure iteration time and iteration-count growth with subdomain count.
-
-\item \textbf{Two-level HPDDM:} Measure the effect of coarse-grid correction on convergence and scalability, including setup cost and its amortization over multiple solves.
-
-\item \textbf{Direct solvers:} Use MUMPS and PaStiX as comparison baselines where memory permits; verify reference-solution accuracy, especially for ill-conditioned systems.
-
-\item \textbf{Mixed-precision:} Compare supported precision configurations with an FP64 baseline, measuring memory, time, convergence, and solution error according to \cref{sec:app:specs:app-petsc-mixed-precision}.
-\end{itemize}
-
-\subsubsection{Strong scalability}
-
-For a fixed, identified DFN problem (DFN-large, 10M unknowns):
-\begin{itemize}
-\item Measure speedup and parallel efficiency with two-level HPDDM
-\item Track iteration-count growth for one-level methods
-\item Quantify communication overhead as the process count increases
-\item Compare CPU and CUDA configurations, including host work and transfer costs during setup and application
-\end{itemize}
-
-\subsubsection{Weak scalability}
-
-For a documented problem sequence with controlled work (100k unknowns) per process:
-\begin{itemize}
-\item Track iteration counts for two-level HPDDM
-\item Measure time per iteration and the contribution of coarse-grid communication
-\item Report parallel efficiency relative to an identified baseline
-\item Measure memory per process as the global problem grows
-\end{itemize}
-
-\subsubsection{Time-to-solution}
-
-For each identified DFN problem at fixed residual and solution-error targets, report:
-\begin{itemize}
-\item Two-level HPDDM: setup and solve times (12 seconds), iteration count (45 iterations) and resources
-\item One-level Schwarz: setup and solve times (28 seconds), iteration count (180 iteraitons) and resources
-\item BoomerAMG: setup and solve times (35 seconds), iteration count (95 iterations) and resources
-\item MUMPS direct solve: factorization and solve times (45 seconds), memory use and resources
-\end{itemize}
-
-The \texttt{benchmark-ready} value is the status declared in the Applications sheet.
-The benchmark registry records \texttt{BM-HPDDM-DFN-01} as specification complete,
-with no accepted result for the v2.90.0 integration draft and missing
-application repository, configurations and raw data.
-\todo{Publish the versioned driver, datasets, numerical acceptance criteria,
-machine and allocation requirements, measurement methods, repetition count,
-raw logs and analysis scripts; reconcile the declared application status.}
-
+\ApplicationBenchmarkResults{app-hpddm-dfn}

@@ -5,6 +5,8 @@
 {WP3}{mini-app}
 {Study performance, convergence and numerical accuracy effects of mixed precision in PETSc Krylov solvers and preconditioners.}
 {PETSc, HPDDM, MUMPS; MPI and OpenMP}{implementation-in-progress}
+\subsection{Description of the benchmark}
+Provide a benchmark framework to study the effects of mixed precision on PETSc Krylov solvers and preconditioners in terms of performance, convergence, and numerical accuracy.
 
 \paragraph{Scientific objective and scope.}
 This matrix-based mini-app will assess whether reduced precision in selected
@@ -13,6 +15,9 @@ energy-to-solution while meeting prescribed residual and solution-error
 tolerances. The baseline is a full double-precision solve of the same linear
 system. The matrix suite and supported precision combinations remain to be
 selected.
+
+\subsection{Benchmarking methodology}
+
 
 \paragraph{Relation to the 2026 developments.}
 The PETSc-native CPU/CUDA backend of \texttt{PCHPDDM}, released with HPDDM 2.4.0
@@ -23,20 +28,6 @@ will be reported separately from precision comparisons. Subdomains shared
 by several MPI processes remain a prototype
 (\cref{tab:advance:WP3-A2026-3}); no validation of that feature by this
 application is reported here.
-
-\paragraph{Inputs, outputs and validation.}
-Planned inputs are matrices and right-hand sides in PETSc binary or Matrix
-Market format, versioned solver options, and reference solutions with a
-documented accuracy assessment. Each configuration will specify storage
-and arithmetic precision for the operator, outer iteration, residual
-evaluation, preconditioner, and local and coarse solves, as applicable.
-Outputs will include the solution, convergence reason, iteration count,
-residual history, phase timings and raw measurements.
-Validation will independently recompute the true residual using the original
-system in double precision and compare the solution with the reference.
-Residual and solution-error thresholds will be fixed before benchmarking;
-a small residual alone will not be treated as evidence of small solution
-error. Failed or stagnating solves will also be reported.
 
 \paragraph{Benchmark contract.}
 \texttt{BM-PETSC-MIXED-01} will compare supported precision configurations
@@ -59,3 +50,37 @@ benchmark campaign.
 precision configurations, numerical acceptance thresholds, exact software
 versions or commits and build options, machine and resource requirements,
 energy measurement method, repetition count, raw logs and analysis scripts.}
+
+\begin{description}
+  \item[Method-Algorithm WP3:] direct solver, multi-precision, domain decomposition methods, krylov solver, preconditioning
+  \item[Framework:] PETSc, HPDDM, MUMPS
+  \item[parallel\_framework:] MPI, Multithread - OpenMP
+  \item[Benchmark scope:] solver-scaling
+  \item[metrics:] time-to-solution, energy-to-solution
+\end{description}
+
+\subsection{Input/Output Dataset Description}
+
+\paragraph{Inputs, outputs and validation.}
+Planned inputs are matrices and right-hand sides in PETSc binary or Matrix
+Market format, versioned solver options, and reference solutions with a
+documented accuracy assessment. Each configuration will specify storage
+and arithmetic precision for the operator, outer iteration, residual
+evaluation, preconditioner, and local and coarse solves, as applicable.
+Outputs will include the solution, convergence reason, iteration count,
+residual history, phase timings and raw measurements.
+Validation will independently recompute the true residual using the original
+system in double precision and compare the solution with the reference.
+Residual and solution-error thresholds will be fixed before benchmarking;
+a small residual alone will not be treated as evidence of small solution
+error. Failed or stagnating solves will also be reported.
+
+
+\subsubsection{Input Data}
+PETSc binary, Matrix Market
+
+\subsubsection{Output Data}
+Residual history, CSV logs
+
+\subsection{Results summary}
+\todo[app-petsc-mixed-precision / results summary]{Results summary to be supplied by contributors.}
