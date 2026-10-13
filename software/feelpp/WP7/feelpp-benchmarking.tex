@@ -1,0 +1,51 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{Software: feelpp-benchmarking}
+\label{sec:WP7:Feel++:software:feelpp-benchmarking}
+
+
+Feelpp-benchmarking is an Open Source framework conceived to facilitate and simplify benchmarking tasks in HPC systems.
+It is based on ReFrame, and handles benchmark execution, result collection and reporting.
+The framework can be used to centralize benchmarks within an organization, to ensure reproducibility and to set up continuous benchmarking pipelines.
+
+The source code is available at \url{https://github.com/feelpp/benchmarking} and the documentation is available at \url{https://bench.feelpp.org/benchmarking/tutorial/index.html}.
+Feelpp-benchmarking is released under the \textbf{BSD 3-Clause License} and sits currently at version \textbf{4.1.0}.
+
+Within the context of this deliverable, feelpp-benchmarking is used to automate benchmarking campaigns for multiple mini-apps and software demonstrators. It automates their execution across different HPC systems and configurations.
+
+\subsection{Core Architecture and Pipeline}
+
+The feelpp-benchmarking framework abstracts the complexities of HPC interactions by separating test logic from low-level system setup.
+Upon execution, feelpp-benchmarking initiates a preprocessing stage that parses configurations, pulls required container images and resolves remote file dependencies.
+For each benchmark, it executes the following pipeline using ReFrame as the underlying engine:
+
+\begin{enumerate}
+\item \textbf{Environment Setup:} Allocates computing resources, configures partition/environment combinations, and applies specific launcher and scheduler settings.
+\item \textbf{Benchmark Execution:} Dispatches jobs based on the parameter space defined in the benchmark configuration, allowing automated exploration across varying task counts, node allocations, and problem sizes.
+\item \textbf{Sanity and Performance:} Validates the correctness of the application execution by parsing outputs, either from custom files or from standard output using regular expressions. It simultaneously extracts targeted performance variables (e.g. computation times, algorithmic complexity metrics) from arbitrary outputs (e.g. nested JSON files, CSV files, text logs, or standard output).
+\item \textbf{Cleanup and Reporting:} After execution, the framework cleans up temporary files, collects logs, and generates structured reports. The framework automatically renders and compiles a comprehensive web dashboard using Antora, equipped with persistent reporting views.
+\end{enumerate}
+
+
+\subsection{Benchmark Configuration and Customization}
+
+The flexibility of feelpp-benchmarking relies on four primary JSON configuration files, which use a dynamic placeholder syntax for runtime variable access.
+
+\begin{itemize}
+\item \textbf{System Settings:} Inherited from ReFrame, this file describes the physical HPC architecture, system partitions and programming environments ( modules and software stacks ).
+\item \textbf{Machine Specifications:} Filters available partitions and environments for specific tests, defines job submission strategies ( serial or asynchronous ), and configure base directory paths to manage inputs and outputs.
+\item \textbf{Benchmark Specifications:} The core test definition containing the executable path and execution parameters. It includes native parameter generators to automate large-scale parameter sweeps. It also specifies sanity check patterns and scalability instructions defining how to validate and extract performance metrics.
+\item \textbf{Report Configuration:} Defines all the visual representation of the results on the generated dhasboard. This configuration accepts a wide range of text and figure blocks, such as tables, plots, images, and LaTeX.
+\end{itemize}
+
+
+\subsection{HPC System Integration and Reproducibility}
+
+Feelpp-benchmarking is designed to seamlessly integrate with diverse HPC environments, it provides built-in solutions for common benchmarking challenges:
+
+\begin{itemize}
+\item \textbf{Containerization Support:} The framework supports Singularity/Apptainer containers, ensuring consistent execution across different HPC clusters. Feelpp-benchmarking manages image pulls, and automatically configures the execution environment to leverage containerized applications.
+\item \textbf{Reprocubility and Version Control:} Feelpp-benchmarking is designed to be version controlled alongside the execution code in order to track changes in benchmark definitions, configurations, and scripts. This ensures that benchmarks can be reproduced accurately over time, even as underlying software evolves.
+\item \textbf{Continuous Benchmarking Pipelines:} The framework can be integrated into continuous integration/continuous deployment (CI/CD) pipelines, enabling automated benchmarking as part of the software development lifecycle. This allows for early detection of performance regressions and ensures that new code changes do not negatively impact the performance baselines.
+\end{itemize}
+
+

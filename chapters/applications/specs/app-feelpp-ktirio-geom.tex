@@ -4,15 +4,81 @@
 {V. Chabannes; C. Prud'homme}
 {WP1}{demonstrator}
 {Generate a city mesh including elevation, roads, water bodies and land markers.}
-{Feel++, CGAL, multithreaded execution}{benchmark-in-progress}
+{Feel++, CGAL, multithreaded execution}{benchmark-ready}
 
 \paragraph{Versioned implementation evidence.}
 At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{\texttt{bf1febf}},
-the application repository contains Grenoble and Perlin terrain JSON inputs and
-plot configurations under \texttt{src/ktirio-geom/terrain}.  This proves an
-executable configuration exists, not that benchmark results are available.
+the application repository contains Grenoble, Tokyo and Perlin terrain JSON inputs and
+plot configurations under \texttt{src/ktirio-geom/terrain}.
 
 \paragraph{Benchmark contract.}
-\texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and
-time-to-solution.  \todo{Clarify how Sheet weak/strong scalability metrics apply
-to the single-node scope; add machine, thread counts, repetitions and raw data.}
+\texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and time-to-solution.
+Within this single-node scope, strong scalability is evaluated by maintaining a fixed global problem size (the 81-tile Tokyo grid) while scaling the worker thread count ($t \in \{1, 2, 4, 8, 16, 32, 64\}$) to measure the reduction in time-to-solution.
+Weak scalability is excluded for this specific use case.
+All benchmarks were executed on a single 128-core compute node of the Gaya supercomputer.
+Testing is intentionally capped at 64 threads to match the physical boundaries of a single CPU socket and the available task-level parallelism.
+Measurements reflect a single execution pass per thread count, with raw timing metrics exported directly as JSON files.
+
+
+\subsection{Description of the benchmark}
+
+The benchmark assesses the ability of Ktirio-Geom to generate simulation-ready city meshes from heterogeneous geospatial data.
+The objective is to characterize the execution time of the terrain generation pipeline and the scalability of its multithreaded processing stages on a single compute node.
+The workflow is designed to construct a watertight and conforming 3D surface triangulation of a city environment by merging raw elevation height fields with GIS overlay data (such as buildings, roads, and water bodies).
+
+The resulting mesh represents the terrain surface, with elevation and GIS features incorporated into the geometric representation.
+Feature tags are preserved to support subsequent visualization, simulation preprocessing, and geometric analysis.
+
+
+
+\subsection{Benchmarking methodology}
+\subsubsection{Benchmarking tools used}
+
+This benchmark was performed on the gaya supercomputer, using feelpp.benchmaring v4.0.0.
+Performance measurements were collected using internal timing instrumentation integrated into Ktirio-Geom.
+Each stage of the pipeline reports elapsed wall-clock time, with additional per-thread statistics for multithreaded sections.
+
+For tile-level parallel operations, the benchmark reports the longest executing thread, reflecting the critical path and providing a conservative estimate of scalability limits.
+
+
+\subsection{Input/Output Dataset Description}
+
+
+\subsubsection{Input Data:}
+
+The considered use case for this benchmark is the generation of a city mesh for Tokyo.
+The domain consists of a $9 \times 9$ tile grid at zoom level 16, around $\sim 20 \text{ km}^2$.
+
+The experiments were conducted on a single Gaya compute node equipped with 128 physical CPU cores. The benchmark uses up to 64 worker threads and does not rely on hyperthreading.
+
+The input data consists of:
+
+\begin{itemize}
+    \item Elevation grids representing terrain height fields
+    \item Overlay features in GIS format, for buildings, roads, water bodies, landuse, etc.
+    \item Vertical separation between contour lines is set to 10m.
+    \item The simplification threshold influencing contour line simplification is set to 0.1. Meaning that around 10\% of points from each contour line will be conserved.
+\end{itemize}
+
+\subsubsection{Output Data:}
+
+The output consists of a conforming terrain surface triangulation, with tagged features (water,roads,buildings,... ) and timing metrics for each major processing stage. These outputs are suitable for visualization, simulation preprocessing, and further geometric analysis.
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{feelpp/feelpp-benchmark-terrain_mesh_tokyo_full.png}
+    \subcaption{Full-domain view of the generated Tokyo terrain mesh.}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{feelpp/feelpp-benchmark-terrain_mesh_tokyo_detail.png}
+    \subcaption{Detailed view of the generated triangulation.}
+  \end{minipage}
+  \caption{Generated terrain mesh for the Tokyo test case.}
+  \label{fig:terrain_mesh_output}
+\end{figure}
+
+\subsection{Results summary}
+\ApplicationBenchmarkResults{app-feelpp-ktirio-geom}

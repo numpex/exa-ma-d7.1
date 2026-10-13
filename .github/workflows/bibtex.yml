@@ -2,11 +2,14 @@ name: Retrieve Zotero bibliography
 
 on:
   schedule:
-    - cron: '17 5 * * *'
+    # Hourly polling; unchanged exports do not update the pending PR.
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
+  actions: write
 
 concurrency:
   group: zotero-bibliography
@@ -18,9 +21,11 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: astral-sh/setup-uv@v6
       - name: Test bibliography reconciliation
-        run: uv run --no-project --python 3.11 --with pytest --with bibtexparser==1.4.3 python -m pytest tests/test_bibliography.py -q --disable-warnings
+        run: uv run --no-project --python 3.11 --with pytest --with bibtexparser==1.4.3 python -m pytest tests/test_bibliography.py tests/test_bibliography_pr.py -q --disable-warnings
       - name: Retrieve and validate bibliography
         env:
           ZOTERO_API_KEY: ${{ secrets.ZOTERO_API_KEY }}
@@ -35,15 +40,63 @@ jobs:
           path: bibliography-report.json
           if-no-files-found: warn
           retention-days: 30
-      - name: Commit bibliography only when changed
+      - name: Check pending bibliography changes
+        id: bibliography_before
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: uv run --no-project --python 3.11 python scripts/bibliography_pr.py inspect
+      - name: Open or update bibliography pull request
+        if: steps.bibliography_before.outputs.update_needed == 'true'
+        id: bibliography_pr
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          add-paths: references.bib
+          base: main
+          branch: automation-zotero-bibliography
+          delete-branch: true
+          commit-message: "chore: retrieve Zotero bibliography"
+          title: "Update Zotero bibliography"
+          body: |
+            Refresh the shared Zotero bibliography while preserving existing citation keys.
+
+            The retrieval report is available in the bibliography workflow artifacts.
+            Auto-merge is enabled; GitHub merges after the required review,
+            LaTeX checks, and branch protections are satisfied.
+      - name: Plan bibliography PR checks and review
+        id: bibliography_plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PREVIOUS_HEAD: ${{ steps.bibliography_before.outputs.previous_head }}
+        run: uv run --no-project --python 3.11 python scripts/bibliography_pr.py plan --previous-head "$PREVIOUS_HEAD"
+      # Explicit dispatch ensures checks run for a PR created with GITHUB_TOKEN.
+      - name: Run LaTeX checks on the bibliography branch
+        if: steps.bibliography_plan.outputs.run_checks == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPDATE_BRANCH: automation-zotero-bibliography
+          PR_URL: ${{ steps.bibliography_plan.outputs.url }}
         run: |
-          if git diff --quiet -- references.bib; then
-            echo "Bibliography unchanged" >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-          git add references.bib
-          git -c core.hooksPath=/dev/null commit -m "chore: retrieve Zotero bibliography"
-          git push
-          echo "Updated references.bib from Zotero" >> "$GITHUB_STEP_SUMMARY"
+          gh workflow run latex.yml --ref "$UPDATE_BRANCH"
+          echo "Bibliography update proposed: $PR_URL" >> "$GITHUB_STEP_SUMMARY"
+      - name: Request Copilot review for the bibliography pull request
+        if: steps.bibliography_plan.outputs.request_review == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.bibliography_plan.outputs.number }}
+        run: |
+          # Fail closed if the automation PR contains any other file.
+          gh pr view "$PR_NUMBER" --json files --jq '.files[].path' > /tmp/bibliography-pr-files
+          test "$(cat /tmp/bibliography-pr-files)" = 'references.bib'
+          gh api "repos/$GH_REPO/pulls/$PR_NUMBER/requested_reviewers" \
+            --method POST -f 'reviewers[]=copilot-pull-request-reviewer[bot]'
+      - name: Enable auto-merge for the bibliography pull request
+        if: steps.bibliography_plan.outputs.enable_auto_merge == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ steps.bibliography_plan.outputs.url }}
+          PR_HEAD: ${{ steps.bibliography_plan.outputs.head }}
+        run: |
+          gh pr merge "$PR_URL" --auto --squash --match-head-commit "$PR_HEAD"
