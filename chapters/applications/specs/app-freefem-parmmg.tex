@@ -1,6 +1,8 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
-\section{Demonstrator: Parallel Anisotropic Mesh Adaptation with ParMmg}
+\ApplicationFicheHeading{app-freefem-parmmg}
+\textbf{Demonstrator: Parallel Anisotropic Mesh Adaptation with ParMmg}
+
 \label{sec:app:specs:app-freefem-parmmg}
 
 This demonstrator evaluates ParMmg for distributed anisotropic mesh adaptation within the FreeFEM++ framework. The benchmark uses the classic Fichera corner problem to assess adaptive mesh refinement strategies and end‑to‑end workflow integration.
@@ -78,7 +80,19 @@ Performance metrics focus on:
 \item Solver convergence on adapted meshes
 \end{itemize}
 
-\subsection{Expected results}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+in-house, YAML config
+
+\subsubsection{Output Data}
+VTK, PETSc binary, XML reports
+
+\subsection{Results summary}
+\todo[app-freefem-parmmg / results summary]{Results summary to be supplied by contributors.}
+
+\subsubsection{Expected results}
 
 The demonstrator validates:
 \begin{itemize}

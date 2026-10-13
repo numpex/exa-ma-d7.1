@@ -5,12 +5,17 @@
 {WP1, WP3, WP7}{extended-mini-app}
 {Benchmark the forward nonlinear thermoelectric high-field-magnet model at fixed accuracy, including solver behaviour, device residency and CPU/APU performance.}
 {Feel++, PETSc, HPDDM; MPI, Kokkos and HIP}{implementation-in-progress}
-
+\subsection{Description of the benchmark}
+Forward-performance benchmark: solve the nonlinear thermo-electric high-field-magnet model at fixed accuracy and expose state fields, nonlinear/linear solver behaviour, device residency and CPU/APU performance; no inverse or control objective is introduced in this application.
 \paragraph{Scope boundary.}
 This record covers only the shared forward operator.  Parameter inversion and
 optimal control are separate applications.  The Sheet describes a future MI300A
 campaign; this integration draft does not present that allocation or campaign as
 a completed result.
+
+
+\subsection{Benchmarking methodology}
+
 
 \paragraph{Evidence and benchmark contract.}
 The inspected \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{application commit}
@@ -20,3 +25,23 @@ establish a dedicated executable benchmark or MI300A result for this ID.
 \texttt{BM-FEEL-MI300A-01} therefore remains implementation in progress.
 \todo{Pin the executable/config, input data, native and container environments,
 MI300A topology, fixed-accuracy baseline, repetitions and raw-data location.}
+\begin{description}
+  \item[Method-Algorithm WP1:] high-order cG/H1 and HDG, full/partial/matrix-free assembly, homogeneous worksets, facets, traces, coupled blocks, skeleton terms
+  \item[Method-Algorithm WP3:] PETSc/HPDDM Krylov solvers, preconditioning, nonlinear and block solvers, device-resident sparse algebra
+  \item[Framework:] Feel++, PETSc, HPDDM
+  \item[parallel\_framework:] MPI, Kokkos, GPU - HIP, Multithread - OpenMP
+  \item[Benchmark scope:] single-node, multi-node, multi-gpu, full-system, method-verification, solver-scaling
+  \item[metrics:] forward-residual, discretization-error, fixed-accuracy, time-to-solution, time-to-precision, nonlinear-and-linear-iterations, assembly-cost, solve-cost, memory-residency, host-device-transfers, strong-scalability, weak-scalability, multi-APU-scalability
+\end{description}
+\todo[app-feelpp-mi300a-fem / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+Gmsh, JSON config, Spack environment, Apptainer image
+
+\subsubsection{Output Data}
+Electric potential $\varphi$, temperature T, unknown potential drop $\Delta$V, current density J, Joule losses, JSON/CSV performance reports, profiles, HDF5 fields, reproducible native and container environments
+
+\subsection{Results summary}
+\todo[app-feelpp-mi300a-fem / results summary]{Results summary to be supplied by contributors.}

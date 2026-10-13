@@ -1,6 +1,11 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
-\section{Demonstrator: Elliptic linear PDE: CG}
+\ApplicationFicheHeading{app-feelpp-discr-1}
+\textbf{Demonstrator: Elliptic linear PDE: CG}
+
+
+\todo{Update benchmarking results}
+
 \label{sec:app:specs:app-feelpp-discr-1}
 
 This demonstrator solves an elliptic linear PDE (heat equation) using a continuous Galerkin approach.
@@ -100,8 +105,9 @@ of this benchmark and the domain decomposition by material.% the 3D temperature 
 
 
 
-\subsection{Benchmarking tools used}
 
+\subsection{Benchmarking methodology}
+\subsubsection{Benchmarking tools used}
 
 The performance tools integrated into the \Feelpp-toolboxes framework were used to measure the execution time.
 
@@ -131,7 +137,7 @@ We enumerate these parts in the following:
     database management, in the \Feelpp collections.
   \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
     file and JSON file. These config files are present in the GitHub of \Feelpp.
-  \item Sif image: \texttt{feelpp:v0.111.0-preview.10-noble-sif}  (stored in the GitHub registry of \Feelpp)
+  \item Sif image: \texttt{feelpp:v0.111.0-preview.13-noble-sif}  (stored in the GitHub registry of \Feelpp)
   \end{itemize}
 
 \subsubsection{Output Data:}
@@ -172,250 +178,4 @@ Metric:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Results summary}
-
-The thermal bridges benchmark has been executed on the Discoverer supercomputer at Unistra for the three mesh refinement levels (M1, M2, M3) using finite element approximations of order 1, 2, and 3. The results demonstrate both the accuracy of the numerical method through comparison with ISO 10211:2017 reference values, and the scalability of the implementation across multiple processors.
-
-\subsubsection{Numerical solution}
-
-\Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:visualization} shows the computed temperature field and the mesh partitioning used for parallel computation. The temperature distribution exhibits the expected heat transfer patterns through the thermal bridge, with the coldest regions in blue and the warmest in red. The partitioning visualization (right panel) demonstrates the load balancing strategy employed by the domain decomposition method, where different colors represent different processor domains.
-
-\begin{figure}[!ht]
-  \centering
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-solution.png}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{graphics/feelpp/feelpp-benchmark-thermalbridges-pid.png}
-  \end{subfigure}
-  \caption{Thermal bridges benchmarks - temperature solution (left) and
-    partitioning example (right)}
-  \label{fig:spec:app-feelpp-discr-1:thermal_bridges:visualization}
-\end{figure}
-
-
-\subsubsection{Mesh convergence}
-
-The convergence study validates the numerical accuracy of the \Feelpp implementation against the reference values provided by the ISO 10211:2017 standard. \Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:measures_convergences} presents the convergence of key validation measures as a function of mesh refinement level.
-
-The results demonstrate excellent agreement with reference values (shown as red dashed lines) for all three finite element orders ($\mathP_1$, $\mathP_2$, $\mathP_3$). Key observations include:
-\begin{itemize}
-\item \textbf{Heat flux measurements:} All three polynomial orders converge to the reference values for heat flow measurements in the $\alpha$, $\beta$, and $\gamma$ environments (46.09 W, 13.89 W, and 59.98 W respectively).
-\item \textbf{Temperature measurements:} The minimum surface temperature in the $\alpha$ environment converges to the reference value of 11.32°C across all mesh levels.
-\item \textbf{Convergence rates:} Higher-order finite elements ($\mathP_2$ and $\mathP_3$) achieve better accuracy on coarser meshes, demonstrating the efficiency of high-order methods for smooth solutions.
-\item \textbf{Tolerance compliance:} All computed values fall within the tolerances specified by the ISO standard, confirming the correctness of the implementation.
-\end{itemize}
-
-The benchmark metric \texttt{benchmark-verification} confirms that the \Feelpp thermal toolbox meets the accuracy requirements for building thermal analysis applications.
-
-
-\begin{figure}[ht]
-  \centering
-  \captionsetup[subfigure]{justification=centering}
-
-  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_measures.csv}\dataTableMeasures
-  \def\myLineWidth{2pt}
-  \def\myLineStyleA{loosely dashdotdotted} %dashdotdotted
-  \def\myLineStyleB{dashed}
-  \def\myLineStyleC{solid}
-
-  \def\myAddPlot#1#2#3#4{
-    \addplot[#3,every mark/.append style={solid},
-    % x filter/.expression={(\thisrow{PolyOrder} == 1 ?  \pgfmathparse{\thisrow{Mesh}}\pgfmathresult :NaN)},
-    % x filter/.expression={ \thisrow{FunctionSpace} == \thisrow{FunctionSpace} ? \pgfmathresult
-    % x filter/.expression={(\thisrow{FunctionSpace} == P1 ? \pgfmathresult :NaN )},
-      x filter/.code={
-        \pgfmathparse{\thisrow{PolyOrder}==#2}
-        \ifnum0=\pgfmathresult
-        \pgfmathsetmacro{\newx}{nan}
-      \else
-        \pgfmathsetmacro{\newx}{\thisrow{Mesh}}
-      \fi
-      \pgfmathparse{\newx}
-      },
-      y filter/.expression={ #4*\pgfmathresult }
-    ] table [x=Mesh, y=#1] {\dataTableMeasures};
-  }
-
-  \def\myPlotOutputMeasures#1#2#3#4{
-    \resizebox{\textwidth}{0.6172\textwidth}{
-      \begin{tikzpicture}
-        \begin{axis}[
-          width=\textwidth, height=0.6172\textwidth,
-          % width=\textwidth, height=1.2\textheight,
-          xtick=data,
-          xticklabel={M$\pgfmathprintnumber{\tick}$},
-          xmajorgrids=true,% xminorgrids=false, minor x tick num=3,
-          ymajorgrids=true, yminorgrids=true,
-          minor y tick num=2,
-          % xticklabel={\pgfmathparse{100*\tick}\pgfmathprintnumber[precision=0]{\pgfmathresult}\%},
-          % xticklabel={\pgfmathparse{\tick}\pgfmathprintnumber[fixed,set thousands separator={},precision=0]{\pgfmathresult}},
-          xlabel={Mesh levels}, ylabel={#4},
-          % legend style={at={(0.5,1)}, anchor=south,font=\small,legend columns=3}
-          % legend style={at={(0.,1)}, anchor=north west,font=\small,legend
-          % columns=3},
-          legend style={at={(0.,1)}, anchor=south west,font=\small,legend columns=4},
-          % #2
-          ]
-
-          \myAddPlot{#1}{1}{color=customdarkblue,\myLineStyleC,mark=o,line width=\myLineWidth}{#2}
-          \addlegendentry{P1}
-          \myAddPlot{#1}{2}{color=customcyan,\myLineStyleC,mark=triangle,line width=\myLineWidth}{#2}
-          \addlegendentry{P2}
-          \myAddPlot{#1}{3}{color=customorange,\myLineStyleC,mark=square,line width=\myLineWidth}{#2}
-          \addlegendentry{P3}
-          \addplot+[color=red,\myLineStyleB,mark=none,line width=\myLineWidth,every mark/.append style={solid}] coordinates {
-            (1,#3) (3,#3)
-          };
-          \addlegendentry{Ref}
-
-        \end{axis}
-      \end{tikzpicture}
-    }
-
-  }
-
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \myPlotOutputMeasures{Normal_Heat_Flux_alpha}{1}{46.09}{Heat flow [W]}
-    \caption{Heat flow measured in $\alpha$ environment}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \myPlotOutputMeasures{Normal_Heat_Flux_beta}{1}{13.89}{Heat flow [W]}
-    \caption{Heat flow measured in $\beta$ environment}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \vspace*{0.03\textheight}
-    \myPlotOutputMeasures{Normal_Heat_Flux_gamma}{-1}{59.98}{Heat flow [W]} % warning inverse
-    \caption{Heat flow measured in $\gamma$ environment}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[c]{0.49\textwidth}
-    \centering
-    \vspace*{0.03\textheight}
-    \myPlotOutputMeasures{Statistics_temperature_alpha_min}{1}{11.32}{Temperature
-      [°C]}
-    \caption{Surface temperature min in $\alpha$ environment}
-  \end{subfigure}
-
-  \caption{Thermal bridges benchmarks - Convergence of validation measures compared to references values}
-  \label{fig:spec:app-feelpp-discr-1:thermal_bridges:measures_convergences}
-\end{figure}
-
-
-
-\subsection{Times of execution}
-
-The performance analysis focuses on the scalability of the main computational components: initialization, assembly, solving, and post-processing. Execution times were measured on the Discoverer supercomputer at Unistra for strong scalability tests, where the problem size remains constant while increasing the number of processors.
-
-\Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M1,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M2,fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M3} present both grouped and stacked bar charts showing the execution time breakdown for each mesh level and polynomial order. Key performance insights include:
-
-\begin{itemize}
-\item \textbf{Initialization:} The mesh loading and toolbox initialization (blue bars) shows good scalability, with decreasing times as processor count increases. This validates the efficiency of the parallel mesh partitioning strategy.
-
-\item \textbf{Assembly:} The finite element assembly phase (cyan bars) represents a significant portion of total time and scales well for all mesh levels. Higher-order elements ($\mathP_3$) require more assembly time due to increased quadrature points and local matrix sizes.
-
-\item \textbf{Post-processing:} The export and validation phase (orange bars) remains relatively constant across processor counts, as it involves I/O operations that are less amenable to parallelization.
-
-\item \textbf{Strong scalability:} The total execution time decreases as the number of processors increases from 1 to 96, demonstrating effective parallel efficiency. The speedup is particularly pronounced for the larger meshes (M2 and M3) where the computational workload per processor remains substantial.
-
-\item \textbf{Load balancing:} The consistent performance across different processor counts indicates effective domain decomposition and minimal load imbalance.
-\end{itemize}
-
-The benchmark metrics \texttt{strong-scalability} and \texttt{weak-scalability} confirm that the \Feelpp implementation achieves efficient parallel performance suitable for large-scale thermal analysis applications.
-
-
-\foreach [expand list=true] \meshId in {1,2,3} {
-
-  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_M\meshId_P1_discoverer.csv}\dataPa
-  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_M\meshId_P2_discoverer.csv}\dataPb
-  \pgfplotstableread[col sep=comma]{software/feelpp/WP1/data/thermalbridges_M\meshId_P3_discoverer.csv}\dataPc
-
-  \begin{figure}
-    \centering
-    \def\plotSetup##1{
-      {table=##1,column=init,legend=Init,color=customdarkblue},
-      {table=##1,legend=Assembly,column=algebraic-assembly,color=customcyan},
-      %{table=##1,legend=Solve,column=algebraic-solve,color=customorange},
-      {table=##1,legend=PostProcess,column=exportResults,color=customorange}
-    }
-    \def\chartBarPlot##1##2{
-      \barChart[ybar,
-      width=\textwidth, height=0.6172\textwidth,
-      xticklabels from table={##2}{nProc},
-      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
-      ]{\plotSetup{##1}}
-    }
-    \def\chartBarStackedPlot##1##2{
-      \barChart[ybar stacked,
-      width=\textwidth, height=0.6172\textwidth,
-      xticklabels from table={##2}{nProc},
-      legend style={at={(0.5,1)}, anchor=south,font=\tiny,legend columns=-1}
-      ]{\plotSetup{##1}}
-    }
-
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarPlot{dataPa}{\dataPa}
-      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarStackedPlot{dataPa}{\dataPa}
-      \caption{\texttt{M\meshId} - \texttt{$P_1$}}
-    \end{subfigure}
-    \hfill
-    \vspace*{0.04\textwidth}
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarPlot{dataPb}{\dataPb}
-      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarStackedPlot{dataPb}{\dataPb}
-      \caption{\texttt{M\meshId} - \texttt{$P_2$}}
-    \end{subfigure}
-    \hfill
-    \vspace*{0.04\textwidth}
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarPlot{dataPc}{\dataPc}
-      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[c]{0.49\textwidth}
-      \centering
-      \chartBarStackedPlot{dataPc}{\dataPc}
-      \caption{\texttt{M\meshId} - \texttt{$P_3$}}
-    \end{subfigure}
-    \caption{Thermal bridges benchmarks - Execution time of main simulation components
-      - Mesh \texttt{M\meshId} - Discoverer supercomputer}
-    \label{fig:spec:app-feelpp-discr-1:thermal_bridges:performance_times_M\meshId}
-  \end{figure}
-}
-
-\subsubsection{Scalability on I/O}
-
-The I/O scalability analysis examines the performance of mesh loading and solution export operations as the number of processors and mesh size vary. The benchmark metric \texttt{io-scaling} measures the time required for file system operations during initialization and post-processing phases.
-
-Key I/O performance characteristics observed:
-\begin{itemize}
-\item \textbf{Parallel mesh loading:} The pre-partitioned mesh format (JSON+HDF5) enables efficient parallel loading, with read times scaling inversely with processor count. The initialization times shown in the performance charts demonstrate this scalability.
-
-\item \textbf{Export operations:} Writing visualization files (EnSight Gold format) exhibits limited scalability due to file system contention when multiple processors write simultaneously. This is evident in the relatively constant post-processing times across different processor counts.
-
-\item \textbf{Mesh size impact:} Larger meshes (M3 with 10.5M vertices) show more pronounced I/O bottlenecks compared to smaller meshes (M1 with 193K vertices), as the absolute amount of data written increases significantly.
-
-\item \textbf{Recommendations:} For production runs, using collective I/O strategies and reducing the frequency of visualization exports can significantly improve overall performance. The HDF5-based mesh format provides good parallel I/O performance for mesh loading operations.
-\end{itemize}
-
-These I/O characteristics are typical for large-scale finite element simulations and inform best practices for configuring output frequencies in production simulations.
+\ApplicationBenchmarkResults{app-feelpp-discr-1}
