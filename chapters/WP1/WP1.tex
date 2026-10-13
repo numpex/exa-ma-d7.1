@@ -309,6 +309,54 @@ A review of the literature on numerical methods for multiphysics couplings has b
 
 The quasi-static problem setting has been adopted for both elasto-acoustic and thermal-elastic couplings. A thermal-elastic strong coupling benchmark has been selected and tested on the sequential finite element solver Cast3M. The porting to the HPC MFEM library is ongoing work.
 
+\paragraph{High-order multistep coupling.}\label{sec:wp1:t1.7:multistep}
+We consider $N$ monophysics solvers. Each one integrates its own semi-discrete
+dynamics
+\begin{equation}\label{eq:wp1:t1.7:multistep}
+  \frac{\mathrm{d}y_i}{\mathrm{d}t} = \mathcal{F}_i(y_i, u_i, t),
+  \qquad u_i = h_i(y_1, \dots, y_N),
+  \qquad i = 1, \dots, N,
+\end{equation}
+where the $u_i$ are the coupling variables, for instance the temperature or the
+heat flux at the interface. Classical staggered schemes keep $u_i$ constant
+between two exchanges. This limits the accuracy to first order, or second order
+at best \cite{farhat_two_2000}, and the coupling time step cannot be adapted.
+The multistep scheme \cite{francois_multistep_2023,simon_high-order_2025}
+replaces $u_i(t)$ on $[t_n, t_{n+1}]$ with a polynomial $\hat{u}_i^n(t)$ of
+degree $k$ built from past interface values. Each solver evaluates this
+polynomial at its own substeps, for example at each stage of a Runge-Kutta
+method. The solvers stay black boxes and can use any time integrator. The scheme
+has two variants:
+\begin{itemize}
+\item in the explicit variant, $\hat{u}_i^n$ extrapolates
+  $u_i^{n-k}, \dots, u_i^n$. A coupling step needs a single pass, but the
+  stability restricts the size of the step;
+\item in the implicit variant, $\hat{u}_i^n$ interpolates
+  $u_i^{n-k+1}, \dots, u_i^{n+1}$, where $u_i^{n+1}$ is unknown. Each coupling
+  step becomes a fixed-point problem on the interface variables. We solve it
+  with Picard iterations, which can be accelerated (with Anderson acceleration,
+  for instance) and start from the explicit prediction. The extra cost improves
+  the stability and reduces the error constants.
+\end{itemize}
+In both variants, the scheme converges with order $k+1$ in time
+\cite{simon_high-order_2025}. The difference between the initial extrapolation
+and the updated value gives an error estimate at no extra cost, which can drive
+the adaptation of the coupling time step. A more reliable estimate, at a higher
+cost, compares two solutions computed at different orders, and works for both
+variants.
+
+The scheme is now implemented in Cwipi, the parallel coupling library of ONERA
+\cite{quemerais_cwipi_nodate,simon_development_2026}. Cwipi builds the
+polynomials, runs the implicit iterations and adapts the time step, so the
+coupled codes only call the prediction. This work is part of the PhD thesis of
+Antoine Simon, which studies the stability of the scheme, the efficiency of its
+implicit variant and the adaptation of the time step. Two demonstrations in a
+massively parallel setting are under development: one with CORIA and Safran
+Tech on the Yales2 code, and one in a mini-app built on solvers that use samurai
+and PETSc, which will soon be released as open source. This mini-app couples a
+solid and a fluid cavity heated from the side, and the expected order $k+1$ is
+observed up to order~4 (see \Cref{sec:app:specs:app-samurai-cwipi}).
+
 
 
 \section{Application Showcase}
@@ -324,6 +372,7 @@ result to an annual advance and benchmark, and flag missing mappings explicitly.
     \item FDA nozzle (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-2}.
     \item Parallel mesh adaptation with ParMMG (FreeFEM): Section~\ref{sec:app:specs:app-freefem-parmmg}.
     \item Geometry queries and distances (Feel++): Section~\ref{sec:app:specs:app-feelpp-distance}.
+    \item High-order multistep coupling for solid-fluid conjugate heat transfer (Cwipi, samurai, PETSc): Section~\ref{sec:app:specs:app-samurai-cwipi}.
 \end{itemize}
 
 \section{Software Framework Contributions}
