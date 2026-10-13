@@ -5,7 +5,8 @@
 {WP1, WP2, WP3, WP4, WP6}{extended-mini-app}
 {Estimate electrical, thermal, contact and cooling parameters from voltage, temperature and optional magnetic observations at several imposed-current operating points.}
 {Feel++, PETSc/TAO, HPDDM; MPI, Kokkos and HIP}{spec-only}
-
+\subsection{Description of the benchmark}
+Inverse application: estimate nonlinear electrical-conductivity, thermal-conductivity, contact and cooling parameters from voltage-drop, temperature and optional magnetic-field observations collected at several imposed-total-current operating points.
 \paragraph{Specification boundary.}
 The output is a calibrated parameter vector or field and reconstructed
 observables, not an operating control.  \texttt{BM-FEEL-HIFI-INV-01} is a
@@ -13,3 +14,30 @@ proposed verification/scalability record based on Taylor-gradient tests,
 parameter recovery and observation misfit.
 \todo{Supply the reviewed objective/regularization, synthetic or measured data,
 identifiability protocol, implementation commit, machine and raw evidence.}
+
+\subsection{Benchmarking methodology}
+
+
+\begin{description}
+  \item[Method-Algorithm WP1:] nonlinear thermo-electric finite elements, coupled PDE-scalar formulation, integral total-current boundary condition
+  \item[Method-Algorithm WP2:] ROM, hyper-reduction, surrogate models, FOM/ROM switching for repeated forward and adjoint evaluations
+  \item[Method-Algorithm WP3:] nonlinear block solvers, adjoint linear solves, PETSc/HPDDM preconditioning
+  \item[Method-Algorithm WP4:] PDE-constrained parameter inversion: weighted multi-experiment data misfit plus regularization; adjoint gradients; nonlinear least squares; parameter bounds; optional Gauss-Newton/Hessian actions and identifiability analysis
+  \item[Method-Algorithm WP6:] measurement-noise modelling, uncertainty propagation, ensemble inversion
+  \item[Framework:] Feel++, PETSc/TAO, HPDDM
+  \item[parallel\_framework:] MPI, Kokkos, GPU - HIP
+  \item[Benchmark scope:] multi-node, multi-gpu, full-system, method-verification, solver-scaling, ensemble-mode
+  \item[metrics:] Taylor-gradient-test, parameter-recovery-error, observation-misfit by observable, regularization contribution, identifiability, time-to-inference, PDE-solves-to-solution, TAO-iterations, strong-scalability, weak-scalability, experiment-throughput
+\end{description}
+\todo[app-feelpp-hifimagnet-inverse / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+Gmsh, JSON config, nonlinear material laws, imposed currents, voltage-drop and temperature observations
+
+\subsubsection{Output Data}
+Calibrated parameter vector or fields p*, forward and adjoint fields per experiment, predicted observables, residual decomposition, gradient/Hessian information, sensitivities, uncertainty estimates, objective histories, JSON/CSV reports
+
+\subsection{Results summary}
+\todo[app-feelpp-hifimagnet-inverse / results summary]{Results summary to be supplied by contributors.}
