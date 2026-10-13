@@ -209,6 +209,97 @@ article-cli clean
 
 === Overleaf Workflow for Non-GitHub Users
 
+==== TODO tracking
+
+Existing `\todo{...}` calls keep their wording and render as coloured inline
+`todonotes` boxes, sized to the available width including inside table cells.
+No margin notes are drawn. The list retains the source filename and page links
+to help locate repeated placeholders. This shared definition applies to the
+full document and all standalone documents that load `defs.tex`.
+For list-only context, use `\todo[application-id / field name]{existing text}`.
+The optional label does not change the inline box wording. Generated missing
+catalogue fields receive these labels automatically.
+
+The full document prints the TODO list before the back page. All standalone
+documents that load `defs.tex` print it automatically at the end. Compile with
+latexmk so the list and page references are refreshed across LaTeX passes.
+
+==== Application catalogue and previews
+
+The live Applications tab is saved as `data/applications.csv`. After refreshing
+that snapshot, update the central catalogues and selected application metadata:
+
+[source,shell]
+----
+python3 scripts/sync_applications.py --metadata app-samurai-cwipi --standalone
+python3 scripts/sync_applications.py --metadata app-samurai-cwipi --standalone --check
+----
+
+The script updates the reconciliation CSV, catalogue ownership in the benchmark
+CSV, and the application/benchmark registry and cross-WP table rows. It preserves
+benchmark evidence and editorial notes, and never writes scientific fiches.
+`--metadata APP_ID` can be repeated to generate selected catalogue metadata
+files; existing files must have the generator marker to be replaced.
+New benchmark contracts require an editorial mapping and evidence review.
+New scientific fiches and chapter includes remain explicit contributor edits.
+Specifications supplied by pending PRs should be integrated from those PRs.
+
+Developers edit specifications in `chapters/applications/specs/` and reported
+results in `chapters/applications/results/`. Each result section has one authored
+source. The full report and individual standalones include these results
+under the fiche's Results summary subsection. The unified chapter,
+Applications and benchmarking, includes the application catalogue, cross-WP
+matrix, benchmark index and scientific fiches. The benchmark index lives in
+`chapters/applications/benchmark-index.tex`; both CSV registries are retained.
+The combined preview uses the same chapter source as the full report. Catalogue maintenance history is retained separately in
+link:docs/benchmark-registry-maintenance.tex[benchmark registry maintenance notes].
+Each application has a named preview in `standalone/applications/<application-id>.tex`.
+The shared preview engine and preamble live in `standalone/`; these wrappers
+include scientific sources without copying them. `--standalone` regenerates
+the named wrappers with the same overwrite protection as generated metadata.
+It also refreshes the existing marked metadata files, including those used by
+dedicated local fiches, from the saved catalogue snapshot.
+Each local application has a dedicated scientific fiche. Fiches, catalogue tables
+and the benchmark index are presented in lexicographic order of application ID;
+the saved CSV records retain their source ordering. Inherited planning notes are
+included separately after the fiches. For pending dedicated fiches, the wrapper
+shows a labelled catalogue preview until the specification is integrated.
+
+Local fiches use the same four subsections: description of the benchmark,
+benchmarking methodology, input/output datasets, and results summary. Existing
+scientific detail and qualifications remain under those headings. Missing
+sections contain catalogue values or labelled contributor TODOs; they do not
+introduce new scientific claims. Pending PR specifications are not copied.
+
+[source,shell]
+----
+# Applications and benchmarking chapter
+latexmk -norc --shell-escape -pdf -outdir=output/applications standalone/applications.tex
+
+# One application
+latexmk -norc --shell-escape -pdf -outdir=output/applications standalone/applications/app-samurai-cwipi.tex
+
+# Another application, with the same command pattern
+latexmk -norc --shell-escape -pdf -outdir=output/applications standalone/applications/app-feelpp-distance.tex
+----
+
+CI runs the catalogue and fiche tests and the generator's `--standalone --check`
+before compiling the full report. These checks validate catalogue coverage,
+fiche ordering and shared result sources, while allowing the four specifications
+whose contributions are deferred to PRs #115 and #135.
+Reduced-basis results are retained from D7.1 v1 and identified as such in the
+benchmark registry. Historical application planning is preserved in
+link:docs/application-planning-v2.tex[the v2 planning archive]; current milestones
+remain contributor TODOs until confirmed.
+
+Compile from the repository root. The single-application wrapper includes the
+bibliography when citations are present; latexmk runs BibTeX as needed. References outside
+the preview require a previously compiled full-document `.aux` file. Set
+`\ApplicationReferenceAux` to its path without the `.aux` suffix when the full
+build uses a separate output directory. Missing external references remain
+visible. `-norc` bypasses local latexmk configuration; dependencies, graphics and
+the existing bibliography are shared with the full report.
+
 **For colleagues who prefer Overleaf over GitHub:**
 
 We provide standalone compilation files that compile in ~10-15 seconds instead of 5-10 minutes for the full document.
@@ -264,10 +355,11 @@ The `numpex/exama` repository retrieves HAL records and files them in Zotero's
 `Our Publications/WP1` through `WP7` collections. This repository only retrieves
 the bibliography; it does not import HAL records or assign work packages.
 
-The scheduled `bibtex.yml` workflow retrieves references daily at *05:17 UTC*,
-one hour after the Exa-MA HAL-to-Zotero job. Both workflows also support manual
-dispatch. Schedules run from the default branch and may be delayed by GitHub;
-the time offset is not a dependency between workflows.
+During v3 preparation, the scheduled `bibtex.yml` workflow retrieves references
+hourly at minute *:17 UTC*. After v3 is complete, restore the previous daily
+schedule at *05:17 UTC* (`17 5 * * *`). The Exa-MA HAL-to-Zotero workflow runs
+separately; both workflows also support manual dispatch. Scheduled runs use
+the default branch and may be delayed by GitHub.
 
 Set the repository or organization Actions secret `ZOTERO_API_KEY` for this
 repository. Read access to the group is sufficient here; the `exama` importer
@@ -282,9 +374,19 @@ Empty Zotero placeholders are skipped. Different records sharing an export key
 receive a stable Zotero-item suffix when necessary.
 
 The file is replaced atomically only after a complete, consistent, validated
-download. Unchanged entries produce no commit. The workflow commits only
-`references.bib`; branch rules must allow its `GITHUB_TOKEN` to push. Such commits
-do not trigger another Actions build. LaTeX builds use the committed bibliography
+download. The workflow proposes changes to `references.bib` through a single
+pull request on `automation-zotero-bibliography`, updating it as needed instead
+of pushing to protected `main`. Unchanged entries produce no new commit.
+GitHub Actions must be allowed to create pull requests in the repository settings.
+The workflow explicitly dispatches the LaTeX checks for new or updated proposals
+and requests Copilot review only after verifying that the PR changes exactly
+`references.bib`, then enables squash auto-merge. GitHub merges it only after
+the required approval, LaTeX checks, and branch protections are satisfied.
+Repository auto-merge must be enabled. To count Copilot approval, enable it in
+Copilot code review settings and restrict the approval file paths to
+`references.bib`; the organization policy must permit this repository.
+References become
+available on `main` after that merge. LaTeX builds use the committed bibliography
 snapshot without contacting Zotero.
 
 === Updating References

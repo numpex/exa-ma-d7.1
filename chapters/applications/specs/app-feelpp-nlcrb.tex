@@ -1,6 +1,8 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
-\section{Proposed: Nonlinear Compressive Reduced Basis Methods}
+\ApplicationFicheHeading{app-feelpp-nlcrb}
+\textbf{Proposed: Nonlinear Compressive Reduced Basis Methods}
+
 \label{sec:app:specs:app-feelpp-nlcrb}
 
 \textbf{Status:} This is a \emph{proposed} demonstrator currently in specification phase. Implementation target: 7/1/2026.
@@ -51,7 +53,9 @@ This demonstrator will explore nonlinear compressive reduced basis (NLCRB) metho
 
 
 
-\subsection{Motivation and scientific context}
+
+\subsection{Description of the benchmark}
+\subsubsection{Motivation and scientific context}
 
 Traditional reduced basis methods excel for linear or mildly nonlinear problems but can struggle with strongly nonlinear phenomena where the solution manifold has high Kolmogorov width. Recent advances in machine learning suggest that neural networks can learn compressed representations of nonlinear solution manifolds more efficiently than linear subspaces.
 
@@ -67,7 +71,7 @@ This hybrid approach aims to achieve better compression rates (smaller basis siz
 
 
 
-\subsection{Proposed benchmark problems}
+\subsubsection{Proposed benchmark problems}
 
 The demonstrator will focus on nonlinear problems where standard RB methods require large basis sizes:
 
@@ -81,9 +85,11 @@ Each problem will be parametrized with 4-10 parameters covering geometric, mater
 
 
 
-\subsection{Proposed methodology}
 
-\subsubsection{Phase 1: Data generation (high-fidelity simulations)}
+\subsection{Benchmarking methodology}
+\subsubsection{Proposed methodology}
+
+\paragraph{Phase 1: Data generation (high-fidelity simulations)}
 \begin{itemize}
 \item Generate training dataset using Latin hypercube sampling in parameter space
 \item Solve high-fidelity FEM problems using \Feelpp heat/fluid/solid toolboxes
@@ -91,14 +97,14 @@ Each problem will be parametrized with 4-10 parameters covering geometric, mater
 \item Store full-order solutions and selected output functionals
 \end{itemize}
 
-\subsubsection{Phase 2: Linear reduced basis construction}
+\paragraph{Phase 2: Linear reduced basis construction}
 \begin{itemize}
 \item Apply POD to extract dominant modes (baseline approach)
 \item Implement greedy algorithm with a posteriori error estimation
 \item Compare basis sizes required to achieve $10^{-4}$ relative error
 \end{itemize}
 
-\subsubsection{Phase 3: Neural network compression}
+\paragraph{Phase 3: Neural network compression}
 \begin{itemize}
 \item Design autoencoder architecture (encoder: solution → latent code, decoder: latent code → solution)
 \item Train on GPU using PyTorch with physics-informed loss functions
@@ -106,7 +112,7 @@ Each problem will be parametrized with 4-10 parameters covering geometric, mater
 \item Integrate with \Feelpp data structures for seamless workflow
 \end{itemize}
 
-\subsubsection{Phase 4: Hybrid online phase}
+\paragraph{Phase 4: Hybrid online phase}
 \begin{itemize}
 \item Implement hybrid online solver: linear RB approximation + NN correction
 \item Measure online speedup vs. high-fidelity solve and vs. standard RB
@@ -116,7 +122,7 @@ Each problem will be parametrized with 4-10 parameters covering geometric, mater
 
 
 
-\subsection{Expected performance metrics}
+\subsubsection{Expected performance metrics}
 
 The following metrics will be used to evaluate NLCRB performance:
 
@@ -135,7 +141,7 @@ The following metrics will be used to evaluate NLCRB performance:
 
 
 
-\subsection{Technical challenges and risks}
+\subsubsection{Technical challenges and risks}
 
 \begin{itemize}
 \item \textbf{Integration complexity:} Interfacing PyTorch with \Feelpp C++ codebase requires careful design
@@ -146,7 +152,7 @@ The following metrics will be used to evaluate NLCRB performance:
 
 
 
-\subsection{Success criteria}
+\subsubsection{Success criteria}
 
 The demonstrator will be considered successful if it achieves:
 \begin{enumerate}
@@ -158,7 +164,7 @@ The demonstrator will be considered successful if it achieves:
 
 
 
-\subsection{Timeline and deliverables}
+\subsubsection{Timeline and deliverables}
 
 \begin{itemize}
 \item \textbf{Q2 2025:} Complete specification document (this document)
@@ -169,3 +175,14 @@ The demonstrator will be considered successful if it achieves:
 \end{itemize}
 
 \textbf{Note:} This demonstrator represents an ambitious research direction that may evolve based on initial results and computational feasibility.
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+JSON config, JSON small-data, Gmsh
+
+\subsubsection{Output Data}
+JSON reports, JSON small-data, in-house
+
+\subsection{Results summary}
+\todo[app-feelpp-nlcrb / results summary]{Results summary to be supplied by contributors.}

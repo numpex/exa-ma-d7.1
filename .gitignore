@@ -9,6 +9,7 @@ _minted*
 **/*.synctex*
 main.pdf
 *.toc
+*.tdo
 article.template.pdf
 *.fdb_latexmk
 *.fls
@@ -30,3 +31,4 @@ __pycache__/
 .pytest_cache/
 /output/pdf/
 /standalone-funtides.pdf
+
