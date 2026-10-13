@@ -1,0 +1,47 @@
+%!TEX root = ../../../standalone/applications/app-eki.tex
+\ApplicationFicheHeading{app-eki}
+\textbf{app-eki: Ensemble Kalman Inversion}
+\label{sec:app:specs:app-eki}
+
+\input{chapters/applications/metadata/app-eki}
+
+\subsection{Description of the benchmark}
+\textbf{Status:} Proposed (spec-only) | \textbf{Partners:} Inria BXSO, U Grenoble Alpes | \textbf{Target:} 1/15/2027
+
+\textbf{Purpose:} Demonstrate feasibility of ensemble Kalman filter based inversion of a simplified wave equation for geophysics applications.
+
+\textbf{Key Methods:}
+\begin{itemize}
+\item WP1: Spectral element, dG/hdG discretization
+\item WP4: Stochastic inverse problems, ensemble-based data assimilation
+\item WP6: Uncertainty propagation
+\end{itemize}
+
+\textbf{Framework:} PETSc, GeoS | \textbf{Parallel:} MPI (ensemble mode)
+
+\textbf{Metrics:} manufactured-solution validation, weak-scalability
+
+\textbf{Scientific Context:} Ensemble Kalman inversion provides a derivative-free approach to inverse problems by treating inversion as a filtering problem. The method is particularly attractive for high-dimensional parameter spaces where gradient computation is expensive or unavailable.
+
+\subsection{Benchmarking methodology}
+\begin{description}
+  \item[Method-Algorithm WP1:] spectral element, dG/hdG
+  \item[Method-Algorithm WP4:] stochastic inverse problem, stochastic data assimilation: ensemble
+  \item[Method-Algorithm WP6:] uncertainty propagation
+  \item[Framework:] PETSc, GeoS
+  \item[parallel\_framework:] MPI
+  \item[Benchmark scope:] ensemble-mode
+  \item[metrics:] manufactured-solution, weak-scalability
+\end{description}
+\todo[app-eki / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+Gmsh, in-house
+
+\subsubsection{Output Data}
+in-house
+
+\subsection{Results summary}
+\todo[app-eki / results summary]{Results summary to be supplied by contributors.}

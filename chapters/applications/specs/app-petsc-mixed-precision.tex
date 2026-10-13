@@ -5,9 +5,33 @@
 {WP3}{mini-app}
 {Study performance, convergence and numerical accuracy effects of mixed precision in PETSc Krylov solvers and preconditioners.}
 {PETSc, HPDDM, MUMPS; MPI and OpenMP}{implementation-in-progress}
+\subsection{Description of the benchmark}
+Provide a benchmark framework to study the effects of mixed precision on PETSc Krylov solvers and preconditioners in terms of performance, convergence, and numerical accuracy.
+
+\subsection{Benchmarking methodology}
+
 
 \paragraph{Benchmark contract.}
 \texttt{BM-PETSC-MIXED-01} covers solver scaling, time-to-solution,
 energy-to-solution and residual/accuracy preservation.  \todo{Provide the matrix
 set, precision combinations, convergence tolerances, PETSc/solver commits,
 machine, energy measurement method, repetitions and raw logs.}
+\begin{description}
+  \item[Method-Algorithm WP3:] direct solver, multi-precision, domain decomposition methods, krylov solver, preconditioning
+  \item[Framework:] PETSc, HPDDM, MUMPS
+  \item[parallel\_framework:] MPI, Multithread - OpenMP
+  \item[Benchmark scope:] solver-scaling
+  \item[metrics:] time-to-solution, energy-to-solution
+\end{description}
+\todo[app-petsc-mixed-precision / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+
+\subsection{Input/Output Dataset Description}
+
+\subsubsection{Input Data}
+PETSc binary, Matrix Market
+
+\subsubsection{Output Data}
+Residual history, CSV logs
+
+\subsection{Results summary}
+\todo[app-petsc-mixed-precision / results summary]{Results summary to be supplied by contributors.}
