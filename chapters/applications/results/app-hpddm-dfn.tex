@@ -1,0 +1,50 @@
+% Authored results moved from the application fiche; shared with its standalone.
+
+
+\subsubsection{Preconditioner comparison}
+
+Different preconditioning strategies show varying effectiveness for DFN problems:
+
+\begin{itemize}
+\item \textbf{AMG methods:} Hypre BoomerAMG provides robust but relatively slow convergence (50-100 iterations). Setup cost is moderate. Best for single-node or small-scale problems.
+
+\item \textbf{One-level Schwarz (Additive Schwarz Method):} Fast iteration time but iteration count grows with subdomain count. Good for small processor counts (< 64 cores).
+
+\item \textbf{Two-level HPDDM:} Superior scalability with coarse-grid correction. Iteration count remains bounded as processor count increases. Setup cost is higher but amortized over multiple solves. Recommended for large-scale simulations (> 128 cores).
+
+\item \textbf{Direct solvers:} MUMPS and PaStiX provide exact solutions (within machine precision) but memory requirements limit problem size. Useful for baseline comparison and difficult ill-conditioned systems.
+
+\item \textbf{Mixed-precision:} Using FP32 or FP16 for preconditioner with FP64 outer iterations reduces memory by 2-4× and accelerates preconditioner application by 1.5-2×, with negligible impact on convergence for well-scaled problems.
+\end{itemize}
+
+\subsubsection{Strong scalability}
+
+For fixed problem size (DFN-large, 10M DOF):
+\begin{itemize}
+\item Near-ideal speedup up to 256 cores with two-level HPDDM
+\item One-level methods show degradation beyond 128 cores (iteration count growth)
+\item Communication overhead becomes significant beyond 512 cores
+\item GPU acceleration (CUDA) provides additional 2-3× speedup for preconditioner application on large nodes
+\end{itemize}
+
+\subsubsection{Weak scalability}
+
+Proportional scaling (100K DOF per core):
+\begin{itemize}
+\item Two-level HPDDM maintains constant iteration count up to 1024 cores
+\item Time-per-iteration grows slowly (logarithmically) due to coarse-grid communication
+\item Overall parallel efficiency above 75\% up to 512 cores
+\item Memory per processor remains constant, enabling very large problem sizes
+\end{itemize}
+
+\subsubsection{Time-to-solution}
+
+For DFN-large problem reaching $10^{-8}$ relative residual:
+\begin{itemize}
+\item Two-level HPDDM on 256 cores: 12 seconds (45 iterations)
+\item One-level Schwarz on 256 cores: 28 seconds (180 iterations)
+\item BoomerAMG on 256 cores: 35 seconds (95 iterations)
+\item MUMPS direct solve on 64 cores: 45 seconds (no iterations, but high memory)
+\end{itemize}
+
+The \texttt{benchmark-ready} status indicates comprehensive validation has been completed and systematic performance data is available for solver comparison and scalability analysis within the \exama project.

@@ -2,7 +2,8 @@ name: Retrieve Zotero bibliography
 
 on:
   schedule:
-    - cron: '17 5 * * *'
+    # Temporary hourly refresh during v3; restore '17 5 * * *' afterwards.
+    - cron: '17 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -68,7 +69,9 @@ jobs:
           gh workflow run latex.yml --ref "$UPDATE_BRANCH"
           echo "Bibliography update proposed: $PR_URL" >> "$GITHUB_STEP_SUMMARY"
       - name: Request Copilot review for the bibliography pull request
-        if: steps.bibliography_pr.outputs.pull-request-number != ''
+        if: >-
+          steps.bibliography_pr.outputs.pull-request-operation == 'created' ||
+          steps.bibliography_pr.outputs.pull-request-operation == 'updated'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -80,7 +83,9 @@ jobs:
           gh api "repos/$GH_REPO/pulls/$PR_NUMBER/requested_reviewers" \
             --method POST -f 'reviewers[]=copilot-pull-request-reviewer[bot]'
       - name: Enable auto-merge for the bibliography pull request
-        if: steps.bibliography_pr.outputs.pull-request-number != ''
+        if: >-
+          steps.bibliography_pr.outputs.pull-request-operation == 'created' ||
+          steps.bibliography_pr.outputs.pull-request-operation == 'updated'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ steps.bibliography_pr.outputs.pull-request-url }}
