@@ -1,0 +1,40 @@
+% Authored results moved from the application fiche; shared with its standalone.
+
+
+\subsubsection{Basis construction and convergence}
+
+The greedy algorithm constructs the reduced basis by iteratively selecting parameters that maximize the error estimator. Typical convergence characteristics:
+
+\begin{itemize}
+\item \textbf{Exponential convergence:} The greedy error decreases exponentially with basis size for smooth parameter dependence, reaching tolerance $10^{-6}$ with 20-30 basis functions.
+
+\item \textbf{Parameter space coverage:} The greedy selection naturally samples the parameter space efficiently, focusing on regions with high solution variability.
+
+\item \textbf{Offline cost:} For mesh M2, the offline phase with 30 basis functions requires approximately 30 high-fidelity solves, taking 10-20 minutes on 8 cores.
+\end{itemize}
+
+\subsubsection{Online performance}
+
+The online phase demonstrates dramatic speedups:
+
+\begin{itemize}
+\item \textbf{Speedup factors:} Online evaluation is 1000-5000× faster than high-fidelity solve, depending on basis size and mesh refinement. For M3 mesh, speedups exceed 10,000×.
+
+\item \textbf{Real-time capability:} Single online evaluation takes 1-10 milliseconds, enabling real-time queries and optimization loops.
+
+\item \textbf{Accuracy:} Relative errors remain below $10^{-4}$ for most parameter combinations, validated by a posteriori error estimates that are rigorous upper bounds.
+
+\item \textbf{Scalability:} Online phase shows excellent strong scaling up to 32 cores due to the small problem size. Offline phase scales similarly to standard FEM solvers (see \Cref{sec:app:specs:app-feelpp-discr-1}).
+\end{itemize}
+
+\subsubsection{Empirical interpolation performance}
+
+The DEIM/EIM methods for hyper-reduction show:
+
+\begin{itemize}
+\item \textbf{Assembly speedup:} Reduced assembly time by 10-100× depending on nonlinearity complexity
+\item \textbf{Approximation accuracy:} EIM errors typically 2-3 orders of magnitude below RB approximation error
+\item \textbf{Magic point selection:} 50-100 interpolation points sufficient for good approximation quality
+\end{itemize}
+
+The \texttt{benchmark-ready} status indicates that this demonstrator has been validated and is ready for systematic benchmarking on HPC systems to establish ROM performance baselines for the \exama project.
