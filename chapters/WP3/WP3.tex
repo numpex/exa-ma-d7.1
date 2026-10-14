@@ -285,6 +285,8 @@ T3.3 Adaptive solution strategies for exascale multiphysical and multiscale mode
 
   Lukas Spies has started his postdoctoral work in March 2025. He has developed a parallel FreeFEM script that allows for non-matching grids at the interface between two domains. The coupling scheme, analyzed in~\cite{japhet_robin_2014}, is based on the use of Robin interface conditions. An extra level of parallelism comes from the domain decomposition solver in each domain. The global coupled system has a saddle-point structure. A study of various preconditoning strategies is underway. The flexibility and effectiveness of a parallel FreeFEM script is a great asset for numerical tests. 
 
+  The second year of the work focuses on fluid-structure interaction problems, as another source of saddle-point problems with significant added-value for application. The first analyses involve a monolithic fluid-structure formulation established in~\cite{hecht_energy_2017} where the saddle-point system appears in the incompressible fluid problem. The application of the GenEO domain decomposition to this problem and the detailed analysis of the associated scalability have been performed in both 2D and 3D, with results presented at WCCM-ECCOMAS 2027 conference. The work is on-going with alternative approaches for the management of the fluid-structure coupling, with combinations of partitioned coupling a/o immersed/embedded boundaries a/o lagrange multipliers for coupling constraints. The objective is to study in depth the structure of the resulting saddle-point problems, with possibly multiple sets of constraints with different properties, and the efficiency/scalability of the GenEO solver in the different cases.
+
 %(Lukas) 
 
 \subsubsection{ 
