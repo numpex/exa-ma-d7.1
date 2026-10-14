@@ -83,6 +83,24 @@ Limitations and next step & Extend beyond static layer-wise precision policies \
 Cross-WP contribution or dependency & \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP5-A2026-4}
+Exa-MA task and bottleneck & T5.1; B8 (Discovery, design and decision algorithms), B10 (Scientific Productivity) \\
+Concise description of the 2026 advance & Variational optimization interface supporting continuous optimization \\
+Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
+Implementing software & Feel++, PETSc TAO \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2504}{Feel++ PR~2504} \\
+Associated application ID & \texttt{app-feelpp-hifimagnet-optcontrol} is the associated inverse/control application; the executable configuration is separate evidence \\
+Associated benchmark ID & No benchmark result mapped to this interface \\
+Scientific or numerical result & No quantitative result imported into this record \\
+Performance or scalability result & No 2026 scalability result reported here \\
+Evidence and raw-data location & Feel++ PR~2504 and issue~2503; functional and variational-form TAO tests in the implementation history \\
+Maturity & Integrated solver interface with tests \\
+Limitations and next step & Application-level objectives, derivative checks and solver configurations must be specified separately from the generic interface \\
+Cross-WP contribution or dependency & Shared implementation with WP4; WP1: finite-element state models; WP7: framework interface \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 
 {\bf Advances T5.1:}
@@ -151,6 +169,10 @@ trisection, a PCA-embedded Gaussian-process surrogate, and parallel candidate ev
 
 The study covers LLMs from 7B to 65B parameters on LongBench, RULER, and SCBench. TriFBO-KV beats the strongest budget-matched static policy in 33/36 task-specific conditions. A generic mixed-workload search also
 produces a frozen candidate set that contains a downstream winner in 41/54 conditions, showing that parallel black-box optimization can adapt expert compression mechanisms without prescribing a fixed layer profile.
+
+
+\paragraph{Cemosis methodology: variational continuous optimization (T5.1).}
+The Feel++ interface connects finite-element objectives and derivative evaluations to PETSc TAO. For continuous optimization, the contribution is the connection between the variational model and the optimization solver, with explicit objective, gradient and solver-control interfaces. It enables the use of established optimization algorithms (\Cref{tab:advance:WP5-A2026-4}).
 
 \section{Application Showcase}
 
@@ -223,6 +245,10 @@ implementation of pBB meeting these genericity and productivity objectives.
 Section~\ref{sec:Scimba:software}\,; FreeFEM++:
 Section~\ref{sec:Freefem++:software}.
 \end{itemize}
+
+
+\paragraph{Feel++ implementation: shared PETSc TAO interface.}
+The shared interface and its tests are documented in \Cref{sec:Feelpp:implementation-2026:tao}. WP4 and WP5 describe its inverse-problem and continuous-optimization roles, respectively, using the same software components.
 
 \section{Preliminary Benchmarks \& Trends}
 

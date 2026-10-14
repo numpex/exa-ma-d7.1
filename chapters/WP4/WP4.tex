@@ -81,6 +81,24 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP4-A2026-2}
+Exa-MA task and bottleneck & T4.1; B8 (Discovery, design and decision algorithms), B10 (Scientific Productivity) \\
+Concise description of the 2026 advance & Variational optimization interface supporting deterministic inverse problems \\
+Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
+Implementing software & Feel++, PETSc TAO \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2504}{Feel++ PR~2504} \\
+Associated application ID & \texttt{app-feelpp-hifimagnet-inverse} is the associated inverse/control application; the executable configuration is separate evidence \\
+Associated benchmark ID & No benchmark result mapped to this interface \\
+Scientific or numerical result & No quantitative result imported into this record \\
+Performance or scalability result & No 2026 scalability result reported here \\
+Evidence and raw-data location & Feel++ PR~2504 and issue~2503; functional and variational-form TAO tests in the implementation history \\
+Maturity & Integrated solver interface with tests \\
+Limitations and next step & Application-level objectives, derivative checks and solver configurations must be specified separately from the generic interface \\
+Cross-WP contribution or dependency & Shared implementation with WP5; WP1: finite-element state models; WP7: framework interface \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited data-assimilation advances with the work
 performed in 2026.  Separate new achievements from the earlier baseline and cite
@@ -102,6 +120,10 @@ Using dimensional logarithmic Sobolev inequalities, this work reformulates the E
 
 These approaches were numerically validated using a parametrized partial differential equation based on the viscous Burgers model, which is often used as a proxy for fluid and geophysical dynamics. The experiments demonstrated that the tightness of the proposed bounds is directly controlled by the nonlinearity of the forward model, and the method successfully recovers the exact EIG value in linear-Gaussian limits. By replacing expensive nested sampling with scalable, gradient-based matrix diagnostics, we provide an efficient, highly parallelizable alternative to direct EIG estimation.
 
+
+
+\paragraph{Cemosis methodology: variational deterministic inverse problems (T4.1).}
+The Feel++ interface connects finite-element objectives and derivative evaluations to PETSc TAO. For deterministic inverse problems, the contribution is the connection between the variational model and the optimization solver, with explicit objective, gradient and solver-control interfaces. It enables the use of established optimization algorithms (\Cref{tab:advance:WP4-A2026-2}).
 
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
@@ -146,6 +168,10 @@ WP4 contributes to or relies upon include:
 	\item PETSc (ensemble management, solvers, TAO)
 	\item GeoS (geophysical modeling stack)
 \end{itemize}
+
+
+\paragraph{Feel++ implementation: shared PETSc TAO interface.}
+The shared interface and its tests are documented in \Cref{sec:Feelpp:implementation-2026:tao}. For WP4, the application evidence consists of the inverse-problem objective, derivative checks and solver configuration.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only

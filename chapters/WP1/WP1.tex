@@ -88,6 +88,41 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP1-A2026-2}
+Exa-MA task and bottleneck & T1.4; B7 (Exascale Algorithms), B9 (accuracy) \\
+Concise description of the 2026 advance & Mixed SB9 solid-shell discretization and supporting tensor and shell-geometry operators \\
+Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
+Implementing software & Feel++ \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2510}{Feel++ PR~2510} \\
+Associated application ID & No catalogue mapping yet; shell verification cases in the Feel++ quickstart \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & No quantitative result imported into this record \\
+Performance or scalability result & No 2026 scalability result reported here \\
+Evidence and raw-data location & \nolinkurl{feelpp/quickstart/elasticity/shell}, including patch, plate and SB9 validation configurations in PR~2510 \\
+Maturity & Integrated formulation with verification configurations \\
+Limitations and next step & Shell verification configurations are provided in the linked PR \\
+Cross-WP contribution or dependency & WP3: mixed block assembly and static condensation; WP7: framework implementation \\
+\end{WPAdvanceRecord}
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP1-A2026-3}
+Exa-MA task and bottleneck & T1.4; B7 (Exascale Algorithms) \\
+Concise description of the 2026 advance & Distributed geometric intersection queries with a two-level BVH and asynchronous batched MPI exchanges \\
+Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
+Implementing software & Feel++ \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2494}{Feel++ PR~2494} \\
+Associated application ID & No catalogue mapping assigned to this geometric-query component \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & No quantitative result imported into this record \\
+Performance or scalability result & No 2026 scalability result reported here \\
+Evidence and raw-data location & PR~2494 describes the parallel query implementation and its supported contexts \\
+Maturity & Integrated geometric-query infrastructure \\
+Limitations and next step & The PR reports an incomplete parallel result for the all-intersections context; tuning and performance evidence remain to be documented \\
+Cross-WP contribution or dependency & WP7: distributed geometric infrastructure \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited task subsections with the work performed in
 2026.  Separate new achievements from the 2024--2025 baseline and cite the
@@ -300,6 +335,13 @@ The quasi-static problem setting has been adopted for both elasto-acoustic and t
 
 
 
+
+\paragraph{Cemosis methodology: solid-shell discretization (T1.4).}
+The SB9 development uses a mixed displacement/internal-mode formulation on a hexahedron with one element through the thickness. Dedicated membrane--bending, pinching, assumed-shear and stabilization operators separate the shell contributions. Local geometry and symmetric tensor conventions are explicit so that the constitutive contractions and block couplings can be inspected. This is the discretization contribution; its software realization and verification cases are identified in \Cref{tab:advance:WP1-A2026-2}.
+
+\paragraph{Cemosis methodology: distributed geometric queries (T1.4).}
+The distributed BVH development organizes geometric searches through a two-level hierarchy and batches asynchronous MPI exchanges. It provides geometric-query infrastructure for the finite-element framework; the contribution concerns geometric search rather than mesh generation. The limitation of the all-intersections query is retained in \Cref{tab:advance:WP1-A2026-3}.
+
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
 result to an annual advance and benchmark, and flag missing mappings explicitly.}
@@ -348,6 +390,10 @@ Planned improvements include adaptive query reordering to enhance load balance, 
     \item MMG/ParMMG;
     \item Samurai (AMR): Section~\ref{sec:Samurai:software}.
 \end{itemize}
+
+
+\paragraph{Feel++ implementation: SB9 and distributed BVH.}
+The SB9 and distributed geometric-search components are documented in \Cref{sec:Feelpp:implementation-2026:sb9,sec:Feelpp:implementation-2026:bvh}, alongside their source and verification references. They complement the existing Ktirio-Geom contribution.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only

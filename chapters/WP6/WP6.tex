@@ -75,6 +75,24 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP6-A2026-2}
+Exa-MA task and bottleneck & T6.4, with relevance to T6.2; B6 (Data Management), B7 (Exascale Algorithms) \\
+Concise description of the 2026 advance & Mergeable streaming statistical summaries and approximate quantiles for simulation diagnostics and ensemble UQ \\
+Responsible contributors and institutions & Christophe Prud'homme, Cemosis, University of Strasbourg \\
+Implementing software & Feel++, \texttt{feelstats} \\
+Software release, commit or PR & \nolinkurl{feelpp/feel/feelstats} \\
+Associated application ID & No ensemble-UQ application mapping yet; timing diagnostics are an initial consumer \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & Unit-test sources cover statistical summaries, merging, approximate quantiles and mixed-scale samples \\
+Performance or scalability result & No 2026 scalability result reported here \\
+Evidence and raw-data location & \nolinkurl{feelpp/feel/feelstats} and \nolinkurl{testsuite/feelstats} \\
+Maturity & Integrated statistical components with dedicated tests \\
+Limitations and next step & Established statistical algorithms; ensemble-UQ integration and scaling remain to be documented. The equal-capacity KLL variant does not claim Apache DataSketches normalized-rank error bounds \\
+Cross-WP contribution or dependency & WP7: instrumentation; potential WP4/WP5 ensemble diagnostics \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited uncertainty-quantification advances with the
 work performed in 2026.  Separate new achievements from the earlier baseline and
@@ -108,6 +126,10 @@ A second challenge involves the outputs, which are not scalars but fields or sig
 
 Additionally, many problems involve categorical variables (e.g., material types). GPs offer flexible ways to model correlations in such spaces. A comparative study was conducted to recommend best practices. Block correlation structures work well when groups of levels are known. When they are not, a clustering-based procedure, relying on the conditional output distributions for each level, can infer these groups effectively without prior kernel training.
 Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters gives good results. This is when HPC becomes critical.
+
+
+\paragraph{Cemosis methodology: online statistical summaries (T6.4/T6.2).}
+The approach accumulates moments, extrema and covariance as samples arrive and merges partial summaries without retaining the full sample history. Approximate quantile sketches provide distribution summaries when storing every observation is unsuitable. This supports statistical processing of simulation ensembles and existing diagnostic streams; it uses established online and parallel statistical algorithms (\Cref{tab:advance:WP6-A2026-2}).
 
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
@@ -179,6 +201,10 @@ URANIE v4.10.0 main improvements are:
 	\end{itemize}
 \end{itemize}
 
+
+
+\paragraph{Feel++ implementation: feelstats.}
+The statistical accumulators, quantile sketches, serialization and tests are documented in \Cref{sec:Feelpp:implementation-2026:stats}. The scientific scope and sketch limitations are retained in \Cref{tab:advance:WP6-A2026-2}.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only
