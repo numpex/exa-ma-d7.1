@@ -23,17 +23,25 @@
 
 FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when calculating of the gradient of the cost function in FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
 
-All this features are available on the last commit of the code: at the following address \href{URL}{https://github.com/FUnTiDES-sim/FUnTiDES}
-
-The SEm implementation is in the following file: 
+All features described below refer to commit
+\href{https://github.com/FUnTiDES-sim/FUnTiDES/tree/328b76d4c583bd0532de68b2e60e56ce13c694e5}{\texttt{328b76d}}
+of the \href{https://github.com/FUnTiDES-sim/FUnTiDES}{FUnTiDES repository}.
+The main implementation files at this commit are:
 \begin{itemize}
-  \item For acoustic and elastic:
-   \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/impl/common/include/sem_solver_impl.h}{sem\_solver\_impl.h}
-  \item For elasto-acoustic coupling: 
-  \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/impl/acoustoelastic/include/sem_solver_acoustoelastic_impl.h}{sem\_solver\_acoustoelastic\_impl.h}
+  \item SEM solver, acoustic and elastic:
+  \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/328b76d4c583bd0532de68b2e60e56ce13c694e5/src/solver/fe/impl/common/include/sem_solver_impl.h}{\texttt{sem\_solver\_impl.h}};
+  \item SEM solver, acousto-elastic coupling:
+  \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/328b76d4c583bd0532de68b2e60e56ce13c694e5/src/solver/fe/impl/acoustoelastic/include/sem_solver_acoustoelastic_impl.h}{\texttt{sem\_solver\_acoustoelastic\_impl.h}};
+  \item DG solver, acoustic:
+  \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/328b76d4c583bd0532de68b2e60e56ce13c694e5/src/solver/fe/DG/impl/common/include/dg_solver_impl.h}{\texttt{dg\_solver\_impl.h}};
+  \item coupled DG--SEM solver, acoustic:
+  \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/328b76d4c583bd0532de68b2e60e56ce13c694e5/src/solver/fe/DG-SEm/impl/common/include/dg-sem_solver_impl.h}{\texttt{dg-sem\_solver\_impl.h}}.
 \end{itemize}
 
-The DG implementation is on the following file \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/DG/impl/common/include/dg_solver_impl.h}{dg\_solver\_impl.h} and the DGSEm coupled solver is here: \href{https://github.com/FUnTiDES-sim/FUnTiDES/blob/main/src/solver/fe/DG-SEm/impl/common/include/dg-sem_solver_impl.h}{dg-sem\_solver\_impl.h}
+The SEM solvers (acoustic, elastic and acousto-elastic, including FWI gradients) are implemented,
+covered by unit tests in the CPU CI and validated against analytical solutions for the acoustic and elastic cases.
+The DG and coupled DG--SEM solvers are implemented and unit-tested, but their validation is still in progress.
+GPU configurations are tested manually until a GPU CI is deployed.
 
 \subsection{Purpose}
 \label{sec:FUnTiDES:purpose}
@@ -121,40 +129,61 @@ In the case of acoustic medium, we seek the scalar pressure \textit{p} such as:
   \label{eq:acoustic wave equation}
   \left\{
   \begin{array}{ll}
-    {\displaystyle \frac{1}{c^2} \frac{\partial^2 p}{\partial t^2}(\mathbf{x},t) - \Delta{p(\mathbf{x},t)}} = f(\mathbf{x},t) & \mbox{in} \quad \Omega \times [0,T] \\[2ex]
-    \alpha {\displaystyle \frac{\partial p}{\partial t}(\mathbf{x},t) + \frac{\partial p}{\partial n}(\mathbf{x},t)} = 0 & \mbox{on} \quad \partial \Omega \times [0,T] \\[2ex]
+    {\displaystyle \frac{1}{c^2} \frac{\partial^2 p}{\partial t^2}(\mathbf{x},t) - \Delta p(\mathbf{x},t)} = f(\mathbf{x},t) & \mbox{in} \quad \Omega \times [0,T] \\[2ex]
+    p(\mathbf{x},t) = 0 & \mbox{on} \quad \Gamma_D \times [0,T] \\[2ex]
+    {\displaystyle \frac{1}{c}\frac{\partial p}{\partial t}(\mathbf{x},t) + \frac{\partial p}{\partial n}(\mathbf{x},t)} = 0 & \mbox{on} \quad \Gamma_{abs} \times [0,T] \\[2ex]
     p(\mathbf{x},0) = p_0(\mathbf{x}), \; {\displaystyle \frac{\partial p}{\partial t}}(\mathbf{x},0) = p_1(\mathbf{x}) & \mbox{in} \quad \Omega
   \end{array}
   \right.
 \end{equation}
- where $c$ is the acoustic wave speed and $f$ the source term. 
- For the integral on $\partial \Omega$, if $\alpha=0$, we have a Dirichlet boundary condition, and if $\alpha=\frac{1}{c}$ we get a first 
- order Absorbing Boundary Condition (ABC).
+ where $c$ is the acoustic wave speed and $f$ the source term and $\mathbf{n}$ the outward unit normal to $\Omega$.
 
+ In this case, the boundary is split as $\partial \Omega =  \Gamma_D \cup \Gamma_{abs}$ with $\Gamma_D \cap \Gamma_{abs} = \emptyset$. 
+ On $\Gamma_D$, the top face of the domain, an homogeneous Dirichlet condition models a free surface (pressure-release);
+ this portion is optional and $\Gamma_D = \emptyset$ when the free surface is disabled. 
+ 
+ On $\Gamma_{abc}$, the remaining faces, a first-order Absorbing Boundary Condition (ABC) is imposed to mimic an unbounded medium.
+ Both of this condition have homogeneous data.
+  
 In the context of elastic medium, we seek for the displacement vector $\textbf{u}$ which satisfy: 
 
 \begin{equation}
   \left\{
-  \begin{array}{l}
-    \rho {\displaystyle \frac{\partial^2 \mathbf{u}}{\partial t^2}} = \mathrm{div} \, (\underline{\underline{C}}(\underline{\underline{\epsilon}}(\mathbf{u}))) + \mathbf{f}, \quad \mbox{in } \Omega \times [0,T) \\[2ex]
-    \alpha {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} + (\underline{\underline{C}} (\underline{\underline{\epsilon}}(\mathbf{u}))) \mathbf{n} = 0, \quad \mbox{in } \partial \Omega \times [0,T) \\[2ex]
-    \mathbf{u}(\mathbf{x},0) = \mathbf{u}_0, \; {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} (\mathbf{x},0) = \mathbf{u}_1 \quad \mbox{in } \Omega 
+  \begin{array}{ll}
+    \rho {\displaystyle \frac{\partial^2 \mathbf{u}}{\partial t^2}} = \mathrm{div} \, \underline{\underline{\sigma}}(\mathbf{u}) + \mathbf{f} & \mbox{in } \Omega \times [0,T] \\[2ex]
+    \underline{\underline{\sigma}}(\mathbf{u})\, \mathbf{n} = \mathbf{0} & \mbox{on } \Gamma_N \times [0,T] \\[2ex]
+    \underline{\underline{A}}\, {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} + \underline{\underline{\sigma}}(\mathbf{u})\, \mathbf{n} = \mathbf{0} & \mbox{on } \Gamma_{abs} \times [0,T] \\[2ex]
+    \mathbf{u}(\mathbf{x},0) = \mathbf{u}_0, \; {\displaystyle \frac{\partial \mathbf{u}}{\partial t}} (\mathbf{x},0) = \mathbf{u}_1 & \mbox{in } \Omega
   \end{array}
   \right.
 \end{equation}
 
-where  $\underline{\underline{C}}$ is the elasticity tensor which entries can vary depends if you are in an isotropic or anisotropic media
-and $\underline{\underline{\epsilon}}$  is the strain tensor.
+where $\underline{\underline{\sigma}}(\mathbf{u}) = \underline{\underline{C}}\,\underline{\underline{\epsilon}}(\mathbf{u}) $ is the stress tensor, $\underline{\underline{C}}$ the elasticity tensor, whose entries depend on whether the medium is isotropic or anisotropic, and 
+$\underline{\underline{\epsilon}}$ the strain tensor. 
 
- Here $\alpha$ is a vector which if it is zero gives a Dirichlet boundary condition, and is defined for the ABC as follow: 
+This time the boundary is split as follow: $\partial\Omega = \Gamma_N \cup \Gamma_{abs}$, with $\Gamma_N \cap \Gamma_{abs} = \emptyset$.
+
+On $\Gamma_N$, the top face of the domain, a traction-free condition models a free surface;  as for the acoustic case, this portion is
+optional and $\Gamma_N = \emptyset$ when the free surface is disabled.
+
+On $\Gamma_{abs}$, the remaining faces, the first-order ABC is defined by the symmetric positive definite impedance matrix 
+
 \begin{equation}
-  \alpha = \rho V_p\mathbf{n} + \rho V_s \tau_1 + \rho Vs \tau_2
+  \underline{\underline{A}} = \rho V_p\, \mathbf{n} \otimes \mathbf{n}
+  + \rho V_s \left( \mathbf{t}_1 \otimes \mathbf{t}_1 + \mathbf{t}_2 \otimes \mathbf{t}_2 \right)
+  = \rho V_p\, \mathbf{n} \otimes \mathbf{n} + \rho V_s \left( \underline{\underline{I}} - \mathbf{n} \otimes \mathbf{n} \right),
 \end{equation}
 
-where $\mathbf{n}$ is the normal outwardly directed to the domain $\Omega$ and $\tau_1$, $\tau_2$ are such as: 
+where $\mathbf{t}_1, \mathbf{t}_2$ are unit tangent vectors such that $(\mathbf{n}, \mathbf{t}_1, \mathbf{t}_2)$
+is an orthonormal basis: 
+
 \begin{equation}
-  \mathbf{n} \dot \tau_1=0, \mathbf{n} \dot \tau_2 = 0, \tau_1 \dot \tau_2 = 0
+  \mathbf{n} \cdot \mathbf{t}_1 = 0, \quad \mathbf{n} \cdot \mathbf{t}_2 = 0, \quad \mathbf{t}_1 \cdot \mathbf{t}_2 = 0.
 \end{equation}
+
+The normal component of the velocity is thus damped with the P-wave impedance $\rho V_p$ and its tangential components with the S-wave 
+impedance $\rho V_s$.
+Both boundary conditions jave homogeneous data.
 
 FUnTiDES is able to solve forward and inverse problem using Full WaveForm Inversion (FWI) algorithm via python scripts (thanks to the python binding).
 
