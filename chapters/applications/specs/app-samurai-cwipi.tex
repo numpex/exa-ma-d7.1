@@ -1,0 +1,38 @@
+%!TEX root = ../../../standalone/applications/app-samurai-cwipi.tex
+\ApplicationFicheHeading{app-samurai-cwipi}
+\label{sec:app:specs:app-samurai-cwipi}
+
+\input{chapters/applications/metadata/app-samurai-cwipi}
+
+% Description and values below reproduce the app-samurai-cwipi row in
+% data/applications.csv. No additional scientific specification is inferred.
+\subsection{Description of the benchmark}
+The cwipi-samurai mini-app couples two independent Samurai/PETSc solvers
+(a solid and a differentially heated fluid cavity) through ONERA's Cwipi
+library to simulate unsteady, nonlinear solid-fluid conjugate heat transfer.
+It serves as a reference case for validating the high-order multistep coupling
+scheme in Cwipi, showing temporal order k+1 up to order 4, before it is used
+in an HPC context.
+
+\subsection{Benchmarking methodology}
+\begin{description}
+  \item[Method-Algorithm WP1:] multiphysics coupling, finite volume
+  \item[Method-Algorithm WP3:] multiphysics coupling, krylov solver
+  \item[Framework:] PETSc, Samurai
+  \item[Parallel framework:] Sequential
+  \item[Benchmark scope:] \texttt{method-verification}
+\end{description}
+
+\todo[app-samurai-cwipi / benchmarking methodology]{Methodology details not provided in the sheet.}
+
+\todo[app-samurai-cwipi / metrics]{Sheet field missing.}
+
+\subsection{Input/Output Dataset Description}
+\subsubsection{Input Data}
+\todo[app-samurai-cwipi / inputs]{Sheet field missing.}
+
+\subsubsection{Output Data}
+\todo[app-samurai-cwipi / outputs]{Sheet field missing.}
+
+\subsection{Results summary}
+\todo[app-samurai-cwipi / results summary]{Results summary not provided in the sheet.}

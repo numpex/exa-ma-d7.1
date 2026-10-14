@@ -1,38 +1,50 @@
 %!TEX root = ../../exa-ma-d7.1.tex
-\chapter{Applications}
+\chapter{Applications and benchmarking}
 \label{chap:applications}
+\label{chap:benchmark-registry} % Preserve the former chapter reference.
 
 \import{chapters/applications}{intro}
 \import{chapters/applications}{framework}
 \import{chapters/applications}{registry}
 \import{chapters/applications}{cross-wp-matrix}
+\import{chapters/applications/}{benchmark-index}
 \import{chapters/applications}{specs}
 
-% Feel++ Applications - Benchmark Ready
+% Application fiches in lexicographic order of catalogue ID.
+\import{chapters/applications/specs/}{app-cgal-autorefine}
+\import{chapters/applications/specs/}{app-cgal-ccdt3}
+\import{chapters/applications/specs/}{app-cgal-cdt2}
+\import{chapters/applications/specs/}{app-eki}
 \import{chapters/applications/specs/}{app-feelpp-discr-1}
-\import{chapters/applications/specs/}{app-feelpp-thermoelectric}
 \import{chapters/applications/specs/}{app-feelpp-discr-2}
-\import{chapters/applications/specs/}{app-feelpp-io}
 \import{chapters/applications/specs/}{app-feelpp-distance}
-\import{chapters/applications/specs/}{app-feelpp-rb}
-
-% Feel++ Applications - Proposed/Spec-Only
-\import{chapters/applications/specs/}{app-feelpp-nlcrb}
-\import{chapters/applications/specs/}{app-feelpp-thermomeca-1}
-\import{chapters/applications/specs/}{app-feelpp-ktirio-geom}
-\import{chapters/applications/specs/}{app-feelpp-mi300a-fem}
 \import{chapters/applications/specs/}{app-feelpp-hifimagnet-inverse}
 \import{chapters/applications/specs/}{app-feelpp-hifimagnet-optcontrol}
-
-% CGAL and PETSc applications synchronized from the operational registry
-\import{chapters/applications/specs/}{app-cgal-autorefine}
-\import{chapters/applications/specs/}{app-cgal-cdt2}
-\import{chapters/applications/specs/}{app-cgal-ccdt3}
-\import{chapters/applications/specs/}{app-petsc-mixed-precision}
-
-% HPDDM/FreeFEM Applications - Benchmark Ready
-\import{chapters/applications/specs/}{app-hpddm-dfn}
+\import{chapters/applications/specs/}{app-feelpp-io}
+\import{chapters/applications/specs/}{app-feelpp-ktirio-geom}
+\import{chapters/applications/specs/}{app-feelpp-mi300a-fem}
+\import{chapters/applications/specs/}{app-feelpp-nlcrb}
+\import{chapters/applications/specs/}{app-feelpp-rb}
+\import{chapters/applications/specs/}{app-feelpp-thermoelectric}
+\import{chapters/applications/specs/}{app-feelpp-thermomeca-1}
+\import{chapters/applications/specs/}{app-feelpp-toolbox}
 \import{chapters/applications/specs/}{app-freefem-parmmg}
+\import{chapters/applications/specs/}{app-freefem-shape-opt-fem}
+\import{chapters/applications/specs/}{app-hpddm-dfn}
+\IfFileExists{chapters/applications/specs/app-kinetic-moment-closure.tex}{%
+  \import{chapters/applications/specs/}{app-kinetic-moment-closure}}{}
+\IfFileExists{chapters/applications/specs/app-parabolic-terminal-constraint.tex}{%
+  \import{chapters/applications/specs/}{app-parabolic-terminal-constraint}}{}
+\import{chapters/applications/specs/}{app-petsc-mixed-precision}
+\IfFileExists{chapters/applications/specs/app-samurai-burgers-2d.tex}{%
+  \import{chapters/applications/specs/}{app-samurai-burgers-2d}}{}
+\import{chapters/applications/specs/}{app-samurai-cwipi}
+\IfFileExists{chapters/applications/specs/app-samurai-euler-dmr.tex}{%
+  \import{chapters/applications/specs/}{app-samurai-euler-dmr}}{}
+\import{chapters/applications/specs/}{app-scimba-hybrid}
+\import{chapters/applications/specs/}{app-scimba-plasma}
+\import{chapters/applications/specs/}{app-scimba-shape-opt-nn}
+\import{chapters/applications/specs/}{app-zellij}
 
-% Proposed Applications - Early Stage
+% Preserve inherited planning notes separately from the sorted fiches.
 \import{chapters/applications/specs/}{app-proposed}
