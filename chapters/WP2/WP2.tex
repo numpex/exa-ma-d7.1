@@ -195,6 +195,23 @@ coupled by an obstacle condition. \\
 Cross-WP contribution or dependency & None identified yet \\
 \end{WPAdvanceRecord}
 
+
+\begin{WPAdvanceRecord}{WP2-A2026-4}
+Exa-MA task and bottleneck & T2.4 (reduced-basis methods for parametric problems), linked to T2.3 (nonlinear data-driven MOR); B7, B9 \\
+Concise description of the 2026 advance & Analysis of local nonlinear compressive approximation and parameter-based recovery of unresolved reduced coefficients in a combined Galerkin/regression formulation \\
+Responsible contributors and institutions & Hassan Ballout and Christophe Prud'homme (Cemosis, IRMA, University of Strasbourg), Yvon Maday (LJLL, Sorbonne Universit\'e); Joubine Aghili (Inria, MACARON) for the Taylor-based analysis \\
+Implementing software & Feel++ and \texttt{nonlinearrb}; implementation described in \Cref{sec:Feelpp:implementation-2026:nlrb} \\
+Software release, commit or PR & \href{https://github.com/feelpp/nonlinearrb}{Nonlinear reduced-basis software repository} \\
+Associated application ID & \texttt{app-feelpp-nlcrb} \\
+Associated benchmark ID & \texttt{BM-FEEL-NLCRB-01} \\
+Scientific or numerical result & Local sensing dimension equals the intrinsic solution-manifold dimension under the stated regularity assumptions; it equals the parameter dimension when the parameter-to-solution map is an immersion. NLCRBM++ separates parameter-based regression from the resolved Galerkin unknowns and separates reduced-basis and regression errors \\
+Performance or scalability result & No additional timing or scalability measurements reported \\
+References and supporting data & Taylor-based article \cite{hal_05466017}; companion article \emph{Combined Galerkin and Regression Based Algorithm For Parameter Dependent PDE's} \cite{hal_05143191}, H.~Ballout, Y.~Maday and C.~Prud'homme, \href{https://github.com/feelpp/article.nlrcb.siam}{article sources}; \href{https://github.com/feelpp/nonlinearrb}{software and examples} \\
+Maturity & Method analysis with nonlinear reduced-order implementations and verification examples \\
+Limitations and next step & The Taylor-based sensing result is local; wider parameter ranges can require more resolved coordinates or richer recovery maps. Comparisons must retain the same full-order discretization and distinguish basis, regression and hyper-reduction errors \\
+Cross-WP contribution or dependency & WP1: full-order finite-element/discontinuous-Galerkin models; WP7: Feel++ implementation and verification workflows \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 
 \WPUpdateNote{Update the inherited advances with the work performed in
@@ -345,6 +362,35 @@ During the reporting period, we have progressed on the following tasks:
   practically. The whole  process will be integrated  and validated on
   benchmarks in CFD and heat  transfer, with optimization for exascale
   computing.
+\paragraph{Nonlinear compressive reduced bases.}
+  The work developed in Hassan Ballout's PhD contributes to T2.4, with a
+  methodological connection to the nonlinear reduction studied in T2.3
+  (\Cref{tab:advance:WP2-A2026-4}). It splits reduced-basis coefficients
+  into resolved coordinates and coefficients reconstructed by a learned
+  nonlinear map, while retaining a Galerkin reduced formulation.
+
+  The article \emph{Nonlinear compressive reduced basis approximation:
+  when Taylor meets Kolmogorov} \cite{hal_05466017} relates the leading
+  reduced coordinates to a local Taylor description of the solution
+  manifold. Under the stated regularity assumptions, the local sensing
+  dimension equals the intrinsic manifold dimension; it equals the number
+  of parameters when the parameter-to-solution map is an immersion.
+  This is a local result: the global geometry over wider parameter ranges
+  can require a larger sensing dimension. The analysis also distinguishes
+  Taylor-adapted coordinates from raw empirical coordinates when interpreting
+  quadratic recovery maps.
+
+  The companion article \emph{Combined Galerkin and Regression Based
+  Algorithm For Parameter Dependent PDE's}, by H.~Ballout, Y.~Maday and
+  C.~Prud'homme \cite{hal_05143191}, develops NLCRBM++, where unresolved coefficients are
+  predicted from physical parameters, augmented for time-dependent problems.
+  The regression input dimension is thereby separated from the number of
+  unknowns in the online Galerkin solve. Its error analysis separates the
+  reduced-basis and regression contributions and examines the influence
+  of the number of resolved coefficients. The software and comparison
+  workflows are described separately in
+  \Cref{sec:Feelpp:implementation-2026:nlrb}.
+
 \item[T2.5]  First, we  note that  T2.5  has not  yet received  NumPEx
   funding. However, we have proposed  new approaches based on coupling
   with NNs.  In  the framework of a collaboration  between the MACARON
@@ -388,7 +434,7 @@ reporting period.
     FFT, a PINN or the new FE solver.
   \item   Reduced    basis   thermal   fin    (Feel++,   demonstrator,
     benchmark-ready): Section~\ref{sec:app:specs:app-feelpp-rb}.
-  \item  Nonlinear  compressive   RB  (Feel++,  proposed,  spec-only):
+  \item Nonlinear compressive RB (Feel++/nonlinearrb, implemented reduced-model workflows; benchmark campaign not reported):
     Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
 \end{itemize}
 
