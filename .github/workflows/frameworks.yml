@@ -29,7 +29,7 @@ permissions:
 jobs:
   select:
     name: Select framework fiches
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, self-feelpp]
     outputs:
       matrix: ${{ steps.select.outputs.matrix }}
       count: ${{ steps.select.outputs.count }}
@@ -73,7 +73,7 @@ jobs:
 
   generator:
     name: Test framework generator
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, self-feelpp]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
@@ -91,7 +91,7 @@ jobs:
     name: Build ${{ matrix.id }} framework fiche
     needs: [select, generator]
     if: needs.select.outputs.count != '0'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, self-texlive]
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -106,11 +106,12 @@ jobs:
           BUILD_REF: ${{ needs.select.outputs.suffix }}
           SOURCE_REVISION: ${{ github.sha }}
         run: python scripts/framework_previews.py --build-info --ref "$BUILD_REF" --revision "$SOURCE_REVISION"
-      - uses: xu-cheng/latex-action@v3
-        with:
-          root_file: ${{ matrix.root }}
-          latexmk_shell_escape: true
-          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode -outdir=output/frameworks
+      - name: Compile with the runner's TeX Live installation
+        env:
+          FRAMEWORK_ROOT: ${{ matrix.root }}
+        run: >-
+          latexmk --shell-escape -pdf -file-line-error -halt-on-error
+          -interaction=nonstopmode -outdir=output/frameworks "$FRAMEWORK_ROOT"
       - name: Name review PDF
         env:
           FRAMEWORK: ${{ matrix.id }}
@@ -126,7 +127,7 @@ jobs:
     name: Archive release framework fiches
     needs: [select, preview]
     if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, self-feelpp]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
