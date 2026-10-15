@@ -1,0 +1,56 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{PC5 demonstrator context}
+\label{sec:pc5:demonstrator-context}
+
+PC5 demonstrators integrate components and methods developed across the
+scientific work packages. An application benchmark may exercise one of
+these components and report its numerical behaviour or performance within the demonstrator. The scope of each reported result
+remains that of the component and configuration actually measured.
+
+\subsection{Ktirio Urban Building}
+\label{sec:pc5:ktirio-urban-building}
+
+Ktirio Urban Building addresses urban building energy simulation and
+decision support, in joint work with the HiDALGO2 Centre of Excellence.
+The demonstrator connects terrain and building geometry, urban microclimate
+and building energy models, and ensemble uncertainty quantification.
+The following Exa-MA contributions support these roles.
+
+\paragraph{Geometry generation and its benchmark application.}
+Ktirio-Geom is the component that generates terrain and building geometry
+from heterogeneous geographic inputs. Its developments include roof
+construction, tiled terrain generation, surface remeshing and volume
+meshing. The application \texttt{app-feelpp-ktirio-geom}
+(\Cref{sec:app:specs:app-feelpp-ktirio-geom}) benchmarks this component;
+\texttt{BM-FEEL-KTIRIO-01} reports the terrain-generation campaign.
+These contributions connect WP1/T1.1 meshing methods with WP7 implementation
+and benchmarking. The existing terrain timings cover one component of the
+urban demonstrator.
+
+\paragraph{Distributed geometric queries.}
+The Feel++ two-level BVH and asynchronous MPI queries provide distributed
+geometric-search infrastructure for the demonstrator. This WP1/T1.4
+contribution complements Ktirio-Geom's geometry generation; its software
+implementation is documented in the Feel++ fiche.
+
+\paragraph{Urban microclimate and building energy coupling.}
+The preCICE integration targets coupling urban microclimate with building
+energy simulation while allowing the solvers to retain their own
+interface meshes and discretizations. WP1/T1.5 describes interface
+field transfer, with a connection to the multiphysics context of T1.7.
+WP7 documents the Feel++ adapter and OpenFOAM participant deployment.
+The same infrastructure also supports broader Feel++--OpenFOAM coupling
+objectives.
+
+\paragraph{Ensemble UQ and decision support.}
+Large ensembles of urban building energy simulations create memory and
+I/O challenges through their building-level outputs and time series.
+The Ensemble/UQ framework resides in Ktirio Urban Building and builds on
+Feel++ streaming statistical processing. The WP6/T6.4 contribution, with
+relevance to T6.2, concerns that statistical-processing layer: mergeable
+summaries and quantiles provided by feelstats. Ensemble execution,
+dedicated I/O ranks and application-level VaR/CVaR risk products belong
+to the Ktirio framework. The Feel++ fiche describes the statistical
+components and their application context. Geometry benchmark results and
+energy/UQ assessments retain their respective scopes within this common
+demonstrator.

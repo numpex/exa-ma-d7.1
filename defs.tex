@@ -237,3 +237,10 @@ evidence/raw data & \todo[#1 / evidence/raw data]{Provide a durable URL or DOI.}
   \else
     \nolinkurl{#1}% Specifications supplied by pending PRs may be absent.
   \fi}
+
+% Link the shared PC5 context when present; keep individual standalones readable.
+\newcommand{\KtirioUrbanBuildingContext}{%
+  Ktirio Urban Building%
+  \ifcsname r@sec:pc5:ktirio-urban-building\endcsname
+    ~ (\Cref{sec:pc5:ktirio-urban-building})%
+  \fi}
