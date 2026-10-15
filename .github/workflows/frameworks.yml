@@ -111,12 +111,12 @@ jobs:
           FRAMEWORK_ROOT: ${{ matrix.root }}
         run: >-
           latexmk --shell-escape -pdf -file-line-error -halt-on-error
-          -interaction=nonstopmode -outdir=output/frameworks "$FRAMEWORK_ROOT"
+          -interaction=nonstopmode "$FRAMEWORK_ROOT"
       - name: Name review PDF
         env:
           FRAMEWORK: ${{ matrix.id }}
           SUFFIX: ${{ needs.select.outputs.suffix }}
-        run: mv "output/frameworks/$FRAMEWORK.pdf" "output/frameworks/exa-ma-framework-$FRAMEWORK-$SUFFIX.pdf"
+        run: mv "$FRAMEWORK.pdf" "output/frameworks/exa-ma-framework-$FRAMEWORK-$SUFFIX.pdf"
       - uses: actions/upload-artifact@v4
         with:
           name: framework-pdf-${{ matrix.id }}

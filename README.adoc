@@ -677,11 +677,13 @@ preserved and excluded from generated previews (issue #127). The scientific text
 python3 scripts/framework_previews.py --write
 # Check wrappers and record the report version and Git revision for local PDFs.
 python3 scripts/framework_previews.py --check --build-info
-latexmk --shell-escape -pdf -outdir=output/frameworks standalone/frameworks/feelpp.tex
+latexmk --shell-escape -pdf standalone/frameworks/feelpp.tex
 ----
 
 Framework LaTeX builds run on `self-texlive`, using the installed TeX Live
-directly without a Docker image. Selection, tests and archiving use `self-feelpp`.
+directly without a Docker image. Compilation runs from the repository root for
+compatibility with minted 2 on the runners; completed PDFs are then moved to
+the artifact directory. Selection, tests and archiving use `self-feelpp`.
 PR checks build affected framework fiches. Changes to shared definitions,
 styles, graphics, bibliography or preview infrastructure rebuild all fiches.
 Each PDF records the report version, build reference and source revision.
