@@ -8,14 +8,49 @@
 \subsection{Description of the benchmark}
 Provide a benchmark framework to study the effects of mixed precision on PETSc Krylov solvers and preconditioners in terms of performance, convergence, and numerical accuracy.
 
+\paragraph{Scientific objective and scope.}
+This matrix-based mini-app will assess whether reduced precision in selected
+solver or preconditioner stages decreases time-to-solution and
+energy-to-solution while meeting prescribed residual and solution-error
+tolerances. The baseline is a full double-precision solve of the same linear
+system. The matrix suite and supported precision combinations remain to be
+selected.
+
 \subsection{Benchmarking methodology}
 
 
+\paragraph{Relation to the 2026 developments.}
+The PETSc-native CPU/CUDA backend of \texttt{PCHPDDM}, released with HPDDM 2.4.0
+and PETSc 3.25, is described in \cref{tab:advance:WP3-A2026-3}.
+It is a candidate execution path for this study; mixed-precision support
+must be established for each selected configuration. CPU/GPU comparisons
+will be reported separately from precision comparisons. Subdomains shared
+by several MPI processes remain a prototype
+(\cref{tab:advance:WP3-A2026-4}); no validation of that feature by this
+application is reported here.
+
 \paragraph{Benchmark contract.}
-\texttt{BM-PETSC-MIXED-01} covers solver scaling, time-to-solution,
-energy-to-solution and residual/accuracy preservation.  \todo{Provide the matrix
-set, precision combinations, convergence tolerances, PETSc/solver commits,
-machine, energy measurement method, repetitions and raw logs.}
+\texttt{BM-PETSC-MIXED-01} will compare supported precision configurations
+on identical inputs and resources at the same numerical acceptance targets.
+Timings will separate setup, solve, precision conversion and host/device
+transfer costs, with the end-to-end measurement boundary stated explicitly.
+Scaling studies will record matrix size, partition, MPI processes, threads
+and GPUs, where applicable. Energy-to-solution will be reported only with a
+documented instrument, sampling method and CPU/GPU/node coverage, using the
+same measurement interval as time-to-solution. Repeated runs will report
+variability.
+
+\paragraph{Maturity and next steps.}
+The application remains \texttt{implementation-in-progress}; no measured
+performance, scalability or accuracy results are reported here.
+Next steps are to publish the executable and configurations, version the
+matrix suite, validate the supported precision combinations, and run the
+benchmark campaign.
+\todo{Provide the application repository, dataset provenance and identifiers,
+precision configurations, numerical acceptance thresholds, exact software
+versions or commits and build options, machine and resource requirements,
+energy measurement method, repetition count, raw logs and analysis scripts.}
+
 \begin{description}
   \item[Method-Algorithm WP3:] direct solver, multi-precision, domain decomposition methods, krylov solver, preconditioning
   \item[Framework:] PETSc, HPDDM, MUMPS
@@ -23,9 +58,23 @@ machine, energy measurement method, repetitions and raw logs.}
   \item[Benchmark scope:] solver-scaling
   \item[metrics:] time-to-solution, energy-to-solution
 \end{description}
-\todo[app-petsc-mixed-precision / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
 
 \subsection{Input/Output Dataset Description}
+
+\paragraph{Inputs, outputs and validation.}
+Planned inputs are matrices and right-hand sides in PETSc binary or Matrix
+Market format, versioned solver options, and reference solutions with a
+documented accuracy assessment. Each configuration will specify storage
+and arithmetic precision for the operator, outer iteration, residual
+evaluation, preconditioner, and local and coarse solves, as applicable.
+Outputs will include the solution, convergence reason, iteration count,
+residual history, phase timings and raw measurements.
+Validation will independently recompute the true residual using the original
+system in double precision and compare the solution with the reference.
+Residual and solution-error thresholds will be fixed before benchmarking;
+a small residual alone will not be treated as evidence of small solution
+error. Failed or stagnating solves will also be reported.
+
 
 \subsubsection{Input Data}
 PETSc binary, Matrix Market

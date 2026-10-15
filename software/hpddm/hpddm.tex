@@ -20,6 +20,7 @@ Sorbonne U\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
 pierre@joliv.et\\
+erik.fabrizzi@lip6.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
 CPU or GPU\\
@@ -83,7 +84,7 @@ Python\\
 GPU\\
 MPI\\
 Multithread\\
-\end{tabular} & Subdomains are typically bound to an MPI process, which can then exploit OpenMP or CUDA.\\
+\end{tabular} & Subdomains are typically bound to an MPI process, which can then exploit OpenMP or CUDA. Since 2026, device execution in \texttt{PCHPDDM} is delegated to PETSc; support for subdomains shared by several MPI processes is in development.\\
         \rowcolor{white}Data Formats  & \begin{tabular}{l}
 in-house format\\
 \end{tabular} & The software mostly relies on the data formats of calling libraries, e.g., PETSc.\\
@@ -92,7 +93,7 @@ None\\
 \end{tabular} & Currently no recovery mechanisms.\\
         \rowcolor{white}DevOps & \begin{tabular}{l}
 Continuous Integration\\
-\end{tabular} & GitHub Actions is used for running a test suite with MPI and CUDA examples. Codecov is used for the code coverage.  \\
+\end{tabular} & GitHub Actions is used for running a test suite with MPI and CUDA examples. \texttt{clang-format} and \texttt{clang-tidy} are enforced. Codecov is used for the code coverage.  \\
         \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
 None\\
 \end{tabular} & Available in Spack, MacPorts, PETSc, SLEPc, and FreeFEM.\\
@@ -119,11 +120,71 @@ HTOOL\\
 \end{table}
 
 
+\subsection{Developments in 2026}
+\label{sec:HPDDM:2026}
+
+\paragraph{PETSc-native CPU/CUDA backend.}
+The \texttt{PCHPDDM} integration in HPDDM 2.4.0 and PETSc 3.25 uses PETSc
+\texttt{Vec} and \texttt{Mat} objects for the partition of unity, deflation
+vectors and coarse-correction work vectors.
+The corresponding operations use PETSc's CPU or CUDA implementations,
+with storage chosen consistently with the input operators.
+The implementation is documented by
+\href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148} and
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}.
+
+The supporting dense-matrix interfaces
+\texttt{MatCreateDenseWithMemType()} and
+\texttt{MatDenseReplaceArrayWithMemType()} were added in
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9117}{PETSc MR !9117};
+their adoption in HPDDM is recorded in
+\href{https://github.com/hpddm/hpddm/pull/146}{PR \#146}.
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9130}{PETSc MR !9130}
+adds \texttt{MatDiagonalScale()} for sequential CUDA/HIP dense matrices.
+The HPDDM backend described here targets CUDA; HIP support in an individual
+PETSc operation does not establish support for the complete HPDDM path.
+
+The numerical method is unchanged. Coarse-operator assembly and
+factorization remain on the host, and the deflation implementation still
+contains host accesses during application.
+Performance evaluation must therefore account for host work and transfers
+during both setup and solve. A device-resident coarse operator and Kokkos
+support remain development objectives.
+
+\paragraph{Subdomains shared by several MPI processes.}
+A separate, unreleased prototype groups the processes of a subdomain in a
+sub-communicator, enabling parallel direct solvers for local problems.
+The processes contribute collectively to the coarse operator, with assembly
+coordinated by a leader; \texttt{PCGASM} provides the one-level smoother.
+The prototype is restricted to two levels and excludes block splitting,
+harmonic overlap, \texttt{-pc\_hpddm\_levels\_1\_st\_pc\_type mat}, and
+Schur-complement preconditioning.
+Its current validation uses a local driver; regression tests of the
+one-subdomain-per-process path do not validate the new shared-subdomain path.
+A versioned implementation reference and a registered test are still needed.
+
+\paragraph{Evidence and application evaluation.}
+The released sources are available as
+\href{https://github.com/hpddm/hpddm/tree/v2.4.0}{HPDDM 2.4.0} and
+\href{https://github.com/petsc/petsc/tree/v3.25.0}{PETSc 3.25.0}.
+Registered CUDA regression cases are included in
+\href{https://github.com/petsc/petsc/blob/v3.25.0/src/ksp/ksp/tutorials/ex76.c}{\texttt{ex76.c}};
+the dense diagonal-scaling tests are in
+\href{https://github.com/petsc/petsc/blob/v3.25.0/src/mat/tests/ex69.c}{\texttt{ex69.c}}.
+These test definitions provide reproducible entry points; benchmark results
+require the run configurations and raw measurements described in
+\cref{sec:app:specs:app-hpddm-dfn}.
+The maturity and limitations of the two developments are summarized in
+\cref{tab:advance:WP3-A2026-3,tab:advance:WP3-A2026-4}.
+\todo{Attach the tested build configurations, CI or test-run logs, and the
+prototype revision and driver.}
+
 \subsection{Application entry points}
 \label{sec:HPDDM:apps}
-HPDDM underpins domain decomposition preconditioning in multiple applications:
+Applications using or evaluating HPDDM domain decomposition preconditioning include:
 \begin{itemize}
-        \item Discrete Fracture Networks (DFN) demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
+        \item Discrete Fracture Networks (DFN) demonstrator: \cref{sec:app:specs:app-hpddm-dfn}; benchmark \texttt{BM-HPDDM-DFN-01}, with versioned application evidence pending.
+        \item PETSc mixed-precision study: \cref{sec:app:specs:app-petsc-mixed-precision}; benchmark \texttt{BM-PETSC-MIXED-01}, with supported precision configurations and accuracy criteria to be specified.
         \item FreeFEM integration in mesh adaptation workflows (see Section~\ref{sec:app:specs:app-freefem-parmmg}).
         \item Feel++‑based demonstrators using HPDDM preconditioning (see Sections~\ref{sec:app:specs:app-feelpp-discr-1} and~\ref{sec:app:specs:app-feelpp-discr-2}).
 \end{itemize}
