@@ -12,7 +12,7 @@
 % 7. provide software versions, machine configurations, references and evidence links;
 % 8. identify missing application or benchmark mappings instead of inventing connections.
 
-\chapter{WP7 integration overview}
+\chapter{WP7 -- Coordination and Activity Report (D7.4)}
 \label{chap:wp7}
 
 \section{Main advances in 2026}
@@ -38,6 +38,81 @@ Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproduc
 Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
+
+\section{Co-design with PC5 and application demonstrators: initial feedback towards D7.2}
+\label{sec:wp7:codesign-initial-feedback}
+
+This section records an initial contribution to the T7.2 co-design report,
+D7.2, scheduled at M48 and M60. It connects application needs to the
+methodological and software contributions described elsewhere in this report.
+The 2025 activity-report material records Exa-MA interactions with the PC5
+working groups on high-order discretization, block-structured AMR and
+unstructured meshing. The accounts below retain the scope of the documented
+work and identify the feedback still needed for D7.2.
+% Sources: Exa-MA ANR 2026 reporting material for 2025, section
+% "Articulation du projet avec les autres projets de ce PEPR";
+% WP1/T1.4; PC5 Ktirio Urban Building context; Feel++ implementation fiche.
+
+\subsection{PC5 working group on efficient high-order discretization}
+
+The WP1/T1.4 contribution describes a wave-equation proxy application
+and a portable high-order finite-element library developed within the PC5
+working group on Efficient High-Order Discretization. The proxy provides
+an application setting for CPU/GPU kernels through Kokkos, with high-order
+continuous and discontinuous Galerkin formulations. Its methodological scope
+and development steps remain in WP1; the related FUnTiDES wave-propagation
+software is described separately in \Cref{sec:FUnTiDES:software}.
+
+The co-design link is the use of a wave application to guide numerical-kernel
+and portability requirements. The WP1 account identifies face-term fusion,
+additional finite-element spaces and transfer operators as further development
+steps. This initial account does not add a performance comparison or infer
+that these steps have been completed.
+
+\subsection{PC5 working groups on block-structured AMR and unstructured meshing}
+
+The recorded interactions with these two groups connect Exa-MA discretization
+work to the PC5 application context. The existing technical material provides
+separate descriptions of Cartesian adaptive-mesh methods in the Samurai fiche
+(\Cref{sec:Samurai:software}), and of unstructured mesh adaptation and geometry
+processing in WP1. These descriptions establish the available methods and
+software; they do not, by themselves, establish decisions reached within the
+working groups.
+
+\todo[WP7 / D7.2 / PC5 AMR and unstructured-mesh feedback]{Document the
+application requirements discussed with each working group, the resulting
+methodological or software choices, and the remaining interface or validation
+questions, with links to the corresponding discussion records or contributions.}
+
+\subsection{Ktirio Urban Building and the HiDALGO2 Centre of Excellence}
+
+The joint work on Ktirio Urban Building supplies a concrete co-design context
+for urban building energy simulation and decision support. The demonstrator
+needs terrain and building geometry, urban-microclimate/building-energy
+coupling, and processing of large ensembles of building outputs. The component
+roles and their relationships are described in
+\Cref{sec:pc5:ktirio-urban-building}; this section records their implications
+for the collaboration rather than repeating the fiches.
+
+The geometry workflow connects application inputs to Ktirio-Geom and its
+benchmark application, \texttt{app-feelpp-ktirio-geom}
+(\Cref{sec:app:specs:app-feelpp-ktirio-geom}). Distributed geometric searches
+motivate the Feel++ BVH contribution
+(\Cref{sec:Feelpp:implementation-2026:bvh}). Coupling urban microclimate and
+building energy models motivates interface field transfer through preCICE
+and the Feel++--OpenFOAM participants
+(\Cref{sec:Feelpp:implementation-2026:precice}). Memory and I/O constraints
+in ensemble simulations motivate streaming statistical processing in Feel++,
+on which the Ktirio Ensemble/UQ framework builds
+(\Cref{sec:Feelpp:implementation-2026:stats}).
+
+These connections identify how demonstrator requirements guide component
+work across WP1, WP6 and WP7. The reported terrain timings characterize
+Ktirio-Geom's terrain-generation workflow; they do not quantify the complete
+coupled energy or ensemble/UQ workflow. The existing fiches retain the
+component limitations and assessment needs. Further co-design feedback should
+record interface choices and assess geometry, coupling and statistical
+processing against their respective application requirements.
 
 \section{Inherited WP7 material to update}
 \WPUpdateNote{Review the inherited methodology, software and application chapters
