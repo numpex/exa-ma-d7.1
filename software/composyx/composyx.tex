@@ -39,8 +39,14 @@ B7 - Exascale Algorithms\\
 
 \subsection{Software summary}
 \label{sec:Composyx:summary}
-Composyx (previously  Maphys++) is a linear algebra C++20 library focused on composability. Its purpose is to allow the user to express a large panel of algorithms using a high-level interface to range from laptop prototypes to many node supercomputer parallel computations.
-Currently it mostly implements domain decomposition methods as described in~\cite{agullo_robust_2019} using hybrid parallel implementation (MPI+Thread, MPI+StarPU) to address heterogeneous manycores.
+Composyx (previously Maphys++) is a linear algebra C++20 library
+focused on composability. Its purpose is to allow the user to express
+a large panel of algorithms using a high-level interface to range from
+laptop prototypes to many node supercomputer parallel computations.
+Currently it mostly implements domain decomposition methods as
+described in~\cite{agullo_robust_2019} using hybrid parallel
+implementation (MPI+Thread, MPI+StarPU) to address heterogeneous
+manycores.
 
 \begin{figure}
         \centering
@@ -52,13 +58,16 @@ Currently it mostly implements domain decomposition methods as described in~\cit
 
 \subsection{Purpose}
 \label{sec:Composyx:purpose}
-Solution of large sparse linear systems using preconditioned subspace methods. For that purpose it relies on the Fabulous packages that implements various techniques including block variants for multiple right-hand sides~\cite{giraud_block_2022}.
+Solution of large sparse linear systems using preconditioned subspace
+methods. For that purpose it relies on the Fabulous packages that
+implements various techniques including block variants for multiple
+right-hand sides~\cite{giraud_block_2022}.
 
 \subsection{Programming and Computational Environment}
 \label{sec::Composyx:environment_capabilities}
 
-
-The following table summarizes these aspects for Composyx, providing a  view of its programming and computational capabilities.
+The following table summarizes these aspects for Composyx, providing a
+view of its programming and computational capabilities.
 
 \begin{table}[ht!]
     \centering
@@ -78,7 +87,7 @@ Fortran\\
 GPU\\
 MPI\\
 Multithread\\
-\end{tabular} & Multithreading OpenMP and Posix, hybrid CPU-GPU with StarPU.\\
+\end{tabular} & Multithreading OpenMP and Posix, hybrid CPU-GPU with StarPU, full GPU (CUDA / HIP).\\
 %\rowcolor{white}Data Formats  & \begin{tabular}{l} None\\ \end{tabular} & Data formats that the software can handle or produce.\\
 %\rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l} None\\ \end{tabular} & \\
 \rowcolor{white}DevOps & \begin{tabular}{l} Continuous Integration\\ \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
@@ -93,14 +102,52 @@ Multithread\\
     \caption{Composyx programming and computational environment}
 \end{table}
 
-
-
 %\subsection{Mathematics}
 %\label{sec:Composyx:mathematics}
 %Mathematics not available.
 
 %In this section, provide a summary the mathematics used in the software.
 
+\subsection{2026 implementation developments}
+
+New releases from version 1.4.1 at the end of 2025 to 1.7.1 in October
+2026. The main new features are the support of GPU. CUDA support for
+nvidia GPUs and more recently HIP for AMD GPUs were added,
+benchmarked, and documented with tutorials.
+
+\paragraph{}
+Using CUDA, we were able to achieve good weak scaling from 1 to 32
+nodes on Jean-Zay, with an efficiency up to 88\%. Similarly, using
+HIP, we obtained on weak scaling from 1 to 128 nodes on Adastra an
+efficiency up to 89\%.
+
+\subsubsection{Next steps}
+
+GPU development and benchmarking is going on. We expect to have
+results on the LUMI supercomputer to test scalability up to the limit:
+1024 nodes, 4096 MI250x GPUs.
+
+\paragraph{}
+
+We also want to explore mixed precision algorithms: some part of the
+computations may be done more efficiently with lower arithmetic
+precision, especially on the future GPU architectures where simple and
+half precision will be much faster than double precision.
+Composability in Composyx will allow us to identify these parts of the
+code and what is their impact on the computation, both numerically and
+in terms of performance.
+
+\paragraph{}
+
+A new class to describe distributed matrices with more flexibility is
+currently under development with the work of Arthur Gouinguenet. This
+work will provide for the user a way to give an input matrix to
+Composyx with his/her own distribution, dealing with degrees of
+freedom potentially shared between subdomains. It will provide
+redistribution of coefficients to adapt to specific format for other
+libraries. This work was motivated by the application \textit{Hawen}
+where calls to distributed solvers such as Mumps could benefit from
+this new approach to describe matrices.
 
 \subsection{Relevant Publications}
 \label{sec:Composyx:publications}
@@ -126,8 +173,4 @@ The software has been developed with the support of the following funding agenci
   \item DGA through the Hi-Box project,
   \item Software development was performed using the PlaFRIM experimental testbed, supported by Inria, CNRS (LABRI and IMB), Université de Bordeaux, Bordeaux INP and Conseil R\'egional d’Aquitaine (see https://www.plafrim.fr) as well as on national GENCI platform.
 \end{itemize}
-
-
-
-
 

@@ -151,6 +151,40 @@ New releases from version 1.4.1 at the end of 2025 to 1.7.1 in October
 nvidia GPUs and more recently HIP for AMD GPUs were added,
 benchmarked, and documented with tutorials.
 
+\subsection{Test case}
+
+Stationary heterogeneous diffusion equation (or Darcy equation) in a 3D stratified medium:
+$$\nabla \cdot (k \nabla u) = 1$$
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/baton.png}
+  \caption{Composyx scaling on Adastra}
+  \label{fig:composyx-baton}
+\end{figure}
+
+\begin{itemize}
+\item each subdomain consists in $60 \times 60 \times 60 = 216 000$ unknowns;
+\item interfaces between two adjacent subdomains have $60 \times 60 = 3 600$ unknowns;
+\item benchmark in \textbf{weak scaling} (subdomains are stacked on along an axis)
+\item we use one subdomain per GPU, $n_{sd} = n_{GPU}$
+\end{itemize}
+
+\begin{table}[ht]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \setlength{\tabcolsep}{6pt}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $n_{\mathrm{sd}}$ & 4 & 8 & 16 & 32 & 64 & 128 & 256 & 512 & 1024 \\
+        \hline
+        Number of dofs & 853\,200 & 1\,702\,800 & 3\,402\,000 & 6\,800\,400 & 13\,597\,200 & 27\,190\,800 & 54\,378\,000 & 108\,752\,400 & 217\,501\,200 \\
+        \hline
+        Schur size     & 10\,800 & 25\,200 & 54\,000 & 111\,600 & 226\,800 & 457\,200 & 918\,000 & 1\,839\,600 & 3\,682\,800 \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \subsubsection{Scalability results with HIP}
 
 In summer 2026 development for AMD GPU started, using HIP. The code
@@ -161,15 +195,16 @@ open-source code from AMD was therefore quite easy to deploy.
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{graphics/composyx/results_adastra_S.png}
-  \caption{Composyx scaling on Adastra}
+  \caption{Composyx weak scaling on Adastra}
   \label{fig:composyx-adastra}
 \end{figure}
 
 On Figure \ref{fig:composyx-adastra} are the scaling results from 1 to
-128 nodes. Each node has of 4 AMD GPU MI250x, with 2 \textit{Graphics
-  Compute Die} (GCD) per MI250x, so we use 8 subdomains in total per
-node. On the top of each bar is the number of iterations performed,
-and on top of each graph is preconditioner type:
+128 nodes. The stopping criterion for this experiment is
+$\frac{||b - A x ||}{||b||} = 10^{-6}$. Each node has of 4 AMD GPU MI250x, with 2
+\textit{Graphics Compute Die} (GCD) per MI250x, so we use 8 subdomains
+in total per node. On the top of each bar is the number of iterations
+performed, and on top of each graph is preconditioner type:
 
 \begin{itemize}
 \item \textit{0} for no preconditioner
@@ -181,10 +216,10 @@ and on top of each graph is preconditioner type:
 \item \textit{NNGd} for Neumann-Neumann with deflated Geneo
 \end{itemize}
 
-We can see for Additive Schwarz an efficiency of 89\% from 1 node to
-128. Computation of the Schur complement is done on the CPU by a
-sparse linear solver (Mumps here) and takes a large proportion of the
-total time spent in Composyx.
+We can see for Additive Schwarz an efficiency of 89\%
+($\frac{time(1 node)}{time(128 nodes)}$). Computation of the Schur
+complement is done on the CPU by a sparse linear solver (Mumps here)
+and takes a large proportion of the total time spent in Composyx.
 
 \subsubsection{Scalability results with CUDA}
 
@@ -194,13 +229,18 @@ in 2026 and was benchmarked on the GENCI Jean-Zay supercomputer.
 \begin{figure}
   \centering
   \includegraphics[width=0.8\textwidth]{graphics/composyx/results_jeanzay_S.png}
-  \caption{Composyx scaling on Jean-Zay}
+  \caption{Composyx weak scaling on Jean-Zay}
   \label{fig:composyx-jean-zay}
 \end{figure}
 
 On Figure \ref{fig:composyx-jean-zay}, we can see scaling results from
 1 to 32 nodes, with 4 GPU v100 per node and one subdomain per GPU. We
-can see for Additive Schwarz an efficiency of 88\% from 1 node to 32.
+can see for Additive Schwarz an efficiency of 88\%
+($\frac{time(1 node)}{time(32 nodes)}$).  The
+stopping criterion for this experiment is
+$\frac{||b - A x ||}{||b||} = 10^{-8}$.
+
+\paragraph{}
 CUDA software stack is more complete than HIP's one. In particular,
 the cuDSS library provides a sparse direct solver on GPU, which does
 not have a counterpart for AMD where these type of computations have
@@ -210,7 +250,7 @@ to be made on CPU.
 
 GPU development and benchmarking is going on. We expect to have
 results on the LUMI supercomputer to test scalability up to the limit:
-1024 nodes, 4048 MI250x GPUs.
+1024 nodes, 4096 MI250x GPUs.
 
 \paragraph{}
 
