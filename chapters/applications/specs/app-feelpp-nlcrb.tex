@@ -1,15 +1,20 @@
 %!TEX root = ../../../../exa-ma-d7.1.tex
 
 \ApplicationFicheHeading{app-feelpp-nlcrb}
-\textbf{Proposed: Nonlinear Compressive Reduced Basis Methods}
+\textbf{Nonlinear Compressive Reduced Basis Methods}
 
 \label{sec:app:specs:app-feelpp-nlcrb}
 
-\textbf{Status:} This is a \emph{proposed} demonstrator currently in specification phase. Implementation target: 7/1/2026.
+\textbf{Status:} Reduced-model workflows are implemented in
+\href{https://github.com/feelpp/nonlinearrb}{nonlinearrb}, using Feel++
+finite-element kernels. The catalogue status is
+\emph{implementation-in-progress}; the implementation evidence and
+remaining benchmark work are described below.
+\todo[app-feelpp-nlcrb / repository mapping]{Add the nonlinearrb implementation repository to the application catalogue.}
 
-This demonstrator will explore nonlinear compressive reduced basis (NLCRB) methods that combine reduced basis techniques with neural network-based compression for highly nonlinear parametric PDEs. This represents a cutting-edge approach at the intersection of model order reduction and machine learning.
+This demonstrator studies nonlinear compressive reduced-basis methods for parametric PDEs. The current method retains resolved Galerkin coordinates and reconstructs unresolved reduced coefficients through learned maps.
 
-\Cref{tab:app-feelpp-nlcrb} describes the specifications of the proposed application.
+\Cref{tab:app-feelpp-nlcrb} records the catalogue specification. The current implementation is described separately to preserve the provenance of the snapshot.
 
 \begin{table}[ht]
     \centering
@@ -39,7 +44,7 @@ This demonstrator will explore nonlinear compressive reduced basis (NLCRB) metho
         WP7 & \\
         outputs & JSON config, JSON small-data, Gmsh, JSON reports \\
         metrics & \texttt{benchmark-verification}, \texttt{basis-size}, \texttt{online-speedup} \\
-        status & spec-only \\
+        Catalogue status & implementation-in-progress \\
         Benchmark scope & multi-node, multi-gpu \\
         Framework & Feel++, PETSc, PyTorch \\
         parallel\_framework & MPI, Kokkos, GPU \\
@@ -47,7 +52,7 @@ This demonstrator will explore nonlinear compressive reduced basis (NLCRB) metho
         proto\_due & 7/1/2026 \\
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
     \end{tblr}
-    \caption{Description of the proposed demonstrator \texttt{app-feelpp-nlcrb}.}
+    \caption{Catalogue specification of the demonstrator \texttt{app-feelpp-nlcrb}.}
     \label{tab:app-feelpp-nlcrb}
 \end{table}
 
@@ -55,7 +60,23 @@ This demonstrator will explore nonlinear compressive reduced basis (NLCRB) metho
 
 
 \subsection{Description of the benchmark}
-\subsubsection{Motivation and scientific context}
+\subsubsection{Current methodological contribution}
+The work in Hassan Ballout's PhD develops nonlinear compressive reduced
+bases and parameter-based recovery of unresolved coefficients. The local
+Taylor analysis and the combined Galerkin/regression formulation are
+reported in \cite{hal_05466017,hal_05143191} and summarized under WP2/T2.4
+in \Cref{tab:advance:WP2-A2026-4}. Regression reconstructs unresolved
+coefficients while a Galerkin solve determines the resolved unknowns;
+this is distinct from an encoder--decoder correction to a full solution.
+The implementation, including the DG Burgers testbed, is documented in
+\Cref{sec:Feelpp:implementation-2026:nlrb}.
+
+\subsubsection{Initial benchmark proposal: motivation and scientific context}
+The following retained proposal describes candidate extensions and an
+initial encoder--decoder direction. It does not describe the implemented
+Galerkin/regression method above or establish GPU execution or measured
+performance.
+
 
 Traditional reduced basis methods excel for linear or mildly nonlinear problems but can struggle with strongly nonlinear phenomena where the solution manifold has high Kolmogorov width. Recent advances in machine learning suggest that neural networks can learn compressed representations of nonlinear solution manifolds more efficiently than linear subspaces.
 
@@ -87,7 +108,19 @@ Each problem will be parametrized with 4-10 parameters covering geometric, mater
 
 
 \subsection{Benchmarking methodology}
-\subsubsection{Proposed methodology}
+\subsubsection{Verification of the implemented method}
+The existing comparison workflow uses a common DG-P0 Burgers full-order
+model, with identical fluxes, source integration, Newton configuration and
+time grid across the full-order and reduced models. The assessment must
+distinguish basis, regression and hyper-reduction errors. Proposed metrics
+are approximation error, resolved dimension, offline cost and online
+speedup; no completed timing or scalability campaign is reported.
+
+\subsubsection{Initial benchmark plan}
+The retained phases, numerical targets and schedule below are proposals,
+not completed milestones or measured results.
+\todo[app-feelpp-nlcrb / benchmark plan]{Review the initial candidate problems, numerical targets and schedule against the implemented Galerkin/regression workflows.}
+
 
 \paragraph{Phase 1: Data generation (high-fidelity simulations)}
 \begin{itemize}

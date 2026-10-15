@@ -114,35 +114,21 @@ Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \begin{WPAdvanceRecord}{WP3-A2026-2}
 Exa-MA task and bottleneck & T3.1 and T3.3.1; B7 (Exascale Algorithms) \\
 Concise description of the 2026 advance & Feel++ integration of HPDDM preconditioning and two-by-two block static condensation \\
-Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg \\
 Implementing software & Feel++, PETSc, HPDDM \\
 Software release, commit or PR & \nolinkurl{feelpp/feel/feelalg/preconditionerpetsc.hpp}; static condensation: \nolinkurl{feelpp/feel/feelalg/staticcondensation.hpp} \\
 Associated application ID & No new catalogue mapping; Laplacian and elasticity examples exercise the solver interfaces \\
 Associated benchmark ID & No new benchmark registry ID assigned \\
-Scientific or numerical result & No quantitative result imported into this record \\
-Performance or scalability result & No 2026 scalability result reported here \\
+Scientific or numerical result & Not reported \\
+Performance or scalability result & No 2026 scalability measurements reported \\
 Evidence and raw-data location & \nolinkurl{testsuite/feelalg/test_hpddm.cpp}, \nolinkurl{testsuite/feelalg/test_hpddm_laplacian.cpp}, product-space tests and elasticity quickstart tests \\
-Maturity & Implementation and tests present in the 2026 history \\
+Maturity & Integrated solver components with verification tests \\
 Limitations and next step & The solver techniques are established; application-specific solver configuration and quantitative scaling evidence are separate from the interface tests \\
 Cross-WP contribution or dependency & WP1: mixed discretizations; WP7: solver interfaces \\
 \end{WPAdvanceRecord}
 
 % Cemosis / Feel++ 2026 contribution.
-\begin{WPAdvanceRecord}{WP3-A2026-3}
-Exa-MA task and bottleneck & T3.3.2; B7 (Exascale Algorithms), B10 (Scientific Productivity) \\
-Concise description of the 2026 advance & Partitioned multiphysics integration through preCICE \\
-Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
-Implementing software & Feel++, preCICE; OpenFOAM deployment support \\
-Software release, commit or PR & \href{https://github.com/feelpp/feelpp/issues/2525}{Feel++ issue~2525} \\
-Associated application ID & No catalogue ID yet; two-participant steady-diffusion quickstart \\
-Associated benchmark ID & No benchmark registry ID assigned \\
-Scientific or numerical result & The quickstart specifies $T(x,y)=(1-x)/2$ and a global $L^2$ acceptance threshold of $10^{-10}$. Its local documentation reports checks at 1, 2, 4 and 8 MPI ranks per participant with OpenMPI 5 and MPICH \\
-Performance or scalability result & No 2026 scalability result reported here \\
-Evidence and raw-data location & \nolinkurl{feelpp/quickstart/precice/README.adoc}, \nolinkurl{testsuite/feeldiscr/test_precice.cpp} and \nolinkurl{packaging/docker/openfoam/README.md} \\
-Maturity & Integrated coupling adapter, diffusion quickstart and deployment recipes \\
-Limitations and next step & The example transfers temperature in one direction; no heat-flux feedback or iterative Dirichlet--Neumann coupling. OpenFOAM image smoke tests do not establish a completed coupled CFD simulation \\
-Cross-WP contribution or dependency & WP1: nonmatching interface discretizations; WP7: coupling and deployment \\
-\end{WPAdvanceRecord}
+
 
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited solver advances with the work performed in
@@ -338,11 +324,16 @@ Latest developments are related to the assessment of time scheme properties and 
 
 
 
-\paragraph{Cemosis methodology: preconditioning and local elimination.}
-For T3.1, the Feel++ contribution makes auxiliary operators and index sets available to PETSc HPDDM preconditioning. For mixed systems under T3.3.1, two-by-two block static condensation eliminates local internal unknowns while retaining a monolithic formulation for comparison. These are framework realizations of established solver techniques (\Cref{tab:advance:WP3-A2026-2}).
-
-\paragraph{Cemosis methodology: partitioned coupling (T3.3.2).}
-The preCICE integration exchanges fields between independently discretized participants. A steady-diffusion example uses nonmatching interfaces to check transfer of temperature against an analytical solution. Its current one-way transfer must be distinguished from a converged two-way multiphysics coupling; the recorded scope is given in \Cref{tab:advance:WP3-A2026-3}.
+\paragraph{Preconditioning and algebraic coupling (T3.1/T3.3.1).}
+Mixed discretizations lead to coupled block systems. Local static
+condensation eliminates internal unknowns before solving the retained
+system, while a monolithic formulation provides a comparison. Auxiliary
+Neumann operators and index sets support PETSc/HPDDM domain-decomposition
+preconditioning. The Feel++ realization is summarized in
+\Cref{tab:advance:WP3-A2026-2} and detailed in
+\Cref{sec:Feelpp:implementation-2026:solvers}.
+The nonmatching-interface discretization and field transfer are described
+separately under WP1/T1.5 in \Cref{tab:advance:WP1-A2026-4}.
 
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
@@ -413,10 +404,7 @@ software descriptions only as dated context.}
 
 
 \paragraph{Feel++ implementation: HPDDM and static condensation.}
-The PETSc/HPDDM interfaces, mixed assembly and static-condensation components are documented in \Cref{sec:Feelpp:implementation-2026:solvers}, with their implementation and test references.
-
-\paragraph{Feel++ implementation: preCICE and OpenFOAM deployment.}
-The coupling adapter, diffusion example and participant deployment recipes are documented in \Cref{sec:Feelpp:implementation-2026:precice}. The one-way transfer example and image runtime checks have separate numerical and deployment scopes.
+The PETSc/HPDDM interfaces, algebraic block assembly, row-wise boundary elimination and static-condensation components are documented in \Cref{sec:Feelpp:implementation-2026:solvers}, with their implementation and test references.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only

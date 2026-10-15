@@ -88,14 +88,14 @@ Cross-WP contribution or dependency & \\
 \begin{WPAdvanceRecord}{WP5-A2026-4}
 Exa-MA task and bottleneck & T5.1; B8 (Discovery, design and decision algorithms), B10 (Scientific Productivity) \\
 Concise description of the 2026 advance & Variational optimization interface supporting continuous optimization \\
-Responsible contributors and institutions & Feel++ contributors, Cemosis, University of Strasbourg; implementation attribution is recorded in the source repository \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg \\
 Implementing software & Feel++, PETSc TAO \\
 Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2504}{Feel++ PR~2504} \\
-Associated application ID & \texttt{app-feelpp-hifimagnet-optcontrol} is the associated inverse/control application; the executable configuration is separate evidence \\
-Associated benchmark ID & No benchmark result mapped to this interface \\
-Scientific or numerical result & No quantitative result imported into this record \\
-Performance or scalability result & No 2026 scalability result reported here \\
-Evidence and raw-data location & Feel++ PR~2504 and issue~2503; functional and variational-form TAO tests in the implementation history \\
+Associated application ID & \texttt{app-feelpp-hifimagnet-optcontrol} (application specification) \\
+Associated benchmark ID & \texttt{BM-FEEL-HIFI-CTRL-01} (proposed verification/scalability benchmark; results not reported) \\
+Scientific or numerical result & Not reported \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+Evidence and raw-data location & Feel++ PR~2504 and issue~2503; functional and variational-form TAO tests \\
 Maturity & Integrated solver interface with tests \\
 Limitations and next step & Application-level objectives, derivative checks and solver configurations must be specified separately from the generic interface \\
 Cross-WP contribution or dependency & Shared implementation with WP4; WP1: finite-element state models; WP7: framework interface \\
@@ -117,6 +117,20 @@ PFDA-BS instance of FBD was deployed as a complete VQE optimizer through a narro
 Exa-Zellij now checkpoints active regions, incumbents, and search archives at safe tree boundaries. Checksummed rolling generations, automatic restart, and elastic repartitioning allow FBD executions to resume with a changed MPI worker set without modifying the objective.
 
 \medskip
+
+\paragraph{Variational optimal operation and control (T5.1).}
+The HiFiMagnet control specification seeks coil-group currents and cooling
+controls that achieve a target magnetic field while limiting electrical
+power and thermal loading. The PDE-constrained formulation distinguishes
+control variables from the state fields and includes temperature,
+voltage, power, current and actuator constraints. Adjoint gradients
+support the optimization; target-field error, constraint violation and KKT
+residuals define the proposed verification protocol. Deterministic and
+robust variants are specified, without reported optimization results
+(\Cref{sec:app:specs:app-feelpp-hifimagnet-optcontrol}).
+The shared variational optimization interface is recorded in
+\Cref{tab:advance:WP5-A2026-4} and implemented in WP7
+(\Cref{sec:Feelpp:implementation-2026:tao}).
 
 {\bf Advances T5.2:}
 
@@ -171,10 +185,14 @@ The study covers LLMs from 7B to 65B parameters on LongBench, RULER, and SCBench
 produces a frozen candidate set that contains a downstream winner in 41/54 conditions, showing that parallel black-box optimization can adapt expert compression mechanisms without prescribing a fixed layer profile.
 
 
-\paragraph{Cemosis methodology: variational continuous optimization (T5.1).}
-The Feel++ interface connects finite-element objectives and derivative evaluations to PETSc TAO. For continuous optimization, the contribution is the connection between the variational model and the optimization solver, with explicit objective, gradient and solver-control interfaces. It enables the use of established optimization algorithms (\Cref{tab:advance:WP5-A2026-4}).
 
 \section{Application Showcase}
+
+\paragraph{HiFiMagnet optimal operation and control.}
+The application \texttt{app-feelpp-hifimagnet-optcontrol} specifies the
+T5.1 control problem and proposed benchmark \texttt{BM-FEEL-HIFI-CTRL-01}
+(\Cref{sec:app:specs:app-feelpp-hifimagnet-optcontrol}).
+
 
 {\bf Continuous optimization:} The scalability of Fractal optimization has been tested on large scale optimization problems involving thousands of decision variables. These problems are particularly challenging due
 to the curse of dimensionality, high computational cost, and nonlinear interactions among variables, which render traditional optimization techniques inefficient or infeasible.

@@ -6,6 +6,14 @@
 {Generate a city mesh including elevation, roads, water bodies and land markers.}
 {Feel++, CGAL, multithreaded execution}{benchmark-ready}
 
+\paragraph{Role in the PC5 demonstrator.}
+Ktirio-Geom generates terrain and building geometry for the PC5
+\KtirioUrbanBuildingContext{} demonstrator.
+The application \texttt{app-feelpp-ktirio-geom} benchmarks this geometry
+component. Its existing terrain-generation campaign,
+\texttt{BM-FEEL-KTIRIO-01}, provides performance evidence for that part of
+the demonstrator workflow.
+
 \paragraph{Versioned implementation evidence.}
 At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{\texttt{bf1febf}},
 the application repository contains Grenoble, Tokyo and Perlin terrain JSON inputs and
