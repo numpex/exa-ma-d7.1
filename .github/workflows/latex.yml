@@ -49,7 +49,7 @@ jobs:
       - name: Get Document Prefix
         id: doc_prefix
         run: |
-          prefix=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          prefix="exa-ma-deliverables"
           echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
           
           # Handle different event types for naming
@@ -369,8 +369,15 @@ jobs:
           echo "- **Clean-up**: Not needed (artifact already cleaned)" >> $GITHUB_STEP_SUMMARY
         working-directory: ${{ github.workspace }}/artifact
 
+  framework_fiches:
+    name: Release framework fiches
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/frameworks.yml
+    permissions:
+      contents: read
+
   release:
-    needs: [workflow-setup,build_latex, check]
+    needs: [workflow-setup,build_latex, check, framework_fiches]
     runs-on: ${{ needs.workflow-setup.outputs.runner }}
     name: Create Release
     if: startsWith(github.ref, 'refs/tags/v')
@@ -380,6 +387,12 @@ jobs:
         with:
           name: ${{ needs.workflow-setup.outputs.prefixwithref }}
           path: ${{ github.workspace }}/artifact
+
+      - name: Download framework fiche archive
+        uses: actions/download-artifact@v4
+        with:
+          name: framework-release-archive
+          path: framework-release
 
       - name: Archive Article
         run: |
@@ -419,6 +432,7 @@ jobs:
           files: |
             artifact/${{ needs.workflow-setup.outputs.prefixwithref }}.pdf
             ${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz
+            framework-release/exa-ma-frameworks-${{ github.ref_name }}.zip
 
       - name: Generate release summary
         if: always()
