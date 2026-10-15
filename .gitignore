@@ -9,6 +9,7 @@ _minted*
 **/*.synctex*
 main.pdf
 *.toc
+*.tdo
 article.template.pdf
 *.fdb_latexmk
 *.fls
@@ -26,3 +27,8 @@ exa-ma-d7.1.pdf
 .venv
 .DS_Store
 .vscode/ltex.*
+__pycache__/
+.pytest_cache/
+/output/pdf/
+/standalone-funtides.pdf
+

@@ -1,0 +1,74 @@
+%!TEX root = ../../../exa-ma-d7.1.tex
+\section{Benchmark index}
+\label{sec:benchmark-index}
+
+Each application fiche brings together its description, methods, input/output
+specifications and reported benchmark results. Operational readiness and the availability of
+reported results are recorded separately in the registry below; they do not by
+themselves establish reproducibility. Applications still under development may
+have specifications without completed benchmark results.
+
+Application identifiers link to the corresponding fiches when their specifications
+are included in this report.
+Every record has exactly one application owner in this draft.  The CSV contains
+the full normalized fields: owner and WPs, category and scope, repository and
+commit, configuration, machine/resources, toolchain, baseline, scientific and
+performance KPIs, repetitions, evidence, latest run, summary and limitations.
+
+The reduced-basis results for \nolinkurl{app-feelpp-rb} are carried over
+from D7.1 v1. Their registry stage explicitly records this origin; no new 2026
+benchmark campaign is claimed.
+
+The HPDDM/DFN results for \nolinkurl{app-hpddm-dfn} match the 2025 report
+sources tagged \href{https://github.com/numpex/exa-ma-d7.1/blob/4473ef61ceec1773e7593385c92a87959438d92c/chapters/applications/specs/app-hpddm-dfn.tex}{v1.93.0}
+(and v1.92.0). They are historical results, not a new 2026 campaign; they were
+not present in the 2024 v1.0.0 release. This identifies the report source without
+claiming verification of the executable configuration or raw data.
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\textwidth}>{\raggedright\arraybackslash}p{0.30\textwidth}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.16\textwidth}@{}}
+\caption{Evidence-based benchmark registry stage.}
+\label{tab:v3-benchmark-registry}\\
+\toprule
+\textbf{Benchmark ID} & \textbf{Application ID} & \textbf{Category} & \textbf{Stage} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Benchmark ID} & \textbf{Application ID} & \textbf{Category} & \textbf{Stage} \\
+\midrule
+\endhead
+% BEGIN GENERATED BENCHMARK REGISTRY
+\nolinkurl{BM-CGAL-AUTOREFINE-01} & \BenchmarkRegistryApplication{app-cgal-autorefine} & verification; performance; scalability & results available \\
+\nolinkurl{BM-CGAL-CCDT3-01} & \BenchmarkRegistryApplication{app-cgal-ccdt3} & verification; performance; scalability & proposed benchmark \\
+\nolinkurl{BM-CGAL-CDT2-01} & \BenchmarkRegistryApplication{app-cgal-cdt2} & verification; performance; scalability & proposed benchmark \\
+\nolinkurl{BM-EKI-01} & \BenchmarkRegistryApplication{app-eki} & verification; scalability & proposed benchmark \\
+\nolinkurl{BM-FEEL-DISCR1-01} & \BenchmarkRegistryApplication{app-feelpp-discr-1} & verification; performance; scalability & results available \\
+\nolinkurl{BM-FEEL-DISCR2-01} & \BenchmarkRegistryApplication{app-feelpp-discr-2} & validation; performance; scalability & specification complete \\
+\nolinkurl{BM-FEEL-DIST-01} & \BenchmarkRegistryApplication{app-feelpp-distance} & verification; performance; scalability & results available \\
+\nolinkurl{BM-FEEL-HIFI-INV-01} & \BenchmarkRegistryApplication{app-feelpp-hifimagnet-inverse} & verification; performance; scalability & proposed benchmark \\
+\nolinkurl{BM-FEEL-HIFI-CTRL-01} & \BenchmarkRegistryApplication{app-feelpp-hifimagnet-optcontrol} & verification; performance; scalability & proposed benchmark \\
+\nolinkurl{BM-FEEL-IO-01} & \BenchmarkRegistryApplication{app-feelpp-io} & performance; scalability & results available \\
+\nolinkurl{BM-FEEL-KTIRIO-01} & \BenchmarkRegistryApplication{app-feelpp-ktirio-geom} & verification; performance; scalability & results available \\
+\nolinkurl{BM-FEEL-MI300A-01} & \BenchmarkRegistryApplication{app-feelpp-mi300a-fem} & verification; performance; scalability; reproducibility & implementation in progress \\
+\nolinkurl{BM-FEEL-NLCRB-01} & \BenchmarkRegistryApplication{app-feelpp-nlcrb} & verification; performance; scalability & implementation in progress \\
+\nolinkurl{BM-FEEL-RB-01} & \BenchmarkRegistryApplication{app-feelpp-rb} & verification; performance & results available (v1) \\
+\nolinkurl{BM-FEEL-THERMOELECTRIC-01} & \BenchmarkRegistryApplication{app-feelpp-thermoelectric-1} & verification; performance & results available \\
+\nolinkurl{BM-FEEL-THERMOMECA-01} & \BenchmarkRegistryApplication{app-feelpp-thermomeca-1} & verification; performance; scalability & implementation in progress \\
+\nolinkurl{BM-FF-PARMMG-01} & \BenchmarkRegistryApplication{app-freefem-parmmg} & verification; performance; scalability & specification complete \\
+\nolinkurl{BM-HPDDM-DFN-01} & \BenchmarkRegistryApplication{app-hpddm-dfn} & verification; performance; scalability & results available (v1.93.0) \\
+\nolinkurl{BM-KINETIC-CLOSURE-01} & \BenchmarkRegistryApplication{app-kinetic-moment-closure} & verification; performance & implementation in progress \\
+\nolinkurl{BM-PARABOLIC-TERMINAL-01} & \BenchmarkRegistryApplication{app-parabolic-terminal-constraint} & verification; performance & implementation in progress \\
+\nolinkurl{BM-PETSC-MIXED-01} & \BenchmarkRegistryApplication{app-petsc-mixed-precision} & verification; performance; energy & implementation in progress \\
+\nolinkurl{BM-SAMURAI-BURGERS-01} & \BenchmarkRegistryApplication{app-samurai-burgers-2d} & performance; scalability & executable \\
+\nolinkurl{BM-SAMURAI-DMR-01} & \BenchmarkRegistryApplication{app-samurai-euler-dmr} & performance; scalability & executable \\
+\nolinkurl{BM-SCIMBA-PLASMA-01} & \BenchmarkRegistryApplication{app-scimba-plasma} & verification; performance & proposed benchmark \\
+% END GENERATED BENCHMARK REGISTRY
+\bottomrule
+\end{longtable}
+\endgroup
+
+No registry record is labelled \emph{reproducible}: none of the reviewed
+evidence packages supplied all pinned software, input data, machine/toolchain,
+resource counts, repetition/variability information and durable raw-data link.

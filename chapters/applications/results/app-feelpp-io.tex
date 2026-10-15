@@ -1,0 +1,31 @@
+% Authored results moved from the application fiche; shared with its standalone.
+
+
+
+
+We present in \Cref{fig:specs:app-feelpp-io:np} results over the mesh family for various numbers of parallel tasks.
+The mini-app is run on the cluster Gaya.
+The results presented are obtained with the degree of discretization $\mathP_1$.
+Similar behavior is observed for other discretization orders.
+
+Note that some points are missing, either because the memory required exceeded what was available on a node of Gaya, or because the iterative process took longer than the job time limit (1 hour).
+
+We see that mesh reading and function-space creation scale well with the number of parallel processes, as shown in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=128$ for the small meshes.
+
+Conversely, the steps writing data to disk do not scale with more parallel processes.
+Times increase (\Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv}) or stagnate (\Cref{fig:specs:app-feelpp-io:np:export}).
+This loss of performance stems from coordination among parallel processes when writing to a single destination.
+Because the mesh is pre-partitioned, the reading step does not suffer the same issue.
+
+\import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
+
+
+\vspace{\baselineskip}
+
+Now, we present in \Cref{fig:specs:app-feelpp-io:disc} the evolution of the time taken by each step, depending on the degree of discretization considered.
+Specifically, we see in \Cref{fig:specs:app-feelpp-io:disc:loadmesh,fig:specs:app-feelpp-io:disc:savemesh} that the mesh manipulation is indeed independent of the degree of discretization.
+
+Conversely, other steps are impacted by the discretization order through the increased number of degrees of freedom (see \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}).
+In \Cref{fig:specs:app-feelpp-io:disc:functionspace,fig:specs:app-feelpp-io:disc:functionspaceV}, time increases roughly linearly with order, with a larger increase for disk writes (\Cref{fig:specs:app-feelpp-io:disc:exportfield,fig:specs:app-feelpp-io:disc:exportfieldv,fig:specs:app-feelpp-io:disc:export}).
+
+\import{chapters/applications/specs/data/app-feelpp-io}{figure-order.tex}
