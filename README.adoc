@@ -662,3 +662,31 @@ The main source is `exa-ma-deliverables.tex`. Local compilation produces
 requests and `exa-ma-deliverables-vX.Y.Z.pdf` plus
 `exa-ma-deliverables-vX.Y.Z.tar.gz` for releases. The repository name and
 previously published release assets are unchanged.
+
+=== Individual framework fiches
+
+Each `software/<id>/<id>.tex` fiche has a thin standalone wrapper under
+`standalone/frameworks/`, including fiches not currently included in the full
+report. Former MaPHyS++ is represented by Composyx; the legacy source is
+preserved but does not generate a duplicate PDF. Retired pBB sources are also
+preserved and excluded from generated previews (issue #127). The scientific text remains in the original fiche.
+
+[source,shell]
+----
+# Refresh wrappers after adding a framework; authored fiches are never overwritten.
+python3 scripts/framework_previews.py --write
+# Check wrappers and record the report version and Git revision for local PDFs.
+python3 scripts/framework_previews.py --check --build-info
+latexmk --shell-escape -pdf -outdir=output/frameworks standalone/frameworks/feelpp.tex
+----
+
+PR checks build affected framework fiches. Changes to shared definitions,
+styles, graphics, bibliography or preview infrastructure rebuild all fiches.
+Each PDF records the report version, build reference and source revision.
+References to other chapters can remain unresolved in an individual extract;
+the complete report remains the integration check.
+
+For tagged releases, all fiches must build before publication. The release
+includes `exa-ma-frameworks-vX.Y.Z.zip`, containing the individual PDFs and a
+manifest with the source revision, report version and fiche source paths.
+The historical `standalone-funtides.tex` entry point is retained.

@@ -1,22 +1,76 @@
-name: Framework fiche
+name: Framework fiches
 
 on:
   pull_request:
     branches: [main, d7.1-v3]
     paths:
-      - gen.py
-      - tests/test_gen.py
-      - templates/framework-metadata.tex.j2
-      - software/funtides/**
+      - 'software/**'
+      - 'graphics/**'
+      - 'standalone/framework*'
+      - 'standalone/frameworks/**'
       - standalone-funtides.tex
+      - gen.py
+      - scripts/framework_previews.py
+      - tests/test_gen.py
+      - tests/test_framework_previews.py
+      - templates/framework-metadata.tex.j2
       - .github/workflows/frameworks.yml
+      - .github/workflows/latex.yml
+      - defs.tex
+      - references.bib
+      - pyproject.toml
       - '*.sty'
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
 
 jobs:
+  select:
+    name: Select framework fiches
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.select.outputs.matrix }}
+      count: ${{ steps.select.outputs.count }}
+      suffix: ${{ steps.select.outputs.suffix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check wrappers and select affected frameworks
+        id: select
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.number }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import json, os, re, subprocess
+          from pathlib import Path
+          args = ['python', 'scripts/framework_previews.py', '--check']
+          if os.environ['EVENT'] == 'pull_request':
+              paths = subprocess.check_output([
+                  'git', 'diff', '--name-only', '-z',
+                  os.environ['BASE'] + '...' + os.environ['HEAD']
+              ]).decode().rstrip('\0').split('\0')
+              Path('/tmp/changed-framework-paths.json').write_text(json.dumps(paths))
+              args += ['--changed-json', '/tmp/changed-framework-paths.json']
+              suffix = 'pr-' + os.environ['PR_NUMBER']
+          else:
+              suffix = re.sub(r'[^A-Za-z0-9._-]', '-', os.environ['REF_NAME'])
+          matrix = json.loads(subprocess.check_output(args))
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('matrix=' + json.dumps(matrix) + '\n')
+              output.write('count=' + str(len(matrix['include'])) + '\n')
+              output.write('suffix=' + suffix + '\n')
+          PY
+
   generator:
     name: Test framework generator
     runs-on: ubuntu-latest
@@ -27,22 +81,81 @@ jobs:
           version: latest
           enable-cache: false
       - run: uv python install 3.11
-      - name: Test imports, write protection and snapshot reproducibility
+      - name: Test generator and framework preview selection
         run: >-
           uv run --no-project --python 3.11
           --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4'
-          --with pytest python -m pytest tests/test_gen.py -q
+          --with pytest python -m pytest tests/test_gen.py tests/test_framework_previews.py -q
 
   preview:
-    name: Build FUnTiDES review PDF
+    name: Build ${{ matrix.id }} framework fiche
+    needs: [select, generator]
+    if: needs.select.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Record report version and source revision
+        env:
+          BUILD_REF: ${{ needs.select.outputs.suffix }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: python scripts/framework_previews.py --build-info --ref "$BUILD_REF" --revision "$SOURCE_REVISION"
+      - uses: xu-cheng/latex-action@v3
+        with:
+          root_file: ${{ matrix.root }}
+          latexmk_shell_escape: true
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode -outdir=output/frameworks
+      - name: Name review PDF
+        env:
+          FRAMEWORK: ${{ matrix.id }}
+          SUFFIX: ${{ needs.select.outputs.suffix }}
+        run: mv "output/frameworks/$FRAMEWORK.pdf" "output/frameworks/exa-ma-framework-$FRAMEWORK-$SUFFIX.pdf"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: framework-pdf-${{ matrix.id }}
+          path: output/frameworks/exa-ma-framework-*.pdf
+          if-no-files-found: error
+
+  archive:
+    name: Archive release framework fiches
+    needs: [select, preview]
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: xu-cheng/latex-action@v3
+      - uses: actions/setup-python@v5
         with:
-          root_file: standalone-funtides.tex
+          python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: framework-pdf-*
+          path: output/frameworks
+          merge-multiple: true
+      - name: Record provenance and package PDFs
+        env:
+          VERSION: ${{ github.ref_name }}
+          SOURCE_REVISION: ${{ github.sha }}
+        run: |
+          python scripts/framework_previews.py --build-info --ref "$VERSION" --revision "$SOURCE_REVISION"
+          python - <<'PY'
+          import os, zipfile
+          from pathlib import Path
+          from scripts.framework_previews import frameworks
+          output = Path('output/frameworks')
+          pdfs = sorted(output.glob('exa-ma-framework-*.pdf'))
+          assert len(pdfs) == len(frameworks()), 'Missing framework release PDFs'
+          with zipfile.ZipFile(output / ('exa-ma-frameworks-' + os.environ['VERSION'] + '.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
+              for path in pdfs + [output / 'manifest.json']:
+                  archive.write(path, path.name)
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: funtides-framework-preview
-          path: standalone-funtides.pdf
+          name: framework-release-archive
+          path: output/frameworks/exa-ma-frameworks-*.zip
           if-no-files-found: error
