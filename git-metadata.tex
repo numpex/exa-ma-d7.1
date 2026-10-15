@@ -1,0 +1,32 @@
+% Shared Git metadata reader; compile from the repository root.
+% Linked worktrees have a .git pointer file rather than a .git directory.
+\ifcsname ExamaGitMetadataLoaded\endcsname
+  \expandafter\endinput
+\fi
+\let\ExamaGitMetadataLoaded\relax
+\ExplSyntaxOn
+\tl_new:N \l_exama_git_metadata_tl
+\tl_set:Nn \l_exama_git_metadata_tl {gitHeadLocal.gin}
+\file_if_exist:nTF {.git/gitHeadInfo.gin}
+  {\tl_set:Nn \l_exama_git_metadata_tl {.git/gitHeadInfo.gin}}
+  {
+    \file_if_exist:nT {.git}
+      {
+        \file_get:nnN {.git} {\char_set_catcode_space:n {32}} \l_tmpa_tl
+        \tl_set:Nx \l_tmpa_tl {\tl_to_str:V \l_tmpa_tl}
+        \regex_match:nVTF {\A\s*gitdir:} \l_tmpa_tl
+          {
+            \regex_replace_once:nnN {\A\s*gitdir:\s*} {} \l_tmpa_tl
+            \tl_trim_spaces:N \l_tmpa_tl
+            \tl_put_right:Nn \l_tmpa_tl {/gitHeadInfo.gin}
+            \file_if_exist:VTF \l_tmpa_tl
+              {\tl_set_eq:NN \l_exama_git_metadata_tl \l_tmpa_tl}
+              {}
+          }
+          {}
+      }
+  }
+% gitinfo2 permits overriding its metadata filename before loading.
+\cs_gset:cpx {GI@githeadinfo@file} {\l_exama_git_metadata_tl}
+\ExplSyntaxOff
+\RequirePackage[maxdepth=0,pcount,grumpy,mark,markifdirty]{gitinfo2}
