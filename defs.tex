@@ -17,8 +17,11 @@
   \fi
 }
 \makeatother
+% Track entries in this compilation rather than relying on a stale .tdo file.
+\newif\ifExamaHasTodos
 % Optional argument labels the list entry only; the box keeps the original text.
 \renewcommand{\todo}[2][]{%
+  \global\ExamaHasTodostrue
   \begingroup
     \ExamaTodoStart
     \phantomsection
@@ -33,12 +36,14 @@
 }
 \newif\ifExamaTodosPrinted
 \newcommand{\PrintTodoList}{%
+  \ifExamaHasTodos
   \ifExamaTodosPrinted\else
     \global\ExamaTodosPrintedtrue
     \clearpage
     \phantomsection
     \addcontentsline{toc}{chapter}{TODO}%
     \listoftodos[TODO]%
+  \fi
   \fi
 }
 % Every standalone includes defs.tex, so it gets the same list automatically.
