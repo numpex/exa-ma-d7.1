@@ -109,7 +109,28 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
 \begin{WPAdvanceRecord}{WP3-A2026-2}
+Exa-MA task and bottleneck & T3.1 and T3.3.1; B7 (Exascale Algorithms) \\
+Concise description of the 2026 advance & Feel++ integration of HPDDM preconditioning and two-by-two block static condensation \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg \\
+Implementing software & Feel++, PETSc, HPDDM \\
+Software release, commit or PR & \nolinkurl{feelpp/feel/feelalg/preconditionerpetsc.hpp}; static condensation: \nolinkurl{feelpp/feel/feelalg/staticcondensation.hpp} \\
+Associated application ID & No new catalogue mapping; Laplacian and elasticity examples exercise the solver interfaces \\
+Associated benchmark ID & No new benchmark registry ID assigned \\
+Scientific or numerical result & Not reported \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+References and supporting data & \nolinkurl{testsuite/feelalg/test_hpddm.cpp}, \nolinkurl{testsuite/feelalg/test_hpddm_laplacian.cpp}, product-space tests and elasticity quickstart tests \\
+Maturity & Integrated solver components with verification tests \\
+Limitations and next step & The solver techniques are established; application-specific solver configuration and quantitative scaling results are separate from the interface tests \\
+Cross-WP contribution or dependency & WP1: mixed discretizations; WP7: solver interfaces \\
+\end{WPAdvanceRecord}
+
+% Cemosis / Feel++ 2026 contribution.
+
+
+\begin{WPAdvanceRecord}{WP3-A2026-3}
 Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms), B10 (Scientific Productivity) \\
 Concise description of the 2026 advance & PETSc-native GPU backend for \texttt{PCHPDDM}: the internal data structures and the deflation kernel of HPDDM were moved onto PETSc \texttt{Vec}/\texttt{Mat} objects whose type follows the input operators (CPU or CUDA); new PETSc dense-matrix APIs were added \\
 Responsible contributors and institutions & E.~Fabrizzi (Sorbonne Universit\'e, LIP6); P.~Jolivet (CNRS, LIP6) \\
@@ -125,7 +146,7 @@ Limitations and next step & Coarse-operator assembly and factorization remain on
 Cross-WP contribution or dependency & WP7: benchmarking and applications\\
 \end{WPAdvanceRecord}
 
-\begin{WPAdvanceRecord}{WP3-A2026-3}
+\begin{WPAdvanceRecord}{WP3-A2026-4}
 Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms), B10 (Scientific Productivity) \\
 Concise description of the 2026 advance & Subdomains shared by multiple MPI processes in \texttt{PCHPDDM}: sub-communicator and leader per subdomain, coarse operator contributions computed by all processes of a subdomain and assembled by its leader, \texttt{PCGASM} as one-level smoother \\
 Responsible contributors and institutions & E.~Fabrizzi (Sorbonne Universit\'e, LIP6); P.~Jolivet (CNRS, LIP6) \\
@@ -190,10 +211,10 @@ A separate prototype allows several MPI processes to share one subdomain and use
 A sub-communicator groups these processes; they compute coarse-operator contributions collectively, with assembly coordinated by a subdomain leader.
 The one-level smoother uses \texttt{PCGASM}.
 This work aims to relax the one-subdomain-per-process constraint; its effects on memory use, load balance and time-to-solution remain to be measured.
-The current restrictions and missing registered tests are recorded in \cref{tab:advance:WP3-A2026-3}.
+The current restrictions and missing registered tests are recorded in \cref{tab:advance:WP3-A2026-4}.
 
 Implementation links, release information and regression-test sources are provided in \cref{sec:HPDDM:2026}.
-The annual records \cref{tab:advance:WP3-A2026-2,tab:advance:WP3-A2026-3} distinguish the released backend from the prototype; neither record reports an application performance result.
+The annual records \cref{tab:advance:WP3-A2026-3,tab:advance:WP3-A2026-4} distinguish the released backend from the prototype; neither record reports an application performance result.
 
  \subsubsection{Domain decomposition methods for non-SPD problems}
   \label{sec:wp3:T31:nonSPD}
@@ -332,6 +353,8 @@ T3.3 Adaptive solution strategies for exascale multiphysical and multiscale mode
 
   Lukas Spies has started his postdoctoral work in March 2025. He has developed a parallel FreeFEM script that allows for non-matching grids at the interface between two domains. The coupling scheme, analyzed in~\cite{japhet_robin_2014}, is based on the use of Robin interface conditions. An extra level of parallelism comes from the domain decomposition solver in each domain. The global coupled system has a saddle-point structure. A study of various preconditoning strategies is underway. The flexibility and effectiveness of a parallel FreeFEM script is a great asset for numerical tests. 
 
+  The second year of the work focuses on fluid-structure interaction problems, as another source of saddle-point problems with significant added-value for application. The first analyses involve a monolithic fluid-structure formulation established in~\cite{hecht_energy_2017} where the saddle-point system appears in the incompressible fluid problem. The application of the GenEO domain decomposition to this problem and the detailed analysis of the associated scalability have been performed in both 2D and 3D, with results presented at WCCM-ECCOMAS 2027 conference. The work is on-going with alternative approaches for the management of the fluid-structure coupling, with combinations of partitioned coupling a/o immersed/embedded boundaries a/o lagrange multipliers for coupling constraints. The objective is to study in depth the structure of the resulting saddle-point problems, with possibly multiple sets of constraints with different properties, and the efficiency/scalability of the GenEO solver in the different cases.
+
 %(Lukas) 
 
 \subsubsection{ 
@@ -340,10 +363,24 @@ T3.3.2 Exascale resolution for simulations in partitioned coupling
 \label{sec:wp3:T332}
  The task will consist of the automatic tuning of performance parameters appearing in the partitioned coupling between exascale-ready software components. Such parameters (coupling strengths, path between physics, adaptive internal convergence criteria…) are intended to be handled through a joint strategy with the auto-tuning work from Task 3.2.3. 
 
-Utpal Kiran started his postdoctoral internship in February 2025. The first step of the work is dedicated to produce building blocks for time-evolving coupled problems exhibiting the suitable amount of internal parameters. Basically, the focus is put on assembling both explicit and implicit solvers, for both linear and non-linear problems. The goal is to manage a simple coupled problem, yet showing the sufficient complexity to assess the first strategies regarding the automated setting of coupling parameters during the time iterations, for performance optimization under the condition of preserving simultaneously the stability and the accuracy of the solution. For the small models currently implemented, the performance is simply evaluated with the number of calls to each solver. Actual performance tests with actual representative solvers will be considered in the next steps of the work.
+Utpal Kiran started his postdoctoral internship in February 2025. The first step of the work is dedicated to produce building blocks for time-evolving coupled problems exhibiting the suitable amount of internal parameters. Basically, the focus is put on assembling both explicit and implicit solvers, for both linear and non-linear problems. The goal is to manage a simple coupled problem, yet showing the sufficient complexity to assess the first strategies regarding the automated setting of coupling parameters during the time iterations, for performance optimization under the condition of preserving simultaneously the stability and the accuracy of the solution. For the small models currently implemented, the performance is simply evaluated with the number of calls to each solver. 
+
+Latest developments are related to the assessment of time scheme properties and embedded parameters onto the performance of the coupled solutions. The on-going work targets the design and implements of some autotuning strategies to converge automatically and at runtime towards the optimal combination of identified parameters. The question of the evaluation metrics and gathered data during execution is central to control the autotuning convergence.
 
  %(Utpal)
 
+
+
+\paragraph{Preconditioning and algebraic coupling (T3.1/T3.3.1).}
+Mixed discretizations lead to coupled block systems. Local static
+condensation eliminates internal unknowns before solving the retained
+system, while a monolithic formulation provides a comparison. Auxiliary
+Neumann operators and index sets support PETSc/HPDDM domain-decomposition
+preconditioning. The Feel++ realization is summarized in
+\Cref{tab:advance:WP3-A2026-2} and detailed in
+\Cref{sec:Feelpp:implementation-2026:solvers}.
+The nonmatching-interface discretization and field transfer are described
+separately under WP1/T1.5 in \Cref{tab:advance:WP1-A2026-4}.
 
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
@@ -394,7 +431,7 @@ Note that the method has also been successfully applied to the generation of syn
 \WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
 software descriptions only as dated context.}
 \begin{itemize}
-  \item HPDDM: release 2.4.0 (March 2026) with the PETSc-native device backend of \texttt{PCHPDDM} (\cref{tab:advance:WP3-A2026-2}); support for subdomains shared by multiple processes in development (\cref{tab:advance:WP3-A2026-3}); complex scalars with CUDA in \texttt{KSPHPDDM} (\href{https://github.com/hpddm/hpddm/pull/147}{PR \#147}, \href{https://gitlab.com/petsc/petsc/-/merge_requests/9140}{PETSc MR !9140}). (2025: releases 2.3.1 to 2.3.5, support for applying the transpose of preconditioners, preliminary support for subdomain computations on NVIDIA GPU, interface to MUMPS ICNTL(15), fixes for non-symmetric saddle-point systems.)
+  \item HPDDM: release 2.4.0 (March 2026) with the PETSc-native device backend of \texttt{PCHPDDM} (\cref{tab:advance:WP3-A2026-3}); support for subdomains shared by multiple processes in development (\cref{tab:advance:WP3-A2026-4}); complex scalars with CUDA in \texttt{KSPHPDDM} (\href{https://github.com/hpddm/hpddm/pull/147}{PR \#147}, \href{https://gitlab.com/petsc/petsc/-/merge_requests/9140}{PETSc MR !9140}). (2025: releases 2.3.1 to 2.3.5, support for applying the transpose of preconditioners, preliminary support for subdomain computations on NVIDIA GPU, interface to MUMPS ICNTL(15), fixes for non-symmetric saddle-point systems.)
   \item PETSc enhancements: release 3.25 with \texttt{MatCreateDenseWithMemType()}, \texttt{MatDenseReplaceArrayWithMemType()}, \texttt{MatDiagonalScale()} support for sequential CUDA/HIP dense matrices, and the updated \texttt{PCHPDDM} (see \cref{sec:HPDDM:2026} for the corresponding merge requests). PETSc 3.26 adds \texttt{deflated\_reversed}, which applies the coarse correction after the fine correction (\href{https://gitlab.com/petsc/petsc/-/merge_requests/9548}{MR !9548}). (2025: releases 3.22 to 3.24, interface to MUMPS ICNTL(15) used by HPDDM, automatic Fortran bindings, new API \texttt{PCMatApplyTranspose()} and \texttt{PCShellSetMatApplyTranspose()} used by HPDDM.)
   \item Feel++: used in applications to generate and prepare problem data (meshes, linear systems, preconditioning contexts) consumed by PETSc; interoperates through PETSc interfaces.
   \item Composyx: % (en attente de Luc)
@@ -411,6 +448,10 @@ software descriptions only as dated context.}
   \item PETSc.
   \item PROMISE (precision auto-tuning): see WP3 text above.
 \end{itemize}
+
+
+\paragraph{Feel++ implementation: HPDDM and static condensation.}
+The PETSc/HPDDM interfaces, algebraic block assembly, row-wise boundary elimination and static-condensation components are documented in \Cref{sec:Feelpp:implementation-2026:solvers}, with their implementation and test references.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only
