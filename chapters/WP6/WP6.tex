@@ -1,4 +1,4 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
+%!TEX root = ../../exa-ma-deliverables.tex
 % \chapter{Work Package 6: Uncertainty Quantification}
 % \label{chap:wp6}
 
@@ -75,6 +75,24 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP6-A2026-2}
+Exa-MA task and bottleneck & T6.4, with relevance to T6.2; B6 (Data Management), B7 (Exascale Algorithms) \\
+Concise description of the 2026 advance & Streaming statistical processing with mergeable summaries and approximate quantiles, underpinning the Ensemble/UQ framework in the PC5 Ktirio Urban Building demonstrator \\
+Responsible contributors and institutions & Christophe Prud'homme, Cemosis, University of Strasbourg \\
+Implementing software & Feel++, \texttt{feelstats} \\
+Software release, commit or PR & \nolinkurl{feelpp/feel/feelstats} \\
+Associated application ID & PC5 Ktirio Urban Building demonstrator, in joint work with the HiDALGO2 Centre of Excellence; no dedicated ensemble-UQ catalogue ID assigned \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & No ensemble-UQ numerical results reported; statistical verification sources are listed below \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+References and supporting data & \nolinkurl{feelpp/feel/feelstats}; \nolinkurl{testsuite/feelstats} \\
+Maturity & Statistical components with dedicated verification tests \\
+Limitations and next step & Assess memory and I/O costs and tail-risk accuracy at demonstrator scale. Quantiles support VaR; CVaR additionally requires tail-loss information. The equal-capacity KLL variant does not claim Apache DataSketches normalized-rank error bounds \\
+Cross-WP contribution or dependency & WP7: Feel++ streaming statistical components; WP1: urban/building simulation models; PC5 Ktirio Urban Building and HiDALGO2: ensemble UQ and decision support \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited uncertainty-quantification advances with the
 work performed in 2026.  Separate new achievements from the earlier baseline and
@@ -109,11 +127,52 @@ A second challenge involves the outputs, which are not scalars but fields or sig
 Additionally, many problems involve categorical variables (e.g., material types). GPs offer flexible ways to model correlations in such spaces. A comparative study was conducted to recommend best practices. Block correlation structures work well when groups of levels are known. When they are not, a clustering-based procedure, relying on the conditional output distributions for each level, can infer these groups effectively without prior kernel training.
 Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters gives good results. This is when HPC becomes critical.
 
+
+\paragraph{Online statistical summaries (T6.4/T6.2).}
+The PC5 Ktirio Urban Building demonstrator contains an Ensemble/UQ
+framework for large-scale urban building energy simulation and decision
+support, developed in joint work with the HiDALGO2 Centre of Excellence.
+This framework builds on Feel++ streaming statistical processing. The
+feelstats contribution concerns that statistical component layer, rather
+than ensemble orchestration. Propagating uncertain building and operating
+parameters produces many sample-dependent time series and building-level
+outputs. Retaining and writing the full sample history creates memory
+and I/O challenges.
+
+Online statistical summaries accumulate moments, extrema and covariance
+as samples arrive and merge partial summaries without retaining every
+observation. Approximate quantile sketches complement these summaries
+when exact empirical quantiles require excessive storage. The resulting
+statistics support comparison of scenarios, exceedance probabilities and
+risk-aware decisions. Value-at-Risk (VaR) is a loss quantile; Conditional
+Value-at-Risk (CVaR) additionally requires information about losses in the
+tail. For district- or city-level risk, building losses must first be
+aggregated within each sample before estimating the risk of the total;
+individual building risk measures cannot simply be added.
+
+These are established statistical methods. The contribution is streaming
+statistical processing in Feel++, motivated by the demonstrator's memory,
+I/O and tail-accuracy requirements (\Cref{tab:advance:WP6-A2026-2}). Software components and the
+ensemble execution context are described in
+\Cref{sec:Feelpp:implementation-2026:stats}.
+
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
 result to an annual advance and benchmark, and flag missing mappings explicitly.}
 % \input{chapters/applications/specs/app-uq-uranie-1}  
 % \input additional app specs as needed
+
+\paragraph{PC5 Ktirio Urban Building: ensemble UQ and decision support.}
+The PC5 \KtirioUrbanBuildingContext{} demonstrator connects geometry
+generation, urban microclimate and building energy modelling with ensemble
+UQ and decision support. Ktirio-Geom supplies terrain and building geometry;
+\texttt{app-feelpp-ktirio-geom} benchmarks that component
+(\Cref{sec:app:specs:app-feelpp-ktirio-geom}). The streaming-statistics
+contribution in \Cref{tab:advance:WP6-A2026-2} concerns Feel++ streaming
+statistical processing, on which the demonstrator's Ensemble/UQ framework
+builds. Ensemble orchestration and application-level risk products belong
+to Ktirio Urban Building. These contributions serve the same demonstrator, with the terrain-generation benchmark retaining
+its measured geometry-processing scope.
 
 \paragraph{Applications mapping.} Current application links to WP7 include:
 \begin{itemize}
@@ -130,6 +189,7 @@ software descriptions only as dated context.}
 
 \paragraph{Frameworks mapping.} The following software ecosystems are directly impacted:
 \begin{itemize}
+	\item Feel++/feelstats: \Cref{sec:Feelpp:implementation-2026:stats}; streaming statistical processing supporting the Ktirio Urban Building Ensemble/UQ framework.
 	\item Uranie: Section~\ref{sec:Uranie:software}\,; OpenTURNS (if applicable); Scimba for surrogate UQ: Section~\ref{sec:Scimba:software}.
 \end{itemize}
 
@@ -179,6 +239,10 @@ URANIE v4.10.0 main improvements are:
 	\end{itemize}
 \end{itemize}
 
+
+
+\paragraph{Feel++ implementation: feelstats.}
+The statistical accumulators, quantile sketches, serialization and tests are documented in \Cref{sec:Feelpp:implementation-2026:stats}. Feel++ supplies the streaming statistical processing on which the PC5 Ktirio Urban Building Ensemble/UQ framework builds; feelstats provides statistical components rather than the ensemble framework itself. The scientific scope and sketch limitations are retained in \Cref{tab:advance:WP6-A2026-2}.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only
