@@ -2,6 +2,37 @@
 
 This document explains how to compile the ExaMA D7.1 deliverable LaTeX document using modern CI/CD with `article-cli` and `uv`.
 
+## Agent Editing Workflow
+
+### Local Codex Configuration and Review
+
+- Keep `.codex/` local and untracked. Exclude it through the path returned by `git rev-parse --git-path info/exclude`; do not force-add it.
+- Select GPT-6 Astra (`gpt-6-astra`) in local Codex settings. The initial project baseline uses `high` reasoning; check the model selected in the desktop task separately.
+- Leave changes uncommitted until the maintainer has reviewed `AGENTS.md` and explicitly authorized a commit. Release commands below are reference procedures, not authorization to commit, tag, or push.
+- Preserve existing local changes and untracked files. Inspect the diff before and after edits, and keep changes within the requested scope.
+
+### Scientific Content and Generated Files
+
+- Preserve mathematical meaning, equations, units, benchmark values, scientific qualifications, citation keys, and cross-reference labels unless the requested change requires updating them.
+- Ground new scientific claims and bibliography entries in identifiable sources. Report missing evidence rather than inventing results, references, or software capabilities.
+- Edit the source chapter, section, or software fiche rather than expanded or merged document copies.
+- `gen.py` generates framework metadata from catalogue inputs. Update the relevant catalogue snapshot and regenerate metadata; preserve the separately authored editorial fiche. Respect generated-file markers and the generator's write protection.
+- Refresh the Zotero bibliography when the task requires it; use the existing bibliography for unrelated edits so validation does not introduce an incidental bibliography update.
+
+### Validation
+
+- Establish existing build errors and warnings before substantive edits. Use a focused build while iterating and the full `latexmk` command below for final document validation.
+- Inspect affected PDF pages for layout regressions and check for new undefined citations, references, missing assets, or LaTeX errors. A PDF file alone does not establish success, especially with a permissive local `.latexmkrc`.
+- For generator or metadata-template changes, run the existing checks using the same environment as `.github/workflows/frameworks.yml`:
+
+  ```bash
+  uv run --no-project --python 3.11 \
+    --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4' \
+    --with pytest python -m pytest tests/test_gen.py -q
+  ```
+
+- Report the files changed, checks run, and any remaining failures. Distinguish pre-existing failures from regressions; do not claim successful validation when dependencies or compilation errors prevented it.
+
 ## Overview
 
 This project uses LaTeX with the `minted` package for syntax highlighting, which requires `--shell-escape` during compilation. The document is automatically compiled using GitHub Actions on push/tag events and can be compiled locally using various methods.

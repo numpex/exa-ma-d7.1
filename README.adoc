@@ -149,6 +149,62 @@ The full document prints the TODO list before the back page. All standalone
 documents that load `defs.tex` print it automatically at the end. Compile with
 latexmk so the list and page references are refreshed across LaTeX passes.
 
+==== Framework catalogue and Feel++ fiche
+
+Individual standalone fiches use `standalone/identity-panel.tex` for a shared
+first-page identity panel. Its data is generated from the framework/application
+catalogues, the reconciliation catalogue and the reviewed display profiles in
+`data/fiche-identity-profiles.json`. The panel is loaded only by standalone
+wrappers; the main deliverable's presentation is unaffected.
+After refreshing these inputs, run:
+
+[source,shell]
+----
+uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py
+uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py --check
+----
+
+`data/frameworks.csv` is the Frameworks tab snapshot; its source range, retrieval
+date and the maintainer's preCICE coupling note are recorded in
+`data/frameworks-source.json`. Values are retained as supplied by the Sheet.
+Only selected framework metadata is regenerated:
+
+[source,shell]
+----
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' python gen.py --framework feelpp
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' python gen.py --framework feelpp --check
+latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 -outdir=output/pdf standalone/feelpp.tex
+----
+
+The generated `software/feelpp/metadata.tex` is separate from the authored
+`software/feelpp/feelpp.tex`, its figures and its variational code example.
+Unmarked metadata cannot be overwritten. The old Excel generator's default
+write path is disabled because it overwrites authored fiches and WP sources;
+`exama-software.xlsx` is a historical input, not the current framework snapshot.
+The standalone includes the same fiche as the full report, uses readable
+application IDs where full-report section labels are unavailable, and omits an
+empty TODO page. Its PDF is written to `output/pdf/feelpp.pdf`.
+
+For the full deliverable, include `software/feelpp/feelpp.tex`, as
+`chapters/software.tex` already does; do not embed the standalone document
+wrapper. The main preamble supplies `defs.tex`, the shared packages and styles,
+and the document-wide `references.bib` bibliography. Figure/table labels and
+application section links then resolve within the main PDF after latexmk's
+normal passes. Compile from the repository root so relative inputs and assets
+remain available.
+
+The local `.latexmkrc` retains latexmk's default log-wrap width. Setting
+`$log_wrap = 0` does not suppress reference warnings and causes a division by
+zero in the log parser. The configuration uses normal error handling: real
+LaTeX failures return a nonzero status, while layout warnings remain warnings.
+
+Generator checks use the environment documented in `AGENTS.md`:
+
+[source,shell]
+----
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4' --with pytest python -m pytest tests/test_gen.py -q
+----
+
 ==== Application catalogue and previews
 
 The live Applications tab is saved as `data/applications.csv`. After refreshing
@@ -395,28 +451,14 @@ The project uses UNISTRA's `self-texlive` runners, pre-configured with:
 
 === Release Process
 
-To create a new release (preferred flow):
-
-[source,shell]
-----
-# 1) Ensure main is up to date
-git checkout main
-git pull --ff-only
-
-# 2) Bump version and changelog in exa-ma-d7.1.tex
-#    - Set \delivVersion{vX.Y.Z}
-#    - Add new \istChange{DD/MM/YYYY}{vX.Y.Z}{Authors}{Summary}
-
-# 3) Update pyproject.toml version to X.Y.Z
-
-# 4) Commit changes
-git add exa-ma-d7.1.tex pyproject.toml
-git commit -m "chore(release): vX.Y.Z"
-
-# 5) Create an annotated tag and push using article-cli
-python3 -m article_cli create vX.Y.Z
-git push origin vX.Y.Z
-----
+Follow link:RELEASING.adoc[the release-preparation procedure].
+Install the CLI with `uv tool install --python 3.11 --editable .`, then run `exa-ma-version check`
+to confirm the checkout, main document and current version.
+Like `exa-ma-harvest` in the shared Exa-MA tools repository, this is an installed
+command. `exama-version` is an equivalent alias.
+The `bump X.Y.Z --diff` command shows a dry-run plan; `--write` applies only local
+metadata changes and regenerates fiche identities. It never commits, tags
+or pushes. Publication requires the maintainer's explicit authorization.
 
 === Development Workflow
 
@@ -425,7 +467,7 @@ git push origin vX.Y.Z
 . **Compile**: Use VS Code auto-build or manual `latexmk`
 . **Clean**: `article-cli clean` to remove build artifacts
 . **Commit**: Git hooks automatically update version info
-. **Release**: Tag with `./a.cli create vX.Y.Z` for releases
+. **Release**: Follow link:RELEASING.adoc[release preparation and publication]; commit/tag only after explicit authorization
 
 == Project Structure
 

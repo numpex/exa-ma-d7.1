@@ -12,7 +12,14 @@ authors = [
 dependencies = [
     "article-cli>=1.0.3",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.11"
+
+[project.scripts]
+exa-ma-version = "exama_version.cli:main"
+exama-version = "exama_version.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["exama_version"]
 
 [project.optional-dependencies]
 dev = [
@@ -39,14 +46,14 @@ clean_extensions = [
 
 [tool.black]
 line-length = 88
-target-version = ['py38']
+target-version = ['py311']
 
 [tool.flake8]
 max-line-length = 88
 extend-ignore = ["E203", "W503"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.11"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

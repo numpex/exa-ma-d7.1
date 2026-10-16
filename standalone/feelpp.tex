@@ -1,0 +1,25 @@
+% Compile from the repository root; includes the current authored fiche.
+\documentclass[11pt]{report}
+\input{standalone/application-preamble}
+\input{standalone/identity-panel}
+\hypersetup{pdftitle={Feel++ software fiche -- Exa-MA D7.1}}
+\delivShortTile{Feel++ software fiche}
+\renewcommand{\PrintTodoList}{}
+% A compact preview uses the same fiche without a separate chapter title page.
+\renewcommand{\thesection}{\arabic{section}}
+\fancyhf{}
+\fancyhead[L]{\footnotesize Exa-MA D7.1}
+\fancyhead[R]{\footnotesize Feel++ software fiche}
+\fancyfoot[L]{\footnotesize Catalogue refreshed 16 October 2026}
+\fancyfoot[R]{\footnotesize\thepage{} / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\begin{document}
+\setcounter{chapter}{1}
+\FicheIdentityPanel{feelpp}
+\input{software/feelpp/feelpp}
+\begingroup
+\small
+\bibliography{references}
+\bibliographystyle{apacite}
+\endgroup
+\end{document}

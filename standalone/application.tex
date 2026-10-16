@@ -2,6 +2,7 @@
 % Compile from the repository root. Scientific content remains in the fiches.
 \documentclass[11pt]{report}
 \input{standalone/application-preamble}
+\input{standalone/identity-panel}
 \providecommand{\ApplicationId}{app-samurai-cwipi}
 \providecommand{\ApplicationSpec}{\ApplicationId}
 \providecommand{\ApplicationGroupedSource}{}
@@ -12,7 +13,9 @@
   \pretocmd{\@citex}{\global\ApplicationHasCitationstrue}{}{}}
 \makeatother
 \begin{document}
-\chapter{Application specification}
+\setcounter{chapter}{1}
+\renewcommand{\thesection}{\arabic{section}}
+\FicheIdentityPanel{\ApplicationId}
 \ifx\ApplicationGroupedSource\empty
   \IfFileExists{chapters/applications/specs/\ApplicationSpec.tex}{%
     \import{chapters/applications/specs/}{\ApplicationSpec}}{%

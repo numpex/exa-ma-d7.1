@@ -1,3 +1,16 @@
+"""Framework metadata entry point; legacy Excel generation is retained below."""
+import sys
+
+if __name__ == "__main__" and len(sys.argv) > 1:
+    from scripts.sync_frameworks import main
+    raise SystemExit(main())
+
+# The old Excel generator writes editorial fiches and WP scientific sources.
+# Refuse to run it over an existing authored catalogue.
+if __name__ == "__main__":
+    raise SystemExit("Legacy Excel generation is disabled to protect authored fiches. "
+                     "Use: python gen.py --framework feelpp")
+
 from collections import Counter
 from jinja2 import Environment, FileSystemLoader
 import os
