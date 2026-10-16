@@ -1,21 +1,11 @@
-{\small
-\setlength{\LTleft}{0pt}
-\setlength{\LTright}{0pt}
-\renewcommand{\arraystretch}{1.12}
-\begin{longtable}{@{}p{0.30\linewidth}p{\dimexpr0.70\linewidth-2\tabcolsep\relax}@{}}
-\toprule
-\textbf{Characteristic} & \textbf{Catalogue entry} \\
-\midrule
-\endhead
+\begin{FicheMetadataTable}
 \BLOCK{ for label, value in rows }
 \VAR{label} & \VAR{value} \\
 \BLOCK{ endfor }
 \BLOCK{ for wp, topics in work_packages }
 \VAR{wp} topics & \VAR{topics} \\
 \BLOCK{ endfor }
-\bottomrule
-\end{longtable}
-}
+\end{FicheMetadataTable}
 \noindent\textit{Source:} \VAR{source}; retrieved \VAR{retrieved_at}.
 The survey's architecture category does not establish that an Exa-MA
 benchmark campaign has been completed.

@@ -3,43 +3,32 @@
 
 
 
-\begin{table}[h!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+\begin{FicheMetadataTable}[HPDDM Information]
+\textbf{Consortium} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+        \textbf{Exa-MA Partners} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Inria PARIS\\
 Sorbonne U\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
+        \textbf{Contact Emails} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 pierre@joliv.et\\
 erik.fabrizzi@lip6.fr\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
+        \textbf{Supported Architectures} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CPU or GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://github.com/hpddm/hpddm}{https://github.com/hpddm/hpddm} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
+        \textbf{Repository} & \href{https://github.com/hpddm/hpddm}{https://github.com/hpddm/hpddm} \\
+        \textbf{License} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 OSS:: LGPL v*\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+        \textbf{Bottlenecks roadmap} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{HPDDM Information}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Software summary}
 \label{sec:HPDDM:summary}
@@ -65,46 +54,38 @@ to solve linear systems in parallel.
 
 The following table summarizes these aspects for HPDDM, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[HPDDM programming and computational environment]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 C\\
 C++\\
 Fortran\\
 Python\\
 \end{tabular} & The software is header-only in C++ but there are bindings to other languages and libraries.\\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 GPU\\
 MPI\\
 Multithread\\
 \end{tabular} & Subdomains are typically bound to an MPI process, which can then exploit OpenMP or CUDA. Since 2026, device execution in \texttt{PCHPDDM} is delegated to PETSc; support for subdomains shared by several MPI processes is in development.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 in-house format\\
 \end{tabular} & The software mostly relies on the data formats of calling libraries, e.g., PETSc.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Currently no recovery mechanisms.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Continuous Integration\\
 \end{tabular} & GitHub Actions is used for running a test suite with MPI and CUDA examples. \texttt{clang-format} and \texttt{clang-tidy} are enforced. Codecov is used for the code coverage.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Available in Spack, MacPorts, PETSc, SLEPc, and FreeFEM.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Unit\\
 Verification\\
 \end{tabular} & Regression tests with respect to number of iterations, time to solution, and other preconditioner metrics.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Not applicable.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Feel++\\
 Freefem++\\
 MUMPS\\
@@ -113,11 +94,7 @@ PaStiX\\
 HTOOL\\
 \\
 \end{tabular} & The library can use PaStiX and MUMPS. The library is used by Feel++, Freefem++, PETSc, and HTOOL, all through the C++ API.\\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{HPDDM programming and computational environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
 
 \subsection{Developments in 2026}

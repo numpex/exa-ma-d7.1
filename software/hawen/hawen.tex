@@ -3,41 +3,30 @@
 
 
 
-\begin{table}[h!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+\begin{FicheMetadataTable}[Hawen Information]
+\textbf{Consortium} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Inria\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+        \textbf{Exa-MA Partners} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Inria BXSO\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
+        \textbf{Contact Emails} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 florian.faucher@inria.fr\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
+        \textbf{Supported Architectures} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CPU, GPU in progress.\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://gitlab.com/ffaucher/hawen}{https://gitlab.com/ffaucher/hawen} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
+        \textbf{Repository} & \href{https://gitlab.com/ffaucher/hawen}{https://gitlab.com/ffaucher/hawen} \\
+        \textbf{License} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 OSS:: GPL v*\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+        \textbf{Bottlenecks roadmap} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{Hawen Information}
-\end{table}
+\end{FicheMetadataTable}
 
 % ---------------------------------------------
 \newcommand{\hawen}{\textsc{Hawen}}
@@ -72,24 +61,16 @@ with an emphasis on applications in the context of Earth's imaging and helioseis
 
 The following \cref{table:hawen-environment} summarizes these aspects for \hawen, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[Hawen programming and computational environment\label{table:hawen-environment}]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Fortran\\
 \end{tabular} & 
 \hawen~is developed in Fortran90. \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 MPI\\
 Multithread\\
 \end{tabular} & \hawen relies onto MPI and multithreading for parallelism.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Gmsh and associated formats\\
 VTK\\
 in-house binary format\\
@@ -98,16 +79,16 @@ Gmsh format can be used for input mesh.
 VTK or binary format can be used to save the results such as the 
 wave propagation solutions.
 \\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Analytic solutions\\
 \end{tabular} & Testing methodologies employed to ensure software quality and correctness:
 Analytic solutions for the propagation of acoustic and elastic waves, respectively 
@@ -115,22 +96,17 @@ Analytic solutions for the propagation of acoustic and elastic waves, respective
 with the numerical resolutions. For instance we refer to \cite{pham_numerical_2024} for 
 the validation of the linear elasticity propagator.
 \\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 MUMPS\\ 
 \end{tabular} & List of software Hawen has interfaces with.
         MUMPS is used to solve the linear system resulting from 
         the numerical discretization. Metis is used to partition
         the mesh. ARPACK and PARPACK are optional dependencies 
         used for eigenproblems.\\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{Hawen programming and computational environment}
-    \label{table:hawen-environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
 
 

@@ -1,0 +1,64 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{fiche-metadata}[2026/10/16 Shared fiche catalogue tables]
+\RequirePackage{array}
+\RequirePackage{colortbl}
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
+\RequirePackage{etoolbox}
+
+\newcommand{\FicheTableSetup}{%
+  \par\begingroup\small
+  % Stretch glue also lets caption/ltcaption place a full-width caption without
+  % an overfull zero-width alignment box. The table itself fills the line.
+  \setlength{\LTleft}{0pt plus 1fill}%
+  \setlength{\LTright}{0pt plus 1fill}%
+  \setlength{\tabcolsep}{6pt}%
+  \renewcommand{\arraystretch}{1.15}%
+  \arrayrulecolor{black}%
+}
+
+% Shared by generated metadata and authored framework identity tables.
+% The optional caption may contain a label, as with an ordinary longtable.
+\newenvironment{FicheMetadataTable}[1][]{%
+  \FicheTableSetup
+  \ifstrempty{#1}{\let\FicheTableCaption\empty}{\def\FicheTableCaption{\caption{#1}\\}}%
+  \begin{longtable}{@{}>{\raggedright\arraybackslash\bfseries}p{0.28\linewidth}%
+    >{\raggedright\arraybackslash}p{\dimexpr0.72\linewidth-2\tabcolsep\relax}@{}}%
+  \FicheTableCaption
+  \toprule
+  Field & \textbf{Catalogue information} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Field & \textbf{Catalogue information (continued)} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+}{%
+  \end{longtable}%
+  \endgroup
+}
+
+% Environment descriptions retain their third column, with the same styling.
+\newenvironment{FicheEnvironmentTable}[1][]{%
+  \FicheTableSetup
+  \ifstrempty{#1}{\let\FicheTableCaption\empty}{\def\FicheTableCaption{\caption{#1}\\}}%
+  \begin{longtable}{@{}>{\raggedright\arraybackslash\bfseries}p{0.20\linewidth}%
+    >{\raggedright\arraybackslash}p{\dimexpr0.30\linewidth-2\tabcolsep\relax}%
+    >{\raggedright\arraybackslash}p{\dimexpr0.50\linewidth-2\tabcolsep\relax}@{}}%
+  \FicheTableCaption
+  \toprule
+  Category & \textbf{Details} & \textbf{Description} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Category & \textbf{Details} & \textbf{Description (continued)} \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+}{%
+  \end{longtable}%
+  \endgroup
+}

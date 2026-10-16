@@ -54,54 +54,41 @@ reported bottleneck.
 % To be completed by the FUnTiDES developers.
 
 
-\begin{table}[h!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[FunTiDES programming and computational environment\label{table:funtides-environment}]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 C++\\
 \end{tabular} & 
 FUnTiDES is developed mainly in C++. \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 MPI\\
 Multithread\\
 \end{tabular} & FUnTiDES relies on Kokkos for multithreading on GPU/CPU. It also has MPI decomposition \\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 ADIOS\\
 \end{tabular} & Data formats that the software can handle or produce.
 Mesh is for the moment only generate by the solver. The I/O fir receiver output and snapshots is handle by ADIOS.
 \\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 To confirm\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CI on Github (only CPUfor now)\\
 \end{tabular} & CPU CI is deployed on Github with CodeCoverage verification.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 To confirm\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Analytic solutions\\
 \end{tabular} & Numerical solution are validated against an analytical solution for the acoustic and elastic case.
 Not included in CI for now (will be when CI GPU will be deployed)
 \\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 To confirm\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 
 \end{tabular} & List of software FUnTiDES has interfaces with. \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{FunTiDES programming and computational environment}
-    \label{table:funtides-environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
 
 
