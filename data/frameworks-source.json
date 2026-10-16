@@ -1,0 +1,33 @@
+{
+  "spreadsheet_url": "https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?ouid=109146539207877795266",
+  "tab": "Frameworks",
+  "sheet_id": 0,
+  "range": "A1:AL46",
+  "retrieved_on": "2026-10-16",
+  "snapshot": "data/frameworks.csv",
+  "cell_notes": {
+    "Feel++": {
+      "WP1": "Multiphysics coupling: preCICE support is available (confirmed by the maintainer on 16 October 2026)."
+    }
+  },
+  "editorial_sources": [
+    {
+      "url": "https://github.com/feelpp/feelpp/blob/develop/README.adoc",
+      "use": "Galerkin methods, core/toolboxes/MOR components, PETSc/SLEPc, Gmsh and XDMF"
+    },
+    {
+      "url": "https://github.com/feelpp/feelpp/blob/develop/codemeta.json",
+      "use": "CodeMeta metadata and project links"
+    }
+  ],
+  "scope": "Raw Frameworks values are retained. Only requested framework metadata is generated; scientific fiches and benchmark results are authored separately.",
+  "entry_refreshes": {
+    "Feel++": {
+      "date": "2026-10-16",
+      "range": "Frameworks!A12:AL12",
+      "changed_fields": [
+        "Partner"
+      ]
+    }
+  }
+}

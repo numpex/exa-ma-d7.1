@@ -8,14 +8,16 @@
 \label{sec:summary}
 
 \noindent
-\textbf{Scope.} This edition (v2025) of Deliverable D7.1 consolidates, in a single annual
-\emph{mega-deliverable}, the scientific advances of WP1--WP6 and their software production,
-benchmarking and methodology (WP7). It provides a 360° view: methods \textrightarrow\ software
-\textrightarrow\ mini-apps/demonstrators \textrightarrow\ metrics, with traceable artefacts (code, containers,
-datasets, scripts, logs). % see Exec. Summary and ToC for structure
-% (source: D7.1 structure and methodology)
-% (PDF executive summary and Chapter 8)
-% 
+\textbf{Scope.} This 2026 integration edition (v2.95.0, towards v3.0.0)
+consolidates the Exa-MA deliverables in a single annual \emph{mega-deliverable}.
+It brings together project management (D0.2), the scientific advances of
+WP1--WP6, software frameworks, application specifications and benchmark
+results, and WP7 coordination, co-design and training. The correspondence
+with contractual deliverables is given in
+\Cref{tab:deliverable-correspondence}; D0.1 was delivered separately.
+The report connects methods \textrightarrow\ software
+\textrightarrow\ mini-apps/demonstrators \textrightarrow\ metrics, with
+references to code, datasets, scripts and reported results.
 
 \medskip
 \noindent
@@ -26,17 +28,20 @@ validated by the coordination team.
 
 \medskip
 \noindent
-\textbf{Highlights (2024--2025).}
+\textbf{Scientific contributions.} The scientific chapters present the
+2026 advances alongside the retained contributions from earlier editions,
+separating methodology from the implementation details in
+\Cref{chap:software}. The following highlights retain the 2024--2025 context.
 \begin{itemize}
   \item \emph{WP1 Discretization.} Robust meshing and adaptation at scale, including
-        feature-aware workflows and fully parallel anisotropic adaptation with ParMmg (Fichera),
+        feature-aware workflows and fully parallel anisotropic adaptation with ParMmg,
         plus a high-order wave proxy-app (CPU/GPU). % WP1§2.1--2.3
   \item \emph{WP2 MOR/Surrogates/SciML.} PINNs with domain decomposition, FNO-based
         warm-starts for nonlinear solves, nonlinear ROM with neural implicit representations. % WP2§3.2
   \item \emph{WP3 Solvers.} GenEO extensions to non-SPD systems; mixed-precision and
         variable-accuracy Krylov (PROMISE); fault-tolerant PCG patterns; partitioned coupling
         building blocks. % WP3§4.2
-  \item \emph{WP4 Data Assimilation.} Launch of stochastic inversion (EKI mini-app spec) with
+  \item \emph{WP4 Data Assimilation.} Stochastic inversion application specifications with
         manufactured tests and ensemble-MPI design. % WP4§5.3
   \item \emph{WP5 Optimization.} Fractal continuous optimization at scale; parallel Bayesian
         optimization for expensive objectives; neural level-set shape optimization. % WP5§6.2
@@ -46,24 +51,35 @@ validated by the coordination team.
 
 \medskip
 \noindent
-\textbf{Applications and demonstrators (selection).}
-Thermal bridges validation (Feel++), FDA nozzle (Navier–Stokes), geometry distance/BVH vs FMM,
-parallel anisotropic mesh adaptation (ParMmg), reduced-basis thermal fin, and HPDDM–DFN. % Ch.10
+\textbf{Applications and demonstrators.} \Cref{chap:applications} presents
+applications at different stages, from conception and specification through
+implementation to benchmarking. It brings together the application registry,
+cross-WP mapping, benchmark index and individual fiches, including results
+where available. Completed benchmarks are not required for every application
+at this stage.
 
 \medskip
 \noindent
 \textbf{Software production and benchmarking.}
-We apply a unified methodology (Chap.~8): CI/CD with nightly/non-regression and ReFrame,
+\Cref{chap:methodology} describes a unified methodology: CI/CD with nightly/non-regression and ReFrame,
 containerized runs (Docker/Apptainer), FAIR data/DOIs (Zenodo), energy/perf/scaling metrics,
-and acceptance criteria per application tier (mini-app, extended mini-app, demonstrator). % Ch.8
+and acceptance criteria per application tier (mini-app, extended mini-app, demonstrator).
 
 \medskip
 \noindent
-\textbf{KPI snapshot (targets and current status).}
+\textbf{Coordination, co-design and training.} \Cref{chap:wp7} records
+WP7 coordination and initial co-design feedback towards D7.2, including
+the PC5 working groups and collaboration with the HiDALGO2 Centre of Excellence.
+\Cref{chap:training} integrates D7.3 training and capacity-building material.
+
+\medskip
+\noindent
+\textbf{KPI snapshot (2025 baseline).} The figures below are retained from
+the 2025 edition and are not a consolidated assessment of the 2026 advances.
 \begin{center}
 \begin{tabular}{p{4cm} p{4cm} p{6cm}}
 \toprule
-\textbf{KPI} & \textbf{Target} & \textbf{Current Status (2025)} \\
+\textbf{KPI} & \textbf{Target} & \textbf{Reported Status (2025)} \\
 \midrule
 Level 1 demonstrators at scale & At least 3 per WP (except WP7) & 2 mini-apps defined and specified (WP1), implemented and part of the benchmarking process \\
 Level 2 demonstrators at scale & At least 5 total & 6 extended mini-apps and demonstrators specified; 2 implemented and 1 participating in the benchmarking process \\

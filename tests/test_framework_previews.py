@@ -20,6 +20,7 @@ class FrameworkPreviewTests(unittest.TestCase):
                                    'standalone/frameworks/samurai.tex'], catalogue),
                          ['feelpp', 'samurai'])
         self.assertEqual(selected(['standalone-funtides.tex'], catalogue), ['funtides'])
+        self.assertEqual(selected(['standalone/feelpp.tex'], catalogue), ['feelpp'])
 
     def test_former_maphys_name_selects_composyx_without_duplicate(self):
         self.assertEqual(selected(['software/maphyspp/maphyspp.tex'],
@@ -31,7 +32,9 @@ class FrameworkPreviewTests(unittest.TestCase):
     def test_shared_dependencies_and_release_select_all(self):
         catalogue = {'samurai': '', 'feelpp': ''}
         for paths in (None, ['defs.tex'], ['references.bib'], ['graphics/common.png'],
-                      ['.github/workflows/latex.yml'], ['standalone/framework-preamble.tex']):
+                      ['.github/workflows/latex.yml'], ['standalone/framework-preamble.tex'],
+                      ['standalone/identity-data.tex'], ['data/frameworks.csv'],
+                      ['scripts/generate_fiche_identities.py']):
             self.assertEqual(selected(paths, catalogue), ['feelpp', 'samurai'])
         self.assertEqual(selected([], catalogue), [])
 

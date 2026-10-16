@@ -113,6 +113,9 @@ and least-squares Petrov--Galerkin projection, nonlinear compressive
 reduced-basis solvers (NLCRB and NLCRB++), empirical interpolation for source
 terms and ECSW sampling/weighting for hyper-reduction. Gaussian-process
 and multilayer-perceptron surrogates reconstruct the unresolved modes.
+The methodological foundations are the combined Galerkin/regression
+formulation~\cite{hal_05143191} and the Taylor-based analysis of nonlinear
+compressive approximation~\cite{hal_05466017}.
 These components implement the methods described under WP2/T2.4 in
 \FeelppImplementationAdvance{WP2-A2026-4}.
 
@@ -165,5 +168,6 @@ Tests under \nolinkurl{testsuite/feelstats} cover statistical summaries,
 merging, quantile selection and mixed-scale samples. The scientific
 contribution is described in \FeelppImplementationAdvance{WP6-A2026-2}.
 
-Benchmark results are reported in the corresponding application fiches in \Cref{chap:applications}.
+Benchmark results are reported in the corresponding application fiches%
+\ifcsname r@chap:applications\endcsname\space in \Cref{chap:applications}\fi.
 \fi

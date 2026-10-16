@@ -43,11 +43,18 @@ def selected(changed, catalogue):
                 result.add(slug)
         elif name == 'standalone-funtides.tex':
             result.add('funtides')
-        elif (name.startswith(('graphics/', 'standalone/framework',
-                                'templates/framework-', '.github/workflows/'))
+        elif name == 'standalone/feelpp.tex':
+            result.add('feelpp')
+        elif (name.startswith(('graphics/', 'standalone/framework', 'standalone/identity',
+                                'templates/framework-', 'templates/feelpp-', '.github/workflows/',
+                                'exama_version/'))
               or name in {'defs.tex', 'references.bib', 'pyproject.toml', 'gen.py',
                           'scripts/framework_previews.py', 'tests/test_gen.py',
-                          'tests/test_framework_previews.py'}
+                          'tests/test_framework_previews.py', 'tests/test_sync_frameworks.py',
+                          'scripts/generate_fiche_identities.py', 'scripts/sync_frameworks.py',
+                          'scripts/release.py', 'data/fiche-identity-profiles.json',
+                          'data/frameworks.csv', 'data/frameworks-source.json',
+                          'data/applications.csv', 'data/application-reconciliation-v3.csv'}
               or name.endswith('.sty')):
             # Shared dependencies rebuild all; unrelated chapter edits do not.
             return sorted(catalogue)
