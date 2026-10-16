@@ -162,6 +162,22 @@ Limitations and next step & Two levels only; no block splitting, harmonic overla
   Cross-WP contribution or dependency & WP7: benchmarking and applications \\
 \end{WPAdvanceRecord}
 
+\begin{WPAdvanceRecord}{WP3-A2026-5}
+  Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms) \\
+  Concise description of the 2026 advance & Composyx CUDA and HIP implementations, validated with efficient weak scaling. The benchmark is a diffusion problem solved with domain decomposition and Geneo. \\
+  Responsible contributors and institutions & E.Agullo, L.Giraud, G.Marait (Concace, Inria) \\
+  Implementing software & Composyx (\url{https://gitlab.inria.fr/composyx/composyx}) \\
+  Software release, commit or PR & 1.7.1 \\
+  Associated application ID & \texttt{app-composyx-diffusion} (Section~\ref{sec:app:specs:app-composyx-diffusion}) Composyx 3D diffusion equation in a 3D stratified medium \\
+  Associated benchmark ID & No mapping yet \\
+  Scientific or numerical result & Composyx showed good efficiency for weak scaling on Jean-Zay (32 nodes with v100 GPUs) and Adastra (128 nodes with MI250x GPUs) \\
+  Performance or scalability result & Weak scaling efficiency (time on  1 node / time on  32 nodes) with CUDA up to 88\% and with HIP up to 89\% (time on  1 node / time on  128 nodes) \\
+  Evidence and raw-data location & Use drivers \verb?composyx_cuda_cg_ddm? and \verb?composyx_hip_cg_ddm? in the release 1.7.1 on Composyx \\
+  Maturity & Integrated (released) \\
+  Limitations and next step & Further experiments on larger number of nodes, and with different configurations for the subdomains. \\
+  Cross-WP contribution or dependency & WP7: benchmarking and applications \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited solver advances with the work performed in
 2026.  Separate new achievements from the 2024--2025 baseline and cite the
