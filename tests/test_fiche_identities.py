@@ -20,6 +20,10 @@ class FicheIdentityTests(unittest.TestCase):
         for wrapper in (ROOT / "standalone/applications").glob("*.tex"):
             self.assertIn(wrapper.stem, declared)
             self.assertIn(r"\input{standalone/application}", wrapper.read_text())
+        for wrapper in (ROOT / "standalone/frameworks").glob("*.tex"):
+            self.assertIn(wrapper.stem, declared)
+        self.assertIn(r"\FicheIdentityPanel{\FrameworkId}",
+                      (ROOT / "standalone/framework.tex").read_text())
         self.assertIn("feelpp", declared)
         self.assertEqual((ROOT / "standalone/identity-data.tex").read_text(), content)
 

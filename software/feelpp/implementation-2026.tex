@@ -1,0 +1,170 @@
+% Shared implementation section for the general and WP7 Feel++ fiches.
+% Render once if both fiches are included in the same document.
+\ifdefined\FeelppImplementationTwentySixRendered\else
+\global\let\FeelppImplementationTwentySixRendered\relax
+\newcommand{\FeelppImplementationAdvance}[1]{%
+  \ifcsname r@tab:advance:#1\endcsname
+    \Cref{tab:advance:#1}%
+  \else
+    \nolinkurl{#1}%
+  \fi}
+
+\subsection{2026 implementation developments}
+\label{sec:Feelpp:implementation-2026}
+
+The following developments implement the Cemosis contributions to WP1, WP2,
+WP3, WP4, WP5 and WP6 in the Feel++ framework. Scientific WP chapters
+present the corresponding methods; this section identifies their software
+components, examples and verification sources.
+
+\subsubsection{Solid-shell elements and tensor operators}
+\label{sec:Feelpp:implementation-2026:sb9}
+The SB9 implementation supports the joint work with AVNIR Energy and
+collaboration with INSA Lyon on a fast, efficient large-scale solver for
+fluid-loaded slender structures in vibroacoustics. The application objective
+is defect detection under medium- and high-frequency excitation. This
+development connects the shell formulation with the broader Feel++ CPU,
+GPU and hybrid HPC efforts; a new industrial demonstrator is expected in
+2027.
+
+\href{https://github.com/feelpp/feelpp/pull/2510}{Feel++ PR~2510} supplies SB9 shell geometry and strain
+operators, symmetric tensor representations in Voigt and Mandel notation,
+constitutive contractions, assumed-shear and stabilization operators.
+Shell geometry is cached for reuse by the membrane--bending, pinching and
+shear terms. The mixed formulation uses a continuous vector $Q_1$
+displacement space and a discontinuous $P_0$ internal cell mode.
+The implementation maintains explicit component and tensor-storage
+orderings and supports block-aware assembly.
+
+Verification configurations are supplied under
+\nolinkurl{feelpp/quickstart/elasticity/shell}, including bending-patch,
+plate and SB9 validation cases. Expression and tensor microbenchmarks are
+provided under \nolinkurl{benchmarks/feelpp}. The discretization contribution
+is described in \FeelppImplementationAdvance{WP1-A2026-2}.
+
+\subsubsection{Distributed geometric search}
+\label{sec:Feelpp:implementation-2026:bvh}
+Developed jointly with the HiDALGO2 Centre of Excellence for the PC5
+\KtirioUrbanBuildingContext{} demonstrator, the distributed geometric-search
+infrastructure in \href{https://github.com/feelpp/feelpp/pull/2494}{Feel++ PR~2494}
+refactors parallel BVH intersection queries
+using a two-level hierarchy. Communications use nonblocking MPI operations,
+bounded batches and an event loop with a minimum interval between
+communication pulses. The two-dimensional implementation shares the
+three-dimensional query machinery. The documented \texttt{anyHint} and
+\texttt{closest} contexts are operational; the all-intersections context
+can return incomplete results in parallel. This scope is retained in
+\FeelppImplementationAdvance{WP1-A2026-3}.
+
+\subsubsection{HPDDM integration and block static condensation}
+\label{sec:Feelpp:implementation-2026:solvers}
+The HPDDM interface in \nolinkurl{feelpp/feel/feelalg/preconditionerpetsc.hpp}
+adds HPDDM preconditioner configuration through PETSc, including auxiliary
+Neumann matrices and index sets. The solver interface is exercised by
+\nolinkurl{testsuite/feelalg/test_hpddm.cpp},
+\nolinkurl{testsuite/feelalg/test_hpddm_laplacian.cpp} and elasticity
+quickstart tests.
+
+The component \nolinkurl{feelpp/feel/feelalg/staticcondensation.hpp}
+extends static condensation to two-by-two block systems, with product-space
+tests. Mixed assembly and row-wise Dirichlet elimination are supported by
+\href{https://github.com/feelpp/feelpp/pull/2437}{Feel++ PR~2437}.
+These components realize the solver contribution described in
+\FeelppImplementationAdvance{WP3-A2026-2}; the separate HPDDM framework contribution and its benchmark results are documented in their own fiche.
+
+\subsubsection{Variational optimization through PETSc TAO}
+\label{sec:Feelpp:implementation-2026:tao}
+\href{https://github.com/feelpp/feelpp/pull/2504}{Feel++ PR~2504} introduces a Feel++ interface to PETSc TAO.
+The API connects objectives, gradients, Hessians, constraints and bounds
+to solver configuration, monitoring and convergence reporting.
+Functional and variational-form tests exercise the interface.
+The implementation supports the deterministic inverse-problem role in
+\FeelppImplementationAdvance{WP4-A2026-2} and the continuous-optimization role in
+\FeelppImplementationAdvance{WP5-A2026-4}, using one shared software interface.
+
+\subsubsection{preCICE coupling and OpenFOAM deployment}
+\label{sec:Feelpp:implementation-2026:precice}
+The preCICE integration is part of the joint work with the HiDALGO2
+Centre of Excellence for the PC5 \KtirioUrbanBuildingContext{} demonstrator. Its
+objective is to couple urban microclimate with building energy simulation.
+The adapter identified by
+\href{https://github.com/feelpp/feelpp/issues/2525}{Feel++ issue~2525}
+provides coupling-mesh and field interfaces, supports multiple coupling
+meshes and samples fields at element barycentres, including discontinuous
+spaces. Nonmatching interface meshes are connected through field mapping;
+transferred fields can be imposed through Feel++'s variational Dirichlet
+interface. The discretization contribution is described in
+\FeelppImplementationAdvance{WP1-A2026-4}.
+
+The deployment infrastructure under \nolinkurl{packaging/docker/openfoam}
+supplies a separate OpenFOAM participant image with preCICE and its adapter,
+together with Docker and Apptainer/Slurm launch configurations. Each
+participant retains its own MPI installation; preCICE sockets exchange
+coupling data. This infrastructure supports the urban microclimate--building
+energy coupling objective and opens further opportunities for coupled
+Feel++--OpenFOAM applications.
+
+\subsubsection{Nonlinear compressive reduced-basis workflows}
+\label{sec:Feelpp:implementation-2026:nlrb}
+The \href{https://github.com/feelpp/nonlinearrb}{nonlinearrb software}
+combines Feel++ C++ finite-element kernels exposed through pybind11 with
+Python offline/online reduced-order workflows. It implements POD-Galerkin
+and least-squares Petrov--Galerkin projection, nonlinear compressive
+reduced-basis solvers (NLCRB and NLCRB++), empirical interpolation for source
+terms and ECSW sampling/weighting for hyper-reduction. Gaussian-process
+and multilayer-perceptron surrogates reconstruct the unresolved modes.
+These components implement the methods described under WP2/T2.4 in
+\FeelppImplementationAdvance{WP2-A2026-4}.
+
+The Burgers testbed uses a common DG-P0 full-order discretization with
+per-face Rusanov fluxes, a theta-method and Newton solves. Its comparison
+workflow retains the same flux, source integration, Newton configuration
+and time grid across the full-order, projection-based and nonlinear
+reduced models. The affine-tensor variant with a global frozen wave speed
+is a different discrete model and is excluded from that comparison.
+
+The software supplies training, offline decomposition, surrogate selection,
+online evaluation and batch-study tools, with a results dashboard.
+C++ tests cover DG Burgers validation, reduced operators and hyper-reduction;
+Python tests cover offline/online contracts, surrogate and solver
+configurations, source approximation and comparison schemas.
+The application and benchmark mappings are
+\texttt{app-feelpp-nlcrb} and \texttt{BM-FEEL-NLCRB-01}. The benchmark campaign
+has no reported timing or scalability results.
+
+\subsubsection{Streaming statistics and quantile sketches}
+\label{sec:Feelpp:implementation-2026:stats}
+The module \nolinkurl{feelpp/feel/feelstats} provides streaming statistical
+processing components in Feel++. The Ensemble/UQ framework resides in the
+PC5 \KtirioUrbanBuildingContext{} demonstrator and builds on Feel++
+streaming statistical processing. Developed in joint work with the
+HiDALGO2 Centre of Excellence, the demonstrator targets large-scale urban
+building energy simulation and decision support, where ensemble samples
+and building time series create memory and I/O constraints. The statistical
+components and the application-level ensemble framework have distinct roles.
+
+The module supplies online mean and variance, extrema, paired
+covariance/correlation, central moments through fourth order, and a
+mergeable KLL-style quantile sketch. Serialization and merging permit
+partial statistical states to be combined instead of retaining all
+observations. These are statistical-processing facilities, not sample
+scheduling or ensemble-execution services. The Ktirio Ensemble/UQ framework
+separates sample simulation ranks from dedicated I/O ranks that aggregate
+and write statistical data. Timing diagnostics are another consumer of
+Feel++ streaming statistics.
+
+The Ktirio Urban Building ensemble/UQ workflow provides exact empirical
+quantiles, KLL reducers, exceedance probabilities,
+and an exact-vector VaR/CVaR backend with Parquet risk products. These are
+application-level facilities, distinct from the generic feelstats sketch.
+Quantile estimates support VaR; CVaR also requires tail-loss information.
+The sketch uses equal per-level capacities and does not claim Apache
+DataSketches' normalized-rank error bounds. Demonstrator-scale assessment
+must therefore consider memory and I/O costs together with tail accuracy.
+Tests under \nolinkurl{testsuite/feelstats} cover statistical summaries,
+merging, quantile selection and mixed-scale samples. The scientific
+contribution is described in \FeelppImplementationAdvance{WP6-A2026-2}.
+
+Benchmark results are reported in the corresponding application fiches%
+\ifcsname r@chap:applications\endcsname\space in \Cref{chap:applications}\fi.
+\fi

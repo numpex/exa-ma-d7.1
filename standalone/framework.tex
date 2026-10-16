@@ -1,0 +1,15 @@
+% Shared wrapper: no scientific content is copied here.
+\documentclass[11pt]{report}
+\input{standalone/framework-preamble}
+\input{standalone/identity-panel}
+\begin{document}
+\setcounter{chapter}{1}
+\FicheIdentityPanel{\FrameworkId}
+{\scriptsize Report \FrameworkReportVersion{}; build \FrameworkBuildRef{}; source revision \FrameworkBuildRevision.\par}
+\medskip
+\raggedbottom
+\renewcommand{\thesection}{\arabic{section}}
+\input{\FrameworkSource}
+\bibliography{references}
+\bibliographystyle{apacite}
+\end{document}

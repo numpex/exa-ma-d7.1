@@ -52,7 +52,7 @@ inspect that diff separately.
 
 [source,shell]
 ----
-uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' python gen.py --framework feelpp
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' python scripts/sync_frameworks.py --framework feelpp
 uv run --no-project --python 3.11 python scripts/sync_applications.py --standalone
 uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py
 ----
@@ -112,11 +112,11 @@ exa-ma-version check
 uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py --check
 uv run --no-project --python 3.11 python scripts/sync_applications.py --standalone --check
 uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4' \
-  --with pytest python -m pytest tests/test_gen.py tests/test_release.py tests/test_fiche_identities.py -q
+  --with pytest python -m pytest tests/test_gen.py tests/test_sync_frameworks.py tests/test_release.py tests/test_fiche_identities.py -q
 
 # Use the main filename printed by exa-ma-version check.
-# This checkout uses exa-ma-d7.1.tex; newer layouts may use exa-ma-deliverables.tex.
-latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 exa-ma-d7.1.tex
+# This checkout uses exa-ma-deliverables.tex; legacy layouts may use exa-ma-d7.1.tex.
+latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 exa-ma-deliverables.tex
 latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 \
   -outdir=output/pdf standalone/feelpp.tex
 ----

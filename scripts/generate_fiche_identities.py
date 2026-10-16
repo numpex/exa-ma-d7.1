@@ -57,8 +57,12 @@ def render(root):
     used = set()
     frameworks = {r["Name"].replace("+", "p").replace(" ", "-").replace("/", "-").lower(): r
                   for r in read_csv(root / "data/frameworks.csv")}
-    for key, profile in profiles.get("frameworks", {}).items():
-        row = frameworks[key]
+    framework_profiles = profiles.get("frameworks", {})
+    framework_ids = set(framework_profiles) | {p.stem for p in (root / "standalone/frameworks").glob("*.tex")}
+    aliases = {"arcane-framework": "arcane"}
+    for key in sorted(framework_ids):
+        profile = framework_profiles.get(key, {})
+        row = frameworks[aliases.get(key, key)]
         wps = ", ".join(f"WP{i}" for i in range(1, 8) if row.get(f"WP{i}", "").strip())
         content += declaration(
             key, "Software fiche", row["Name"], profile.get("subtitle", ""),

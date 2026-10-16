@@ -4,35 +4,127 @@
 
 \input{chapters/applications/metadata/app-samurai-cwipi}
 
-% Description and values below reproduce the app-samurai-cwipi row in
-% data/applications.csv. No additional scientific specification is inferred.
+This mini-app couples two independent codes through Cwipi, the parallel
+coupling library of ONERA \cite{quemerais_cwipi_2026}. Both codes are built on
+samurai \cite{bellotti_multiresolution-based_2022} (finite volumes on Cartesian
+meshes, see \Cref{sec:Samurai:software}) and PETSc \cite{balay_petsc_2024}. One
+solves the heat equation in a solid, the other the flow in a cavity heated from
+the side, and the two exchange data at their common interface. The mini-app is the
+reference case on which we validate the high-order multistep coupling scheme
+implemented in Cwipi (see \Cref{sec:wp1:t1.7:multistep}), before its use in an HPC context.
+It will soon be released as open source.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \subsection{Description of the benchmark}
-The cwipi-samurai mini-app couples two independent Samurai/PETSc solvers
-(a solid and a differentially heated fluid cavity) through ONERA's Cwipi
-library to simulate unsteady, nonlinear solid-fluid conjugate heat transfer.
-It serves as a reference case for validating the high-order multistep coupling
-scheme in Cwipi, showing temporal order k+1 up to order 4, before it is used
-in an HPC context.
+
+The solid occupies $[-1/5, 0]\times[0,1]$ and the fluid the cavity $[0,1]^2$.
+They meet at $x = 0$ (\Cref{fig:specs:samurai:cwipi}, left). The solid
+follows the dimensionless heat equation
+\begin{equation}\label{eq:specs:samurai:cwipi:solid}
+  \partial_t \theta_s = \frac{D_s}{D_f}\,\Delta \theta_s,
+\end{equation}
+with $\theta_s = 1$ on the left wall and a zero heat flux on $y = 0$ and
+$y = 1$. The fluid follows the dimensionless Boussinesq equations
+\begin{equation}\label{eq:specs:samurai:cwipi:fluid}
+  \partial_t \mathbf{u} + (\mathbf{u}\cdot\nabla)\mathbf{u}
+  - \mathrm{Pr}\,\Delta \mathbf{u} + \nabla p
+  = \mathrm{Pr}\,\mathrm{Ra}\,\theta_f\,\mathbf{e}_y,
+  \qquad \nabla\cdot\mathbf{u} = 0,
+  \qquad \partial_t \theta_f + \mathbf{u}\cdot\nabla\theta_f = \Delta\theta_f,
+\end{equation}
+with no-slip walls, $\theta_f = 0$ on the cold wall on the right and adiabatic
+horizontal walls.
+
+The coupling is of Dirichlet-Neumann type. The fluid receives the interface
+temperature from the solid and sends back its normal temperature gradient,
+which the solid imposes as a flux weighted by the conductivity ratio
+$K_s/K_f$. The coupling is nonlinear: natural convection makes the response of
+the fluid, and therefore the interface flux, nonlinear in the imposed
+temperature. The parameters are $\mathrm{Ra} = 10^4$, $\mathrm{Pr} = 0.71$,
+$K_s/K_f = 1600$ and $D_s/D_f = 0.4$. The steady state
+(\Cref{fig:specs:samurai:cwipi}, right) shows the convection cell in the
+cavity. The solid is nearly isothermal because of the high conductivity
+ratio.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.45\textwidth]{samurai/cwipi-samurai-mesh.png}
+  \hfill
+  \includegraphics[width=0.53\textwidth]{samurai/cwipi-samurai-steady-state.png}
+  \caption{Solid-fluid conjugate heat transfer. Left: mesh of the solid (80
+    cells) and of the fluid (1024 cells), and the coupling interface at $x=0$.
+    Right: temperature and velocity fields of the steady state, at $t = 2$.}
+  \label{fig:specs:samurai:cwipi}
+\end{figure}
+
+\paragraph{Numerical method.}
+Both domains are discretized with second-order finite volumes on samurai
+Cartesian meshes. The solid solves the heat equation. The fluid solves the
+velocity-pressure-temperature system as a whole, with exact incompressibility
+and a Rusanov-type convection flux. In time, each code uses its own integrator,
+here an 8-stage, fifth-order ESDIRK scheme from PETSc TS, and calls the
+polynomial prediction of Cwipi at each stage.
+
+\paragraph{Temporal convergence.}
+The coupling time step $\Delta t$ is fixed. We measure the error on the coupling
+variables at $t_f = 0.04$, in the middle of the transient, against a reference
+solution computed with $\Delta t = 2.5\cdot 10^{-5}$. Repeating the run for a
+sequence of $\Delta t$ and for several polynomial degrees $k$ gives the order
+of convergence of the multistep scheme, which should be $k+1$.
+
+\paragraph{Next steps.}
+The next test case will be in 3D. Each code will adapt its mesh in space
+independently of the other, so the two meshes will not match at the interface
+and will change during the simulation. On this case, we will measure the HPC
+performance of the coupling: the parallel behavior of each code and the cost of
+the exchanges through Cwipi.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Benchmarking methodology}
 \begin{description}
   \item[Method-Algorithm WP1:] multiphysics coupling, finite volume
   \item[Method-Algorithm WP3:] multiphysics coupling, krylov solver
-  \item[Framework:] PETSc, Samurai
+  \item[Framework:] PETSc, samurai, Cwipi
   \item[Parallel framework:] Sequential
   \item[Benchmark scope:] \texttt{method-verification}
 \end{description}
 
-\todo[app-samurai-cwipi / benchmarking methodology]{Methodology details not provided in the sheet.}
+The benchmark is a convergence study in time. The metric is the error on the
+coupling variables at $t_f$ as a function of $\Delta t$, and the observed order
+of convergence for each degree $k$ of the coupling polynomial.
 
-\todo[app-samurai-cwipi / metrics]{Sheet field missing.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Input/Output Dataset Description}
-\subsubsection{Input Data}
-\todo[app-samurai-cwipi / inputs]{Sheet field missing.}
 
-\subsubsection{Output Data}
-\todo[app-samurai-cwipi / outputs]{Sheet field missing.}
+\subsubsection{Input Data:}
+  \begin{itemize}
+  \item No external dataset: the geometry, the boundary conditions and the
+    meshes of the two domains are defined by the mini-app.
+  \item Parameters: $\mathrm{Ra}$, $\mathrm{Pr}$, $K_s/K_f$, $D_s/D_f$, the
+    coupling time step $\Delta t$, the final time $t_f$ and the degree $k$ of
+    the coupling polynomial.
+  \end{itemize}
+
+\subsubsection{Output Data:}
+  \begin{itemize}
+  \item The coupling variables at the interface, from which the error against
+    the reference solution is computed.
+  \item The temperature and velocity fields of the solid and of the fluid.
+  \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Results summary}
-\todo[app-samurai-cwipi / results summary]{Results summary not provided in the sheet.}
+
+The order $k+1$ predicted by the theory is observed up to order 4, on a
+nonlinear coupling between two independent codes. The mini-app is therefore a
+reference case to validate the high-order multistep coupling in Cwipi before
+its use in an HPC context.

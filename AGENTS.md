@@ -59,7 +59,7 @@ article-cli update-bibtex
 article-cli clean
 
 # Compile LaTeX
-latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 exa-ma-d7.1.tex
+latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 exa-ma-deliverables.tex
 ```
 
 **Benefits of article-cli:**
@@ -94,7 +94,7 @@ The existing custom script provides additional development features:
 For direct compilation:
 
 ```bash
-latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 exa-ma-d7.1.tex
+latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 exa-ma-deliverables.tex
 ```
 
 **Key flags:**
@@ -245,7 +245,7 @@ rm -rf _minted-exa-ma-d7.1/
 
 ## File Structure
 
-- **Main document**: `exa-ma-d7.1.tex`
+- **Main document**: `exa-ma-deliverables.tex`
 - **Chapters**: `chapters/` directory
 - **Sections**: `sections/` directory  
 - **Graphics**: `graphics/` directory
@@ -259,7 +259,7 @@ rm -rf _minted-exa-ma-d7.1/
 1. **Setup**: `pip install article-cli && article-cli setup`
 2. **Edit**: Modify `.tex` files as needed
 3. **Update bibliography**: `article-cli update-bibtex`
-4. **Compile**: `latexmk --shell-escape -pdf exa-ma-d7.1.tex`
+4. **Compile**: `latexmk --shell-escape -pdf exa-ma-deliverables.tex`
 5. **Clean**: `article-cli clean`
 
 ### Local Dev Environment (uv-based)
@@ -291,7 +291,7 @@ git checkout main
 git pull --ff-only
 ```
 
-2) Update LaTeX metadata in `exa-ma-d7.1.tex`:
+2) Update LaTeX metadata in `exa-ma-deliverables.tex`:
 - Set `\delivVersion{vX.Y.Z}`
 - Add `\istChange{DD/MM/YYYY}{vX.Y.Z}{Authors}{Summary}` at the top of the changelog
 
@@ -299,7 +299,7 @@ git pull --ff-only
 
 4) Commit changes
 ```bash
-git add exa-ma-d7.1.tex pyproject.toml AGENTS.md README.adoc
+git add exa-ma-deliverables.tex pyproject.toml AGENTS.md README.adoc
 git commit -m "chore(release): vX.Y.Z"
 ```
 

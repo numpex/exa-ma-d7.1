@@ -1,3 +1,6 @@
+% Use the same Git revision in the full document and standalone previews.
+\input{git-metadata}
+
 % Keep existing TODO wording, using cell-width inline boxes in every document.
 % Register entries separately so the list retains source filenames and links.
 \RequirePackage{todonotes}
@@ -14,8 +17,11 @@
   \fi
 }
 \makeatother
+% Track entries in this compilation rather than relying on a stale .tdo file.
+\newif\ifExamaHasTodos
 % Optional argument labels the list entry only; the box keeps the original text.
 \renewcommand{\todo}[2][]{%
+  \global\ExamaHasTodostrue
   \begingroup
     \ExamaTodoStart
     \phantomsection
@@ -30,12 +36,14 @@
 }
 \newif\ifExamaTodosPrinted
 \newcommand{\PrintTodoList}{%
+  \ifExamaHasTodos
   \ifExamaTodosPrinted\else
     \global\ExamaTodosPrintedtrue
     \clearpage
     \phantomsection
     \addcontentsline{toc}{chapter}{TODO}%
     \listoftodos[TODO]%
+  \fi
   \fi
 }
 % Every standalone includes defs.tex, so it gets the same list automatically.
@@ -236,4 +244,11 @@ evidence/raw data & \todo[#1 / evidence/raw data]{Provide a durable URL or DOI.}
     \hyperref[app:fiche:#1]{\nolinkurl{#1}}%
   \else
     \nolinkurl{#1}% Specifications supplied by pending PRs may be absent.
+  \fi}
+
+% Link the shared PC5 context when present; keep individual standalones readable.
+\newcommand{\KtirioUrbanBuildingContext}{%
+  Ktirio Urban Building%
+  \ifcsname r@sec:pc5:ktirio-urban-building\endcsname
+    ~ (\Cref{sec:pc5:ktirio-urban-building})%
   \fi}

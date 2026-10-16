@@ -1,4 +1,4 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
+%!TEX root = ../../exa-ma-deliverables.tex
 % D7.1 V3 / v2.90.0 -- WP1 CONTRIBUTION
 %
 % The content inherited from v2 is provided as a starting point.
@@ -88,6 +88,74 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP1-A2026-2}
+Exa-MA task and bottleneck & T1.4; B7 (Exascale Algorithms), B9 (accuracy) \\
+Concise description of the 2026 advance & Mixed SB9 solid-shell discretization and supporting tensor and shell-geometry operators \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg, in joint work with AVNIR Energy and in collaboration with INSA Lyon \\
+Implementing software & Feel++ \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2510}{Feel++ PR~2510} \\
+Associated application ID & Industrial vibroacoustic demonstrator expected in 2027; no catalogue ID assigned \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & Not reported \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+References and supporting data & \nolinkurl{feelpp/quickstart/elasticity/shell}, including patch, plate and SB9 validation configurations in PR~2510 \\
+Maturity & Integrated formulation with verification configurations \\
+Limitations and next step & Develop a fast, efficient large-scale solver for fluid-loaded slender structures and defect detection under medium- and high-frequency excitation; industrial demonstrator expected in 2027 \\
+Cross-WP contribution or dependency & WP3: mixed block assembly and static condensation; WP7: framework implementation and connections to Feel++ CPU, GPU and hybrid HPC developments \\
+\end{WPAdvanceRecord}
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP1-A2026-3}
+Exa-MA task and bottleneck & T1.4; B7 (Exascale Algorithms) \\
+Concise description of the 2026 advance & Distributed geometric intersection queries with a two-level BVH and asynchronous batched MPI exchanges, developed jointly with the HiDALGO2 Centre of Excellence for the PC5 Ktirio Urban Building demonstrator \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg \\
+Implementing software & Feel++ \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2494}{Feel++ PR~2494} \\
+Associated application ID & PC5 Ktirio Urban Building demonstrator; related geometry contribution: \nolinkurl{app-feelpp-ktirio-geom} \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & Not reported \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+References and supporting data & PR~2494 describes the parallel query implementation and its supported contexts \\
+Maturity & Integrated geometric-query infrastructure \\
+Limitations and next step & The PR reports an incomplete parallel result for the all-intersections context; tuning and performance results remain to be documented \\
+Cross-WP contribution or dependency & WP7: distributed geometric infrastructure \\
+\end{WPAdvanceRecord}
+
+\begin{WPAdvanceRecord}{WP1-A2026-4}
+Exa-MA task and bottleneck & T1.5; B7 (Exascale Algorithms), B10 (Scientific Productivity) \\
+Concise description of the 2026 advance & Discretization coupling through preCICE, developed jointly with the HiDALGO2 Centre of Excellence to couple urban microclimate and building energy simulation in the PC5 Ktirio Urban Building demonstrator \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg \\
+Implementing software & Feel++, preCICE; OpenFOAM deployment support \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/issues/2525}{Feel++ issue~2525} \\
+Associated application ID & PC5 Ktirio Urban Building demonstrator; no dedicated coupling catalogue ID assigned \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & Coupling objective: exchange interface fields between urban microclimate and building energy simulations; no coupled demonstrator results reported here \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+References and supporting data & Feel++ issue~2525 and \nolinkurl{packaging/docker/openfoam/README.md} \\
+Maturity & Coupling adapter and OpenFOAM participant deployment infrastructure \\
+Limitations and next step & Demonstrator-level coupling and its numerical assessment remain to be documented \\
+Cross-WP contribution or dependency & WP3: algebraic solution of coupled systems; WP7: coupling adapter and deployment \\
+\end{WPAdvanceRecord}
+
+
+\begin{WPAdvanceRecord}{WP1-A2026-5}
+Exa-MA task and bottleneck & T1.1; B6 (Data Management), B7 (Exascale Algorithms), B9 (accuracy) \\
+Concise description of the 2026 advance & Constrained meshing of heterogeneous urban geometry, with tiled terrain construction, interface conformity restoration and feature-marker preservation \\
+Responsible contributors and institutions & Javier Cladellas, Vincent Chabannes and Christophe Prud'homme, Cemosis, University of Strasbourg \\
+Implementing software & Ktirio-Geom, Feel++, CGAL \\
+Software release, commit or PR & \href{https://github.com/numpex/apps-feelpp}{Application repository}; implementation described in \Cref{sec:app:ktirio-geom:implementation-2026} \\
+Associated application ID & \texttt{app-feelpp-ktirio-geom} \\
+Associated benchmark ID & \texttt{BM-FEEL-KTIRIO-01} \\
+Scientific or numerical result & Terrain meshes combine elevation and geographic constraints; geometric conformity and marker-preservation validation remain to be documented \\
+Performance or scalability result & Existing single-node worker-thread scaling results on Gaya are reported in \Cref{sec:app:specs:app-feelpp-ktirio-geom} \\
+References and supporting data & \nolinkurl{chapters/applications/specs/data/app-feelpp-ktirio-geom}; terrain configurations under \nolinkurl{src/ktirio-geom/terrain} in the application repository \\
+Maturity & Implemented meshing workflow with terrain-generation benchmark results \\
+Limitations and next step & The measured campaign covers terrain generation; other meshing operations require separate assessment \\
+Cross-WP contribution or dependency & WP7: application implementation and benchmarking; PC5 Ktirio Urban Building demonstrator \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited task subsections with the work performed in
 2026.  Separate new achievements from the 2024--2025 baseline and cite the
@@ -154,62 +222,55 @@ Such a visibility-based criterion offers a principled way to select Steiner poin
 
 %====== ktirio-geom =========
 
-\todo{Christophe}
-\paragraph{ktirio-geom}
+\paragraph{Ktirio-Geom: constrained meshing of heterogeneous urban geometry.}
+Ktirio-Geom generates terrain and building geometry for the PC5
+\KtirioUrbanBuildingContext{} demonstrator.
 
-Roof generation:
-\begin{itemize}
-    \item Ridged roofs ( hipped, gabled, Mansard, Gambrel, Saltbox ): Apply a Constrained Delaunay Triangulation 2 (CGAL) to interior straight skeletons(CGAL), then extrude each vertex depending on its speed and the wanted roof height. (e.g hipped roofs have uniform weights)
-    \item Conic Roofs ( Pyramidal, Dome, Onion) : Compute the input polygon's barycenter, then for each input vertex, vertices are created on the mesh given a resolution and the apex point of the roof, a fan triangulation is applied.
-\end{itemize}
+In 2026, Cemosis developed a CGAL-based meshing methodology in Ktirio-Geom
+that combines terrain elevation and geographic features within a common
+constrained triangulation. CGAL provides the geometric algorithms; the
+methodological contribution to Task~1.1 lies in their coordinated use, coupling
+tile-based mesh construction, conformity restoration at tile interfaces and
+preservation of feature identifiers through mesh transformations. This workflow
+reconciles heterogeneous geometric inputs while retaining
+the information needed to distinguish roads, buildings, water bodies and
+simulation subdomains.
 
-Elevation generation:
-\begin{itemize}
-    \item Reading and preprocessing of elevation data (height matrix) and overlay features ( road multilines, building footprint polygons, water polygons ). Multithreaded
-    \item Create a structured grid mesh for each tile with elevation data. Multithreaded
-    \item Assigning tile neighbors and compute elevation ghost cells. Requires thread sync
-    \item For each tile, compute contour lines using a Marching Triangles approach, depending on a desired distance between isolines. Multithreaded
-    \item Insert the contour lines (as polylines) into a Constrained Delaunay Triangulation 2 (CGAL)
-    \item Apply polyline simplification with a given simplification threshold (10\% of vertices kept)
-    \item Clip all overlay features to the tile domain
-    \item Preprocess and insert overlay features as constraints to the CDT2, elevation data for features is interpolated.
-    \item Flood fill the triangulation to tag the overlay features depending on their constraint ID.
-    \item Convert the CDT2 into Ktirio's mesh data structure.
-    \item All tile meshes are merged together. Requires Sync
-    \item The final mesh is postprocessed : we remove duplicate points, we autorefine triangles adjacent to tile boundaries (the rest of the mesh is already watertight and correctly connected), set elevation data to the vertices and apply transformations (dilation) if needed.
-\end{itemize}
+Within each tile, contour lines extracted from elevation grids by marching
+triangles are simplified and inserted into a two-dimensional constrained
+Delaunay triangulation. Geographic overlays are repaired, clipped to the tile
+and inserted as additional constraints, with elevations interpolated from the
+terrain data. A flood-fill traversal uses constraint identifiers to assign
+feature tags. This construction combines terrain resolution control with an
+explicit representation of geographic boundaries. Tile-level processing is
+multithreaded, with synchronization for neighbouring elevation ghost cells
+and for mesh merging. After merging, duplicate points are removed and triangles
+adjacent to tile boundaries are autorefined to restore a watertight, connected
+surface before assigning vertex elevations. The workflow thus separates
+local mesh construction from the reconciliation of shared interfaces.
 
+A complementary development preserves geometric and semantic constraints
+during surface remeshing. Property maps retain patches and feature markers,
+while selected constrained edges may be split but not collapsed. Custom sizing
+fields support spatially varying mesh resolution, including target lengths
+assigned by feature marker. For volume meshing, constrained Delaunay
+tetrahedralization is followed by a breadth-first traversal that removes
+exterior cells and identifies enclosed volumes by distinct subdomain indices.
+These operations carry feature and subdomain information into the meshes used
+for subsequent simulation.
 
-Overlay features:
-\begin{itemize}
-    \item Multilines from features are buffered for a given offset depending on the feature type and class (highways, paths, ...). Then polygon repear is applied to the buffered geometries and a boolean union is applied to combine the geometries from a same feature.
-    \item There is an option to use CGAL's new 2D alpha wrapping in order to merge geometries from different features. (e.g. combining all railway tracks, or all the lanes of a highway)
-\end{itemize}
-
-Surface Remeshing:
-\begin{itemize}
-    \item We have implemented remeshing of surface meshes using CGAL's isotropic remeshing, with custom sizing fields.
-    \item Given a surface, we convert it to a polygon soup, while using property maps to preserve patches and constraints.
-    \item Remeshing is applied, without allowing constraint collapsing, but allowing splits. Mesh markers are correctly preserved after the remeshing process
-    \item We can specify the edge markers to consider as constraints.
-    \item 4 Overloads:
-        \begin{itemize}
-            \item passing just a target edge length: uniform remeshing
-            \item passing min, max target edge length, and a tolerance : Adaptive remeshing
-            \item a vector of (triangle marker name, target edge lenght) pairs : Domains have different characteristic sizes depending on how triangles are marked
-            \item a functor taking a Mesh triangle and returning a the target edge length.
-        \end{itemize}
-\end{itemize}
-
-
-CCDT3 usage (surface tetrahedralization) and isotropic remeshing:
-\begin{itemize}
-    \item We have implemented surface tetrahedralization using CGAL's Conforming Constrained Delaunay Triangulation 3
-    \item An arbitrary surface mesh is first converted to a polygon soup. Then tetrahedralized using CGAL's package.
-    \item We apply a BFS to remove cells outside the domain, and to mark each closed volume separately, using subdomain indices.
-    \item Optionally apply CGAL::tetrahedral\_isotropic\_remeshing for a given target edge length.
-    \item Convert the mesh into Ktirio's mesh data structure, using tetrahedrons as mesh entities.
-\end{itemize}
+The contribution is summarized in \Cref{tab:advance:WP1-A2026-5}.
+The application \texttt{app-feelpp-ktirio-geom}
+(\Cref{sec:app:specs:app-feelpp-ktirio-geom}) exercises the terrain workflow and
+connects this 2026 WP1 contribution to WP7 through benchmark
+\texttt{BM-FEEL-KTIRIO-01}. The full 2026 implementation, including roof
+generation and surface and volume remeshing, is described in
+\Cref{sec:app:ktirio-geom:implementation-2026}.
+The benchmark characterizes time-to-solution and
+strong scaling across worker threads on a single Gaya compute node.
+Its scope is terrain generation; validation of geometric conformity and marker
+preservation, and performance assessment of the other meshing operations,
+remain to be documented separately.
 
 %===========================
 
@@ -259,10 +320,12 @@ Both apps are \emph{benchmark-ready}; first coordinated multi-node campaigns are
 
 \medskip
 
-\subsection{Task 1.4 - Finite Element Exascale Framework (FEEF): High-Order Wave Proxy-App on CPU/GPU}
-\WPUpdateNote{Update the 2026 high-order CPU/GPU work, application status and
-machine-level evidence.}
+\subsection{Task 1.4 - Finite Element Exascale Framework (FEEF)}
+%\WPUpdateNote{Update the 2026 high-order CPU/GPU work, application status and
+%machine-level evidence.}
 \label{sec:wp1:t1.4}
+
+\subsubsection{PC5: high-order wave proxy application on CPU/GPU}
 
 \paragraph{Context \& objective.}
 Within PC5’s working group on Efficient High-Order Discretization, we are developing a \textbf{proxy application for the wave equation} together with a modern, portable \textbf{high-order finite element library} targeting CPU and GPU through \textbf{Kokkos}. The library is built using the \textbf{Feel++} ecosystem and leverages \textbf{C++20/23} (concepts, \texttt{constexpr}, ranges) to (re)implement classical elements and enable rapid construction of new ones.
@@ -283,6 +346,7 @@ and equivalent first-order systems for explicit schemes. Formulations include hi
   \item \textbf{Feel++ integration:} mesh/partitioning, boundary condition plumbing, I/O/visualization, and WP7-compatible benchmarking harness (containers, ReFrame).
 \end{itemize}
 
+
 \paragraph{Benchmarking \& validation.}
 \begin{itemize}
   \item \textit{Numerics:} $h\!p$-convergence on smooth manufactured solutions; dispersion/dissipation curves for waves; energy conservation diagnostics.
@@ -293,11 +357,40 @@ and equivalent first-order systems for explicit schemes. Formulations include hi
 \paragraph{Current status.}
 Core API skeleton with concepts, reference high-order bases and quadratures, matrix-free mass/stiffness kernels (CPU) and initial GPU bring-up via Kokkos are in progress. The wave proxy-app drives the kernels end-to-end and feeds WP7’s benchmarking pipeline. Next steps include face-term fusion for DG, $H(\mathrm{curl})/H(\mathrm{div})$ spaces, and optimized transfer operators to interface with Task~\ref{sec:wp1:t1.2}.
 
+\subsubsection{Cemosis: solid-shell discretization and distributed geometric queries}
+
+\paragraph{Solid-shell discretization (T1.4).}
+The SB9 work is carried out jointly with AVNIR Energy, in collaboration
+with INSA Lyon. The objective is a fast, efficient large-scale solver for
+the vibroacoustic response of fluid-loaded slender structures, targeting
+defect detection through medium- and high-frequency excitation. This work
+connects with the broader Feel++ efforts on CPU, GPU and hybrid HPC
+computing. A new industrial demonstrator is expected in 2027.
+
+The SB9 development uses a mixed displacement/internal-mode formulation on a hexahedron with one element through the thickness. Dedicated membrane--bending, pinching, assumed-shear and stabilization operators separate the shell contributions. Local geometry and symmetric tensor conventions are explicit so that the constitutive contractions and block couplings can be inspected. This is the discretization contribution; its software realization and verification cases are identified in \Cref{tab:advance:WP1-A2026-2}.
+
+\paragraph{Distributed geometric queries (T1.4).}
+The distributed BVH development supports the PC5 \KtirioUrbanBuildingContext{} demonstrator in joint work with the HiDALGO2 Centre of Excellence. It organizes geometric searches through a two-level hierarchy and batches asynchronous MPI exchanges, providing distributed geometric-query infrastructure for the finite-element framework. It complements the Ktirio geometry contribution. The limitation of the all-intersections query is retained in \Cref{tab:advance:WP1-A2026-3}.
+
 
 \subsection{Task 1.5 - Exploit non conforming methods for efficient parallel parallel}
 \WPUpdateNote{Update the 2026 non-conforming-method work and distinguish
 implemented results from planned developments.}
 A hybridizable discontinuous Galerkin (HDG) method has been developed to solve the linear anisotropic elastic equation in the frequency domain. HDG discretization allows us to decrease the size of the discrete system while keeping a good conditioning of the global matrix to be inverted. First-order formulation with the compliance tensor and Voigt notation are employed to provide a compact description of the discretized problem and flexibility with highly heterogeneous media. We further focus on the question of optimal choices of stabilization in the definition of HDG numerical traces. For this purpose, we construct a hybridized Godunov-upwind flux for anisotropic elastic media possessing three distinct wavespeeds. This stabilization removes the need to choose a scaling factor, contrary to the identity and Kelvin–Christoffel based stabilizations which are popular choices in the literature. We carry out comparisons among these families for isotropic and anisotropic material, with constant background and highly heterogeneous ones, in two and three dimensions. These experiments establish the optimality of the Godunov stabilization which can be used as a reference choice for a generic material in which different types of waves propagate. This work has been presented in conferences (Eccomas, Waves2025) and is published \cite{pham_numerical_2024}.
+
+\paragraph{Discretization coupling (T1.5).}
+The joint work with the HiDALGO2 Centre of Excellence targets coupling
+urban microclimate and building energy simulation in the PC5
+\KtirioUrbanBuildingContext{} demonstrator. The preCICE integration connects independently
+discretized subdomains through coupling meshes and transferred interface
+fields. Nonmatching trace meshes and field mapping allow the participating
+solvers to retain their own discretizations; transferred fields enter the
+receiving finite-element problem through its variational formulation.
+This coupling infrastructure also opens broader opportunities for
+Feel++--OpenFOAM multiphysics applications.
+The contribution is recorded in \Cref{tab:advance:WP1-A2026-4}; adapter
+and deployment details are given in
+\Cref{sec:Feelpp:implementation-2026:precice}.
 
 \subsection{Task 1.7 -  Efficient multimodel/multiphysics coupling}
 \WPUpdateNote{Update the 2026 coupling work, cross-WP dependencies, software
@@ -309,7 +402,64 @@ A review of the literature on numerical methods for multiphysics couplings has b
 
 The quasi-static problem setting has been adopted for both elasto-acoustic and thermal-elastic couplings. A thermal-elastic strong coupling benchmark has been selected and tested on the sequential finite element solver Cast3M. The porting to the HPC MFEM library is ongoing work.
 
+\paragraph{High-order multistep coupling.}\label{sec:wp1:t1.7:multistep}
+We consider $N$ monophysics solvers. Each one integrates its own semi-discrete
+dynamics
+\begin{equation}\label{eq:wp1:t1.7:multistep}
+  \frac{\mathrm{d}y_i}{\mathrm{d}t} = \mathcal{F}_i(y_i, u_i, t),
+  \qquad u_i = h_i(y_1, \dots, y_N),
+  \qquad i = 1, \dots, N,
+\end{equation}
+where the $u_i$ are the coupling variables, for instance the temperature or the
+heat flux at the interface. Classical staggered schemes keep $u_i$ constant
+between two exchanges. This limits the accuracy to first order, or second order
+at best \cite{farhat_two_2000}, and the coupling time step cannot be adapted.
+The multistep scheme \cite{francois_multistep_2023,simon_high-order_2025}
+replaces $u_i(t)$ on $[t_n, t_{n+1}]$ with a polynomial $\hat{u}_i^n(t)$ of
+degree $k$ built from past interface values. Each solver evaluates this
+polynomial at its own substeps, for example at each stage of a Runge-Kutta
+method. The solvers stay black boxes and can use any time integrator. The scheme
+has two variants:
+\begin{itemize}
+\item in the explicit variant, $\hat{u}_i^n$ extrapolates
+  $u_i^{n-k}, \dots, u_i^n$. A coupling step needs a single pass, but the
+  stability restricts the size of the step;
+\item in the implicit variant, $\hat{u}_i^n$ interpolates
+  $u_i^{n-k+1}, \dots, u_i^{n+1}$, where $u_i^{n+1}$ is unknown. Each coupling
+  step becomes a fixed-point problem on the interface variables. We solve it
+  with Picard iterations, which can be accelerated (with Anderson acceleration,
+  for instance) and start from the explicit prediction. The extra cost improves
+  the stability and reduces the error constants.
+\end{itemize}
+In both variants, the scheme converges with order $k+1$ in time
+\cite{simon_high-order_2025}. The difference between the initial extrapolation
+and the updated value gives an error estimate at no extra cost, which can drive
+the adaptation of the coupling time step. A more reliable estimate, at a higher
+cost, compares two solutions computed at different orders, and works for both
+variants.
 
+The scheme is now implemented in Cwipi, the parallel coupling library of ONERA
+\cite{quemerais_cwipi_2026}. Cwipi builds the
+polynomials, runs the implicit iterations and adapts the time step, so the
+coupled codes only call the prediction. This work is part of the PhD thesis of
+Antoine Simon, which studies the stability of the scheme, the efficiency of its
+implicit variant and the adaptation of the time step. Two demonstrations in a
+massively parallel setting are under development: one with CORIA and Safran
+Tech on the Yales2 code, and one in a mini-app built on solvers that use samurai
+and PETSc, which will soon be released as open source. This mini-app couples a
+solid and a fluid cavity heated from the side, and the expected order $k+1$ is
+observed up to order~4 (see \Cref{sec:app:specs:app-samurai-cwipi}).
+
+
+
+
+
+\paragraph{Urban microclimate and building energy coupling.}
+The joint HiDALGO2 / PC5 Ktirio Urban Building work provides an application
+context for partitioned multiphysics coupling. Its nonmatching-interface
+discretization and field-transfer contribution is described under T1.5 in
+\Cref{tab:advance:WP1-A2026-4}; the Feel++/preCICE implementation is documented
+in \Cref{sec:Feelpp:implementation-2026:precice}.
 
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
@@ -323,8 +473,18 @@ result to an annual advance and benchmark, and flag missing mappings explicitly.
     \item Thermal bridges demonstrator (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-1}.
     \item FDA nozzle (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-2}.
     \item Parallel mesh adaptation with ParMMG (FreeFEM): Section~\ref{sec:app:specs:app-freefem-parmmg}.
+    \item Ktirio-Geom terrain generation (Feel++/CGAL): \Cref{sec:app:specs:app-feelpp-ktirio-geom}; annual advance \nolinkurl{WP1-A2026-5}.
     \item Geometry queries and distances (Feel++): Section~\ref{sec:app:specs:app-feelpp-distance}.
+    \item High-order multistep coupling for solid-fluid conjugate heat transfer (Cwipi, samurai, PETSc): Section~\ref{sec:app:specs:app-samurai-cwipi}.
 \end{itemize}
+
+\paragraph{Associated demonstrator developments.}
+The joint HiDALGO2 / PC5 Ktirio Urban Building work motivates the distributed
+geometric-query and preCICE coupling contributions
+(\Cref{tab:advance:WP1-A2026-3,tab:advance:WP1-A2026-4}). The SB9 work with
+AVNIR Energy and INSA Lyon targets an industrial demonstrator expected in
+2027 (\Cref{tab:advance:WP1-A2026-2}). No new application identifiers are
+assigned to these developments here.
 
 \section{Software Framework Contributions}
 \WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
@@ -359,6 +519,17 @@ Planned improvements include adaptive query reordering to enhance load balance, 
     \item MMG/ParMMG;
     \item Samurai (AMR): Section~\ref{sec:Samurai:software}.
 \end{itemize}
+
+
+\paragraph{Feel++ implementation: SB9 and distributed BVH.}
+The SB9 and distributed geometric-search components are documented in \Cref{sec:Feelpp:implementation-2026:sb9,sec:Feelpp:implementation-2026:bvh}, alongside their source and verification references. They complement the existing Ktirio-Geom contribution.
+
+\paragraph{Feel++ implementation: discretization coupling.}
+The preCICE interface adapter and OpenFOAM participant deployment infrastructure
+for the joint HiDALGO2 / PC5 Ktirio Urban Building work are documented in
+\Cref{sec:Feelpp:implementation-2026:precice}. The corresponding algebraic
+solver components are documented in
+\Cref{sec:Feelpp:implementation-2026:solvers}.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only

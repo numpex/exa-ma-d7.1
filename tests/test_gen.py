@@ -1,74 +1,242 @@
-"""Framework metadata generation must preserve authored science and source values."""
-import csv
-import subprocess
-import sys
+import io
+import json
+from pathlib import Path
+import re
 
+from openpyxl import Workbook
 import pytest
 
-from scripts.sync_frameworks import GENERATED, ROOT, items, plan, tex
+import gen
 
 
-def test_current_metadata_matches_snapshot():
-    changes = plan(ROOT, ROOT / "data/frameworks.csv", "feelpp")
-    assert len(changes) == 1
-    for target, content in changes.items():
-        assert target.read_text() == content
-        assert content.startswith(GENERATED)
-        assert "C++23" in content and "preCICE" in content and "CodeMeta" in content
-        assert "Benchmark coverage" in content and "B9 - Resilience" in content
+def test_funtides_uses_standard_software_sectioning():
+    template = (gen.ROOT / "templates/desc-software.tex").read_text(encoding="utf-8")
+    fiche = (gen.ROOT / "software/funtides/funtides.tex").read_text(encoding="utf-8")
+    headings = r"\\subsection\{([^}]+)\}"
+    expected = re.findall(headings, template)
+    # This optional extension is also used by the FreeFEM++ and HPDDM fiches.
+    expected.insert(expected.index("Mathematics"), "Application entry points")
+    assert re.findall(headings, fiche) == expected
+    # General information precedes the numbered subsections in the template.
+    assert fiche.index(r"\input{software/funtides/metadata.tex}") < fiche.index(
+        r"\subsection{Software summary}"
+    )
 
 
-def test_generation_only_targets_metadata_and_preserves_editorial(tmp_path):
-    target = tmp_path / "software/feelpp"
-    target.mkdir(parents=True)
-    editorial = target / "feelpp.tex"
-    editorial.write_text("Authored scientific text and equations.")
-    (tmp_path / "templates").symlink_to(ROOT / "templates", target_is_directory=True)
-    changes = plan(tmp_path, ROOT / "data/frameworks.csv", "feelpp")
-    assert set(changes) == {target / "metadata.tex"}
-    assert editorial.read_text() == "Authored scientific text and equations."
-    (target / "metadata.tex").write_text("Unmarked hand-written metadata.")
-    with pytest.raises(ValueError, match="Refusing to overwrite"):
-        plan(tmp_path, ROOT / "data/frameworks.csv", "feelpp")
+@pytest.fixture
+def snapshot():
+    return json.loads((gen.ROOT / "software/funtides/catalogue.json").read_text())
 
 
-@pytest.mark.parametrize("name", ["../feelpp", "Feel++", "/tmp/feelpp", "feelpp/other"])
-def test_framework_id_cannot_escape_metadata_directory(name):
-    with pytest.raises(ValueError, match="safe lowercase"):
-        plan(ROOT, ROOT / "data/frameworks.csv", name)
+@pytest.mark.parametrize("value", [False, "FALSE", "false", "No", 0, "0", 0.0])
+def test_false_flags(value):
+    assert gen.benchmark_flag(value) is False
 
 
-def test_duplicate_rows_are_rejected(tmp_path):
-    with (ROOT / "data/frameworks.csv").open(newline="") as stream:
-        reader = csv.DictReader(stream)
-        fields = reader.fieldnames
-        row = next(r for r in reader if r["Name"] == "Feel++")
-    snapshot = tmp_path / "duplicate.csv"
-    with snapshot.open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fields)
-        writer.writeheader()
-        writer.writerows([row, row])
-    with pytest.raises(ValueError, match="Expected one entry"):
-        plan(ROOT, snapshot, "feelpp")
+@pytest.mark.parametrize("value", [True, "TRUE", "true", "Yes", 1, "1", 1.0])
+def test_true_flags(value):
+    assert gen.benchmark_flag(value) is True
 
 
-def test_tex_special_characters_are_escaped_without_expanding_commands():
-    assert tex(r"a_b & 50% #1 {x} \input") == r"a\_b \& 50\% \#1 \{x\} \textbackslash{}input"
+@pytest.mark.parametrize("value", [None, "", "  "])
+def test_missing_flags(value):
+    assert gen.benchmark_flag(value) is None
 
 
-def test_quoted_topics_retain_their_internal_commas():
-    assert items('"ROM-DA: GEIM PBDW, ...",\nROM: NIRB, "ROM: RB, POD, ..."') == [
-        "ROM-DA: GEIM PBDW, ...", "ROM: NIRB", "ROM: RB, POD, ..."]
+def test_invalid_flag():
+    with pytest.raises(ValueError, match="Invalid"):
+        gen.benchmark_flag("pending")
 
 
-def test_cli_check_is_read_only_and_legacy_overwrite_is_disabled():
-    fiche = ROOT / "software/feelpp/feelpp.tex"
-    before = fiche.read_bytes()
-    checked = subprocess.run([sys.executable, str(ROOT / "gen.py"), "--framework",
-                              "feelpp", "--check"], cwd=ROOT, capture_output=True)
-    assert checked.returncode == 0, checked.stderr.decode()
-    legacy = subprocess.run([sys.executable, str(ROOT / "gen.py")], cwd=ROOT,
-                            capture_output=True)
-    assert legacy.returncode != 0
-    assert b"protect authored fiches" in legacy.stderr
-    assert fiche.read_bytes() == before
+def test_latex_escape():
+    assert gen.latex(r"a_b & 50% #1 $x {y} \ ~ ^") == (
+        r"a\_b \& 50\% \#1 \$x \{y\} \textbackslash{} "
+        r"\textasciitilde{} \textasciicircum{}"
+    )
+    assert gen.latex("Aurélien\nC++17") == "Aurélien C++17"
+
+
+def test_links():
+    assert gen.link("https://example.org/a_b?q=1&x=2#part", "Docs") == (
+        r"\href{https://example.org/a\_b?q=1\&x=2\#part}{Docs}"
+    )
+    with pytest.raises(ValueError, match="HTTP"):
+        gen.link("file:///etc/passwd", "Bad")
+    assert r"\%7B" in gen.link("https://example.org/{unsafe}", "Docs")
+
+
+@pytest.mark.parametrize(
+    "sheet,name", [("Frameworks", "Name"), ("Software", "Software")]
+)
+def test_xlsx_current_and_legacy(tmp_path, sheet, name):
+    workbook = Workbook()
+    workbook.active.title = sheet
+    workbook.active.append([name, "WP1 Benchmarked", "Description"])
+    workbook.active.append(["Other", True, "Do not select"])
+    workbook.active.append(["FUnTiDES", False, "Éléments spectraux"])
+    path = tmp_path / "catalogue.xlsx"
+    workbook.save(path)
+    result = gen.load_local(path, "funtides")
+    assert result["framework"]["Name"] == "FUnTiDES"
+    assert result["framework"]["WP1 Benchmarked"] is False
+    assert result["source"]["row"] == 3
+    assert result["source"]["sheet"] == sheet
+
+
+def test_sheet_precedence_and_override(tmp_path):
+    workbook = Workbook()
+    workbook.active.title = "Software"
+    workbook.active.append(["Software"])
+    workbook.active.append(["Old"])
+    sheet = workbook.create_sheet("Frameworks")
+    sheet.append(["Name"])
+    sheet.append(["FUnTiDES"])
+    path = tmp_path / "catalogue.xlsx"
+    workbook.save(path)
+    assert gen.load_local(path, "FUnTiDES")["source"]["sheet"] == "Frameworks"
+    assert gen.load_local(path, "Old", "Software")["framework"]["Name"] == "Old"
+    with pytest.raises(ValueError, match="worksheet"):
+        gen.load_local(path, "FUnTiDES", "Missing")
+
+
+def test_csv(tmp_path):
+    path = tmp_path / "catalogue.csv"
+    path.write_text(
+        '\ufeffName,WP1 Benchmarked,Description\nFUnTiDES,FALSE,"CPU, GPU"\n'
+    )
+    result = gen.load_local(path, "FUnTiDES")
+    assert result["framework"]["Description"] == "CPU, GPU"
+    assert gen.benchmark_flag(result["framework"]["WP1 Benchmarked"]) is False
+
+
+@pytest.mark.parametrize(
+    "rows,error",
+    [
+        ([["Name"], ["Other"]], "found 0"),
+        ([["Name"], ["FUnTiDES"], ["funtides"]], "found 2"),
+        ([["Name", "Name"], ["FUnTiDES", "Other"]], "Duplicate"),
+        ([["NotName"], ["FUnTiDES"]], "Expected a Name"),
+    ],
+)
+def test_invalid_catalogues(rows, error):
+    with pytest.raises(ValueError, match=error):
+        gen.select_row(rows, "FUnTiDES", {})
+
+
+def test_read_only_google_export(monkeypatch):
+    calls = []
+
+    class Response(io.BytesIO):
+        headers = {"Content-Type": "text/csv"}
+
+    def fake_open(url, timeout):
+        calls.append((url, timeout))
+        return Response(b"Name,WP1 Benchmarked\nFUnTiDES,FALSE\n")
+
+    monkeypatch.setattr(gen, "urlopen", fake_open)
+    result = gen.load_google(
+        "https://docs.google.com/spreadsheets/d/test_id/edit?gid=1#gid=42",
+        "FUnTiDES",
+        "Frameworks",
+    )
+    assert calls == [
+        ("https://docs.google.com/spreadsheets/d/test_id/export?format=csv&gid=42", 30)
+    ]
+    assert result["source"]["row"] == 2
+    assert result["source"]["gid"] == "42"
+
+
+def test_google_login_rejected(monkeypatch):
+    class Response(io.BytesIO):
+        headers = {"Content-Type": "text/html"}
+
+    monkeypatch.setattr(
+        gen, "urlopen", lambda *a, **k: Response(b"<html>Sign in</html>")
+    )
+    with pytest.raises(ValueError, match="authentication"):
+        gen.load_google("https://docs.google.com/spreadsheets/d/test/edit", "FUnTiDES")
+    with pytest.raises(ValueError, match="docs.google.com"):
+        gen.load_google("https://example.org/test", "FUnTiDES")
+
+
+def test_generated_snapshot_is_current(snapshot):
+    expected = gen.ROOT / "software/funtides/metadata.tex"
+    assert expected.read_text() == gen.render(snapshot)
+    text = gen.render(snapshot)
+    assert "No WP benchmark flag is checked" in text
+    assert "Flags not supplied" not in text
+    assert "WP7 topics & Geophysics" in text
+    assert "None" not in text
+    assert "provide short description" not in text
+
+
+def test_missing_is_not_false(snapshot):
+    snapshot["framework"]["WP1 Benchmarked"] = ""
+    assert "Flags not supplied: WP1." in gen.render(snapshot)
+    snapshot["framework"]["WP1 Benchmarked"] = True
+    assert "Benchmark flags checked in the survey: WP1." in gen.render(snapshot)
+
+
+def test_targeted_generation_and_check(tmp_path, snapshot, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    source = tmp_path / "catalogue.json"
+    source.write_text(json.dumps(snapshot))
+    editorial = tmp_path / "funtides.tex"
+    editorial.write_text("Handwritten scientific text\n")
+    output = tmp_path / "metadata.tex"
+    args = ["--input", str(source), "--framework", "FUnTiDES", "--output", str(output)]
+    assert gen.main(args) == 0
+    assert gen.main(args + ["--check"]) == 0
+    assert gen.main(args) == 0
+    assert editorial.read_text() == "Handwritten scientific text\n"
+    assert set(p.name for p in tmp_path.iterdir()) == {
+        "catalogue.json",
+        "metadata.tex",
+        "funtides.tex",
+    }
+    output.write_text(gen.MARKER + "Stale\n")
+    with pytest.raises(SystemExit) as error:
+        gen.main(args + ["--check"])
+    assert error.value.code == 2
+    assert output.read_text() == gen.MARKER + "Stale\n"
+
+
+def test_no_overwrite_editorial_or_snapshot(tmp_path, snapshot):
+    source = tmp_path / "catalogue.json"
+    source.write_text(json.dumps(snapshot))
+    output = tmp_path / "funtides.tex"
+    output.write_text("Handwritten scientific text\n")
+    args = ["--input", str(source), "--framework", "FUnTiDES", "--output", str(output)]
+    with pytest.raises(SystemExit):
+        gen.main(args)
+    assert output.read_text() == "Handwritten scientific text\n"
+    with pytest.raises(SystemExit):
+        gen.main(args[:-1] + [str(source)])
+    with pytest.raises(SystemExit):
+        gen.main(args + ["--snapshot", str(source)])
+    with pytest.raises(SystemExit):
+        gen.main(["--input", str(source), "--framework", "Other"])
+
+
+def test_save_selected_snapshot(tmp_path):
+    source = tmp_path / "catalogue.csv"
+    source.write_text(
+        "Name,Emails\nOther,other@example.org\nFUnTiDES,contact@example.org\n"
+    )
+    output = tmp_path / "metadata.tex"
+    snapshot = tmp_path / "selected.json"
+    args = [
+        "--input",
+        str(source),
+        "--framework",
+        "FUnTiDES",
+        "--output",
+        str(output),
+        "--snapshot",
+        str(snapshot),
+    ]
+    assert gen.main(args) == 0
+    assert "other@example.org" not in snapshot.read_text()
+    assert json.loads(snapshot.read_text())["source"]["row"] == 3
+    with pytest.raises(SystemExit):
+        gen.main(args)

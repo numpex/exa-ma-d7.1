@@ -1,4 +1,4 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
+%!TEX root = ../../exa-ma-deliverables.tex
 % \chapter{Work Package 4: Inverse Problems \& Data Assimilation}
 % \label{chap:wp4}
 
@@ -81,6 +81,24 @@ Limitations and next step & \WPFieldHint{Limitation; next step} \\
 Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
 \end{WPAdvanceRecord}
 
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP4-A2026-2}
+Exa-MA task and bottleneck & T4.1; B8 (Discovery, design and decision algorithms), B10 (Scientific Productivity) \\
+Concise description of the 2026 advance & Variational optimization interface supporting deterministic inverse problems \\
+Responsible contributors and institutions & Cemosis, University of Strasbourg \\
+Implementing software & Feel++, PETSc TAO \\
+Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2504}{Feel++ PR~2504} \\
+Associated application ID & \texttt{app-feelpp-hifimagnet-inverse} (application specification) \\
+Associated benchmark ID & \texttt{BM-FEEL-HIFI-INV-01} (proposed verification/scalability benchmark; results not reported) \\
+Scientific or numerical result & Not reported \\
+Performance or scalability result & No 2026 scalability measurements reported \\
+References and supporting data & Feel++ PR~2504 and issue~2503; functional and variational-form TAO tests \\
+Maturity & Integrated solver interface with tests \\
+Limitations and next step & Application-level objectives, derivative checks and solver configurations must be specified separately from the generic interface \\
+Cross-WP contribution or dependency & Shared implementation with WP5; WP1: finite-element state models; WP7: framework interface \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 \WPUpdateNote{Update the inherited data-assimilation advances with the work
 performed in 2026.  Separate new achievements from the earlier baseline and cite
@@ -94,6 +112,22 @@ The methodology relies on a randomised sketching approach based on the Nyström 
 
 For scenarios where this strict theoretical condition is not satisfied, such as over longer assimilation windows, an alternative hybrid multi-fidelity sketching strategy was developed. This approach captures the dominant eigenspace by enriching random subspaces with inexpensive low-fidelity applications before performing minimal high-fidelity refinement. These approaches were numerically validated on a two-dimensional Shallow-Water equations benchmark in a double-gyre oceanic circulation setup.  
 
+\paragraph{Variational parameter identification (T4.1).}
+The HiFiMagnet inverse-problem specification seeks material, contact and
+cooling parameters from voltage, temperature and optional magnetic
+observations at several imposed-current operating points. The formulation
+combines a weighted multi-experiment data misfit with regularization,
+subject to the thermo-electric state equations and parameter bounds.
+Adjoint derivatives support optimization of the reduced objective;
+Taylor-gradient tests, parameter recovery and observation misfit define
+the proposed verification protocol. These are application specifications,
+not reported inversion results
+(\Cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
+The shared variational optimization interface is recorded in
+\Cref{tab:advance:WP4-A2026-2} and implemented in WP7
+(\Cref{sec:Feelpp:implementation-2026:tao}).
+
+
 \subsection{Task 4.3 - Observation}
 
 Designing an optimal observation network for geophysical applications requires strategically placing sensors to capture the most valuable data while strictly limiting the number of costly physical deployments. In Bayesian optimal experimental design, this challenge is often formulated as the maximization of the Expected Information Gain (EIG) to select the most informative data acquisitions. This capability is critical for next-generation exascale systems where physical experiments or high-fidelity simulations are exceptionally expensive. However, computing the EIG for nonlinear forward models and non-Gaussian priors—which are typical in complex earth sciences—is usually prohibitive. Standard estimators rely on costly nested Monte Carlo sampling that scales poorly and creates severe computational bottlenecks. To overcome these limitations, the current project task focused on establishing a tractable, theoretically grounded framework for large-scale experimental design by deriving new certified upper and lower bounds on the EIG.
@@ -103,13 +137,20 @@ Using dimensional logarithmic Sobolev inequalities, this work reformulates the E
 These approaches were numerically validated using a parametrized partial differential equation based on the viscous Burgers model, which is often used as a proxy for fluid and geophysical dynamics. The experiments demonstrated that the tightness of the proposed bounds is directly controlled by the nonlinearity of the forward model, and the method successfully recovers the exact EIG value in linear-Gaussian limits. By replacing expensive nested sampling with scalable, gradient-based matrix diagnostics, we provide an efficient, highly parallelizable alternative to direct EIG estimation.
 
 
+
 \section{Application Showcase}
 \WPUpdateNote{Confirm the application IDs and maturity below, link each reported
 result to an annual advance and benchmark, and flag missing mappings explicitly.}
 \label{sec:wp4:applications}
 
 WP4 addresses inverse problems and data assimilation across multiple application domains. 
-For this period, the focus is on a single application that demonstrates the methods developed in this work package:
+The application portfolio includes the following specifications:
+
+\paragraph{HiFiMagnet parameter identification.}
+The application \texttt{app-feelpp-hifimagnet-inverse} specifies the
+T4.1 parameter-inversion problem and its proposed verification benchmark
+\texttt{BM-FEEL-HIFI-INV-01}
+(\Cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
 
 \paragraph{Ensemble Kalman Inversion (app-eki).}
 The ensemble Kalman inversion application (detailed in Section~\ref{sec:app:specs:app-eki}) demonstrates \emph{stochastic inverse problems} and \emph{stochastic data assimilation} using an ensemble approach in a geophysics context. It directly relates to Tasks 4.2 (stochastic methods) and 4.3 (observation strategies).
@@ -131,6 +172,7 @@ For detailed application specifications, see Chapter~\ref{chap:applications}.
 \paragraph{Applications mapping.} The initial portfolio links WP4 to
 the shared WP7 benchmarking catalogue as follows:
 \begin{itemize}
+	\item HiFiMagnet parameter identification (specification): \Cref{sec:app:specs:app-feelpp-hifimagnet-inverse}.
 	\item Ensemble Kalman Inversion (proposed): Section~\ref{sec:app:specs:app-eki}.
 \end{itemize}
 
@@ -143,9 +185,14 @@ WP4 contributes to and leverages several software frameworks within Exa-MA:
 \paragraph{Frameworks mapping.} Current software dependencies that
 WP4 contributes to or relies upon include:
 \begin{itemize}
+	\item Feel++ (variational state models and optimization interface)
 	\item PETSc (ensemble management, solvers, TAO)
 	\item GeoS (geophysical modeling stack)
 \end{itemize}
+
+
+\paragraph{Feel++ implementation: shared PETSc TAO interface.}
+The shared interface and its tests are documented in \Cref{sec:Feelpp:implementation-2026:tao}. The application specification defines the inverse-problem objective and proposed derivative checks; application-level execution results remain to be supplied.
 
 \section{Preliminary Benchmarks \& Trends}
 \WPUpdateNote{Replace planned or expected results with measured 2026 values only

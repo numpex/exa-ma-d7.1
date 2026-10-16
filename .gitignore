@@ -20,6 +20,7 @@ article.template.pdf
 *.lof
 *.lot
 exa-ma-d7.1.pdf
+exa-ma-deliverables.pdf
 *syntec*
 *.chl
 *.lof
@@ -27,3 +28,10 @@ exa-ma-d7.1.pdf
 .venv
 .DS_Store
 .vscode/ltex.*
+__pycache__/
+.pytest_cache/
+/output/pdf/
+/standalone-funtides.pdf
+
+
+/output/frameworks/
