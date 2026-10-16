@@ -156,7 +156,7 @@ wheels = [
 
 [[package]]
 name = "exa-ma-d7-1"
-version = "2.95.0"
+version = "2.96.0"
 source = { editable = "." }
 dependencies = [
     { name = "article-cli" },
