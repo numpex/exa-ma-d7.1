@@ -2,128 +2,186 @@
 \label{sec:Zellij:software}
 
 \begin{table}[ht!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+     \centering
+     { \setlength{\parindent}{0pt}
+     \def\arraystretch{1.25}
+     \arrayrulecolor{numpexgray}
+     {\fontsize{9}{11}\selectfont
+\begin{tabular}{!{\color{numpexgray}\vrule}p{\dimexpr.4\textwidth-2\tabcolsep-1.5\arrayrulewidth\relax}!{\color{numpexgray}\vrule}p{\dimexpr.6\textwidth-2\tabcolsep-1.5\arrayrulewidth\relax}!{\color{numpexgray}\vrule}}
+         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field}
+& {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
+         \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
 Université de Lille\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+         \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} &
+\begin{tabular}{l}
 Inria Lille\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
-el-ghazali.talbi@univ-lille.fr, thomas.firmin@univ-lille.fr  \\
-\end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-CPU only \\
-\end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://github.com/ThomasFirmin/zellij}{https://github.com/ThomasFirmin/zellij} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
-OSS: Cecill-*\\
-\end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+         \rowcolor{white}\textbf{Contact Emails} &
+el-ghazali.talbi@univ-lille.fr,\newline
+mahmoud-el-mehdi.el-khadiri@inria.fr \\
+         \rowcolor{numpexlightergray}\textbf{Supported Architectures} &
+Linux/WSL CPUs; NVIDIA CUDA and AMD HIP GPUs through Kokkos; MPI deployments on x86-64 and ARM-based HPC systems \\
+         \rowcolor{white}\textbf{Repository} &
+\href{https://github.com/MehdielKhadiri/Exa-Zellij}{https://github.com/MehdielKhadiri/Exa-Zellij}
+\\
+         \rowcolor{numpexlightergray}\textbf{License} &
+CeCILL-C Free Software License Agreement, version 1.0 \\
+         \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
 B7 - Exascale Algorithms\\
 B9 - Resilience, robustness, accuracy \\
 B10 - Scientific productivity \\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Contributors} & \begin{tabular}{l}
-Thomas Firmin, El-Ghazali Talbi \\
-\end{tabular} \\
+         \rowcolor{numpexlightergray}\textbf{Contributors} &
+Mahmoud El Mehdi El Khadiri, El-Ghazali Talbi \\
 \bottomrule
-    \end{tabular}
-    }}
-    \caption{WP5}
+     \end{tabular}
+     }}
+     \caption{WP5}
 \end{table}
 
 \subsection{Software summary}
 \label{sec:Zellij:summary}
 
-% Surligner l'aspect fractal
-Zellij is a generic algorithmic framework which defines a unified view of fractal decomposition algorithms for continuous optimization. Fractals allow building a hierarchical decomposition of the decision space by using a self-similar geometrical object.
+Exa-Zellij is a configurable implementation of two related families
+for bounded continuous black-box optimization: Fractal-Based Decomposition
+(FBD) and Fractal Bayesian Optimization (FBO). Both organize the decision
+space as a hierarchy of self-similar regions. FBD allocates work through its
+geometry and structural controls, whereas FBO uses a global objective-call
+budget together with surrogate and acquisition information.
 
-% Détailler les search components
-The proposed generic framework is made of five distinct and independent search components: fractal geometrical object, tree search, scoring, exploration and exploitation.
+The FBD family exposes five independent runtime components:
+decomposition geometry, exploration, scoring, tree search and exploitation.
+The FBO family additionally exposes the initial design, surrogate and kernel,
+acquisition-guided selection, budget allocation and exploitation strategy.
+The effective configuration and actual evaluation count are reported for
+every run.
 
-% Genericité - Instantiate popular algorithms from different communities machine learning SOO - global optimization DIRECT
-The genericity of the framework allowed the instantiation of popular algorithms from the optimization, machine learning and computational intelligence communities. Moreover, new optimization algorithms can be designed using various strategies of the search components. This shows the modularity of the proposed algorithmic framework.
-
+The implementation retains this component-oriented philosophy while
+making it directly usable as software: users select a family and its
+components at runtime, supply a native, Python, batched, embedded-module or
+executable objective, and keep the optimizer independent of application-side
+simulation code.
 
 \subsection{Purpose}
 \label{sec:Zellij:purpose}
 
-Zellij includes a particular class of optimization algorithms, which could be classified as \textit{divide-and-conquer} strategies based on hierarchical decomposition of the search space. This class of algorithms can overcome the dimensionality problem by creating flexible, scalable and massively parallel decomposition-based algorithms for high dimensional optimization problems.
+Exa-Zellij implements divide-and-conquer optimization through a
+hierarchical decomposition of the search space. Autonomous child regions
+expose independent objective evaluations, while a configurable selection rule
+limits which regions continue to the next depth. The framework targets
+high-dimensional and expensive objectives for which gradients are unavailable,
+unreliable or too costly.
 
-This software framework has been inspired by two distinct families of decomposition-based optimization algorithms. The first one is based on algorithms derived from Lipschitzian global optimization, such as DIRECT and its various extensions (e.g. eDIRECT, BIRECT, HD-DIRECT). The second one concerns metaheuristics based on fractal decomposition, such as FRACTOP and FDA.
+This software framework has been inspired by two distinct families of
+decomposition-based optimization algorithms. The first one is based on
+algorithms derived from Lipschitzian global optimization, such as DIRECT
+and its various extensions (e.g. eDIRECT, BIRECT, HD-DIRECT). The second
+one concerns metaheuristics based on fractal decomposition, such as
+FRACTOP and FDA.
 
-three main properties characterize \textit{Zellij}:
+Four properties characterize the current Exa-Zellij implementation:
 \begin{itemize}
-\item \textbf{Generalization}: our goal is to build a framework which unifies and generalizes various popular fractal decomposition-based algorithms from different communities (e.g. global optimization, reinforcement learning, computational intelligence).
-\item \textbf{Modularity}: the framework must be as modular as possible, so one can easily develop new optimization algorithms using the fractal decomposition-based approach.
-\item \textbf{Massively parallel}: a transparent and efficient parallel implementation of the algorithms on various architectures (e.g. multicores, GPUs) is carried out. The main challenge is the parallelization of the tree search component of the framework. Many parallel tree search algorithms can be considered.
+\item \textbf{Generalization}: our goal is to build a framework which
+unifies configurable FBD and FBO families in one runtime. The current
+component matrix includes six decomposition geometries and interchangeable
+exploration, scoring, tree-search, surrogate, kernel, budget and exploitation
+choices.
+
+\item \textbf{Modularity}: the framework must be as modular as possible,
+so algorithms can be assembled from explicit components and objectives
+can be replaced without editing the optimizer. Python callbacks, batched
+callbacks, JSON configurations, executable adapters and embedded Python
+modules expose the same optimization core.
+
+\item \textbf{Massively parallel}: a transparent and efficient parallel
+implementation uses MPI to distribute independent fractal work and
+Kokkos to target CPU, NVIDIA CUDA and AMD HIP execution spaces. Scalar and
+batched objective boundaries keep application evaluation separate from tree
+selection and compact global reductions.
+
+\item \textbf{Resilience and reproducibility}: depth-barrier checkpoints
+retain the active regions, incumbent and surrogate archive. Checksummed
+manifests, optional replicas, rolling generations, automatic restart and
+elastic repartitioning across a changed MPI world size support recoverable
+executions. The repository also provides deterministic seeds, tests, launch
+recipes and result-verification material.
 \end{itemize}
 
 \subsection{Programming and Computational Environment}
 \label{sec::Zellij:environment_capabilities}
 
-The following table summarizes these aspects for Zellij, providing a  view of its programming and computational capabilities.
+The following table summarizes these aspects for Exa-Zellij, providing a
+view of its programming and computational capabilities.
 
 \begin{table}[ht!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
-Python \\
-\end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
-MPI\\
-\end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
-In-house format \\
-\end{tabular} & Data formats that the software can handle or produce.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
-Checkpoint restart\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software. \\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
-None \\
-\end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
-Github  \\
-\end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white} Testing  & \begin{tabular}{l}
-Unit verification  \\
-\end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray} Containerization  & \begin{tabular}{l}
-None \\
-\end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
-None\\
-\end{tabular} & List of software Zellij has interfaces with.\\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{Zellij programming and computational environment}
+     \centering
+     {
+     \setlength{\parindent}{0pt}
+     \def\arraystretch{1.25}
+     \arrayrulecolor{numpexgray}
+     {\fontsize{9}{11}\selectfont
+     \begin{tabular}{
+       >{\raggedright\arraybackslash}p{\dimexpr.20\textwidth-2\tabcolsep\relax}
+       >{\raggedright\arraybackslash}p{\dimexpr.38\textwidth-2\tabcolsep\relax}
+       >{\raggedright\arraybackslash}p{\dimexpr.42\textwidth-2\tabcolsep\relax}}
+         \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}
+& {\rule{0pt}{2.5ex}\color{white}\bf Details}
+& {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
+         \rowcolor{white}Languages &
+C++20; Python 3.10+ &
+Programming languages and language standards supported by the software.\\
+         \rowcolor{numpexlightergray}Parallelism &
+MPI; Kokkos Serial/OpenMP/CUDA/HIP &
+Parallel computing methods and frameworks utilized by the software.\\
+         \rowcolor{white}Data Formats &
+JSON configurations/results; CSV designs/results; binary checkpoints with text manifests &
+Data formats that the software can handle or produce.\\
+         \rowcolor{numpexlightergray}Resilience &
+Checksummed depth checkpoints; replicas; rolling retention; automatic and elastic restart &
+Fault-tolerance and recovery mechanisms employed by the software.\\
+         \rowcolor{white}DevOps &
+CMake, scikit-build-core, pytest and CTest &
+Development and operational practices, including continuous integration
+and testing methodologies.\\
+         \rowcolor{numpexlightergray}Packaging &
+GitHub source release and installable Python source package &
+Software packaging and distribution.\\
+         \rowcolor{white}Testing &
+Unit, API, MPI, objective, packaging and reproducibility checks &
+Testing methodologies employed to ensure software quality and correctness.\\
+         \rowcolor{numpexlightergray}Containerization &
+Apptainer-based Grid'5000/LUMI-G objective workflows; images supplied by the execution site &
+Container technologies used to package and deploy the software.\\
+         \rowcolor{white}Interfaces &
+Python callable/batch API; JSON CLI; executable adapter; pybind11 embedded modules; optional PennyLane/JAX VQE &
+Software and objective interfaces supported by Exa-Zellij.\\
+         \bottomrule
+     \end{tabular}
+     }}
+     \caption{Zellij programming and computational environment}
 \end{table}
-
-
 
 \subsection{Mathematics}
 \label{sec:Zellij:mathematics}
 
-Optimizing a non-linear, non-convex, derivative free, or a black-box function in a high dimensional continuous search space is a complex task. Commonly we consider a minimization problem for an objective function ${f: \mathcal{S} \subset \mathbb{R}^n \rightarrow \mathbb{R}}$:
-\begin{equation} \label{eq:minproblem}
- \hat{x} \in \arg\min_{x \in \mathcal{S}}f(x)
+Optimizing a non-linear, non-convex, derivative-free or black-box
+function in a high-dimensional continuous search space is a complex
+task. Commonly, we consider a minimization problem for an objective
+function ${f: \mathcal{S} \subset \mathbb{R}^n \rightarrow \mathbb{R}}$:
+\begin{equation}
+\label{eq:minproblem}
+  \hat{x} \in \arg\min_{x \in \mathcal{S}} f(x).
 \end{equation}
-where $\hat{x}$ is the global optima, $f$ the objective function, and $\mathcal{S}$ a compact set made of inequalities (e.g. upper and lower bounds of the search space).
+Here, $\hat{x}$ is a global optimum, $f$ is the objective function, and
+$\mathcal{S}$ is a compact set defined by constraints such as upper and
+lower bounds on the search space.
 
+FBD determines its number of evaluations from the selected geometry,
+depth, beam, exploration and exploitation components. FBO instead receives a
+global objective-evaluation budget and reports the actual evaluations consumed
+by its initial design, tree exploration and terminal exploitation. This
+distinction is part of the public configuration contract.
 
 \subsection{Relevant Publications}
 \label{sec:Zellij:publications}
@@ -131,11 +189,12 @@ where $\hat{x}$ is the global optima, $f$ the objective function, and $\mathcal{
 Here is a list of relevant publications related to the software:
 
 \begin{itemize}
-   \item \fullcite{firmin_massively_2023}
-   \item \fullcite{firmin_comparative_2023}
+    \item \fullcite{firmin_massively_2023}
+    \item \fullcite{firmin_comparative_2023}
 \end{itemize}
 
 \subsection{Acknowledgements}
 \label{sec::Zellij:acknowledgements}
 
-The software has been developed with the support of the following funding agencies and institutions: Universiy of Lille and INRIA.
+The software has been developed with the support of the following
+funding agencies and institutions: University of Lille and Inria.
