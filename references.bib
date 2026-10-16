@@ -2330,6 +2330,22 @@ Full Changelog: https://github.com/feelpp/mesh.eye/compare/1.0.0-preview.1...v1.
  zotero-key = {KJ58SR7L}
 }
 
+@misc{hausner2023neural,
+ abstract = {The convergence of the conjugate gradient method for solving large-scale and sparse linear equation systems depends on the spectral properties of the system matrix, which can be improved by preconditioning. In this paper, we develop a computationally efficient data-driven approach to accelerate the generation of effective preconditioners. We, therefore, replace the typically hand-engineered preconditioners by the output of graph neural networks. Our method generates an incomplete factorization of the matrix and is, therefore, referred to as neural incomplete factorization (NeuralIF). Optimizing the condition number of the linear system directly is computationally infeasible. Instead, we utilize a stochastic approximation of the Frobenius loss which only requires matrix-vector multiplications for efficient training. At the core of our method is a novel message-passing block, inspired by sparse matrix theory, that aligns with the objective of finding a sparse factorization of the matrix. We evaluate our proposed method on both synthetic problem instances and on problems arising from the discretization of the Poisson equation on varying domains. Our experiments show that by using data-driven preconditioners within the conjugate gradient method we are able to speed up the convergence of the iterative procedure. The code is available at https://github.com/paulhausner/neural-incomplete-factorization.},
+ author = {Häusner, Paul and Öktem, Ozan and Sjölund, Jens},
+ doi = {10.48550/arXiv.2305.16368},
+ keywords = {Computer Science - Machine Learning, Mathematics - Numerical Analysis, Mathematics - Optimization and Control, Statistics - Machine Learning},
+ month = {October},
+ note = {arXiv:2305.16368 [math.OC]},
+ publisher = {arXiv},
+ shorttitle = {Neural incomplete factorization},
+ title = {Neural incomplete factorization: learning preconditioners for the conjugate gradient method},
+ url = {http://arxiv.org/abs/2305.16368},
+ urldate = {2026-10-15},
+ year = {2024},
+ zotero-key = {QJB92GSF}
+}
+
 @misc{He2025LangPINN,
  author = {He, Xin and You, Liangliang and Tian, Hongduan and Han, Bo and Tsang, Ivor and Ong, Yew-Soon},
  keywords = {Exa-MA, PDE/SciML agents, agentic AI},

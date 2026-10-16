@@ -3,41 +3,30 @@
 
 
 
-\begin{table}[ht!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+\begin{FicheMetadataTable}[MANTA Information]
+\textbf{Consortium} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CEA + consortium in development (see EUROPLEXUS)\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+        \textbf{Exa-MA Partners} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CEA\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
+        \textbf{Contact Emails} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 olivier.jamond@cea.fr\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
+        \textbf{Supported Architectures} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CPU Only\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{None}{None} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
+        \textbf{Repository} & \href{None}{None} \\
+        \textbf{License} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 GPL-V3 (we may switch to LGPL)\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+        \textbf{Bottlenecks roadmap} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{MANTA Information}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Software summary}
 \label{sec:MANTA:summary}
@@ -92,47 +81,39 @@ MANTA can be run on any linux machine, from a personal laptop to a large computa
     \item We are working on a "`spack` recipe" that we will soon push to `spack`'s database.
 \end{itemize}
 
-\begin{table}[ht!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[MANTA programming and computational environment]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 C++\\
 \end{tabular} & Programming languages and language standards supported by the software \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 MPI\\
 \end{tabular} & Parallel computing methods and frameworks utilized by the software.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Gmsh and associated formats\\
 MED\\
 MFront\\
 VTK\\
 \end{tabular} & Data formats that the software can handle or produce.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Continuous Integration\\
 \end{tabular} & Outlines the development and operational practices including continuous integration, containerization, and testing methodologies.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Apptainer image, spack recipe\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Non-regression\\
 Verification\\
 Validation\\
 Use of several \\
 "test configurations" inside \\docker images
 \end{tabular} & Testing methodologies employed to ensure software quality and correctness.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Apptainer\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Most significant 3rd parties:\\
 PETSc, SLEPc\\
 moab\\
@@ -143,11 +124,7 @@ vtk\\
 MEDcoupling\\
 nanobind
 \end{tabular} & List of software MANTA has interfaces with.\\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{MANTA programming and computational environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
 
 

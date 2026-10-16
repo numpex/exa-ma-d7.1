@@ -3,44 +3,33 @@
 
 
 
-\begin{table}[h!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+\begin{FicheMetadataTable}[TRUST Platform Information]
+\textbf{Consortium} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CEA\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+        \textbf{Exa-MA Partners} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CEA\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
+        \textbf{Contact Emails} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 pierre.ledac@cea.fr\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
+        \textbf{Supported Architectures} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CPU Only\\
 CPU and GPU\\
 GPU Only\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://github.com/cea-trust-platform}{https://github.com/cea-trust-platform} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
+        \textbf{Repository} & \href{https://github.com/cea-trust-platform}{https://github.com/cea-trust-platform} \\
+        \textbf{License} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 OSS::\\
 OSS::BSD\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+        \textbf{Bottlenecks roadmap} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{TRUST Platform Information}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Software summary}
 \label{sec:TRUST Platform:summary}
@@ -58,52 +47,40 @@ TRUST can be used as a standalone generic simulation software, or serves as a ke
 
 The following table summarizes these aspects for TRUST Platform, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[TRUST Platform programming and computational environment]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 C++\\
 \end{tabular} & TRUST is developped in C++17 (300K loc) \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 GPU\\
 MPI\\
 \end{tabular} & MPI is used for parallelization on the CPU host. For acceleration on GPU devices, we use a mix of OpenMP-target directives (soon deprecated) and the Kokkos framework. \\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 HDF5\\
 MED\\
 VTK\\
 in-house format\\
 \end{tabular} & Parallel HDF5 is the format for checkpoint/restart files. MED format is used for data exchange between codes. VTK and in-house format are the choices for post-processing files. \\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Checkpoint restart\\
 \end{tabular} & We have a recovery mechanism to restart a calculation, but no fault tolerance mechanism yet. \\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Continuous Integration\\
 \end{tabular} & TRUST team use Tuleap and GitHub repos. The continous integration is done with in-house scripts to perform automatic builds on various platforms and non-regression testing. \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & No specific packaging.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Unit\\
 Verification\\
 \end{tabular} & We have numerous test cases to check the non-regression. Besides, V\&V may be checked regulary thanks to PDF reports automatically produced by Jupyter notebooks. \\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & No container yet. \\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & TRUST platform is interfaced with Gmsh and VisIt tools, Kokkos, PETSc, MED, CGNS, AmgX, rocALUTION libraries. \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{TRUST Platform programming and computational environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
 
 

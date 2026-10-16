@@ -24,18 +24,9 @@ components for reduced basis, POD, empirical interpolation and related methods.
 This structure supports both numerical-method development and scientific and
 industrial applications.
 
-\begin{table}[!ht]
-  \centering\small
-  \renewcommand{\arraystretch}{1.15}
-  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.25\linewidth}X@{}}
-    \toprule
-    \textbf{Field} & \textbf{Catalogue information} \\
-    \midrule
-    \FrameworkIdentityRows
-    \bottomrule
-  \end{tabularx}
-  \caption{\Feelpp identity and catalogue benchmark coverage.}
-\end{table}
+\begin{FicheMetadataTable}[\Feelpp identity and catalogue benchmark coverage.]
+  \FrameworkIdentityRows
+\end{FicheMetadataTable}
 
 \subsection{Purpose}
 \label{sec:Feelpp:purpose}
@@ -56,24 +47,9 @@ catalogue wording \emph{C++17 and after}, which includes later standards.
 MPI communicators support distributed simulations and ensemble workflows;
 task-based execution is also represented in the catalogue.
 
-{\small
-\renewcommand{\arraystretch}{1.15}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\linewidth}
-  >{\raggedright\arraybackslash}p{\dimexpr0.75\linewidth-2\tabcolsep\relax}@{}}
-  \caption{\Feelpp programming and computational environment.}
-  \label{tab:Feelpp:environment_capabilities}\\
-  \toprule
-  \textbf{Category} & \textbf{Catalogue information} \\
-  \midrule
-  \endfirsthead
-  \toprule
-  \textbf{Category} & \textbf{Catalogue information (continued)} \\
-  \midrule
-  \endhead
-  \bottomrule
-  \endfoot
+\begin{FicheMetadataTable}[\Feelpp programming and computational environment.\label{tab:Feelpp:environment_capabilities}]
   \FrameworkEnvironmentRows
-\end{longtable}}
+\end{FicheMetadataTable}
 
 \paragraph{Solvers, meshing and data.}
 PETSc provides linear and nonlinear solver infrastructure, with SLEPc for
@@ -168,17 +144,9 @@ Additional proposals are recorded in the application chapter
 \paragraph{Work-package coverage.}
 The catalogue maps \Feelpp to the following topics. Benchmark results should be
 consulted in the corresponding application and WP contributions.
-{\small
-\renewcommand{\arraystretch}{1.15}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.1\linewidth}
-  >{\raggedright\arraybackslash}p{\dimexpr0.9\linewidth-2\tabcolsep\relax}@{}}
-  \toprule
-  \textbf{WP} & \textbf{Catalogue topics} \\
-  \midrule
-  \endhead
+\begin{FicheMetadataTable}
   \FrameworkWorkPackageRows
-  \bottomrule
-\end{longtable}}
+\end{FicheMetadataTable}
 \noindent\textbf{Bottlenecks roadmap.} \FrameworkBottlenecks.
 
 \subsection{Relevant publications}

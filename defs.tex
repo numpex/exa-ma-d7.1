@@ -1,5 +1,6 @@
 % Use the same Git revision in the full document and standalone previews.
 \input{git-metadata}
+\RequirePackage{fiche-metadata}
 
 % Keep existing TODO wording, using cell-width inline boxes in every document.
 % Register entries separately so the list retains source filenames and links.
@@ -110,11 +111,7 @@ Advance ID & \texttt{#1} \\
 \newcommand{\VThreeApplicationDraft}[8]{%
 \ApplicationFicheHeading{#1}
 \label{sec:app:specs:#1}
-\begin{longtable}{@{}p{0.28\textwidth}p{0.67\textwidth}@{}}
-\toprule
-\textbf{Field} & \textbf{Details} \\
-\midrule
-\endhead
+\begin{FicheMetadataTable}
 id & \texttt{#1} \\
 name & #2 \\
 Responsible & #3 \\
@@ -126,8 +123,7 @@ operational status & #8 \\
 scientific specification & \todo[#1 / scientific specification]{Owner review and versioned specification required.} \\
 software version/commit & \todo[#1 / software version/commit]{Pin before reporting results.} \\
 evidence/raw data & \todo[#1 / evidence/raw data]{Provide a durable URL or DOI.} \\
-\bottomrule
-\end{longtable}
+\end{FicheMetadataTable}
 }
 
 

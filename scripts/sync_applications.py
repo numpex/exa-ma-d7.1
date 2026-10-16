@@ -74,13 +74,9 @@ def metadata(row):
     pairs = [tex(key) + " & " + value_or_missing(row.get(key, ""), row["id"] + " / " + key) + r" \\" for key in fields
              if (not key.startswith("Method-Algorithm") and key not in {"WP7", "notes"}) or row.get(key)]
     return GENERATED + (
-        r"\begingroup" "\n" r"\small" "\n"
-        r"\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.26\textwidth}"
-        r">{\raggedright\arraybackslash}p{0.69\textwidth}@{}}" "\n"
-        r"\toprule" "\n" r"\textbf{Field} & \textbf{Catalogue value} \\" "\n"
-        r"\midrule" "\n" r"\endhead" "\n"
-        + "\n".join(pairs) + "\n" r"\bottomrule" "\n"
-        r"\end{longtable}" "\n" r"\endgroup" "\n")
+        r"\begin{FicheMetadataTable}" "\n"
+        + "\n".join(pairs) + "\n"
+        r"\end{FicheMetadataTable}" "\n")
 
 
 def protected_output(changes, path, content):

@@ -19,7 +19,7 @@ Inria BXSO\\
 gilles.marait@inria.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
-CPU Only\\
+CPU and GPU\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Repository} & \href{https://gitlab.inria.fr/composyx/composyx}{https://gitlab.inria.fr/composyx/composyx} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
@@ -71,10 +71,10 @@ In~\cref{tab:WP3:Composyx:features} we provide a summary of the software feature
 
 
 \begin{itemize}
-    \item \textbf{Parallel Environment :} MPI+ threads and not fully assess MPI+StarPU for heterogeneous manycores.
-    \item \textbf{Computation environment :} Distributed manycores (GENCI platforms, BSC)
+    \item \textbf{Parallel Environment :} MPI+ threads, MPI + GPUs and not fully assess MPI+StarPU for heterogeneous manycores.
+    \item \textbf{Computation environment :} Distributed manycores (GENCI platforms, BSC), and GPUs (Jean-Zay, Adastra)
     %\item describe the parallel capabilities of the software
-    \item \textbf{Scalability:} weak scalability on up-to $\approx$ 20~000 cores for the solution of a $\approx 10^9$ linear system. 
+    \item \textbf{Scalability:} weak scalability on up-to $\approx$ 20~000 cores for the solution of a $\approx 10^9$ linear system. For GPU scaling with 512 GPU MI250x with 89\% efficiency.
     \item \textbf{Integration with Other Systems:} No integration into other Exa-Ma software yet.
 \end{itemize}
 
@@ -82,22 +82,26 @@ In~\cref{tab:WP3:Composyx:features} we provide a summary of the software feature
 \subsection{Initial Performance Metrics}
 \label{sec:WP3:Composyx:metrics}
 
-This section provides a summary of initial performance benchmarks performed in the context of WP3. It ensures reproducibility by detailing input/output datasets, benchmarking tools, and the results. All data should be publicly available, ideally with a DOI for future reference.
+This section provides a summary of initial performance benchmarks
+performed in the context of WP3. It ensures reproducibility by
+detailing input/output datasets, benchmarking tools, and the results.
+All data should be publicly available, ideally with a DOI for future
+reference.
 
 \begin{itemize}
-    \item \textbf{Overall Performance:} weak scalability on up-to $\approx$ 20~000 cores for the solution of a $\approx 10^9$ linear system. 
+    \item \textbf{Overall Performance:} weak scalability on up-to $\approx$ 20~000 cores for the solution of a $\approx 10^9$ linear system for CPU. For GPU scaling with 512 GPU MI250x with 89\% efficiency.
     \item \textbf{Input/Output Dataset:} not applicable.
     \item \textbf{open-data Access:} Benchmark on matrix generator distributed on the gitlab of the package.
 %    \item \textbf{Challenges:} Identify any significant bottlenecks or challenges observed during the benchmarking process, including data handling and computational performance.
-    \item \textbf{Future Improvements:} perform more exhaustive experiments on heteroneous nodes, that is using the MPI+StarPU option.
+    \item \textbf{Future Improvements:} perform more exhaustive experiments on heterogeneous nodes, that is using the MPI+StarPU option.
 \end{itemize}
 
 \subsubsection{Benchmark \#1: heterogeneous diffusion }
 \begin{itemize}
-    \item \textbf{Description:} Solution of a 3D heterogenous diffusion équations in a cube to enable a parallel generation of the benchmark.
+    \item \textbf{Description:} Solution of a 3D heterogeneous diffusion equations in a cube to enable a parallel generation of the benchmark.
     \item \textbf{Benchmarking Tools Used:} Metrics are memory consumption and elapsed time to solution.
-    \item \textbf{Input/Output Dataset Description:} internal processing of the output to perform 
-    \item \textbf{Results Summary:} Speedups
+    \item \textbf{Input/Output Dataset Description:} internal processing of the output to perform
+    \item \textbf{Results Summary:} total time to solve the linear system
     \item \textbf{Challenges Identified:} scalability at extreme scale.
 \end{itemize}
 
@@ -129,7 +133,7 @@ In~\cref{tab:WP3:Composyx:bottlenecks}, we briefly discuss the bottleneck roadma
 \rowcolor{white}    B10 - Scientific Productivity & Guix-HPC \\
 \rowcolor{numpexlightergray}    B11 - Reproducibility and Replicability of Computation & Guix-HPC \\
 \rowcolor{white}    B6 - Data Management & not applicable \\
-\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Tune CPU and GPU features - Possibly add numerical resiliency eventhough we still believe that the resilincy should be addressed in an hollistic fashion as advocated in~\cite{agullo_resiliency_2022}. \\
+\rowcolor{numpexlightergray}    B7 - Exascale Algorithms & Tune CPU and GPU features - Possibly add numerical resiliency even though we still believe that the resiliency should be addressed in an holistic fashion as advocated in~\cite{agullo_resiliency_2022}. \\
 
 \end{tabular}
         }
@@ -137,3 +141,135 @@ In~\cref{tab:WP3:Composyx:bottlenecks}, we briefly discuss the bottleneck roadma
     \caption{WP3: Composyx plan with Respect to Relevant Bottlenecks}
     \label{tab:WP3:Composyx:bottlenecks}
 \end{table}
+
+\subsection{2026 advances}
+
+\subsubsection{New developments}
+
+New releases from version 1.4.1 at the end of 2025 to 1.7.1 in October
+2026. The main new features are the support of GPU. CUDA support for
+nvidia GPUs and more recently HIP for AMD GPUs were added,
+benchmarked, and documented with tutorials.
+
+\subsection{Test case}
+
+Stationary heterogeneous diffusion equation (or Darcy equation) in a 3D stratified medium:
+$$\nabla \cdot (k \nabla u) = 1$$
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/baton.png}
+  \caption{Composyx scaling on Adastra}
+  \label{fig:composyx-baton}
+\end{figure}
+
+\begin{itemize}
+\item each subdomain consists in $60 \times 60 \times 60 = 216 000$ unknowns;
+\item interfaces between two adjacent subdomains have $60 \times 60 = 3 600$ unknowns;
+\item benchmark in \textbf{weak scaling} (subdomains are stacked on along an axis)
+\item we use one subdomain per GPU, $n_{sd} = n_{GPU}$
+\end{itemize}
+
+\begin{table}[ht]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \setlength{\tabcolsep}{6pt}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $n_{\mathrm{sd}}$ & 4 & 8 & 16 & 32 & 64 & 128 & 256 & 512 & 1024 \\
+        \hline
+        Number of dofs & 853\,200 & 1\,702\,800 & 3\,402\,000 & 6\,800\,400 & 13\,597\,200 & 27\,190\,800 & 54\,378\,000 & 108\,752\,400 & 217\,501\,200 \\
+        \hline
+        Schur size     & 10\,800 & 25\,200 & 54\,000 & 111\,600 & 226\,800 & 457\,200 & 918\,000 & 1\,839\,600 & 3\,682\,800 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Scalability results with HIP}
+
+In summer 2026 development for AMD GPU started, using HIP. The code
+was then benchmarked on CINES's Adastra supercomputer. Notice that
+\textbf{guix} is available of Adastra and HIP software stack, based on
+open-source code from AMD was therefore quite easy to deploy.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/results_adastra_S.png}
+  \caption{Composyx weak scaling on Adastra}
+  \label{fig:composyx-adastra}
+\end{figure}
+
+On Figure \ref{fig:composyx-adastra} are the scaling results from 1 to
+128 nodes. The stopping criterion for this experiment is
+$\frac{||b - A x ||}{||b||} = 10^{-6}$. Each node has of 4 AMD GPU MI250x, with 2
+\textit{Graphics Compute Die} (GCD) per MI250x, so we use 8 subdomains
+in total per node. On the top of each bar is the number of iterations
+performed, and on top of each graph is preconditioner type:
+
+\begin{itemize}
+\item \textit{0} for no preconditioner
+\item \textit{AS} for Additive Schwarz
+\item \textit{NN} for Neumann-Neumann
+\item \textit{RR} for Robin-Robin
+\item \textit{ASG+} for Additive Schwarz with additive Geneo
+\item \textit{ASGd} for Additive Schwarz with deflated Geneo
+\item \textit{NNGd} for Neumann-Neumann with deflated Geneo
+\end{itemize}
+
+We can see for Additive Schwarz an efficiency of 89\%
+($\frac{time(1 node)}{time(128 nodes)}$). Computation of the Schur
+complement is done on the CPU by a sparse linear solver (Mumps here)
+and takes a large proportion of the total time spent in Composyx.
+
+\subsubsection{Scalability results with CUDA}
+
+In 2025 development specific to nvidia GPUs was started. It continued
+in 2026 and was benchmarked on the GENCI Jean-Zay supercomputer.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/results_jeanzay_S.png}
+  \caption{Composyx weak scaling on Jean-Zay}
+  \label{fig:composyx-jean-zay}
+\end{figure}
+
+On Figure \ref{fig:composyx-jean-zay}, we can see scaling results from
+1 to 32 nodes, with 4 GPU v100 per node and one subdomain per GPU. We
+can see for Additive Schwarz an efficiency of 88\%
+($\frac{time(1 node)}{time(32 nodes)}$).  The
+stopping criterion for this experiment is
+$\frac{||b - A x ||}{||b||} = 10^{-8}$.
+
+\paragraph{}
+CUDA software stack is more complete than HIP's one. In particular,
+the cuDSS library provides a sparse direct solver on GPU, which does
+not have a counterpart for AMD where these type of computations have
+to be made on CPU.
+
+\subsubsection{Next steps}
+
+GPU development and benchmarking is going on. We expect to have
+results on the LUMI supercomputer to test scalability up to the limit:
+1024 nodes, 4096 MI250x GPUs.
+
+\paragraph{}
+
+We also want to explore mixed precision algorithms: some part of the
+computations may be done more efficiently with lower arithmetic
+precision, especially on the future GPU architectures where simple and
+half precision will be much faster than double precision.
+Composability in Composyx will allow us to identify these parts of the
+code and what is their impact on the computation, both numerically and
+in terms of performance.
+
+\paragraph{}
+
+A new class to describe distributed matrices with more flexibility is
+currently under development with the work of Arthur Gouinguenet. This
+work will provide for the user a way to give an input matrix to
+Composyx with his/her own distribution, dealing with degrees of
+freedom potentially shared between subdomains. It will provide
+redistribution of coefficients to adapt to specific format for other
+libraries. This work was motivated by the application \textit{Hawen}
+where calls to distributed solvers such as Mumps could benefit from
+this new approach to describe matrices.
