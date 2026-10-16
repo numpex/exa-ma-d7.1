@@ -1,4 +1,4 @@
-%!TEX root = ../exa-ma-d7.1.tex
+%!TEX root = ../exa-ma-deliverables.tex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,29 +38,101 @@ Furthermore, we provide a consolidated list of software components developed wit
 Through testing and analysis, and by employing our benchmarking methodology, we aim to ensure that the Exa-MA suite of tools not only meets the high computational demands of future exascale applications but also adheres to the principles of energy efficiency, scalability, robustness, and reproducibility required in the exascale era. By weaving together methodology, software readiness, and per-WP scientific milestones, the deliverable mirrors the structure of the subsequent chapters and prepares the reader for the detailed KPI tracking and roadmaps that follow. Our methodology is key to ensuring the long-term maintainability and sustainability of this effort, as it establishes standardized practices and frameworks that facilitate ongoing development and adaptation to evolving technologies. By documenting our methodology and sharing our findings, we contribute to the broader HPC community’s efforts in overcoming the challenges associated with exascale computing while promoting sustainable and maintainable software practices.
 
 
+
+\subsection{Correspondence with contractual deliverables}
+\label{sec:deliverable-correspondence}
+
+The consolidated report extends the original D7.1 benchmarking scope to
+include project management, scientific activity, software contributions and
+training. \Cref{tab:deliverable-correspondence} maps these chapters to the
+numbering and titles in the Exa-MA scientific project document. The mapping
+identifies contributions to each deliverable; it does not imply that every
+contractual item is complete. Software deliverables also include the software
+itself, whose implementation is described in the framework fiches.
+
+WP1 uses a different numbering from WP2--WP6: D1.1 covers software and D1.2
+covers activity reporting. For WP2--WP6, these roles are assigned to Dx.2 and
+Dx.1, respectively. Activity reporting contributes to the annual D0.2 report.
+Benchmarking for WP1--WP6 contributes to Dx.3 and is consolidated with D7.1 in
+\Cref{chap:applications}, with the shared methodology in
+\Cref{chap:methodology}. Application specifications and benchmark results remain
+together in their fiches; completed benchmarks are not required for every
+application at this stage.
+
+% Source: PC1-ExaMA - Document Scientifique.md, WP0--WP7 deliverable tables.
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.14\textwidth}>{\raggedright\arraybackslash}p{0.43\textwidth}>{\raggedright\arraybackslash}p{0.35\textwidth}@{}}
+\caption{Contractual deliverables and their contributions in this report.}
+\label{tab:deliverable-correspondence}\\
+\toprule
+\textbf{Deliverable} & \textbf{Contractual title} & \textbf{Corresponding chapters} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Deliverable} & \textbf{Contractual title} & \textbf{Corresponding chapters} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{3}{r}{\emph{Continued on next page}}\\
+\endfoot
+\bottomrule
+\endlastfoot
+D0.2 & Project Management and Activity Report & \Cref{chap:management}; scientific and WP7 activity chapters \\
+D1.1 & Software toolboxes for mesh generation and adaptation, space-time discretisation and coupling & \Cref{chap:wp1,chap:software} \\
+D1.2 & Activity report included in annual report D0.2 & \Cref{chap:wp1,chap:management} \\
+D1.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
+D2.1 & Activity report included in annual report D0.2 & \Cref{chap:wp2,chap:management} \\
+D2.2 & Surrogate modeling toolbox & \Cref{chap:software,chap:wp2} \\
+D2.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
+D3.1 & Activity report included in annual report D0.2 & \Cref{chap:wp3,chap:management} \\
+D3.2 & Software packages HPDDM, Maphys++, PROMISE & \Cref{chap:software,chap:wp3} \\
+D3.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
+D4.1 & Activity report included in annual report D0.2 & \Cref{chap:wp4,chap:management} \\
+D4.2 & Software package for inverse problems and data assimilation & \Cref{chap:software,chap:wp4} \\
+D4.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
+D5.1 & Activity report included in annual report D0.2 & \Cref{chap:wp5,chap:management} \\
+D5.2 & Software package for optimization and shape optimization & \Cref{chap:software,chap:wp5} \\
+D5.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
+D6.1 & Activity report included in annual report D0.2 & \Cref{chap:wp6,chap:management} \\
+D6.2 & Software release of URANIE & \Cref{chap:software,chap:wp6} \\
+D6.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
+D7.1 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:methodology,chap:applications} \\
+D7.2 & co-design report & \Cref{sec:wp7:codesign-initial-feedback} (initial feedback) \\
+D7.3 & Training material & \Cref{chap:training} \\
+D7.4 & Activity report included in annual report D0.2 & \Cref{chap:wp7,chap:management} \\
+\end{longtable}
+\endgroup
+
+D0.1, \emph{Project management Handbook}, has already been delivered separately.
+D7.2, \emph{co-design report}, is scheduled at M48 and M60. Initial feedback
+is recorded in \Cref{sec:wp7:codesign-initial-feedback}, ahead of those deliveries.
+
 \subsection{Structure of the Document}
 \label{sec:structure}
 
-The mega-deliverable also includes D0.2, the annual \emph{Project Management and
-Activity Report}, in \Cref{chap:management}. This chapter precedes the scientific
-work packages and records project coordination, human resources, events and
-external partnerships for each annual reporting period.
-
-This document is organized as follows:
+The chapters follow the order below. The scientific chapters describe
+methods and annual advances; the software fiches describe their
+implementation, and the application fiches bring specifications and
+benchmark results together.
 
 \begin{itemize}
-    \item \Cref{chap:introduction} introduces the purpose and scope of the deliverable, providing an overview of the Exa-MA project.
-    \item \Cref{chap:management} provides the annual D0.2 reporting framework for WP0: governance, staff arrivals and departures, events, industrial partnerships, and cooperation with research and computing centres.
-    \item \Cref{chap:methodology} presents the benchmarking methodology that will be developed for exascale software, detailing the key objectives, testing processes, data management strategies, fault tolerance mechanisms, and the use of demonstrators.
-    \item \Cref{chap:software} provides a general overview of the software developed within Exa-MA, focusing on their features, mathematical foundations, functionalities, relevant publications, acknowledgments, and contact details. It includes general statistics about the software, offering insights into their characteristics and technological choices, such as supported architectures, programming languages, parallelism technologies, data formats, and DevOps practices.
-    \item \Cref{chap:wp1} (\textbf{WP1 - Discretization}) presents software relevant to the discretization methods developed within this work package. For each software, we detail their features, the methods they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and provide a 12-month roadmap.
-    \item \Cref{chap:wp2} (\textbf{WP2 - Model Order, Surrogate, Scientific Machine Learning Methods}) covers software related to reduced-order models, surrogate modeling, and scientific machine learning techniques tailored for exascale applications. Each software is presented with its implemented methods, parallel capabilities, associated benchmarks and metrics, challenges identified, and a 12-month roadmap.
-    \item \Cref{chap:wp3} (\textbf{WP3 - Solvers}) focuses on software implementing scalable solver algorithms suitable for exascale architectures. We discuss their features, parallel capabilities, benchmarks and metrics developed, challenges identified, and include a 12-month roadmap for each.
-    \item \Cref{chap:wp4} (\textbf{WP4 - Data Assimilation}) presents software and tools for inverse problems and data assimilation in large-scale simulations. For each software, we explore the methods they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and provide a 12-month roadmap.
-    \item \Cref{chap:wp5} (\textbf{WP5 - Optimization}) addresses software related to optimization techniques for exascale applications, including shape optimization and auto-ML tuning. The software are presented with their features, implemented methods, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap.
-    \item \Cref{chap:wp6} (\textbf{WP6 - Uncertainty Quantification}) explores software for quantifying uncertainty in computational models at exascale, discussing stochastic modeling and probabilistic approaches. Each software includes details on the methods implemented, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap.
-    \item \Cref{chap:conclusions} concludes the deliverable, summarizing the key findings and outlining future directions for the Exa-MA project.
-    \item The \textbf{References} compiles all the bibliographic citations used throughout the document.
-    \item The \textbf{Appendices} provide additional information, including detailed descriptions of hardware architectures (\nameref{sec:app:architectures}) and supplementary materials relevant to the benchmarking activities.
+    \item \Cref{chap:introduction} introduces the scope of the consolidated report and its correspondence with the contractual deliverables.
+    \item \Cref{chap:management} provides the D0.2 project management and annual activity reporting framework: governance, human resources, events and external partnerships.
+    \item \Cref{chap:wp1} (\textbf{WP1 -- Discretization}) presents the discretization, geometry, meshing and coupling contributions.
+    \item \Cref{chap:wp2} (\textbf{WP2 -- Model Order Reduction, Surrogates and Scientific Machine Learning}) presents reduced-order models, surrogate methods and scientific machine learning contributions.
+    \item \Cref{chap:wp3} (\textbf{WP3 -- Solvers}) presents scalable solver methods and algorithms.
+    \item \Cref{chap:wp4} (\textbf{WP4 -- Data Assimilation}) presents inverse-problem and data assimilation methods.
+    \item \Cref{chap:wp5} (\textbf{WP5 -- Optimization}) presents optimization methods, including shape optimization and the optimization of expensive objectives.
+    \item \Cref{chap:wp6} (\textbf{WP6 -- Uncertainty Quantification}) presents uncertainty quantification, stochastic modelling and statistical processing contributions.
+    \item \Cref{chap:wp7} presents WP7 coordination and activity reporting (D7.4), together with initial co-design feedback towards D7.2 from the PC5 working groups and application demonstrators.
+    \item \Cref{chap:methodology} describes the shared software production and benchmarking methodology (D7.1), including testing, metrics, reproducibility, data management and profiling.
+    \item \Cref{chap:software} presents the software framework fiches and implementation developments, together with the catalogue statistics and links to the scientific work packages.
+    \item \Cref{chap:applications} brings together the application registry, cross-WP matrix, benchmark index, application specifications and reported benchmark results. The fiches retain the distinction between specifications, developments and completed benchmark campaigns.
+    \item \Cref{chap:training} presents training and capacity building (D7.3).
+    \item \Cref{chap:conclusions} summarizes the findings and future priorities.
+    \item The \textbf{References} list the bibliographic sources used throughout the report.
+    \item The \textbf{Appendices} describe computing and data storage infrastructures (\nameref{sec:app:architectures}) and provide the living roadmap and open actions register.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
