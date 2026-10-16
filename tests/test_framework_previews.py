@@ -28,6 +28,15 @@ class FrameworkPreviewTests(unittest.TestCase):
         self.assertIn('composyx', frameworks())
         self.assertNotIn('pbb', frameworks())
 
+    def test_report_scope_excludes_arcane_mahyco_and_pbb_but_keeps_trust(self):
+        catalogue = frameworks()
+        for slug in ('arcane-framework', 'mahyco', 'pbb'):
+            self.assertNotIn(slug, catalogue)
+            self.assertEqual(selected([f'software/{slug}/{slug}.tex'], catalogue), [])
+        self.assertIn('trust-platform', catalogue)
+        self.assertEqual(selected(['software/trust-platform/trust-platform.tex'], catalogue),
+                         ['trust-platform'])
+
     def test_shared_dependencies_and_release_select_all(self):
         catalogue = {'samurai': '', 'feelpp': ''}
         for paths in (None, ['defs.tex'], ['references.bib'], ['graphics/common.png'],

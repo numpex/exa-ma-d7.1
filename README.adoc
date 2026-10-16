@@ -665,11 +665,11 @@ previously published release assets are unchanged.
 
 === Individual framework fiches
 
-Each `software/<id>/<id>.tex` fiche has a thin standalone wrapper under
-`standalone/frameworks/`, including fiches not currently included in the full
-report. Former MaPHyS++ is represented by Composyx; the legacy source is
-preserved but does not generate a duplicate PDF. Retired pBB sources are also
-preserved and excluded from generated previews (issue #127). The scientific text remains in the original fiche.
+Framework fiches in the scope of this deliverable have thin standalone wrappers
+under `standalone/frameworks/`. Arcane, MaHyCo and pBB are excluded from previews
+and release fiche archives; their historical sources remain unchanged. TRUST
+retains its fiche. Former MaPHyS++ is represented by Composyx, without a duplicate
+PDF. The scientific text remains in the original fiche.
 
 [source,shell]
 ----
