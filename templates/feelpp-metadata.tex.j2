@@ -1,0 +1,18 @@
+% Catalogue fields only. The editorial fiche remains separately authored.
+\def\FrameworkDescription{\VAR{description}}
+\def\FrameworkIdentityRows{%
+\BLOCK{ for field, value in identity -}
+\textbf{\VAR{field}} & \VAR{value} \\
+\BLOCK{ endfor -}
+}
+\def\FrameworkEnvironmentRows{%
+\BLOCK{ for field, value in environment -}
+\textbf{\VAR{field}} & \VAR{value} \\
+\BLOCK{ endfor -}
+}
+\def\FrameworkWorkPackageRows{%
+\BLOCK{ for field, value in work_packages -}
+\textbf{\VAR{field}} & \VAR{value} \\
+\BLOCK{ endfor -}
+}
+\def\FrameworkBottlenecks{\VAR{bottlenecks}}

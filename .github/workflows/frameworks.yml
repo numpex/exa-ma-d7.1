@@ -9,11 +9,25 @@ on:
       - 'standalone/framework*'
       - 'standalone/frameworks/**'
       - standalone-funtides.tex
+      - standalone/feelpp.tex
       - gen.py
       - scripts/framework_previews.py
       - tests/test_gen.py
+      - tests/test_sync_frameworks.py
+      - tests/test_fiche_identities.py
       - tests/test_framework_previews.py
       - templates/framework-metadata.tex.j2
+      - templates/feelpp-metadata.tex.j2
+      - 'standalone/identity*'
+      - scripts/generate_fiche_identities.py
+      - scripts/sync_frameworks.py
+      - scripts/release.py
+      - 'exama_version/**'
+      - data/fiche-identity-profiles.json
+      - data/frameworks.csv
+      - data/frameworks-source.json
+      - data/applications.csv
+      - data/application-reconciliation-v3.csv
       - .github/workflows/frameworks.yml
       - .github/workflows/latex.yml
       - defs.tex
@@ -85,7 +99,7 @@ jobs:
         run: >-
           uv run --no-project --python 3.11
           --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4'
-          --with pytest python -m pytest tests/test_gen.py tests/test_framework_previews.py -q
+          --with pytest python -m pytest tests/test_gen.py tests/test_sync_frameworks.py tests/test_framework_previews.py tests/test_fiche_identities.py -q
 
   preview:
     name: Build ${{ matrix.id }} framework fiche

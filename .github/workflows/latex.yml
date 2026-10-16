@@ -100,6 +100,14 @@ jobs:
           uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_sync_applications.py -q
           uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_application_fiches.py -q
           uv run --no-project --python 3.11 python scripts/sync_applications.py --standalone --check
+          uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_fiche_identities.py -q
+          uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_release.py -q
+          uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py --check
+          uv run --no-project --python 3.11 python scripts/release.py check
+
+      - name: Verify publication tag matches the deliverable version
+        if: github.ref_type == 'tag'
+        run: uv run --no-project --python 3.11 python scripts/release.py check --tag "$VERSION"
 
       - name: Create virtual environment and install article-cli
         run: |

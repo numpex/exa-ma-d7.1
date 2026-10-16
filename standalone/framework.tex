@@ -1,12 +1,12 @@
 % Shared wrapper: no scientific content is copied here.
 \documentclass[11pt]{report}
 \input{standalone/framework-preamble}
+\input{standalone/identity-panel}
 \begin{document}
-\begin{center}
-{\Large\bfseries Exa-MA framework fiche: \nolinkurl{\FrameworkId}}\\[0.5ex]
-{\small Report \FrameworkReportVersion{}; build \FrameworkBuildRef{}\\
-Source revision \FrameworkBuildRevision}
-\end{center}
+\setcounter{chapter}{1}
+\FicheIdentityPanel{\FrameworkId}
+{\scriptsize Report \FrameworkReportVersion{}; build \FrameworkBuildRef{}; source revision \FrameworkBuildRevision.\par}
+\medskip
 \raggedbottom
 \renewcommand{\thesection}{\arabic{section}}
 \input{\FrameworkSource}
