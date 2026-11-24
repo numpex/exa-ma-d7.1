@@ -41,7 +41,14 @@ def application_label(root, app, reconciled):
     record = reconciled.get(app['id'])
     if not record:
         raise ValueError(f"Reconcile the application fiche first: {app['id']}")
-    source = root / record['latex_spec']
+    relative = Path(record['latex_spec'])
+    source = root / relative
+    if relative.is_absolute() or '..' in relative.parts:
+        raise ValueError(f'Invalid application source: {relative}')
+    if relative == Path(f"chapters/applications/specs/{app['id']}.tex") and not source.exists():
+        return None
+    if not source.is_file():
+        raise ValueError(f'Missing application source: {relative}')
     text = source.read_text()
     standard = 'sec:app:specs:' + app['id']
     # VThreeApplicationDraft defines this label, including catalogue aliases.
@@ -49,6 +56,12 @@ def application_label(root, app, reconciled):
             or r'\VThreeApplicationDraft{' + app['id'] + '}' in text):
         return standard
     raise ValueError(f"No application navigation label for {app['id']}: {source}")
+
+
+def application_entry(root, app, reconciled):
+    label = application_label(root, app, reconciled)
+    return (link(label, app['name']) if label
+            else tex(app['name']) + r' (\emph{fiche pending})')
 
 
 def render(root=ROOT, *, applications=None, reconciliation=None):
@@ -80,7 +93,7 @@ def render(root=ROOT, *, applications=None, reconciliation=None):
             wps = ', '.join('WP' + value for value in sorted(
                 set(re.findall(r'WP([1-7])', app['work_package']))))
             groups[key][(wps, app['status'].strip())].append(
-                link(application_label(root, app, rec), app['name']))
+                application_entry(root, app, rec))
     rows = []
     for key in sorted(report):
         framework = by_id[key]
@@ -128,7 +141,7 @@ def render(root=ROOT, *, applications=None, reconciliation=None):
 """
     if unassigned:
         output += ('\\noindent\\textbf{Catalogue associations to complete.} '
-                   + '; '.join(link(application_label(root, app, rec), app['name'])
+                   + '; '.join(application_entry(root, app, rec)
                                + ' (' + wp_links(app['work_package']) + ')' for app in unassigned)
                    + '. Their Framework field is empty; no association is inferred from an application name.\n')
     return output

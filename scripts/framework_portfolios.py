@@ -62,15 +62,18 @@ def portfolios(root=ROOT):
         if app_id not in rec:
             raise ValueError(f'Reconcile the application fiche first: {app_id}')
         source = Path(rec[app_id]['latex_spec'])
-        if source.is_absolute() or '..' in source.parts or not (root / source).is_file():
+        metadata = root / f'chapters/applications/metadata/{app_id}.tex'
+        pending = (source == Path(f'chapters/applications/specs/{app_id}.tex')
+                   and not (root / source).exists() and metadata.is_file())
+        if source.is_absolute() or '..' in source.parts or not ((root / source).is_file() or pending):
             raise ValueError(f'Invalid application source: {source}')
         grouped = source.as_posix() == 'chapters/applications/specs/app-proposed.tex'
-        dedicated = source.parent.as_posix() == 'chapters/applications/specs' and not grouped
+        dedicated = source.parent.as_posix() == 'chapters/applications/specs' and not grouped and not pending
         if grouped:
             content = (root / source).read_text()
             if f'%<*{app_id}>' not in content or f'%</{app_id}>' not in content:
                 raise ValueError(f'Missing shared-fiche selection markers: {app_id}')
-        if not dedicated and not grouped and not (root / f'chapters/applications/metadata/{app_id}.tex').exists():
+        if not dedicated and not grouped and not metadata.is_file():
             raise ValueError(f'No dedicated fiche or catalogue metadata: {app_id}')
         item = dict(app, source=source.as_posix(),
                     spec=source.stem if dedicated else app_id,

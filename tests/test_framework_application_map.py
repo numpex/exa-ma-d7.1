@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from scripts import framework_application_map as mapping
-from scripts import sync_applications
+from scripts import framework_portfolios, sync_applications
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -80,6 +80,40 @@ class FrameworkApplicationMapTests(unittest.TestCase):
             self.assertIn(r'\hyperref[chap:wp6]', row)
             self.assertIn('Concept', row)
             self.assertNotIn('Alternate snapshot title', mapping.render(root))
+
+    def test_sync_keeps_pending_applications_without_report_links(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.fixture(directory)
+            for name in ('data/benchmark-registry-v3.csv', 'chapters/applications/registry.tex',
+                         'chapters/applications/cross-wp-matrix.tex', 'chapters/applications/benchmark-index.tex',
+                         'chapters/WP2/WP2.tex'):
+                target = root / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / name, target)
+            snapshot = root / 'data/applications.csv'
+            fields, rows = mapping.read_csv(snapshot)
+            for slug, framework in [('app-new-feelpp', 'Feel++'), ('app-new-unassigned', '')]:
+                row = dict.fromkeys(fields, '')
+                row.update(id=slug, name=f'Pending {slug}', Framework=framework,
+                           work_package='WP1', status='brainstorming')
+                rows.append(row)
+            snapshot.write_text(sync_applications.csv_text(fields, rows))
+
+            planned = sync_applications.plan(root, snapshot, [], standalone=True)
+            navigation = planned[root / mapping.TARGET]
+            for slug in ('app-new-feelpp', 'app-new-unassigned'):
+                self.assertIn(f"Pending {slug}" + r' (\emph{fiche pending})', navigation)
+                self.assertNotIn(r'\hyperref[sec:app:specs:' + slug + ']', navigation)
+                self.assertIn(root / f'chapters/applications/metadata/{slug}.tex', planned)
+                self.assertIn(root / f'standalone/applications/{slug}.tex', planned)
+            for target, content in planned.items():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(content)
+
+            portfolio = framework_portfolios.portfolios(root)['feelpp']
+            entry = next(app for app in portfolio if app['id'] == 'app-new-feelpp')
+            self.assertEqual(entry['label'], 'app:fiche:app-new-feelpp')
+            self.assertEqual(entry['spec'], 'app-new-feelpp')
 
     def test_disabled_framework_is_removed_and_reactivation_restores_it(self):
         with tempfile.TemporaryDirectory() as directory:
