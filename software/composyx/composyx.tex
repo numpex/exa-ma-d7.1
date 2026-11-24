@@ -5,14 +5,10 @@
 
 \subsection{Software summary}
 \label{sec:Composyx:summary}
-Composyx (previously Maphys++) is a linear algebra C++20 library
-focused on composability. Its purpose is to allow the user to express
-a large panel of algorithms using a high-level interface to range from
-laptop prototypes to many node supercomputer parallel computations.
-Currently it mostly implements domain decomposition methods as
-described in~\cite{agullo_robust_2019} using hybrid parallel
-implementation (MPI+Thread, MPI+StarPU) to address heterogeneous
-manycores.
+Composyx (formerly MaPHyS++) is a C++20 library for composing solvers
+for large sparse linear systems. Its domain decomposition solvers
+include methods described in~\cite{agullo_robust_2019}, with parallel
+implementations based on MPI with threads or StarPU.
 
 \begin{figure}
         \centering
@@ -31,9 +27,6 @@ right-hand sides~\cite{giraud_block_2022}.
 
 \subsection{Programming and Computational Environment}
 \label{sec::Composyx:environment_capabilities}
-
-The following table summarizes these aspects for Composyx, providing a
-view of its programming and computational capabilities.
 
 \begin{FicheEnvironmentTable}[Composyx programming and computational environment]
 Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
@@ -64,16 +57,15 @@ Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}} MUMPS\\ PaStiX\\ Scotch\\ 
 
 \subsection{2026 implementation developments}
 
-New releases from version 1.4.1 at the end of 2025 to 1.7.1 in October
-2026. The main new features are the support of GPU. CUDA support for
-nvidia GPUs and more recently HIP for AMD GPUs were added,
-benchmarked, and documented with tutorials.
-
-\paragraph{}
-Using CUDA, we were able to achieve good weak scaling from 1 to 32
-nodes on Jean-Zay, with an efficiency up to 88\%. Similarly, using
-HIP, we obtained on weak scaling from 1 to 128 nodes on Adastra an
-efficiency up to 89\%.
+Between versions 1.4.1 (late 2025) and 1.7.1 (October 2026), Composyx
+added and documented CUDA and HIP support. The team measured
+weak-scaling efficiencies of 88\% at 32 nodes on Jean Zay with CUDA
+and 89\% at 128 nodes on Adastra with HIP for additive Schwarz.
+\ifcsname r@sec:app:specs:app-composyx-diffusion\endcsname
+The heterogeneous diffusion fiche reports the two configurations and
+stopping tolerances for \nolinkurl{BM-COMPOSYX-DIFF-01}
+(\cref{sec:app:specs:app-composyx-diffusion}).
+\fi
 
 \subsubsection{Next steps}
 
@@ -106,7 +98,6 @@ this new approach to describe matrices.
 \subsection{Relevant Publications}
 \label{sec:Composyx:publications}
 
-Here is a list of relevant publications related to the software:
 \begin{description}
         \item[\fullcite{agullo_robust_2019}]
         The solution of large sparse linear systems is one of the most time consuming kernels in many numerical simulations. The domain decomposition community has developed many efficient and robust methods in the last decades. While many of these solvers fall into the abstract Schwarz (aS) framework, their robustness was originally demonstrated on a case-by-case basis. In this paper, we propose a bound for the condition number of all deflated aS methods provided that the coarse grid consists of the assembly of local components that contain the kernel of some local operators. We show that classical results from the literature on particular instances of aS methods can be retrieved from this bound. We then show that such a coarse grid correction can be explicitly obtained algebraically via generalized eigenproblems, leading to a condition number independent of the number of domains. This result can be readily applied to retrieve or improve the bounds previously obtained via generalized eigenproblems in the particular cases of Neumann-Neumann (NN), additive Schwarz (AS), and optimized Robin, but it also generalizes them when applied with approximate local solvers. Interestingly, the proposed methodology turns out to be a comparison of the considered particular aS method with generalized versions of both NN and AS for tackling the lower and upper part of the spectrum, respectively. We furthermore show that the application of the considered grid corrections in an additive fashion is robust in the AS case although it is not robust for aS methods in general. In particular, the proposed framework allows for ensuring the robustness of the AS method applied on the Schur complement, either with deflation or additively, and with the freedom of relying on an approximate local Schur complement. Numerical experiments illustrate these statements.
@@ -127,4 +118,3 @@ The software has been developed with the support of the following funding agenci
   \item DGA through the Hi-Box project,
   \item Software development was performed using the PlaFRIM experimental testbed, supported by Inria, CNRS (LABRI and IMB), Université de Bordeaux, Bordeaux INP and Conseil R\'egional d’Aquitaine (see https://www.plafrim.fr) as well as on national GENCI platform.
 \end{itemize}
-

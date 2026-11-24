@@ -2,7 +2,7 @@
   "spreadsheet_url": "https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?ouid=109146539207877795266",
   "tab": "Frameworks",
   "sheet_id": 0,
-  "range": "A1:AL46",
+  "range": "A1:AM46",
   "retrieved_on": "2026-10-16",
   "snapshot": "data/frameworks.csv",
   "cell_notes": {
@@ -28,6 +28,14 @@
       "changed_fields": [
         "Partner"
       ]
+    },
+    "publication_scope": {
+      "date": "2026-10-17",
+      "range": "Frameworks!AM1:AM46",
+      "changed_fields": [
+        "Include in deliverable"
+      ],
+      "scope": "Only publication flags were refreshed from the configured Google Sheet; all other snapshot fields were preserved."
     }
   }
 }

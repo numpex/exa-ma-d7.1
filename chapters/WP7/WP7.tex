@@ -1,54 +1,30 @@
 %!TEX root = ../../exa-ma-deliverables.tex
-% D7.1 V3 / v2.90.0 -- WP7 CONTRIBUTION
-%
-% The content inherited from v2 is provided as a starting point.
-% The WP leader/editor must:
-% 1. review, validate, update or remove all inherited text;
-% 2. identify explicitly what is new in 2026;
-% 3. distinguish 2026 achievements from earlier baseline results;
-% 4. connect the advances to Exa-MA software and applications;
-% 5. associate applications with verification, validation or performance benchmarks;
-% 6. report scientific, numerical and performance results;
-% 7. provide software versions, machine configurations, references and evidence links;
-% 8. identify missing application or benchmark mappings instead of inventing connections.
 
 \chapter{WP7 -- Coordination and Activity Report (D7.4)}
 \label{chap:wp7}
 
 \section{Main advances in 2026}
 \label{sec:wp7-main-advances-2026}
-\WPUpdateNote{Complete one record for each main 2026 coordination, software,
-application, benchmarking or training advance.  Keep the identifiers stable so
-that contributions can be compared across annual reports.}
 
-% Duplicate this record in WP7.tex for each main 2026 advance and replace the
-% compact field cues with factual entries.  Do not edit the central table style.
-\begin{WPAdvanceRecord}{WP7-A2026-1}
-Exa-MA task and bottleneck & \WPFieldHint{T7.x; Bx} \\
-Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
-Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
-Implementing software & \WPFieldHint{Software; repository} \\
-Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
-Associated application ID & \WPFieldHint{app-...} \\
-Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
-Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
-Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
-Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
-Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
-Limitations and next step & \WPFieldHint{Limitation; next step} \\
-Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
-\end{WPAdvanceRecord}
+The June framework sessions identified applications for evaluating
+HPDDM and PETSc, including the discrete fracture network mini-app and
+a thermo-mechanical test case. Other sessions examined Kokkos porting
+in TRUST, the PETSc interface in FreeFEM++ and adaptive meshes in
+Samurai. The application specifications
+and reported campaigns are collected in \Cref{chap:applications}.
+
+The Ktirio Urban Building collaboration connects work across WP1,
+WP6 and WP7. Terrain generation has a single-node scaling study. The
+coupling adapter and statistical components support the wider
+demonstrator, whose coupled performance has yet to be measured.
 
 \section{Co-design with PC5 and application demonstrators: initial feedback towards D7.2}
 \label{sec:wp7:codesign-initial-feedback}
 
-This section records an initial contribution to the T7.2 co-design report,
-D7.2, scheduled at M48 and M60. It connects application needs to the
-methodological and software contributions described elsewhere in this report.
-The 2025 activity-report material records Exa-MA interactions with the PC5
-working groups on high-order discretization, block-structured AMR and
-unstructured meshing. The accounts below retain the scope of the documented
-work and identify the feedback still needed for D7.2.
+Exa-MA contributes to three PC5 working groups on high-order
+discretization, block-structured AMR and unstructured meshing. These
+interactions and the Ktirio collaboration inform T7.2 and the D7.2
+co-design reports at M48 and M60.
 % Sources: Exa-MA ANR 2026 reporting material for 2025, section
 % "Articulation du projet avec les autres projets de ce PEPR";
 % WP1/T1.4; PC5 Ktirio Urban Building context; Feel++ implementation fiche.
@@ -63,63 +39,50 @@ continuous and discontinuous Galerkin formulations. Its methodological scope
 and development steps remain in WP1; the related FUnTiDES wave-propagation
 software is described separately in \Cref{sec:FUnTiDES:software}.
 
-The co-design link is the use of a wave application to guide numerical-kernel
-and portability requirements. The WP1 account identifies face-term fusion,
-additional finite-element spaces and transfer operators as further development
-steps. This initial account does not add a performance comparison or infer
-that these steps have been completed.
+The wave application guides the kernel interfaces for CPU and GPU
+execution. The Feel++ refactoring extends the discretizations
+available for these studies with high-order finite-element families and
+curved geometry (\cref{sec:Feelpp:implementation-2026:orders}). WP1 describes
+the work on fused DG face terms and transfer operators for the proxy
+(\cref{sec:wp1:t1.4}).
 
 \subsection{PC5 working groups on block-structured AMR and unstructured meshing}
 
-The recorded interactions with these two groups connect Exa-MA discretization
-work to the PC5 application context. The existing technical material provides
-separate descriptions of Cartesian adaptive-mesh methods in the Samurai fiche
-(\Cref{sec:Samurai:software}), and of unstructured mesh adaptation and geometry
-processing in WP1. These descriptions establish the available methods and
-software; they do not, by themselves, establish decisions reached within the
-working groups.
-
-\todo[WP7 / D7.2 / PC5 AMR and unstructured-mesh feedback]{Document the
-application requirements discussed with each working group, the resulting
-methodological or software choices, and the remaining interface or validation
-questions, with links to the corresponding discussion records or contributions.}
+The Samurai fiche describes the Cartesian AMR methods available for
+PC5 studies (\cref{sec:Samurai:software}). WP1 reports the corresponding
+work on unstructured mesh adaptation and geometry processing
+(\cref{chap:wp1}). The working groups' design decisions and application
+requirements remain to be recorded for D7.2.
 
 \subsection{Ktirio Urban Building and the HiDALGO2 Centre of Excellence}
 
-The joint work on Ktirio Urban Building supplies a concrete co-design context
-for urban building energy simulation and decision support. The demonstrator
-needs terrain and building geometry, urban-microclimate/building-energy
-coupling, and processing of large ensembles of building outputs. The component
-roles and their relationships are described in
-\Cref{sec:pc5:ktirio-urban-building}; this section records their implications
-for the collaboration rather than repeating the fiches.
+The Ktirio collaboration addresses three needs in city-scale energy
+simulation: terrain and building geometry, coupling of microclimate and
+building energy models, and execution and analysis of building ensembles.
+\Cref{sec:pc5:ktirio-urban-building} shows how the components fit together.
 
 The geometry workflow connects application inputs to Ktirio-Geom and its
 benchmark application, \texttt{app-feelpp-ktirio-geom}
-(\Cref{sec:app:specs:app-feelpp-ktirio-geom}). Distributed geometric searches
-motivate the Feel++ BVH contribution
-(\Cref{sec:Feelpp:implementation-2026:bvh}). Coupling urban microclimate and
+(\Cref{sec:app:specs:app-feelpp-ktirio-geom}). The Feel++ distributed ray
+tracer computes solar masks. The Paris 8\,km campaign measured this phase
+through 16\,384 MPI ranks on Discoverer
+(\Cref{tab:Feelpp:solar-mask-discoverer}). The Building-only case also
+completed at 32\,768 MPI ranks on 342 allocated Discoverer nodes with
+simulation output disabled. Coupling urban microclimate and
 building energy models motivates interface field transfer through preCICE
 and the Feel++--OpenFOAM participants
-(\Cref{sec:Feelpp:implementation-2026:precice}). Memory and I/O constraints
-in ensemble simulations motivate streaming statistical processing in Feel++,
-on which the Ktirio Ensemble/UQ framework builds
+(\Cref{sec:Feelpp:implementation-2026:precice}). For
+\hyperref[sec:wp6:ensemble-streaming]{WP6/T6.4}, Ktirio implements ensemble
+execution and in-run statistical analysis. Feel++ supplies the MPI
+infrastructure and reusable streaming-statistics components
 (\Cref{sec:Feelpp:implementation-2026:stats}).
 
-These connections identify how demonstrator requirements guide component
-work across WP1, WP6 and WP7. The reported terrain timings characterize
-Ktirio-Geom's terrain-generation workflow; they do not quantify the complete
-coupled energy or ensemble/UQ workflow. The existing fiches retain the
-component limitations and assessment needs. Further co-design feedback should
-record interface choices and assess geometry, coupling and statistical
-processing against their respective application requirements.
+The terrain campaign supplies timings for the geometry stage. The MPI
+ensemble workflow and its reducers have dedicated tests. The geometry
+timings do not quantify the cost of the ensemble workflow.
 
-\section{Inherited WP7 material to update}
-\WPUpdateNote{Review the inherited methodology, software and application chapters
-in place.  Update the benchmark and training chapters only from versioned or
-dated evidence; do not duplicate their detailed records here.}
+\section{Benchmarking and training}
 
-The following WP7 chapters contain the retained v2 methodology, software and
-application material, the reconstructed benchmark registry, and the integrated
-training baseline.  Detailed application specifications remain in
-\Cref{chap:applications}; WP chapters should summarize results and link to them.
+\Cref{chap:methodology} describes the benchmark protocols, and
+\Cref{tab:v3-benchmark-registry} links the campaigns to their application
+fiches. \Cref{chap:training} records the training events and materials.

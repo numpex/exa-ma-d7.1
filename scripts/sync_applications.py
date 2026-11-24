@@ -42,12 +42,6 @@ def tex(value):
     return "".join(escapes.get(c, c) for c in value)
 
 
-def value_or_missing(value, context=""):
-    if value:
-        return tex(value)
-    label = "[" + tex(context) + "]" if context else ""
-    return r"\todo" + label + "{Sheet field missing.}"
-
 
 def normalized_list(value):
     return "; ".join(part.strip() for part in value.split(",") if part.strip())
@@ -71,8 +65,8 @@ def metadata(row):
               *[f"Method-Algorithm WP{i}" for i in range(1, 7)], "WP7",
               "inputs", "outputs", "metrics", "status", "Benchmark scope",
               "Framework", "parallel_framework", "repo_url", "tex_url", "notes"]
-    pairs = [tex(key) + " & " + value_or_missing(row.get(key, ""), row["id"] + " / " + key) + r" \\" for key in fields
-             if (not key.startswith("Method-Algorithm") and key not in {"WP7", "notes"}) or row.get(key)]
+    pairs = [tex(key) + " & " + tex(row[key].strip()) + r" \\"
+             for key in fields if row.get(key, "").strip()]
     return GENERATED + (
         r"\begin{FicheMetadataTable}" "\n"
         + "\n".join(pairs) + "\n"
@@ -106,6 +100,21 @@ def plan(root, snapshot, metadata_ids, standalone=False):
             value = row.get(source, "").strip()
             item[target] = normalized_list(value) if target in {"metrics", "benchmark_scope"} else value
         item["status_maturity"] = item["status_maturity"] or "status-missing"
+        # Remove resolved missing-field observations without discarding editorial
+        # qualifications, discrepancies or requests for benchmark evidence.
+        missing_fields = {
+            "Sheet operational status missing": "status",
+            "Sheet framework missing": "Framework",
+            "Sheet benchmark scope missing": "Benchmark scope",
+            "Sheet metrics missing": "metrics",
+            "Sheet repository URL missing": "repo_url",
+            "Sheet specification URL missing": "tex_url",
+            "Sheet repo_url missing": "repo_url",
+            "Sheet tex_url missing": "tex_url",
+        }
+        item["discrepancies"] = "; ".join(
+            note for note in item["discrepancies"].split("; ")
+            if not (note in missing_fields and row.get(missing_fields[note], "").strip()))
         if row["id"] not in previous:
             item["latex_spec"] = f"chapters/applications/specs/{row['id']}.tex"
             missing = [f"Sheet {key} missing" for key in ["WP7 Engineer", "inputs", "outputs", "metrics", "repo_url", "tex_url"] if not row.get(key)]
@@ -144,8 +153,8 @@ def plan(root, snapshot, metadata_ids, standalone=False):
         app_id = row["application_id"]
         wp = ", ".join(re.findall(r"WP([1-7])", row["wp_mapping"]))
         bids = "; ".join(r"\nolinkurl{" + bid + "}" for bid in mappings.get(app_id, [])) or "---"
-        app_rows.append(r"\nolinkurl{" + app_id + "} & " + (row["sheet_row"] or "---") + " & " + (wp or "---")
-            + " & " + value_or_missing(row["software_framework"], app_id + " / Framework") + r" & \nolinkurl{" + row["status_maturity"] + "} & " + bids + r" \\")
+        app_rows.append(r"\BenchmarkRegistryApplication{" + app_id + "} & " + (row["sheet_row"] or "---") + " & " + (wp or "---")
+            + " & " + (tex(row["software_framework"]) if row["software_framework"] else "---") + r" & \nolinkurl{" + row["status_maturity"] + "} & " + bids + r" \\")
         wps = set(re.findall(r"WP([1-7])", row["wp_mapping"]))
         matrix_rows.append(r"\nolinkurl{" + app_id + "} & " + " & ".join("x" if str(i) in wps else "" for i in range(1, 8)) + r" \\")
     for filename, generated_rows, prefix, name in [
@@ -203,6 +212,15 @@ def plan(root, snapshot, metadata_ids, standalone=False):
     for app_id in requested_metadata:
         path = root / f"chapters/applications/metadata/{app_id}.tex"
         protected_output(changes, path, metadata(by_app[app_id]))
+    navigation_path = root / "chapters/framework-application-map.tex"
+    if (root / "chapters/software.tex").exists():
+        try:
+            from .framework_application_map import MARKER, render
+        except ImportError:
+            from framework_application_map import MARKER, render
+        if navigation_path.exists() and not navigation_path.read_text().startswith(MARKER):
+            raise ValueError(f"Refusing to overwrite authored content: {navigation_path}")
+        changes[navigation_path] = render(root, applications=sheet, reconciliation=rows)
     return changes
 
 

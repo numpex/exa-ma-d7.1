@@ -10,10 +10,12 @@
 \label{sec:Feelpp:summary}
 \Feelpp (Finite Element Embedded Language and Library in C++) is an open-source
 \Cpp{23} framework for the numerical solution of partial differential equations
-and coupled ODE/PDE models. Its embedded variational language expresses Galerkin
-methods close to their mathematical formulation, from continuous and
-discontinuous finite elements to hybridizable discontinuous Galerkin and
-spectral element methods~\cite{prudhomme_feel_2012}.
+and coupled ODE/PDE models. Its domain-specific embedded language (DSEL)
+expresses Galerkin methods close to their mathematical formulation, from
+continuous and discontinuous finite elements to hybridizable discontinuous
+Galerkin and spectral element methods~\cite{prudhomme_feel_2012}. The Problem
+API extends this language from individual forms to the declaration and
+solution of complete discrete problems.
 Python bindings through Pybind11 provide access to the library, toolboxes and
 model order reduction workflows.
 
@@ -63,25 +65,64 @@ Checkpoint/restart permits selected simulations to resume from saved states.
 \paragraph{Multiphysics and external coupling.}
 The toolboxes cover fluid and solid mechanics, heat and conjugate heat transfer,
 fluid--structure interaction, thermoelectricity, electromagnetics, and
-level-set/multifluid models. Coupling with external solvers through
-\textbf{preCICE is available}, as confirmed by the maintainer in the current
-catalogue update. This complements native multiphysics coupling and the
-Dymola/OpenModelica/FMU interface.
+level-set/multifluid models. The preCICE adapter released in Feel++~v0.112.0
+connects external solvers alongside the native multiphysics and
+Dymola/OpenModelica/FMU interfaces.
 
-\paragraph{Software quality and distribution.}
+\paragraph{Build and verification.}
 GitHub Actions workflows build and test \Feelpp and support packaging,
 container delivery and continuous benchmarking. CTest covers unit tests,
 mathematical verification and application validation in sequential and parallel
-settings; the test count depends on the configured build.
-The catalogue records Debian, Ubuntu, Fedora, Spack and Guix-HPC packaging, and
-Docker, Apptainer and Singularity containers. Installation instructions and
-current release artifacts are available from the project documentation and
-repository. CodeMeta metadata is provided in
+settings. CodeMeta metadata is provided in
 \href{https://github.com/feelpp/feelpp/blob/develop/codemeta.json}{\texttt{codemeta.json}}.
 
 \input{graphics/feelpp/feelpp-workflows}
 The workflows in \cref{fig:feelpp-ci,fig:feelpp-cb} illustrate how build, test,
 delivery and benchmark stages are connected.
+
+\subsubsection{Packaging and HPC deployment}
+\label{sec:Feelpp:packaging}
+The \href{https://github.com/feelpp/feelpp/tree/v0.112.0/ops}{\texttt{ops/}} tools
+use the source packages, manifests and image recipes in
+\href{https://github.com/feelpp/feelpp/tree/v0.112.0/packaging}{\texttt{packaging/}}.
+\texttt{fpp-pkg} builds distribution packages and manages Spack environments
+and container builds. \texttt{fpp-version} synchronizes package versions
+with the release and checks the published artifacts.
+
+\href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0}
+ships APT packages, Docker images and prebuilt Apptainer images for
+Ubuntu 24.04 (Noble), Ubuntu 26.04 (Resolute) and Debian 13 (Trixie).
+The full Spack build with Open MPI~5 passed build and test CI and is
+available as a Docker image that can be converted to Apptainer.
+A second Spack environment and core image use MPICH~3.4.3.
+On LUMI-C, the container runs with the
+\href{https://docs.lumi-supercomputer.eu/runjobs/scheduled-jobs/container-jobs/\#using-the-host-mpi}{host Cray MPICH libraries}
+and the Slingshot network via libfabric/CXI.
+
+The \KtirioUrbanBuildingContext{} demonstrator uses Feel++~v0.112.0 in
+its current deployment. \Cref{tab:Feelpp:hpc-deployments} gives
+validated Paris layouts from the HiDALGO2 D3.3 UNISTRA campaign records
+and the separate September Ktirio reports for Karolina and Gaya.
+
+\begin{table}[H]
+  \caption{Ktirio Urban Building deployments and active MPI rank counts in 2026.}
+  \label{tab:Feelpp:hpc-deployments}
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.18\linewidth}
+    >{\raggedright\arraybackslash}p{.34\linewidth}>{\raggedright\arraybackslash}X@{}}
+    \toprule
+    \textbf{System} & \textbf{Runtime configuration} & \textbf{Paris case} \\
+    \midrule
+    Discoverer & CPU container with Open MPI~5 & Paris 8\,km: 16\,384 ranks on 128 nodes (both variants); 32\,768 on 342 nodes (Building-only, simulation output disabled) \\
+    MeluXina & CPU container with Open MPI~5 & Paris 8\,km: 16\,384 ranks on 128 nodes (both variants) \\
+    Karolina & CPU container with Open MPI~5 & Paris 4\,km up to 8\,192 MPI ranks \\
+    Leonardo (DCGP) & CPU container with Open MPI~5 & Paris 8\,km: 4\,096 ranks on 64 nodes \\
+    LUMI-C & MPICH-based container with host Cray MPICH & Paris 4\,km Building-only: 1\,024 ranks on 32 nodes \\
+    Gaya (Unistra) & CPU container with Open MPI~5 & Paris 1\,km on 256 MPI ranks \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 \input{software/feelpp/implementation-2026}
 
@@ -110,9 +151,24 @@ on the numerical component and backend.
   \label{fig:Feelpp:components}
 \end{figure}
 
-The following variational example assembles and solves a Laplace problem with
-Dirichlet, Neumann and Robin boundary terms. It is a code excerpt: the mesh,
-coefficient expressions and boundary markers are supplied by the application.
+\subsubsection{Variational formulation and problem solving}
+\label{sec:Feelpp:problem-api}
+The C++ DSEL expresses trial and test functions, differential operators and
+integrals over cells and facets. The
+\href{https://github.com/feelpp/feelpp/issues/2486}{Problem API}
+collects these variational terms with the finite-element spaces and boundary
+conditions in a problem definition. Assembly creates a system that owns the
+operators and vectors used by the solver. The same problem definition can
+be assembled with different solver and preconditioner settings, and the
+solve returns convergence information. The API also covers mixed, HDG,
+nonlinear, eigenvalue and time-dependent problems.
+
+The example solves $-\nabla\cdot(k\nabla u)=f$ on a mesh with separate
+Dirichlet, Neumann and Robin boundaries. With outward flux
+$q=-k\nabla u\cdot n$, the data prescribe $u=g$, $q=q_N$ and
+$q=r_1u+r_2$ on the corresponding markers. The problem declares the
+volume integrals and boundary conditions, then assembles and solves for
+the discrete field \texttt{uh}.
 \input{software/feelpp/laplace-example}
 
 \clearpage
@@ -122,24 +178,7 @@ The application fiches provide specifications and, where available, benchmark
 results. These entry points cover discretization, geometry, I/O and
 reduced-order modeling. A planned application or a catalogue benchmark flag
 does not on its own establish a measured scaling result.
-\newcommand{\FeelppAppRef}[2]{%
-  \ifcsname r@#1\endcsname Section~\ref{#1}\else\nolinkurl{#2}\fi}
-\begin{itemize}
-  \item \textbf{Thermal bridges:} heat-transfer discretization verification;
-    \FeelppAppRef{sec:app:specs:app-feelpp-discr-1}{app-feelpp-discr-1}.
-  \item \textbf{FDA nozzle:} Navier--Stokes CFD validation;
-    \FeelppAppRef{sec:app:specs:app-feelpp-discr-2}{app-feelpp-discr-2}.
-  \item \textbf{Parallel I/O:} mesh, function-space and field data workflows;
-    \FeelppAppRef{sec:app:specs:app-feelpp-io}{app-feelpp-io}.
-  \item \textbf{Distance computation:} comparison of FMM and BVH approaches;
-    \FeelppAppRef{sec:app:specs:app-feelpp-distance}{app-feelpp-distance}.
-  \item \textbf{Reduced basis:} offline/online reduced-order workflows;
-    \FeelppAppRef{sec:app:specs:app-feelpp-rb}{app-feelpp-rb}.
-  \item \textbf{Nonlinear compressive reduced basis:} specification/proposal;
-    \FeelppAppRef{sec:app:specs:app-feelpp-nlcrb}{app-feelpp-nlcrb}.
-\end{itemize}
-Additional proposals are recorded in the application chapter
-(\FeelppAppRef{sec:app:specs:proposed}{app-proposed}).
+\input{software/feelpp/application-catalogue}
 
 \paragraph{Work-package coverage.}
 The catalogue maps \Feelpp to the following topics. Benchmark results should be
@@ -148,6 +187,28 @@ consulted in the corresponding application and WP contributions.
   \FrameworkWorkPackageRows
 \end{FicheMetadataTable}
 \noindent\textbf{Bottlenecks roadmap.} \FrameworkBottlenecks.
+
+\subsection{Development priorities for 2027}
+\label{sec:Feelpp:problem-api-2027}
+\paragraph{Tangent and adjoint problems.}
+Work in early 2027 will extend the initial differentiation experiments to
+tangent and adjoint problems. For a residual $R(u,\mu)=0$, the tangent
+equation $D_uR\,\delta u=-D_\mu R\,\delta\mu$ gives the response to a
+parameter perturbation. The adjoint equation $(D_uR)^*z=D_uJ$ provides
+the state-dependent part of the sensitivity of a quantity of interest $J$.
+Deriving these forms from the retained problem description will let them
+use the same assembly and solver interfaces as the original problem.
+
+\paragraph{GPU execution and deployment.}
+The next step is to extend the Gaya verification case to multiple MPI
+ranks and AMD accelerators using a Spack environment that combines
+Kokkos/HIP with GPU-enabled PETSc. This work covers distributed finite-element
+assembly, exchange of ghost values between ranks and solver data kept on
+the device. The Problem API provides the same variational specification
+for comparing CPU and hybrid execution. The planned HiFiMagnet forward
+benchmark on Adastra's AMD MI300A nodes will compare time to solution at
+fixed numerical accuracy, with timings for assembly, the solver and
+host--device transfers (\cref{sec:app:specs:app-feelpp-mi300a-fem}).
 
 \subsection{Relevant publications}
 \label{sec:Feelpp:publications}
