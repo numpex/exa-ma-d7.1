@@ -208,10 +208,11 @@ def build(root=ROOT, ids=None, ref='local-uncommitted-review', revision=None, jo
     def build_one(key):
         print(f'Building {key}: framework + {len(catalogue[key])} application(s)', flush=True)
         job = f'exa-ma-framework-{key}'
-        command = flags + ['-outdir=output/pdf/frameworks', f'-jobname={job}']
+        # Compile in the source directory so minted 2 can find its Pygments input.
+        command = flags + [f'-jobname={job}']
         entry = f'standalone/frameworks/{key}.tex'
         run(command + [entry], output / f'{key}-build.log')
-        aux = output / f'{job}.aux'
+        aux = root / f'{job}.aux'
         # First pass identifies every label actually defined by the reused scientific sources.
         reference = output / f'{key}-references.aux'
         filtered = external_labels(report_aux, aux.read_text())
@@ -221,13 +222,16 @@ def build(root=ROOT, ids=None, ref='local-uncommitted-review', revision=None, jo
         relative = reference.relative_to(root).with_suffix('').as_posix()
         # latexmk does not notice a changed -usepretex value by itself. Force
         # the external-label pass after an unresolved first pass or new labels.
-        initial_log = (output / f'{job}.log').read_text(errors='replace')
+        initial_log = (root / f'{job}.log').read_text(errors='replace')
         force = ['-g'] if changed or build_issues(initial_log) else []
         run(command + force + [r'-usepretex=\def\FrameworkReferenceAux{' + relative + '}', entry],
             output / f'{key}-build.log')
-        log = (output / f'{job}.log').read_text(errors='replace')
+        log = (root / f'{job}.log').read_text(errors='replace')
         if issues := build_issues(log):
             raise ValueError(f'Invalid PDF diagnostics: {key}; inspect {job}.log\n' + '\n'.join(issues))
+        for extension in ('pdf', 'fls', 'log'):
+            name = f'{job}.{extension}'
+            shutil.copy2(root / name, output / name)
         print(f'Completed {key}', flush=True)
 
     with ThreadPoolExecutor(max_workers=jobs) as executor:

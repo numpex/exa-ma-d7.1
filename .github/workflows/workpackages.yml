@@ -60,4 +60,5 @@ jobs:
           path: |
             output/pdf/workpackages/*.log
             exa-ma-deliverables.log
+            exa-ma-wp*.log
           if-no-files-found: warn

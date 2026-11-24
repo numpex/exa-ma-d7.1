@@ -98,19 +98,23 @@ def build(root=ROOT, wps=range(1, 8), ref='local-review', jobs=1):
         print(f'Building WP{wp}: discovering local labels', flush=True)
         job = f'exa-ma-wp{wp}'
         entry = f'standalone-wp{wp}.tex'
-        command = flags + ['-outdir=output/pdf/workpackages', f'-jobname={job}', '-g']
+        # Compile in the source directory so minted 2 can find its Pygments input.
+        command = flags + [f'-jobname={job}', '-g']
         # Disable any previous import: a label removed from this WP must become
         # external again, and a newly local label must no longer be imported.
         run(command + [r'-usepretex=\def\WPReferenceAux{}', entry], root,
             output / f'wp{wp}-local-build.log')
-        local = read_labels(output / f'{job}.aux')
+        local = read_labels(root / f'{job}.aux')
         reference = output / f'wp{wp}-references.aux'
         reference.write_text(external_labels(report, local))
         # xr-hyper's explicit PDF target is relative to the distributed WP PDF.
         relative = reference.relative_to(root).with_suffix('').as_posix()
         run(command + [r'-usepretex=\def\WPReferenceAux{' + relative + '}', entry], root,
             output / f'wp{wp}-build.log')
-        check_log(output / f'{job}.log')
+        check_log(root / f'{job}.log')
+        for extension in ('pdf', 'fls', 'log'):
+            name = f'{job}.{extension}'
+            shutil.copy2(root / name, output / name)
         print(f'WP{wp}: references and citations resolved', flush=True)
         return {'pdf': f'{job}.pdf', 'entry_point': entry,
                 'local_label_count': len(LABEL.findall(local)),
