@@ -62,6 +62,7 @@ def selected(changed, catalogue):
               or name in {'defs.tex', 'references.bib', 'pyproject.toml', 'gen.py',
                           'scripts/framework_previews.py', 'tests/test_gen.py',
                           'scripts/framework_portfolios.py', 'tests/test_framework_portfolios.py',
+                          'scripts/workpackage_previews.py',
                           'scripts/framework_publication.py', 'tests/test_framework_publication.py',
                           'tests/test_framework_previews.py', 'tests/test_sync_frameworks.py',
                           'scripts/generate_fiche_identities.py', 'scripts/sync_frameworks.py',

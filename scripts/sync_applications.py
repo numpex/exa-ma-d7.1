@@ -109,6 +109,8 @@ def plan(root, snapshot, metadata_ids, standalone=False):
             "Sheet metrics missing": "metrics",
             "Sheet repository URL missing": "repo_url",
             "Sheet specification URL missing": "tex_url",
+            "Sheet repo_url missing": "repo_url",
+            "Sheet tex_url missing": "tex_url",
         }
         item["discrepancies"] = "; ".join(
             note for note in item["discrepancies"].split("; ")
@@ -210,6 +212,15 @@ def plan(root, snapshot, metadata_ids, standalone=False):
     for app_id in requested_metadata:
         path = root / f"chapters/applications/metadata/{app_id}.tex"
         protected_output(changes, path, metadata(by_app[app_id]))
+    navigation_path = root / "chapters/framework-application-map.tex"
+    if (root / "chapters/software.tex").exists():
+        try:
+            from .framework_application_map import MARKER, render
+        except ImportError:
+            from framework_application_map import MARKER, render
+        if navigation_path.exists() and not navigation_path.read_text().startswith(MARKER):
+            raise ValueError(f"Refusing to overwrite authored content: {navigation_path}")
+        changes[navigation_path] = render(root, applications=sheet, reconciliation=rows)
     return changes
 
 
@@ -227,15 +238,6 @@ def main():
         if not args.check:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(changes[path])
-    # Navigation uses the same snapshots and reconciled fiche paths.
-    try:
-        from .framework_application_map import sync as sync_navigation
-    except ImportError:
-        from framework_application_map import sync as sync_navigation
-    navigation_stale = sync_navigation(ROOT, check=args.check)
-    if navigation_stale:
-        print(("Stale: " if args.check else "Updating: ") + "chapters/framework-application-map.tex")
-    stale = stale or navigation_stale
     if args.check and stale:
         raise SystemExit(1)
 

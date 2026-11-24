@@ -20,6 +20,7 @@ on:
       - tests/test_feelpp_catalogue.py
       - data/feelpp-mesh-catalogue.json
       - scripts/framework_portfolios.py
+      - scripts/workpackage_previews.py
       - tests/test_framework_portfolios.py
       - scripts/framework_publication.py
       - tests/test_framework_publication.py
@@ -114,9 +115,28 @@ jobs:
           --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4'
           --with pytest python -m pytest tests/test_feelpp_catalogue.py tests/test_gen.py tests/test_sync_frameworks.py tests/test_framework_previews.py tests/test_framework_portfolios.py tests/test_framework_publication.py tests/test_fiche_identities.py -q
 
+  companion:
+    name: Build companion report and labels
+    needs: [select, generator]
+    if: needs.select.outputs.count != '0'
+    runs-on: [self-hosted, self-texlive]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python scripts/framework_portfolios.py --build-companion output/pdf/framework-companion
+      - uses: actions/upload-artifact@v4
+        with:
+          name: framework-companion-report
+          path: |
+            output/pdf/framework-companion/exa-ma-deliverables.pdf
+            output/pdf/framework-companion/report-labels.aux
+          if-no-files-found: error
+
   preview:
     name: Build ${{ matrix.id }} framework fiche
-    needs: [select, generator]
+    needs: [select, companion]
     if: needs.select.outputs.count != '0'
     runs-on: [self-hosted, self-texlive]
     strategy:
@@ -128,6 +148,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/download-artifact@v4
+        with:
+          name: framework-companion-report
+          path: output/pdf/framework-companion
       - name: Record report version and source revision
         env:
           BUILD_REF: ${{ needs.select.outputs.suffix }}
@@ -141,6 +165,7 @@ jobs:
         run: >-
           python scripts/framework_portfolios.py --build --framework "$FRAMEWORK"
           --ref "$BUILD_REF" --revision "$SOURCE_REVISION"
+          --companion-dir output/pdf/framework-companion
       - name: Name review PDF
         env:
           FRAMEWORK: ${{ matrix.id }}

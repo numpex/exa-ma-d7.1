@@ -4,13 +4,15 @@
   % In a standalone composition, attach it to this application's heading,
   % rather than the preceding application or the unnumbered identity panel.
   \let\StandaloneOriginalLabel\label
-  \let\StandaloneOriginalHeading\ApplicationFicheHeading
+  \let\StandaloneOriginalSection\section
   \def\StandalonePendingLabels{}
   \renewcommand{\label}[1]{%
     \appto\StandalonePendingLabels{\StandaloneOriginalLabel{#1}}}
-  \renewcommand{\ApplicationFicheHeading}[1]{%
+  \RenewDocumentCommand{\section}{s o m}{%
+    \let\section\StandaloneOriginalSection
     \let\label\StandaloneOriginalLabel
-    \StandaloneOriginalHeading{#1}%
+    \IfBooleanTF{#1}{\section*{#3}}{%
+      \IfNoValueTF{#2}{\section{#3}}{\section[#2]{#3}}}%
     \StandalonePendingLabels}
   \IfFileExists{chapters/applications/specs/\ApplicationSpec.tex}{%
     \import{chapters/applications/specs/}{\ApplicationSpec}}{%

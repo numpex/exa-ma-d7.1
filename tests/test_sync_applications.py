@@ -78,13 +78,14 @@ class CatalogueRefreshTests(unittest.TestCase):
             record = next(r for r in rows if r["application_id"] == "app-feelpp-toolbox")
             record["discrepancies"] = ("Sheet framework missing; Sheet operational status missing; "
                 "Sheet benchmark scope missing; Sheet metrics missing; Sheet repository URL missing; "
+                "Sheet repo_url missing; Sheet specification URL missing; Sheet tex_url missing; "
                 "Contributor benchmark evidence pending")
             path.write_text(sync.csv_text(fields, rows))
             snapshot = root / "data/applications.csv"
             app_fields, apps = sync.read_csv(ROOT / "data/applications.csv")
             app = next(r for r in apps if r["id"] == "app-feelpp-toolbox")
             app.update(Framework="Feel++", status="benchmark-ready",
-                       metrics="time-to-solution", repo_url="")
+                       metrics="time-to-solution", repo_url="", tex_url="https://example.org/fiche")
             app["Benchmark scope"] = "multi-node"
             snapshot.write_text(sync.csv_text(app_fields, apps))
             changes = sync.plan(root, snapshot, [])
@@ -92,7 +93,13 @@ class CatalogueRefreshTests(unittest.TestCase):
             result = next(r for r in csv.DictReader(io.StringIO(changes[path]))
                           if r["application_id"] == "app-feelpp-toolbox")
             self.assertEqual(result["discrepancies"],
-                             "Sheet repository URL missing; Contributor benchmark evidence pending")
+                             "Sheet repository URL missing; Sheet repo_url missing; Contributor benchmark evidence pending")
+            app["repo_url"] = "https://example.org/repository"
+            snapshot.write_text(sync.csv_text(app_fields, apps))
+            changes = sync.plan(root, snapshot, [])
+            result = next(r for r in csv.DictReader(io.StringIO(changes[path]))
+                          if r["application_id"] == "app-feelpp-toolbox")
+            self.assertEqual(result["discrepancies"], "Contributor benchmark evidence pending")
 
     def test_every_application_has_a_protected_preview(self):
         with tempfile.TemporaryDirectory() as directory:

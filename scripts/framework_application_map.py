@@ -51,10 +51,12 @@ def application_label(root, app, reconciled):
     raise ValueError(f"No application navigation label for {app['id']}: {source}")
 
 
-def render(root=ROOT):
+def render(root=ROOT, *, applications=None, reconciliation=None):
     _, framework_rows = read_csv(root / 'data/frameworks.csv')
-    _, applications = read_csv(root / 'data/applications.csv')
-    _, reconciliation = read_csv(root / 'data/application-reconciliation-v3.csv')
+    if applications is None:
+        _, applications = read_csv(root / 'data/applications.csv')
+    if reconciliation is None:
+        _, reconciliation = read_csv(root / 'data/application-reconciliation-v3.csv')
     flags = publication_flags(root)
     by_id = {framework_id(row['Name']): row for row in framework_rows}
     names = {row['Name'].strip().casefold(): key for key, row in by_id.items()}

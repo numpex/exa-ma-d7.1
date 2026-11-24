@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from scripts import framework_application_map as mapping
+from scripts import sync_applications
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -56,6 +57,29 @@ class FrameworkApplicationMapTests(unittest.TestCase):
             self.assertIn(r'\hyperref[chap:wp6]', row)
             self.assertIn('Concept', row)
             self.assertEqual(source.read_bytes(), before)
+
+    def test_sync_plans_navigation_from_the_selected_snapshot(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = self.fixture(directory)
+            for file in ('data/benchmark-registry-v3.csv', 'chapters/applications/registry.tex',
+                         'chapters/applications/cross-wp-matrix.tex', 'chapters/applications/benchmark-index.tex'):
+                shutil.copyfile(ROOT / file, root / file)
+            snapshot = root / 'data/new-applications.csv'
+            shutil.copyfile(root / 'data/applications.csv', snapshot)
+
+            def change(rows):
+                app = next(row for row in rows if row['id'] == 'app-feelpp-distance')
+                app.update(Framework='Uranie', work_package='WP6', status='brainstorming',
+                           name='Alternate snapshot title')
+
+            self.update(root, snapshot.name, change)
+            planned = sync_applications.plan(root, snapshot, [])
+            row = next(line for line in planned[root / mapping.TARGET].splitlines()
+                       if 'Alternate snapshot title' in line)
+            self.assertIn(r'\hyperref[sec:Uranie:software]', row)
+            self.assertIn(r'\hyperref[chap:wp6]', row)
+            self.assertIn('Concept', row)
+            self.assertNotIn('Alternate snapshot title', mapping.render(root))
 
     def test_disabled_framework_is_removed_and_reactivation_restores_it(self):
         with tempfile.TemporaryDirectory() as directory:
