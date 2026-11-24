@@ -54,6 +54,19 @@
 % Prepared by scripts/workpackage_previews.py. Only nonlocal labels are imported.
 \providecommand{\WPReferenceAux}{output/pdf/workpackages/wp\WPNumber-references}
 \providecommand{\WPReportPDF}{exa-ma-deliverables.pdf}
+% xr-hyper appends a PDF destination to every imported label. cleveref's
+% @cref labels use only the first two fields for number and page formatting.
+% The regular label still provides the destination for the hyperlink.
+\makeatletter
+\def\wp@cref@extract#1#2#3{%
+  \expandafter\let\expandafter\wp@cref@fields\csname r@#2@cref\endcsname
+  \expandafter#1\wp@cref@fields\@nil#3%
+}
+\def\wp@cref@number#1#2\@nil#3{\def#3{#1}}
+\def\wp@cref@page#1#2#3\@nil#4{\def#4{#2}}
+\def\cref@getref{\wp@cref@extract\wp@cref@number}
+\def\cpageref@getref{\wp@cref@extract\wp@cref@page}
+\makeatother
 \ifx\WPReferenceAux\empty\else
   \IfFileExists{\WPReferenceAux.aux}{%
     \externaldocument[][nocite]{\WPReferenceAux}[\WPReportPDF]%
