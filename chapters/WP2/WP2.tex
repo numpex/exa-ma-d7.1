@@ -1,20 +1,8 @@
 
-% D7.1 V3 / v2.90.0 -- WP2 CONTRIBUTION
-%
-% Inherited v2 content is a starting point. Review, validate, update or remove it;
-% identify 2026 advances; separate them from earlier results; link advances to
-% software, applications and benchmarks; provide versions, configurations,
-% references and evidence; and flag missing mappings instead of inventing them.
 
 \section{Objectives \& Context}
 
-\WPUpdateNote{Review the  inherited scope  and task  descriptions, and
-  update the 2026 priorities and Exa-MA bottlenecks.  Identify earlier
-  material by year when it is retained as context.}
 
-% • Which Exa-MA bottlenecks (B#) WP2 addresses
-% • Relation to overall strategy (surrogate modeling, physics-informed ML)
-% • List of key tasks T2.1–T2.6
 
 WP2 is concerned  with the development of model  order reduction (MOR)
 methods,  fast  surrogate  solvers, and  Scientific  Machine  Learning
@@ -94,11 +82,7 @@ In practice, WP2 comprises the following tasks:
 \section{Main advances in 2026}
 \label{sec:wp2-main-advances-2026}
 
-\WPUpdateNote{Complete one  record for  each main 2026  advance.  Keep
-  the advance,  application and  benchmark identifiers stable  so that
-  contributions can be compared across annual reports.}
 
-% Duplicate this record for each other main 2026 WP2 advance (WP2-A2026-2, ...).
 \begin{WPAdvanceRecord}{WP2-A2026-1}
 Exa-MA task and bottleneck & T2.1 (physics-driven DL), T2.2 (neural operators); B7 Exascale Algorithms, B10 Scientific Productivity \\
 Concise description of the 2026 advance & Rewrite of Scimba in JAX, extended with a differentiable classical discretisation layer (continuous and discontinuous Galerkin, finite volumes, isogeometric B-splines on mapped, block-structured and unstructured meshes; matrix-free solvers, preconditioners, multigrid) and hybrid methods (DG schemes with learned basis or mapping, inverse problems solved through the solver). Baseline (2024--2025): PyTorch library (PINNs, neural Galerkin) and a DG prototype just started on Cartesian meshes. \\
@@ -106,7 +90,7 @@ Responsible contributors and institutions & Emmanuel Franck, Victor Michel-Dansa
 Implementing software & Scimba, module \texttt{scimba\_jax}; \href{https://gitlab.com/scimba/scimba}{gitlab.com/scimba/scimba} (same repository as the PyTorch version) \\
 Software release, commit or PR & Version 1.4.0, tag \href{https://gitlab.com/scimba/scimba/-/tags/v1.4.0}{\texttt{v1.4.0}} (commit \href{https://gitlab.com/scimba/scimba/-/commit/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b}{\texttt{1ab96a32}}, 9 October 2026); \texttt{scimba\_jax} first released in beta in version 1.3.0 (20 March 2026) \\
 Associated application ID & \texttt{app-scimba-hybrid} (Section~\ref{sec:app:specs:app-scimba-hybrid}); \texttt{app-scimba-plasma} (Section~\ref{sec:app:specs:app-scimba-plasma}), through the Vlasov--Poisson bump-on-tail example, which couples the JAX neural semi-Lagrangian method with an FFT, PINN or FE Poisson solver \\
-Associated benchmark ID & No BM identifier yet; covered by the Scimba benchmark families \texttt{dg\_convergence}, \texttt{fem\_convergence}, \texttt{dg\_learned\_basis}, \texttt{kernel\_learned\_basis} and \texttt{inverse\_reaction} \\
+Associated benchmark ID & Scimba regression families \texttt{dg\_convergence}, \texttt{fem\_convergence}, \texttt{dg\_learned\_basis}, \texttt{kernel\_learned\_basis} and \texttt{inverse\_reaction}. Plasma case: \nolinkurl{BM-SCIMBA-PLASMA-01} (proposed) \\
 Scientific or numerical result & Benchmarks of version 1.4.0 (commit \texttt{81f550dd}), relative $L^2$ errors against exact solutions.
 \emph{Convergence:} on the Laplacian in 1D and 2D, DG-SIPG with a Lagrange basis of degree $p = 1, 2, 3$ reaches the optimal order $p+1$ (observed orders within $0.02$ of it); conforming Lagrange, B-spline, Nédélec and Raviart--Thomas elements reach their expected orders.
 \emph{Multigrid:} for degree-2 DG and FE on seven 2D geometries (square, mapped, unstructured and multi-patch disks), going from about $10^4$ to $4 \times 10^4$ DOFs leaves the Krylov iteration count with a multigrid preconditioner and cellwise Schwarz smoother between 6 and 11 (DG) and between 2 and 4 (FE), while it roughly doubles with Jacobi (from 574--1279 to 1144--2426 for DG). For Helmholtz at $k = 100$ (51\,842 DOFs), BiCGSTAB fails alone and converges in 29 iterations with a two-level shifted-Laplacian multigrid.
@@ -134,7 +118,7 @@ on request (\texttt{remy.hosseinkhan@polytechnique.edu}) \\
 Software release, commit or PR & No public release. Snapshot: commit
 \texttt{883fa02} (6 October 2026) \\
 Associated application ID & \texttt{app-kinetic-moment-closure} \\
-Associated benchmark ID & No mapping yet \\
+Associated benchmark ID & \nolinkurl{BM-KINETIC-CLOSURE-01} (proposed registry entry) \\
 Scientific or numerical result & The attainable reduction of the closure error
 is bounded by the flux values that the regularised family attains. The flux
 Jacobian of the fitted closure depends on the gradient of the parameter field,
@@ -176,7 +160,7 @@ Implementing software & Research repository (PyTorch), access on request
 Software release, commit or PR & No public release. Snapshot: commit
 \texttt{c773a46} (29 September 2026) \\
 Associated application ID & \texttt{app-parabolic-terminal-constraint} \\
-Associated benchmark ID & No mapping yet \\
+Associated benchmark ID & \nolinkurl{BM-PARABOLIC-TERMINAL-01} (proposed registry entry) \\
 Scientific or numerical result & Extensions built from the semigroup of the
 principal part of the operator reduce the source term to its lower-order part,
 which is square-integrable under explicit conditions on the regularity of the
@@ -205,18 +189,15 @@ Software release, commit or PR & \href{https://github.com/feelpp/nonlinearrb}{No
 Associated application ID & \texttt{app-feelpp-nlcrb} \\
 Associated benchmark ID & \texttt{BM-FEEL-NLCRB-01} \\
 Scientific or numerical result & Local sensing dimension equals the intrinsic solution-manifold dimension under the stated regularity assumptions; it equals the parameter dimension when the parameter-to-solution map is an immersion. NLCRBM++ separates parameter-based regression from the resolved Galerkin unknowns and separates reduced-basis and regression errors \\
-Performance or scalability result & No additional timing or scalability measurements reported \\
+Performance or scalability result & The native DG-P0 Burgers reference in 3D completed 500 time steps with $46\,875\,000$ degrees of freedom on 256 MPI ranks across two CPU nodes. In 2D, the Galerkin--ECSW solve took 2.84~s at a relative trajectory error of 1.008\% \\
 References and supporting data & Taylor-based article \cite{hal_05466017}; companion article \emph{Combined Galerkin and Regression Based Algorithm For Parameter Dependent PDE's} \cite{hal_05143191}, H.~Ballout, Y.~Maday and C.~Prud'homme, \href{https://github.com/feelpp/article.nlrcb.siam}{article sources}; \href{https://github.com/feelpp/nonlinearrb}{software and examples} \\
-Maturity & Method analysis with nonlinear reduced-order implementations and verification examples \\
+Maturity & Method analysis and nonlinear reduced-order implementations, with measured full-order and hyper-reduction baselines on Gaya \\
 Limitations and next step & The Taylor-based sensing result is local; wider parameter ranges can require more resolved coordinates or richer recovery maps. Comparisons must retain the same full-order discretization and distinguish basis, regression and hyper-reduction errors \\
 Cross-WP contribution or dependency & WP1: full-order finite-element/discontinuous-Galerkin models; WP7: Feel++ implementation and verification workflows \\
 \end{WPAdvanceRecord}
 
 \section{Scientific Advances}
 
-\WPUpdateNote{Update the inherited advances with the work performed in
-  2026.  Separate  new achievements  from the 2024--2025  baseline and
-  cite the corresponding annual advance records.}
 
 % • Advance 1 (T2.1): …
 % • Advance 2 (T2.2): …
@@ -391,6 +372,20 @@ During the reporting period, we have progressed on the following tasks:
   workflows are described separately in
   \Cref{sec:Feelpp:implementation-2026:nlrb}.
 
+  \paragraph{Burgers reference problems and reduction benchmarks.}
+  The native Feel++ benchmark shares DG-P0 cell and face evaluators
+  across one, two and three dimensions. These evaluators provide the
+  full-order residual and Jacobian and allow the reduced models to
+  evaluate weighted contributions on selected cells. The 3D run on
+  Gaya completed 500 time steps on a $250^3$ mesh across two CPU nodes.
+  In 2D, the rank-100 POD-Galerkin reference and the Galerkin--ECSW
+  model were compared on a held-out parameter. Weighting 300 cells
+  reduced the serial nonlinear-solve time from 477.63~s to 2.84~s,
+  with relative trajectory errors of 0.984\% and 1.008\%, respectively.
+  The projection and hyper-reduction results provide baselines for
+  assessing the cost and accuracy of reconstructing unresolved
+  coefficients in NLCRB (\cref{sec:app:specs:app-feelpp-nlcrb}).
+
 \item[T2.5]  First, we  note that  T2.5  has not  yet received  NumPEx
   funding. However, we have proposed  new approaches based on coupling
   with NNs.  In  the framework of a collaboration  between the MACARON
@@ -410,9 +405,6 @@ reporting period.
 
 \section{Application Showcase}
 
-\WPUpdateNote{Confirm  the application  IDs and  maturity below,  link
-  each reported  result to an  annual advance and benchmark,  and flag
-  missing mappings explicitly.}
 
 \paragraph{Applications mapping.}
 \begin{itemize}
@@ -432,9 +424,10 @@ reporting period.
     \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/time_discrete_neural_methods/neural_sl/advanced_examples/vlasov_poisson_1d_1v_bump_on_tail.py}{Vlasov--Poisson
     bump-on-tail example} in which the Poisson equation is solved by an
     FFT, a PINN or the new FE solver.
-  \item   Reduced    basis   thermal   fin    (Feel++,   demonstrator,
-    benchmark-ready): Section~\ref{sec:app:specs:app-feelpp-rb}.
-  \item Nonlinear compressive RB (Feel++/nonlinearrb, implemented reduced-model workflows; benchmark campaign not reported):
+  \item Eye2Brain reduced basis (Feel++, launch configuration available):
+    Section~\ref{sec:app:specs:app-feelpp-rb}.
+  \item Nonlinear compressive RB (Feel++/nonlinearrb, with Burgers
+    reference and hyper-reduction results on Gaya):
     Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
 \end{itemize}
 
@@ -488,8 +481,6 @@ or with parametric dependencies.
 
 \section{Software Framework Contributions}
 
-\WPUpdateNote{Update releases,  commits or  PRs delivered in  2026 and
-  retain older software descriptions only as dated context.}
 
 % • PINN frameworks: …
 % • Neural Operators: …
@@ -498,8 +489,6 @@ or with parametric dependencies.
 
 \subsection{Main Software Framework: Scimba and Feel++}
 
-\WPUpdateNote{Update the Scimba and Feel++ contributions, versions and
-  supporting evidence for 2026.}
 
 Scimba is a  SciML library organised around a  single unifying notion:
 the  approximation  space.  The  same  interface  describes  a  neural
@@ -568,8 +557,6 @@ and in a purely discrete, data-driven form.
 
 \subsection{Additional Software Framework}
 
-\WPUpdateNote{Update this subsection only for additional software that
-  supported an identified 2026 advance.}
 
 \paragraph{Frameworks mapping.}
 \begin{itemize}
@@ -579,13 +566,7 @@ and in a purely discrete, data-driven form.
 
 \section{Preliminary Benchmarks \& Trends}
 
-\WPUpdateNote{Replace planned  or expected results with  measured 2026
-  values  only  when  the  configuration, baseline  and  evidence  are
-  available.}
 
-% • Surrogate model speedups placeholder
-% • Error vs.\ basis size placeholder
-% • Regression test pass-rate placeholder
 
 The  studies  conducted in  T2.1  to  T2.5  are  all in  progress  and
 preliminary results are  available only for validation  purpose of the
@@ -608,8 +589,6 @@ novel methodologies under development.
 
 \section{Roadmap \& Next Steps}
 
-\WPUpdateNote{Update  the remaining  limitations and  2027 next  steps
-  after the 2026 advances and benchmark evidence have been validated.}
 
 % • Deliverables D2.x to complete by Mxx
 % • New apps to integrate into WP7 CI/CD

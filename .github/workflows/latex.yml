@@ -103,6 +103,9 @@ jobs:
           uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_fiche_identities.py -q
           uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_release.py -q
           uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py --check
+          uv run --no-project --python 3.11 python scripts/framework_publication.py --check
+          uv run --no-project --python 3.11 python -m unittest discover -s tests -p test_framework_application_map.py -q
+          uv run --no-project --python 3.11 python scripts/framework_application_map.py --check
           uv run --no-project --python 3.11 python scripts/release.py check
 
       - name: Verify publication tag matches the deliverable version
@@ -384,8 +387,15 @@ jobs:
     permissions:
       contents: read
 
+  workpackage_contributions:
+    name: Release work package contributions
+    if: startsWith(github.ref, 'refs/tags/v')
+    uses: ./.github/workflows/workpackages.yml
+    permissions:
+      contents: read
+
   release:
-    needs: [workflow-setup,build_latex, check, framework_fiches]
+    needs: [workflow-setup,build_latex, check, framework_fiches, workpackage_contributions]
     runs-on: ${{ needs.workflow-setup.outputs.runner }}
     name: Create Release
     if: startsWith(github.ref, 'refs/tags/v')
@@ -401,6 +411,12 @@ jobs:
         with:
           name: framework-release-archive
           path: framework-release
+
+      - name: Download work package contribution archive
+        uses: actions/download-artifact@v4
+        with:
+          name: workpackage-release-archive
+          path: workpackage-release
 
       - name: Archive Article
         run: |
@@ -441,6 +457,7 @@ jobs:
             artifact/${{ needs.workflow-setup.outputs.prefixwithref }}.pdf
             ${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz
             framework-release/exa-ma-frameworks-${{ github.ref_name }}.zip
+            workpackage-release/exa-ma-workpackages-${{ github.ref_name }}.zip
 
       - name: Generate release summary
         if: always()

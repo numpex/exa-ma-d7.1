@@ -54,11 +54,45 @@ class CatalogueRefreshTests(unittest.TestCase):
                 sync.plan(ROOT, snapshot, [])
         self.assertEqual(sync.tex("50% & a_b #1"), r"50\% \& a\_b \#1")
 
-    def test_missing_field_context_does_not_change_note_text(self):
-        output = sync.metadata({"id": "app-samurai-cwipi"})
-        self.assertIn(r"\todo[app-samurai-cwipi / WP7 Engineer]{Sheet field missing.}", output)
-        self.assertIn(r"\todo[app-samurai-cwipi / repo\_url]{Sheet field missing.}", output)
-        self.assertNotIn(r"\todo{Sheet field missing.}", output)
+    def test_metadata_shows_reported_fields_without_empty_rows(self):
+        output = sync.metadata({
+            "id": "app-samurai-cwipi", "Framework": "Samurai, PETSc",
+            "WP7 Engineer": "  ", "repo_url": "",
+        })
+        self.assertIn(r"Framework & Samurai, PETSc \\", output)
+        self.assertNotIn("WP7 Engineer", output)
+        self.assertNotIn(r"repo\_url", output)
+        self.assertNotIn(r"\todo", output)
+
+    def test_refresh_removes_only_resolved_missing_field_observations(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for filename in ["data/application-reconciliation-v3.csv", "data/benchmark-registry-v3.csv",
+                             "chapters/applications/registry.tex", "chapters/applications/cross-wp-matrix.tex",
+                             "chapters/applications/benchmark-index.tex"]:
+                target = root / filename
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(ROOT / filename, target)
+            path = root / "data/application-reconciliation-v3.csv"
+            fields, rows = sync.read_csv(path)
+            record = next(r for r in rows if r["application_id"] == "app-feelpp-toolbox")
+            record["discrepancies"] = ("Sheet framework missing; Sheet operational status missing; "
+                "Sheet benchmark scope missing; Sheet metrics missing; Sheet repository URL missing; "
+                "Contributor benchmark evidence pending")
+            path.write_text(sync.csv_text(fields, rows))
+            snapshot = root / "data/applications.csv"
+            app_fields, apps = sync.read_csv(ROOT / "data/applications.csv")
+            app = next(r for r in apps if r["id"] == "app-feelpp-toolbox")
+            app.update(Framework="Feel++", status="benchmark-ready",
+                       metrics="time-to-solution", repo_url="")
+            app["Benchmark scope"] = "multi-node"
+            snapshot.write_text(sync.csv_text(app_fields, apps))
+            changes = sync.plan(root, snapshot, [])
+            import csv, io
+            result = next(r for r in csv.DictReader(io.StringIO(changes[path]))
+                          if r["application_id"] == "app-feelpp-toolbox")
+            self.assertEqual(result["discrepancies"],
+                             "Sheet repository URL missing; Contributor benchmark evidence pending")
 
     def test_every_application_has_a_protected_preview(self):
         with tempfile.TemporaryDirectory() as directory:

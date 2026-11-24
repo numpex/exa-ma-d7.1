@@ -2,150 +2,105 @@
 \chapter{Training and Capacity Building (D7.3)}
 \label{chap:training}
 
-\section{Mandate and integration of D7.3}
-This chapter integrates Deliverable D7.3, \emph{Training}, v1.0.0, submitted on
-15 April 2025, into the Exa-MA mega-deliverable. D7.3 documented
-the initial Exa-MA strategy, academic-program survey, 2024 initiatives,
-software-training inventory and roadmap for WP7 Task 7.4. The submitted
-deliverable is available at
-\href{https://drive.google.com/file/d/1d4AKTGNbD74n90d5RESHytOr-M56sFIm}{exa-ma-d7.3-v1.0.0.pdf}.
+The \href{https://drive.google.com/file/d/1d4AKTGNbD74n90d5RESHytOr-M56sFIm}{April 2025 edition of D7.3}
+surveyed Master's programmes and described student projects, internships and
+training activities in 2024. This chapter records subsequent courses and
+software sessions linked to Exa-MA.
 
-The v2.96.0 integration draft consolidates rather than reproduces the entire
-48-page D7.3. It retains traceability, records what is actually evidenced, and
-creates the structure in which WP7 and software owners must report changes since
-the version submitted in D7.3.
-Plans from D7.3 are never counted as completed activities without dated evidence.
+\section{Courses, workshops and software sessions}
 
-\section{Training strategy and target audiences}
-D7.3 defined five audiences: undergraduate and Master's students, doctoral
-researchers, HPC engineers and developers, industrial R\&D teams, and academic
-or research institutions.  The delivery portfolio combines courses, tutorials,
-workshops, schools, webinars, projects, internships, documentation and notebooks.
-For v3, each resource should state prerequisite level and connect practical work
-to a versioned Exa-MA software, application or benchmark whenever applicable.
+WP7 and HiDALGO2 ran a course on containerization, CI/CD and benchmarking in
+March 2025. In November, Mark Asch taught Bayesian inversion at Inria
+Makutu, and a hands-on course used Ktirio Urban Building to teach
+energy simulation at building and city scales. In January 2026, WP1 and WP7
+returned to the same demonstrator in a webinar on built environments.
+\Cref{sec:pc5:ktirio-urban-building} describes the underlying workflow.
 
-\section{Master's and doctoral education connected to Exa-MA}
-D7.3 surveyed programmes at the University of Strasbourg,
-Grenoble INP/UGA, Nantes Universit\'e, Toulouse INP, Universit\'e Paris-Saclay,
-Universit\'e de Lille and UPPA, and documented 2024 student projects and
-internships. These records describe what was reported in D7.3; they are not
-evidence that the same
-courses or projects ran in 2025--2026.
+The June 2026 MAJSC workshop in Strasbourg paired lectures on automatic
+differentiation with practical work in JAX. The programme included
+differentiable Galerkin methods and numerical linear algebra,
+neural methods for PDEs, and optimal control and inversion with Diffrax.
+The \href{https://gitlab.math.unistra.fr/majsc2026/hands-on}{practical materials}
+remain available.
 
-\todo{WP7 Task 7.4 owner: validate the current programme list; for each 2025--2026
-course, project, internship or doctoral school provide dates, organizer, WP and
-software/application mapping, participant count, materials, outcomes and evidence.}
+In June, Exa-MA also held four software exchanges with the HPDDM/PETSc,
+TRUST, FreeFEM++ and Samurai teams. The sessions addressed GPU
+preconditioners, Kokkos porting, finite-element solver interfaces and
+adaptive mesh refinement. \Cref{tab:v3-training-initiatives} links the
+programmes and recordings.
 
-\section{Schools, workshops, tutorials, hackathons and hands-on sessions}
-Only the following completed initiatives were sufficiently described in the
-sources inspected for this integration pass.  The normalized records, including
-all unknown fields, are in \nolinkurl{data/training-initiatives-v3.csv}.
-
-\begingroup
-\footnotesize
-\setlength{\tabcolsep}{2pt}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.23\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.16\textwidth}>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.10\textwidth}@{}}
-\caption{Verified historical training initiatives inherited from D7.3.}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}>{\raggedright\arraybackslash}p{0.39\textwidth}@{}}
+\caption{Selected training events and software exchanges, 2025--2026.}
 \label{tab:v3-training-initiatives}\\
 \toprule
-\textbf{Initiative ID} & \textbf{Title} & \textbf{Date/location} & \textbf{Audience/topic} & \textbf{Status} \\
+\textbf{Date} & \textbf{Activity} & \textbf{Topic}\\
 \midrule
 \endfirsthead
 \toprule
-\textbf{Initiative ID} & \textbf{Title} & \textbf{Date/location} & \textbf{Audience/topic} & \textbf{Status} \\
+\textbf{Date} & \textbf{Activity} & \textbf{Topic}\\
 \midrule
 \endhead
-\nolinkurl{TR-2024-HIDALGO2-01} & Exa-MA and HiDALGO2 Masterclass HPC & 11 Sep 2024, Strasbourg & Master/PhD; urban-energy exascale overview & completed \\
-\nolinkurl{TR-2024-WP7-WEBINAR-01} & Exa-MA WP7 Webinar & 18--19 Nov 2024, Zoom & Researchers/HPC staff; Guix-HPC, Spack and benchmark deployment & completed \\
+24--26 Mar 2025 & \href{https://www.hidalgo2.eu/training-session-containerization-ci-cd-and-benchmarking-solutions-for-hpc-university-of-strasbourg/}{Exa-MA WP7 and HiDALGO2 course} & HPC containers, continuous integration and benchmarking. The 2025 report counted 40 participants.\\
+17--19 Nov 2025 & \href{https://team.inria.fr/makutu/master-class-by-prof-mark-asch/}{Bayesian inversion masterclass} & Inverse problems and uncertainty quantification. WP4 reported about 20 participants.\\
+26--28 Nov 2025 & \href{https://www.hidalgo2.eu/hidalgo2-training-from-building-to-city-energy-simulation-with-ncc-czechia-ncc-germany/}{Ktirio Urban Building course} & Energy simulation from building to city scale.\\
+12 Jan 2026 & \href{https://exa-ma.numpex.fr/training.html}{Built environments webinar} & Ktirio Urban Building, from input data to HPC simulation and decision support.\\
+8--12 Jun 2026 & \href{https://majsc2026.pages.math.unistra.fr/program.html}{MAJSC workshop, Strasbourg} & JAX and automatic differentiation for scientific computing.\\
+22 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260622-hpddm-petsc-framework-webinar.html}{HPDDM/PETSc session} & GPU domain decomposition and candidate mini-apps.\\
+23 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260623-trust-framework-webinar.html}{TRUST session} & Kokkos porting, solver choices and links to Uranie.\\
+25 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260625-freefem-framework-webinar.html}{FreeFEM++ session} & Multiphysics, PETSc integration and mini-apps.\\
+26 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260626-samurai-framework-webinar.html}{Samurai session} & Adaptive meshes, parallelism and NumPEx benchmark plans.\\
 \bottomrule
 \end{longtable}
-\endgroup
 
-\todo{Supply the complete 2025--2026 event inventory.  Planned activities must
-retain a planned status until dated attendance/material evidence is provided.}
+\section{Software learning resources}
 
-\section{Software-specific training material}
-The D7.3 inventory contained the nine software packages below.  The live
-\emph{Frameworks} tab confirms that several documentation/training resources are
-still registered, but it does not provide dated 2025--2026 initiative or usage
-evidence.  No additional software is added in this draft.
+D7.3 identified the resources in \cref{tab:v3-training-software}.
+The \href{https://github.com/numpex/apps-feelpp}{Exa-MA Feel++ applications
+repository} also contains notebooks and launch recipes. The distance
+and I/O fiches link directly to code and configurations that can be
+used in practical work
+(\cref{sec:app:specs:app-feelpp-distance,sec:app:specs:app-feelpp-io}).
 
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.16\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}>{\raggedright\arraybackslash}p{0.41\textwidth}@{}}
-\caption{D7.3 software-training inventory and v3 validation need.}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.21\textwidth}>{\raggedright\arraybackslash}p{0.72\textwidth}@{}}
+\caption{Software learning resources identified in D7.3.}
 \label{tab:v3-training-software}\\
 \toprule
-\textbf{Software} & \textbf{Baseline resource} & \textbf{v3 status/action} \\
+\textbf{Software} & \textbf{Resource}\\
 \midrule
 \endfirsthead
 \toprule
-\textbf{Software} & \textbf{Baseline resource} & \textbf{v3 status/action} \\
+\textbf{Software} & \textbf{Resource}\\
 \midrule
 \endhead
-CGAL & \url{https://doc.cgal.org/latest/Manual/tutorials.html} & Registered tutorial resource; owner must identify 2025--2026 updates and reuse evidence. \\
-Composyx & \url{https://composyx.gitlabpages.inria.fr/composyx/} & Documentation registered; dated training initiative and outcome evidence missing. \\
-Feel++ & \url{https://docs.feelpp.org} & Documentation/initial-training resources registered; versioned 2025--2026 modules and KPI data requested. \\
-FreeFEM++ & \url{https://doc.freefem.org/introduction/index.html} & Documentation and FreeFEM Days material registered; Exa-MA-specific 2025--2026 reuse must be identified. \\
-Hawen & \url{https://ffaucher.gitlab.io/hawen-website/} & Documentation/tutorial resource registered; completion of planned GPU training is not evidenced. \\
-HPDDM & \url{https://github.com/hpddm/hpddm/blob/main/doc/cheatsheet.pdf} & Documentation/tutorial resource registered; dated initiative and participant evidence missing. \\
-pBB & \url{https://gitlab.inria.fr/jgmys/permutationbb} & Recorded in D7.3 only; current training material and initiative evidence requested. \\
-Samurai & \url{https://hpc-math-samurai.readthedocs.io/en/latest/tutorial/} & Tutorial recorded in D7.3; notebook/workshop and benchmark-training roadmap requires validation. \\
-Scimba & \url{https://gitlab.inria.fr/scimba/scimba} & D7.3 examples/documentation baseline; API rewrite and multi-GPU training plans require validation. \\
+CGAL & \href{https://doc.cgal.org/latest/Manual/tutorials.html}{CGAL tutorials}\\
+Composyx & \href{https://composyx.gitlabpages.inria.fr/composyx/}{Composyx documentation and examples}\\
+Feel++ & \href{https://docs.feelpp.org}{Feel++ documentation and tutorials}\\
+FreeFEM++ & \href{https://doc.freefem.org/introduction/index.html}{FreeFEM introduction and examples}\\
+Hawen & \href{https://ffaucher.gitlab.io/hawen-website/}{Hawen documentation}\\
+HPDDM & \href{https://github.com/hpddm/hpddm/blob/main/doc/cheatsheet.pdf}{HPDDM reference sheet}\\
+pBB & \href{https://gitlab.inria.fr/jgmys/permutationbb}{pBB repository}\\
+Samurai & \href{https://hpc-math-samurai.readthedocs.io/en/latest/tutorial/}{Samurai tutorials}\\
+Scimba & \href{https://gitlab.inria.fr/scimba/scimba}{Scimba repository and examples}\\
 \bottomrule
 \end{longtable}
 
-\section{Application- and benchmark-oriented training}
-Application training should use the IDs in \Cref{tab:v3-application-registry};
-benchmark training should use the evidence stages in
-\Cref{tab:v3-benchmark-registry}.  A training exercise must not describe a
-proposed benchmark as executable.  The inspected apps-feelpp repository provides
-notebooks and command-line recipes, including benchmark execution recipes for
-the distance and I/O applications, which supports a \emph{partially achieved}
-classification for mini-app and benchmark tutorials.  Participant use, learning
-outcomes and reusable releases remain unverified.
+\section{Attendance and follow-up}
 
-\section{Training resources and FAIR/reproducible access}
-For each initiative, the editorial registry requires a durable material URL,
-software version or commit, license, prerequisites, runnable environment,
-application/benchmark ID and evidence of the delivered session.  Where data are
-needed, the benchmark registry's configuration, machine and raw-data fields
-apply.  A central portal has not been verified; current resources are distributed
-across software documentation sites and repositories.
+The 2026 sources supply programmes, materials and meeting records.
+A consolidated attendance total for the year is pending.
 
-\section{Outcomes and KPIs}
-D7.3 proposed attendance, repository analytics and feedback surveys as KPI
-sources.  The two historical events above do not include participant counts,
-language, material URLs or feedback/reuse indicators in the submitted report.
-No aggregate 2025--2026 attendance or feedback dataset was supplied during this
-integration pass, so no new KPI value is reported.
-
-\todo{Task 7.4 owner: provide a deduplicated initiative export with attendance,
-audience, language, materials, feedback/reuse indicator and consent-compliant
-evidence; reconcile it with the project KPI workbook.}
-
-\section{Gaps and roadmap for 2027--2029}
-\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.38\textwidth}>{\raggedright\arraybackslash}p{0.18\textwidth}>{\raggedright\arraybackslash}p{0.35\textwidth}@{}}
-\caption{Conservative review of objectives inherited from the D7.3 roadmap.}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.29\textwidth}>{\raggedright\arraybackslash}p{0.64\textwidth}@{}}
+\caption{WP7 training follow-up.}
 \label{tab:v3-training-roadmap}\\
 \toprule
-\textbf{D7.3 objective} & \textbf{Classification} & \textbf{Evidence gap / next action} \\
+\textbf{Activity} & \textbf{Next step}\\
 \midrule
 \endfirsthead
 \toprule
-\textbf{D7.3 objective} & \textbf{Classification} & \textbf{Evidence gap / next action} \\
+\textbf{Activity} & \textbf{Next step}\\
 \midrule
 \endhead
-Upgrade tutorials with GPU, Kokkos or multi-node examples & not started & No dated training release or delivered initiative was supplied; owners must link versioned modules. \\
-Create mini-app training modules & partially achieved & Interactive notebooks exist in the apps-feelpp repository; identify releases, audiences and actual reuse. \\
-Create benchmark tutorials & partially achieved & Distance and I/O execution recipes exist; package them with pinned machines/data and learning outcomes. \\
-Document software-development and reproducibility guidance & partially achieved & Repository and contribution guidance exists; consolidate it into a maintained training module. \\
-Provide a centralized training portal & ongoing & Distributed documentation exists; nominate portal owner, catalogue and preservation policy. \\
-Collect attendance and feedback systematically & not started & No 2025--2026 consolidated dataset was supplied; adopt the normalized initiative schema. \\
-Collaborate with NumPEx PCs, GENCI and computing centres & not started & No dated post-D7.3 collaboration evidence was supplied; record partners, event and evidence before claiming completion. \\
+Training indicator & Task 7.4 to consolidate attendance and distinguish courses and practical sessions from software exchanges.\\
+Benchmark exercises & Build on the distance and I/O cases with versioned teaching materials and execution environments.\\
 \bottomrule
 \end{longtable}
-
-For 2027--2029, priority should be given to closing evidence gaps: publish
-versioned learning packages around executable applications/benchmarks, capture
-attendance and feedback consistently, and preserve materials and environments in
-durable repositories.  Scientific or scheduling commitments remain for WP7 and
-the software owners to approve.

@@ -1,0 +1,35 @@
+% Shared application body; used by individual and consolidated standalone fiches only.
+\ifx\ApplicationGroupedSource\empty
+  % Some authored legacy fiches put an alias label before their heading.
+  % In a standalone composition, attach it to this application's heading,
+  % rather than the preceding application or the unnumbered identity panel.
+  \let\StandaloneOriginalLabel\label
+  \let\StandaloneOriginalHeading\ApplicationFicheHeading
+  \def\StandalonePendingLabels{}
+  \renewcommand{\label}[1]{%
+    \appto\StandalonePendingLabels{\StandaloneOriginalLabel{#1}}}
+  \renewcommand{\ApplicationFicheHeading}[1]{%
+    \let\label\StandaloneOriginalLabel
+    \StandaloneOriginalHeading{#1}%
+    \StandalonePendingLabels}
+  \IfFileExists{chapters/applications/specs/\ApplicationSpec.tex}{%
+    \import{chapters/applications/specs/}{\ApplicationSpec}}{%
+    \ApplicationFicheHeading{\ApplicationId}
+    \textbf{Catalogue preview.} The dedicated scientific fiche is pending.
+    This preview records the current catalogue fields without duplicating
+    scientific contributions in other PRs.
+    \input{chapters/applications/metadata/\ApplicationId}}
+\else
+  \noindent\textbf{Shared fiche.} This preview selects the existing application
+  text from \nolinkurl{\ApplicationGroupedSource}. Its inherited planning
+  statements should be checked against the current application catalogue.
+  \begingroup
+    \let\subsubsection\section
+    % catchfilebetweentags normally discards line endings while retokenizing.
+    % Keep normal TeX line endings so the authored blank lines remain paragraphs.
+    \makeatletter
+    \patchcmd{\CatchFBT@Fin@l}{\endlinechar\m@ne}{\endlinechar=13\relax}{}{}
+    \makeatother
+    \ExecuteMetaData[\ApplicationGroupedSource]{\ApplicationId}
+  \endgroup
+\fi

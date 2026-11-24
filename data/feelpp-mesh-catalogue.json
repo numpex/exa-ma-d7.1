@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-17",
+  "source_repository": "https://github.com/numpex/exa-ma-d7.1",
+  "apps_repository": "https://github.com/numpex/apps-feelpp",
+  "inspected_apps_revision": "7ddba40f81c58c0c7fe93350a7a104a781a2c2c4",
+  "policy": "Scientific specification, configuration availability and measured results are separate. CFG plus JSON model and launch settings suffice for toolbox cases; custom C++ is only needed for new kernels. Unknown mesh counts and digests remain null.",
+  "families": [
+    {
+      "id": "io-cubes",
+      "title": "Tetrahedral cube meshes for I/O",
+      "geometry_units": "Prepartitioned linear tetrahedral cubes for the November 2026 I/O campaign.",
+      "referenced_levels": "Nodal P1-P3 and cell DG P0-P3 fields",
+      "availability": "The campaign evidence records the tested layouts and verification results.",
+      "required": "Archive the matching mesh and partition files with the recorded process layout.",
+      "repository_files": [],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "thermal-bridges",
+      "title": "ISO thermal bridges",
+      "geometry_units": "ISO 10211 case geometry; preserve material interfaces and boundary labels.",
+      "referenced_levels": "M1-M3; P1-P3",
+      "availability": "External mesh/model dependencies referenced by the heat launcher; exact downloads and digests pending.",
+      "required": "Archive geometry/model version, length unit, partition counts, cell/DoF statistics and ISO observables.",
+      "repository_files": [
+        "apps/app-feelpp-discr-1/benchmarks/gaya.json"
+      ],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "eye2brain",
+      "title": "Eye2Brain",
+      "geometry_units": "Ocular geometry; physical boundary and subdomain labels.",
+      "referenced_levels": "I/O M2-M5; heat-fluid M0-M6; RB M3",
+      "availability": "External partitioned meshes referenced by configurations; files not bundled here.",
+      "required": "Record units, common mesh identity across apps, partition recipes, model revision and per-order DoFs.",
+      "repository_files": [
+        "apps/app-feelpp-io/benchmarks/gaya.json",
+        "apps/app-feelpp-rb/benchmarks/gaya.json",
+        "apps/app-feelpp-toolbox/benchmarks/eye2brain/gaya.json"
+      ],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "unit-cube",
+      "title": "Unit cube",
+      "geometry_units": "Unit cube; coordinate length unit must be declared by each test.",
+      "referenced_levels": "M1 h=0.12; M2 0.06; M3 0.03; M4 0.015 (configured)",
+      "availability": "Geometry generators and regression test are tracked; generated campaign meshes and counts pending.",
+      "required": "Archive Gmsh version/options, boundary markers, mesh digest, ray count/seed and MPI partitions.",
+      "repository_files": [
+        "tests/unit_cube.geo",
+        "apps/app-feelpp-distance/cases/unit-cube/dist.geo",
+        "apps/app-feelpp-distance/benchmarks/gaya.json"
+      ],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "hl31",
+      "title": "HiFiMagnet HL-31",
+      "geometry_units": "Magnet conductor/cooling geometry; SI units in shared forward model.",
+      "referenced_levels": "M1 referenced; additional convergence levels planned",
+      "availability": "Launcher references an external dataset; exact Girder file identifiers and digests pending.",
+      "required": "Preserve conductor/cooling/contact/electrode markers, geometry scale, material laws and partition recipes.",
+      "repository_files": [
+        "apps/app-feelpp-thermoelectric-1/benchmarks/gaya.json"
+      ],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "thermoelastic-bar",
+      "title": "Heated thermoelastic bar",
+      "geometry_units": "5 m x 1 m x 1 m bar.",
+      "referenced_levels": "Small verification, convergence and optional HPC levels planned",
+      "availability": "Published node counts describe Cast3M/MFEM runs, not downloadable Feel++ meshes.",
+      "required": "Supply geometry generator, end/constraint markers, bar material constants, cell/DoF counts and partitions.",
+      "repository_files": [],
+      "reference_url": "https://csma2026.sciencesconf.org/688246/document",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "fuel-pellet",
+      "title": "Fuel-pellet fragment",
+      "geometry_units": "Height 7 mm; radius 4 mm; fragment angle/shape to be confirmed.",
+      "referenced_levels": "Verification and convergence levels planned",
+      "availability": "Reference paper available; exact fragment mesh and input deck not located.",
+      "required": "Obtain fragment geometry, source amplitude, mechanical masks and thermal markers before generating meshes.",
+      "repository_files": [],
+      "reference_url": "https://cea.hal.science/cea-05590574",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "fda-nozzle",
+      "title": "FDA nozzle",
+      "geometry_units": "Conical contraction, throat, sudden expansion; declare CAD scale in m.",
+      "referenced_levels": "M1-M3 convergence family planned; counts not yet established",
+      "availability": "Official CAD and PIV data public; no versioned Feel++ case mesh in apps-feelpp.",
+      "required": "Pin dataset revision, inlet/outlet orientation, sampling planes, wall layers and time-resolution study.",
+      "repository_files": [],
+      "reference_url": "https://github.com/OSEL-DAM/CFD-and-Blood-Damage-Benchmarks",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "burgers-dg",
+      "title": "DG-P0 Burgers grids",
+      "geometry_units": "Cartesian grids in one, two and three dimensions; the time grid is part of each discrete model.",
+      "referenced_levels": "250 x 250 cells for the 2D comparison; 250 x 250 x 250 cells for the 3D full-order run",
+      "availability": "Gaya full-order runs and 2D projection/hyper-reduction results are documented in the application fiche.",
+      "required": "Fix numerical flux, source and time integration, Newton settings and parameter splits for each comparison.",
+      "repository_files": [],
+      "reference_url": "https://github.com/feelpp/nonlinearrb",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "parmmg-case",
+      "title": "Feel++ ParMmg case",
+      "geometry_units": "Geometry and physical units pending case selection.",
+      "referenced_levels": "Input/adapted mesh pair; refinement series planned",
+      "availability": "Upstream remesher/test driver available; application dataset planned.",
+      "required": "Choose case, metric convention and parameters, protected markers, mesh-quality and interpolation checks.",
+      "repository_files": [],
+      "reference_url": "https://github.com/feelpp/feelpp/blob/c700162af7d872747198543fb88b3e4a38c1a409/testsuite/feelmesh/test_remesh.cpp",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "terrain",
+      "title": "Terrain inputs and generated meshes",
+      "geometry_units": "Grenoble GIS/elevation tiles, historical Tokyo tiles, or synthetic Perlin surface.",
+      "referenced_levels": "Extent/resolution and thread sweeps; variants remain separate",
+      "availability": "Grenoble and Perlin launcher files tracked; complete tile archives/rights and run metadata pending.",
+      "required": "Record CRS, coordinate units, source rights/version/extent, seed, generator revision and output mesh statistics.",
+      "repository_files": [
+        "apps/app-feelpp-ktirio-geom/benchmarks/grenoble/gaya.json",
+        "apps/app-feelpp-ktirio-geom/benchmarks/perlin/gaya.json"
+      ],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    },
+    {
+      "id": "nafems-le10",
+      "title": "NAFEMS LE10",
+      "geometry_units": "Solid mechanics reference geometry and boundary markers.",
+      "referenced_levels": "M1-M3 referenced by launcher",
+      "availability": "External solid toolbox case dependency; mesh files not bundled.",
+      "required": "Pin geometry/model, load/constraint masks, stress observation point and validation tolerance.",
+      "repository_files": [
+        "apps/app-feelpp-toolbox/benchmarks/nafems-le10/gaya.json"
+      ],
+      "reference_url": "",
+      "mesh_counts": null,
+      "mesh_sha256": null
+    }
+  ],
+  "applications": [
+    {
+      "id": "app-feelpp-discr-1",
+      "title": "Thermal bridges",
+      "fiche_source": "chapters/applications/specs/app-feelpp-discr-1.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-discr-1",
+      "work_packages": "WP1, WP3",
+      "mesh_families": [
+        "thermal-bridges"
+      ],
+      "delivery": "toolbox-config",
+      "existing_paths": [
+        "apps/app-feelpp-discr-1/benchmarks/gaya.json"
+      ],
+      "external_repository": "",
+      "present_material": "Heat launch configuration and historical CPU results.",
+      "remaining": "Archive the ISO case model, boundary/material markers and mesh downloads; fix validation tolerances before a new campaign.",
+      "results_status": "Historical results retained; no new campaign claimed.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-discr-2",
+      "title": "FDA nozzle",
+      "fiche_source": "chapters/applications/specs/app-feelpp-discr-2.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-discr-2",
+      "work_packages": "WP1, WP3, WP4",
+      "mesh_families": [
+        "fda-nozzle"
+      ],
+      "delivery": "toolbox-config-planned",
+      "existing_paths": [],
+      "external_repository": "",
+      "present_material": "Scientific specification; FDA geometry and experimental data are public.",
+      "remaining": "Provide the fluid CFG/model JSON, select the experimental orientation and sampling sections, and define mesh/time convergence and acceptance tolerances.",
+      "results_status": "Feel++ campaign results planned.",
+      "priority": "Normal",
+      "fiche_review": "Specification clarified; no completed Feel++ validation asserted."
+    },
+    {
+      "id": "app-feelpp-distance",
+      "title": "Distance and BVH",
+      "fiche_source": "chapters/applications/specs/app-feelpp-distance.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-distance",
+      "work_packages": "WP1",
+      "mesh_families": [
+        "unit-cube"
+      ],
+      "delivery": "compiled",
+      "existing_paths": [
+        "apps/app-feelpp-distance/benchmarks/gaya.json",
+        "src/app-feelpp-distance/distance.cpp",
+        "tests/check_distance_bvh.py",
+        "apps/app-feelpp-distance/cases/unit-cube/model.cfg",
+        "apps/app-feelpp-distance/cases/unit-cube/dist.geo"
+      ],
+      "external_repository": "",
+      "present_material": "C++ source, configuration and serial/MPI regression checks; historical plots predate the corrected solver.",
+      "remaining": "Archive mesh/ray sweeps with geometry hashes; rerun accuracy checks before replacing historical scaling plots.",
+      "results_status": "Historical results retained; no new campaign claimed.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-hifimagnet-inverse",
+      "title": "HiFiMagnet parameter inversion",
+      "fiche_source": "chapters/applications/specs/app-feelpp-hifimagnet-inverse.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-hifimagnet-inverse",
+      "work_packages": "WP1, WP2, WP3, WP4, WP6",
+      "mesh_families": [
+        "hl31"
+      ],
+      "delivery": "workflow-planned",
+      "existing_paths": [],
+      "external_repository": "",
+      "present_material": "Proposed inverse formulation and shared thermoelectric forward model.",
+      "remaining": "Choose parameter bounds, observations/noise and regularization; provide a synthetic recovery and gradient-test protocol. Optimizer integration remains planned.",
+      "results_status": "Feel++ campaign results planned.",
+      "priority": "Normal",
+      "fiche_review": "Proposed formulation complete enough for review; numerical input choices pending."
+    },
+    {
+      "id": "app-feelpp-hifimagnet-optcontrol",
+      "title": "HiFiMagnet optimal operation",
+      "fiche_source": "chapters/applications/specs/app-feelpp-hifimagnet-optcontrol.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-hifimagnet-optcontrol",
+      "work_packages": "WP1, WP2, WP3, WP5, WP6",
+      "mesh_families": [
+        "hl31"
+      ],
+      "delivery": "workflow-planned",
+      "existing_paths": [],
+      "external_repository": "",
+      "present_material": "Proposed deterministic objective and constraints using the shared forward model.",
+      "remaining": "Set target-field observations, control units/bounds and engineering limits; define feasibility and gradient tolerances. Robust scenarios remain optional and planned.",
+      "results_status": "Feel++ campaign results planned.",
+      "priority": "Normal",
+      "fiche_review": "Proposed formulation complete enough for review; numerical input choices pending."
+    },
+    {
+      "id": "app-feelpp-io",
+      "title": "Parallel I/O",
+      "fiche_source": "chapters/applications/specs/app-feelpp-io.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-io",
+      "work_packages": "WP1",
+      "mesh_families": [
+        "io-cubes"
+      ],
+      "delivery": "compiled",
+      "existing_paths": [
+        "apps/app-feelpp-io/benchmarks/gaya.json",
+        "src/app-feelpp-io/feelpp-io.cpp"
+      ],
+      "external_repository": "",
+      "present_material": "C++ source, launch configuration and November 2026 campaign evidence.",
+      "remaining": "Publish partitioned inputs and manifests, complete scaling points and repeat writer comparisons with controlled cache state.",
+      "results_status": "Verified preparation, writing and readback measurements from the November 2026 campaign.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-ktirio-geom",
+      "title": "Terrain generation",
+      "fiche_source": "chapters/applications/specs/app-feelpp-ktirio-geom.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-ktirio-geom",
+      "work_packages": "WP1",
+      "mesh_families": [
+        "terrain"
+      ],
+      "delivery": "external-config",
+      "existing_paths": [
+        "apps/app-feelpp-ktirio-geom/benchmarks/grenoble/gaya.json",
+        "apps/app-feelpp-ktirio-geom/benchmarks/perlin/gaya.json"
+      ],
+      "external_repository": "https://github.com/feelpp/ktirio-geom",
+      "present_material": "Grenoble and seeded Perlin launch configurations; historical Tokyo illustration.",
+      "remaining": "Pin Ktirio version and GIS rights/extent or Perlin seed; add explicit thread-count sweeps and mesh-quality/output statistics.",
+      "results_status": "Historical results retained; no new campaign claimed.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-mi300a-fem",
+      "title": "HiFiMagnet on MI300A",
+      "fiche_source": "chapters/applications/specs/app-feelpp-mi300a-fem.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-mi300a-fem",
+      "work_packages": "WP1, WP3, WP7",
+      "mesh_families": [
+        "hl31"
+      ],
+      "delivery": "toolbox-config-planned",
+      "existing_paths": [],
+      "external_repository": "",
+      "present_material": "CPU thermoelectric case available for reuse; no completed MI300A campaign claimed.",
+      "remaining": "Supply CFG/model JSON and native/container launch variants, verify backend residency and fixed-accuracy CPU/APU agreement before timing.",
+      "results_status": "Feel++ campaign results planned.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-nlcrb",
+      "title": "Nonlinear compressive reduced basis",
+      "fiche_source": "chapters/applications/specs/app-feelpp-nlcrb.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-nlcrb",
+      "work_packages": "WP2, WP1, WP3",
+      "mesh_families": [
+        "burgers-dg"
+      ],
+      "delivery": "external-workflow",
+      "existing_paths": [],
+      "external_repository": "https://github.com/feelpp/nonlinearrb",
+      "present_material": "Galerkin/regression implementation in nonlinearrb and native DG-P0 Burgers runs in one, two and three dimensions.",
+      "remaining": "Compare NLCRB with the Gaya reference methods using the same discrete model, parameter sets and accuracy targets.",
+      "results_status": "Gaya full-order and projection/hyper-reduction results available. NLCRB comparison in progress.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-parmmg",
+      "title": "Parallel remeshing",
+      "fiche_source": "chapters/applications/specs/app-feelpp-parmmg.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-parmmg",
+      "work_packages": "WP1",
+      "mesh_families": [
+        "parmmg-case"
+      ],
+      "delivery": "driver-config-planned",
+      "existing_paths": [],
+      "external_repository": "https://github.com/feelpp/feelpp/blob/c700162af7d872747198543fb88b3e4a38c1a409/testsuite/feelmesh/test_remesh.cpp",
+      "present_material": "Feel++ remesher and upstream test driver available; dedicated case not selected.",
+      "remaining": "Choose remeshing kernel or solve-adapt workflow; supply input mesh/metric, boundary markers and quality/conservation checks. Do not reuse the FreeFEM Fichera fiche.",
+      "results_status": "Feel++ campaign results planned.",
+      "priority": "High",
+      "fiche_review": "Owner case selection needed to finalize the scientific benchmark."
+    },
+    {
+      "id": "app-feelpp-rb",
+      "title": "Eye2Brain reduced basis",
+      "fiche_source": "chapters/applications/specs/app-feelpp-rb.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-rb",
+      "work_packages": "WP1, WP2, WP3",
+      "mesh_families": [
+        "eye2brain"
+      ],
+      "delivery": "external-config",
+      "existing_paths": [
+        "apps/app-feelpp-rb/benchmarks/gaya.json"
+      ],
+      "external_repository": "https://github.com/numpex/apps-feelpp/tree/feature/feelpp-app-rb",
+      "present_material": "Eye2Brain launch configuration; configured executable is absent on the inspected Gaya path.",
+      "remaining": "Pin a working MOR executable/branch and database format, parameter ranges and independent training/test sets; recheck the catalogue readiness label.",
+      "results_status": "Configuration available; no completed current campaign established. Results planned.",
+      "priority": "High",
+      "fiche_review": "Scientific protocol clarified; catalogue readiness needs owner confirmation."
+    },
+    {
+      "id": "app-feelpp-thermoelectric-1",
+      "title": "HL-31 thermoelectric coupling",
+      "fiche_source": "chapters/applications/specs/app-feelpp-thermoelectric.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-thermoelectric-1",
+      "work_packages": "WP1",
+      "mesh_families": [
+        "hl31"
+      ],
+      "delivery": "toolbox-config",
+      "existing_paths": [
+        "apps/app-feelpp-thermoelectric-1/benchmarks/gaya.json"
+      ],
+      "external_repository": "",
+      "present_material": "Launch configuration and historical CPU campaign; shared nonlinear forward model specified.",
+      "remaining": "Archive the exact model CFG/JSON, material/contact laws, current-control settings and mesh dataset identifiers; confirm validation tolerances.",
+      "results_status": "Historical results retained; no new campaign claimed.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-thermomeca-1",
+      "title": "Thermomechanical coupling",
+      "fiche_source": "chapters/applications/specs/app-feelpp-thermomeca-1.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-thermomeca-1",
+      "work_packages": "WP1, WP3",
+      "mesh_families": [
+        "thermoelastic-bar",
+        "fuel-pellet"
+      ],
+      "delivery": "toolbox-config-planned",
+      "existing_paths": [],
+      "external_repository": "",
+      "present_material": "Detailed CSMA reference, equations and clearly attributed Cast3M/MFEM results.",
+      "remaining": "Obtain bar constants and pellet geometry/source/constraints, then supply heat/solid CFG/JSON and coupling settings; select Feel++ validation tolerances.",
+      "results_status": "Feel++ campaign results planned.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    },
+    {
+      "id": "app-feelpp-toolbox",
+      "title": "Multiphysics toolbox cases",
+      "fiche_source": "chapters/applications/specs/app-feelpp-toolbox.tex",
+      "fiche_label": "sec:app:specs:app-feelpp-toolbox",
+      "work_packages": "WP1, WP3",
+      "mesh_families": [
+        "thermal-bridges",
+        "eye2brain",
+        "nafems-le10",
+        "hl31"
+      ],
+      "delivery": "toolbox-config",
+      "existing_paths": [
+        "apps/app-feelpp-discr-1/benchmarks/gaya.json",
+        "apps/app-feelpp-toolbox/benchmarks/eye2brain/gaya.json",
+        "apps/app-feelpp-toolbox/benchmarks/nafems-le10/gaya.json",
+        "apps/app-feelpp-thermoelectric-1/benchmarks/gaya.json"
+      ],
+      "external_repository": "",
+      "present_material": "Four physics configurations indexed separately; public heat report available.",
+      "remaining": "Attach case-specific validation observables and thresholds and resolve external model/mesh dependencies. Link component results rather than duplicate campaigns.",
+      "results_status": "Historical results retained; no new campaign claimed.",
+      "priority": "Normal",
+      "fiche_review": "Scientific description ready for owner review; dataset completion separate."
+    }
+  ],
+  "post_revision_review": "2026-10-17: scientific scope, available configuration paths, mesh availability and PDF links reviewed; remaining case-owner actions recorded separately from future campaigns.",
+  "application_layout_review": "2026-10-18: apps-feelpp owns case inputs and launch/plot configurations under apps/<id>/; the paths above include its uncommitted layout migration. The inspected_apps_revision records the earlier scientific inventory, not a commit containing the new paths."
+}

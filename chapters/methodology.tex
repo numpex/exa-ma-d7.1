@@ -3,94 +3,76 @@
 \chapter{Software Production and Benchmarking Methodology (D7.1)}
 \label{chap:methodology}
 
-\section{Introduction}
-This chapter presents the updated methodology for benchmarking, testing, and validating Exa-MA software in preparation for exascale deployment. In continuity with v1.1.1 and the Exa-MA Application Frameworks \& Infrastructure Guide, we focus on operational practices and measurable outcomes. We introduce:
+The unit of comparison is a campaign for a specified application, solver
+or kernel. \Cref{chap:software} identifies the implementation and its
+supported configurations. The application fiche describes the test
+problem, and \Cref{tab:v3-benchmark-registry} gives the state of the
+benchmark evidence.
 
-\begin{itemize}
-  \item \textbf{Energy efficiency metrics} alongside performance and scalability.
-  \item \textbf{Expanded hardware coverage}: including EuroHPC systems and multi-GPU clusters.
-  \item \textbf{Automated CI/CD pipelines} for nightly benchmarks and non-regression.
-  \item \textbf{Enhanced data management}: DOIs, Zenodo archiving, FAIR datasets.
-  \item \textbf{Structured application definitions}: mini-apps, extended mini-apps, demonstrators, proxy-apps as per the application framework.
-  \item \textbf{Advanced fault tolerance}: in-situ fault injection, ULFM, scalable checkpointing.
-\end{itemize}
-
-This methodology ensures that all Exa-MA applications—whether mini-apps or full demonstrators—adhere to a unified set of practices for reproducibility, portability, and high performance.
-
-\section{Key Objectives and Bottlenecks}
-We revisit our original aims under WP7 and map them to the primary bottlenecks (B1--B13); this mapping guides prioritization and evaluation:
-
-\begin{itemize}
-  \item \textbf{Performance \& Scalability} (\ac{B2}, \ac{B7})
-  \item \textbf{Energy Efficiency} (\ac{B1})
-  \item \textbf{Reproducibility \& Portability} (\ac{B6}, \ac{B11})
-  \item \textbf{Automation \& CI/CD}
-  \item \textbf{Data Management \& I/O} (\ac{B6}, \ac{B9}, \ac{B10})
-  \item \textbf{Fault Tolerance \& Resilience} (\ac{B8}, \ac{B12})
-\end{itemize}
-
-\section{Structured Application Definitions}
-Following the Application Framework, we use the following categories to align scope with testing depth and reporting:
+\section{Application categories}
+\label{sec:benchmark-application-categories}
 
 \begin{description}
-  \item[Mini-App] Isolates a single kernel or algorithm (e.g., mesh processing in FEEL++).
-  \item[Extended Mini-App] Mini-app with supporting scripts for I/O and data generation.
-  \item[Demonstrator] Integrated multi-WP workflow illustrating a real-world use case.
-  \item[Proxy-App] Representative full-stack workload spanning three or more WPs for system-level tests.
+  \item[Mini-app] A focused test of a method or kernel.
+  \item[Extended mini-app] A mini-app with supporting workflows, such as
+    preparation of input data or I/O tests.
+  \item[Demonstrator] An integrated scientific workflow drawing on several
+    work packages.
+  \item[Proxy-app] A representative workload combining components from
+    three or more work packages for a system-level study.
 \end{description}
 
-Each application is documented with core metadata (ID, name, WP, partners), scientific purpose, technical metadata (framework, languages), inputs/outputs, metrics, status, and planning, ensuring traceability and unified benchmarking.
+The Ktirio Urban Building demonstrator, for example, combines meshing,
+coupling and ensemble processing. The reported terrain-generation
+benchmark measures the meshing component
+(\cref{sec:pc5:ktirio-urban-building,sec:app:specs:app-feelpp-ktirio-geom}).
 
-\section{Methodology Overview}
-Our approach rests on four pillars:
-\begin{enumerate}
-  \item \textbf{Benchmark Phases:} Baseline, Scalability, Energy, Hybrid.
-  \item \textbf{Testing Levels:} Non-regression, Verification, Validation.
-  \item \textbf{Automation:} ReFrame-based workflows integrated into GitHub Actions or GitLab CI.
-  \item \textbf{Data Management:} DOIs, Zenodo archival, FAIR principles, HDF5/DAOS frameworks.
-\end{enumerate}
+\section{Verification, validation and scaling}
+\label{sec:benchmark-protocol}
 
-\section{Benchmark Phases and Metrics}
-\subsection{Baseline Performance}
-Establish the reference on a single node, reporting time-to-solution and memory footprint; these results anchor scaling and energy studies.
+Verification compares the computation with a known solution, a
+manufactured case or a specified reference. The thermal-bridge case
+compares computed quantities with ISO~10211 reference values before
+examining scaling (\cref{sec:app:specs:app-feelpp-discr-1}). Validation
+uses observations when the application has suitable experimental or
+field data. The FDA nozzle specification, for example, defines which
+velocity and pressure quantities to compare with measurements
+(\cref{sec:app:specs:app-feelpp-discr-2}). Regression tests address a
+different question: whether a change in code preserves an established
+behaviour.
 
-\subsection{Scalability Tests}
-Exercise weak and strong scaling across large CPU/GPU counts; compare efficiency relative to the baseline.
+Strong scaling fixes the problem size. Weak scaling keeps the workload
+per unit of computing resource approximately constant. Comparisons use
+a stated reference run and distinguish setup, solver and I/O times
+where the campaign reports them. The Composyx diffusion study
+(\cref{sec:app:specs:app-composyx-diffusion}) reports solver phases and
+iteration counts for CUDA on Jean Zay and HIP on Adastra. Each series
+uses its own one-node baseline and residual tolerance.
 
-\subsection{Energy Efficiency}
-Profile power via RAPL/NVML and report energy-to-solution metrics (e.g., joules per operation, flops per watt) under comparable workloads.
+Energy-to-solution uses the same workload and measurement interval as
+time-to-solution, with the measurement boundary stated explicitly. The
+PETSc mixed-precision specification includes setup, solver, conversion
+and transfer costs in its proposed comparison
+(\cref{sec:app:specs:app-petsc-mixed-precision}). Energy measurements for
+that comparison remain to be reported.
 
-\subsection{Hybrid Workloads}
-Run concurrent CPU+GPU workloads to assess balance and end-to-end throughput on heterogeneous nodes.
+\section{Software and campaign records}
+\label{sec:benchmark-campaign-records}
 
-\section{Automation and CI/CD}
-We codify the methodology in CI/CD; ReFrame test suites run on merges and on nightly schedules:
-\begin{itemize}
-  \item Container builds (Spack, Singularity, Docker).
-  \item Execution of all benchmark phases.
-  \item Result collection in Prometheus and Grafana dashboards.
-  \item Automated summary report generation (PDF/Markdown).
-\end{itemize}
+The campaign record identifies the software revision, inputs and
+parameters, machine and resource counts, baseline and criterion for
+accepting a solution. Repeated measurements give an indication of
+variability when timings are available. The application fiches link
+to the corresponding release, driver, configuration or data archive
+where these are recorded. Some historical campaigns provide figures
+without a complete archive of the runs.
 
-\section{Data Management and Reproducibility}
-All inputs, outputs, and logs are versioned with DOIs in Zenodo. Datasets and results comply with FAIR principles, using HDF5 (and DAOS) for scalable, fault-tolerant I/O.
-
-\section{Fault Tolerance and Resilience}
-Beyond checkpoint/restart, we complement with:
-\begin{itemize}
-  \item ULFM-based MPI recovery.
-  \item SCR-based scalable checkpointing.
-  \item In-situ fault injection at multiple levels.
-\end{itemize}
-
-\section{Toolchain and Technologies}
-Profilers: Extrae, Score-P, Nsight, Arm MAP. \\
-Regression and orchestration: ReFrame. \\
-Packaging: Spack, Guix-HPC, Docker, Singularity. \\
-Visualization: Paraver, Vampir, Grafana.
-
-\section{Demonstrator Pipelines}
-Define Level 1–3 demonstrators with container recipes and test classifications (non-regression, verification, validation), hardware targets, and acceptance criteria.
-
-\section{Conclusion and Outlook}
-This updated methodology, implemented immediately, will be refined in future versions based on lessons learned. The v3 deliverable will include expanded energy benchmarks, CI/CD maturity, and advanced fault-tolerance strategies.
+WP7 uses versioned application repositories and software environments
+to run and share benchmarks. The I/O case provides configurations and
+measurement files for its reported comparisons
+(\cref{sec:app:specs:app-feelpp-io}). PETSc's CUDA regression cases
+document the HPDDM execution path in the released solver
+(\cref{sec:HPDDM:2026}). For resilience, WP3 reports the use of in-memory
+checkpoints for soft errors and VeloC disk checkpoints for crashes
+(\cref{chap:wp3}). These tests and measurements address distinct
+parts of software and application readiness.

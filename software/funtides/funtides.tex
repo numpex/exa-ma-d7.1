@@ -21,7 +21,7 @@
 \subsection{Software summary}
 \label{sec:FUnTiDES:summary}
 
-FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when calculating of the gradient of the cost function in FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
+FUnTiDES (Fast Unstructured Time Dynamic Equation Solver) is a portable CPU/GPU C++ library, built on Kokkos, which provides solvers for coupled acoustic, elastic and acousto-elastic waves. Spatial discretisation is based on the spectral element method (SEM) on structured and unstructured meshes, supplemented by a discontinuous Galerkin (DG) solver. The computational kernels incorporate several optimisation techniques (sum factorisation, MPI domain decomposition, explicit memory management) to simultaneously meet time and memory constraints, including when computing the gradient of the cost function in FWI. All functionalities are exposed via a Python interface (pybind11): the user can control the solvers and retrieve wavefields and seismograms without writing any C++ code, which makes the code accessible to users outside the development team.
 
 All features described below refer to commit
 \href{https://github.com/FUnTiDES-sim/FUnTiDES/tree/328b76d4c583bd0532de68b2e60e56ce13c694e5}{\texttt{328b76d}}
@@ -54,61 +54,25 @@ reported bottleneck.
 % To be completed by the FUnTiDES developers.
 
 
-\begin{FicheEnvironmentTable}[FunTiDES programming and computational environment\label{table:funtides-environment}]
-Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-C++\\
-\end{tabular} & 
-FUnTiDES is developed mainly in C++. \\
-        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-MPI\\
-Multithread\\
-\end{tabular} & FUnTiDES relies on Kokkos for multithreading on GPU/CPU. It also has MPI decomposition \\
-        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-ADIOS\\
-\end{tabular} & Data formats that the software can handle or produce.
-Mesh is for the moment only generate by the solver. The I/O fir receiver output and snapshots is handle by ADIOS.
-\\
-        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-To confirm\\
-\end{tabular} & Fault tolerance and recovery mechanisms employed by the software.\\
-        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-CI on Github (only CPUfor now)\\
-\end{tabular} & CPU CI is deployed on Github with CodeCoverage verification.  \\
-        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-To confirm\\
-\end{tabular} & Software packaging and distribution.\\
-        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-Analytic solutions\\
-\end{tabular} & Numerical solution are validated against an analytical solution for the acoustic and elastic case.
-Not included in CI for now (will be when CI GPU will be deployed)
-\\
-        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-To confirm\\
-\end{tabular} & Container technologies used to package and deploy the software.\\
-        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
-
-\end{tabular} & List of software FUnTiDES has interfaces with. \\
+\begin{FicheEnvironmentTable}[FUnTiDES programming and computational environment\label{table:funtides-environment}]
+Language & C++ & Python bindings expose the solvers, wavefields and seismograms. \\
+Parallelism & Kokkos, MPI & Kokkos targets CPUs and GPUs; MPI distributes the domain. \\
+Data & ADIOS & The solver generates its meshes. ADIOS handles receiver output and snapshots. \\
+Tests & CPU CI; analytical solutions & CPU CI runs unit tests. Acoustic and elastic SEM cases have been compared with analytical solutions. GPU configurations are tested manually. \\
 \end{FicheEnvironmentTable}
 
 
 
-\paragraph{Documentation and training.}
-
 \subsection{Application entry points}
 \label{sec:FUnTiDES:applications}
-At this stage, no Exa-MA application, mini-app, extended mini-app,
-demonstrator, proxy-app or benchmark record is associated with FUnTiDES.
-The upstream project's use of the term \emph{proxy application} does not
-automatically qualify an example as an Exa-MA proxy-app under the
-project's application taxonomy.
+The upstream repository includes executable wave-propagation examples.
+The Exa-MA benchmark index has no FUnTiDES campaign.
 
 \subsection{Mathematics}
 \label{sec:FUnTiDES:mathematics}
- To be completed by the FUnTiDES developers.
-
-FUntIDES solves numerically the second order wave equation for several types of media.
-It uses the Spectral Element Method (SEm), Discontinuous Galerkin Method (DGm) and a coupling between both (DG-SEm) as space discretization, 
-the discretization in time been done using a second order Leap-Frog scheme.
+FUnTiDES solves the second-order wave equation in several media.
+Spatial discretization uses spectral elements (SEM), discontinuous Galerkin (DG), or a coupled DG--SEM scheme.
+Time discretization uses a second-order leapfrog scheme.
 
 In the case of acoustic medium, we seek the scalar pressure \textit{p} such as:
 
@@ -129,7 +93,7 @@ In the case of acoustic medium, we seek the scalar pressure \textit{p} such as:
  On $\Gamma_D$, the top face of the domain, an homogeneous Dirichlet condition models a free surface (pressure-release);
  this portion is optional and $\Gamma_D = \emptyset$ when the free surface is disabled. 
  
- On $\Gamma_{abc}$, the remaining faces, a first-order Absorbing Boundary Condition (ABC) is imposed to mimic an unbounded medium.
+ On $\Gamma_{abs}$, the remaining faces, a first-order Absorbing Boundary Condition (ABC) is imposed to mimic an unbounded medium.
  Both of this condition have homogeneous data.
   
 In the context of elastic medium, we seek for the displacement vector $\textbf{u}$ which satisfy: 
@@ -170,16 +134,18 @@ is an orthonormal basis:
 
 The normal component of the velocity is thus damped with the P-wave impedance $\rho V_p$ and its tangential components with the S-wave 
 impedance $\rho V_s$.
-Both boundary conditions jave homogeneous data.
+Both boundary conditions have homogeneous data.
 
-FUnTiDES is able to solve forward and inverse problem using Full WaveForm Inversion (FWI) algorithm via python scripts (thanks to the python binding).
+The Python interface exposes the forward solvers and full waveform inversion (FWI).
 
 
 \subsection{Relevant Publications}
 \label{sec:FUnTiDES:publications}
 
-Pending developer confirmation
-
+The \href{https://radar.inria.fr/report/2025/makutu/index.html}{Makutu
+2025 activity report} describes the acoustic examples and their use in
+performance studies. A NumPEx \href{https://numpex.org/wp-content/uploads/sites/6/2026/03/High-Performance-Spectral-Element-Operators-on-GPUs-.pdf}{technical presentation}
+uses FUnTiDES to illustrate GPU spectral-element operators.
 
 \subsection{Acknowledgements}
 \label{sec:FUnTiDES:acknowledgements}

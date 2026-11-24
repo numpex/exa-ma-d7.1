@@ -83,7 +83,7 @@ class ReleasePreparationTests(unittest.TestCase):
             (root / "standalone").mkdir()
             (root / "scripts").mkdir()
             (root / "data").mkdir()
-            for name in ("generate_fiche_identities.py", "release.py"):
+            for name in ("generate_fiche_identities.py", "framework_publication.py", "release.py"):
                 shutil.copyfile(repository / "scripts" / name, root / "scripts" / name)
             shutil.copytree(repository / "exama_version", root / "exama_version", ignore=shutil.ignore_patterns("__pycache__"))
             for name in ("fiche-identity-profiles.json", "frameworks-source.json", "frameworks.csv",
