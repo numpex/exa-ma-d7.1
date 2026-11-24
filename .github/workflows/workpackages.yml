@@ -37,12 +37,18 @@ jobs:
             build_ref="$REF_NAME"
           fi
           python scripts/workpackage_previews.py --ref "$build_ref" --jobs 2
-      - name: Upload WP contributions and companion report
+      - name: Compile standalone D0.2
+        run: |
+          latexmk --shell-escape -pdf -halt-on-error -interaction=nonstopmode -synctex=1 \
+            -outdir=output/pdf/workpackages -jobname=exa-ma-d02 standalone-d02.tex
+          python -c 'from pathlib import Path; from scripts.workpackage_previews import check_log; check_log(Path("output/pdf/workpackages/exa-ma-d02.log"))'
+      - name: Upload standalone PDFs and companion report
         uses: actions/upload-artifact@v4
         with:
           name: workpackage-contributions
           path: |
-            output/pdf/workpackages/exa-ma-wp*.pdf
+            output/pdf/workpackages/exa-ma-wp[1-7].pdf
+            output/pdf/workpackages/exa-ma-d02.pdf
             output/pdf/workpackages/exa-ma-deliverables.pdf
             output/pdf/workpackages/manifest.json
           if-no-files-found: error

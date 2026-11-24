@@ -418,6 +418,12 @@ jobs:
           name: workpackage-release-archive
           path: workpackage-release
 
+      - name: Download standalone PDFs
+        uses: actions/download-artifact@v4
+        with:
+          name: workpackage-contributions
+          path: workpackage-pdfs
+
       - name: Archive Article
         run: |
           temp_dir=$(mktemp -d)
@@ -453,11 +459,21 @@ jobs:
           generate_release_notes: true
           tag_name: ${{ github.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: true
           files: |
             artifact/${{ needs.workflow-setup.outputs.prefixwithref }}.pdf
             ${{ needs.workflow-setup.outputs.prefixwithref }}.tar.gz
             framework-release/exa-ma-frameworks-${{ github.ref_name }}.zip
             workpackage-release/exa-ma-workpackages-${{ github.ref_name }}.zip
+            workpackage-pdfs/exa-ma-d02.pdf
+            workpackage-pdfs/exa-ma-wp1.pdf
+            workpackage-pdfs/exa-ma-wp2.pdf
+            workpackage-pdfs/exa-ma-wp3.pdf
+            workpackage-pdfs/exa-ma-wp4.pdf
+            workpackage-pdfs/exa-ma-wp5.pdf
+            workpackage-pdfs/exa-ma-wp6.pdf
+            workpackage-pdfs/exa-ma-wp7.pdf
+            workpackage-pdfs/exa-ma-deliverables.pdf
 
       - name: Generate release summary
         if: always()
@@ -470,7 +486,7 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "- **Release**: [${{ github.ref_name }}](${{ steps.create_release.outputs.url }})" >> $GITHUB_STEP_SUMMARY
             echo "- **Type**: ${{ contains(github.ref, 'alpha') && 'Pre-release' || contains(github.ref, 'beta') && 'Pre-release' || contains(github.ref, 'rc') && 'Pre-release' || contains(github.ref, 'preview') && 'Pre-release' || 'Stable Release' }}" >> $GITHUB_STEP_SUMMARY
-            echo "- **Assets**: PDF + Source Archive" >> $GITHUB_STEP_SUMMARY
+            echo "- **Assets**: Full report, source archive, standalone PDFs and fiche archives" >> $GITHUB_STEP_SUMMARY
             echo "- **Notes**: Auto-generated from commits" >> $GITHUB_STEP_SUMMARY
           else
             echo "❌ **Release Creation Failed**" >> $GITHUB_STEP_SUMMARY

@@ -808,6 +808,12 @@ It also lists inactive catalogue entries. Publication flags are checked in CI
 against the generated `software/framework-publication.tex` used by report entries.
 The historical `standalone-funtides.tex` entry point is retained.
 
+Releases also provide `exa-ma-d02.pdf` and one PDF for each work package,
+from `exa-ma-wp1.pdf` to `exa-ma-wp7.pdf`. Keep the companion
+`exa-ma-deliverables.pdf` alongside the WP PDFs to follow links to other
+chapters. The work-package archive packages all seven WP PDFs with that
+companion report.
+
 === Frameworks, applications and work packages
 
 The software chapter's navigation table is generated from the versioned
