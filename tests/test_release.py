@@ -16,6 +16,7 @@ class ReleasePreparationTests(unittest.TestCase):
         (root / "exa-ma-deliverables.tex").write_text(
             "\\hypersetup{pdftitle={Exa-MA v2.95.0 integration draft for v3.0.0}}\n"
             "\\textit{v2.95.0 integration draft -- final target v3.0.0}\n"
+            "\\textit{2026 collection of project deliverables -- v2.95.0 integration draft}}\n"
             "\\delivVersion{v2.95.0}\n\\ActualDate{15/10/2026}\n"
             "\\istChange{15/10/2026}{v2.95.0}{Author}{Historical record}\n"
             "\\begin{document}\nMeasured value: 2.95.0 (do not replace)\n")
@@ -40,6 +41,7 @@ class ReleasePreparationTests(unittest.TestCase):
             self.assertIn(r"\istChange{15/10/2026}{v2.95.0}{Author}{Historical record}", changes[path])
             self.assertIn("Measured value: 2.95.0 (do not replace)", changes[path])
             self.assertIn("final target v3.0.0", changes[path])
+            self.assertIn("2026 collection of project deliverables -- v2.96.0 integration draft", changes[path])
             self.assertIn("v2.96.0", changes[root / "standalone-wp1.tex"])
             self.assertIn('version = "2.96.0"', changes[root / "uv.lock"])
             self.assertIn('name = "dependency"\nversion = "1.0.0"', changes[root / "uv.lock"])

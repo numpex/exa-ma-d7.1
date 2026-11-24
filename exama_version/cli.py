@@ -74,7 +74,9 @@ def identity_line(path, line):
     if stripped.startswith("%"):
         return False
     return ("pdftitle=" in line or stripped.startswith(r"\delivVersion{")
-            or stripped.startswith(r"\textit{v") or stripped.startswith(r"\large Exa-MA")
+            or stripped.startswith(r"\textit{v")
+            or re.match(r"\\textit\{\d{4} collection of project deliverables -- v", stripped)
+            or stripped.startswith(r"\large Exa-MA")
             or (path.name == "registry.tex" and stripped.startswith(r"\caption{Application registry reconciled for the v"))
             or (path.name == "training.tex" and re.match(r"The v\d+\.\d+\.\d+.* integration draft", stripped)))
 
