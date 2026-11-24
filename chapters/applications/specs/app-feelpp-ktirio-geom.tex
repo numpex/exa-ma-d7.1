@@ -14,11 +14,13 @@ component. Its existing terrain-generation campaign,
 \texttt{BM-FEEL-KTIRIO-01}, provides performance results for that part of
 the demonstrator workflow.
 
-\paragraph{Versioned implementation references.}
-At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{\texttt{bf1febf}},
-the application repository contains Grenoble and Tokyo datasets, and synthetic
-terrain generated with Perlin noise, with JSON inputs and plot configurations
-under \texttt{src/ktirio-geom/terrain}.
+\paragraph{Available benchmark cases.}
+The application repository provides launch and plotting configurations for
+\href{https://github.com/numpex/apps-feelpp/blob/main/src/ktirio-geom/terrain/grenoble/grenoble.json}{Grenoble}
+and \href{https://github.com/numpex/apps-feelpp/blob/main/src/ktirio-geom/terrain/perlin/perlin.json}{synthetic Perlin terrain}.
+Both use the installed \nolinkurl{ktirio_geom_app_terrain} executable and
+input directories outside the repository. Neither configuration provides
+the full geographic dataset. The timings below come from a separate Tokyo campaign.
 
 \paragraph{Ktirio-Geom implementation developments in 2026.}
 \label{sec:app:ktirio-geom:implementation-2026}
@@ -88,11 +90,11 @@ tetrahedra are converted to Ktirio's mesh data structure.
 
 \paragraph{Benchmark contract.}
 \texttt{BM-FEEL-KTIRIO-01} covers single-node thread scaling and time-to-solution.
-Within this single-node scope, strong scalability is evaluated by maintaining a fixed global problem size (the 81-tile Tokyo grid) while scaling the worker thread count ($t \in \{1, 2, 4, 8, 16, 32, 64\}$) to measure the reduction in time-to-solution.
+Within this single-node scope, the proposed strong-scaling protocol maintains a fixed global problem size (the 81-tile Tokyo grid) while scaling the worker thread count ($t \in \{1, 2, 4, 8, 16, 32, 64\}$) to measure time-to-solution after the thread sweep is implemented.
 Weak scalability is excluded for this specific use case.
 All benchmarks were executed on a single 128-core compute node of the Gaya supercomputer.
 Testing is intentionally capped at 64 threads to match the physical boundaries of a single CPU socket and the available task-level parallelism.
-Measurements reflect a single execution pass per thread count, with raw timing metrics exported directly as JSON files.
+The current launch configurations enable multithreading but do not define an explicit thread-count sweep. A repeated-run thread study and raw timing archive remain to be supplied.
 
 
 \subsection{Description of the benchmark}
@@ -109,8 +111,9 @@ Feature tags are preserved to support subsequent visualization, simulation prepr
 \subsection{Benchmarking methodology}
 \subsubsection{Benchmarking tools used}
 
-This benchmark was performed on the gaya supercomputer, using feelpp.benchmaring v4.0.0.
-Performance measurements were collected using internal timing instrumentation integrated into Ktirio-Geom.
+The terrain study ran on Gaya. Ktirio-Geom recorded the timings with its
+internal instrumentation. For new experiments, record the Ktirio-Geom
+version separately from the benchmarking tool's version.
 Each stage of the pipeline reports elapsed wall-clock time, with additional per-thread statistics for multithreaded sections.
 
 For tile-level parallel operations, the benchmark reports the longest executing thread, reflecting the critical path and providing a conservative estimate of scalability limits.
@@ -157,3 +160,5 @@ The output consists of a conforming terrain surface triangulation, with tagged f
 
 \subsection{Results summary}
 \ApplicationBenchmarkResults{app-feelpp-ktirio-geom}
+
+\input{chapters/applications/meshes/app-feelpp-ktirio-geom}

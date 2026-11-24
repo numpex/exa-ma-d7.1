@@ -1,26 +1,6 @@
 %!TEX root = ../../exa-ma-deliverables.tex
-% D7.1 V3 / v2.90.0 -- WP1 CONTRIBUTION
-%
-% The content inherited from v2 is provided as a starting point.
-% The WP leader/editor must:
-% 1. review, validate, update or remove all inherited text;
-% 2. identify explicitly what is new in 2026;
-% 3. distinguish 2026 achievements from earlier baseline results;
-% 4. connect the advances to Exa-MA software and applications;
-% 5. associate applications with verification, validation or performance benchmarks;
-% 6. report scientific, numerical and performance results;
-% 7. provide software versions, machine configurations, references and evidence links;
-% 8. identify missing application or benchmark mappings instead of inventing connections.
-%\chapter{Work Package 1: Discretization}
-%\label{chap:wp1}
 
 \section{Objectives \& Context}
-\WPUpdateNote{Review the inherited scope and task descriptions, and update the
-2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
-is retained as context.}
-% • Which Exa-MA bottlenecks (B#) WP1 addresses  
-% • Relation to overall strategy (high-order methods, meshing, adaptivity)  
-% • List of key tasks T1.1–T1.7
 This work package deals with two main points: 
 \begin{itemize} 
 \item {\bf Geometric domain representations and their discrete counterparts (such as meshes)}. \\
@@ -48,7 +28,7 @@ This work package is ambitious and hence includes many tasks and subtasks. The t
 %We use Adaptive Mesh Refinement (AMR) methods to improve accuracy and computation time in simulations, particularly when dealing with spatially localized physical phenomena. Several strategies for error control are presented, including patch-based, cell-based and adaptive multiresolution using wavelets. Large-scale simulations using AMR typically rely on specialized data-structures. We focus on several discretization methods (finite elements, finite volumes, and finite differences), conforming or non-conforming, with structured mesh refinement using all-hexahedral/quadrilateral elements for exascale simulations. We also propose to work on HPC algorithm extensions of the local multigrid AMR methods to develop load-balancing algorithms and efficient refinement strategies.
     \item {\bf T1.4 Finite Element Exascale Framework}
 %    We utilize exascale hardware and low-level software infrastructure to create a framework for high-order/spectral finite element methods on unstructured grids. We aim at providing a framework that can handle the full de Rahm complex, while hiding low-level architecture details. The focus is on non-conforming methods to provide optimized kernels for finite elements, which will require close collaboration with PC2’s WP2 and WP3.
-    \item {\bf T1.5 Exploit non conforming methods for efficient parallel parallel}
+    \item {\bf T1.5 Non-conforming methods for parallel discretization}
   %  In this task, we implement discontinuous Galerkin methods that are conducive to paralell computing at large scale.
     
 %   Conformal finite-element discretizations lead to large sparse linear systems that are difficult to solve with modern parallel architectures. We propose to explore non-conformal methods such as Trefftz methods, hybridizable discontinuous Galerkin (HDG) methods, including HHO and the mortar element method, as alternatives to cG. We aim at improving the conditioning of the resulting system for efficient iterative solution procedure or reducing the size of the sparse linear system to be solved. Our plan is also to work on thecombination of these methods and domain decomposition methods in order to accelerate theconvergence of iterative solvers.
@@ -66,27 +46,6 @@ This work package is ambitious and hence includes many tasks and subtasks. The t
 \clearpage
 \section{Main advances in 2026}
 \label{sec:wp1-main-advances-2026}
-\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
-application and benchmark identifiers stable so that contributions can be
-compared across annual reports.}
-
-% Duplicate this record in WP1.tex for each main 2026 advance and replace the
-% compact field cues with factual entries.  Do not edit the central table style.
-\begin{WPAdvanceRecord}{WP1-A2026-1}
-Exa-MA task and bottleneck & \WPFieldHint{T1.x; Bx} \\
-Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
-Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
-Implementing software & \WPFieldHint{Software; repository} \\
-Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
-Associated application ID & \WPFieldHint{app-...} \\
-Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
-Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
-Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
-Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
-Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
-Limitations and next step & \WPFieldHint{Limitation; next step} \\
-Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
-\end{WPAdvanceRecord}
 
 
 % Cemosis / Feel++ 2026 contribution.
@@ -95,13 +54,13 @@ Exa-MA task and bottleneck & T1.4; B7 (Exascale Algorithms), B9 (accuracy) \\
 Concise description of the 2026 advance & Mixed SB9 solid-shell discretization and supporting tensor and shell-geometry operators \\
 Responsible contributors and institutions & Cemosis, University of Strasbourg, in joint work with AVNIR Energy and in collaboration with INSA Lyon \\
 Implementing software & Feel++ \\
-Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2510}{Feel++ PR~2510} \\
+Software release & \href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0} \\
 Associated application ID & Industrial vibroacoustic demonstrator expected in 2027; no catalogue ID assigned \\
 Associated benchmark ID & No benchmark registry ID assigned \\
-Scientific or numerical result & Not reported \\
+Scientific or numerical result & 22 registered static verification cases with reference checks on displacement, strain and stress \\
 Performance or scalability result & No 2026 scalability measurements reported \\
-References and supporting data & \nolinkurl{feelpp/quickstart/elasticity/shell}, including patch, plate and SB9 validation configurations in PR~2510 \\
-Maturity & Integrated formulation with verification configurations \\
+References and supporting data & \href{https://github.com/feelpp/feelpp/tree/v0.112.0/feelpp/quickstart/elasticity/sb9}{SB9 verification configurations} and the \href{https://github.com/feelpp/feelpp/tree/v0.112.0/feelpp/quickstart/elasticity/cases/shell}{plate and shell benchmarks} \\
+Maturity & Released with static verification cases \\
 Limitations and next step & Develop a fast, efficient large-scale solver for fluid-loaded slender structures and defect detection under medium- and high-frequency excitation; industrial demonstrator expected in 2027 \\
 Cross-WP contribution or dependency & WP3: mixed block assembly and static condensation; WP7: framework implementation and connections to Feel++ CPU, GPU and hybrid HPC developments \\
 \end{WPAdvanceRecord}
@@ -109,17 +68,17 @@ Cross-WP contribution or dependency & WP3: mixed block assembly and static conde
 % Cemosis / Feel++ 2026 contribution.
 \begin{WPAdvanceRecord}{WP1-A2026-3}
 Exa-MA task and bottleneck & T1.4; B7 (Exascale Algorithms) \\
-Concise description of the 2026 advance & Distributed geometric intersection queries with a two-level BVH and asynchronous batched MPI exchanges, developed jointly with the HiDALGO2 Centre of Excellence for the PC5 Ktirio Urban Building demonstrator \\
+Concise description of the 2026 advance & Distributed ray tracing using a partition-level hierarchy and local triangle hierarchies, developed with HiDALGO2 for solar masks in the PC5 Ktirio Urban Building demonstrator \\
 Responsible contributors and institutions & Cemosis, University of Strasbourg \\
 Implementing software & Feel++ \\
-Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2494}{Feel++ PR~2494} \\
-Associated application ID & PC5 Ktirio Urban Building demonstrator; related geometry contribution: \nolinkurl{app-feelpp-ktirio-geom} \\
-Associated benchmark ID & No benchmark registry ID assigned \\
-Scientific or numerical result & Not reported \\
-Performance or scalability result & No 2026 scalability measurements reported \\
-References and supporting data & PR~2494 describes the parallel query implementation and its supported contexts \\
-Maturity & Integrated geometric-query infrastructure \\
-Limitations and next step & The PR reports an incomplete parallel result for the all-intersections context; tuning and performance results remain to be documented \\
+Software release & \href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0} \\
+Associated application & PC5 \KtirioUrbanBuildingContext{} solar masks \\
+Associated benchmark & Paris 8\,km on Discoverer (\Cref{tab:Feelpp:solar-mask-discoverer}) \\
+Scientific or numerical result & Solar occlusion on a mesh of \num{68207038} triangles. The Building-only and Allfaces variants trace \num{78636852} and \num{204621114} rays per sunlit step, respectively. \\
+Performance or scalability result & The timing comparison covers both variants through 16\,384 MPI ranks on 128 nodes. The Building-only mask time fell by 38\%, to 15.33\,s, from 8\,192 to 16\,384 ranks. Building-only also completed at 32\,768 ranks on 342 nodes with simulation output disabled. \\
+References and supporting data & HiDALGO2 D3.3, UNISTRA contribution v0.2. The \href{https://github.com/feelpp/feelpp/pull/2494}{merged BVH implementation} is described in \cref{sec:Feelpp:implementation-2026:bvh}. \\
+Maturity & Released and benchmarked for solar occlusion \\
+Query scope & The campaign uses any-hit queries. The parallel all-intersections mode can return partial results. \\
 Cross-WP contribution or dependency & WP7: distributed geometric infrastructure \\
 \end{WPAdvanceRecord}
 
@@ -128,13 +87,13 @@ Exa-MA task and bottleneck & T1.5; B7 (Exascale Algorithms), B10 (Scientific Pro
 Concise description of the 2026 advance & Discretization coupling through preCICE, developed jointly with the HiDALGO2 Centre of Excellence to couple urban microclimate and building energy simulation in the PC5 Ktirio Urban Building demonstrator \\
 Responsible contributors and institutions & Cemosis, University of Strasbourg \\
 Implementing software & Feel++, preCICE; OpenFOAM deployment support \\
-Software release, commit or PR & \href{https://github.com/feelpp/feelpp/issues/2525}{Feel++ issue~2525} \\
+Software release & \href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0#multiphysics-coupling-with-precice}{Feel++~v0.112.0} \\
 Associated application ID & PC5 Ktirio Urban Building demonstrator; no dedicated coupling catalogue ID assigned \\
 Associated benchmark ID & No benchmark registry ID assigned \\
 Scientific or numerical result & Coupling objective: exchange interface fields between urban microclimate and building energy simulations; no coupled demonstrator results reported here \\
 Performance or scalability result & No 2026 scalability measurements reported \\
-References and supporting data & Feel++ issue~2525 and \nolinkurl{packaging/docker/openfoam/README.md} \\
-Maturity & Coupling adapter and OpenFOAM participant deployment infrastructure \\
+References and supporting data & \href{https://github.com/feelpp/feelpp/issues/2525}{Adapter development} and \href{https://github.com/feelpp/feelpp/blob/v0.112.0/packaging/docker/openfoam/README.md}{OpenFOAM participant build recipes} \\
+Maturity & Released preCICE adapter with OpenFOAM participant build support \\
 Limitations and next step & Demonstrator-level coupling and its numerical assessment remain to be documented \\
 Cross-WP contribution or dependency & WP3: algebraic solution of coupled systems; WP7: coupling adapter and deployment \\
 \end{WPAdvanceRecord}
@@ -157,13 +116,8 @@ Cross-WP contribution or dependency & WP7: application implementation and benchm
 \end{WPAdvanceRecord}
 
 \section{Scientific Advances}
-\WPUpdateNote{Update the inherited task subsections with the work performed in
-2026.  Separate new achievements from the 2024--2025 baseline and cite the
-corresponding annual advance records.}
 
 \subsection{Task 1.1 - Mesh generation}
-\WPUpdateNote{Update the mesh-generation advances, results, software evidence
-and limitations for 2026.}
 The advances in this task concern valid large-scale generation and especially feature-preserving Alpha wrapping.
 
 The Alpha Wrapping algorithm implemented in the CGAL library provides a robust method for generating a watertight, adjustable, and manifold surface mesh that conservatively encloses a 3D input. It is particularly effective when the input is noisy, incomplete, or non-manifold. The algorithm proceeds as follows:
@@ -275,12 +229,7 @@ remain to be documented separately.
 %===========================
 
 
-
-
-
 \subsection{Task 1.2 — Adaptive Mesh Refinement for Unstructured Grids at Scale}
-\WPUpdateNote{Update the 2026 ParMmg/MMG work, measured scaling results and
-versioned evidence.}
 \label{sec:wp1:t1.2}
 
 \paragraph{Objective.}
@@ -322,7 +271,7 @@ Both apps are \emph{benchmark-ready}; first coordinated multi-node campaigns are
 
 \subsection{Task 1.4 - Finite Element Exascale Framework (FEEF)}
 %\WPUpdateNote{Update the 2026 high-order CPU/GPU work, application status and
-%machine-level evidence.}
+%machine-level measurements.}
 \label{sec:wp1:t1.4}
 
 \subsubsection{PC5: high-order wave proxy application on CPU/GPU}
@@ -355,27 +304,64 @@ and equivalent first-order systems for explicit schemes. Formulations include hi
 \end{itemize}
 
 \paragraph{Current status.}
-Core API skeleton with concepts, reference high-order bases and quadratures, matrix-free mass/stiffness kernels (CPU) and initial GPU bring-up via Kokkos are in progress. The wave proxy-app drives the kernels end-to-end and feeds WP7’s benchmarking pipeline. Next steps include face-term fusion for DG, $H(\mathrm{curl})/H(\mathrm{div})$ spaces, and optimized transfer operators to interface with Task~\ref{sec:wp1:t1.2}.
+The wave proxy exercises the matrix-free mass and stiffness kernels on CPUs
+and provides a case for Kokkos GPU development and WP7 benchmarking. Work on
+the proxy continues with fusion of DG face terms and transfer operators for
+Task~\ref{sec:wp1:t1.2}. The finite-element refactoring below extends the
+range of spaces available to this work.
 
-\subsubsection{Cemosis: solid-shell discretization and distributed geometric queries}
+\subsubsection{Cemosis finite-element discretization and distributed geometric queries}
+
+\paragraph{High-order elements, curved geometry and portable assembly.}
+\label{sec:wp1:t1.4:orders}
+The stabilized Feel++ finite-element implementation brings high-order
+bases for five families into a common interface. These provide continuous
+Lagrange spaces in $H^1$, Raviart--Thomas and Brezzi--Douglas--Marini spaces
+in $H(\mathrm{div})$, and first- and second-kind N\'ed\'elec spaces in
+$H(\mathrm{curl})$.
+The geometry map and the field approximation have independent polynomial
+degrees, so curved boundaries and interfaces can be represented at the
+order required by the geometry. Compile-time and run-time orders share
+reference-element data and local assembly interfaces.
+
+The $P_1$ and $P_2$ tests passed on one and six MPI ranks with both standard
+and Kokkos-enabled CPU builds. On Gaya, the Kokkos/HIP path assembled and
+solved a scalar Poisson verification problem with PETSc GPU storage on
+one MPI rank. For the manufactured $P_2$ solution, both CPU and GPU runs
+gave an $L^2$ error of approximately $2.45\times10^{-10}$. The benchmark
+records assembly, solve and data-movement costs separately
+(\cref{sec:Feelpp:implementation-2026:orders}).
 
 \paragraph{Solid-shell discretization (T1.4).}
-The SB9 work is carried out jointly with AVNIR Energy, in collaboration
-with INSA Lyon. The objective is a fast, efficient large-scale solver for
-the vibroacoustic response of fluid-loaded slender structures, targeting
-defect detection through medium- and high-frequency excitation. This work
-connects with the broader Feel++ efforts on CPU, GPU and hybrid HPC
-computing. A new industrial demonstrator is expected in 2027.
+The SB9 formulation released in Feel++~v0.112.0 uses one hexahedral
+element through the thickness and couples displacement to an internal
+cell mode. Dedicated membrane--bending, pinching, assumed-shear and
+stabilization operators separate the shell contributions. The geometry
+and symmetric tensor conventions make the constitutive contractions
+and block couplings explicit (\cref{sec:Feelpp:implementation-2026:sb9}).
 
-The SB9 development uses a mixed displacement/internal-mode formulation on a hexahedron with one element through the thickness. Dedicated membrane--bending, pinching, assumed-shear and stabilization operators separate the shell contributions. Local geometry and symmetric tensor conventions are explicit so that the constitutive contractions and block couplings can be inspected. This is the discretization contribution; its software realization and verification cases are identified in \Cref{tab:advance:WP1-A2026-2}.
+Joint work with AVNIR Energy and INSA Lyon uses this discretization to
+develop a scalable solver for the vibroacoustic response of fluid-loaded
+slender structures, with defect detection under medium- and high-frequency
+excitation as the application objective. An industrial demonstrator is
+planned for 2027. \Cref{tab:advance:WP1-A2026-2} records the release and
+verification cases.
 
-\paragraph{Distributed geometric queries (T1.4).}
-The distributed BVH development supports the PC5 \KtirioUrbanBuildingContext{} demonstrator in joint work with the HiDALGO2 Centre of Excellence. It organizes geometric searches through a two-level hierarchy and batches asynchronous MPI exchanges, providing distributed geometric-query infrastructure for the finite-element framework. It complements the Ktirio geometry contribution. The limitation of the all-intersections query is retained in \Cref{tab:advance:WP1-A2026-3}.
+\paragraph{Distributed solar ray tracing (T1.4).}
+On a partitioned city mesh, a ray can meet an obstruction owned by a
+different MPI rank. The top-level hierarchy identifies intersected
+partition boxes, and the rank-local hierarchies find triangle
+intersections. An any-hit search is sufficient to decide occlusion.
+Feel++~v0.112.0 provides this search for the PC5
+\KtirioUrbanBuildingContext{} demonstrator. The Paris 8\,km campaign
+compared the mask timings of both variants through 16\,384 ranks on
+Discoverer. Building-only also completed at 32\,768 MPI ranks on 342
+allocated nodes with simulation output disabled.
+\Cref{sec:Feelpp:implementation-2026:bvh,tab:Feelpp:solar-mask-discoverer}
+describe the implementation and scaling results.
 
 
-\subsection{Task 1.5 - Exploit non conforming methods for efficient parallel parallel}
-\WPUpdateNote{Update the 2026 non-conforming-method work and distinguish
-implemented results from planned developments.}
+\subsection{Task 1.5 - Non-conforming methods for parallel discretization}
 A hybridizable discontinuous Galerkin (HDG) method has been developed to solve the linear anisotropic elastic equation in the frequency domain. HDG discretization allows us to decrease the size of the discrete system while keeping a good conditioning of the global matrix to be inverted. First-order formulation with the compliance tensor and Voigt notation are employed to provide a compact description of the discretized problem and flexibility with highly heterogeneous media. We further focus on the question of optimal choices of stabilization in the definition of HDG numerical traces. For this purpose, we construct a hybridized Godunov-upwind flux for anisotropic elastic media possessing three distinct wavespeeds. This stabilization removes the need to choose a scaling factor, contrary to the identity and Kelvin–Christoffel based stabilizations which are popular choices in the literature. We carry out comparisons among these families for isotropic and anisotropic material, with constant background and highly heterogeneous ones, in two and three dimensions. These experiments establish the optimality of the Godunov stabilization which can be used as a reference choice for a generic material in which different types of waves propagate. This work has been presented in conferences (Eccomas, Waves2025) and is published \cite{pham_numerical_2024}.
 
 \paragraph{HDG modeling of solar oscillations.}
@@ -393,11 +379,12 @@ terms of amplitude and oscillation pattern, and requires a judicious choice of s
 \paragraph{Discretization coupling (T1.5).}
 The joint work with the HiDALGO2 Centre of Excellence targets coupling
 urban microclimate and building energy simulation in the PC5
-\KtirioUrbanBuildingContext{} demonstrator. The preCICE integration connects independently
-discretized subdomains through coupling meshes and transferred interface
-fields. Nonmatching trace meshes and field mapping allow the participating
-solvers to retain their own discretizations; transferred fields enter the
-receiving finite-element problem through its variational formulation.
+\KtirioUrbanBuildingContext{} demonstrator. The preCICE adapter released in
+Feel++~v0.112.0 connects independently discretized subdomains through coupling
+meshes and transferred interface fields. Field mapping connects nonmatching
+trace meshes so that each solver retains its own discretization. The receiving
+finite-element problem incorporates the transferred fields into its variational
+formulation.
 This coupling infrastructure also opens broader opportunities for
 Feel++--OpenFOAM multiphysics applications.
 The contribution is recorded in \Cref{tab:advance:WP1-A2026-4}; adapter
@@ -405,20 +392,31 @@ and deployment details are given in
 \Cref{sec:Feelpp:implementation-2026:precice}.
 
 \subsection{Task 1.7 -  Efficient multimodel/multiphysics coupling}
-\WPUpdateNote{Update the 2026 coupling work, cross-WP dependencies, software
-versions and validated results.}
-We have launched a work on efficient multiphysics partitioned strategies in the HPC framework. Our approach is intended to be as generic as possible and to consider black-box physical solvers. The applications of interest are elasto-acoustic and thermomechanical problems.\\
-This work has been carried out since November 2024 by Pierre Dubois, PhD student, supervised by Isabelle Ramière and Raphaël Prat (CEA) and Hélène Barucq (Inria Makutu).
-A review of numerical methods and HPC strategies for multiphysics coupling motivated partitioned approaches that reuse standalone solvers, with fixed-point acceleration when required for convergence.
+Pierre Dubois's doctoral work on partitioned multiphysics coupling began in
+November 2024 under the supervision of Isabelle Ramière and Raphaël Prat
+(CEA) and Hélène Barucq (Inria Makutu). The approach reuses standalone
+solvers and applies fixed-point acceleration when needed for convergence.
 
-In partitioned thermomechanical coupling schemes, the influence of mechanical displacement on the thermal problem during the solution iterations is generally neglected or accounted for by solving the thermal model on the deformed geometry. As this strategy can sometimes be limiting, we investigated an approach based on an effective conductivity that accounts for displacement, allowing thermal computations to be performed on the initial configuration. This approach was validated using Cast3M and subsequently implemented in the MFEM library, which relies on distributed-memory parallelization. These results were presented at the national CSMA 2026 conference, and an extended abstract was published following peer review \cite{dubois_couplage_2026}.
-In many applications, accurately modeling the interaction between acoustic waves propagating in a fluid and elastic waves evolving in a solid is crucial. A representative example is the detection and localization of an object submerged
-deep in a water body. These phenomena are strongly coupled, and their numerical simulation can be computationally expensive, making direct approaches based on a single solver for the fully coupled system difficult to implement efficiently.
-This so-called monolithic approach is often contrasted with partitioned strategies, in which each physical subsystem is solved independently,
-while the coupling is enforced through the iterative exchange of appropriate interface quantities until convergence is achieved. Despite their potential advantages, partitioned algorithms have received limited attention in the
-context of elasto-acoustic wave problems. It is worth noting that recent studies based on domain decomposition methods in the time domain have introduced coupling conditions that ensure convergence and accuracy; the references are provided in the
-WAVES contribution cited below. In the framework of Pierre Dubois PhD thesis, supervised by Isabelle Ramière and  Raphaël Prat (CEA) and Hélène Barucq (Inria Makutu), we consider time-harmonic elasto-acoustic problems and analyze the performance of a monolithic solver based on a Hybridizable Discontinuous Galerkin (HDG) formulation with a partitioned algorithm using continuous Lagrange finite elements for both subdomains. Preliminary results have been presented at the international conference Waves 2026, which was held in Montreal (Canada). The peer-reviewed abstract, \emph{Comparison of numerical coupling strategies in time-harmonic elasto-acoustic simulations}, appears in the
-WAVES 2026 book of abstracts \cite{imbert-gerardWaves2026Book2026}
+\paragraph{Static thermoelasticity.}
+The thermal problem is solved on the reference configuration using an
+effective conductivity that depends on mechanical displacement.
+\citeA{dubois_couplage_2026} verified this formulation against explicit
+mesh deformation in Cast3M and assessed the distributed-memory MFEM
+implementation on CCRT TOPAZE. The strong-scaling study used a mesh
+of $83\times10^6$ nodes and 64 to 4\,096 MPI processes. The CSMA 2026
+paper documents the bar and fuel-pellet cases.
+\Cref{sec:app:specs:app-feelpp-thermomeca-1} gives these reference results
+and the protocol for the Feel++ demonstrator under development.
+
+\paragraph{Time-harmonic elasto-acoustics.}
+The study compares a monolithic hybridizable discontinuous Galerkin
+(HDG) formulation with a partitioned algorithm using continuous
+Lagrange finite elements in the fluid and solid. The partitioned
+solvers exchange interface quantities until convergence. The first
+comparisons were presented at WAVES 2026 in Montréal in the
+peer-reviewed abstract \emph{Comparison of numerical coupling strategies
+in time-harmonic elasto-acoustic simulations}
+\cite{imbert-gerardWaves2026Book2026}
 (\href{https://arxiv.org/pdf/2607.19425\#page=112}{PDF pages 112--113}).
 
 \paragraph{High-order multistep coupling.}\label{sec:wp1:t1.7:multistep}
@@ -470,9 +468,6 @@ solid and a fluid cavity heated from the side, and the expected order $k+1$ is
 observed up to order~4 (see \Cref{sec:app:specs:app-samurai-cwipi}).
 
 
-
-
-
 \paragraph{Urban microclimate and building energy coupling.}
 The joint HiDALGO2 / PC5 Ktirio Urban Building work provides an application
 context for partitioned multiphysics coupling. Its nonmatching-interface
@@ -481,33 +476,59 @@ discretization and field-transfer contribution is described under T1.5 in
 in \Cref{sec:Feelpp:implementation-2026:precice}.
 
 \section{Application Showcase}
-\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
-result to an annual advance and benchmark, and flag missing mappings explicitly.}
+\label{sec:wp1:applications}
 
-% \input{chapters/applications/specs/app-feelpp-discr-1}  
-% \input additional app specs as needed
+\paragraph{Mesh generation and repair.}
+For CGAL, \hyperref[sec:app:specs:app-cgal-autorefine]{triangle-mesh
+autorefinement} reports single-node thread scaling. The
+\hyperref[sec:app:specs:app-cgal-cdt2]{2D constrained Delaunay} and
+\hyperref[sec:app:specs:app-cgal-ccdt3]{3D conforming constrained Delaunay}
+fiches specify benchmarks for planar triangulation and tetrahedral meshing.
+\hyperref[sec:app:specs:app-feelpp-ktirio-geom]{Ktirio-Geom terrain
+generation} uses CGAL and Feel++ to construct conforming terrain meshes.
+Its Gaya run measured tile-generation time from one to 64 workers.
 
-\paragraph{Applications mapping.}
-\begin{itemize}
-    \item Thermal bridges demonstrator (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-1}.
-    \item FDA nozzle (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-2}.
-    \item Parallel mesh adaptation with ParMMG (FreeFEM): Section~\ref{sec:app:specs:app-freefem-parmmg}.
-    \item Ktirio-Geom terrain generation (Feel++/CGAL): \Cref{sec:app:specs:app-feelpp-ktirio-geom}; annual advance \nolinkurl{WP1-A2026-5}.
-    \item Geometry queries and distances (Feel++): Section~\ref{sec:app:specs:app-feelpp-distance}.
-    \item High-order multistep coupling for solid-fluid conjugate heat transfer (Cwipi, samurai, PETSc): Section~\ref{sec:app:specs:app-samurai-cwipi}.
-\end{itemize}
+\paragraph{Mesh adaptation and coupling.}
+Samurai's \hyperref[sec:app:specs:app-samurai-burgers-2d]{adaptive Burgers}
+and \hyperref[sec:app:specs:app-samurai-euler-dmr]{Double Mach reflection}
+cases provide executable weak- and strong-scaling workflows, respectively,
+with scaling measurements pending. The
+\hyperref[sec:app:specs:app-samurai-cwipi]{Cwipi--Samurai--PETSc heat-transfer
+case} tests time convergence of the multistep coupling.
+The \hyperref[sec:app:specs:app-freefem-parmmg]{FreeFEM/ParMmg Fichera
+case} specifies an anisotropic solve--adapt benchmark.
+The \hyperref[sec:app:specs:app-feelpp-parmmg]{Feel++/ParMmg fiche}
+records a separate application specification.
 
-\paragraph{Associated demonstrator developments.}
-The joint HiDALGO2 / PC5 Ktirio Urban Building work motivates the distributed
-geometric-query and preCICE coupling contributions
-(\Cref{tab:advance:WP1-A2026-3,tab:advance:WP1-A2026-4}). The SB9 work with
-AVNIR Energy and INSA Lyon targets an industrial demonstrator expected in
-2027 (\Cref{tab:advance:WP1-A2026-2}). No new application identifiers are
-assigned to these developments here.
+\paragraph{Finite-element verification and performance.}
+The \hyperref[sec:app:specs:app-feelpp-discr-1]{Feel++ thermal-bridge case}
+verifies against ISO~10211:2017 and reports parallel timings.
+The \hyperref[sec:app:specs:app-feelpp-discr-2]{FDA nozzle} defines the
+planned flow verification and scaling campaign. The
+\hyperref[sec:app:specs:app-feelpp-distance]{distance-query case} records
+historical BVH and FMM results.
+The \hyperref[sec:app:specs:app-feelpp-io]{large-scale I/O case} reports
+Discoverer measurements for finite-element field export and reloading.
+The \hyperref[sec:app:specs:app-feelpp-thermoelectric-1]{HL-31 thermoelectric
+case} reports CPU timings, and the
+\hyperref[sec:app:specs:app-feelpp-mi300a-fem]{MI300A case} defines the GPU
+campaign in preparation.
+For \hyperref[sec:app:specs:app-feelpp-thermomeca-1]{partitioned
+thermomechanics}, Cast3M and MFEM supply reference results for the Feel++
+demonstrator under development.
+
+\paragraph{Urban and industrial demonstrators.}
+The \hyperref[sec:pc5:ktirio-urban-building]{PC5 Ktirio Urban Building
+demonstrator} brings together the work with HiDALGO2 on distributed
+solar-mask calculation and preCICE coupling. The
+\hyperref[tab:Feelpp:solar-mask-discoverer]{Paris 8\,km solar-mask results}
+compare both variants through 16\,384 MPI ranks on Discoverer. The
+Building-only run reached 32\,768 ranks with simulation output disabled.
+The \hyperref[tab:advance:WP1-A2026-4]{preCICE advance record} describes the
+coupling work. The \hyperref[tab:advance:WP1-A2026-2]{SB9 shell work} with
+AVNIR Energy and INSA Lyon prepares an industrial demonstrator for 2027.
 
 \section{Software Framework Contributions}
-\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
-software descriptions only as dated context.}
 
 \input{software/cgal/WP1/2026-updates}
 
@@ -553,29 +574,44 @@ solver components are documented in
 \Cref{sec:Feelpp:implementation-2026:solvers}.
 
 \section{Preliminary Benchmarks \& Trends}
-\WPUpdateNote{Replace planned or expected results with measured 2026 values only
-when the configuration, baseline and evidence are available.}
+\label{sec:wp1:benchmarks}
 
-% • Scaling results placeholder  
+\paragraph{Geometry processing.}
+The \hyperref[benchmark:results:app-cgal-autorefine]{CGAL autorefinement
+measurements} cover meshes with 100 to 1\,000 points per grid side and
+up to 64 threads on one Gaya node. In the
+\hyperref[benchmark:results:app-feelpp-ktirio-geom]{Ktirio terrain
+benchmark}, tile generation took 117.18~s with one worker, 4.57~s
+with 32 and 5.01~s with 64. The
+\hyperref[sec:app:specs:app-feelpp-distance]{unit-cube distance study}
+reports historical BVH and FMM convergence and timing results.
 
+\paragraph{Parallel verification and performance.}
+The \hyperref[sec:app:specs:app-feelpp-discr-1]{thermal-bridge benchmark}
+checks ISO~10211:2017 tolerances for $\mathP_1$, $\mathP_2$ and $\mathP_3$
+elements and reports strong scaling on Discoverer up to 96 processes.
+The \hyperref[tab:Feelpp:solar-mask-discoverer]{Paris 8\,km solar-mask
+campaign} compares both variants through 16\,384 MPI ranks on Discoverer.
+Building-only also ran at 32\,768 ranks with simulation output disabled.
+The \hyperref[sec:app:specs:app-feelpp-io]{I/O study}
+measures preparation, writing and reloading separately.
+The \hyperref[sec:app:specs:app-feelpp-thermomeca-1]{thermomechanics fiche}
+links the MFEM TOPAZE study on an 83-million-node mesh using 64 to
+4\,096 MPI processes.
 
-
-
-% • Energy efficiency placeholder  
-
-% • Regression test pass-rate placeholder
-
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-    \item \textbf{Thermal bridges demonstrator (Feel++)} — \Cref{sec:app:specs:app-feelpp-discr-1}. Verification against ISO 10211:2017 reference values with $\mathP_1/\mathP_2/\mathP_3$ elements shows convergence within tolerances (see \Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:measures_convergences}). Strong-scaling on Discoverer up to 96 processes shows decreasing time-to-solution with good efficiency; I/O shows limited scalability (export phase), see performance figures for M1–M3. Metrics: \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling}.
-    \item \textbf{FDA nozzle (Feel++)} — \Cref{sec:app:specs:app-feelpp-discr-2}. Validation vs. FDA experimental data (axial velocity profiles, pressure drop, jet breakdown) with good agreement across Re=500–6500; strong and weak scaling show high parallel efficiency up to $O(10^2)$ processes. Metrics: \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}.
-    \item \textbf{Parallel mesh adaptation with ParMmg (FreeFEM)} — \Cref{sec:app:specs:app-freefem-parmmg}. Status: \emph{benchmark-ready}. Target benchmarks: anisotropic adaptation cycles on Fichera corner; time per adapt cycle, mesh quality, load-balance efficiency, solver convergence. Multi-node campaigns planned; results to be integrated with WP7 artifacts in D7.1 updates.
-    \item \textbf{Geometry queries and distances (Feel++)} — \Cref{sec:app:specs:app-feelpp-distance}. Convergence study on the unit cube shows BVH ray-tracing attains low $L^2$ error with accuracy driven primarily by mesh size ($h$), weak dependence on number of rays $M$; FMM achieves $\mathcal{O}(h)$ and is consistently faster than BVH for tested settings. Parallel scaling shows limited gains beyond small core counts due to algorithmic characteristics and I/O. Metrics: error norms, time-to-solution, speedup.
-\end{itemize}
+\paragraph{Executable cases and planned campaigns.}
+The \hyperref[sec:app:specs:app-samurai-burgers-2d]{Samurai Burgers}
+and \hyperref[sec:app:specs:app-samurai-euler-dmr]{Double Mach reflection}
+executables are ready for scaling campaigns. The
+\hyperref[sec:app:specs:app-samurai-cwipi]{Cwipi coupling case} tests
+temporal convergence. The
+\hyperref[sec:app:specs:app-feelpp-discr-2]{FDA nozzle} specifies validation
+against measurements for Reynolds numbers from 500 to 6\,500. The
+\hyperref[sec:app:specs:app-freefem-parmmg]{Fichera case} specifies
+adaptation-cycle timing, mesh quality, load balance and solver convergence
+for a planned multi-node campaign.
 
 \section{Roadmap \& Next Steps}
-\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
-2026 advances and benchmark evidence have been validated.}
 
 The following deliverables are planned:
 \begin{itemize}
@@ -592,4 +628,4 @@ Benchmarking activities are performed in interactions with WP7 and in particular
 
 % • Deliverables D1.x to complete by Mxx  
 % • New apps to integrate into WP7 CI/CD  
-% • Dependencies on WP7 infrastructure (containers, ReFrame)  
+% • Dependencies on WP7 infrastructure (containers, ReFrame)

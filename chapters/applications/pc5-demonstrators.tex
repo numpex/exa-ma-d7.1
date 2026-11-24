@@ -27,11 +27,13 @@ These contributions connect WP1/T1.1 meshing methods with WP7 implementation
 and benchmarking. The existing terrain timings cover one component of the
 urban demonstrator.
 
-\paragraph{Distributed geometric queries.}
-The Feel++ two-level BVH and asynchronous MPI queries provide distributed
-geometric-search infrastructure for the demonstrator. This WP1/T1.4
-contribution complements Ktirio-Geom's geometry generation; its software
-implementation is documented in the Feel++ fiche.
+\paragraph{Solar masks and ray tracing.}
+Ktirio uses the WP1/T1.4 distributed ray tracer in Feel++ to determine
+which parts of the surface mesh are shaded. The two-level hierarchy
+routes rays to the relevant partitions and tests occlusion against
+local triangles (\cref{sec:Feelpp:implementation-2026:bvh}). The
+HiDALGO2 Paris 8\,km runs quantify the mask phase through 16\,384 ranks
+on Discoverer (\Cref{tab:Feelpp:solar-mask-discoverer}).
 
 \paragraph{Urban microclimate and building energy coupling.}
 The preCICE integration targets coupling urban microclimate with building
@@ -43,14 +45,12 @@ The same infrastructure also supports broader Feel++--OpenFOAM coupling
 objectives.
 
 \paragraph{Ensemble UQ and decision support.}
-Large ensembles of urban building energy simulations create memory and
-I/O challenges through their building-level outputs and time series.
-The Ensemble/UQ framework resides in Ktirio Urban Building and builds on
-Feel++ streaming statistical processing. The WP6/T6.4 contribution, with
-relevance to T6.2, concerns that statistical-processing layer: mergeable
-summaries and quantiles provided by feelstats. Ensemble execution,
-dedicated I/O ranks and application-level VaR/CVaR risk products belong
-to the Ktirio framework. The Feel++ fiche describes the statistical
-components and their application context. Geometry benchmark results and
-energy/UQ assessments retain their respective scopes within this common
-demonstrator.
+Ktirio Urban Building runs parameter samples in concurrent MPI groups and
+can stream their outputs to dedicated I/O ranks. The Ensemble/UQ framework
+combines building statistics as data arrive and writes summaries,
+exceedance probabilities and risk indicators for scenario comparison.
+This execution and analysis workflow contributes to
+\hyperref[sec:wp6:ensemble-streaming]{WP6/T6.4 and T6.2}.
+The Feel++ fiche describes the reusable streaming statistics alongside
+the Ktirio workflow (\Cref{sec:Feelpp:implementation-2026:stats}).
+The geometry campaign does not measure ensemble performance.

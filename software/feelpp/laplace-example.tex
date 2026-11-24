@@ -1,5 +1,7 @@
+% The Problem API natural-boundary and Dirichlet tests exercise these builders.
 \begin{listing}[H]
-        \caption{Sample \Feelpp code for solving a Laplace equation on an arbitrary domain.}
+        \caption{Variable-coefficient diffusion with the \Feelpp Problem API.}
+        \label{lst:feelpp:diffusion-problem-api}
 \begin{minted}[
         linenos,                % Line numbers
         fontsize=\scriptsize,        % Reduce font size
@@ -9,17 +11,22 @@
         rulecolor=\color{gray}, % Color of the frame
         breaklines              % Allow line breaks in long lines
       ]{cpp}
-auto Vh = Pch<4>(mesh, markedelements(mesh, expr("<...>")));
-auto u = Vh->element(), v = Vh->element(g, "g");
-auto l = form1(_test = Vh);
-l = integrate(_range = elements(support(Vh)), _expr = f * id(v));
-l += integrate(_range = markedfaces(support(Vh), "Robin"), _expr = -r_2 * id(v));
-l += integrate(_range = markedfaces(support(Vh), "Neumann"), _expr = -un * id(v));
+auto Vh = Pch<4>(mesh);
+auto uh = Vh->element("solution");
+auto u = trial(Vh);
+auto v = test(Vh);
+auto cells = elements(mesh);
 
-auto a = form2(_trial = Vh, _test = Vh);
-a = integrate(_range = elements(support(Vh)), _expr = inner(k * gradt(u), grad(v)));
-a += integrate(_range = markedfaces(support(Vh), "Robin"), _expr = r_1 * idt(u) * id(v));
-a += on(_range = markedfaces(support(Vh), "Dirichlet"), _rhs = l, _element = u, _expr = g);
-a.solve(_rhs = l, _solution = u);
+auto problem = ellipticProblem(_space = Vh, _name = "diffusion")
+    .lhs(integrate(_range = cells, _expr = inner(k * grad(u), grad(v))))
+    .rhs(integrate(_range = cells, _expr = f * v))
+    .neumann(_range = markedfaces(mesh, "Neumann"), _test = v, _expr = -qN)
+    .robin(_range = markedfaces(mesh, "Robin"), _trial = u, _test = v,
+           _alpha = r1, _expr = -r2)
+    .dirichlet(_range = markedfaces(mesh, "Dirichlet"),
+               _element = uh, _expr = g);
+
+auto system = problem.assemble();
+auto result = system.solve(_solution = uh);
 \end{minted}
 \end{listing}

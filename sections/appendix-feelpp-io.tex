@@ -1,0 +1,59 @@
+%!TEX root = ../exa-ma-deliverables.tex
+\clearpage
+\section*{Appendix C. Feel++ I/O campaign evidence}
+\addcontentsline{toc}{section}{Appendix C. Feel++ I/O campaign evidence}
+\label{sec:appendix-feelpp-io}
+
+The reference curves and the extended test matrix are separate datasets.
+The extended matrix varies order, field shape, writer or transfer mode,
+file lifetime, mesh size and rank count. This appendix records which
+reference points can be used and why the full matrix is not yet a scaling
+dataset. The benchmark implementation and run protocol are in
+\nolinkurl{numpex/apps-feelpp/src/app-feelpp-io}.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{0.25\linewidth}p{0.65\linewidth}@{}}
+\toprule
+Evidence & Verified Discoverer job records \\
+\midrule
+EnSight strong, 8.43M & 4520625, 4520626, 4520627, 4520630 (256 to 2,048 ranks) \\
+EnSight weak & 4520625, 4520631, 4520632, 4520633, 4520634 (8.43M to 127.52M) \\
+EnSight writers & 4520643 (127.52M / 8,192 ranks; byte-identical payloads) \\
+HDF5 strong, 8.43M & 4520760, 4520761, 4520762, 4520765 (256 to 2,048 ranks) \\
+HDF5 weak & 4520761, 4520769, 4520771, 4520773, 4520768 (8.43M to 127.52M) \\
+HDF5 time series & 4520800--4520802 (16 steps, six fields, exact coefficient readback) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Coverage snapshot, 22 November 2026 at 00:34 Paris time.}
+The extended standard-placement Discoverer matrix had 59 verified cases out
+of 498 planned: one was running, seven remained behind the active bundle,
+421 were held, and ten had documented out-of-memory failures. The Gaya
+matrix had four verified cases out of 83; the remaining 79 were held.
+Standalone Gaya baselines were outside those holds. These counts exclude
+the reference curves above. Unverified, deferred and failed tests do not
+have a plotted timing. The native HDF5 127.52M/1,024-rank case (4520774)
+remains missing; the 8,192-rank point passed.
+
+\paragraph{Reduced-density recovery.}
+Thirty-one of 65 isolated recovery cases had passed by the snapshot.
+These cases preserve the partition count but reduce ranks per node and
+isolate heavy fields; they are not replacements for standard-placement
+timings. No DG P3 field is planned at 127.52 million cells in this
+matrix: even the scalar has 2.55 billion degrees of freedom, beyond
+the campaign's conservative signed 32-bit envelope. Planned DG P3
+limits are 8M cells for the full tensor, 32M for the vector and 64M for
+the scalar. Gaya HDF5 timings are restricted to one NFS client after
+two-client readback failed; they are not pooled with Discoverer Lustre.
+
+\paragraph{Targeted repeats retained.}
+The retained 8.43M/512-rank slice (4520927) rotates the order of the
+three EnSight writer strategies across paired repeats, verifies payloads
+against rank zero and tests independent versus collective HDF5 on the
+same allocation. A paired Darshan job (4520931) is intended to check
+the writer ranks and request sizes separately from the unprofiled
+timings. Neither job contributes results to this snapshot. A repeated
+moving-geometry export, repeated high-scale timing and the broader
+order-by-writer matrix remain follow-up measurements.

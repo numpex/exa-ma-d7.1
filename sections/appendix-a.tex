@@ -9,25 +9,24 @@
 \addcontentsline{toc}{section}{Appendix A. Computing and Data Storage Infrastructures}
 \label{sec:app:architectures}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Section content, please change!
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The tables retain infrastructure specifications from earlier editions
+of this report. The machine, partition and software environment used for
+each campaign are recorded in the corresponding application fiche and
+benchmark registry (\cref{tab:v3-benchmark-registry}).
 
 \subsection*{EuroHPC JU}
 \label{sec:arch:eurohpc-ju}
 \addcontentsline{toc}{subsection}{EuroHPC JU}
 
-EuroHPC JU is a joint undertaking between the European Union, European countries, and private partners to develop and deploy (pre-)exascale supercomputers in Europe.
-The EuroHPC JU is responsible for the procurement and operation of the supercomputers. The EuroHPC JU has selected eight sites in eight countries to host the supercomputers. The supercomputers are expected to be operational by 2022. The supercomputers are expected to have a combined peak performance of over 200 Petaflops. The supercomputers will be used for a wide range of applications, including weather forecasting, climate modeling, drug discovery, and materials science. The supercomputers will also be used to support the European Open Science Cloud, a pan-European data infrastructure for research.
-The next two supercomputers are expected in 2024 (Germany, Jülich) and 2025 (France, TGCC) to host the first exascale systems in Europe.
-
-In~\cref{tab:eurohpc_flops_cpu_gpu} and~\cref{tab:eurohpc_storage_interconnect} below the FLOPS are given in Petaflops and the storage in Petabytes.
+\Cref{tab:eurohpc_flops_cpu_gpu,tab:eurohpc_storage_interconnect}
+summarize the selected EuroHPC systems in the earlier inventory
+\cite{eurohpc_supercomputers}.
 
 \begin{table}[!ht]
     \centering
     \begin{tabular}{l l l l l}
     \toprule
-    \textbf{Name} & \textbf{FLOPS} & \textbf{CPU} & \textbf{Cores} & \textbf{GPU} \\
+    \textbf{Name} & \textbf{PFLOP/s} & \textbf{CPU} & \textbf{Cores} & \textbf{GPU} \\
     & & \textbf{/node} & \textbf{/node} & \\
     \midrule
     LUMI  & 386 & 2x AMD EPYC 7763 & 128 & AMD Instinct \\
@@ -45,7 +44,7 @@ In~\cref{tab:eurohpc_flops_cpu_gpu} and~\cref{tab:eurohpc_storage_interconnect} 
     & & & & NVIDIA Ampere \\
     \bottomrule
     \end{tabular}
-    \caption{EuroHPC Systems, Their Countries, and Features  (FLOPS, CPU, Cores/node, GPU)}
+    \caption{Historical EuroHPC system specifications}
     \label{tab:eurohpc_flops_cpu_gpu}
 \end{table}
 
@@ -69,8 +68,6 @@ In~\cref{tab:eurohpc_flops_cpu_gpu} and~\cref{tab:eurohpc_storage_interconnect} 
     \label{tab:eurohpc_storage_interconnect}
 \end{table}
 
-For more details check out~\cite{eurohpc_supercomputers}.
-
 %%
 %% Genci
 %%
@@ -78,8 +75,10 @@ For more details check out~\cite{eurohpc_supercomputers}.
 \label{sec:arch:genci}
 \addcontentsline{toc}{subsection}{Genci}
 
-\ac{GENCI} is the French national high-performance computing agency. It provides access to supercomputers and high-performance computing resources for French researchers and their international collaborators. The agency operates three supercomputers: Adastra, Jean Zay, and Joliot-Curie. The systems are located at the CINES, IDRIS, and TGCC computing centers, respectively. The systems are described in the tables~\ref{tab:genci_flops_cpu_gpu} and~\ref{tab:genci_storage_interconnect}.
-For more details, check out:
+The \ac{GENCI} inventory covers Adastra (CINES), Jean Zay (IDRIS)
+and Joliot-Curie (TGCC). \Cref{tab:genci_flops_cpu_gpu,tab:genci_storage_interconnect}
+summarize the configurations in that inventory. The centre references are
+listed below.
 \begin{description}
     \item[Cines] \fullcite{genci_cines}
     \item[Idris] \fullcite{genci_idris}
@@ -165,24 +164,13 @@ The frontal has 96 cores and 0.5TB of RAM which is used for generating large-sca
 \label{sec:arch:girder:unistra}
 \addcontentsline{toc}{subsection}{Data Storage: girder.math.unistra.fr}
 
-A Girder system is located at the University of Strasbourg, France.
-150TB of storage is available.
-Public and Private data collections are available.
-
-Check out \url{https://girder.math.unistra.fr} for more details.
+The University of Strasbourg \href{https://girder.math.unistra.fr}{Girder}
+service provides public and private data collections. The capacity recorded
+in the infrastructure inventory was 150~TB.
 
 \subsection*{Zenodo (EU)}
 \label{sec:arch:zenodo}
 \addcontentsline{toc}{subsection}{Data Storage: zenodo.org}
 
-% make a brief description of the Zenodo system
-Zenodo is a general-purpose open-access repository developed under the European OpenAIRE program and operated by CERN. 
-It allows researchers to deposit data sets, research software, reports, and any other research-related digital artifacts. 
-Zenodo assigns a DOI to each uploaded artifact, making it citable in scientific publications.
-Finally GitHub integration is available to automatically upload releases to Zenodo. 
-This feature is used to store the NumPEx software releases.
-
-Check out \url{https://zenodo.org/communities/numpex} for more details.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The \href{https://zenodo.org/communities/numpex}{NumPEx collection on
+Zenodo} provides DOI records for published software and other research outputs.

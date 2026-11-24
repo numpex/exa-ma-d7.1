@@ -1,73 +1,23 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Standalone WP6 - Fast compilation for Overleaf
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Compile from the repository root; see scripts/workpackage_previews.py.
 \documentclass[11pt]{report}
-
-\usepackage{numpex}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage{amsmath}
-\usepackage{empheq}
-\usepackage{fancybox}
-\usepackage{anyfontsize}
-\usepackage{cleveref}
-\usepackage{standalone}
-\usepackage[]{acronym}
-\usepackage{import}
-\usepackage{booktabs}
-\usepackage{geometry}
-\usepackage{tabularx,longtable}
-\usepackage{paralist}
-\usepackage{multirow}
-\usepackage{pgf-pie}
-\usepackage{tikz}
-\usepackage{xspace,float,relsize}
-\usepackage{minted}
-\usepackage{siunitx}
-\usepackage{pgfplots}
-\usepackage{pgfplotstable}
-\usepackage{tabularray}
-\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
-\pgfplotsset{compat=newest}
-\usetikzlibrary{positioning,fit,matrix}
-
-\definecolor{bgcolor}{gray}{0.95}
-\definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88}
-
-\hypersetup{
-    pdftitle={WP6 - Uncertainty Quantification (Standalone)},
-    pdfauthor={Exa-MA Consortium},
-    colorlinks=true,
-    citecolor=CustomBlue,
-    linkcolor=CustomBlue,
-    urlcolor=blue
-}
-
-\graphicspath{ {graphics/} }
-\input{defs}
-\urlstyle{same}
-
+\def\WPNumber{6}
+\input{standalone/workpackage-preamble}
+\hypersetup{pdftitle={Exa-MA WP6 contribution}}
 \begin{document}
-
 \title{WP6 - Uncertainty Quantification\\
-\large Exa-MA D6.1 v2.96.0 integration draft - Standalone Chapter\\
+\large Exa-MA D6.1 v2.97.0 integration draft - Standalone Chapter\\
 \normalsize Final target v3.0.0 -- 14 October 2026}
 \author{WP6 Team}
-\date{16/10/2026}
+\date{24/11/2026}
 \maketitle
-
+\input{standalone/workpackage-reading-note}
 \tableofcontents
 \clearpage
-
-\chapter{WP6 - Uncertainty Quantification}
+\input{sections/abbreviations}
+\chapter{WP6 -- Uncertainty Quantification}
 \label{chap:wp6}
-
 \subimport{chapters/WP6/}{WP6}
-
 \clearpage
 \bibliography{references}
 \bibliographystyle{apacite}
-
 \end{document}
