@@ -271,7 +271,7 @@ Both apps are \emph{benchmark-ready}; first coordinated multi-node campaigns are
 
 \subsection{Task 1.4 - Finite Element Exascale Framework (FEEF)}
 %\WPUpdateNote{Update the 2026 high-order CPU/GPU work, application status and
-%machine-level evidence.}
+%machine-level measurements.}
 \label{sec:wp1:t1.4}
 
 \subsubsection{PC5: high-order wave proxy application on CPU/GPU}
@@ -476,27 +476,57 @@ discretization and field-transfer contribution is described under T1.5 in
 in \Cref{sec:Feelpp:implementation-2026:precice}.
 
 \section{Application Showcase}
+\label{sec:wp1:applications}
 
-% \input{chapters/applications/specs/app-feelpp-discr-1}  
-% \input additional app specs as needed
+\paragraph{Mesh generation and repair.}
+For CGAL, \hyperref[sec:app:specs:app-cgal-autorefine]{triangle-mesh
+autorefinement} reports single-node thread scaling. The
+\hyperref[sec:app:specs:app-cgal-cdt2]{2D constrained Delaunay} and
+\hyperref[sec:app:specs:app-cgal-ccdt3]{3D conforming constrained Delaunay}
+fiches specify benchmarks for planar triangulation and tetrahedral meshing.
+\hyperref[sec:app:specs:app-feelpp-ktirio-geom]{Ktirio-Geom terrain
+generation} uses CGAL and Feel++ to construct conforming terrain meshes.
+Its Gaya run measured tile-generation time from one to 64 workers.
 
-\paragraph{Applications mapping.}
-\begin{itemize}
-    \item Thermal bridges demonstrator (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-1}.
-    \item FDA nozzle (Feel++): Section~\ref{sec:app:specs:app-feelpp-discr-2}.
-    \item Parallel mesh adaptation with ParMMG (FreeFEM): Section~\ref{sec:app:specs:app-freefem-parmmg}.
-    \item Ktirio-Geom terrain generation (Feel++/CGAL): \Cref{sec:app:specs:app-feelpp-ktirio-geom}; annual advance \nolinkurl{WP1-A2026-5}.
-    \item Geometry queries and distances (Feel++): Section~\ref{sec:app:specs:app-feelpp-distance}.
-    \item High-order multistep coupling for solid-fluid conjugate heat transfer (Cwipi, samurai, PETSc): Section~\ref{sec:app:specs:app-samurai-cwipi}.
-\end{itemize}
+\paragraph{Mesh adaptation and coupling.}
+Samurai's \hyperref[sec:app:specs:app-samurai-burgers-2d]{adaptive Burgers}
+and \hyperref[sec:app:specs:app-samurai-euler-dmr]{Double Mach reflection}
+cases provide executable weak- and strong-scaling workflows, respectively,
+with scaling measurements pending. The
+\hyperref[sec:app:specs:app-samurai-cwipi]{Cwipi--Samurai--PETSc heat-transfer
+case} tests time convergence of the multistep coupling.
+The \hyperref[sec:app:specs:app-freefem-parmmg]{FreeFEM/ParMmg Fichera
+case} specifies an anisotropic solve--adapt benchmark.
+The \hyperref[sec:app:specs:app-feelpp-parmmg]{Feel++/ParMmg fiche}
+records a separate application specification.
 
-\paragraph{Associated demonstrator developments.}
-The joint HiDALGO2 / PC5 Ktirio Urban Building work motivates the distributed
-geometric-query and preCICE coupling contributions
-(\Cref{tab:advance:WP1-A2026-3,tab:advance:WP1-A2026-4}). The SB9 work with
-AVNIR Energy and INSA Lyon targets an industrial demonstrator expected in
-2027 (\Cref{tab:advance:WP1-A2026-2}). No new application identifiers are
-assigned to these developments here.
+\paragraph{Finite-element verification and performance.}
+The \hyperref[sec:app:specs:app-feelpp-discr-1]{Feel++ thermal-bridge case}
+verifies against ISO~10211:2017 and reports parallel timings.
+The \hyperref[sec:app:specs:app-feelpp-discr-2]{FDA nozzle} defines the
+planned flow verification and scaling campaign. The
+\hyperref[sec:app:specs:app-feelpp-distance]{distance-query case} records
+historical BVH and FMM results.
+The \hyperref[sec:app:specs:app-feelpp-io]{large-scale I/O case} reports
+Discoverer measurements for finite-element field export and reloading.
+The \hyperref[sec:app:specs:app-feelpp-thermoelectric-1]{HL-31 thermoelectric
+case} reports CPU timings, and the
+\hyperref[sec:app:specs:app-feelpp-mi300a-fem]{MI300A case} defines the GPU
+campaign in preparation.
+For \hyperref[sec:app:specs:app-feelpp-thermomeca-1]{partitioned
+thermomechanics}, Cast3M and MFEM supply reference results for the Feel++
+demonstrator under development.
+
+\paragraph{Urban and industrial demonstrators.}
+The \hyperref[sec:pc5:ktirio-urban-building]{PC5 Ktirio Urban Building
+demonstrator} brings together the work with HiDALGO2 on distributed
+solar-mask calculation and preCICE coupling. The
+\hyperref[tab:Feelpp:solar-mask-discoverer]{Paris 8\,km solar-mask results}
+compare both variants through 16\,384 MPI ranks on Discoverer. The
+Building-only run reached 32\,768 ranks with simulation output disabled.
+The \hyperref[tab:advance:WP1-A2026-4]{preCICE advance record} describes the
+coupling work. The \hyperref[tab:advance:WP1-A2026-2]{SB9 shell work} with
+AVNIR Energy and INSA Lyon prepares an industrial demonstrator for 2027.
 
 \section{Software Framework Contributions}
 
@@ -544,18 +574,42 @@ solver components are documented in
 \Cref{sec:Feelpp:implementation-2026:solvers}.
 
 \section{Preliminary Benchmarks \& Trends}
+\label{sec:wp1:benchmarks}
 
+\paragraph{Geometry processing.}
+The \hyperref[benchmark:results:app-cgal-autorefine]{CGAL autorefinement
+measurements} cover meshes with 100 to 1\,000 points per grid side and
+up to 64 threads on one Gaya node. In the
+\hyperref[benchmark:results:app-feelpp-ktirio-geom]{Ktirio terrain
+benchmark}, tile generation took 117.18~s with one worker, 4.57~s
+with 32 and 5.01~s with 64. The
+\hyperref[sec:app:specs:app-feelpp-distance]{unit-cube distance study}
+reports historical BVH and FMM convergence and timing results.
 
+\paragraph{Parallel verification and performance.}
+The \hyperref[sec:app:specs:app-feelpp-discr-1]{thermal-bridge benchmark}
+checks ISO~10211:2017 tolerances for $\mathP_1$, $\mathP_2$ and $\mathP_3$
+elements and reports strong scaling on Discoverer up to 96 processes.
+The \hyperref[tab:Feelpp:solar-mask-discoverer]{Paris 8\,km solar-mask
+campaign} compares both variants through 16\,384 MPI ranks on Discoverer.
+Building-only also ran at 32\,768 ranks with simulation output disabled.
+The \hyperref[sec:app:specs:app-feelpp-io]{I/O study}
+measures preparation, writing and reloading separately.
+The \hyperref[sec:app:specs:app-feelpp-thermomeca-1]{thermomechanics fiche}
+links the MFEM TOPAZE study on an 83-million-node mesh using 64 to
+4\,096 MPI processes.
 
-
-
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-    \item \textbf{Thermal bridges demonstrator (Feel++)} — \Cref{sec:app:specs:app-feelpp-discr-1}. Verification against ISO 10211:2017 reference values with $\mathP_1/\mathP_2/\mathP_3$ elements shows convergence within tolerances (see \Cref{fig:spec:app-feelpp-discr-1:thermal_bridges:measures_convergences}). Strong-scaling on Discoverer up to 96 processes shows decreasing time-to-solution with good efficiency; I/O shows limited scalability (export phase), see performance figures for M1–M3. Metrics: \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling}.
-    \item \textbf{FDA nozzle (Feel++)} --- \Cref{sec:app:specs:app-feelpp-discr-2} specifies validation against the FDA measurements for Reynolds numbers from 500 to 6500 and a scaling campaign. The fiche records the planned tests.
-    \item \textbf{Parallel mesh adaptation with ParMmg (FreeFEM)} — \Cref{sec:app:specs:app-freefem-parmmg}. Status: \emph{benchmark-ready}. Target benchmarks: anisotropic adaptation cycles on Fichera corner; time per adapt cycle, mesh quality, load-balance efficiency, solver convergence. Multi-node campaigns planned; results to be integrated with WP7 artifacts in D7.1 updates.
-    \item \textbf{Geometry queries and distances (Feel++)} — \Cref{sec:app:specs:app-feelpp-distance}. Convergence study on the unit cube shows BVH ray-tracing attains low $L^2$ error with accuracy driven primarily by mesh size ($h$), weak dependence on number of rays $M$; FMM achieves $\mathcal{O}(h)$ and is consistently faster than BVH for tested settings. Parallel scaling shows limited gains beyond small core counts due to algorithmic characteristics and I/O. Metrics: error norms, time-to-solution, speedup.
-\end{itemize}
+\paragraph{Executable cases and planned campaigns.}
+The \hyperref[sec:app:specs:app-samurai-burgers-2d]{Samurai Burgers}
+and \hyperref[sec:app:specs:app-samurai-euler-dmr]{Double Mach reflection}
+executables are ready for scaling campaigns. The
+\hyperref[sec:app:specs:app-samurai-cwipi]{Cwipi coupling case} tests
+temporal convergence. The
+\hyperref[sec:app:specs:app-feelpp-discr-2]{FDA nozzle} specifies validation
+against measurements for Reynolds numbers from 500 to 6\,500. The
+\hyperref[sec:app:specs:app-freefem-parmmg]{Fichera case} specifies
+adaptation-cycle timing, mesh quality, load balance and solver convergence
+for a planned multi-node campaign.
 
 \section{Roadmap \& Next Steps}
 
