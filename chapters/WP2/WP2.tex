@@ -96,7 +96,7 @@ Scientific or numerical result & Benchmarks of version 1.4.0 (commit \texttt{81f
 \emph{Multigrid:} for degree-2 DG and FE on seven 2D geometries (square, mapped, unstructured and multi-patch disks), going from about $10^4$ to $4 \times 10^4$ DOFs leaves the Krylov iteration count with a multigrid preconditioner and cellwise Schwarz smoother between 6 and 11 (DG) and between 2 and 4 (FE), while it roughly doubles with Jacobi (from 574--1279 to 1144--2426 for DG). For Helmholtz at $k = 100$ (51\,842 DOFs), BiCGSTAB fails alone and converges in 29 iterations with a two-level shifted-Laplacian multigrid.
 \emph{Learned DG basis}, against the classical basis at the same number of DOFs: error divided by about 1250 (1D Laplacian, 50 DOFs), $3 \times 10^4$ (1D Laplacian, 10 DOFs), 3 to 7 (1D convection-dominated problem, 100 DOFs) and 1.6 (2D disk, 90 DOFs), for 30 to 60~s of training on one GPU; the variant with a learned mesh mapping does not yet improve on the classical basis \\
 Performance or scalability result & No scalability study (single GPU). The loss and computing time of 18 of the 19 JAX benchmark families are archived for commit \texttt{81f550dd} (attached to version 1.4.0) on an NVIDIA H100 NVL node and on a Tesla P100 node \\
-Evidence and raw-data location & \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/fem}{FE} and \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg}{DG} examples; \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{learned DG examples}; gradient checks against finite differences in \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_fe_projection.py}{\texttt{test\_variables\_fe\_projection.py}} and \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_dg_projection.py}{\texttt{test\_variables\_dg\_projection.py}}; \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/benchmarks/nonregression/results/dev/81f550dd}{archived benchmark results} \\
+Implementation, tests and benchmark runs & \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/fem}{FE} and \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg}{DG} examples; \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{learned DG examples}; gradient checks against finite differences in \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_fe_projection.py}{\texttt{test\_variables\_fe\_projection.py}} and \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/tests/test_jax/linear_approximation/test_variables_dg_projection.py}{\texttt{test\_variables\_dg\_projection.py}}; \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/benchmarks/nonregression/results/dev/81f550dd}{archived benchmark results} \\
 Maturity & Classical solvers: integrated and benchmarked (released in 1.4.0, unit-tested, archived benchmarks). Hybrid methods: prototype (examples and benchmark families) \\
 Limitations and next step & No 3D meshes; single GPU; learned components used in isolated examples, and the learned mesh mapping does not yet improve on the classical basis. Next: 3D meshes, hybridization of DG and FE schemes with neural approaches as standard building blocks, multi-GPU parallelization, a common functional interface for the PyTorch and JAX backends \\
 Cross-WP contribution or dependency & None formalized; the benchmark families are candidates for integration with WP7 (T7.1) \\
@@ -125,7 +125,7 @@ Jacobian of the fitted closure depends on the gradient of the parameter field,
 so hyperbolicity at each fixed parameter value does not guarantee
 hyperbolicity of the fitted closure. \\
 Performance or scalability result & Not measured yet \\
-Evidence and raw-data location & Manuscript in preparation: R.
+Manuscript and code & Manuscript in preparation: R.
 Hos\-sein\-khan-Bou\-cher, D. Biasone, M. Massot, \textit{A state-dependent
 regularisation parameter for the five-moment kinetic closure: accuracy against
 stiffness}, version of 6 October 2026 (commit \texttt{8adbca9}). Working
@@ -167,7 +167,7 @@ which is square-integrable under explicit conditions on the regularity of the
 datum. \\
 Performance or scalability result & Wall-clock measurements available,
 pending inclusion. No parallel scalability study yet. \\
-Evidence and raw-data location & Working notes (Overleaf project, snapshot of
+Working notes and code & Working notes (Overleaf project, snapshot of
 1 October 2026, access on request), including R. Hos\-sein\-khan-Bou\-cher, N.
 Baradel, C.-A. Lehalle, \textit{Methodology: On boundary-constrained learning
 of partial differential equations}. Code in the repository listed above. \\
@@ -404,80 +404,38 @@ We also  note that  T2.6 did  not receive  NumPEx funding  during this
 reporting period.
 
 \section{Application Showcase}
+\label{sec:wp2:applications}
 
+\paragraph{Hybrid numerical and learned solvers.}
+The \hyperref[sec:app:specs:app-scimba-hybrid]{Scimba hybrid-solver fiche}
+connects the JAX continuous and discontinuous Galerkin solvers with
+\href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{prototypes
+for learned bases, mappings and solver components}. The
+\hyperref[sec:app:specs:app-scimba-plasma]{Scimba plasma fiche} describes
+the proposed tokamak demonstrator. The current
+\href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/time_discrete_neural_methods/neural_sl/advanced_examples/vlasov_poisson_1d_1v_bump_on_tail.py}{neural
+semi-Lagrangian Vlasov--Poisson example} offers FFT, PINN and
+finite-element options for the Poisson solve.
+\hyperref[sec:app:specs:app-scimba-shape-opt-nn]{Physics-informed shape
+optimization} is a proposed application shared with WP5.
 
-\paragraph{Applications mapping.}
-\begin{itemize}
-  \item   Physics-informed  shape   optimization   with  NN   (Scimba,
-    proposed): Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
-  \item    Hybrid    numerical/ML    solvers    (Scimba,    proposed):
-    Section~\ref{sec:app:specs:app-scimba-hybrid}.  This is the application
-    that exercises the  new JAX cG/dG solvers, the  differentiable solvers
-    and  the  learned basis  or  mapping  (advance record  WP2-A2026-1).
-    Responsible: Emmanuel Franck.  Maturity: in development.
-    Implementation: \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/dg/learnable_approach}{learned DG examples}
-    in Scimba~1.4.0.
-  \item  Plasma modeling  with  neural  network based  methods  (Scimba,
-    proposed):   Section~\ref{sec:app:specs:app-scimba-plasma}.
-    Maturity: in development.  The JAX version provides the neural
-    semi-Lagrangian method and a
-    \href{https://gitlab.com/scimba/scimba/-/blob/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/examples/examples_jax/time_discrete_neural_methods/neural_sl/advanced_examples/vlasov_poisson_1d_1v_bump_on_tail.py}{Vlasov--Poisson
-    bump-on-tail example} in which the Poisson equation is solved by an
-    FFT, a PINN or the new FE solver.
-  \item Eye2Brain reduced basis (Feel++, launch configuration available):
-    Section~\ref{sec:app:specs:app-feelpp-rb}.
-  \item Nonlinear compressive RB (Feel++/nonlinearrb, with Burgers
-    reference and hyper-reduction results on Gaya):
-    Section~\ref{sec:app:specs:app-feelpp-nlcrb}.
-\end{itemize}
+\paragraph{Reduced bases.}
+The \hyperref[sec:app:specs:app-feelpp-nlcrb]{Feel++ Burgers case}
+provides full-order reference problems in one to three dimensions and
+reports the two-dimensional Galerkin and hyper-reduction comparison
+on Gaya under \nolinkurl{BM-FEEL-NLCRB-01}.
+The \hyperref[sec:app:specs:app-feelpp-rb]{Eye2Brain reduced-basis case}
+has a versioned launch configuration and awaits a documented offline
+and online timing campaign.
 
-\textbf{Frequency-domain wave propagation modeling with PINNs}
-
-
-As a first  application showcase, we propose to develop  a hierachy of
-wave propagation  problems modeled by  the Hemholtz equation in  2D by
-increasing the frequency of the wave excitation source and considering
-different  types  of heterogeneity  of  the  propagation medium,  from
-multilayered configurations  with piecewise constant variation  of the
-physical parameter, to continuously varying medim characteristic as in
-acoustic wave propagation in a geological medium.  \textcolor{blue}{On
-  one  hand, these  problems  will be  considered  for evaluating  the
-  performance of the proposed Multi-Level Finite Basis PINN models. On
-  the  other  hand,   we  also  propose  to   showcase  the  surrogate
-  capabilities of these PINN models  through the resolution of inverse
-  problems for acoutic wave propagation.}
-
-
-\textbf{Plasma modeling with neural network based methods}
-(\texttt{app-scimba-plasma}) \\
-
-Tokamak simulation  is a highly HPC-intensive  application, especially
-in terms of memory consumption: MHD codes are implicit and involve the
-inversion of very large matrices, while kinetic models add the cost of
-resolving  turbulence.  The goal  of  this  application is  a  coupled
-kinetic–MHD  solver  built on  neural  methods,  targeting a  full  3D
-tokamak  geometry of  JET or  ITER type.   On the  MHD side,  a neural
-solver   computes  the   equilibrium  (Grad–Shafranov   equation)  and
-simplified  MHD  models, avoiding  the  very  large matrix  inversions
-altogether. It  relies on time-sequential  neural methods of  the PINN
-type, combined  with natural gradient optimization,  adaptive sampling
-and adaptive  neural networks.  On  the kinetic side,  neural particle
-methods are combined with learned flow  maps, which give access to the
-turbulent regime. Coupling the two is the objective.
-
-\textbf{Hybrid numerical for high-dimensional PDEs}
-(\texttt{app-scimba-hybrid}) \\
-
-We  propose  to  develop  a demonstrator  of  numerical  methods  that
-hybridize  machine learning  with classical  approaches. The  baseline
-code will  be a  DG (Discontinuous Galerkin)  solver in  which several
-numerical  modules  will be  made  learnable  through neural  networks
-(including   mesh    adaptation,   basis   functions,    fluxes,   and
-preconditioners). The key idea is that the learning components capture
-the large-scale structures, while the  numerical solver focuses on the
-unresolved  scales. These  approaches  are  particularly intended  for
-solving PDEs in high physical  dimensions (such as radiative transfer)
-or with parametric dependencies.
+\paragraph{Neural PDE applications.}
+The PyTorch applications for \hyperref[tab:advance:WP2-A2026-2]{learned
+five-moment kinetic closures} and
+\hyperref[tab:advance:WP2-A2026-3]{exact terminal
+constraints for parabolic PDEs} are in development. The planned
+frequency-domain wave showcase will use multilevel finite-basis PINNs
+on two-dimensional Helmholtz problems with increasing frequency and
+heterogeneity. It also targets surrogates for acoustic inversion.
 
 \section{Software Framework Contributions}
 
@@ -524,7 +482,7 @@ physics-informed form ---  degrees of freedom predicted on  a fixed or
 learned basis, hence evaluable anywhere and carrying a PDE residual ---
 and in a purely discrete, data-driven form.
 
-\paragraph{Versions and evidence.}
+\paragraph{Versions, examples and tests.}
 \begin{itemize}
   \item Both versions live in the same public repository,
     \href{https://gitlab.com/scimba/scimba}{gitlab.com/scimba/scimba}
@@ -565,27 +523,25 @@ and in a purely discrete, data-driven form.
 \end{itemize}
 
 \section{Preliminary Benchmarks \& Trends}
+\label{sec:wp2:benchmarks}
 
+\paragraph{Scimba non-regression suite.}
+Scimba~1.4.0 includes 19 \href{https://benchopt.github.io}{Benchopt}
+benchmark families for JAX, covering PINNs, neural operators, FE and DG
+convergence, learned bases, inverse problems and solvers. The
+\href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/benchmarks/nonregression/results/dev/81f550dd}{archived
+runs on NVIDIA H100 NVL and Tesla P100 nodes} track loss and computing
+time for non-regression.
 
-
-The  studies  conducted in  T2.1  to  T2.5  are  all in  progress  and
-preliminary results are  available only for validation  purpose of the
-novel methodologies under development.
-
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-  \item Scimba: 19 \href{https://benchopt.github.io}{benchopt} benchmark
-    families for the JAX version (PINNs, neural operators, FE and DG
-    convergence, learned DG bases, inverse problem, preconditioners,
-    nonlinear solvers, \dots), measuring loss and computing time.  The
-    results of commit \texttt{81f550dd}, attached to version 1.4.0, are
-    \href{https://gitlab.com/scimba/scimba/-/tree/1ab96a32aa3846bb59fa01b1f41cd9372f558a1b/benchmarks/nonregression/results/dev/81f550dd}{archived in
-    the repository} for an NVIDIA H100 NVL node and a Tesla P100 node,
-    and serve as a non-regression reference.  No BM identifier yet.
-  \item Surrogate  accuracy vs.  speedup and RB  offline/online timing
-    integrated   with   WP7   (T7.1)  and   reported   alongside   the
-    corresponding application benchmarks when available.
-\end{itemize}
+\paragraph{Feel++ Burgers and reduced bases.}
+The \hyperref[sec:app:specs:app-feelpp-nlcrb]{Burgers benchmark} includes
+a full-order three-dimensional reference on Gaya, with 500 time steps
+on a $250^3$ mesh using two CPU nodes. In the two-dimensional serial
+comparison, POD--Galerkin and Galerkin--ECSW took 477.63~s and 2.84~s
+for the nonlinear solve, with relative trajectory errors of 0.984\%
+and 1.008\%, respectively. The
+\hyperref[sec:app:specs:app-feelpp-rb]{Eye2Brain fiche} provides the
+launch configuration for future offline and online measurements.
 
 \section{Roadmap \& Next Steps}
 

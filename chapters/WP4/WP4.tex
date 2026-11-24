@@ -44,6 +44,7 @@ Cross-WP contribution or dependency & Shared implementation with WP5; WP1: finit
 \section{Scientific Advances}
 
 \subsection{Task 4.1 - Deterministic methods}
+\label{sec:wp4:double-gyre}
 
 In incremental four-dimensional variational data assimilation
 (4D-Var), conjugate gradients solve the linear systems in the inner
@@ -80,6 +81,7 @@ The shared variational optimization interface is recorded in
 (\Cref{sec:Feelpp:implementation-2026:tao}).
 
 \subsection{Task 4.3 - Observation}
+\label{sec:wp4:sensor-placement}
 
 \href{https://arxiv.org/abs/2609.32282}{Doumbouya, Vidard and Zahm}
 derive upper and lower bounds on expected information gain from
@@ -99,16 +101,27 @@ nonlinearity of the forward model.
 \section{Application Showcase}
 \label{sec:wp4:applications}
 
+\paragraph{Variational assimilation and sensor placement.}
+The \hyperref[sec:wp4:double-gyre]{double-gyre study} tests low-fidelity
+Nystr\"om preconditioning for the inner solve of incremental 4D-Var
+on a two-dimensional shallow-water model. The
+\hyperref[sec:wp4:sensor-placement]{viscous Burgers study} tests how
+information-gain bounds guide sensor placement as the model's
+nonlinearity varies.
+
 \paragraph{HiFiMagnet parameter identification.}
-The HiFiMagnet fiche gives the inverse problem, observation sets
-and parameters for the proposed campaign \nolinkurl{BM-FEEL-HIFI-INV-01}
-(\cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
+The \hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
+inverse-problem fiche} specifies which material, contact and cooling
+parameters to identify from observations. The
+\hyperref[sec:Feelpp:implementation-2026:tao]{Feel++ interface to PETSc TAO}
+provides the optimization components. Derivative checks and parameter
+recovery on the application are planned under \nolinkurl{BM-FEEL-HIFI-INV-01}.
 
 \paragraph{Ensemble Kalman inversion.}
-The proposed geophysical mini-app applies ensemble Kalman inversion to a
-simplified wave equation. \Cref{sec:app:specs:app-eki} describes its MPI
-ensemble design and the manufactured-solution test in
-\nolinkurl{BM-EKI-01}.
+The \hyperref[sec:app:specs:app-eki]{EKI mini-app} proposes a simplified
+wave-equation inverse problem in a geophysical setting. Its PETSc/GeoS
+workflow specifies MPI ensemble execution, a manufactured-solution
+test and a weak-scaling protocol under \nolinkurl{BM-EKI-01}.
 
 \section{Software Framework Contributions}
 \label{sec:wp4:software}
@@ -121,12 +134,21 @@ for ensemble execution and GeoS for its application setting.
 \section{Benchmarks}
 \label{sec:wp4:benchmarks}
 
-The HiFiMagnet inverse problem has an application specification and a
-verification protocol based on derivative checks and parameter recovery
-(\nolinkurl{BM-FEEL-HIFI-INV-01}). For ensemble Kalman inversion, the proposed
-benchmark \nolinkurl{BM-EKI-01} covers manufactured-solution verification and
-weak scaling in ensemble mode. Both are listed in
-\Cref{tab:v3-benchmark-registry} at the proposed stage.
+The \hyperref[sec:wp4:double-gyre]{double-gyre test} uses a
+$120\times120$ grid to evaluate a 4D-Var preconditioner with a
+single-precision low-fidelity model. The
+\hyperref[sec:wp4:sensor-placement]{sensor-placement study} uses
+viscous Burgers cases to assess the tightness of information-gain
+bounds as nonlinearity varies.
+
+Two proposed protocols are recorded in the
+\hyperref[tab:v3-benchmark-registry]{benchmark registry}. The
+\hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
+inversion benchmark} (\nolinkurl{BM-FEEL-HIFI-INV-01}) specifies
+derivative checks and parameter recovery. The
+\hyperref[sec:app:specs:app-eki]{ensemble Kalman inversion benchmark}
+(\nolinkurl{BM-EKI-01}) specifies manufactured-solution verification
+and ensemble weak scaling.
 
 \section{Next steps}
 \label{sec:wp4:roadmap}

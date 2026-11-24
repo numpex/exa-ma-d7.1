@@ -103,7 +103,7 @@ Implementing software & HPDDM (\url{https://github.com/hpddm/hpddm}); PETSc \tex
 Software release, commit or PR & HPDDM 2.4.0 and PETSc 3.25 \\
 Scientific or numerical result & Numerical method unchanged; registered CUDA regression cases include \texttt{harmonic\_overlap\_1\_cuda} and \texttt{geneo\_transpose\_cuda} in PETSc \texttt{src/ksp/ksp/tutorials/ex76.c} \\
 Performance or scalability result & Not measured yet \\
-Evidence and raw-data location & \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148}; \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}; versioned tests and supporting changes in \cref{sec:HPDDM:2026}. No benchmark logs reported \\
+Release references and tests & \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148}; \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}; versioned tests and supporting changes in \cref{sec:HPDDM:2026}. No benchmark logs reported \\
 Maturity & Integrated (released) \\
 Limitations and next step & Coarse-operator assembly and factorization remain on the host; device support in this HPDDM path is limited to CUDA. Next: measure host/device transfers during setup and application, move coarse operations to the device, and extend support to Kokkos \\
 Cross-WP contribution or dependency & WP7: benchmarking and applications\\
@@ -117,7 +117,7 @@ Implementing software & HPDDM (\url{https://github.com/hpddm/hpddm}); PETSc \tex
 Software release, commit or PR & Unreleased prototype \\
 Scientific or numerical result & Regression success is reported for the existing one-subdomain-per-process path; the new shared-subdomain path is exercised only by a local driver and has no registered regression test \\
 Performance or scalability result & Not measured yet \\
-Evidence and raw-data location & Local driver on a development branch; no public revision or test record \\
+Prototype and verification & Local driver on a development branch; no public revision or test record \\
 Maturity & Prototype \\
 Limitations and next step & Two levels only; no block splitting, harmonic overlap, \texttt{-pc\_hpddm\_levels\_1\_st\_pc\_type mat} or Schur complement preconditioning; no registered test. Next: register a test, lift these restrictions, release \\
   Cross-WP contribution or dependency & WP7: benchmarking and applications \\
@@ -132,7 +132,7 @@ Limitations and next step & Two levels only; no block splitting, harmonic overla
   Associated application ID & \nolinkurl{app-composyx-diffusion}, heterogeneous diffusion in a stratified 3D medium (\Cref{sec:app:specs:app-composyx-diffusion}) \\
   Associated benchmark ID & \texttt{BM-COMPOSYX-DIFF-01} (\Cref{tab:v3-benchmark-registry}) \\
   Performance or scalability result & Weak scaling efficiency (time on  1 node / time on  32 nodes) with CUDA up to 88\% and with HIP up to 89\% (time on  1 node / time on  128 nodes) \\
-  Evidence and raw-data location & Use drivers \verb?composyx_cuda_cg_ddm? and \verb?composyx_hip_cg_ddm? in the release 1.7.1 on Composyx \\
+  Drivers and configuration & Use drivers \verb?composyx_cuda_cg_ddm? and \verb?composyx_hip_cg_ddm? in the release 1.7.1 on Composyx \\
   Maturity & Integrated (released) \\
   Limitations and next step & Test larger node counts and alternative subdomain configurations. \\
   Cross-WP contribution or dependency & WP7: benchmarking and applications \\
@@ -368,6 +368,8 @@ The nonmatching-interface discretization and field transfer are described
 separately under WP1/T1.5 in \Cref{tab:advance:WP1-A2026-4}.
 
 \section{Application Showcase}
+\label{sec:wp3:applications}
+\label{sec:wp3:mapping}
 % \input{chapters/applications/specs/app-hpddm-solver-1}  
 % \input additional app specs as needed
 The work by Parolin and Nataf mentioned in \S~\ref{sec:wp3:T31:nonSPD} has been successfully applied to convection-diffusion problems and to time-harmonic acoustic propagation problems~\cite{dolean:hal-05241475}. As an illustration of the efficiency of the approach, we provide some weak scaling results extracted from~\cite{dolean:hal-05241475} on the 3D Cobra cavity problem, see Table~\ref{tab:weak_scaling_cobra} and Figure~\ref{fig:solutions_cobra}. 
@@ -402,13 +404,23 @@ Nb CPUs & Matrix size & Iterations one-level & Iterations two-level~\cite{nataf:
 \end{figure}
 Note that the method has also been successfully applied to the generation of synthetic high fidelity data for medical imaging problems, not shown here. 
 
-\paragraph{Applications mapping.}
-\begin{itemize}
-  \item HPDDM DFN demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
-  \item FreeFEM + ParMMG mesh adaptation: Section~\ref{sec:app:specs:app-freefem-parmmg}.
-  \item Feel++ discr apps using PETSc (preconditioning): Sections~\ref{sec:app:specs:app-feelpp-discr-1},\ref{sec:app:specs:app-feelpp-discr-2}.
-\end{itemize}
+\paragraph{Domain decomposition for heterogeneous media.}
+The \hyperref[sec:app:specs:app-composyx-diffusion]{Composyx diffusion case}
+tests additive Schwarz on a stratified 3D medium. It reports 88\% weak-scaling
+efficiency on 32 Jean Zay nodes with CUDA and 89\% on 128 Adastra nodes
+with HIP. The \hyperref[sec:app:specs:app-hpddm-dfn]{HPDDM fracture-network
+case} carries the 2025 solver-scaling results.
 
+\paragraph{Solver components in application workflows.}
+The \hyperref[sec:app:specs:app-petsc-mixed-precision]{PETSc mixed-precision
+case} defines the accuracy and performance comparisons in development.
+The \hyperref[sec:app:specs:app-feelpp-discr-1]{Feel++ thermal bridge} and
+\hyperref[sec:app:specs:app-feelpp-discr-2]{FDA nozzle} exercise PETSc solver
+configurations at different stages of maturity. The
+\hyperref[sec:app:specs:app-freefem-parmmg]{FreeFEM/ParMmg Fichera case}
+specifies a workflow for measuring solver convergence across adaptation
+cycles. The \hyperref[sec:app:specs:app-feelpp-mi300a-fem]{HiFiMagnet
+MI300A case} specifies a forward-solver campaign in preparation.
 
 \section{Software Framework Contributions}
 \begin{itemize}
@@ -434,12 +446,24 @@ Note that the method has also been successfully applied to the generation of syn
 The PETSc/HPDDM interfaces, algebraic block assembly, row-wise boundary elimination and static-condensation components are documented in \Cref{sec:Feelpp:implementation-2026:solvers}, with their implementation and test references.
 
 \section{Preliminary Benchmarks \& Trends}
-We are in close connection with the activities of the work-package WP7 where benchmarks related to domain decomposition methods are shown. 
+\label{sec:wp3:benchmarks}
 
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-  \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra} and per-application benchmark sections when available.
-\end{itemize}
+\paragraph{Domain-decomposition scaling.}
+The \hyperref[tab:weak_scaling_cobra]{Cobra cavity study} reaches
+2\,916 CPUs and 44.5 million unknowns. At that size the one-level and
+two-level methods take 3\,398 and 74 iterations, respectively. The
+\hyperref[sec:app:specs:app-composyx-diffusion]{Composyx diffusion
+benchmark} reports 88\% weak-scaling efficiency on 32 Jean Zay nodes
+and 89\% on 128 Adastra nodes. The
+\hyperref[sec:app:specs:app-hpddm-dfn]{HPDDM fracture-network timings}
+provide the 2025 reference.
+
+\paragraph{Precision and accelerator studies.}
+The \hyperref[sec:app:specs:app-petsc-mixed-precision]{PETSc mixed-precision
+protocol} compares time and energy at matched numerical tolerances.
+The \hyperref[sec:app:specs:app-feelpp-mi300a-fem]{HiFiMagnet MI300A
+protocol} covers high-order assembly and forward solution. Both
+campaigns are in preparation.
 
 \section{Roadmap \& Next Steps}
 
@@ -459,22 +483,4 @@ Task~3.3.2 in \S~\ref{sec:wp3:T332} will continue the analysis of a \textit{toy}
 
 % • Deliverables D3.x to complete by Mxx  
 % • New solver apps to integrate into WP7 CI/CD  
-% • Dependencies on WP7 infrastructure (containers, ReFrame)  
-
-\subsection{Mapping: Applications, Frameworks, Benchmarks}
-\label{sec:wp3:mapping}
-  	extbf{Applications}
-\begin{itemize}
-  \item HPDDM DFN demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
-  \item FreeFEM + ParMMG mesh adaptation: Section~\ref{sec:app:specs:app-freefem-parmmg}.
-  \item Feel++ discr apps using HPDDM (preconditioning): Sections~\ref{sec:app:specs:app-feelpp-discr-1},\ref{sec:app:specs:app-feelpp-discr-2}.
-\end{itemize}
-  	extbf{Frameworks}
-\begin{itemize}
-  \item HPDDM: Section~\ref{sec:HPDDM:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}\,; Feel++ (apps/data prep for PETSc): Section~\ref{sec:Feelpp:software}\,; Composyx: see WP3 text above; PETSc.
-  \item PROMISE (precision auto-tuning): Composyx/Maphys++ context in Section~\ref{sec:Composyx:software} or WP3 text above.
-\end{itemize}
-  	extbf{Benchmarks}
-\begin{itemize}
-  \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra}.
-\end{itemize}
+% • Dependencies on WP7 infrastructure (containers, ReFrame)

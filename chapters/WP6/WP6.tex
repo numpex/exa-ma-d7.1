@@ -120,24 +120,29 @@ owns the execution workflow and application reducers.
 \Cref{sec:Feelpp:implementation-2026:stats} describes the software.
 
 \section{Application Showcase}
-% \input{chapters/applications/specs/app-uq-uranie-1}  
-% \input additional app specs as needed
+\label{sec:wp6:applications}
 
-\paragraph{PC5 Ktirio Urban Building: ensemble UQ and decision support.}
-The PC5 \KtirioUrbanBuildingContext{} demonstrator connects geometry
-generation, urban microclimate and building energy modelling with ensemble
-UQ and decision support. Ktirio-Geom supplies terrain and building geometry;
-\texttt{app-feelpp-ktirio-geom} benchmarks that component
-(\Cref{sec:app:specs:app-feelpp-ktirio-geom}). Ktirio Urban Building
-executes ensembles and produces uncertainty summaries and risk indicators
-from their outputs (\hyperref[sec:wp6:ensemble-streaming]{T6.4 and T6.2}).
-The terrain-generation benchmark measures geometry processing only, not
-the ensemble workflow.
+\paragraph{Building-energy uncertainty and risk.}
+The \hyperref[sec:pc5:ktirio-urban-building]{PC5 Ktirio Urban Building
+demonstrator} runs ensembles for building-energy uncertainty with
+\hyperref[sec:Feelpp:implementation-2026:stats]{Feel++ statistical
+components}. The \hyperref[sec:wp6:ensemble-streaming]{MPI ensemble
+workflow} computes quantiles, threshold exceedances and tail-risk
+indicators during execution. Its tests cover MPI execution and
+streaming reductions. End-to-end measurements of memory, output
+volume and tail accuracy are planned.
+The separate \hyperref[sec:app:specs:app-feelpp-ktirio-geom]{Ktirio-Geom
+benchmark} measures the demonstrator's terrain-generation stage.
 
-\paragraph{Applications mapping.} Current application links to WP7 include:
-\begin{itemize}
-	\item Ensemble Kalman Inversion (proposed, with UQ): Section~\ref{sec:app:specs:app-eki}.
-\end{itemize}
+\paragraph{Uncertainty in inverse problems and control.}
+The \hyperref[sec:app:specs:app-eki]{EKI case in WP4} proposes a
+manufactured-solution test and weak scaling in ensemble mode.
+The \hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
+inversion specification} connects WP6 to observation uncertainty and
+uncertainty propagation. The
+\hyperref[sec:app:specs:app-feelpp-hifimagnet-optcontrol]{optimal-control
+specification} identifies uncertainty scenarios for a future robust
+extension.
 
 \section{Software Framework Contributions}
 % • Uranie enhancements: …  
@@ -205,19 +210,22 @@ executor. \Cref{sec:Feelpp:implementation-2026:stats} describes the
 library tests and the distinction between sketches and exact risk measures.
 
 \section{Preliminary Benchmarks \& Trends}
+\label{sec:wp6:benchmarks}
 
+\paragraph{Surrogates with categorical inputs.}
+The comparative study applies Gaussian-process kernels to published
+test cases using common ranking metrics. The study also examines the
+effect of the optimization procedure and its computational cost.
+Python implementations of the selected kernels are planned.
 
-Designing categorical kernels is a major challenge for Gaussian process regression with continuous and categorical inputs. Despite previous studies, it is difficult to identify a preferred method, either because the evaluation metrics,
-the optimization procedure, or the datasets change depending on the study. In particular, reproducible code is rarely available. We are carrying out a reproducible comparative study of all existing categorical kernels
-on many of the test cases investigated so far. We also propose new evaluation metrics inspired by the optimization
-community, which provide quantitative rankings of the methods across several tasks. 
-The study plans to release Python implementations of the selected kernels.
-
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-	\item Sensitivity analysis kernels (HSIC, Sobol, Cramér–von Mises) and UQ pipelines integrated in WP7 (T7.1) and connected to the corresponding application benchmarks where available.
-\end{itemize}
-
+\paragraph{Ensemble execution and sensitivity.}
+The \hyperref[sec:wp6:ensemble-streaming]{Ktirio ensemble workflow}
+has MPI and streaming-reduction tests. Measuring peak memory, output
+volume and tail accuracy at demonstrator scale is the next step.
+\hyperref[sec:Uranie:software]{Uranie} provides HSIC, Sobol and
+Cram\'er--von Mises sensitivity methods. The proposed
+\hyperref[sec:app:specs:app-eki]{EKI protocol} in WP4 specifies a
+manufactured-solution test and an ensemble weak-scaling campaign.
 
 \section{Roadmap \& Next Steps}
 % • Deliverables D6.x to complete by Mxx  

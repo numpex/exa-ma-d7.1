@@ -124,7 +124,7 @@ The shared variational optimization interface is recorded in
 Fractal Bayesian Optimization (FBO) augments the distributed FBD tree with surrogate and acquisition guidance so expensive evaluations are concentrated on promising regions. Its MPI--Kokkos implementation retained about 85\% strong-scaling efficiency on 1,000 LUMI-G nodes (8,000 GPUs), demonstrating that surrogate-based optimization can preserve useful parallel efficiency at very large allocation scale.
 
 \textbf{ASTRA-FBO.}
-The ASTRA-FBO instance of FBO combines hypersphere decomposition, a PCA-embedded Gaussian process, acquisition-guided region selection, depth-aware budgeting, and surrogate-guided exploitation. Across 108 matched objective--budget tasks from 20 to 10,000 dimensions, it ranked first on 103. At the smallest budget, it also beat competitors evaluated at their largest available budget in 31 of 34 comparisons, establishing competitive solution quality and sample efficiency in high-dimensional, low-budget regimes. The latest COCO/BBOB-Large Scale study extends this evidence to all 24 functions and 15 instances. At the evaluation-starved budget $B=d$, ASTRA-FBO records 1,762/2,160 wins against Random, 1,716/2,160 against Sobol, 1,353/2,160 against CMA-ES, and 1,699/2,160 against NGOpt. Against completed Bayesian baselines at the same budget, it also wins paired majorities over HEBO (673/1,080), BoTorch-EI (651/1,080), and TuRBO-1 (634/1,080); TuRBO-TS is essentially tied in aggregate, with a 1.05$\times$ baseline-to-ASTRA geometric regret ratio.
+The ASTRA-FBO instance of FBO combines hypersphere decomposition, a PCA-embedded Gaussian process, acquisition-guided region selection, depth-aware budgeting, and surrogate-guided exploitation. Across 108 matched objective--budget tasks from 20 to 10,000 dimensions, it ranked first on 103. At the smallest budget, it also beat competitors evaluated at their largest available budget in 31 of 34 comparisons, establishing competitive solution quality and sample efficiency in high-dimensional, low-budget regimes. The latest COCO/BBOB-Large Scale study extends the comparison to all 24 functions and 15 instances. At the evaluation-starved budget $B=d$, ASTRA-FBO records 1,762/2,160 wins against Random, 1,716/2,160 against Sobol, 1,353/2,160 against CMA-ES, and 1,699/2,160 against NGOpt. Against completed Bayesian baselines at the same budget, it also wins paired majorities over HEBO (673/1,080), BoTorch-EI (651/1,080), and TuRBO-1 (634/1,080); TuRBO-TS is essentially tied in aggregate, with a 1.05$\times$ baseline-to-ASTRA geometric regret ratio.
 
 \medskip
 
@@ -172,40 +172,33 @@ produces a frozen candidate set that contains a downstream winner in 41/54 condi
 
 
 \section{Application Showcase}
+\label{sec:wp5:applications}
 
-\paragraph{HiFiMagnet optimal operation and control.}
-The application \texttt{app-feelpp-hifimagnet-optcontrol} specifies the
-T5.1 control problem and proposed benchmark \texttt{BM-FEEL-HIFI-CTRL-01}
-(\Cref{sec:app:specs:app-feelpp-hifimagnet-optcontrol}).
+\paragraph{Distributed optimization with Exa-Zellij.}
+Three studies use a common MPI--Kokkos execution layer.
+The \hyperref[tab:advance:WP5-A2026-1]{PFDA-BS study} couples fractal
+decomposition to a GPU-accelerated UCCSD evaluator for variational
+quantum eigensolvers. The
+\hyperref[tab:advance:WP5-A2026-2]{ASTRA-FBO study} tests surrogate-guided
+optimization on problems with 20 to 10\,000 variables, including
+COCO/BBOB-Large Scale and CEC-LSGO cases.
+The \hyperref[tab:advance:WP5-A2026-3]{TriFBO-KV study} optimizes
+layer-wise key/value cache precision for 7B--65B language models
+under a fixed memory budget, using LongBench, RULER and SCBench.
+The \hyperref[sec:wp5:benchmarks]{WP5 benchmark section} reports the
+scaling and quality results for these studies.
+The \hyperref[sec:app:specs:app-zellij]{generic Zellij mini-app}
+is a separate catalogue proposal.
 
-
-{\bf Continuous optimization:} The scalability of Fractal optimization has been tested on large scale optimization problems involving thousands of decision variables. These problems are particularly challenging due
-to the curse of dimensionality, high computational cost, and nonlinear interactions among variables, which render traditional optimization techniques inefficient or infeasible.
-
-For continuous optimization, widely used scalable benchmark suites include the CEC Large-Scale Global Optimisation (LSGO) benchmarks and the COCO/BBOB-Large Scale framework. These benchmarks feature functions
-specifically designed for thousands of variables, including shifted, rotated, and hybrid compositions of classical landscapes such as Rosenbrock, Rastrigin, Ackley, and Griewank. Standard test functions can
-also be scaled to arbitrary dimensions, making them suitable for stress-testing algorithms with thousands of variables or more.
-
-\textbf{T5.1--T5.2 applications.} FBD and FBO were evaluated through large synthetic component studies and two complete external-objective workflows. PFDA-BS couples FBD to a GPU-accelerated UCCSD evaluator for VQE, while ASTRA-FBO validates surrogate-guided high-dimensional search from 20 to 10,000 variables. Both use the MPI--Kokkos execution layer and exchange compact search state rather than objective internals.
-
-\paragraph{Applications mapping.}
-\begin{itemize}
-     \item Fractal optimization (proposed):
-Section~\ref{sec:app:specs:app-zellij}.
-     \item PFDA-BS VQE and ASTRA-FBO: T5.1 and T5.2 applications
-implemented through the Exa-Zellij objective interface.
-     \item Shape optimization with NN (Scimba, proposed):
-Section~\ref{sec:app:specs:app-scimba-shape-opt-nn}.
-     \item Shape optimization with FEM (FreeFEM, proposed):
-Section~\ref{sec:app:specs:app-freefem-shape-opt-fem}.
-\end{itemize}
-
-\medskip
-
-{\bf AutoML and Bayesian optimization:} The developed algorithm TriFBO-KV configures layer-wise Key/Value cache precision under an exact memory budget. The application evaluates static policies for 7B--65B LLMs on LongBench, RULER, and SCBench, supporting both task-specific optimization and generic-to-downstream transfer without requiring gradients or prescribed layer-importance profiles.
-
-% \input{chapters/applications/specs/app-opt-combin-1}
-% \input additional app specs as needed
+\paragraph{Optimal control and shape optimization.}
+The \hyperref[sec:app:specs:app-feelpp-hifimagnet-optcontrol]{HiFiMagnet
+optimal-control fiche} specifies the T5.1 control problem and the
+proposed \nolinkurl{BM-FEEL-HIFI-CTRL-01} campaign using the
+\hyperref[sec:Feelpp:implementation-2026:tao]{Feel++ interface to PETSc TAO}.
+The \hyperref[sec:app:specs:app-scimba-shape-opt-nn]{Scimba neural
+shape-optimization case} and
+\hyperref[sec:app:specs:app-freefem-shape-opt-fem]{FreeFEM finite-element
+shape-optimization case} describe proposed studies.
 
 \section{Software Framework Contributions}
 
@@ -254,17 +247,19 @@ Section~\ref{sec:Freefem++:software}.
 The shared interface and its tests are documented in \Cref{sec:Feelpp:implementation-2026:tao}. WP4 and WP5 describe its inverse-problem and continuous-optimization roles, respectively, using the same software components.
 
 \section{Preliminary Benchmarks \& Trends}
+\label{sec:wp5:benchmarks}
 
 
-\textbf{T5.1.} Fractal-based Decomposition study contains 4,344 sequential records and 576 JUPITER runs; two decomposition variants improve on the reference in 42/48 matched tasks, and 133/144 outcomes at 40 ranks remain within one percent of one-rank quality. The VQE workflow retains 60.98\% efficiency on 8,000 LUMI-G GPUs and reaches the best accuracy group in 39/40 black-box and 23/24 quantum-aware comparisons.
+\textbf{T5.1.} The \hyperref[tab:advance:WP5-A2026-1]{Fractal-based Decomposition study} contains 4,344 sequential records and 576 JUPITER runs; two decomposition variants improve on the reference in 42/48 matched tasks, and 133/144 outcomes at 40 ranks remain within one percent of one-rank quality. The VQE workflow retains 60.98\% efficiency on 8,000 LUMI-G GPUs and reaches the best accuracy group in 39/40 black-box and 23/24 quantum-aware comparisons.
 
-\textbf{T5.2.} Fractal Bayesian Optimization retains approximately 85\% strong-scaling efficiency on 8,000 LUMI-G GPUs. ASTRA-FBO ranks first on 103/108 objective--budget tasks and wins 31/34 minimum-versus-maximum-budget comparisons. On the 24-function, 15-instance COCO/BBOB-Large Scale grid at $B=d$, it wins paired majorities over seven baselines and remains essentially tied with TuRBO-TS.
+\textbf{T5.2.} \hyperref[tab:advance:WP5-A2026-2]{Fractal Bayesian Optimization} retains approximately 85\% strong-scaling efficiency on 8,000 LUMI-G GPUs. ASTRA-FBO ranks first on 103/108 objective--budget tasks and wins 31/34 minimum-versus-maximum-budget comparisons. On the 24-function, 15-instance COCO/BBOB-Large Scale grid at $B=d$, it wins paired majorities over seven baselines and remains essentially tied with TuRBO-TS.
 
-\textbf{T5.4.} TriFBO-KV wins 33/36 task-specific and 41/54 generic-transfer comparisons against the strongest budget-matched static KV policy across LLMs up to 65B parameters.
+\textbf{T5.4.} \hyperref[tab:advance:WP5-A2026-3]{TriFBO-KV} wins 33/36 task-specific and 41/54 generic-transfer comparisons against the strongest budget-matched static KV policy across LLMs up to 65B parameters.
 
-The catalogue's \nolinkurl{app-zellij} fiche describes a proposed
-continuous-optimization mini-app (\cref{sec:app:specs:app-zellij}).
-The performance figures above come from the dedicated WP5 studies.
+The \hyperref[sec:app:specs:app-feelpp-hifimagnet-optcontrol]{HiFiMagnet
+optimal-control protocol} (\nolinkurl{BM-FEEL-HIFI-CTRL-01}) specifies
+feasibility, derivative and objective-reduction checks for the planned
+campaign.
 
 \section{Next steps}
 
