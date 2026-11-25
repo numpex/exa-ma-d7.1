@@ -1,25 +1,22 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
+%!TEX root = ../../../exa-ma-deliverables.tex
 
 \ApplicationFicheHeading{app-feelpp-discr-2}
 \textbf{Demonstrator: FDA nozzle (incompressible Navier--Stokes)}
 
 \label{sec:app:specs:app-feelpp-discr-2}
 
-This demonstrator solves the incompressible Navier--Stokes equations for the \emph{FDA medical device nozzle} using stabilized finite element methods (PSPG/SUPG). The benchmark, proposed by the US Food and Drug Administration, is widely used to assess stability, accuracy, and robustness of CFD solvers \cite{hariharan_multilaboratory_2011,stewart_assessment_2012}. The specifications mirror the elliptic PDE demonstrator in \Cref{sec:app:specs:app-feelpp-discr-1}, adapted to fluid dynamics, and use the \Feelpp fluid toolbox.
+\paragraph{Implementation status.}
+This fiche defines the FDA-nozzle benchmark. A dedicated launch configuration,
+validation and scaling measurements are still pending. The benchmark is
+separate from the operational toolbox cases in
+\Cref{sec:app:specs:app-feelpp-toolbox}.
+
+This demonstrator solves the incompressible Navier--Stokes equations for the \emph{FDA medical device nozzle} using a proposed Taylor--Hood $P_2/P_1$ finite-element baseline. The benchmark, proposed by the US Food and Drug Administration, is widely used to assess stability, accuracy, and robustness of CFD solvers \cite{hariharan_multilaboratory_2011,stewart_assessment_2012}. The specifications mirror the elliptic PDE demonstrator in \Cref{sec:app:specs:app-feelpp-discr-1}, adapted to fluid dynamics, and use the \Feelpp fluid toolbox.
 
 \Cref{tab:app-feelpp-discr-2} describes the specifications of the application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-feelpp-discr-2} \\
+\begin{FicheMetadataTable}[Description of the demonstrator \texttt{app-feelpp-discr-2}.\label{tab:app-feelpp-discr-2}]
+id & \texttt{app-feelpp-discr-2} \\
     name & FDA nozzle benchmark (incompressible Navier--Stokes) \\
         Partners & Unistra \\
         PC & PC1 - ExaMA, PC2 - ExaSoft \\
@@ -27,33 +24,26 @@ This demonstrator solves the incompressible Navier--Stokes equations for the \em
         WP7 Engineer & Thomas Saigre (UNISTRA) \\
         work\_package & WP1, WP3, WP4 \\
         application\_type & extended-mini-app \\
-        purpose & Solve incompressible Navier-Stokes equations with stabilized FEM for various Reynolds numbers \\
-    Method-Algorithm WP1 & unstructured mesh, finite element, stabilized FEM (PSPG/SUPG); Newton--Krylov \\
-        Method-Algorithm WP2 & \\
+        purpose & Solve incompressible Navier-Stokes equations with finite elements for selected Reynolds numbers \\
+    Method-Algorithm WP1 & unstructured mesh, finite element, Taylor--Hood baseline; Newton--Krylov \\
         Method-Algorithm WP3 & domain decomposition, Newton-Krylov solvers, preconditioning \\
     Method-Algorithm WP4 & CFD validation (benchmark protocol, acceptance criteria) \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         outputs & VTK/EnSight visualization, JSON config, JSON reports, CSV performance metrics \\
         metrics & \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability} \\
-        status & benchmark-ready \\
+        status & specification; configuration and validation planned \\
         Benchmark scope & method-verification, solver-scaling, fluid-dynamics \\
     Framework & Feel++, PETSc \\
     parallel\_framework & MPI \\
         spec\_due & 6/15/2025 \\
         proto\_due & 7/1/2025 \\
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
-    \end{tblr}
-    \caption{Description of the demonstrator \texttt{app-feelpp-discr-2}.}
-    \label{tab:app-feelpp-discr-2}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Description of the benchmark}
 
 The benchmark presented here, denoted by \emph{FDA nozzle benchmark}, was proposed by the US Food and Drug Administration (FDA) in \cite{hariharan_multilaboratory_2011} to assess the stability, accuracy and robustness of computational fluid dynamics methods for biomedical device applications. The benchmark has become a standard validation case for incompressible flow solvers.
 
-The geometry consists of an idealized medical device nozzle with a sudden contraction followed by a gradual expansion (\Cref{fig:spec:app-feelpp-discr-2:fda:geometry}). The benchmark tests the solver's ability to capture:
+The geometry consists of an idealized medical device nozzle with a conical contraction followed by a throat and a sudden expansion (\Cref{fig:spec:app-feelpp-discr-2:fda:geometry}). The benchmark tests the solver's ability to capture:
 \begin{itemize}
 \item Laminar to transitional flow regimes (Reynolds numbers from 500 to 6500)
 \item Flow acceleration through the nozzle throat
@@ -88,12 +78,12 @@ The validation protocol follows the recommendations in \cite{hariharan_multilabo
     \item Use normalized quantities where applicable (e.g., velocity profiles normalized by throat mean velocity) and report uncertainty bands.
 \end{itemize}
 
-The performance tools integrated into the \Feelpp-toolboxes framework were used to measure the execution time of the fluid simulation components.
+The planned campaign will use toolbox timers to measure the fluid simulation phases. No FDA run is reported here.
 
-The metrics measured are the execution time of the main components of the Navier-Stokes solver:
+The metrics to measure are the execution time of the main components of the Navier-Stokes solver:
 \begin{enumerate}
 \item \textbf{Init:} Load mesh from file system and initialize the fluid toolbox (finite element spaces for velocity and pressure, algebraic data structures for the coupled system).
-\item \textbf{Assembly:} Assemble the Jacobian matrix and residual vector for the non-linear Navier-Stokes equations using stabilized finite element formulation (PSPG/SUPG).
+\item \textbf{Assembly:} Assemble the Jacobian matrix and residual vector for the non-linear Navier-Stokes equations using the chosen finite-element formulation.
 \item \textbf{Solve:} Solve the non-linear system using Newton's method with preconditioned GMRES for the inner linear solves. The convergence criterion and maximum iterations are configured based on the Reynolds number.
 \item \textbf{Post-process:} Compute validation measures (velocity profiles, pressure drop, flow rate) and export visualization files in EnSight Gold or VTK format.
 \end{enumerate}
@@ -107,37 +97,27 @@ The metrics measured are the execution time of the main components of the Navier
 
 \subsubsection{Input Data:}
   \begin{itemize}
-  \item \textbf{Meshes:} We  generat three levels of mesh refinement called \texttt{M1}, \texttt{M2}, \texttt{M3} and possibly more for the FDA nozzle geometry. 
-  These meshes are stored in GMSH format. The statistics are presented in \Cref{tab:spec:app-feelpp-discr-2:fda:discr_stat}. Pre-partitioned meshes are also available in the \Feelpp in-house format (JSON+HDF5) for parallel simulations. All meshes are available in the \Feelpp Girder database.
-  
-  \item \textbf{Flow parameters:} The benchmark is run for multiple Reynolds numbers: Re = 500 (steady laminar), Re = 2000 (steady transitional), Re = 3500 (transitional), and Re = 6500 (transitional/turbulent). Fluid properties: density $\rho = 1056$ kg/m³ (blood analog), dynamic viscosity $\mu = 0.00345$ Pa·s.
+  \item \textbf{Meshes:} Plan three convergence levels M1--M3 from the
+  \href{https://github.com/OSEL-DAM/CFD-and-Blood-Damage-Benchmarks}{FDA CAD and experimental-data repository}.
+  Pin the CAD revision and scale, inlet/outlet orientation, wall resolution,
+  physical markers and sampling planes. Generated meshes, partitions and counts
+  remain planned; no Girder download is asserted.
+  \item \textbf{Flow parameters:} The proposed Reynolds-number series is: Re = 500 (steady laminar), Re = 2000 (transition study), Re = 3500 (transitional), and Re = 6500 (transitional/turbulent). Fluid properties: density $\rho = 1056$ kg/m³ (blood analog), dynamic viscosity $\mu = 0.00345$ Pa·s.
   
   \item \textbf{Boundary conditions:} Parabolic velocity profile at inlet (fully developed flow), zero pressure at outlet, no-slip conditions on walls.
   
-  \item \textbf{Setup:} Standard setup using \Feelpp fluid toolbox configuration files (CFG and JSON format). Configuration files are available in the \Feelpp GitHub repository with settings for Newton solver tolerance, GMRES parameters, and stabilization methods.
-  
-  \item \textbf{Container image:} \texttt{feelpp:v0.111.0-preview.10-noble-sif} (stored in the GitHub Container Registry of \Feelpp)
+  \item \textbf{Setup:} Supply versioned fluid toolbox CFG and model JSON
+  files. Begin with a steady laminar Re=500 baseline using inf-sup stable
+  $P_2/P_1$ velocity/pressure spaces. A stabilized equal-order variant must be
+  declared separately. Higher-Re cases require a time-resolution study,
+  averaging window and experimental uncertainty; stationarity is not assumed.
+  Pin solver tolerances and the native package or container digest.
   \end{itemize}
 
-\SetTblrInner{rowsep=0pt}
-\begin{table}[!ht]
-    \centering
-    \begin{tblr}{
-        colspec={c*{7}{Q[c, cmd=\pgfmathprintnumber]}},
-        vlines={numpexgray},
-        hlines={numpexgray},
-        row{1,2}={bg=numpexgray, fg=white, font=\bfseries, halign=c, cmd=\normalfont},
-        rowhead=2,
-    }
-    \SetCell[c=5]{c}{Mesh properties} & & & & & \SetCell[c=3]{c}{Number of degrees of freedom (velocity)} & &\\
-        Tag & \# points & \# edge & \# faces & \# elements & $\mathP_1$ & $\mathP_2$ & $\mathP_3$ \\
-        \texttt{M1} & 45123 & 298456 & 487234 & 234567 & 135369 & 1093824 & 3619458\\
-        \texttt{M2} & 345678 & 2345678 & 3876543 & 1890234 & 1037034 & 8383722 & 28104567\\
-        \texttt{M3} & 2567890 & 17890234 & 29876543 & 14678901 & 7703670 & 62560356 & 211234589\\
-    \end{tblr}
-    \caption{FDA nozzle benchmark - Statistics on meshes and number of velocity degrees of freedom with respect to finite element approximation. Note: Pressure uses $\mathP_{k-1}$ spaces for inf-sup stability.}
-  \label{tab:spec:app-feelpp-discr-2:fda:discr_stat}
-\end{table}
+\begin{FicheMetadataTable}[Planned FDA mesh family.\label{tab:spec:app-feelpp-discr-2:fda:discr_stat}]
+M1--M3 & Geometry/mesh files, cell and DoF counts, partitions and digests pending.
+Counts will be generated from the actual archived files rather than estimated. \\
+\end{FicheMetadataTable}
 
 \subsubsection{Output Data:}
 
@@ -158,11 +138,13 @@ Benchmark metrics include:
 \end{itemize}
 
 
-\textbf{Status:} \texttt{benchmark-ready} - validated and ready for systematic HPC benchmarking.
+\textbf{Status:} Scientific specification; no completed Feel++ FDA validation or scaling campaign is claimed.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Results summary}
-\todo[app-feelpp-discr-2 / results summary]{Results summary to be supplied by contributors.}
+Results are planned. First compare velocity profiles, flow rate and pressure drop with the selected FDA dataset at matched conditions; fix acceptance criteria using experimental uncertainty before timing. Reference data and proposed solver settings are distinct from measured Feel++ outputs.
+
+\input{chapters/applications/meshes/app-feelpp-discr-2}

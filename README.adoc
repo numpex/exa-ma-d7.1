@@ -63,6 +63,82 @@ article-cli setup # to be done only once after you clone the repo
 
 NOTE: `article-cli` is the recommended tool to setup the repo, create releases and update bibtex references. The legacy `a.cli` script still exists but is deprecated.
 
+== Updating a Framework Fiche
+
+The targeted Python generator imports one framework from the current
+*Frameworks / Name* catalogue schema or the legacy *Software / Software*
+schema. It accepts an Excel export (.xlsx), CSV, or a selected-row JSON
+snapshot. Dependencies are declared in the script and installed by uv;
+no project installation or bibliography update is needed.
+
+.Reproduce the FUnTiDES metadata from the committed snapshot
+[source,shell]
+----
+uv run gen.py --input software/funtides/catalogue.json \
+  --framework FUnTiDES --output software/funtides/metadata.tex
+
+# Verify reproducibility without writing
+uv run gen.py --input software/funtides/catalogue.json \
+  --framework FUnTiDES --output software/funtides/metadata.tex --check
+----
+
+.Import a new Excel export into review files
+[source,shell]
+----
+uv run gen.py --input /path/to/catalogue.xlsx --framework FUnTiDES \
+  --snapshot /tmp/funtides-new.json --output /tmp/funtides-metadata.tex
+----
+
+For Excel input, the generator chooses Frameworks first, then Software.
+Use --sheet to override the worksheet. Names must match exactly
+(case-insensitive); absent or duplicate matches are errors.
+
+.Fetch a Google Sheets tab through its read-only CSV export
+[source,shell]
+----
+uv run gen.py \
+  --sheet-url 'https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?gid=0' \
+  --sheet Frameworks --framework FUnTiDES \
+  --snapshot /tmp/funtides-live.json --output /tmp/funtides-live.tex
+----
+
+The direct export needs unauthenticated read access. For a private sheet,
+download an Excel/CSV export from your authenticated Google session, or
+use an authenticated connector to obtain the selected row. Do not change
+the sheet's sharing permissions for the generator. The command stores no
+credentials and never writes to Google Sheets.
+
+Review the new snapshot before replacing the committed one. Only the
+selected framework is retained, with its source, row and retrieval date.
+Snapshots must be written to a new path; existing snapshots are protected.
+Omitting --output prints LaTeX to standard output.
+
+The generated *metadata.tex* is separate from the editable scientific text
+in *software/funtides/funtides.tex*. The generator refuses to overwrite a
+file without its generated-file marker. It never rewrites chapter indexes,
+other framework fiches, application records, WP benchmark sections or
+statistics. Empty fields remain unspecified and unchecked WP flags are
+not converted into completed benchmarking campaigns.
+Description and Comments cells remain in the JSON snapshot for editorial
+review; they are not injected into the scientific prose automatically.
+The original bulk generator is preserved in *scripts/legacy_gen.py* for
+reference only: it overwrites editorial content and should not be used
+for routine updates.
+
+.Tests and developer-review PDF
+[source,shell]
+----
+uv run --no-project --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4' \
+  --with pytest python -m pytest tests/test_gen.py -q
+latexmk -norc --shell-escape -pdf -halt-on-error standalone-funtides.tex
+----
+
+The framework CI workflow checks both generators and publishes per-framework
+PDF artifacts. Canonical previews live in `standalone/frameworks/` and share
+the first-page identity panel. The normal LaTeX workflow also compiles these
+fiches inside the full deliverable.
+No application or benchmark association is introduced by this first fiche.
+
 == Compiling the Document
 
 See link:AGENTS.md[AGENTS.md] for  compilation guide and link:FAST-COMPILE.md[FAST-COMPILE.md] for optimization strategies.
@@ -74,7 +150,7 @@ The recommended compilation method uses `latexmk` with shell escape enabled:
 .Full compilation with latexmk
 [source, shell]
 ----
-latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode exa-ma-d7.1.tex
+latexmk --shell-escape -pdf -file-line-error -halt-on-error -interaction=nonstopmode exa-ma-deliverables.tex
 ----
 
 *Key flags explained:*
@@ -121,7 +197,7 @@ For quick testing (may require multiple runs for references):
 .Single pdflatex run
 [source, shell]
 ----
-pdflatex --shell-escape exa-ma-d7.1.tex
+pdflatex --shell-escape exa-ma-deliverables.tex
 ----
 
 === Method 5: Using the CLI Helper
@@ -131,6 +207,21 @@ pdflatex --shell-escape exa-ma-d7.1.tex
 ----
 article-cli clean
 ----
+
+=== Regenerating the D0.2 diagrams
+
+The consortium, coordination and ecosystem diagrams in `graphics/management/` use
+Mermaid sources and a shared NumPEx palette. Run the script after changing
+a source or the palette to refresh the vector PDFs included by LaTeX.
+
+[source, shell]
+----
+scripts/render-management-diagrams.sh
+----
+
+The script uses Mermaid CLI 12.0.0 with Chromium. It can run that version
+through `npx` when it is absent locally. Set
+`PUPPETEER_EXECUTABLE_PATH` to use a specific browser executable.
 
 === Overleaf Workflow for Non-GitHub Users
 
@@ -148,6 +239,63 @@ catalogue fields receive these labels automatically.
 The full document prints the TODO list before the back page. All standalone
 documents that load `defs.tex` print it automatically at the end. Compile with
 latexmk so the list and page references are refreshed across LaTeX passes.
+
+==== Framework catalogue and Feel++ fiche
+
+Individual standalone fiches use `standalone/identity-panel.tex` for a shared
+first-page identity panel. Its data is generated from the framework/application
+catalogues, the reconciliation catalogue and the reviewed display profiles in
+`data/fiche-identity-profiles.json`. The panel is loaded only by standalone
+wrappers; the main deliverable's presentation is unaffected.
+After refreshing these inputs, run:
+
+[source,shell]
+----
+uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py
+uv run --no-project --python 3.11 python scripts/generate_fiche_identities.py --check
+----
+
+`data/frameworks.csv` is the Frameworks tab snapshot; its source range, retrieval
+date and the maintainer's preCICE coupling note are recorded in
+`data/frameworks-source.json`. Values are retained as supplied by the Sheet.
+Only selected framework metadata is regenerated:
+
+[source,shell]
+----
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' python scripts/sync_frameworks.py --framework feelpp
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' python scripts/sync_frameworks.py --framework feelpp --check
+latexmk --shell-escape -pdf -interaction=nonstopmode -synctex=1 -outdir=output/pdf standalone/feelpp.tex
+----
+
+The generated `software/feelpp/metadata.tex` is separate from the authored
+`software/feelpp/feelpp.tex`, its figures and its variational code example.
+Unmarked metadata cannot be overwritten. The historical bulk Excel generator
+is archived in `scripts/legacy_gen.py`;
+use the safe shared `gen.py` for other catalogue formats.
+`exama-software.xlsx` is a historical input, not the current framework snapshot.
+The standalone includes the same fiche as the full report, uses readable
+application IDs where full-report section labels are unavailable, and omits an
+empty TODO page. Its PDF is written to `output/pdf/feelpp.pdf`.
+
+For the full deliverable, include `software/feelpp/feelpp.tex`, as
+`chapters/software.tex` already does; do not embed the standalone document
+wrapper. The main preamble supplies `defs.tex`, the shared packages and styles,
+and the document-wide `references.bib` bibliography. Figure/table labels and
+application section links then resolve within the main PDF after latexmk's
+normal passes. Compile from the repository root so relative inputs and assets
+remain available.
+
+The local `.latexmkrc` retains latexmk's default log-wrap width. Setting
+`$log_wrap = 0` does not suppress reference warnings and causes a division by
+zero in the log parser. The configuration uses normal error handling: real
+LaTeX failures return a nonzero status, while layout warnings remain warnings.
+
+Generator checks use the environment documented in `AGENTS.md`:
+
+[source,shell]
+----
+uv run --no-project --python 3.11 --with 'jinja2>=3.1,<4' --with 'openpyxl>=3.1,<4' --with pytest python -m pytest tests/test_gen.py tests/test_sync_frameworks.py -q
+----
 
 ==== Application catalogue and previews
 
@@ -395,28 +543,14 @@ The project uses UNISTRA's `self-texlive` runners, pre-configured with:
 
 === Release Process
 
-To create a new release (preferred flow):
-
-[source,shell]
-----
-# 1) Ensure main is up to date
-git checkout main
-git pull --ff-only
-
-# 2) Bump version and changelog in exa-ma-d7.1.tex
-#    - Set \delivVersion{vX.Y.Z}
-#    - Add new \istChange{DD/MM/YYYY}{vX.Y.Z}{Authors}{Summary}
-
-# 3) Update pyproject.toml version to X.Y.Z
-
-# 4) Commit changes
-git add exa-ma-d7.1.tex pyproject.toml
-git commit -m "chore(release): vX.Y.Z"
-
-# 5) Create an annotated tag and push using article-cli
-python3 -m article_cli create vX.Y.Z
-git push origin vX.Y.Z
-----
+Follow link:RELEASING.adoc[the release-preparation procedure].
+Install the CLI with `uv tool install --python 3.11 --editable .`, then run `exa-ma-version check`
+to confirm the checkout, main document and current version.
+Like `exa-ma-harvest` in the shared Exa-MA tools repository, this is an installed
+command. `exama-version` is an equivalent alias.
+The `bump X.Y.Z --diff` command shows a dry-run plan; `--write` applies only local
+metadata changes and regenerates fiche identities. It never commits, tags
+or pushes. Publication requires the maintainer's explicit authorization.
 
 === Development Workflow
 
@@ -425,7 +559,7 @@ git push origin vX.Y.Z
 . **Compile**: Use VS Code auto-build or manual `latexmk`
 . **Clean**: `article-cli clean` to remove build artifacts
 . **Commit**: Git hooks automatically update version info
-. **Release**: Tag with `./a.cli create vX.Y.Z` for releases
+. **Release**: Follow link:RELEASING.adoc[release preparation and publication]; commit/tag only after explicit authorization
 
 == Project Structure
 
@@ -435,7 +569,7 @@ The repository is organized as follows:
 |===
 | Directory/File | Description
 
-| `exa-ma-d7.1.tex` | Main LaTeX document
+| `exa-ma-deliverables.tex` | Main LaTeX document
 | `chapters/` | Individual chapters of the deliverable
 | `sections/` | Report sections and content
 | `software/` | Software-specific sections
@@ -451,7 +585,7 @@ The repository is organized as follows:
 === Key Files
 
 **LaTeX Files:**
-- `exa-ma-d7.1.tex`: Main document entry point
+- `exa-ma-deliverables.tex`: Main document entry point
 - `defs.tex`: Definitions and macros
 - `*.sty`: Custom style files (`numpex.sty`, `istcover.sty`, etc.)
 
@@ -479,7 +613,7 @@ article-cli setup
 +
 [source,shell]
 ----
-latexmk --shell-escape -pdf -interaction=nonstopmode exa-ma-d7.1.tex
+latexmk --shell-escape -pdf -interaction=nonstopmode exa-ma-deliverables.tex
 ----
 
 . **Clean Up**: Remove build artifacts before committing:
@@ -579,3 +713,203 @@ DOI: 10.5281/zenodo.15188286
 ----
 
 See the link:LICENSE[LICENSE] file for complete terms.
+
+=== Consolidated deliverables filenames
+
+The main source is `exa-ma-deliverables.tex`. Local compilation produces
+`exa-ma-deliverables.pdf`; CI publishes `exa-ma-deliverables-pr-N.pdf` for pull
+requests and `exa-ma-deliverables-vX.Y.Z.pdf` plus
+`exa-ma-deliverables-vX.Y.Z.tar.gz` for releases. The repository name and
+previously published release assets are unchanged.
+
+=== Individual framework fiches
+
+The Google Sheet's `Frameworks` tab is the source of reference for publication
+scope. Its `Include in deliverable` checkbox is independent of `Benchmarked`:
+CPU/GPU architecture flags are not publication switches. The versioned
+`data/frameworks.csv` snapshot carries the same explicit `TRUE`/`FALSE` values.
+Refresh that column from the Sheet before regenerating; changing the Sheet alone
+does not silently alter a build from an existing checkout.
+
+`FALSE` keeps the catalogue row and scientific sources in reserve, while omitting
+the framework's standalone wrapper, CI job, release PDF and any gated report
+entry. `TRUE` makes an authored fiche eligible for publication. The report keeps
+its editorial order and existing entry points; a new framework still needs an
+authored fiche and a report entry. Arcane, MaHyCo and MANTA are currently in
+reserve; TRUST and Uranie remain active. Retired pBB remains unchecked (issue #127).
+Reactivation uses the same Sheet checkbox and synchronization procedure.
+
+Active `software/<id>/<id>.tex` fiches have thin standalone wrappers under
+`standalone/frameworks/`. Former MaPHyS++ is represented by Composyx without a
+duplicate PDF. No authored fiche is overwritten or deleted by selection changes.
+
+[source,shell]
+----
+# Sync only the publication column from the configured Google Sheet.
+python3 scripts/framework_publication.py --refresh-sheet
+# Refresh wrappers, removing only generated wrappers of inactive frameworks.
+python3 scripts/framework_previews.py --write
+python3 scripts/generate_fiche_identities.py
+# Check wrappers and record the report version and Git revision for local PDFs.
+python3 scripts/framework_previews.py --check --build-info
+latexmk --shell-escape -pdf standalone/frameworks/feelpp.tex
+----
+
+Framework LaTeX builds run on `self-texlive`, using the installed TeX Live
+directly without a Docker image. Compilation runs from the repository root for
+compatibility with minted 2 on the runners; completed PDFs are then moved to
+the artifact directory. Selection, tests and archiving use `self-feelpp`.
+PR checks build affected framework fiches. Changes to shared definitions,
+styles, graphics, bibliography or preview infrastructure rebuild all fiches.
+Each PDF records the report version, build reference and source revision.
+The canonical framework previews now collect the framework description and
+all its associated application sections into one PDF, with one bibliography.
+The front index links to the applications and reports catalogue readiness
+separately from the benchmark registry's evidence status. Shared applications
+appear in each associated framework's fiche using the same authored source.
+Frameworks without registered applications retain their framework content.
+Inactive frameworks do not receive consolidated fiches.
+
+The standalone composition is generated under `standalone/portfolios/` from
+`data/applications.csv`, the framework publication flags, the reconciliation
+file and `data/benchmark-registry-v3.csv`. Explicitly reconciled repository-only
+fiches are retained and marked as such; associations are never guessed from
+application names. The main deliverable does not load this composition and
+keeps its existing structure and content.
+
+[source,shell]
+----
+# Refresh the composition after refreshing the catalogue snapshots.
+python3 scripts/framework_previews.py --write
+python3 scripts/framework_portfolios.py --check
+# Generate every active framework + applications PDF for review.
+python3 scripts/framework_portfolios.py --build
+# Or build one framework.
+python3 scripts/framework_portfolios.py --build --framework feelpp
+----
+
+The review command checks the full report using the standard LaTeX build,
+then generates PDFs under `output/pdf/frameworks/` and packages them in
+`output/framework-consolidated-fiches-review.zip`. The bundle includes the
+unchanged full report for links to WPs and other sections outside a fiche.
+Application and framework links within each consolidated fiche stay local;
+the builder imports only nonlocal labels from the report. A manifest records
+application membership, source snapshot hashes, PDF hashes and build revision.
+No commit, version bump, tag or publication is performed by these commands.
+
+Application associations come from the Google Sheet snapshot. The latest
+refresh provenance is recorded in `data/applications-source.json`; contributors,
+case definitions and benchmark evidence remain explicit owner inputs.
+
+For tagged releases, all fiches must build before publication. The release
+includes `exa-ma-frameworks-vX.Y.Z.zip`, containing the individual PDFs and a
+manifest with the source revision, report version and fiche source paths.
+It also lists inactive catalogue entries. Publication flags are checked in CI
+against the generated `software/framework-publication.tex` used by report entries.
+The historical `standalone-funtides.tex` entry point is retained.
+
+Releases also provide `exa-ma-d02.pdf` and one PDF for each work package,
+from `exa-ma-wp1.pdf` to `exa-ma-wp7.pdf`. Keep the companion
+`exa-ma-deliverables.pdf` alongside the WP PDFs to follow links to other
+chapters. The work-package archive packages all seven WP PDFs with that
+companion report.
+
+=== Frameworks, applications and work packages
+
+The software chapter's navigation table is generated from the versioned
+`data/frameworks.csv` and `data/applications.csv` snapshots. After synchronizing
+the Google Sheet, the application synchronization command regenerates it too:
+
+[source,shell]
+----
+python3 scripts/sync_applications.py --standalone
+# Or regenerate only the navigation table (also after publication flag changes):
+python3 scripts/framework_application_map.py
+python3 scripts/framework_application_map.py --check
+----
+
+The generator uses explicit application `Framework`, `work_package` and
+`status` fields, respects `Include in deliverable` and the chapter's entry
+points, and links to existing framework, application and WP labels.
+`data/application-reconciliation-v3.csv` resolves fiche filenames when the
+catalogue ID and source filename differ. It does not infer associations from
+application names or treat operational readiness as benchmark evidence.
+Missing framework associations are listed for catalogue completion. CI rejects
+a stale table; update it alongside the snapshots.
+
+== Standalone work package contributions
+
+The seven `standalone-wp1.tex` through `standalone-wp7.tex` entry points reuse
+the scientific sources of the consolidated report. WP1--WP6 contain their
+respective chapter and bibliography. WP7 retains its broader scope:
+coordination, methodology, software, applications and training.
+
+Build the distribution from the repository checkout with Python 3.11+ and
+the same TeX environment as the full report:
+
+[source,shell]
+----
+# Full report once, followed by all seven contributions:
+python3 scripts/workpackage_previews.py --jobs 2
+
+# Focused review, using the same reference-resolution procedure:
+python3 scripts/workpackage_previews.py --wp 4 --ref wp4-review
+----
+
+The outputs are in `output/pdf/workpackages/`. The archive
+`exa-ma-workpackages-local-review.zip` contains seven PDFs, the companion
+`exa-ma-deliverables.pdf`, and a manifest recording the revision, working-tree
+state, source hashes and PDF hashes. A focused build packages only the selected
+WP(s). No bibliography refresh or scientific-source rewrite is performed.
+
+The builder validates the full report first. It then discovers each WP's local
+labels, filters them out of the report's auxiliary labels (including `cleveref`
+metadata), and recompiles with the remaining labels imported by `xr-hyper`.
+Local references use the standalone numbering and stay inside the WP PDF.
+External references retain the full report's numbering and open the companion
+PDF; keep the files together after extracting the archive. Some browser PDF
+viewers do not follow cross-file links; a desktop reader is recommended.
+The bibliography is built separately for each WP from its own citations.
+
+Use the Python builder after source changes so that references are recalculated.
+After preparation, direct `latexmk --shell-escape -pdf standalone-wp4.tex`
+also reads the generated references; its PDF is in the repository root beside
+the full report. Compiling a wrapper alone in a fresh checkout cannot resolve
+references to material absent from that wrapper, and emits a preparation warning.
+The legacy `generate-standalone-wps.sh` helper is obsolete: it recreates the old
+wrappers without reference handling and must not be used to regenerate them.
+
+`.github/workflows/workpackages.yml` builds all seven contributions on PRs,
+pushes to the integration branches and manual runs. All WPs are rebuilt because
+even an edit outside a WP can change its external numbering. The workflow is
+also called by the tagged-release workflow, which attaches
+`exa-ma-workpackages-vX.Y.Z.zip` and waits for these checks before publication.
+Undefined citations/references, duplicate labels/destinations and missing glyphs
+fail the build. Layout warnings remain visible in the uploaded build logs.
+
+== Feel++ application packages and shared meshes
+
+The consolidated Feel++ fiche uses `data/feelpp-mesh-catalogue.json` for its
+application entry points, shared mesh families, delivery status and remaining
+contributions. Scientific formulations stay in the authored application fiches.
+The generated review table is `reviews/feelpp-fiche-todo.adoc`.
+
+Regenerate and check the local catalogue outputs:
+
+[source,bash]
+----
+python3 scripts/feelpp_catalogue.py --write
+python3 scripts/feelpp_catalogue.py
+----
+
+The application repository owns its physical inputs and benchmark launchers:
+`apps/<application-id>/cases/<case>/` contains CFG/model JSON or a planned-case
+README, while `apps/<application-id>/benchmarks/` contains the actual
+feelpp-benchmarking configuration and plot files. Machine settings are shared
+through `feelpp/hpc-systems`; the application repository documents them under
+`machines/`. Its `meshes/README.adoc` owns the shared dataset descriptions.
+
+The deliverable snapshot references those paths; it does not generate or
+replace the application repository. The former `--export-repo` option now
+fails explicitly to prevent restoring the superseded manifest/mirror layout.
+Missing inputs and results remain planned.

@@ -1,0 +1,17 @@
+{
+  "frameworks": {
+    "feelpp": {
+      "subtitle": "Finite Element Embedded Language and Library in C++",
+      "summary": "Parallel Galerkin methods, multiphysics simulation and model order reduction.",
+      "doi": "https://doi.org/10.5281/zenodo.591797"
+    }
+  },
+  "applications": {
+    "app-feelpp-discr-2": {
+      "name": "FDA nozzle benchmark",
+      "purpose": "Incompressible Navier-Stokes validation with stabilized finite element methods.",
+      "Partners": "Unistra",
+      "source": "chapters/applications/specs/app-feelpp-discr-2.tex"
+    }
+  }
+}

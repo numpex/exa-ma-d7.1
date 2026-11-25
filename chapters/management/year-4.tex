@@ -1,38 +1,273 @@
-%!TEX root = ../../exa-ma-d7.1.tex
-\clearpage
-\section{Year 4: M37--M48}
+%!TEX root = ../../exa-ma-deliverables.tex
+\section{2026 management and activity report}
 \label{sec:management-year-4}
 
-\textbf{Reporting period and validation.}
-\emph{To complete: calendar start and end dates, reporting cut-off, contributors,
-coordination reviewer and validation date.}
+\noindent\emph{1 January--18 November 2026}
 
-\subsection{Governance, coordination and resources}
-\emph{To complete: annual management assessment, meetings and decisions,
-milestone and deliverable follow-up, resource situation, difficulties and
-corrective actions, with dated evidence.}
+Exa-MA develops numerical methods and software for exascale
+scientific computing within NumPEx. Its work covers discretisation,
+solvers, model reduction and machine learning, inverse problems,
+optimisation and uncertainty quantification. WP7 works with the
+scientific teams to integrate their methods into software and test
+them on common applications.
 
-\subsection{Human resources: arrivals and departures}
-\emph{To complete: opening and closing staffing by partner/WP/role, recruitment,
-arrivals, departures, transfers and vacancies; effects on delivery and handover
-measures, with a validated staffing summary.}
+In 2026, the first demonstrators and mini-applications gave the
+scientific and software teams common cases on which to test their
+methods. At the June ANR review, Exa-MA set priorities for verification
+and validation, GPU readiness, reproducible software releases and
+benchmarks, and integration across NumPEx.
 
-\subsection{Events and communication}
-\emph{To complete: dated event inventory, organizers, Exa-MA role, audiences,
-documented participation, outputs and follow-up; links to programmes, materials
-and the training chapter where applicable.}
+% Sources: October D0.2 draft by Jimmy James and Juliette Antonczak;
+% 2026 coordination minutes; June ANR review slides and minutes;
+% scientific WP contributions; Exa-MA website and dated partner announcements.
 
-\subsection{Industrial relations and partnerships}
-\emph{To complete: companies, purpose, contact roles, collaboration status,
-activities and outcomes during this period; dated supporting evidence and
-next steps.}
+\subsection{The consortium in 2026}
 
-\subsection{Research institutions and computing centres}
-\emph{To complete: external institutions and centres, joint activities,
-resource requests/awards/use, results for the project and evidence;
-distinguish consortium coordination from external partnerships.}
+Five beneficiary institutions receive ANR funding for Exa-MA. CNRS
+and ten associated institutions contribute through laboratories and
+research teams (\cref{fig:exama-consortium-2026}). The
+\href{https://exa-ma.numpex.fr/consortium.html}{consortium register}
+lists the participating teams.
 
-\subsection{Lessons learned and next-period actions}
-\emph{To complete: overall assessment, follow-up of earlier actions where
-applicable, outstanding risks, lessons learned and next-period priorities,
-each with an owner, target date and expected outcome.}
+Three projects involving consortium members started in 2026.
+SAGE-HPC and DAiMOS joined the NumPEx programme, and JNL-G brings
+IRMA and LNCMI together around the high-field magnet facility.
+\Cref{tab:exama-ecosystem-2026} describes their links to Exa-MA.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{graphics/management/consortium-2026.pdf}
+\caption{Exa-MA consortium in November 2026.}
+\label{fig:exama-consortium-2026}
+\end{figure}
+
+\subsection{How the consortium works}
+
+The project leads and project officers meet weekly, usually on
+Tuesdays, for day-to-day decisions. The work package leads join them
+every three weeks on Thursday mornings to review progress and agree
+on joint work, recruitment and requests for computing time. The
+project office keeps minutes and deliverables in the shared Drive.
+By agreement with the ANR, Exa-MA operates without a steering committee.
+
+The Exa-MA leads take part in the weekly Thursday evening meetings
+with the NumPEx programme leadership (PC0) when the agenda calls for
+their input.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{graphics/management/coordination-2026.pdf}
+\caption{Working meetings and advisory and reporting relationships.}
+\label{fig:exama-coordination-2026}
+\end{figure}
+
+The January General Assembly brought 65 participants from 24 institutions
+to Aix-en-Provence and online. All seven work packages presented their
+progress. The consortium discussed its research with the Scientific
+Advisory Board and set aside working sessions on Feel++, Scimba,
+Composyx and Uranie. The assembly programme and presentations are
+available in the
+\href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{meeting report}.
+
+% Exa-MA coordination minutes of 9 and 23 July and 3 September 2026.
+% Exa-MA's July contribution is indexed in Zotero as exama2026agenticAIPosition.
+After the May Operational Committee, Exa-MA prepared its contribution
+on agentic AI for scientific computing and sent it to PC0 in July. It
+proposed checking numerical results from simulations run by agents,
+recording how they were obtained and evaluating agents on common
+benchmarks. NumPEx announced the resulting
+\href{https://numpex.org/4252/}{position paper} on 6 November.
+
+\subsection{Scientific execution and computing resources}
+
+At the May NumPEx Operational Committee, Exa-MA raised the need to
+deploy the same benchmarks on different CPU and GPU systems. In WP3,
+PETSc~3.25 added a CUDA backend for the HPDDM preconditioner. The June
+discussion with the HPDDM team then identified two application cases
+for follow-up, a discrete fracture network mini-app and a
+thermo-mechanical benchmark. For heterogeneous diffusion with
+Composyx, the additive Schwarz solver reached 88\% weak-scaling
+efficiency on 32 Jean Zay nodes with NVIDIA V100 GPUs and 89\% on
+128 Adastra nodes with AMD MI250X GPUs. Each series used its own
+one-node reference.
+
+WP5 tested a distributed optimiser with a variational quantum
+eigensolver. The coupled workflow retained 60.98\% strong-scaling
+efficiency on 1,000 LUMI-G nodes (8,000 GPUs).
+
+The consortium submitted proposals to NumPEx in July for large runs on
+the MI300A extension at CINES. The allocations under that call were
+still pending on 18 November.
+
+The June review identified the maturity of the WP4 and WP6 test cases
+as a point to address. Both rely on methods developed across the
+work packages, including discretisation and solvers. For WP4,
+HiFiMagnet provides a case for estimating the parameters of a high-field
+magnet from observations. The variational interface in Feel++ has
+functional tests, and the application fiche specifies a benchmark for
+parameter recovery. In the Ktirio Urban Building collaboration, WP6
+implemented statistical processing for ensembles of urban-energy
+simulations. WP6 has yet to validate that processing at application
+scale, and the WP4 parameter-recovery benchmark remains planned.
+
+In a separate collaboration between WP5 and WP6, tests with
+Uranie's sensitivity indices improved optimisation on small problems.
+Scaling the approach remains an open question.
+\ifdefined\ExaMAStandaloneManagement\else
+The work packages and application fiches give the test conditions and
+results (\cref{chap:wp3,chap:wp4,chap:wp5,chap:wp6,chap:applications}).
+\fi
+
+\subsection{Deliverables, milestones and indicators}
+
+After the June ANR review, PC0 asked the targeted projects for further
+evidence on scientific results, risks, recruitment and collaborations.
+Exa-MA contributed that material to the programme's midterm assessment
+in September.
+
+The October work plan called for updates to 20 deliverables. It covered
+software releases (MS2), benchmarking (MS3), Level~1 demonstrators
+(MS4) and mini-apps (MS5). The June schedule listed 14 June for MS4
+and MS5. By September, the planned date for both was 14 October.
+The 14 October submission was still outstanding on 18 November.
+
+The October report counted 33 HAL records for 2026 through 14 October.
+These included 11 journal articles, four conference papers, 17 preprints
+or unpublished items, and one report. The project target over its
+lifetime is more than 50 international peer-reviewed papers.
+
+\subsection{Staffing and recruitment}
+
+Erik Fabrizzi moved from an engineering post to a WP3 PhD at Sorbonne
+Université. Maël Olivier, Bruno Latre and Quentin Bergez began doctoral
+work at Inria. Robin Boëzennec and Edgar Jaber joined WP3 and WP6 as
+postdoctoral researchers.
+\Cref{tab:exama-staffing-2026} summarises appointments since the
+start of the project.
+
+\begin{table}[!htb]
+\centering
+\caption{Appointments wholly or partly funded by Exa-MA through 18 November 2026. The personnel register was updated on 5 November.}
+\label{tab:exama-staffing-2026}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Appointment} & \textbf{Since launch} & \textbf{2026 starts} & \textbf{In post}\\
+\midrule
+Doctoral & 16 & 4 & 15\\
+Postdoctoral & 7 & 2 & 3\\
+Research engineering and project support & 8 & 0 & 5\\
+\midrule
+\textbf{Total} & \textbf{31} & \textbf{6} & \textbf{23}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In May, École polytechnique agreed to redirect Exa-MA's share of a
+planned PhD to a one-year engineering post on Uranie. École
+polytechnique plans to recruit the engineer in the first quarter of
+2027 to work with the CEA team in Saclay. WP5 redirected funding from a
+planned doctorate to a postdoctoral position in optimisation and
+reopened the search in September. The CEA--Inria PhD on block-structured
+adaptive mesh refinement in WP1 was deferred to 2027.
+
+\subsection{Financial follow-up}
+
+At the March review, partners reported that higher doctoral salaries
+had changed recruitment costs. Several also had difficulty obtaining
+expenditure figures from their institutions. Exa-MA aims to review
+partner expenditure every six months in coordination with PC0.
+
+\subsection{External partnerships}
+
+The ANR-funded \href{https://anr.fr/Project-ANR-25-CE46-1157}{JNL-G project}
+reuses Exa-MA's multiphysics and model-reduction work in the digital
+twin of the LNCMI high-field magnet facility in Grenoble. IRMA and
+Cemosis are applying these methods in Feel++ and HiFiMagnet to model
+the magnets together with their power supply and cooling systems.
+The facility's measurements will guide validation of the models used
+to study operating scenarios. JNL-G has its own funding and gives the
+LNCMI and Exa-MA teams a setting in which to continue developing these methods.
+
+Ktirio Urban Building brings Exa-MA's meshing and coupling work into
+the HiDALGO2 urban-energy pilot and has been deployed on Jean Zay with
+Exa-AToW. Cemosis is working with social housing providers, the
+Eurométropole de Strasbourg and RTE, and is developing further
+partnerships. These collaborations give the building and district-scale
+models a use beyond the research project, for example to compare
+renovation or energy scenarios with the partners.
+\Cref{fig:exama-ecosystem-2026} places the two projects in Exa-MA's
+wider partnership network.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{graphics/management/ecosystem-2026.pdf}
+\caption{Projects and organisations linked to Exa-MA in November 2026.}
+\label{fig:exama-ecosystem-2026}
+\end{figure}
+
+\input{chapters/management/ecosystem-2026}
+
+\subsection{Industrial partnerships}
+
+Exa-MA co-funds four doctorates with industrial partners, including
+the TotalEnergies project with Inria's Makutu team in Pau
+(\cref{tab:exama-industrial-phds-2026}). The projects span multiphysics
+coupling, numerical software for PDEs and solvers for large sparse systems.
+
+\input{chapters/management/industrial-phds-2026}
+
+In October, Hanna Chetouane began a
+\href{https://www.cemosis.fr/en/news/cifre-avnir-energy/}{CIFRE doctorate
+with AVNIR Energy and Cemosis}. Its funding is external to Exa-MA, and
+the work contributes research capacity in kind. The project combines
+Feel++ simulations and experimental measurements to study vibroacoustics
+and detect defects in thin structures. It draws on multiphysics
+coupling at the PDE level in WP1, fast solver strategies for CPUs and
+GPUs in WP3, and inverse methods for structural monitoring in WP4.
+
+\subsection{Training and exchanges between teams}
+
+The June MAJSC workshop in Strasbourg combined lectures on automatic
+differentiation with practical work in JAX. The hands-on material
+covers differentiable PDE solvers, neural methods and optimal control.
+Four software sessions that month gave the WP teams direct access to
+the developers of HPDDM/PETSc, TRUST, FreeFEM++ and Samurai. The
+discussions concerned concrete engineering questions, from moving
+preconditioners to GPUs to choosing data structures for adaptive meshes.
+The project officers set up shared GitHub boards for the frameworks
+to record actions by work package and institution and follow the
+preparation of mini-applications. The slides and recordings are linked
+in \cref{tab:exama-news-2026}.
+\ifdefined\ExaMAStandaloneManagement
+The \href{https://exa-ma.numpex.fr/deliverables.html}{deliverables
+collection} includes D7.3, the training report.
+\else
+\Cref{chap:training} gives the courses and links to the training material.
+\fi
+
+\subsection{Website and public communication}
+
+Exa-MA launched its \href{https://exa-ma.numpex.fr/}{website} in 2024,
+following that year's General Assembly. The January 2026 update expanded
+the work package pages and software catalogue, linking teams to their
+software, application cases and publications. The site also hosts team
+and partner directories, versioned deliverables, training resources and
+an event archive with programmes, slides and recordings.
+
+Antora builds the site from AsciiDoc pages. The event register supplies
+the lists on the home page, the news page and the archive. A daily build
+refreshes the
+\href{https://exa-ma.numpex.fr/publications-hal.html}{publication list}
+from HAL using the funding reference \texttt{ANR-22-EXNU-0002}. The page
+groups HAL records by year. In October, Exa-MA proposed adding
+publications supported by in-kind contributions.
+
+Exa-MA no longer has a dedicated communications contact. PC0 has recruited
+a communications officer to set up exchanges between the NumPEx programme
+and its targeted projects, including Exa-MA. \Cref{tab:exama-news-2026}
+brings together announcements and events from the Exa-MA
+\href{https://exa-ma.numpex.fr/news/archive.html}{news archive} and the
+NumPEx programme.
+
+\input{chapters/management/news-2026}

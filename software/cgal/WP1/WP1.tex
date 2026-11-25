@@ -1,4 +1,4 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
+%!TEX root = ../../../exa-ma-deliverables.tex
 \section{Software: CGAL}
 \label{sec:WP1:CGAL:software}
 
@@ -191,8 +191,11 @@ In our context, parsimony translates into minimizing the number of vertices to a
 Proper identification of the domain's features during meshing will allow us to directly connect these features over planar and sufficiently smooth regions without generating unnecessary vertices, thereby achieving a satisfactory balance between accuracy and simplicity.
 
 
+% Shared with the active WP1 chapter.
+\input{software/cgal/WP1/2026-updates}
+
 % cite https://hal.science/hal-03380593/file/2021216131.pdf christos-todo 
-Furthermore, more scalable parallelization schemes are currently under development in CGAL by GeometryFactory and IGN (Institut National de l'Information Géographique et Forestière), utilizing the distributed memory paradigm and a generic framework. Following the generic approach of CGAL, we can hopefully use them on existing algorithms, such as the 3D Alpha Wrapping. 
+In addition, more scalable parallelization schemes are currently under development in CGAL by GeometryFactory and IGN (Institut National de l'Information Géographique et Forestière), utilizing the distributed memory paradigm and a generic framework. Following the generic approach of CGAL, we can hopefully use them on existing algorithms, such as the 3D Alpha Wrapping.
 Nevertheless, designing a distributed version of a mesh generation algorithm is a non-trivial task that requires addressing several significant technical challenges.
 During mesh generation, the domain evolves dynamically, making it difficult to maintain a balanced decomposition with an even number of elements across different subdomains.
 As a result, a careful load-balancing strategy is essential.

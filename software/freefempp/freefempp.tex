@@ -3,44 +3,33 @@
 
 
 
-\begin{table}[ht!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+\begin{FicheMetadataTable}[Freefem++ Information]
+\textbf{Consortium} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Sorbonne U\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+        \textbf{Exa-MA Partners} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Inria PARIS\\
 Sorbonne U\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
+        \textbf{Contact Emails} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 frederic.hecht@sorbonne-universite.fr\\
 pierre-henri.tournier@sorbonne-universite.fr\\
 pierre.jolivet@sorbonne-universite.fr\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
+        \textbf{Supported Architectures} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CPU Only\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://github.com/FreeFem/FreeFem-sources}{https://github.com/FreeFem/FreeFem-sources} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
+        \textbf{Repository} & \href{https://github.com/FreeFem/FreeFem-sources}{https://github.com/FreeFem/FreeFem-sources} \\
+        \textbf{License} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 OSS:: LGPL v*\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+        \textbf{Bottlenecks roadmap} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{Freefem++ Information}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Software summary}
 \label{sec:Freefem++:summary}
@@ -92,46 +81,38 @@ FreeFEM aims to bring scientific computing to everyone, allowing the user to eas
 
 Table~\ref{tab:Freefem++:env} summarizes these aspects for Freefem++, providing a  view of its programming and computational capabilities.
 
-\begin{table}[ht!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[Freefem++ programming and computational environment\label{tab:Freefem++:env}]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 C++\\
 \end{tabular} & FreeFEM is written in C++ for speed and allows the user to easily add features in the language through dynamically-loaded C++ plugins. FreeFEM mainly uses the C++14 standard. \\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 MPI\\
 \end{tabular} & FreeFEM relies on MPI for distributed memory parallelism. FreeFEM provides a rich and robust interface to state of the art MPI-parallel solver libraries such as PETSc and HPDDM. The user can also define and manage their own distributed parallel data structures thanks to FreeFEM's interface to MPI in the DSL.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Gmsh and associated formats\\
 HDF5\\
 VTK\\
 in-house format\\
 \end{tabular} & FreeFEM supports various standard mesh and data formats for I/O.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & FreeFEM does not currently implement resilience functionalities such as fault tolerance or recovery mechanisms.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Continuous Integration\\
 \end{tabular} & FreeFEM is maintained on GitHub. We are in the process of switching frameworks to use GitHub Actions workflows for Continuous Integration. FreeFEM uses standard development workflows using develop and feature branches ; PRs are reviewed before being merged into the develop branch. The develop branch is merged into master for each software release.\\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Ubuntu\\
 Spack\\
 GUIX-HPC\\
 \end{tabular} & Software packaging and distribution.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Unit\\
 Validation\\
 \end{tabular} & FreeFEM includes a test suite of more then 600 examples extensively testing and validating the features of the software, both in sequential and parallel settings.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Docker\\
 \end{tabular} & Container technologies used to package and deploy the software.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 tetgen\\
 MMG/ParMMG\\
 MUMPS\\
@@ -143,12 +124,7 @@ Metis/ParMetis\\
 IPOPT\\
 
 \end{tabular} & FreeFEM interfaces with various software and libraries for mesh generation and mesh adaptation (tetgen/MMG/ParMMG), partitioning(Scotch/Metis/ParMetis), low-rank compression(HTOOL), solvers(MUMPS/HPDDM/PETSc), optimization(IPOPT), ...  \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{Freefem++ programming and computational environment}
-\label{tab:Freefem++:env}
-\end{table}
+\end{FicheEnvironmentTable}
 
 \subsection{Application entry points}
 \label{sec:Freefem++:apps}

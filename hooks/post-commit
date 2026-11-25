@@ -10,6 +10,8 @@
 FIRSTTAG=$(git describe --tags --always --dirty='-*' 2>/dev/null)
 # Get the first tag in history that looks like a Release
 RELTAG=$(git describe --tags --long --always --dirty='-*' --match 'v[0-9]*\.[0-9]*\.[0-9]*' 2>/dev/null)
+# Resolve the metadata path for both regular checkouts and linked worktrees.
+GITINFO_FILE=$(git rev-parse --git-path gitHeadInfo.gin) || exit 1
 # Hoover up the metadata
 git --no-pager log -1 --date=short --decorate=short \
     --pretty=format:"\usepackage[%
@@ -28,6 +30,6 @@ git --no-pager log -1 --date=short --decorate=short \
         refnames={%d},
         firsttagdescribe={$FIRSTTAG},
         reltag={$RELTAG}
-    ]{gitexinfo}" HEAD > .git/gitHeadInfo.gin
+    ]{gitexinfo}" HEAD > "$GITINFO_FILE"
 
 

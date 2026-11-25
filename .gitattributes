@@ -1,0 +1,2 @@
+# Preserve whitespace within the raw spreadsheet snapshot's quoted cells.
+data/frameworks.csv whitespace=-blank-at-eol

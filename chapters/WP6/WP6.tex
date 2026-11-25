@@ -1,21 +1,9 @@
-%!TEX root = ../../../exa-ma-d7.1.tex
+%!TEX root = ../../exa-ma-deliverables.tex
 % \chapter{Work Package 6: Uncertainty Quantification}
 % \label{chap:wp6}
 
-% D7.1 V3 / v2.90.0 -- WP6 CONTRIBUTION
-%
-% Inherited v2 content is a starting point. Review, validate, update or remove it;
-% identify 2026 advances; separate them from earlier results; link advances to
-% software, applications and benchmarks; provide versions, configurations,
-% references and evidence; and flag missing mappings instead of inventing them.
 
 \section{Objectives \& Context}
-\WPUpdateNote{Review the inherited scope and task descriptions, and update the
-2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
-is retained as context.}
-% • Which Exa-MA bottlenecks (B#) WP6 addresses  
-% • Role in overall strategy (high-dimensional UQ, sensitivity analysis, surrogate‐based UQ)  
-% • List of key tasks T6.1–T6.4
 
 Uncertainty Quantification (UQ) includes several steps, from uncertainty propagation to sensitivity
 analysis, to understand the important often correlated factors and then aim to reduce uncertainty
@@ -53,32 +41,26 @@ computational properties. Benchmarking on exascale applications will be conducte
 \clearpage
 \section{Main advances in 2026}
 \label{sec:wp6-main-advances-2026}
-\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
-application and benchmark identifiers stable so that contributions can be
-compared across annual reports.}
 
-% Duplicate this record in WP6.tex for each main 2026 advance and replace the
-% compact field cues with factual entries.  Do not edit the central table style.
-\begin{WPAdvanceRecord}{WP6-A2026-1}
-Exa-MA task and bottleneck & \WPFieldHint{T6.x; Bx} \\
-Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
-Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
-Implementing software & \WPFieldHint{Software; repository} \\
-Software release, commit or PR & URANIE releases v4.10.0 and v4.11.0 \\
-Associated application ID & \WPFieldHint{app-...} \\
-Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
-Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
-Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
-Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
-Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
-Limitations and next step & \WPFieldHint{Limitation; next step} \\
-Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
+
+% Cemosis / Feel++ 2026 contribution.
+\begin{WPAdvanceRecord}{WP6-A2026-2}
+Exa-MA task and bottleneck & T6.4, with relevance to T6.2; B6 (Data Management), B7 (Exascale Algorithms) \\
+Concise description of the 2026 advance & MPI ensemble execution and streaming analysis for building-energy uncertainty in the PC5 Ktirio Urban Building demonstrator \\
+Responsible contributors and institutions & Christophe Prud'homme, Cemosis, University of Strasbourg \\
+Implementing software & Ktirio Urban Building for ensemble execution and risk analysis; Feel++ for MPI support and reusable statistical components \\
+Software components & Ktirio ensemble executor and reducers; \nolinkurl{feelpp/feel/feelstats} \\
+Associated application ID & PC5 Ktirio Urban Building demonstrator, in joint work with the HiDALGO2 Centre of Excellence; no dedicated ensemble-UQ catalogue ID assigned \\
+Associated benchmark ID & No benchmark registry ID assigned \\
+Scientific or numerical result & Online uncertainty summaries, exact and approximate quantiles, exceedance probabilities and empirical tail-risk indicators \\
+Performance or scalability result & Mergeable summaries do not require an archive of all sample trajectories. No end-to-end scalability or I/O reduction is quantified here \\
+References and supporting data & Ktirio \nolinkurl{src/cpp/tests/test_ensemble_streaming.cpp}; Feel++ \nolinkurl{testsuite/feelstats} \\
+Maturity & Implemented ensemble framework with MPI workflow, streaming and reducer tests \\
+Limitations and next step & Measure peak memory, output volume and tail accuracy at demonstrator scale. Exact sample-based statistics still store selected values \\
+Cross-WP contribution or dependency & WP1: urban and building models; WP7: implementation and verification; PC5 and HiDALGO2: building-energy application and decision support \\
 \end{WPAdvanceRecord}
 
 \section{Scientific Advances}
-\WPUpdateNote{Update the inherited uncertainty-quantification advances with the
-work performed in 2026.  Separate new achievements from the earlier baseline and
-cite the corresponding annual advance records.}
 % • Advance 1 (T6.1): …  
 % • Advance 2 (T6.2): …  
 % • Advance 3 (T6.3): …  
@@ -118,20 +100,60 @@ A second challenge involves the outputs, which are not scalars but fields or sig
 Additionally, many problems involve categorical variables (e.g., material types). GPs offer flexible ways to model correlations in such spaces. A comparative study was conducted to recommend best practices. Block correlation structures work well when groups of levels are known. When they are not, a clustering-based procedure, relying on the conditional output distributions for each level, can infer these groups effectively without prior kernel training.
 Some of these procedures are, however, computationally intensive as the standard optimization routines used with their default hyperparameters (tolerance, maximal number of evaluations) fail to provide good results, while the use of more demanding values of the hyperparameters gives good results. This is when HPC becomes critical.
 
-\section{Application Showcase}
-\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
-result to an annual advance and benchmark, and flag missing mappings explicitly.}
-% \input{chapters/applications/specs/app-uq-uranie-1}  
-% \input additional app specs as needed
 
-\paragraph{Applications mapping.} Current application links to WP7 include:
-\begin{itemize}
-	\item Ensemble Kalman Inversion (proposed, with UQ): Section~\ref{sec:app:specs:app-eki}.
-\end{itemize}
+\paragraph{Ensemble execution and streaming analysis (T6.4 and T6.2).}
+\label{sec:wp6:ensemble-streaming}
+Cemosis and the HiDALGO2 Centre of Excellence implemented an Ensemble/UQ
+framework in the PC5 Ktirio Urban Building demonstrator. The workflow
+executes an ensemble plan by distributing parameter samples among
+concurrent MPI simulation groups. It can stream results to dedicated I/O
+ranks, which combine statistical updates and write the analysis products.
+Instead of writing every building time series and analysing it in a
+separate pass, the workflow can compute mergeable summaries during
+uncertainty propagation.
+
+The analysis supports scenario comparisons, quantiles and the probability
+of crossing a threshold, such as an indoor-temperature limit. For
+district-scale risk, building losses are summed within each sample
+before estimating the risk of the total. Value-at-Risk (VaR) is a loss
+quantile; Conditional Value-at-Risk (CVaR) also depends on the losses in
+the tail. Approximate quantiles can be computed with sketches, while
+Ktirio's exact risk backend stores the selected sample values. These
+are different storage and accuracy choices, not interchangeable estimators.
+
+The T6.4 advance is the combination of ensemble execution and in-run
+analysis; the application to uncertain model inputs connects it to T6.2.
+The Feel++ library provides reusable statistical components, and Ktirio
+owns the execution workflow and application reducers.
+\Cref{tab:advance:WP6-A2026-2} records the scope of verification, and
+\Cref{sec:Feelpp:implementation-2026:stats} describes the software.
+
+\section{Application Showcase}
+\label{sec:wp6:applications}
+
+\paragraph{Building-energy uncertainty and risk.}
+The \hyperref[sec:pc5:ktirio-urban-building]{PC5 Ktirio Urban Building
+demonstrator} runs ensembles for building-energy uncertainty with
+\hyperref[sec:Feelpp:implementation-2026:stats]{Feel++ statistical
+components}. The \hyperref[sec:wp6:ensemble-streaming]{MPI ensemble
+workflow} computes quantiles, threshold exceedances and tail-risk
+indicators during execution. Its tests cover MPI execution and
+streaming reductions. End-to-end measurements of memory, output
+volume and tail accuracy are planned.
+The separate \hyperref[sec:app:specs:app-feelpp-ktirio-geom]{Ktirio-Geom
+benchmark} measures the demonstrator's terrain-generation stage.
+
+\paragraph{Uncertainty in inverse problems and control.}
+The \hyperref[sec:app:specs:app-eki]{EKI case in WP4} proposes a
+manufactured-solution test and weak scaling in ensemble mode.
+The \hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
+inversion specification} connects WP6 to observation uncertainty and
+uncertainty propagation. The
+\hyperref[sec:app:specs:app-feelpp-hifimagnet-optcontrol]{optimal-control
+specification} identifies uncertainty scenarios for a future robust
+extension.
 
 \section{Software Framework Contributions}
-\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
-software descriptions only as dated context.}
 % • Uranie enhancements: …  
 % • OpenTURNS integration: …  
 % • Kernel-based sensitivity module: …  
@@ -157,6 +179,7 @@ In 2026, \href{https://uranie.cea.fr/ressources/releasenotes}{one release of the
 
 \paragraph{Frameworks mapping.} The following software ecosystems are directly impacted:
 \begin{itemize}
+	\item Ktirio Urban Building: MPI ensemble execution and streaming analysis. Feel++ provides reusable statistical accumulators and sketches (\Cref{sec:Feelpp:implementation-2026:stats}).
 	\item Uranie: Section~\ref{sec:Uranie:software}\,; OpenTURNS (if applicable); Scimba for surrogate UQ: Section~\ref{sec:Scimba:software}.
 \end{itemize}
 
@@ -207,33 +230,35 @@ URANIE v4.10.0 main improvements are:
 \end{itemize}
 
 
+\paragraph{Feel++ statistical components.}
+The \texttt{feelstats} module makes accumulators, quantile sketches and
+serialization available to applications independently of the Ktirio
+executor. \Cref{sec:Feelpp:implementation-2026:stats} describes the
+library tests and the distinction between sketches and exact risk measures.
+
 \section{Preliminary Benchmarks \& Trends}
-\WPUpdateNote{Replace planned or expected results with measured 2026 values only
-when the configuration, baseline and evidence are available.}
-% • UQ scaling placeholder  
-% • Sensitivity analysis performance placeholder  
-% • Regression test pass-rate placeholder
+\label{sec:wp6:benchmarks}
 
+\paragraph{Surrogates with categorical inputs.}
+The comparative study applies Gaussian-process kernels to published
+test cases using common ranking metrics. The study also examines the
+effect of the optimization procedure and its computational cost.
+Python implementations of the selected kernels are planned.
 
-Designing categorical kernels is a major challenge for Gaussian process regression with continuous and categorical inputs. Despite previous studies, it is difficult to identify a preferred method, either because the evaluation metrics,
-the optimization procedure, or the datasets change depending on the study. In particular, reproducible code is rarely available. We are carrying out a reproducible comparative study of all existing categorical kernels
-on many of the test cases investigated so far. We also propose new evaluation metrics inspired by the optimization
-community, which provide quantitative rankings of the methods across several tasks. 
-We will soon make available a package that proposes python routines for the best methods and their best versions.
-
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-	\item Sensitivity analysis kernels (HSIC, Sobol, Cramér–von Mises) and UQ pipelines integrated in WP7 (T7.1) and connected to the corresponding application benchmarks where available.
-\end{itemize}
-
-
+\paragraph{Ensemble execution and sensitivity.}
+The \hyperref[sec:wp6:ensemble-streaming]{Ktirio ensemble workflow}
+has MPI and streaming-reduction tests. Measuring peak memory, output
+volume and tail accuracy at demonstrator scale is the next step.
+\hyperref[sec:Uranie:software]{Uranie} provides HSIC, Sobol and
+Cram\'er--von Mises sensitivity methods. The proposed
+\hyperref[sec:app:specs:app-eki]{EKI protocol} in WP4 specifies a
+manufactured-solution test and an ensemble weak-scaling campaign.
 
 \section{Roadmap \& Next Steps}
-\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
-2026 advances and benchmark evidence have been validated.}
 % • Deliverables D6.x to complete by Mxx  
 % • New UQ apps to integrate into WP7 CI/CD  
 % • Dependencies on WP7 infrastructure (containers, ReFrame)  
 
-T6.2 UQ in a PDE solving framework \\ 
-After proposing a efficient surrogate modeling of physical fields, we will focus on uncertainty quantification of high-dimensional random variables. Indeed, exascale computation will produce more and more complex simulation outputs, and a simple scalar risk measure quantity will be to coarse to represent wisely the uncertainty in the simulated physical fields. The work to be done is to define a theoretically sound and suitable mathematical notion of quantiles in high-dimension. The first lines of research on this topic will be the notion of statistical depth and optimal transport. 
+For T6.2, the next step is to quantify uncertainty in simulated physical
+fields after surrogate modelling. The work will investigate multivariate
+quantiles based on statistical depth and optimal transport.

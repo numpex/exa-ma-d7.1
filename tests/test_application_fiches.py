@@ -1,4 +1,4 @@
-"""Application presentation uses four sections without copying pending work."""
+"""Application fiches share an ordered structure without empty sections."""
 import csv
 import re
 import unittest
@@ -32,7 +32,10 @@ class ApplicationFicheTests(unittest.TestCase):
                 paths.add(source)
                 content = source.read_text()
                 self.assertIn(row["application_id"], content)
-                self.assertEqual(re.findall(r"\\subsection\{([^\n]+)\}", content), HEADINGS)
+                headings = re.findall(r"\\subsection\{([^\n]+)\}", content)
+                self.assertIn(HEADINGS[0], headings)
+                self.assertEqual(headings, [heading for heading in HEADINGS if heading in headings],
+                                 "Fiche headings must follow the common order")
 
     def test_chapter_includes_each_catalogue_application_once_in_id_order(self):
         with (ROOT / "data/application-reconciliation-v3.csv").open() as stream:

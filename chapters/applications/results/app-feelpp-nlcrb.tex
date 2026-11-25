@@ -1,0 +1,40 @@
+% Gaya run journals and 2D reduced-model comparison, November 2026.
+\paragraph{Full-order reference runs.}
+The native Cartesian DG-P0 implementation shares cell and face evaluators
+across one, two and three dimensions. Tests completed in each dimension on
+one and six MPI ranks. The $250^3$ 3D case, with three velocity components,
+advanced $46\,875\,000$ degrees of freedom through 500 time steps of size
+$0.05$. The run used 256 MPI ranks on two Gaya CPU nodes and took
+$5\,552$~s of elapsed time. Six field snapshots were exported.
+
+\paragraph{Reduced-order comparison in 2D.}
+The $250\times250$ DG-P0 case has $125\,000$ degrees of freedom. It uses a
+Cartesian Godunov flux and trapezoidal time integration. The reduced models
+share a 100-mode POD basis and were compared at the held-out parameter
+$\mu=(4.75,0.02)$ over the same 500 time steps. Errors are relative $L^2$
+errors over the full trajectory and both velocity components.
+
+\begin{table}[!htb]
+\centering
+\small
+\caption{Burgers 2D comparison on one Gaya CPU core. Timings cover the
+online nonlinear solves.}
+\label{tab:app-feelpp-nlcrb:gaya-2d}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Method} & \textbf{Integration cells} & \textbf{Time (s)} &
+\textbf{Trajectory error (\%)}\\
+\midrule
+Full-order reference & $62\,500$ & 256.18 & Reference\\
+POD-Galerkin & $62\,500$ & 477.63 & 0.984\\
+POD-Galerkin with ECSW & 300 & 2.84 & 1.008\\
+POD-LSPG with ECSW & 298 & 6.39 & 0.984\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+ECSW assigns positive weights to the selected cells and retains adjacent
+cells needed to evaluate face terms. The Galerkin and LSPG samples use
+closures of $1\,438$ and $1\,427$ cells, respectively. The measured
+comparison establishes projection and hyper-reduction baselines for
+the nonlinear compressive models.

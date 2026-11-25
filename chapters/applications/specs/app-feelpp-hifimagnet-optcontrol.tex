@@ -1,19 +1,51 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
-\VThreeApplicationDraft{app-feelpp-hifimagnet-optcontrol}
-{HiFiMagnet robust optimal operation and control}
-{C. Prud'homme; V. Chabannes}
-{WP1, WP2, WP3, WP5, WP6}{extended-mini-app}
-{Determine coil-group currents and cooling controls that reach a target magnetic field while limiting power, temperature, voltage and actuator constraints.}
-{Feel++, PETSc/TAO, HPDDM, Sage-HPC; MPI, Kokkos and HIP}{spec-only}
+%!TEX root = ../../../exa-ma-deliverables.tex
+\ApplicationFicheHeading{app-feelpp-hifimagnet-optcontrol}
+\label{sec:app:specs:app-feelpp-hifimagnet-optcontrol}
+\begin{FicheMetadataTable}
+id & \nolinkurl{app-feelpp-hifimagnet-optcontrol} \\
+name & HiFiMagnet optimal operation \\
+Responsible & C. Prud'homme; V. Chabannes \\
+work\_package & WP1, WP2, WP3, WP5, WP6 \\
+application\_type & extended-mini-app \\
+Framework & Feel++, PETSc, HPDDM \\
+Scientific / delivery status & Specification; control workflow planned \\
+\end{FicheMetadataTable}
+
 \subsection{Description of the benchmark}
-Optimal-operation application: determine coil-group currents and cooling controls that reach a target magnetic field with minimum power and thermal stress while satisfying temperature, voltage, power, total-current and actuator constraints.
+Optimal-operation application: determine coil-group currents and cooling controls that reach a target magnetic field with a field-tracking and electrical-power objective while satisfying temperature, voltage, power, total-current and actuator constraints.
 \paragraph{Specification boundary.}
 The output is an operating/control vector and its engineering margins, not
 calibrated material parameters.  \texttt{BM-FEEL-HIFI-CTRL-01} is a proposed
 verification/scalability record based on Taylor-gradient tests, target-field
 error, constraint violation and KKT residual.
-\todo{Supply the reviewed objectives/constraints, uncertainty scenarios,
-implementation commit, reference solution, machine and raw evidence.}
+\paragraph{Planned contribution.} Review the deterministic objective below; select the target field, control bounds and engineering limits. Uncertainty scenarios are a separate planned extension.
+
+
+\paragraph{Proposed deterministic baseline.}
+Let $z$ contain coil-group currents (A) and chosen cooling controls, with their
+physical units declared. Given fixed material parameters, solve the shared
+forward model in \Cref{sec:app:feelpp:shared-thermoelectric} and minimize
+\[
+ J(z)=\frac12\|W_B(\mathcal B(j(z))-B_{\rm target})\|_2^2
+       +\beta\,P(z)/P_{\rm ref},\qquad z_{\min}\le z\le z_{\max},
+\]
+subject to declared limits on peak temperature, terminal voltage, current and
+power. $P_{\rm ref}>0$ is a normalization power and $\beta\ge0$ a stated weight.
+Supply the field sampling region/operator and target, all bounds/limits and
+cooling units before solving. No thermal-stress objective is claimed without
+a mechanical model. This is a control problem; calibrated material parameters
+belong to the separate inverse application.
+
+\paragraph{Verification and delivery plan.}
+Start with a deterministic feasible reference control. Check directional
+Taylor gradients, state residuals, constraint violation, stationarity/KKT
+residual and sensitivity to mesh/solver tolerances. Retain field error,
+power, peak temperature, voltage/current margins, iteration history and PDE
+solve count. CFG/JSON supplies the forward physics; control/adjoint/optimizer
+orchestration remains planned unless a reviewed existing driver is identified.
+Robust extensions require explicit uncertainty scenarios and probabilities,
+which parameters vary, and an agreed risk objective; expectation or CVaR is
+not silently substituted for the deterministic baseline.
 
 \subsection{Benchmarking methodology}
 
@@ -29,7 +61,7 @@ implementation commit, reference solution, machine and raw evidence.}
   \item[Benchmark scope:] multi-node, multi-gpu, full-system, solver-scaling, ensemble-mode
   \item[metrics:] Taylor-gradient-test, target-field-error, electrical-power, peak-temperature, constraint-violation, KKT-residual, time-to-optimum, PDE-solves-to-solution, TAO-iterations, strong-scalability, weak-scalability, scenario-throughput
 \end{description}
-\todo[app-feelpp-hifimagnet-optcontrol / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+\paragraph{Planned contribution.} Review the proposed protocol and select the case-specific tolerances and parameter values before implementation.
 
 \subsection{Input/Output Dataset Description}
 
@@ -40,4 +72,6 @@ Gmsh, JSON config, nonlinear material laws, target field, current/cooling bounds
 Optimal control vector z* (coil-group currents and cooling controls), optimal state/adjoint fields, magnetic field, power and peak-temperature predictions, voltage and constraint margins, KKT and objective histories, Pareto/robustness reports
 
 \subsection{Results summary}
-\todo[app-feelpp-hifimagnet-optcontrol / results summary]{Results summary to be supplied by contributors.}
+Campaign results are planned; the present contribution is a scientific and execution specification.
+
+\input{chapters/applications/meshes/app-feelpp-hifimagnet-optcontrol}

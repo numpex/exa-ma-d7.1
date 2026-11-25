@@ -18,11 +18,12 @@ Sorbonne U\\
 \end{tabular} \\
         \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
 pierre@joliv.et\\
+erik.fabrizzi@lip6.fr\\
 \end{tabular} \\
         \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
 CPU or GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://github.com/hpdomain decomposition methods/hpdomain decomposition methods}{https://github.com/hpdomain decomposition methods/hpdomain decomposition methods} \\
+        \rowcolor{white}\textbf{Repository} & \href{https://github.com/hpddm/hpddm}{https://github.com/hpddm/hpddm} \\
         \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
 OSS:: LGPL v*\\
 \end{tabular} \\
@@ -61,6 +62,8 @@ In~\cref{tab:WP3:HPDDM:features} we provide a summary of the software features r
 \rowcolor{numpexlightergray}    low-rank & Approximation of large, complex matrices with simpler matrices that have lower ranks, while preserving their most important features. \\
 \rowcolor{white}    multi-precision & Performing numerical calculations with variable precision, beyond the standard single or double precision typically used in computing. It allows for higher or lower levels of precision depending on the needs of the problem, enabling more accurate results for sensitive computations or faster performance when lower precision is sufficient. \\
 \rowcolor{numpexlightergray}    randomization & Random sampling techniques to approximate solutions to large-scale matrix problems more efficiently. By leveraging randomness, algorithms can reduce the computational cost and memory requirements of tasks such as matrix decompositions \\
+\rowcolor{white}    PETSc-native device backend (2026) & The deflation operations of \texttt{PCHPDDM} use PETSc objects and CPU/CUDA operations. Released in HPDDM 2.4.0 and PETSc 3.25; coarse-operator assembly and factorization remain on the host. Implementation links and limitations are given in \cref{sec:HPDDM:2026}. \\
+\rowcolor{numpexlightergray}    subdomains shared by multiple processes (in development) & Several MPI processes share one subdomain, so that local problems can be solved with parallel direct solvers. All processes of a subdomain compute its contribution to the coarse operator, and a leader process assembles it. Not yet released. \\
 \end{tabular}
         }
     }
@@ -87,6 +90,7 @@ In~\cref{tab:WP3:HPDDM:features} we provide a summary of the software features r
 
 \begin{itemize}
     \item \textbf{Overall Performance:} The scalability of the library in its current state has been advertised on numerous occasion. As part of the Exa-MA framework, we will provide a standalone benchmark detailed next.
+    \item \textbf{2026 status:} A CPU/CUDA performance study of the PETSc-native backend is planned; no application performance or scalability measurements are reported here. Registered regression cases are identified in \cref{sec:HPDDM:2026}.
     \item \textbf{Input/Output Dataset:}
         \begin{itemize}
             \item Input matrix and right-hand side in PETSc binary format.
@@ -99,8 +103,10 @@ In~\cref{tab:WP3:HPDDM:features} we provide a summary of the software features r
 
 \subsubsection{Benchmark \#1}
 \begin{itemize}
+    \item \textbf{Application and benchmark:} \texttt{app-hpddm-dfn}, \texttt{BM-HPDDM-DFN-01} (\cref{sec:app:specs:app-hpddm-dfn}). Evaluation of the 2026 backend on this application remains to be documented.
     \item \textbf{Description:} A discrete fracture network (DFN) is a modeling approach used to represent the geometry and connectivity of fractures in rock masses. It treats fractures as discrete features within a larger rock domain, often simulating the flow of fluids or transport of particles through these fractures. This requires the solution of large symmetric positive definite systems, with hundreds of millions of unknowns.
-    \item \textbf{Benchmarking Tools Used:} PETSc \verb!-log_view! will be used to measure execution time and FLOPS.
+    \item \textbf{Benchmarking Tools Used:} PETSc \verb!-log_view! will record event timings and floating-point operation counts; convergence monitoring and an independently recomputed true residual will provide numerical checks.
+    \item \textbf{Planned protocol:} Compare CPU and CUDA configurations on identical systems at the same numerical acceptance criteria. Record setup, solve and transfer costs, iteration counts, memory use, machine resources, software revisions and solver options. Datasets, configurations, repeated-run measurements and analysis scripts remain to be published.
 %    \item \textbf{Input/Output Dataset Description:}
 %        \begin{itemize}
 %            \item \textbf{Input Data:} Describe the input dataset (size, format, data type) and provide a DOI or link to access it.
@@ -111,12 +117,25 @@ In~\cref{tab:WP3:HPDDM:features} we provide a summary of the software features r
 %    \item \textbf{Challenges Identified:} Describe any bottlenecks encountered (e.g., memory usage, parallelization inefficiencies) and how they impacted the benchmark.
 \end{itemize}
 
+A separate study, \texttt{app-petsc-mixed-precision}
+(\texttt{BM-PETSC-MIXED-01}; \cref{sec:app:specs:app-petsc-mixed-precision}),
+will compare supported precision configurations against a full
+double-precision baseline. Its matrix suite and accuracy criteria remain
+to be specified; CPU/CUDA support alone establishes neither the availability
+nor the benefit of a particular mixed-precision configuration.
+
 \subsection{12-Month Roadmap}
 \label{sec:WP3:HPDDM:roadmap}
 
 \begin{itemize}
-    \item \textbf{Data Improvements:} Modify \verb!PCView_HPDDM()! to avoid writing three files per subdomain, but instead a single file for all the subdomains, with the data grouped into a single \verb!Mat! and single \verb!IS!. This will greatly reduce the number of input/output operations.
-    \item \textbf{Methodology Application:} Make sure that HPDDM can handle matrices store on device using cuSparse.
+    \item \textbf{Data Improvements:} Collective output in \verb!PCView_HPDDM()! was implemented in 2025 (\href{https://gitlab.com/petsc/petsc/-/merge_requests/8142}{PETSc MR !8142}). The remaining task is to measure I/O costs at the process counts used by the application benchmark.
+    \item \textbf{Methodology Application:} The PETSc-native CPU/CUDA backend of \texttt{PCHPDDM} is available in HPDDM 2.4.0 and PETSc 3.25 (\cref{sec:HPDDM:2026}). Next: quantify the remaining host-side coarse operations and transfer costs, then extend device residency.
+    \item \textbf{Flexible parallelism:}
+        \begin{itemize}
+            \item complete, test, and release subdomains shared by multiple processes.
+            \item support multiple subdomains per process, with batched dense operations, especially on GPU;
+        \end{itemize}
+    \item \textbf{Device Support}: extend the device backend to Kokkos
     \item \textbf{Results Retention:} Online on GitHub in the NumPEx organization.
 \end{itemize}
 

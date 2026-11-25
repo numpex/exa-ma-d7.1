@@ -1,0 +1,107 @@
+%!TEX root = ../../../exa-ma-deliverables.tex
+\ApplicationFicheHeading{app-composyx-diffusion}
+\label{sec:app:specs:app-composyx-diffusion}
+\input{chapters/applications/metadata/app-composyx-diffusion}
+
+\subsection{Description of the benchmark}
+
+The benchmark solves a heterogeneous diffusion equation
+$\nabla \cdot (k \nabla u) = 1$ with $Q_1$ finite elements on a regular
+mesh. The three-dimensional domain is divided into $n_{sd}$ identical
+subdomains along the first axis. Along the second axis, ten layers
+alternate conductivities $k=1$ and $k=1000$. A Dirichlet condition
+is imposed at $x=0$ and Neumann conditions on the other faces.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/baton.png}
+  \caption{Stratified diffusion domain partitioned along the first axis}
+  \label{fig:composyx-baton}
+\end{figure}
+
+Each subdomain has $60 \times 60 \times 60 = 216\,000$ unknowns,
+with $60 \times 60 = 3\,600$ on each interface between subdomains.
+The weak-scaling study adds subdomains along the first axis. The
+runs use one subdomain per GPU or, for devices with several
+graphics compute dies (GCDs), one per GCD.
+
+\begin{table}[ht]
+    \centering
+    \renewcommand{\arraystretch}{1.1}
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $n_{\mathrm{sd}}$ & 4 & 8 & 16 & 32 & 64 & 128 & 256 & 512 & 1024 \\
+        \hline
+        Nb. dofs & 853 200 & 1.7M & 3.4M & 6.8M & 13.6M & 27.2M & 54.4M & 108.8M & 217.5M \\
+        \hline
+        Schur & 10 800 & 25 200 & 54 000 & 111 600 & 226 800 & 457 200 & 918 000 & 1.8M & 3.7M \\
+        \hline
+    \end{tabular}
+    \caption{Total degrees of freedom and size of the Schur complement by
+      subdomain count}
+\end{table}
+
+\subsection{Benchmarking methodology}
+
+Benchmark \texttt{BM-COMPOSYX-DIFF-01} measures time by solver phase and
+iteration counts for domain decomposition on the Schur complement.
+The following preconditioners are tested:
+
+\begin{itemize}
+\item \textit{0} for no preconditioner
+\item \textit{AS} for Additive Schwarz
+\item \textit{NN} for Neumann-Neumann
+\item \textit{RR} for Robin-Robin
+\item \textit{ASG+} for Additive Schwarz with additive Geneo
+\item \textit{ASGd} for Additive Schwarz with deflated Geneo
+\item \textit{NNGd} for Neumann-Neumann with deflated Geneo
+\end{itemize}
+
+\subsection{Input/Output Dataset Description}
+The benchmark generates the matrix and right-hand side for the
+stratified diffusion problem described above. The \nolinkurl{composyx_cuda_cg_ddm}
+and \nolinkurl{composyx_hip_cg_ddm} drivers are available in Composyx~1.7.1.
+The figures below report phase timings and iteration counts. The exact
+campaign configuration files and raw timing logs are not included.
+
+\subsection{Results summary}
+
+\subsubsection{Scalability results with HIP}
+
+The HIP experiments ran on the CINES Adastra system, with dependencies
+provided through Guix.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/results_adastra_S.png}
+  \caption{Composyx weak scaling on Adastra}
+  \label{fig:composyx-adastra}
+\end{figure}
+
+\Cref{fig:composyx-adastra} reports runs from 1 to 128 nodes with a
+relative residual tolerance of $10^{-6}$. Each node uses four AMD
+MI250X GPUs, each with two GCDs, for eight subdomains per node.
+The additive Schwarz run achieves 89\% weak-scaling efficiency at
+128 nodes, measured as $t_1/t_{128}$. The figure gives the iteration
+counts and timings by phase. Forming the Schur complement with MUMPS
+on the CPU accounts for a substantial fraction of runtime.
+
+\subsubsection{Scalability results with CUDA}
+
+The CUDA experiments ran on GENCI Jean Zay.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\textwidth]{graphics/composyx/results_jeanzay_S.png}
+  \caption{Composyx weak scaling on Jean Zay}
+  \label{fig:composyx-jean-zay}
+\end{figure}
+
+\Cref{fig:composyx-jean-zay} reports runs from 1 to 32 nodes with
+four NVIDIA V100 GPUs per node and one subdomain per GPU.
+The additive Schwarz run achieves 88\% weak-scaling efficiency at
+32 nodes, measured as $t_1/t_{32}$, with a relative residual tolerance
+of $10^{-8}$. The CUDA stack provides the cuDSS sparse direct solver
+on GPUs. The HIP experiments reported above use MUMPS on the CPU
+for the Schur complement.

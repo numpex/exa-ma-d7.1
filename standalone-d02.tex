@@ -1,0 +1,33 @@
+% Standalone build of the D0.2 chapter in the NumPEx report style.
+\documentclass[11pt]{report}
+\usepackage{numpex}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs,longtable}
+\usepackage{cleveref}
+
+\setlength{\headheight}{37.92728pt}
+\addtolength{\topmargin}{-1.02pt}
+\setlength{\footskip}{28.91753pt}
+\urlstyle{same}
+
+\delivWP{WP0}
+\delivWPName{Project Management}
+\delivNumber{D0.2}
+\delivName{Project Management and Activity Report\\[0.8ex]
+  \textit{2026 interim report}}
+\delivShortTile{D0.2 -- 2026 management report}
+\delivFooterLabel{Exa-MA D0.2}
+\delivResponsible{UNISTRA}
+\delivDissLevel{PU}
+\doiNumber{}
+\hypersetup{
+  pdftitle={Exa-MA D0.2 -- Project Management and Activity Report},
+  pdfauthor={Exa-MA Consortium}
+}
+\newcommand{\ExaMAStandaloneManagement}{}
+
+\begin{document}
+\makefront
+\fancypagestyle{plain}{}
+\input{chapters/management}
+\end{document}
