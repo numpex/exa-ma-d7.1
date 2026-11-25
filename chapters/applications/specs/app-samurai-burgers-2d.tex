@@ -14,42 +14,23 @@ imbalance.
 \Cref{tab:app-samurai-burgers-2d} describes the specifications of the
 application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-samurai-burgers-2d} \\
+\begin{FicheMetadataTable}[Description of the mini-app \texttt{app-samurai-burgers-2d}.\label{tab:app-samurai-burgers-2d}]
+id & \texttt{app-samurai-burgers-2d} \\
         name & Adaptive Burgers 2D, weak scaling \\
         Partners & IPP \\
         PC & PC1 - ExaMA \\
         Responsible (Permanent) & L. Gouarin \\
-        WP7 Engineer &  \\
         work\_package & WP1 \\
         application\_type & mini-app \\
         purpose & Weak scalability of the distributed multiresolution mesh adaptation on a load-balanced nonlinear transport problem \\
         Method-Algorithm WP1 & mesh adaptation, multiresolution analysis, finite volume\\
-        Method-Algorithm WP2 & \\
-        Method-Algorithm WP3 & \\
-        Method-Algorithm WP4 & \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         metrics & \SetCell{l} \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{regression-test-pass} \\
         status & benchmark-in-progress \\
         Benchmark scope & multi-node \\
         Framework & samurai \\
         parallel\_framework & MPI \\
         repo\_url & \url{https://github.com/hpc-maths/samurai}\\
-    \end{tblr}
-    \caption{Description of the mini-app \texttt{app-samurai-burgers-2d}.}
-    \label{tab:app-samurai-burgers-2d}
-\end{table}
+\end{FicheMetadataTable}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

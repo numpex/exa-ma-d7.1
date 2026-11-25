@@ -1,18 +1,24 @@
 
+
+\ApplicationFicheHeading{app-feelpp-thermoelectric-1}
+\label{sec:app:specs:app-feelpp-thermoelectric-1}
 \label{sec:app:specs:thermoelectric:hl-31}
-
-\VThreeApplicationDraft{app-feelpp-thermoelectric-1}
-{Demonstrator: Thermo-Electric Coupling}
-{V. Chabannes; C. Prud'homme}
-{WP1}{demonstrator}
-{Model the temperature field and electric current distribution in a high field resistive magnet}
-{Feel++, strong-scalability}{benchmark-ready}
-
+\begin{FicheMetadataTable}
+id & \nolinkurl{app-feelpp-thermoelectric-1} \\
+name & HL-31 thermoelectric coupling \\
+Responsible & C. Prud'homme; V. Chabannes \\
+work\_package & WP1 \\
+application\_type & demonstrator \\
+Framework & Feel++, PETSc, HPDDM \\
+Scientific / delivery status & Historical CPU campaign; current configuration available \\
+\end{FicheMetadataTable}
 
 \subsection{Description of the benchmark}
-\paragraph{Versioned implementation evidence.}
-At inspected commit \href{https://github.com/numpex/apps-feelpp/commit/b06798a39d941bcdf5f4840622efad1c2b43fd23}{\texttt{b06798a}},
-the application repository contains the necessary JSON configuration files for \textit{feelpp.benchmarking} for the HL-31 benchmark under \texttt{src/app-feelpp-thermoelectric/}.
+\paragraph{Implementation status.}
+The \href{https://github.com/numpex/apps-feelpp/blob/main/src/app-feelpp-toolbox/thermoelectric/hifimagnet/thermoelectric_hl31.json}{HL-31 configuration}
+launches the installed \nolinkurl{feelpp_toolbox_thermoelectric} executable
+with \textit{feelpp.benchmarking}. The timings below come from the earlier
+CPU campaign. No MI300A measurements are reported for this case.
 
 \paragraph{Benchmark contract.}
 \texttt{BM-FEEL-THERMOELECTRIC-01} covers the performance evaluation of the thermoelectric coupling problem in a high field resistive magnet.
@@ -33,6 +39,8 @@ The geometry used in this benchmark performance is illustrated in
 composed of a large number of components, with some very thin parts.
 
 
+\input{chapters/applications/specs/feelpp-hifimagnet-model}
+
 \subsection{Benchmarking methodology}
 \subsubsection{Benchmarking Tools Used}
 The benchmark was performed on \textbf{Gaya} supercomputer (see \Cref{sec:arch:gaya}).
@@ -41,7 +49,7 @@ We have used the \Feelpp native application from Ubuntu packages of Jammy OS.
 
 The metrics measured are the execution time of the main components of the simulation. We enumerate these parts in the following:
 \begin{itemize}
-\item \textbf{Init}: load mesh from filesystem and initialize solid toolbox (finite element context and algebraic data structure)
+\item \textbf{Init}: load mesh from filesystem and initialize the thermoelectric toolbox (finite element context and algebraic data structure)
 \item \textbf{Solve}: the linear system by using a preconditioned GMRES.
 \item \textbf{PostProcess}: Export on the filesystem a visualization format (EnsighGold) of the
   solution and other fields of interest such as current density and electric field.
@@ -71,14 +79,12 @@ The metrics measured are the execution time of the main components of the simula
 \begin{itemize}
 \item \textbf{Input Data:}
   \begin{itemize}
-  \item Meshes: We have generated three levels of mesh called M1, M2
-    and M3. These meshes are stored in GMSH format. The statistics can be found in
+  \item Meshes: The retained CPU campaign documents one mesh, M1. Further convergence levels are planned. The original inputs use Gmsh or partitioned JSON/HDF5 meshes. The statistics can be found in
     \Cref{tab:spec:app-feelpp:hl-31:discr_stat}. We have also prepared for
     each mesh level a collection of partitioned mesh.
     The format used is an in-house mesh format of \Feelpp based on
     JSON+HDF5 file type.
-    The Gmsh meshes and the partitioned meshes can be found on our Girder
-    database management, in the \Feelpp collections.
+    Exact immutable Girder file identifiers, access conditions and hashes remain to be attached to the catalogue.
   \item Setup: Use standard setup of \Feelpp toolboxes. It corresponds to a cfg
     file and JSON file. These config files are present in the Github of feelpp.
   \item[]{\Feelpp distributions}
@@ -91,7 +97,7 @@ The metrics measured are the execution time of the main components of the simula
   partitioning, temperature,  elecric potential, current density, electric
   field, ...), the time taken to perform each simulation step and
   some integral quantities such a the total power dissipated by the magnet.
-\item \textbf{Data Repository:} All inputdatasets are available in a unistra girder repository (collection HiFiMagnet, HL-31).
+\item \textbf{Data Repository:} The historical source is the Unistra Girder HiFiMagnet/HL-31 collection; current download availability has not been established for each input.
 \end{itemize}
 
 
@@ -119,3 +125,5 @@ The metrics measured are the execution time of the main components of the simula
 
 \subsection{Results summary}
 \ApplicationBenchmarkResults{app-feelpp-thermoelectric}
+
+\input{chapters/applications/meshes/app-feelpp-thermoelectric-1}

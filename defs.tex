@@ -1,3 +1,28 @@
+% Use the same Git revision in the full document and standalone previews.
+\input{git-metadata}
+\RequirePackage{fiche-metadata}
+\input{software/framework-publication}
+% Catalogue publication scope is independent of benchmark architecture flags.
+\newcommand{\IfFrameworkIncluded}[3]{%
+  \ifcsname ExamaFrameworkIncluded@#1\endcsname
+    \ifnum\csname ExamaFrameworkIncluded@#1\endcsname=1\relax
+      #2%
+    \else
+      #3%
+    \fi
+  \else
+    \PackageError{framework-publication}{Unknown framework #1}%
+      {Refresh data/frameworks.csv and run scripts/framework_publication.py}%
+  \fi
+}
+\newcommand{\FrameworkFicheInput}[2]{%
+  \IfFrameworkIncluded{#1}{%
+    % Keep a fiche heading with enough of its opening metadata table.
+    \Needspace{12\baselineskip}%
+    \input{#2}%
+  }{}%
+}
+
 % Keep existing TODO wording, using cell-width inline boxes in every document.
 % Register entries separately so the list retains source filenames and links.
 \RequirePackage{todonotes}
@@ -97,8 +122,7 @@ Advance ID & \texttt{#1} \\
 }
 
 % Compact metadata block for application specifications introduced during the
-% v3 integration pass.  Scientific detail remains an explicit owner TODO until
-% a reviewed specification and versioned evidence are available.
+% v3 integration pass. Scientific scope and results belong in the authored fiche.
 \newcommand{\ApplicationFicheHeading}[1]{%
 \Needspace{10\baselineskip}% Keep the heading with the first metadata rows.
 \section{Application: \texorpdfstring{\nolinkurl{#1}}{#1}}%
@@ -107,11 +131,7 @@ Advance ID & \texttt{#1} \\
 \newcommand{\VThreeApplicationDraft}[8]{%
 \ApplicationFicheHeading{#1}
 \label{sec:app:specs:#1}
-\begin{longtable}{@{}p{0.28\textwidth}p{0.67\textwidth}@{}}
-\toprule
-\textbf{Field} & \textbf{Details} \\
-\midrule
-\endhead
+\begin{FicheMetadataTable}
 id & \texttt{#1} \\
 name & #2 \\
 Responsible & #3 \\
@@ -120,11 +140,7 @@ application\_type & #5 \\
 purpose & #6 \\
 Framework & #7 \\
 operational status & #8 \\
-scientific specification & \todo[#1 / scientific specification]{Owner review and versioned specification required.} \\
-software version/commit & \todo[#1 / software version/commit]{Pin before reporting results.} \\
-evidence/raw data & \todo[#1 / evidence/raw data]{Provide a durable URL or DOI.} \\
-\bottomrule
-\end{longtable}
+\end{FicheMetadataTable}
 }
 
 

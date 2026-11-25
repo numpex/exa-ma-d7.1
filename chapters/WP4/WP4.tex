@@ -2,85 +2,27 @@
 % \chapter{Work Package 4: Inverse Problems \& Data Assimilation}
 % \label{chap:wp4}
 
-% D7.1 V3 / v2.90.0 -- WP4 CONTRIBUTION
-%
-% Inherited v2 content is a starting point. Review, validate, update or remove it;
-% identify 2026 advances; separate them from earlier results; link advances to
-% software, applications and benchmarks; provide versions, configurations,
-% references and evidence; and flag missing mappings instead of inventing them.
-
 \section{Objectives \& Context}
-\WPUpdateNote{Review the inherited scope and task descriptions, and update the
-2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
-is retained as context.}
 \label{sec:wp4:objectives}
 
-Work Package 4 focuses on combining data and models through the formulation and solution of inverse problems. 
-The approach covers both deterministic and stochastic models and methods, considering observation sparsity and sufficiency. 
-Multi-fidelity models (MFM), including reduced-order and AI-based surrogates, are studied for the solution of inverse problems at exascale.
+WP4 develops inverse methods that combine observations with
+large-scale simulations. Its tasks cover variational inversion
+(T4.1), stochastic inversion (T4.2), observation design and error
+models (T4.3), and the use and scheduling of models at several
+fidelity levels (T4.4 and T4.5). The work draws on discretizations
+from WP1, reduced models from WP2 and solvers from WP3.
 
-\paragraph{Relation to Exa-MA Bottlenecks.}
-WP4 directly addresses several exascale bottlenecks:
-\begin{itemize}
-\item \textbf{[B7] Exascale Algorithms:} Redesigning inverse problem algorithms to improve scalability, reduce communication, and enhance computational efficiency.
-\item \textbf{[B8] Discovery, design, and decision algorithms:} Focus on ensembles of many small runs for uncertainty quantification and parameter optimization in inverse problems.
-\item \textbf{[B9] Resilience, robustness and accuracy:} Ensuring inverse problem solutions are correct, reproducible, and verifiable.
-\item \textbf{[B10] Scientific productivity:} Providing tools for scientists to use exascale systems productively for data assimilation and inverse problems.
-\item \textbf{[B13] Opportunity to integrate uncertainties:} Directly incorporating uncertainties into the core of inverse problem calculations.
-\end{itemize}
-
-\paragraph{Strategic Role in Exa-MA.}
-WP4 builds upon the foundational work of WP1 (discretization), WP2 (model order reduction and surrogates), and WP3 (solvers) to enable:
-\begin{itemize}
-\item \textbf{Deterministic inversion:} Variational methods with time-parallel approaches and hybrid ensemble-variational techniques.
-\item \textbf{Stochastic inversion:} Stochastic differential equations (SDEs) and stochastic partial differential equations (SPDEs) for realistic system representations.
-\item \textbf{Multi-fidelity strategies:} Leveraging surrogate models (from WP2) to accelerate inverse problem solutions through optimal scheduling between high-fidelity and reduced-order models.
-\item \textbf{Observation strategies:} Improved treatment of observation error statistics and alternative metrics based on transport theory.
-\end{itemize}
-
-\paragraph{Key Tasks (T4.1--T4.5).}
-\begin{itemize}
-\item \textbf{T4.1 Deterministic methods:} Enhance variational methods with time-parallel approaches and hybrid ensemble-variational techniques.
-\item \textbf{T4.2 Stochastic methods:} Develop stochastic inversion based on Itô theory (SDEs) and SPDE formulations.
-\item \textbf{T4.3 Observations:} Improve observation error statistics modeling and develop alternative metrics based on transport theory.
-\item \textbf{T4.4 Multi-fidelity modeling:} Leverage reduced-order models and Physics-Informed Neural Networks (PINNs) from WP2.
-\item \textbf{T4.5 Multi-fidelity scheduling:} Develop optimal scheduling strategies for combining high-fidelity and reduced-order models.
-\end{itemize}
-
-\paragraph{Starting Activities (October 2025).}
-WP4 activities spun up in October 2025, with two PhD students beginning their research:
-\begin{itemize}
-\item \textbf{PhD 1:} On Bayesian Inverse Problems for Wave Propagation towards Exascale, on the topic of Ensemble and Machine Learning Methods for Bayesian Inverse Problems. 
-\item \textbf{PhD 2:} Computational Bayesian optimal sensor placement for ocean models.
-\end{itemize}
-
-The work will be conducted in close collaboration with Inria teams (lead), UNISTRA, and external partners including CEA and industrial stakeholders interested in data assimilation for climate modeling, geophysics, and energy applications.
+\paragraph{Doctoral work.}
+\href{https://theses.fr/s371978}{Hélène Hénon} studies multi-fidelity
+variational data assimilation for ocean forecasts.
+\href{https://theses.fr/s420025}{Mohamed Doumbouya}, enrolled since
+October 2025, studies Bayesian sensor placement for ocean models.
+The project personnel register records Bruno Latre's recruitment in
+January 2026 under Hélène Barucq's supervision.
 
 \clearpage
 \section{Main advances in 2026}
 \label{sec:wp4-main-advances-2026}
-\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
-application and benchmark identifiers stable so that contributions can be
-compared across annual reports.}
-
-% Duplicate this record in WP4.tex for each main 2026 advance and replace the
-% compact field cues with factual entries.  Do not edit the central table style.
-\begin{WPAdvanceRecord}{WP4-A2026-1}
-Exa-MA task and bottleneck & \WPFieldHint{T4.x; Bx} \\
-Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
-Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
-Implementing software & \WPFieldHint{Software; repository} \\
-Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
-Associated application ID & \WPFieldHint{app-...} \\
-Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
-Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
-Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
-Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
-Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
-Limitations and next step & \WPFieldHint{Limitation; next step} \\
-Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
-\end{WPAdvanceRecord}
-
 
 % Cemosis / Feel++ 2026 contribution.
 \begin{WPAdvanceRecord}{WP4-A2026-2}
@@ -90,7 +32,7 @@ Responsible contributors and institutions & Cemosis, University of Strasbourg \\
 Implementing software & Feel++, PETSc TAO \\
 Software release, commit or PR & \href{https://github.com/feelpp/feelpp/pull/2504}{Feel++ PR~2504} \\
 Associated application ID & \texttt{app-feelpp-hifimagnet-inverse} (application specification) \\
-Associated benchmark ID & \texttt{BM-FEEL-HIFI-INV-01} (proposed verification/scalability benchmark; results not reported) \\
+Associated benchmark ID & \nolinkurl{BM-FEEL-HIFI-INV-01} (proposed verification/scalability benchmark; results not reported) \\
 Scientific or numerical result & Not reported \\
 Performance or scalability result & No 2026 scalability measurements reported \\
 References and supporting data & Feel++ PR~2504 and issue~2503; functional and variational-form TAO tests \\
@@ -100,17 +42,29 @@ Cross-WP contribution or dependency & Shared implementation with WP5; WP1: finit
 \end{WPAdvanceRecord}
 
 \section{Scientific Advances}
-\WPUpdateNote{Update the inherited data-assimilation advances with the work
-performed in 2026.  Separate new achievements from the earlier baseline and cite
-the corresponding annual advance records.}
 
 \subsection{Task 4.1 - Deterministic methods}
+\label{sec:wp4:double-gyre}
 
-Operational four-dimensional variational data assimilation (4D-Var) systems are moving toward unprecedented resolutions and model complexity, requiring scalable algorithmic solutions suitable for next-generation exascale supercomputers. The dominant computational bottleneck in incremental 4D-Var lies in the inner loop, which repeatedly solves high-dimensional linear systems using conjugate gradient iterations. While spectral Limited-Memory Preconditioners (LMPs) can significantly accelerate convergence, building them via exact or Krylov-based eigensolvers becomes computationally prohibitive and essentially serial. To address this, the current project task focused on designing and benchmarking highly parallelizable preconditioning techniques using multi-fidelity modelling and randomised linear algebra.
+In incremental four-dimensional variational data assimilation
+(4D-Var), conjugate gradients solve the linear systems in the inner
+loop. Hénon and Vidard construct a limited-memory spectral
+preconditioner for the first outer iteration using a randomized
+Nyström approximation. The sketch is assembled from independent
+matrix--vector products. Using a lower-fidelity propagator in this
+step reduces setup cost. Bounds based on Löwner ordering specify
+when the resulting preconditioner improves the condition number of
+the high-fidelity system.
 
-The methodology relies on a randomised sketching approach based on the Nyström approximation to construct spectral LMPs during the critical first outer-loop iteration. Because matrix-vector products within this sketching phase are completely decoupled, the design achieves excellent parallel scalability across large compute node allocations. Additionaly rather than applying costly high-fidelity model propagators during the preconditioner setup,we evaluated the use of lower-fidelity representations, such as reduced-precision operators or simplified physical propagators. Using Löwner ordering and perturbation theory, explicit bounds were established to characterize when a low-fidelity constructed preconditioner guarantees improved condition numbers for the high-fidelity system.
-
-For scenarios where this strict theoretical condition is not satisfied, such as over longer assimilation windows, an alternative hybrid multi-fidelity sketching strategy was developed. This approach captures the dominant eigenspace by enriching random subspaces with inexpensive low-fidelity applications before performing minimal high-fidelity refinement. These approaches were numerically validated on a two-dimensional Shallow-Water equations benchmark in a double-gyre oceanic circulation setup.  
+The team also developed a hybrid sketch that enriches a random
+subspace with low-fidelity applications and refines it with
+high-fidelity products. The numerical study uses a two-dimensional
+shallow-water model for double-gyre circulation. The
+\href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{January
+assembly} showed a test on a $120\times120$ grid with a
+single-precision low-fidelity model. Hénon and Vidard presented the
+\href{https://hal.science/hal-05652339v1}{preconditioner} at the
+Ocean Sciences Meeting in February.
 
 \paragraph{Variational parameter identification (T4.1).}
 The HiFiMagnet inverse-problem specification seeks material, contact and
@@ -118,95 +72,89 @@ cooling parameters from voltage, temperature and optional magnetic
 observations at several imposed-current operating points. The formulation
 combines a weighted multi-experiment data misfit with regularization,
 subject to the thermo-electric state equations and parameter bounds.
-Adjoint derivatives support optimization of the reduced objective;
-Taylor-gradient tests, parameter recovery and observation misfit define
-the proposed verification protocol. These are application specifications,
-not reported inversion results
-(\Cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
+Adjoint derivatives support optimization of the reduced objective.
+The proposed verification uses Taylor-gradient tests, parameter
+recovery and observation misfit
+(\cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
 The shared variational optimization interface is recorded in
 \Cref{tab:advance:WP4-A2026-2} and implemented in WP7
 (\Cref{sec:Feelpp:implementation-2026:tao}).
 
-
 \subsection{Task 4.3 - Observation}
+\label{sec:wp4:sensor-placement}
 
-Designing an optimal observation network for geophysical applications requires strategically placing sensors to capture the most valuable data while strictly limiting the number of costly physical deployments. In Bayesian optimal experimental design, this challenge is often formulated as the maximization of the Expected Information Gain (EIG) to select the most informative data acquisitions. This capability is critical for next-generation exascale systems where physical experiments or high-fidelity simulations are exceptionally expensive. However, computing the EIG for nonlinear forward models and non-Gaussian priors—which are typical in complex earth sciences—is usually prohibitive. Standard estimators rely on costly nested Monte Carlo sampling that scales poorly and creates severe computational bottlenecks. To overcome these limitations, the current project task focused on establishing a tractable, theoretically grounded framework for large-scale experimental design by deriving new certified upper and lower bounds on the EIG.
+\href{https://arxiv.org/abs/2609.32282}{Doumbouya, Vidard and Zahm}
+derive upper and lower bounds on expected information gain from
+dimensional logarithmic Sobolev inequalities. The bounds use covariance
+and Fisher information matrices. A conservative bound guides selection
+for an entire observation network, and an incremental bound guides
+sequential placement. The authors use model gradients to approximate
+the Fisher terms during setup. Once the matrices are assembled, the
+sensor search uses matrix operations with no further forward solves.
 
-Using dimensional logarithmic Sobolev inequalities, this work reformulates the EIG bounds entirely in terms of signal-to-noise ratios, preserving a simple matrix-based structure that relies solely on covariance and Fisher information matrices. To that goal we introduce two distinct families of bounds: conservative bounds designed to retain the maximum information content of the entire dataset, and incremental bounds tailored for sequentially designing the observation network. To further reduce computational burdens, we introduced practical approximations for the Fisher-information matrices that require only a small number of forward model gradient evaluations, effectively bypassing the nested-sampling bottleneck altogether.
-
-These approaches were numerically validated using a parametrized partial differential equation based on the viscous Burgers model, which is often used as a proxy for fluid and geophysical dynamics. The experiments demonstrated that the tightness of the proposed bounds is directly controlled by the nonlinearity of the forward model, and the method successfully recovers the exact EIG value in linear-Gaussian limits. By replacing expensive nested sampling with scalable, gradient-based matrix diagnostics, we provide an efficient, highly parallelizable alternative to direct EIG estimation.
-
-
+The \href{https://github.com/mohamed495/CBOED}{numerical experiments}
+vary the nonlinearity in a viscous Burgers model. The bounds recover
+the exact information gain in the linear-Gaussian case with jointly
+Gaussian parameters and observations. Their tightness varies with the
+nonlinearity of the forward model.
 
 \section{Application Showcase}
-\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
-result to an annual advance and benchmark, and flag missing mappings explicitly.}
 \label{sec:wp4:applications}
 
-WP4 addresses inverse problems and data assimilation across multiple application domains. 
-The application portfolio includes the following specifications:
+\paragraph{Variational assimilation and sensor placement.}
+The \hyperref[sec:wp4:double-gyre]{double-gyre study} tests low-fidelity
+Nystr\"om preconditioning for the inner solve of incremental 4D-Var
+on a two-dimensional shallow-water model. The
+\hyperref[sec:wp4:sensor-placement]{viscous Burgers study} tests how
+information-gain bounds guide sensor placement as the model's
+nonlinearity varies.
 
 \paragraph{HiFiMagnet parameter identification.}
-The application \texttt{app-feelpp-hifimagnet-inverse} specifies the
-T4.1 parameter-inversion problem and its proposed verification benchmark
-\texttt{BM-FEEL-HIFI-INV-01}
-(\Cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
+The \hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
+inverse-problem fiche} specifies which material, contact and cooling
+parameters to identify from observations. The
+\hyperref[sec:Feelpp:implementation-2026:tao]{Feel++ interface to PETSc TAO}
+provides the optimization components. Derivative checks and parameter
+recovery on the application are planned under \nolinkurl{BM-FEEL-HIFI-INV-01}.
 
-\paragraph{Ensemble Kalman Inversion (app-eki).}
-The ensemble Kalman inversion application (detailed in Section~\ref{sec:app:specs:app-eki}) demonstrates \emph{stochastic inverse problems} and \emph{stochastic data assimilation} using an ensemble approach in a geophysics context. It directly relates to Tasks 4.2 (stochastic methods) and 4.3 (observation strategies).
-
-\begin{itemize}
-	\item \textbf{Type}: mini-app; \textbf{Objective}: demonstrate feasibility of ensemble Kalman filter based inversion of a simplified wave equation
-	\item \textbf{Numerics}: spectral element; dG/hdG
-	\item \textbf{Domain}: Geophysics
-	\item \textbf{Parallel}: MPI (ensemble mode)
-	\item \textbf{Frameworks}: PETSc, GeoS
-	\item \textbf{Benchmarks/KPIs}: manufactured-solution; weak-scalability
-	\item \textbf{Status}: spec-only (proposed)
-	\item \textbf{Timeline}: 2026-10-01 \textrightarrow{} 2027-01-15
-	\item \textbf{Teams}: Inria BXSO, Université Grenoble Alpes; PC1—ExaMA; PI: M. Asch
-\end{itemize}
-
-For detailed application specifications, see Chapter~\ref{chap:applications}.
-
-\paragraph{Applications mapping.} The initial portfolio links WP4 to
-the shared WP7 benchmarking catalogue as follows:
-\begin{itemize}
-	\item HiFiMagnet parameter identification (specification): \Cref{sec:app:specs:app-feelpp-hifimagnet-inverse}.
-	\item Ensemble Kalman Inversion (proposed): Section~\ref{sec:app:specs:app-eki}.
-\end{itemize}
+\paragraph{Ensemble Kalman inversion.}
+The \hyperref[sec:app:specs:app-eki]{EKI mini-app} proposes a simplified
+wave-equation inverse problem in a geophysical setting. Its PETSc/GeoS
+workflow specifies MPI ensemble execution, a manufactured-solution
+test and a weak-scaling protocol under \nolinkurl{BM-EKI-01}.
 
 \section{Software Framework Contributions}
-\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
-software descriptions only as dated context.}
 \label{sec:wp4:software}
-WP4 contributes to and leverages several software frameworks within Exa-MA:
+Feel++ implements the variational optimization interface over PETSc
+TAO, with functional and variational-form tests
+(\cref{sec:Feelpp:implementation-2026:tao}). WP5 uses the same
+interface for optimal control. The proposed EKI mini-app uses PETSc
+for ensemble execution and GeoS for its application setting.
 
-\paragraph{Frameworks mapping.} Current software dependencies that
-WP4 contributes to or relies upon include:
-\begin{itemize}
-	\item Feel++ (variational state models and optimization interface)
-	\item PETSc (ensemble management, solvers, TAO)
-	\item GeoS (geophysical modeling stack)
-\end{itemize}
-
-
-\paragraph{Feel++ implementation: shared PETSc TAO interface.}
-The shared interface and its tests are documented in \Cref{sec:Feelpp:implementation-2026:tao}. The application specification defines the inverse-problem objective and proposed derivative checks; application-level execution results remain to be supplied.
-
-\section{Preliminary Benchmarks \& Trends}
-\WPUpdateNote{Replace planned or expected results with measured 2026 values only
-when the configuration, baseline and evidence are available.}
+\section{Benchmarks}
 \label{sec:wp4:benchmarks}
 
-\section{Roadmap \& Next Steps}
-\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
-2026 advances and benchmark evidence have been validated.}
+The \hyperref[sec:wp4:double-gyre]{double-gyre test} uses a
+$120\times120$ grid to evaluate a 4D-Var preconditioner with a
+single-precision low-fidelity model. The
+\hyperref[sec:wp4:sensor-placement]{sensor-placement study} uses
+viscous Burgers cases to assess the tightness of information-gain
+bounds as nonlinearity varies.
+
+Two proposed protocols are recorded in the
+\hyperref[tab:v3-benchmark-registry]{benchmark registry}. The
+\hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
+inversion benchmark} (\nolinkurl{BM-FEEL-HIFI-INV-01}) specifies
+derivative checks and parameter recovery. The
+\hyperref[sec:app:specs:app-eki]{ensemble Kalman inversion benchmark}
+(\nolinkurl{BM-EKI-01}) specifies manufactured-solution verification
+and ensemble weak scaling.
+
+\section{Next steps}
 \label{sec:wp4:roadmap}
 
-WP4 activities officially start in October 2025. The immediate next steps include:
-\begin{itemize}
-	\item Kick-off PhD positions (Oct 2025): finalize topics and 12-18 month milestones.
-	\item app-eki specification: write the application spec (numerics, data model, KPIs, containers), define manufactured-solution test and weak-scaling plan; align with Section~\ref{sec:app:specs:app-eki}.
-	\item Implementation (prototype → full): implement a prototype (forward solver + EKI loop) with PETSc/GeoS and MPI-ensemble; containerize and add CI smoke tests; iterate toward the planned app timeline (2026-10 to 2027-01).
-\end{itemize}
+For HiFiMagnet, the next step is to run the parameter-recovery and
+derivative checks on the variational interface. For the ensemble Kalman
+inversion mini-app, the development target is a forward solver and
+inversion loop in PETSc and GeoS, followed by the tests in
+\Cref{sec:app:specs:app-eki}.

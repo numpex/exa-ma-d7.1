@@ -1,0 +1,54 @@
+% Standalone-only presentation. Never loaded by the mega-deliverable.
+\newcommand{\FicheDocumentLabel}{Fiche preview}
+\fancyhf{}
+\fancyhead[L]{\footnotesize Exa-MA D7.1}
+\fancyhead[R]{\footnotesize\FicheDocumentLabel}
+\fancyfoot[L]{\footnotesize D7.1 \FicheDeliverableVersion}
+\fancyfoot[R]{\footnotesize\thepage{} / \pageref{LastPage}}
+\setlength{\headwidth}{\textwidth}
+\renewcommand{\headrulewidth}{0.4pt}
+\newcommand{\DeclareFicheIdentity}[8]{%
+  \expandafter\def\csname FicheIdentity@#1\endcsname{%
+    \FicheIdentityBox{#2}{#3}{#4}{#5}{#6}{#7}{#8}}}
+\newcommand{\FicheIdentityBox}[7]{%
+  \par
+  \begingroup
+  \setlength{\fboxsep}{9pt}%
+  \setlength{\emergencystretch}{2em}%
+  \setlength{\parfillskip}{0pt plus 1fil}%
+  \gdef\FicheDocumentLabel{#1}%
+  \noindent\colorbox{numpexblue!5}{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+      \begin{minipage}[c]{0.12\linewidth}
+        \includegraphics[width=\linewidth]{graphics/logo-numpex-exama-vector.png}
+      \end{minipage}\hfill
+      \begin{minipage}[c]{0.84\linewidth}
+        {\sffamily\small\color{numpexblue}\textbf{EXA-MA D7.1}\enspace
+          \textbar\enspace #1\par}
+        {\sffamily\fontsize{22}{25}\selectfont\bfseries\color{numpexblue}#2\par}
+        \ifstrempty{#3}{}{{\small #3\par}}
+      \end{minipage}
+      \ifstrempty{#4}{}{\par\smallskip{\small\raggedright #4\par}}
+      \par\smallskip
+      {\footnotesize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.16\linewidth}
+          >{\raggedright\arraybackslash}X@{}}
+          #5
+        \end{tabularx}\par}
+      \ifstrempty{#6}{}{\smallskip{\footnotesize #6\par}}
+      \smallskip
+      {\scriptsize\color{numpexgray}Deliverable version: \FicheDeliverableVersion\enspace
+        \textbar\enspace #7\par}
+    \end{minipage}}%
+  \par
+  \endgroup
+  \medskip}
+\newcommand{\FicheIdentityPanel}[1]{%
+  \ifcsname FicheIdentity@#1\endcsname
+    \csname FicheIdentity@#1\endcsname
+  \else
+    \PackageError{fiche-identity}{Missing identity for #1}
+      {Run python3 scripts/generate_fiche_identities.py}%
+  \fi}
+\input{standalone/identity-data}

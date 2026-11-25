@@ -1,91 +1,52 @@
 %!TEX root = ../exa-ma-deliverables.tex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Executive Summary
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \section*{Executive Summary}
 \addcontentsline{toc}{section}{Executive Summary}
 \label{sec:summary}
 
-\noindent
-\textbf{Scope.} This edition (v2025) of Deliverable D7.1 consolidates, in a single annual
-\emph{mega-deliverable}, the scientific advances of WP1--WP6 and their software production,
-benchmarking and methodology (WP7). It provides a 360° view: methods \textrightarrow\ software
-\textrightarrow\ mini-apps/demonstrators \textrightarrow\ metrics, with traceable artefacts (code, containers,
-datasets, scripts, logs). % see Exec. Summary and ToC for structure
-% (source: D7.1 structure and methodology)
-% (PDF executive summary and Chapter 8)
-% 
+The 2026 Exa-MA collection brings together the work package reports,
+software fiches, application and benchmark results, and training material.
+\Cref{tab:deliverable-correspondence} locates each contractual
+deliverable. The management report covers the year through 18 November.
+It records the recruitment decisions, the AVNIR Energy CIFRE thesis and
+the revised October milestones
+(\cref{sec:management-year-4}).
 
-\medskip
-\noindent
-\textbf{Project management (D0.2).} \Cref{chap:management} adds an annual reporting
-framework for project coordination, human resources, events and external
-partnerships. The annual management assessments remain to be completed and
-validated by the coordination team.
-
-\medskip
-\noindent
-\textbf{Highlights (2024--2025).}
 \begin{itemize}
-  \item \emph{WP1 Discretization.} Robust meshing and adaptation at scale, including
-        feature-aware workflows and fully parallel anisotropic adaptation with ParMmg (Fichera),
-        plus a high-order wave proxy-app (CPU/GPU). % WP1§2.1--2.3
-  \item \emph{WP2 MOR/Surrogates/SciML.} PINNs with domain decomposition, FNO-based
-        warm-starts for nonlinear solves, nonlinear ROM with neural implicit representations. % WP2§3.2
-  \item \emph{WP3 Solvers.} GenEO extensions to non-SPD systems; mixed-precision and
-        variable-accuracy Krylov (PROMISE); fault-tolerant PCG patterns; partitioned coupling
-        building blocks. % WP3§4.2
-  \item \emph{WP4 Data Assimilation.} Launch of stochastic inversion (EKI mini-app spec) with
-        manufactured tests and ensemble-MPI design. % WP4§5.3
-  \item \emph{WP5 Optimization.} Fractal continuous optimization at scale; parallel Bayesian
-        optimization for expensive objectives; neural level-set shape optimization. % WP5§6.2
-  \item \emph{WP6 UQ.} Multi-output GP surrogates with physical constraints; graph-indexed
-        kernels (SWWL) for mesh/graph outputs; categorical-kernel benchmarks. % WP6§7.2--7.5
+  \item \textbf{WP1, discretization.} The team implemented solid-shell
+    elements for thin structures and distributed geometric queries for
+    the Ktirio Urban Building demonstrator. The Ktirio-Geom case reports
+    terrain-generation timings (\cref{tab:advance:WP1-A2026-2,tab:advance:WP1-A2026-3,sec:app:specs:app-feelpp-ktirio-geom}).
+  \item \textbf{WP2, surrogates and scientific machine learning.}
+    Scimba~1.4.0 adds differentiable classical discretizations in JAX.
+    The team tested learned bases in discontinuous Galerkin examples.
+    The work package also reports advances on kinetic closure and
+    nonlinear reduced bases (\cref{sec:wp2-main-advances-2026}).
+  \item \textbf{WP3, solvers.} HPDDM~2.4.0 and PETSc~3.25 provide a
+    CUDA path for domain decomposition preconditioning. Composyx
+    reached 88\% weak-scaling efficiency on 32 Jean Zay nodes with
+    CUDA and 89\% on 128 Adastra nodes with HIP, each relative to its
+    one-node reference (\cref{tab:advance:WP3-A2026-5,sec:app:specs:app-composyx-diffusion}).
+  \item \textbf{WP4, inverse problems and data assimilation.} WP4
+    tested a multi-fidelity 4D-Var preconditioner on a shallow-water
+    model and derived bounds on information gain for sensor placement.
+    The Feel++ interface for variational optimization passed
+    functional and variational-form tests. HiFiMagnet and ensemble
+    Kalman inversion have proposed benchmarks (\cref{chap:wp4}).
+  \item \textbf{WP5, optimization.} On 8,000 LUMI-G GPUs, the
+    Exa-Zellij variational quantum eigensolver workflow reached
+    60.98\% strong-scaling efficiency. A separate fractal Bayesian
+    optimization study reports about 85\% on the same number of GPUs
+    (\cref{sec:wp5-main-advances-2026}).
+  \item \textbf{WP6, uncertainty quantification.} The \texttt{feelstats}
+    implementation provides streaming statistics and approximate quantiles
+    for ensembles of Ktirio Urban Building simulations
+    (\cref{tab:advance:WP6-A2026-2,sec:pc5:ktirio-urban-building}).
 \end{itemize}
 
-\medskip
-\noindent
-\textbf{Applications and demonstrators (selection).}
-Thermal bridges validation (Feel++), FDA nozzle (Navier–Stokes), geometry distance/BVH vs FMM,
-parallel anisotropic mesh adaptation (ParMmg), reduced-basis thermal fin, and HPDDM–DFN. % Ch.10
-
-\medskip
-\noindent
-\textbf{Software production and benchmarking.}
-We apply a unified methodology (Chap.~8): CI/CD with nightly/non-regression and ReFrame,
-containerized runs (Docker/Apptainer), FAIR data/DOIs (Zenodo), energy/perf/scaling metrics,
-and acceptance criteria per application tier (mini-app, extended mini-app, demonstrator). % Ch.8
-
-\medskip
-\noindent
-\textbf{KPI snapshot (targets and current status).}
-\begin{center}
-\begin{tabular}{p{4cm} p{4cm} p{6cm}}
-\toprule
-\textbf{KPI} & \textbf{Target} & \textbf{Current Status (2025)} \\
-\midrule
-Level 1 demonstrators at scale & At least 3 per WP (except WP7) & 2 mini-apps defined and specified (WP1), implemented and part of the benchmarking process \\
-Level 2 demonstrators at scale & At least 5 total & 6 extended mini-apps and demonstrators specified; 2 implemented and 1 participating in the benchmarking process \\
-Production applications with Exa-MA tools & 5 mini-apps, 4 proxy apps; ~20 libraries impacted & About 12 frameworks impacted; 1 proxy app under development \\
-Software stack validation scale & Full Exascale level & Not measured for now \\
-Training participants & More than 100 trainees (PC0 KPI-5) & 1 training on CI/CD in HPC environment (March 2025, 40 participants via EuroHPC)\\
-Scientific publications & More than 50 papers & 36 Publications comprise 16 preprints/working papers, 8 journal articles, 4 conference papers, 3 proceedings, 2 poster communications, 1 lecture, 1 book, and 1 report. \\
-NumPEx ecosystem contribution & Conformity with PC0 KPI-7--10 & collaborations between PC1/PC2/PC3; upstream patches merged into identified frameworks \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\medskip
-\noindent
-\textbf{Why it matters.} (i) \emph{Sovereign, open, reproducible} stack at scale; (ii) \emph{Measurable
-impact} via transparent KPIs and re-usable artefacts; (iii) \emph{Ecosystem leverage} across FR/EU/US
-software with upstream contributions.
-
-\medskip
-\noindent
-\textbf{Outlook (next 12 months).}
-Include new application specifications, implementations and benchmarking, broaden GPU portability, densify auto-bench
-pipelines; keep annual refresh with KPI deltas; common milestones with PC1/PC2/PC3.
-
-
+WP7 coordinates co-design with Exa-DI and connects the methods to
+application tests. The benchmark index links the cases and records
+which have reported results (\cref{chap:wp7,tab:v3-benchmark-registry}).
+The training chapter includes the June JAX workshop and software
+sessions (\cref{chap:training}). Earlier KPI figures are retained in
+\hyperref[sec:appendix-b1]{Appendix~B.1}.

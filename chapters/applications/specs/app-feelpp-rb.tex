@@ -9,17 +9,8 @@ This demonstrator focuses on reduced basis methods and empirical interpolation t
 
 \Cref{tab:app-feelpp-rb} describes the specifications of the application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-feelpp-rb} \\
+\begin{FicheMetadataTable}[Description of the demonstrator \texttt{app-feelpp-rb}.\label{tab:app-feelpp-rb}]
+id & \texttt{app-feelpp-rb} \\
         name & Reduced Basis \\
         Partners & Unistra \\
         PC & PC1 - ExaMA, PC2 - ExaSoft \\
@@ -31,129 +22,88 @@ This demonstrator focuses on reduced basis methods and empirical interpolation t
         Method-Algorithm WP1 & unstructured mesh, finite element, cG \\
         Method-Algorithm WP2 & ROM: RB, POD, empirical interpolation \\
         Method-Algorithm WP3 & domain decomposition, Krylov solvers, preconditioning \\
-        Method-Algorithm WP4 & \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         outputs & Gmsh, JSON config, JSON small-data, JSON reports, Markdown/Asciidoc, in-house \\
         metrics & \texttt{benchmark-verification}, \texttt{offline-cost}, \texttt{online-speedup}, \texttt{basis-size}, \texttt{hyper-reduction-efficiency} \\
-        status & benchmark-ready \\
+        Catalogue status & benchmark-ready \\
         Benchmark scope & multi-node \\
         Framework & Feel++, PETSc \\
         parallel\_framework & MPI, Kokkos \\
         spec\_due & 6/15/2025 \\
         proto\_due & 7/1/2025 \\
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
-    \end{tblr}
-    \caption{Description of the demonstrator \texttt{app-feelpp-rb}.}
-    \label{tab:app-feelpp-rb}
-\end{table}
+\end{FicheMetadataTable}
 
 
 
 \subsection{Description of the benchmark}
 
-The reduced basis method is a model order reduction technique particularly well-suited for parametric PDEs. The benchmark demonstrates the offline-online computational paradigm:
+Reduced-basis methods separate an expensive offline construction from repeated
+online evaluations of a parametric PDE. Greedy/POD basis construction, empirical
+interpolation, full-order reference errors and output evaluation are the
+scientific objectives of this application; achieved accuracy and speedup must
+be established by an identified run rather than inferred from those methods.
 
-\begin{itemize}
-\item \textbf{Offline phase:} Construct a reduced basis by solving the high-fidelity problem for carefully selected parameter values using a greedy algorithm or proper orthogonal decomposition (POD). This phase is computationally expensive but performed once.
+\paragraph{Current implementation status.}
+The \href{https://github.com/numpex/apps-feelpp/blob/main/src/app-feelpp-rb/rb_eye2brain.json}{Eye2Brain RB configuration}
+requires \nolinkurl{feelpp_mor_eye2brain_3dP1app}, an executable that the
+application repository does not build. The configuration is available;
+executable readiness and benchmark validation have not been demonstrated.
 
-\item \textbf{Online phase:} For new parameter values, solve a reduced problem in the low-dimensional basis space, achieving speedups of several orders of magnitude compared to the full problem.
-
-\item \textbf{Empirical interpolation:} Apply the Empirical Interpolation Method (EIM) or Discrete Empirical Interpolation Method (DEIM) to efficiently handle nonlinear and parameter-dependent terms.
-\end{itemize}
-
-The benchmark uses a parametric thermal fin problem where geometric and material parameters vary, requiring rapid evaluation of temperature fields and outputs of interest (e.g., average temperature, heat flux) for many parameter configurations.
+The catalogue marks the application \texttt{benchmark-ready}, but the dashboard
+does not report a completed \texttt{BM-FEEL-RB-01} campaign. The available
+configuration selects Eye2Brain, not the earlier thermal-fin example.
 
 
-
+\paragraph{Parameterized model and independent assessment.}
+Let $R_h(u_h(\mu);\mu)=0$ denote the selected Eye2Brain full-order residual and
+$s(\mu)=\ell(u_h(\mu);\mu)$ its declared output. The physical parameter ranges,
+boundary/material laws and output functional must be attached to the model
+CFG/JSON. Construct the reduced basis on an explicit training set, select
+hyperparameters on a separate validation set, and assess state/output errors
+on an independent held-out set. Archive seeds and sample lists. Report
+full-order versus reduced error at fixed tolerances and distinguish snapshot,
+basis/interpolation and online evaluation costs. The checked-in maximum basis
+size 6, M3 mesh and 12 MPI ranks are launch settings, not accepted accuracy
+or performance targets. Meshes, snapshots and reduced database revisions
+must be recorded separately.
 
 \subsection{Benchmarking methodology}
-\subsubsection{Benchmarking tools used}
 
-The \Feelpp reduced basis toolbox provides integrated performance monitoring for both offline and online phases:
+\paragraph{Protocol to validate.}
+Identify the Feel++ MOR executable/build and adapt the configuration's absolute
+executable path to the selected environment. Supply the Eye2Brain CFG/model,
+parameter definition and partitioned mesh files; build or identify the reduced
+basis database; then compare full-order and reduced outputs on independent test
+parameters. Report the actual basis dimension, approximation errors, offline
+cost and online timings with reconstruction/output costs stated separately.
+A speedup compares like-for-like full/reduced evaluations at fixed accuracy;
+it is not the ratio of offline construction time to online solve time.
 
-\begin{enumerate}
-\item \textbf{Offline phase timing:}
-   \begin{itemize}
-   \item High-fidelity solve time per snapshot
-   \item Basis orthonormalization time
-   \item Greedy algorithm iteration time
-   \item Affine decomposition assembly time
-   \end{itemize}
-
-\item \textbf{Online phase timing:}
-   \begin{itemize}
-   \item Reduced system assembly time
-   \item Reduced system solve time
-   \item Solution reconstruction time
-   \item Output evaluation time
-   \end{itemize}
-
-\item \textbf{Quality metrics:}
-   \begin{itemize}
-   \item Greedy error estimator evolution
-   \item Basis size vs. accuracy trade-off
-   \item A posteriori error bounds
-   \item Speedup ratio (offline/online)
-   \end{itemize}
-\end{enumerate}
-
-
+The present configuration selects mesh M3, 12 MPI tasks and a maximum RB
+size of 6. These are launch settings, not an accepted campaign result.
+It requests journal timing stages and convergence files for FEM cost, $L^2$ and
+$H^1$ errors and output error. The configured journal keys and resulting output
+files must be checked against the chosen MOR executable before accepting a run.
+Retain machine, toolchain/container digest, dataset and executable revisions,
+training/test sets, repetitions and raw-data URLs.
 
 \subsection{Input/Output Dataset Description}
 
+\subsubsection{Input Data}
+The configuration refers to \nolinkurl{eye2brain-3d.cfg},
+\nolinkurl{eye-linear.json}, \nolinkurl{crb_param.json}, and partitioned
+\nolinkurl{Eye_Mesh3D_p<tasks>.json}/HDF5 meshes. These are external
+input dependencies. It also requests an existing reduced-basis database;
+its generation/version and compatibility need to be recorded.
 
-\subsubsection{Input Data:}
-\begin{itemize}
-\item \textbf{Geometry:} Thermal fin geometry with parametric dimensions (fin thickness, spacing, root thickness). Base mesh stored in GMSH format with refinement levels M1, M2, M3.
-
-\item \textbf{Parameters:} 
-  \begin{itemize}
-  \item Geometric parameters: $\mu_{\text{geom}} \in [0.5, 2.0]$ (fin dimensions)
-  \item Material parameters: $\mu_{\text{k}} \in [0.1, 10]$ (thermal conductivity)
-  \item Boundary parameters: $\mu_{\text{Bi}} \in [0.01, 1]$ (Biot number)
-  \end{itemize}
-
-\item \textbf{Training set:} Parameter samples for offline phase using log-random or sparse grid sampling
-
-\item \textbf{Testing set:} Independent parameter samples for online validation
-
-\item \textbf{Configuration:} JSON and CFG files specifying RB method options (tolerance, max basis size, greedy algorithm type)
-
-\item \textbf{Container image:} \texttt{feelpp:v0.111.0-preview.10-noble-sif}
-\end{itemize}
-
-\subsubsection{Output Data:}
-
-\begin{itemize}
-\item \textbf{Offline phase outputs:}
-  \begin{itemize}
-  \item Reduced basis vectors (HDF5 format)
-  \item Affine decomposition matrices and vectors
-  \item Training parameter set and corresponding errors
-  \item Greedy algorithm convergence history
-  \end{itemize}
-
-\item \textbf{Online phase outputs:}
-  \begin{itemize}
-  \item Reduced solution coefficients
-  \item Reconstructed full-order solution (VTK format)
-  \item Output functionals (average temperature, heat flux)
-  \item A posteriori error estimates
-  \end{itemize}
-
-\item \textbf{Performance metrics:}
-  \begin{itemize}
-  \item \texttt{benchmark-verification}: Comparison with high-fidelity solutions
-  \item \texttt{offline-cost}: Total time and memory for basis construction
-  \item \texttt{online-speedup}: Speedup factor vs. full solve
-  \item \texttt{basis-size}: Dimension of reduced space vs. accuracy
-  \item \texttt{hyper-reduction-efficiency}: EIM/DEIM approximation quality
-  \end{itemize}
-\end{itemize}
-
-
+\subsubsection{Output Data}
+The requested run records include \texttt{journal.json},
+\nolinkurl{cvg-crb-FemTime.dat}, \nolinkurl{cvg-crb-L2.dat},
+\nolinkurl{cvg-crb-H1.dat} and \nolinkurl{cvg-crb-OutputError.dat}.
+They define the intended timing/error extraction contract; their presence and
+contents have not been verified for a current campaign.
 
 \subsection{Results summary}
 \ApplicationBenchmarkResults{app-feelpp-rb}
+
+\input{chapters/applications/meshes/app-feelpp-rb}

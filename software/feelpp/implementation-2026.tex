@@ -9,7 +9,7 @@
     \nolinkurl{#1}%
   \fi}
 
-\subsection{2026 implementation developments}
+\subsection{2026 software contributions}
 \label{sec:Feelpp:implementation-2026}
 
 The following developments implement the Cemosis contributions to WP1, WP2,
@@ -19,58 +19,158 @@ components, examples and verification sources.
 
 \subsubsection{Solid-shell elements and tensor operators}
 \label{sec:Feelpp:implementation-2026:sb9}
-The SB9 implementation supports the joint work with AVNIR Energy and
-collaboration with INSA Lyon on a fast, efficient large-scale solver for
-fluid-loaded slender structures in vibroacoustics. The application objective
-is defect detection under medium- and high-frequency excitation. This
-development connects the shell formulation with the broader Feel++ CPU,
-GPU and hybrid HPC efforts; a new industrial demonstrator is expected in
-2027.
+\href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0}
+introduces the SB9 solid-shell formulation developed with AVNIR Energy and
+INSA Lyon. It couples a continuous vector $Q_1$ displacement with a cellwise
+$P_0$ internal mode. The membrane--bending, pinching and assumed-shear
+operators share cached shell geometry. The variational language expresses
+stabilization and constitutive contractions with explicit tensor storage in
+Voigt or Mandel notation. Block assembly supports monolithic solution and
+static condensation.
 
-\href{https://github.com/feelpp/feelpp/pull/2510}{Feel++ PR~2510} supplies SB9 shell geometry and strain
-operators, symmetric tensor representations in Voigt and Mandel notation,
-constitutive contractions, assumed-shear and stabilization operators.
-Shell geometry is cached for reuse by the membrane--bending, pinching and
-shear terms. The mixed formulation uses a continuous vector $Q_1$
-displacement space and a discontinuous $P_0$ internal cell mode.
-The implementation maintains explicit component and tensor-storage
-orderings and supports block-aware assembly.
+The release registers 22 static verification cases for traction, bending,
+applied moments, partial point constraints and plate benchmarks, with
+reference checks on displacement, strain and stress.
+The \href{https://github.com/feelpp/feelpp/tree/v0.112.0/feelpp/quickstart/elasticity/sb9}{SB9 quickstart}
+contains the verification configurations. The
+\href{https://github.com/feelpp/feelpp/tree/v0.112.0/benchmarks/feelpp}{Feel++ microbenchmarks}
+cover variational expressions and tensor operations. The formulation supports
+the development of a scalable vibroacoustic solver for defect detection in
+fluid-loaded slender structures under medium- and high-frequency excitation.
+An industrial demonstrator is planned for 2027
+(\FeelppImplementationAdvance{WP1-A2026-2}).
 
-Verification configurations are supplied under
-\nolinkurl{feelpp/quickstart/elasticity/shell}, including bending-patch,
-plate and SB9 validation cases. Expression and tensor microbenchmarks are
-provided under \nolinkurl{benchmarks/feelpp}. The discretization contribution
-is described in \FeelppImplementationAdvance{WP1-A2026-2}.
+\subsubsection{High-order finite elements and CPU/GPU execution}
+\label{sec:Feelpp:implementation-2026:orders}
+The stabilized
+\href{https://github.com/feelpp/feelpp/issues/2383}{high-order finite-element implementation}
+uses \Cpp{20} concepts and Kokkos CPU/GPU kernels. It covers the Lagrange,
+Raviart--Thomas (RT), Brezzi--Douglas--Marini (BDM), and first- and second-kind
+N\'ed\'elec families, including high-order bases. The RT, BDM and N\'ed\'elec
+implementations use moment degrees of freedom on triangles and tetrahedra.
+Shared reference-element data support degrees chosen at compile time or at
+run time. Curved mappings have an independent geometry degree. The geometry
+tests compare both order modes with analytic mappings through degree five
+and exercise degree-six mappings at run time.
 
-\subsubsection{Distributed geometric search}
+\paragraph{Kokkos and AMD execution environments.}
+The high-order implementation integrates optional Kokkos execution into
+\texttt{Feel::Environment}. When Feel++ owns the runtime, it initializes
+Kokkos after MPI and PETSc setup and finalizes it before MPI and PETSc
+shut down. An application can also supply an initialized runtime.
+The Spack environments extend Open MPI~5 with Kokkos and Kokkos Kernels
+version~5.1.0. The CPU environment enables Serial and OpenMP execution.
+The AMD environment adds HIP through ROCm. The Gaya configuration uses
+ROCm~7.2 and the \texttt{gfx90a} target for AMD Instinct MI210.
+
+On Gaya, the CPU tests used Spack and Open MPI~5, and all 12 HIP runtime
+and lifecycle tests passed on an MI210. Single-rank scalar Poisson runs
+used a separate HIP build with GPU-enabled PETSc to test assembly and
+the solve with GPU storage for $P_1$
+and $P_2$. For the manufactured $P_2$ solution, both CPU and GPU runs gave
+an $L^2$ error of about $2.45\times 10^{-10}$. The GPU measurements record
+phase timings, transfer volumes and evaluation of the solution norm on the
+device.
+
+\subsubsection{Problem API for variational models and their solvers}
+\label{sec:Feelpp:implementation-2026:problem-api}
+The Problem API extends the Feel++ DSEL from forms to complete discrete
+problems. A \texttt{Problem} retains the spaces, typed variational
+expressions, parameters and constraints. Assembly realizes these terms in a
+\texttt{System} with its own numerical operators and solver state. In the
+CPU regression tests, two systems assembled from the same problem have
+independent matrices and right-hand sides. A change in a problem parameter
+takes effect in each system when it is reassembled.
+
+This separation lets the mathematical model specify the weak form and
+discretization while the system specifies how to assemble and solve it.
+It gives hybrid implementations a common description from which to place
+work on CPUs and GPUs, including the choice of where to evaluate element
+kernels and where to store and solve the global system. Changing the
+execution strategy leaves the variational expressions available for reuse.
+
+Retaining the typed variational expressions also gives transformations
+access to the mathematical problem. In 2026, we began testing automatic
+differentiation on individual expressions. \Cref{sec:Feelpp:problem-api}
+illustrates the separation between specification, assembly and solve for
+a diffusion problem with mixed boundary conditions.
+
+\subsubsection{Distributed ray tracing for solar masks}
 \label{sec:Feelpp:implementation-2026:bvh}
-Developed jointly with the HiDALGO2 Centre of Excellence for the PC5
-\KtirioUrbanBuildingContext{} demonstrator, the distributed geometric-search
-infrastructure in \href{https://github.com/feelpp/feelpp/pull/2494}{Feel++ PR~2494}
-refactors parallel BVH intersection queries
-using a two-level hierarchy. Communications use nonblocking MPI operations,
-bounded batches and an event loop with a minimum interval between
-communication pulses. The two-dimensional implementation shares the
-three-dimensional query machinery. The documented \texttt{anyHint} and
-\texttt{closest} contexts are operational; the all-intersections context
-can return incomplete results in parallel. This scope is retained in
-\FeelppImplementationAdvance{WP1-A2026-3}.
+\href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0}
+includes the distributed ray tracer developed with the HiDALGO2 Centre of
+Excellence for the PC5 \KtirioUrbanBuildingContext{} demonstrator. To
+evaluate the solar mask of a surface, Ktirio sends rays from its quadrature
+points toward the sun. A hit marks the point as shaded.
+
+The ray tracer organizes the geometry in two levels of bounding-volume
+hierarchies (BVHs). Each rank builds the same top-level acceleration
+structure (TLAS) from the axis-aligned bounding boxes of the MPI partitions.
+Traversing it discards whole partitions that a ray cannot intersect.
+Each candidate rank then traverses its own bottom-level
+acceleration structure (BLAS), whose boxes enclose its local mesh triangles.
+This restricts exact ray--triangle tests to candidate leaves. Geometry stays
+on the owning ranks, which exchange ray queries and replies in bounded
+nonblocking MPI batches. The occlusion query can stop at the first hit.
+The \href{https://github.com/feelpp/feelpp/pull/2494}{merged BVH implementation}
+also supports closest-hit queries in two and three dimensions
+(\FeelppImplementationAdvance{WP1-A2026-3}).
+
+\paragraph{Solar-mask scaling on Discoverer.}
+The Paris 8\,km campaign used order-two quadrature with three points per
+target triangle. Building-only samples building surfaces. Allfaces samples
+the entire LoD1 mesh. \Cref{tab:Feelpp:solar-mask-discoverer} reports the
+solar-mask phase, including preparation and ray tracing, summed over
+steps 3--6 and averaged across MPI ranks. When the number of nodes doubled
+from 64 to 128 at 128 ranks per node, the mean Building-only time fell by
+38\% to 15.33\,s. The Allfaces time was close to 50\,s at both layouts.
+The Building-only case also completed at 32\,768 MPI ranks on 342
+allocated Discoverer nodes, with simulation output disabled. The
+timing comparison in \Cref{tab:Feelpp:solar-mask-discoverer} covers
+both variants through 16\,384 ranks.
+The runs and mesh data are documented in HiDALGO2 D3.3, UNISTRA
+contribution v0.2 (19 November 2026), Tables 2, 3 and 5 and Figure 4.
+The phase times use the corresponding campaign timing records.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Solar-mask workload and phase times for Paris 8\,km on Discoverer.}
+  \label{tab:Feelpp:solar-mask-discoverer}
+  \begin{tabular}{@{}lrr@{}}
+    \toprule
+    & \textbf{Building-only} & \textbf{Allfaces} \\
+    \midrule
+    LoD1 mesh triangles & \num{68207038} & \num{68207038} \\
+    Rays per sunlit step & \num{78636852} & \num{204621114} \\
+    \midrule
+    \textbf{MPI ranks / nodes} & \multicolumn{2}{c}{\textbf{Mean solar-mask time (s)}} \\
+    \cmidrule(l){2-3}
+    4\,096 / 64    & 26.22 & 53.43 \\
+    8\,192 / 64    & 24.59 & 50.20 \\
+    16\,384 / 128  & 15.33 & 49.88 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsubsection{HPDDM integration and block static condensation}
 \label{sec:Feelpp:implementation-2026:solvers}
-The HPDDM interface in \nolinkurl{feelpp/feel/feelalg/preconditionerpetsc.hpp}
-adds HPDDM preconditioner configuration through PETSc, including auxiliary
-Neumann matrices and index sets. The solver interface is exercised by
-\nolinkurl{testsuite/feelalg/test_hpddm.cpp},
-\nolinkurl{testsuite/feelalg/test_hpddm_laplacian.cpp} and elasticity
-quickstart tests.
+\href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0}
+includes HPDDM preconditioning through PETSc and static condensation for
+two-by-two block systems. The
+\href{https://github.com/feelpp/feelpp/blob/v0.112.0/feelpp/feel/feelalg/preconditionerpetsc.hpp}{preconditioner interface}
+passes auxiliary Neumann matrices and their index sets to PETSc.
+HPDDM unit tests, a Laplacian test and elasticity examples exercise the
+interface.
 
-The component \nolinkurl{feelpp/feel/feelalg/staticcondensation.hpp}
-extends static condensation to two-by-two block systems, with product-space
-tests. Mixed assembly and row-wise Dirichlet elimination are supported by
-\href{https://github.com/feelpp/feelpp/pull/2437}{Feel++ PR~2437}.
-These components realize the solver contribution described in
-\FeelppImplementationAdvance{WP3-A2026-2}; the separate HPDDM framework contribution and its benchmark results are documented in their own fiche.
+Static condensation eliminates the internal unknowns of a mixed problem,
+solves the reduced system and recovers the eliminated unknowns. The
+released implementation is exercised by product-space tests and used in SB9.
+The \href{https://github.com/feelpp/feelpp/pull/2437}{merged block-assembly changes (PR~2437)}
+provide row-wise elimination of Dirichlet conditions for mixed forms.
+\FeelppImplementationAdvance{WP3-A2026-2} describes the Feel++
+contribution. The HPDDM framework and its benchmark results are described
+in \cref{sec:HPDDM:software}.
 
 \subsubsection{Variational optimization through PETSc TAO}
 \label{sec:Feelpp:implementation-2026:tao}
@@ -113,10 +213,13 @@ and least-squares Petrov--Galerkin projection, nonlinear compressive
 reduced-basis solvers (NLCRB and NLCRB++), empirical interpolation for source
 terms and ECSW sampling/weighting for hyper-reduction. Gaussian-process
 and multilayer-perceptron surrogates reconstruct the unresolved modes.
+The methodological foundations are the combined Galerkin/regression
+formulation~\cite{hal_05143191} and the Taylor-based analysis of nonlinear
+compressive approximation~\cite{hal_05466017}.
 These components implement the methods described under WP2/T2.4 in
 \FeelppImplementationAdvance{WP2-A2026-4}.
 
-The Burgers testbed uses a common DG-P0 full-order discretization with
+The nonlinearrb Burgers testbed uses a common DG-P0 full-order discretization with
 per-face Rusanov fluxes, a theta-method and Newton solves. Its comparison
 workflow retains the same flux, source integration, Newton configuration
 and time grid across the full-order, projection-based and nonlinear
@@ -130,40 +233,80 @@ Python tests cover offline/online contracts, surrogate and solver
 configurations, source approximation and comparison schemas.
 The application and benchmark mappings are
 \texttt{app-feelpp-nlcrb} and \texttt{BM-FEEL-NLCRB-01}. The benchmark campaign
-has no reported timing or scalability results.
+now has native Feel++ reference runs on Gaya. Their shared DG-P0 cell and
+face evaluators support Burgers problems in one, two and three dimensions.
+The three-dimensional full-order run completed 500 steps with
+$46\,875\,000$ degrees of freedom on 256 MPI ranks across two CPU nodes.
+The two-dimensional Godunov reduced-model runs retain the same POD basis and
+compare full-grid Galerkin evaluation with ECSW-weighted Galerkin and
+Petrov--Galerkin projection. They measure the accuracy and online cost of
+the baselines for the nonlinear compressive methods.
 
-\subsubsection{Streaming statistics and quantile sketches}
+\subsubsection{Parallel visualization export and exact checkpoints}
+\label{sec:Feelpp:implementation-2026:io}
+
+\paragraph{Correct geometry with cheaper field sampling.}
+EnSight now assigns a single point identifier to each MPI-shared vertex
+within an EnSight part. This removes spurious partition surfaces without
+merging distinct material parts. For supported continuous Lagrange fields
+on a linear mesh, a cached vertex-to-DOF map provides scalar, vector and
+tensor samples directly. The exporter copies owned coefficients into
+independent snapshots, updates shared values when needed, and retains the
+generic fallback. For DG, it copies the P0 coefficient or reuses tabulated
+basis weights to evaluate the original cell sample at higher order, not a
+cell average. Readback tests compare these samples with the generic path.
+
+\paragraph{Writer choice preserves the file layout.}
+Rank zero combines adjacent payload ranges in a bounded 4~MiB buffer.
+Alternatively, ranks write disjoint offsets independently, or use
+collective MPI-IO with MPI-managed aggregation. The tested policies
+produce the same EnSight payload. The measurements use the EPIC
+development version and do not establish performance for a public release.
+
+\paragraph{Exact checkpoints retain finite-element coefficients.}
+Native HDF5 saves and reloads the mesh and original coefficients, not
+the samples used for visualization. The file-lifetime and HDF5 transfer
+experiments belong to the benchmark harness; they do not set a library
+default or validate a full application restart.
+The measured comparisons are reported in
+\ifcsname r@sec:app:results:app-feelpp-io:november-campaign\endcsname
+  \Cref{sec:app:results:app-feelpp-io:november-campaign}%
+\else
+  the \texttt{app-feelpp-io} fiche%
+\fi.
+
+\subsubsection{Ensemble execution and streaming analysis}
 \label{sec:Feelpp:implementation-2026:stats}
-The module \nolinkurl{feelpp/feel/feelstats} provides streaming statistical
-processing components in Feel++. The Ensemble/UQ framework resides in the
-PC5 \KtirioUrbanBuildingContext{} demonstrator and builds on Feel++
-streaming statistical processing. Developed in joint work with the
-HiDALGO2 Centre of Excellence, the demonstrator targets large-scale urban
-building energy simulation and decision support, where ensemble samples
-and building time series create memory and I/O constraints. The statistical
-components and the application-level ensemble framework have distinct roles.
+For \ifcsname r@sec:wp6:ensemble-streaming\endcsname
+  \hyperref[sec:wp6:ensemble-streaming]{WP6/T6.4}%
+\else WP6/T6.4\fi, Cemosis and the HiDALGO2 Centre of Excellence developed
+an Ensemble/UQ framework in the PC5 \KtirioUrbanBuildingContext{}
+demonstrator. Ktirio uses Feel++ MPI communicators to run groups of
+parameter samples concurrently in rounds. Dedicated I/O ranks can
+receive simulation outputs, combine statistics as data arrive and write
+the results. This lets users analyse uncertain building-energy outcomes
+without first writing every sample trajectory for the summaries that can
+be merged online.
 
-The module supplies online mean and variance, extrema, paired
-covariance/correlation, central moments through fourth order, and a
-mergeable KLL-style quantile sketch. Serialization and merging permit
-partial statistical states to be combined instead of retaining all
-observations. These are statistical-processing facilities, not sample
-scheduling or ensemble-execution services. The Ktirio Ensemble/UQ framework
-separates sample simulation ranks from dedicated I/O ranks that aggregate
-and write statistical data. Timing diagnostics are another consumer of
-Feel++ streaming statistics.
+The reusable Feel++ module \nolinkurl{feelpp/feel/feelstats} provides
+online moments through fourth order, extrema, covariance and
+correlation, and a mergeable KLL-style quantile sketch. Its partial
+summaries can be serialized and combined. Ktirio implements the ensemble
+executor and its own application reducers, including exact empirical
+quantiles, approximate quantiles and exceedance probabilities. Its
+exact-sample backend computes Value-at-Risk (VaR) and Conditional
+Value-at-Risk (CVaR) and can write risk indicators in Parquet.
 
-The Ktirio Urban Building ensemble/UQ workflow provides exact empirical
-quantiles, KLL reducers, exceedance probabilities,
-and an exact-vector VaR/CVaR backend with Parquet risk products. These are
-application-level facilities, distinct from the generic feelstats sketch.
-Quantile estimates support VaR; CVaR also requires tail-loss information.
-The sketch uses equal per-level capacities and does not claim Apache
-DataSketches' normalized-rank error bounds. Demonstrator-scale assessment
-must therefore consider memory and I/O costs together with tail accuracy.
-Tests under \nolinkurl{testsuite/feelstats} cover statistical summaries,
-merging, quantile selection and mixed-scale samples. The scientific
-contribution is described in \FeelppImplementationAdvance{WP6-A2026-2}.
+VaR is a loss quantile; CVaR also needs information about the losses in
+the tail. Exact sample-based statistics still require storage for the
+selected values. The Feel++ sketch uses equal per-level capacities and
+does not claim Apache DataSketches' normalized-rank error bounds. Tests
+in \nolinkurl{testsuite/feelstats} check online summaries, merging and
+quantile selection. Ktirio has separate MPI workflow and streaming
+tests. End-to-end memory, I/O and tail-accuracy comparisons at
+demonstrator scale remain to be measured
+(\FeelppImplementationAdvance{WP6-A2026-2}).
 
-Benchmark results are reported in the corresponding application fiches in \Cref{chap:applications}.
+Benchmark results are reported in the corresponding application fiches%
+\ifcsname r@chap:applications\endcsname\space in \Cref{chap:applications}\fi.
 \fi

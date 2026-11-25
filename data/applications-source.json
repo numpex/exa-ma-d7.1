@@ -1,0 +1,20 @@
+{
+  "spreadsheet_url": "https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?gid=1301884928",
+  "tab": "Applications",
+  "sheet_id": 1301884928,
+  "range": "A1:AB32",
+  "retrieved_on": "2026-10-17",
+  "snapshot": "data/applications.csv",
+  "entry_refreshes": {
+    "app-freefem-parmmg": {
+      "range": "Applications!V9",
+      "changed_fields": [
+        "Framework"
+      ]
+    },
+    "app-feelpp-parmmg": {
+      "range": "Applications!A32:AB32",
+      "change": "New catalogue application, spec-only; case, contributors and benchmark evidence pending."
+    }
+  }
+}

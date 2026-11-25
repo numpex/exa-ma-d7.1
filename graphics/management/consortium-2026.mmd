@@ -1,0 +1,24 @@
+%% Institutional categories from https://exa-ma.numpex.fr/partners.html
+flowchart TB
+    exama["`**Exa-MA**
+NumPEx PC1`"]
+    funded["`**Five beneficiary institutions**
+Université de Strasbourg
+Inria
+CEA
+École polytechnique
+Sorbonne Université`"]
+    associated["`**CNRS and ten associated institutions**
+Bordeaux INP · ENS de Lyon · Université Côte d’Azur
+Université de Lille · Université de Lorraine
+Université de Pau et des Pays de l’Adour
+Université de Picardie Jules Verne · Université Grenoble Alpes
+Université Gustave Eiffel · Université Paris-Panthéon-Assas`"]
+
+    exama --- funded
+    exama --- associated
+
+    class exama project
+    class funded primary
+    classDef project fill:#2a2e80,stroke:#2a2e80,stroke-width:1.5px,color:#ffffff
+    classDef primary fill:#f1f1f8,stroke:#2a2e80,stroke-width:1.5px,color:#1d1d1f

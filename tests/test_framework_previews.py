@@ -1,13 +1,23 @@
 import tempfile
 import unittest
+import csv
 from pathlib import Path
 from scripts.framework_previews import frameworks, selected, sync, wrapper
 
 
 class FrameworkPreviewTests(unittest.TestCase):
+    def catalogue(self, root, rows):
+        folder = root / 'data'
+        folder.mkdir(exist_ok=True)
+        with (folder / 'frameworks.csv').open('w', newline='') as stream:
+            writer = csv.writer(stream)
+            writer.writerow(['Name', 'Include in deliverable'])
+            writer.writerows(rows)
+
     def test_discovers_fiches_not_metadata_or_implementation_fragments(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
+            self.catalogue(root, [('example', 'TRUE')])
             folder = root / 'software/example'
             folder.mkdir(parents=True)
             for name in ('example', 'metadata', 'implementation'):
@@ -20,6 +30,7 @@ class FrameworkPreviewTests(unittest.TestCase):
                                    'standalone/frameworks/samurai.tex'], catalogue),
                          ['feelpp', 'samurai'])
         self.assertEqual(selected(['standalone-funtides.tex'], catalogue), ['funtides'])
+        self.assertEqual(selected(['standalone/feelpp.tex'], catalogue), ['feelpp'])
 
     def test_former_maphys_name_selects_composyx_without_duplicate(self):
         self.assertEqual(selected(['software/maphyspp/maphyspp.tex'],
@@ -31,7 +42,14 @@ class FrameworkPreviewTests(unittest.TestCase):
     def test_shared_dependencies_and_release_select_all(self):
         catalogue = {'samurai': '', 'feelpp': ''}
         for paths in (None, ['defs.tex'], ['references.bib'], ['graphics/common.png'],
-                      ['.github/workflows/latex.yml'], ['standalone/framework-preamble.tex']):
+                      ['.github/workflows/latex.yml'], ['standalone/framework-preamble.tex'],
+                      ['standalone/identity-data.tex'], ['data/frameworks.csv'],
+                      ['scripts/generate_fiche_identities.py'],
+                      ['standalone/application-content.tex'],
+                      ['chapters/applications/specs/app-feelpp-io.tex'],
+                      ['data/benchmark-registry-v3.csv'],
+                      ['data/applications-source.json'],
+                      ['scripts/framework_portfolios.py']):
             self.assertEqual(selected(paths, catalogue), ['feelpp', 'samurai'])
         self.assertEqual(selected([], catalogue), [])
 
@@ -46,6 +64,7 @@ class FrameworkPreviewTests(unittest.TestCase):
     def test_wrappers_preserve_editorial_source_and_refuse_authored_overwrite(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
+            self.catalogue(root, [('example', 'TRUE')])
             path = root / 'software/example/example.tex'
             path.parent.mkdir(parents=True)
             path.write_text('existing scientific text')

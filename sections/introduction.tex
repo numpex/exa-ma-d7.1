@@ -7,57 +7,27 @@
 \section{Introduction}
 \label{sec:introduction}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Section content, please change!
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Purpose and Scope of the Document}
 \label{sec:purpose}
 
 
-The Exa-MA project, part of the PEPR NumPEx program funded under France’s Plan d’Investissement d’Avenir, is dedicated to advancing the frontier of high-performance computing towards and beyond the exascale barrier. This deliverable, D7.1, represents the first in a series of annual benchmarking reports designed to evaluate the performance of key software tools and libraries that will underpin the next generation of scientific computing.
-
-Exascale computing promises significant breakthroughs across a wide range of disciplines, from climate science to materials physics, by enabling simulations and analyses at unprecedented scales and resolutions. However, realizing the full potential of exascale computing requires overcoming substantial challenges in software architecture, scalability, efficiency, and resilience. Benchmarking plays a crucial role in this context by providing a rigorous framework to measure, analyze, and optimize the performance of computational tools on state-of-the-art hardware architectures.
-
-Beyond the benchmarking methodology itself, the 2025 edition takes stock of tangible scientific progress in each work package. WP1 consolidates breakthroughs in feature-aware meshing (CGAL alpha wrapping) and large-scale ParMmg adaptation workflows, while WP2 advances surrogate modelling through domain-decomposed PINNs and neural reduced-order models. WP3 extends scalable solver technology (GenEO for non-SPD systems, mixed-precision Krylov) and WP4 formalises stochastic inversion pipelines with ensemble Kalman techniques. Optimisation strategies in WP5 (fractal search, Bayesian design loops) and WP6’s constrained Gaussian-process surrogates round out the scientific scope. These advances flow directly into the application demonstrations and KPI tracking summarised in the Executive Summary.
-
-In this deliverable, we therefore document both the shared methodology and the work-package specific achievements that feed it. The benchmarking methodology addresses key bottlenecks identified in exascale systems, including interconnect technology, memory hierarchy, data management, exascale algorithms, and reproducibility challenges. The methodology integrates several core components:
-
-\begin{itemize}
-    \item \textbf{Testing and Validation Processes:} Establishing structured non-regression testing, verification, and validation to ensure software correctness and performance integrity across updates.
-    \item \textbf{Benchmarking Strategy:} Implementing a phased benchmarking approach to measure performance, scalability, and energy efficiency on advanced computational architectures (CPU, GPU, and hybrid systems).
-    \item \textbf{Data Management and I/O Strategies:} Addressing I/O bottlenecks through efficient data management techniques, including leveraging high-performance parallel file systems and advanced data compression methods.
-    \item \textbf{Profiling and Measurement Tools:} Utilizing advanced profiling tools such as EZTrace, Extrae, Score-P, TAU, Vampir, and Nsight to gather detailed performance insights across different architectures.
-    \item \textbf{Containerization and Packaging:} Employing packaging and containerization technologies like Spack, Guix-HPC, Docker, and Apptainer/Singularity to ensure reproducible and portable execution environments.
-    \item \textbf{Continuous Integration and Deployment (CI/CD):} Integrating continuous benchmarking and regression testing into CI/CD pipelines to maintain reproducibility, portability, and sustained high performance across different HPC systems.
-    \item \textbf{Fault Tolerance Strategies:} Developing fault tolerance mechanisms to enhance system resilience and data integrity, including checkpoint/restart techniques and advanced fault-tolerant I/O frameworks.
-\end{itemize}
-
-Furthermore, we provide a consolidated list of software components developed within the Exa-MA project and adopted in the demonstrators. These software tools are essential for enabling exascale applications and have been chosen for their potential impact and alignment with the project's objectives. We present general statistics about these software packages, including their supported hardware architectures (CPU, GPU, and hybrid systems), programming languages, parallel computing technologies, data formats, and DevOps practices such as continuous integration, testing, and deployment. This overview offers insights into the diversity and technological choices within the project, highlighting the widespread usage of various technologies and the commitment to quality and maintainability.
-
-Through testing and analysis, and by employing our benchmarking methodology, we aim to ensure that the Exa-MA suite of tools not only meets the high computational demands of future exascale applications but also adheres to the principles of energy efficiency, scalability, robustness, and reproducibility required in the exascale era. By weaving together methodology, software readiness, and per-WP scientific milestones, the deliverable mirrors the structure of the subsequent chapters and prepares the reader for the detailed KPI tracking and roadmaps that follow. Our methodology is key to ensuring the long-term maintainability and sustainability of this effort, as it establishes standardized practices and frameworks that facilitate ongoing development and adaptation to evolving technologies. By documenting our methodology and sharing our findings, we contribute to the broader HPC community’s efforts in overcoming the challenges associated with exascale computing while promoting sustainable and maintainable software practices.
-
-
+Exa-MA develops numerical methods and scientific software for
+exascale computing within PEPR NumPEx. This edition presents work
+reported in 2026 and retains earlier results where they provide a
+baseline. The mega-deliverable includes the D7.1 benchmarking report
+(\cref{chap:methodology,chap:applications}) and assembles the related
+project deliverables.
 
 \subsection{Correspondence with contractual deliverables}
 \label{sec:deliverable-correspondence}
 
-The consolidated report extends the original D7.1 benchmarking scope to
-include project management, scientific activity, software contributions and
-training. \Cref{tab:deliverable-correspondence} maps these chapters to the
-numbering and titles in the Exa-MA scientific project document. The mapping
-identifies contributions to each deliverable; it does not imply that every
-contractual item is complete. Software deliverables also include the software
-itself, whose implementation is described in the framework fiches.
-
-WP1 uses a different numbering from WP2--WP6: D1.1 covers software and D1.2
-covers activity reporting. For WP2--WP6, these roles are assigned to Dx.2 and
-Dx.1, respectively. Activity reporting contributes to the annual D0.2 report.
-Benchmarking for WP1--WP6 contributes to Dx.3 and is consolidated with D7.1 in
-\Cref{chap:applications}, with the shared methodology in
-\Cref{chap:methodology}. Application specifications and benchmark results remain
-together in their fiches; completed benchmarks are not required for every
-application at this stage.
+\Cref{tab:deliverable-correspondence} relates each chapter to the
+contractual numbering and titles in the Exa-MA scientific project
+document. The software deliverables include the code described in
+the framework fiches. WP1 assigns software to D1.1 and activity
+reporting to D1.2. WP2--WP6 assign these roles to Dx.2 and Dx.1,
+respectively. The Dx.3 benchmarks share the methods and application
+fiches of D7.1.
 
 % Source: PC1-ExaMA - Document Scientifique.md, WP0--WP7 deliverable tables.
 \begingroup
@@ -112,26 +82,11 @@ is recorded in \Cref{sec:wp7:codesign-initial-feedback}, ahead of those deliveri
 \subsection{Structure of the Document}
 \label{sec:structure}
 
-The mega-deliverable also includes D0.2, the annual \emph{Project Management and
-Activity Report}, in \Cref{chap:management}. This chapter precedes the scientific
-work packages and records project coordination, human resources, events and
-external partnerships for each annual reporting period.
-
-This document is organized as follows:
-
-\begin{itemize}
-    \item \Cref{chap:introduction} introduces the purpose and scope of the deliverable, providing an overview of the Exa-MA project.
-    \item \Cref{chap:management} provides the annual D0.2 reporting framework for WP0: governance, staff arrivals and departures, events, industrial partnerships, and cooperation with research and computing centres.
-    \item \Cref{chap:methodology} presents the benchmarking methodology that will be developed for exascale software, detailing the key objectives, testing processes, data management strategies, fault tolerance mechanisms, and the use of demonstrators.
-    \item \Cref{chap:software} provides a general overview of the software developed within Exa-MA, focusing on their features, mathematical foundations, functionalities, relevant publications, acknowledgments, and contact details. It includes general statistics about the software, offering insights into their characteristics and technological choices, such as supported architectures, programming languages, parallelism technologies, data formats, and DevOps practices.
-    \item \Cref{chap:wp1} (\textbf{WP1 - Discretization}) presents software relevant to the discretization methods developed within this work package. For each software, we detail their features, the methods they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and provide a 12-month roadmap.
-    \item \Cref{chap:wp2} (\textbf{WP2 - Model Order, Surrogate, Scientific Machine Learning Methods}) covers software related to reduced-order models, surrogate modeling, and scientific machine learning techniques tailored for exascale applications. Each software is presented with its implemented methods, parallel capabilities, associated benchmarks and metrics, challenges identified, and a 12-month roadmap.
-    \item \Cref{chap:wp3} (\textbf{WP3 - Solvers}) focuses on software implementing scalable solver algorithms suitable for exascale architectures. We discuss their features, parallel capabilities, benchmarks and metrics developed, challenges identified, and include a 12-month roadmap for each.
-    \item \Cref{chap:wp4} (\textbf{WP4 - Data Assimilation}) presents software and tools for inverse problems and data assimilation in large-scale simulations. For each software, we explore the methods they implement, parallel capabilities, benchmarks and metrics developed, challenges identified, and provide a 12-month roadmap.
-    \item \Cref{chap:wp5} (\textbf{WP5 - Optimization}) addresses software related to optimization techniques for exascale applications, including shape optimization and auto-ML tuning. The software are presented with their features, implemented methods, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap.
-    \item \Cref{chap:wp6} (\textbf{WP6 - Uncertainty Quantification}) explores software for quantifying uncertainty in computational models at exascale, discussing stochastic modeling and probabilistic approaches. Each software includes details on the methods implemented, parallel capabilities, benchmarks and metrics developed, challenges identified, and a 12-month roadmap.
-    \item \Cref{chap:conclusions} concludes the deliverable, summarizing the key findings and outlining future directions for the Exa-MA project.
-    \item The \textbf{References} compiles all the bibliographic citations used throughout the document.
-    \item The \textbf{Appendices} provide additional information, including detailed descriptions of hardware architectures (\nameref{sec:app:architectures}) and supplementary materials relevant to the benchmarking activities.
-\end{itemize}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The work package chapters explain the methods. The software fiches
+identify the implementations and versions. Application fiches describe
+the test problems and report the available measurements. For example,
+the WP3 Composyx advance links to the software fiche and the
+heterogeneous-diffusion study
+(\cref{tab:advance:WP3-A2026-5,sec:Composyx:software,sec:app:specs:app-composyx-diffusion}).
+\Cref{tab:framework-application-map,tab:v3-benchmark-registry} provide
+entry points from the software and benchmark catalogues.

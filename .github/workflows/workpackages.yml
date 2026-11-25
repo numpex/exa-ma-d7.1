@@ -1,0 +1,70 @@
+name: Work package contributions
+
+on:
+  pull_request:
+    branches: [main, d7.1-v3]
+  push:
+    branches: [main, d7.1-v3]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build WP1 to WP7 with report references
+    runs-on: [self-hosted, self-texlive]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test reference isolation and release metadata
+        run: |
+          python -m unittest discover -s tests -p test_workpackage_previews.py -q
+          python -m unittest discover -s tests -p test_release.py -q
+          python scripts/release.py check
+      - name: Compile all work package contributions
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.number }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            build_ref="pr-$PR_NUMBER"
+          else
+            build_ref="$REF_NAME"
+          fi
+          python scripts/workpackage_previews.py --ref "$build_ref" --jobs 2
+      - name: Compile standalone D0.2
+        run: |
+          latexmk --shell-escape -pdf -halt-on-error -interaction=nonstopmode -synctex=1 \
+            -outdir=output/pdf/workpackages -jobname=exa-ma-d02 standalone-d02.tex
+          python -c 'from pathlib import Path; from scripts.workpackage_previews import check_log; check_log(Path("output/pdf/workpackages/exa-ma-d02.log"))'
+      - name: Upload standalone PDFs and companion report
+        uses: actions/upload-artifact@v4
+        with:
+          name: workpackage-contributions
+          path: |
+            output/pdf/workpackages/exa-ma-wp[1-7].pdf
+            output/pdf/workpackages/exa-ma-d02.pdf
+            output/pdf/workpackages/exa-ma-deliverables.pdf
+            output/pdf/workpackages/manifest.json
+          if-no-files-found: error
+      - name: Upload distribution archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: workpackage-release-archive
+          path: output/pdf/workpackages/exa-ma-workpackages-*.zip
+          if-no-files-found: error
+      - name: Preserve build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workpackage-build-logs
+          path: |
+            output/pdf/workpackages/*.log
+            exa-ma-deliverables.log
+            exa-ma-wp*.log
+          if-no-files-found: warn

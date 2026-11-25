@@ -3,51 +3,39 @@
 
 
 
-\begin{table}[h!]
-    \centering
-    { \setlength{\parindent}{0pt}
-        \def\arraystretch{1.25}
-        \arrayrulecolor{numpexgray}
-        {\fontsize{9}{11}\selectfont
-            \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-                \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field}
-                 & {\rule{0pt}{2.5ex}\color{white}\bf Details}                                         \\
-                \rowcolor{white}\textbf{Consortium}
-                 & \begin{tabular}{l}
+\begin{FicheMetadataTable}[Scimba Information]
+\textbf{Consortium}
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        INRIA   \\
                        UNISTRA \\
                    \end{tabular}                                                                   \\
-                \rowcolor{numpexlightergray}\textbf{Exa-MA Partners}
-                 & \begin{tabular}{l}
+                \textbf{Exa-MA Partners}
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        Unistra \\
                    \end{tabular}                                                                   \\
-                \rowcolor{white}\textbf{Contact Emails}
-                 & \begin{tabular}{l}
+                \textbf{Contact Emails}
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        emmanuel.franck@inria.fr      \\
                        victor.michel-dansac@inria.fr \\
                    \end{tabular}                                                       \\
-                \rowcolor{numpexlightergray}\textbf{Supported Architectures}
-                 & \begin{tabular}{l}
+                \textbf{Supported Architectures}
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        CPU or GPU \\
                    \end{tabular}                                                                   \\
-                \rowcolor{white}\textbf{Repository}
+                \textbf{Repository}
                  & \href{https://gitlab.inria.fr/scimba/scimba}{https://gitlab.inria.fr/scimba/scimba} \\
-                \rowcolor{numpexlightergray}\textbf{License}
-                 & \begin{tabular}{l}
+                \textbf{License}
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        MIT \\
                    \end{tabular}                                                                   \\
-                \rowcolor{white}\textbf{Bottlenecks roadmap}
-                 & \begin{tabular}{l}
+                \textbf{Bottlenecks roadmap}
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        B10 - Scientific Productivity                          \\
                        B11 - Reproducibility and Replicability of Computation \\
                        B6 - Data Management                                   \\
                        B7 - Exascale Algorithms                               \\
                    \end{tabular}                              \\
-                \bottomrule
-            \end{tabular}
-        }}
-    \caption{Scimba Information}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Software summary}
 \label{sec:Scimba:summary}
@@ -81,67 +69,53 @@ ML-based methods and libraries.
 
 The following table summarizes these aspects for Scimba, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
-    \centering
-    {
-        \setlength{\parindent}{0pt}
-        \def\arraystretch{1.25}
-        \arrayrulecolor{numpexgray}
-        {\fontsize{9}{11}\selectfont
-            \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-                \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}
-                 & {\rule{0pt}{2.5ex}\color{white}\bf Details}
-                 & {\rule{0pt}{2.5ex}\color{white}\bf Description}                                                                                    \\
-                \rowcolor{white}Languages
-                 & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[Scimba programming and computational environment]
+Languages
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        Python \\
                    \end{tabular}
                  & Scimba is written in \texttt{Python}, using the \texttt{JAX} and \texttt{pytorch} libraries for ML and differentiable computing.                      \\
-                \rowcolor{numpexlightergray}Parallelism
-                 & \begin{tabular}{l}
+                Parallelism
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        GPU, CPU (shared) \\
                    \end{tabular}
                  & Scimba takes advantage of the intrinsic parallelization capabilities of  \texttt{JAX} and  \texttt{pytorch} (shared-memory CPU and GPU, by default).  \\
-                \rowcolor{white}Data Formats
+                Data Formats
                  & input: none;
                 output: \texttt{.pth} \& image files
                  & Scimba outputs \texttt{.pth} files containing neural networks weights, as well as image files representing the equation solutions. \\
-                \rowcolor{numpexlightergray}Resilience
-                 & \begin{tabular}{l}
+                Resilience
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        None \\
                    \end{tabular}
                  & None \\
-                \rowcolor{white}DevOps
-                 & \begin{tabular}{l}
+                DevOps
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        None \\
                    \end{tabular}
                  & None  \\
-                \rowcolor{numpexlightergray}Packaging
-                 & \begin{tabular}{l}
+                Packaging
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        pip, GitHub \\
                    \end{tabular}
                  & Scimba is packaged on pip (\texttt{pip install scimba}) and available on gitlab (\url{https://gitlab.inria.fr/scimba/scimba})  \\
-                \rowcolor{white}Testing
-                 & \begin{tabular}{l}
+                Testing
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        pytest \\
                    \end{tabular}
                  & Tests are provided for core functionalities, available by running \texttt{pytest}. Regression tests and benchmarks are in the process of being added. \\
-                \rowcolor{numpexlightergray}Containerization
-                 & \begin{tabular}{l}
+                Containerization
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        None \\
                    \end{tabular}
                  & None \\
-                \rowcolor{white}Interfaces
-                 & \begin{tabular}{l}
+                Interfaces
+                 & \begin{tabular}[t]{@{}p{\linewidth}@{}}
                        \texttt{Feel++} \\
                    \end{tabular}
                  & Scimba interfaces with Feel++: solution data produced with Feel++ has successfully been
                  used to train neural networks in Scimba. \\
-                \bottomrule
-            \end{tabular}
-        }}
-    \caption{Scimba programming and computational environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
 
 \subsection{Application entry points}

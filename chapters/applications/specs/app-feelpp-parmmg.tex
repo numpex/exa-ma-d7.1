@@ -1,0 +1,54 @@
+% Application specification shared by the report and standalone fiches.
+\ApplicationFicheHeading{app-feelpp-parmmg}
+\label{sec:app:specs:app-feelpp-parmmg}
+
+\input{chapters/applications/metadata/app-feelpp-parmmg}
+
+\subsection{Description of the benchmark}
+This application covers Feel++/ParMmg parallel mesh adaptation, separately
+from the FreeFEM++/ParMmg demonstrator. Its catalogue status is
+\texttt{spec-only}; the case, contributors and benchmark data remain pending.
+
+\href{https://github.com/feelpp/feelpp}{Feel++} provides a ParMmg remesher and
+remeshing test drivers. These provide a starting point; application-level
+verification and scaling measurements are still to be defined.
+
+\paragraph{Planned contribution.} Identify the intended Feel++ case,
+executable and configuration. Confirm whether this is a remeshing kernel or
+a coupled solve--adapt workflow.
+
+
+\paragraph{Planned remeshing contract.}
+The owner must select either a remeshing kernel (mesh plus metric to adapted
+mesh) or a solve--estimate--adapt loop. For the kernel, supply the spatial
+metric tensor convention/units, anisotropy bounds, gradation and target-size
+settings. Preserve required physical markers and interfaces; check positive
+cell orientation/volume, metric quality and achieved element sizes. Record
+before/after cell counts, quality distributions and preparation, adaptation
+and redistribution times. For a coupled loop, additionally define error
+estimation and field-transfer/conservation checks and compare at fixed error.
+A configuration of an existing Feel++ remeshing driver can implement this
+contract; a new C++ application is required only if that driver lacks the
+selected operation. The FreeFEM Fichera configuration is a separate case.
+
+\subsection{Benchmarking methodology}
+\paragraph{Planned contribution.} Specify the mesh and metric, verification
+checks, baseline, parallel resource series, measured phases and repetition
+protocol. Pin the application configuration and software environment before
+reporting measurements.
+
+\subsection{Input/Output Dataset Description}
+\subsubsection{Input Data}
+\paragraph{Planned contribution.} Supply the input geometry or mesh,
+adaptation metric, required markers and remeshing parameters for the chosen case.
+
+\subsubsection{Output Data}
+\paragraph{Planned contribution.} Document the adapted-mesh outputs,
+verification reports and timing records actually produced by the application.
+
+\subsection{Results summary}
+No measured results or benchmark-readiness claim are assigned to this draft.
+\paragraph{Planned contribution.} Attach versioned driver/configuration,
+validation reports and campaign artefacts when available; keep them planned until then.
+
+\input{chapters/applications/meshes/app-feelpp-parmmg}

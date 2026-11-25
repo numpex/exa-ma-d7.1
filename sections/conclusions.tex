@@ -1,58 +1,27 @@
 %!TEX root = ../exa-ma-deliverables.tex
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Conclusions
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \clearpage
 \section{Conclusions}
 \label{sec:conclusions}
 
-In this deliverable, we present consolidated benchmarking efforts and methodology within the Exa-MA project (PEPR NumPEx). 
-Exa-MA advances high-performance computing towards exascale by developing relevant numerical methods and ensuring software is production-ready by the project's conclusion.
+Several reported advances have reached implementation or testing.
+In WP3, PETSc~3.25 exposes the CUDA path for HPDDM. Composyx has weak
+scaling results for heterogeneous diffusion on Jean Zay and Adastra
+(\cref{sec:HPDDM:2026,sec:app:specs:app-composyx-diffusion}). In WP2,
+Scimba adds differentiable classical discretizations in JAX
+(\cref{sec:wp2-main-advances-2026}). In the Ktirio Urban Building
+collaboration, WP1, WP6 and WP7 contribute meshing, coupling and
+statistical components to the same demonstrator
+(\cref{sec:pc5:ktirio-urban-building}). The terrain benchmark measures
+one part of that workflow.
 
-We introduced a benchmarking methodology designed to address exascale challenges and identified bottlenecks. 
-It focuses on:
+The next application tests concern, among others, inverse parameter
+recovery for HiFiMagnet, weak scaling of ensemble Kalman inversion,
+and validation of the Ktirio coupled workflow. The FDA nozzle fiche
+specifies the experimental comparisons and scaling protocol for a
+future campaign. The benchmark index distinguishes these specifications
+from cases with recorded measurements
+(\cref{sec:wp4:benchmarks,sec:app:specs:app-feelpp-discr-2,tab:v3-benchmark-registry}).
 
-\begin{itemize}
-    \item \textbf{Structured application definitions}: Mini-apps, extended mini-apps, demonstrators, and proxy-apps with tiered acceptance criteria.
-    \item \textbf{Testing and validation}: Non-regression, verification, and validation to ensure correctness and performance integrity.
-    \item \textbf{Benchmark phases}: Baseline, scalability, energy, and hybrid CPU+GPU runs, with expanded hardware coverage (EuroHPC, multi-GPU nodes; see Chapter~\ref{chap:methodology}).
-    \item \textbf{Energy metrics}: Integration alongside performance and scalability (e.g., energy-to-solution, FLOPS/W).
-    \item \textbf{Data management and I/O}: FAIR datasets and DOIs (Zenodo), scalable I/O (HDF5/DAOS) to address bottlenecks.
-    \item \textbf{Automation (CI/CD)}: ReFrame-based suites on merges and nightlies; containerized runs (Docker/Apptainer/Spack) for reproducibility.
-    \item \textbf{Profiling and measurement}: Using established toolchains for actionable performance profiles.
-    \item \textbf{Fault tolerance}: Beyond checkpoint/restart, the available framework are not currently exploited by the identified frameworks.
-\end{itemize}
-
-The document overviews Exa-MA software, highlighting features, parallel capabilities, and technologies. Standardized specifications (metadata, inputs/outputs, metrics, status, planning) ensure traceability and drive CI and reporting, while general statistics emphasize diversity and adaptability across the stack.
-
-In the work package chapters (WP1--WP6), we detail methods and algorithms, parallel capabilities, benchmarks and metrics, identified challenges, and a 12-month roadmap. 
-This ensures that all aspects of exascale computing, from discretization to uncertainty quantification, are addressed cohesively.
-
-The initial benchmarking results establish a baseline for exascale-ready methods and software. 
-The challenges identified inform our next steps. Given the varying maturity across software, presentations remain uneven within and across work packages. This is expected at this stage. In the coming months, we will apply the shared methodology across all software and maintain up-to-date results. The next release will present a more systematic, balanced view within and across work packages.
-
-
-\section*{Future Work}
-
-Looking ahead, we will refine and expand the methodology and tools presented here. 
-Priorities include:
-
-\begin{itemize}
-    \item \textbf{New specs, implementations, benchmarking}: Add application specifications, deliver implementations, and expand automated benchmarks.
-    \item \textbf{GPU portability and scaling}: Broaden GPU portability and improve strong/weak scaling on EuroHPC-class systems.
-    \item \textbf{Auto-bench pipelines}: Densify CI/CD pipelines (frequence to be decided + non-regression) and reporting, keeping artefacts FAIR and reproducible.
-    \item \textbf{Metrics}: Extend energy and resilience metrics; track data-movement efficiency and KPI deltas year-over-year.
-    \item \textbf{Fault tolerance}: improve fault-tolerance support.
-    \item \textbf{Standardization}: Harmonize acceptance criteria and reporting across tiers and WPs; align milestones with PC1/PC2/PC3.
-    \item \textbf{Collaboration}: Share best practices and tooling across the NumPEx ecosystem and partners.
-\end{itemize}
-
-\section*{Final Remarks}
-
-This deliverable advances our structured approach to developing and benchmarking numerical methods, algorithms, and software. By applying the unified methodology—application tiers, phased benchmarks (including energy), CI/CD automation, and FAIR data—we aim to deliver reproducible, portable, and performant exascale-ready software.
-
-The progress achieved thus far demonstrates the feasibility and importance of a methodical approach to overcoming exascale challenges. 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The D0.2 report records the revised October schedule for MS4 and MS5
+and the status of the October submission on 18 November
+(\cref{sec:management-year-4}).

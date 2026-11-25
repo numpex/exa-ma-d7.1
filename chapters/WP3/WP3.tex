@@ -2,20 +2,8 @@
 %\chapter{Work Package 3: Solvers for Linear Algebra \& Multiphysics}
 %\label{chap:wp3}
 
-% D7.1 V3 / v2.90.0 -- WP3 CONTRIBUTION
-%
-% Inherited v2 content is a starting point. Review, validate, update or remove it;
-% identify 2026 advances; separate them from earlier results; link advances to
-% software, applications and benchmarks; provide versions, configurations,
-% references and evidence; and flag missing mappings instead of inventing them.
 
 \section{Objectives \& Context}
-\WPUpdateNote{Review the inherited scope and task descriptions, and update the
-2026 priorities and Exa-MA bottlenecks.  Identify earlier material by year when it
-is retained as context.}
-% • Which Exa-MA bottlenecks (B#) WP3 addresses  
-% • Role in overall strategy (Krylov solvers, domain decomposition, mixed precision)  
-% • List of key tasks T3.1–T3.3
 
 We first intend to design novel or improved numerical kernels that are mostly agnostic of the
 underlying models (e.g., PDE) and approximation techniques (e.g., FEM) for the solution of linear
@@ -28,7 +16,6 @@ platforms to design coupled physic solvers that rely on state-of-the-art optimiz
 solvers.
 
 We recall below the corresponding tasks as described in the original proposal. 
-
 
 
 \subsubsection*{T3.1 Domain decomposition methods with subspace-correction}
@@ -83,31 +70,9 @@ adaptive internal convergence criteria…) are intended to be handled through a 
 auto-tuning work from Task 3.2.3.
 
 
-
 \clearpage
 \section{Main advances in 2026}
 \label{sec:wp3-main-advances-2026}
-\WPUpdateNote{Complete one record for each main 2026 advance.  Keep the advance,
-application and benchmark identifiers stable so that contributions can be
-compared across annual reports.}
-
-% Duplicate this record in WP3.tex for each main 2026 advance and replace the
-% compact field cues with factual entries.  Do not edit the central table style.
-\begin{WPAdvanceRecord}{WP3-A2026-1}
-Exa-MA task and bottleneck & \WPFieldHint{T3.x; Bx} \\
-Concise description of the 2026 advance & \WPFieldHint{What changed in 2026} \\
-Responsible contributors and institutions & \WPFieldHint{Name; institution} \\
-Implementing software & \WPFieldHint{Software; repository} \\
-Software release, commit or PR & \WPFieldHint{Versioned identifier} \\
-Associated application ID & \WPFieldHint{app-...} \\
-Associated benchmark ID & \WPFieldHint{BM-... or no mapping yet} \\
-Scientific or numerical result & \WPFieldHint{Value; unit; baseline} \\
-Performance or scalability result & \WPFieldHint{Machine; resources; comparison} \\
-Evidence and raw-data location & \WPFieldHint{URL; DOI; repository path} \\
-Maturity & \WPFieldHint{method / prototype / integrated / benchmarked / reproducible} \\
-Limitations and next step & \WPFieldHint{Limitation; next step} \\
-Cross-WP contribution or dependency & \WPFieldHint{WP; role or dependency} \\
-\end{WPAdvanceRecord}
 
 
 % Cemosis / Feel++ 2026 contribution.
@@ -116,13 +81,13 @@ Exa-MA task and bottleneck & T3.1 and T3.3.1; B7 (Exascale Algorithms) \\
 Concise description of the 2026 advance & Feel++ integration of HPDDM preconditioning and two-by-two block static condensation \\
 Responsible contributors and institutions & Cemosis, University of Strasbourg \\
 Implementing software & Feel++, PETSc, HPDDM \\
-Software release, commit or PR & \nolinkurl{feelpp/feel/feelalg/preconditionerpetsc.hpp}; static condensation: \nolinkurl{feelpp/feel/feelalg/staticcondensation.hpp} \\
+Software release & \href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}{Feel++~v0.112.0} \\
 Associated application ID & No new catalogue mapping; Laplacian and elasticity examples exercise the solver interfaces \\
 Associated benchmark ID & No new benchmark registry ID assigned \\
 Scientific or numerical result & Not reported \\
 Performance or scalability result & No 2026 scalability measurements reported \\
 References and supporting data & \nolinkurl{testsuite/feelalg/test_hpddm.cpp}, \nolinkurl{testsuite/feelalg/test_hpddm_laplacian.cpp}, product-space tests and elasticity quickstart tests \\
-Maturity & Integrated solver components with verification tests \\
+Maturity & Released solver components with verification tests \\
 Limitations and next step & The solver techniques are established; application-specific solver configuration and quantitative scaling results are separate from the interface tests \\
 Cross-WP contribution or dependency & WP1: mixed discretizations; WP7: solver interfaces \\
 \end{WPAdvanceRecord}
@@ -135,12 +100,10 @@ Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms), B10 (Scientific Pro
 Concise description of the 2026 advance & PETSc-native GPU backend for \texttt{PCHPDDM}: the internal data structures and the deflation kernel of HPDDM were moved onto PETSc \texttt{Vec}/\texttt{Mat} objects whose type follows the input operators (CPU or CUDA); new PETSc dense-matrix APIs were added \\
 Responsible contributors and institutions & E.~Fabrizzi (Sorbonne Universit\'e, LIP6); P.~Jolivet (CNRS, LIP6) \\
 Implementing software & HPDDM (\url{https://github.com/hpddm/hpddm}); PETSc \texttt{KSPHPDDM}/\texttt{PCHPDDM} \\
-Software release, commit or PR & HPDDM 2.4.0 ; PETSc 3.25 \\
-Associated application ID & No mapping yet \\
-Associated benchmark ID & No mapping yet  \\
+Software release, commit or PR & HPDDM 2.4.0 and PETSc 3.25 \\
 Scientific or numerical result & Numerical method unchanged; registered CUDA regression cases include \texttt{harmonic\_overlap\_1\_cuda} and \texttt{geneo\_transpose\_cuda} in PETSc \texttt{src/ksp/ksp/tutorials/ex76.c} \\
 Performance or scalability result & Not measured yet \\
-Evidence and raw-data location & \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148}; \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}; versioned tests and supporting changes in \cref{sec:HPDDM:2026}. No benchmark logs reported \\
+Release references and tests & \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148}; \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}; versioned tests and supporting changes in \cref{sec:HPDDM:2026}. No benchmark logs reported \\
 Maturity & Integrated (released) \\
 Limitations and next step & Coarse-operator assembly and factorization remain on the host; device support in this HPDDM path is limited to CUDA. Next: measure host/device transfers during setup and application, move coarse operations to the device, and extend support to Kokkos \\
 Cross-WP contribution or dependency & WP7: benchmarking and applications\\
@@ -151,21 +114,31 @@ Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms), B10 (Scientific Pro
 Concise description of the 2026 advance & Subdomains shared by multiple MPI processes in \texttt{PCHPDDM}: sub-communicator and leader per subdomain, coarse operator contributions computed by all processes of a subdomain and assembled by its leader, \texttt{PCGASM} as one-level smoother \\
 Responsible contributors and institutions & E.~Fabrizzi (Sorbonne Universit\'e, LIP6); P.~Jolivet (CNRS, LIP6) \\
 Implementing software & HPDDM (\url{https://github.com/hpddm/hpddm}); PETSc \texttt{KSPHPDDM}/\texttt{PCHPDDM} \\
-Software release, commit or PR & Development version, not yet released; \todo{Record the prototype revision.} \\
-Associated application ID & No mapping yet \\
-Associated benchmark ID & No mapping yet \\
+Software release, commit or PR & Unreleased prototype \\
 Scientific or numerical result & Regression success is reported for the existing one-subdomain-per-process path; the new shared-subdomain path is exercised only by a local driver and has no registered regression test \\
 Performance or scalability result & Not measured yet \\
-Evidence and raw-data location & Development branch; not public. \todo{Provide the revision, driver, test commands and outputs, and an accessible evidence location.} \\
+Prototype and verification & Local driver on a development branch; no public revision or test record \\
 Maturity & Prototype \\
 Limitations and next step & Two levels only; no block splitting, harmonic overlap, \texttt{-pc\_hpddm\_levels\_1\_st\_pc\_type mat} or Schur complement preconditioning; no registered test. Next: register a test, lift these restrictions, release \\
   Cross-WP contribution or dependency & WP7: benchmarking and applications \\
 \end{WPAdvanceRecord}
 
+\begin{WPAdvanceRecord}{WP3-A2026-5}
+  Exa-MA task and bottleneck & T3.1; B7 (Exascale Algorithms) \\
+  Concise description of the 2026 advance & Composyx CUDA and HIP implementations tested on heterogeneous diffusion with domain decomposition. \\
+  Responsible contributors and institutions & E.Agullo, L.Giraud, G.Marait (Concace, Inria) \\
+  Implementing software & Composyx (\Cref{sec:Composyx:software}; \url{https://gitlab.inria.fr/composyx/composyx}) \\
+  Software release, commit or PR & 1.7.1 \\
+  Associated application ID & \nolinkurl{app-composyx-diffusion}, heterogeneous diffusion in a stratified 3D medium (\Cref{sec:app:specs:app-composyx-diffusion}) \\
+  Associated benchmark ID & \texttt{BM-COMPOSYX-DIFF-01} (\Cref{tab:v3-benchmark-registry}) \\
+  Performance or scalability result & Weak scaling efficiency (time on  1 node / time on  32 nodes) with CUDA up to 88\% and with HIP up to 89\% (time on  1 node / time on  128 nodes) \\
+  Drivers and configuration & Use drivers \verb?composyx_cuda_cg_ddm? and \verb?composyx_hip_cg_ddm? in the release 1.7.1 on Composyx \\
+  Maturity & Integrated (released) \\
+  Limitations and next step & Test larger node counts and alternative subdomain configurations. \\
+  Cross-WP contribution or dependency & WP7: benchmarking and applications \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
-\WPUpdateNote{Update the inherited solver advances with the work performed in
-2026.  Separate new achievements from the 2024--2025 baseline and cite the
-corresponding annual advance records.}
 
 %IMAGES si vous en avez!! 
 
@@ -223,7 +196,6 @@ For symmetric positive definite (SPD) problems, provably scalable domain decompo
 A first class of non-SPD problems are saddle point problems whose discretization cannot be written as both symmetric and positive definite; it may be symmetric but not positive definite, or positive definite but not symmetric. For these problems, the GenEO method has been used in~\cite{nataf:hal-02343808} and~\cite{brunelli:hal-05123311} to construct two-level domain decomposition preconditioners for both the primal problem and the Schur complement problem (obtained by eliminating the primal unknown from the system). The novelty of our analysis and construction lies in the combined use of domain decomposition methods of Schwarz type and Neumann–Neumann/FETI type. It is now possible to solve highly heterogeneous nearly incompressible elasticity problems (such as steel-rubber) with a continuous pressure discretization, involving one billion degrees of freedom on 16,000 compute cores.
 
 An algebraic approach has been developed in~\cite{nataf:hal-04536547} to provide a generic way of constructing spectral coarse spaces to be used in two-level domain decomposition preconditioners, that is valid for a large class of non-SPD problems. To our knowledge, this is the first mathematical theory for the restricted additive Schwarz (RAS) method with inexact local solves, such as provided by ILU0 factorizations, the default DD solver in PETSc. 
-
 
 
  \subsection{  Advance 2 (T3.2): Exploiting data-sparsity, multiple precision and data compression}
@@ -353,7 +325,7 @@ T3.3 Adaptive solution strategies for exascale multiphysical and multiscale mode
 
   Lukas Spies has started his postdoctoral work in March 2025. He has developed a parallel FreeFEM script that allows for non-matching grids at the interface between two domains. The coupling scheme, analyzed in~\cite{japhet_robin_2014}, is based on the use of Robin interface conditions. An extra level of parallelism comes from the domain decomposition solver in each domain. The global coupled system has a saddle-point structure. A study of various preconditoning strategies is underway. The flexibility and effectiveness of a parallel FreeFEM script is a great asset for numerical tests. 
 
-  The second year of the work focuses on fluid-structure interaction problems, as another source of saddle-point problems with significant added-value for application. The first analyses involve a monolithic fluid-structure formulation established in~\cite{hecht_energy_2017} where the saddle-point system appears in the incompressible fluid problem. The application of the GenEO domain decomposition to this problem and the detailed analysis of the associated scalability have been performed in both 2D and 3D, with results presented at WCCM-ECCOMAS 2027 conference. The work is on-going with alternative approaches for the management of the fluid-structure coupling, with combinations of partitioned coupling a/o immersed/embedded boundaries a/o lagrange multipliers for coupling constraints. The objective is to study in depth the structure of the resulting saddle-point problems, with possibly multiple sets of constraints with different properties, and the efficiency/scalability of the GenEO solver in the different cases.
+  The second year of the work focuses on fluid-structure interaction problems, as another source of saddle-point problems with significant added-value for application. The first analyses involve a monolithic fluid-structure formulation established in~\cite{hecht_energy_2017} where the saddle-point system appears in the incompressible fluid problem. The application of the GenEO domain decomposition to this problem and the detailed analysis of the associated scalability have been performed in both 2D and 3D. The work is on-going with alternative approaches for the management of the fluid-structure coupling, with combinations of partitioned coupling a/o immersed/embedded boundaries a/o lagrange multipliers for coupling constraints. The objective is to study in depth the structure of the resulting saddle-point problems, with possibly multiple sets of constraints with different properties, and the efficiency/scalability of the GenEO solver in the different cases.
 
 %(Lukas) 
 
@@ -369,6 +341,16 @@ Latest developments are related to the assessment of time scheme properties and 
 
  %(Utpal)
 
+ 
+\subsection{ 
+AI and Preconditioning 
+ }
+
+ The PhD work of Brieuc Antoine dit Urban (funded by Numpex, IFPEN and ONERA) focused on developing parallelizable preconditioning methods based on learning approaches, such as graph neural networks (GNNs), aimed at reducing the computational cost of solving sparse, ill-conditioned linear systems originating from numerical simulations at IFPEN and Onera.
+ 
+ First, we studied an existing method from the literature, Neural-IF~\cite{hausner2023neural}, and identified factors preventing the achievement of an optimal preconditioning for systems derived from 1D Poisson equations. This led us to develop a hybrid model incorporating classical factorization formulas directly within the definition of the GNN, without sacrificing its highly parallelizable nature. This model also allows for the integration of physical parameters related to the underlying partial differential equations, as well as other parameters associated with the solvers' discretization choices.
+ We demonstrated, through a theoretical study, that under the assumption of optimal training, a single hybrid model yields preconditioning comparable to that of the IC(0) method for any system originating from a family of 2D Poisson problems with periodic boundary conditions. We conducted experimental performance studies of this hybrid model on sets of linear systems from an IFPEN solver, showing, however, that it results in 10% more iterations compared to IC(0) in both 2D and 3D.
+ One research direction consists in using a different loss function that directly accounts for the low-frequency eigenvalues of the preconditioned systems, similar to the mIC(0) method. Initial experimental results show that it is possible to reproduce the performance of this method using a hybrid model for elliptic problems. Future work will focus on extending these results to non-elliptic problems.
 
 
 \paragraph{Preconditioning and algebraic coupling (T3.1/T3.3.1).}
@@ -376,15 +358,18 @@ Mixed discretizations lead to coupled block systems. Local static
 condensation eliminates internal unknowns before solving the retained
 system, while a monolithic formulation provides a comparison. Auxiliary
 Neumann operators and index sets support PETSc/HPDDM domain-decomposition
-preconditioning. The Feel++ realization is summarized in
-\Cref{tab:advance:WP3-A2026-2} and detailed in
-\Cref{sec:Feelpp:implementation-2026:solvers}.
+preconditioning. Feel++~v0.112.0 includes both solver components.
+\Cref{tab:advance:WP3-A2026-2,sec:Feelpp:implementation-2026:solvers}
+describe the verification cases and implementation. The Problem API
+lets a variational model retain its definition while systems are
+assembled with different solver and execution strategies
+(\cref{sec:Feelpp:implementation-2026:problem-api}).
 The nonmatching-interface discretization and field transfer are described
 separately under WP1/T1.5 in \Cref{tab:advance:WP1-A2026-4}.
 
 \section{Application Showcase}
-\WPUpdateNote{Confirm the application IDs and maturity below, link each reported
-result to an annual advance and benchmark, and flag missing mappings explicitly.}
+\label{sec:wp3:applications}
+\label{sec:wp3:mapping}
 % \input{chapters/applications/specs/app-hpddm-solver-1}  
 % \input additional app specs as needed
 The work by Parolin and Nataf mentioned in \S~\ref{sec:wp3:T31:nonSPD} has been successfully applied to convection-diffusion problems and to time-harmonic acoustic propagation problems~\cite{dolean:hal-05241475}. As an illustration of the efficiency of the approach, we provide some weak scaling results extracted from~\cite{dolean:hal-05241475} on the 3D Cobra cavity problem, see Table~\ref{tab:weak_scaling_cobra} and Figure~\ref{fig:solutions_cobra}. 
@@ -419,23 +404,30 @@ Nb CPUs & Matrix size & Iterations one-level & Iterations two-level~\cite{nataf:
 \end{figure}
 Note that the method has also been successfully applied to the generation of synthetic high fidelity data for medical imaging problems, not shown here. 
 
-\paragraph{Applications mapping.}
-\begin{itemize}
-  \item HPDDM DFN demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
-  \item FreeFEM + ParMMG mesh adaptation: Section~\ref{sec:app:specs:app-freefem-parmmg}.
-  \item Feel++ discr apps using PETSc (preconditioning): Sections~\ref{sec:app:specs:app-feelpp-discr-1},\ref{sec:app:specs:app-feelpp-discr-2}.
-\end{itemize}
+\paragraph{Domain decomposition for heterogeneous media.}
+The \hyperref[sec:app:specs:app-composyx-diffusion]{Composyx diffusion case}
+tests additive Schwarz on a stratified 3D medium. It reports 88\% weak-scaling
+efficiency on 32 Jean Zay nodes with CUDA and 89\% on 128 Adastra nodes
+with HIP. The \hyperref[sec:app:specs:app-hpddm-dfn]{HPDDM fracture-network
+case} carries the 2025 solver-scaling results.
 
+\paragraph{Solver components in application workflows.}
+The \hyperref[sec:app:specs:app-petsc-mixed-precision]{PETSc mixed-precision
+case} defines the accuracy and performance comparisons in development.
+The \hyperref[sec:app:specs:app-feelpp-discr-1]{Feel++ thermal bridge} and
+\hyperref[sec:app:specs:app-feelpp-discr-2]{FDA nozzle} exercise PETSc solver
+configurations at different stages of maturity. The
+\hyperref[sec:app:specs:app-freefem-parmmg]{FreeFEM/ParMmg Fichera case}
+specifies a workflow for measuring solver convergence across adaptation
+cycles. The \hyperref[sec:app:specs:app-feelpp-mi300a-fem]{HiFiMagnet
+MI300A case} specifies a forward-solver campaign in preparation.
 
 \section{Software Framework Contributions}
-\WPUpdateNote{Update releases, commits or PRs delivered in 2026 and retain older
-software descriptions only as dated context.}
 \begin{itemize}
   \item HPDDM: release 2.4.0 (March 2026) with the PETSc-native device backend of \texttt{PCHPDDM} (\cref{tab:advance:WP3-A2026-3}); support for subdomains shared by multiple processes in development (\cref{tab:advance:WP3-A2026-4}); complex scalars with CUDA in \texttt{KSPHPDDM} (\href{https://github.com/hpddm/hpddm/pull/147}{PR \#147}, \href{https://gitlab.com/petsc/petsc/-/merge_requests/9140}{PETSc MR !9140}). (2025: releases 2.3.1 to 2.3.5, support for applying the transpose of preconditioners, preliminary support for subdomain computations on NVIDIA GPU, interface to MUMPS ICNTL(15), fixes for non-symmetric saddle-point systems.)
   \item PETSc enhancements: release 3.25 with \texttt{MatCreateDenseWithMemType()}, \texttt{MatDenseReplaceArrayWithMemType()}, \texttt{MatDiagonalScale()} support for sequential CUDA/HIP dense matrices, and the updated \texttt{PCHPDDM} (see \cref{sec:HPDDM:2026} for the corresponding merge requests). PETSc 3.26 adds \texttt{deflated\_reversed}, which applies the coarse correction after the fine correction (\href{https://gitlab.com/petsc/petsc/-/merge_requests/9548}{MR !9548}). (2025: releases 3.22 to 3.24, interface to MUMPS ICNTL(15) used by HPDDM, automatic Fortran bindings, new API \texttt{PCMatApplyTranspose()} and \texttt{PCShellSetMatApplyTranspose()} used by HPDDM.)
   \item Feel++: used in applications to generate and prepare problem data (meshes, linear systems, preconditioning contexts) consumed by PETSc; interoperates through PETSc interfaces.
-  \item Composyx: % (en attente de Luc)
-  This work focuses on developing robust and high-performance solutions for large sparse linear systems on modern, increasingly heterogeneous computing platforms. It targets the optimization of domain decomposition algorithms within the Composyx framework, combining direct and iterative methods to improve scalability and accuracy. The approach integrates state-of-the-art libraries for dense and sparse linear algebra and efficient domain partitioning to ensure computational efficiency. Recent work has allowed consolidating performance portability for both MPI + threads and MPI + GPU setups. An Exa-MA engineer has been hired and started on October 1, 2025.
+  \item Composyx: release 1.7.1 (October 2026) implemented HIP support for AMD GPUs. In late 2025 and early 2026, the CUDA implementation was consolidated and benchmarked, showing good scaling up to 32 nodes (128 v100 GPUs). Then in summer 2026 the HIP implementation started and was benchmarked successfully up to 128 nodes (512 MI250x GPUs).
   \item Mixed-precision module: PROMISE (Fabienne). The work carried out in Task 3.2.3 (precision auto-tuning tools) has enabled extending PROMISE to arbitrary precision emulated formats. From an accuracy requirement and a list of native or emulated numerical formats, PROMISE can provide a mixed precision version of C/C++ code using those formats.
 \end{itemize}
 
@@ -454,21 +446,26 @@ software descriptions only as dated context.}
 The PETSc/HPDDM interfaces, algebraic block assembly, row-wise boundary elimination and static-condensation components are documented in \Cref{sec:Feelpp:implementation-2026:solvers}, with their implementation and test references.
 
 \section{Preliminary Benchmarks \& Trends}
-\WPUpdateNote{Replace planned or expected results with measured 2026 values only
-when the configuration, baseline and evidence are available.}
-We are in close connection with the activities of the work-package WP7 where benchmarks related to domain decomposition methods are shown. 
-% • Solver scaling placeholder  
-% • Mixed-precision speedups placeholder  
-% • Regression test pass-rate placeholder
+\label{sec:wp3:benchmarks}
 
-\paragraph{Benchmarks mapping.}
-\begin{itemize}
-  \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra} and per-application benchmark sections when available.
-\end{itemize}
+\paragraph{Domain-decomposition scaling.}
+The \hyperref[tab:weak_scaling_cobra]{Cobra cavity study} reaches
+2\,916 CPUs and 44.5 million unknowns. At that size the one-level and
+two-level methods take 3\,398 and 74 iterations, respectively. The
+\hyperref[sec:app:specs:app-composyx-diffusion]{Composyx diffusion
+benchmark} reports 88\% weak-scaling efficiency on 32 Jean Zay nodes
+and 89\% on 128 Adastra nodes. The
+\hyperref[sec:app:specs:app-hpddm-dfn]{HPDDM fracture-network timings}
+provide the 2025 reference.
+
+\paragraph{Precision and accelerator studies.}
+The \hyperref[sec:app:specs:app-petsc-mixed-precision]{PETSc mixed-precision
+protocol} compares time and energy at matched numerical tolerances.
+The \hyperref[sec:app:specs:app-feelpp-mi300a-fem]{HiFiMagnet MI300A
+protocol} covers high-order assembly and forward solution. Both
+campaigns are in preparation.
 
 \section{Roadmap \& Next Steps}
-\WPUpdateNote{Update the remaining limitations and 2027 next steps after the
-2026 advances and benchmark evidence have been validated.}
 
 %a ecrire dans chaque section, résumer pour chaque section en faisant des références au texte plus haut.
 
@@ -486,26 +483,4 @@ Task~3.3.2 in \S~\ref{sec:wp3:T332} will continue the analysis of a \textit{toy}
 
 % • Deliverables D3.x to complete by Mxx  
 % • New solver apps to integrate into WP7 CI/CD  
-% • Dependencies on WP7 infrastructure (containers, ReFrame)  
-
-\subsection{Mapping: Applications, Frameworks, Benchmarks}
-\WPUpdateNote{Reconcile this mapping with the application and benchmark
-registries, retaining explicit gaps where no justified link exists.}
-\label{sec:wp3:mapping}
-  	extbf{Applications}
-\begin{itemize}
-  \item HPDDM DFN demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
-  \item FreeFEM + ParMMG mesh adaptation: Section~\ref{sec:app:specs:app-freefem-parmmg}.
-  \item Feel++ discr apps using HPDDM (preconditioning): Sections~\ref{sec:app:specs:app-feelpp-discr-1},\ref{sec:app:specs:app-feelpp-discr-2}.
-\end{itemize}
-  	extbf{Frameworks}
-\begin{itemize}
-  \item HPDDM: Section~\ref{sec:HPDDM:software}\,; FreeFEM++: Section~\ref{sec:Freefem++:software}\,; Feel++ (apps/data prep for PETSc): Section~\ref{sec:Feelpp:software}\,; Composyx: see WP3 text above; PETSc.
-  \item PROMISE (precision auto-tuning): Composyx/Maphys++ context in Section~\ref{sec:Composyx:software} or WP3 text above.
-\end{itemize}
-  	extbf{Benchmarks}
-\begin{itemize}
-  \item DDM weak/strong scaling and mixed-precision solver studies integrated with WP7; see Table~\ref{tab:weak_scaling_cobra}.
-\end{itemize}
-
-
+% • Dependencies on WP7 infrastructure (containers, ReFrame)

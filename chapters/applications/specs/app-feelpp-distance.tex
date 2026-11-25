@@ -5,22 +5,13 @@
 
 \label{sec:app:specs:app-feelpp-distance}
 
-This mini-app computes signed distance fields on unstructured meshes, a fundamental operation in level-set methods, shape optimization, and computational geometry.
+This mini-app computes non-negative distances from points inside a mesh to its marked boundary, a fundamental operation in level-set methods, shape optimization, and computational geometry. The current implementation does not determine an inside/outside sign.
 Unlike the PDE solver demonstrators in \Cref{sec:app:specs:app-feelpp-discr-1,sec:app:specs:app-feelpp-discr-2}, it compares algorithmic approaches (Fast Marching Method vs. BVH-based ray tracing) rather than discretization methods.
 
 \Cref{tab:app-feelpp-distance} describes the specifications of the application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-feelpp-distance} \\
+\begin{FicheMetadataTable}[Description of the mini-app \texttt{app-feelpp-distance}.\label{tab:app-feelpp-distance}]
+id & \texttt{app-feelpp-distance} \\
         name & Distance \\
         Partners & Unistra \\
         PC & PC1 - ExaMA, PC2 - ExaSoft \\
@@ -30,26 +21,31 @@ Unlike the PDE solver demonstrators in \Cref{sec:app:specs:app-feelpp-discr-1,se
         application\_type & mini-app \\
         purpose & Compute distance to a range of entities using FMM or BVH \\
         Method-Algorithm WP1 &  unstructured mesh, finite element, FMM, ray-tracing-BVH \\
-        Method-Algorithm WP2 & \\
-        Method-Algorithm WP3 & \\
-        Method-Algorithm WP4 & \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         % inputs &  \\
         % outputs & \\
         metrics & \texttt{analytical-solution-match}, \texttt{strong-scalability}, \texttt{weak-scalability} \\
-        status & benchmark-ready (operational Sheet status; see evidence stage) \\
+        status & benchmark-ready (operational Sheet status; see validation stage) \\
         Benchmark scope & multi-node, full-system, solver-scaling \\
         Framework & Feel++ \\
         parallel\_framework & MPI, Kokkos \\
         % spec\_due & \\
         % proto\_due & \\
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
-    \end{tblr}
-    \caption{Description of the mini-app \texttt{app-feelpp-distance}.}
-    \label{tab:app-feelpp-distance}
-\end{table}
+\end{FicheMetadataTable}
+
+\paragraph{Current implementation and verification.}
+The \href{https://github.com/numpex/apps-feelpp/blob/main/src/app-feelpp-distance/feelpp-distance.json}{campaign configuration}
+runs \nolinkurl{feelpp_app_distance}.
+\href{https://github.com/numpex/apps-feelpp/pull/67}{PR~67}
+corrects ray-origin storage and independent per-origin minima, excludes missed
+rays from those minima, and rejects non-positive ray counts. The
+\href{https://github.com/numpex/apps-feelpp/blob/main/tests/check_distance_bvh.py}{regression protocol}
+uses a fixed coarse unit cube, $M=32$, serial and two-rank MPI runs, finite
+$L^2$ errors below $0.25$, and serial/MPI agreement with relative tolerance
+$10^{-5}$ and absolute tolerance $10^{-7}$. Separate unit checks cover missed
+rays and independent batches; both $M=0$ and $M=-1$ must fail in serial and MPI.
+These checks passed on Gaya and in
+\href{https://github.com/numpex/apps-feelpp/actions/runs/39012765273}{CI}; they are correctness regressions, not a new scaling campaign.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,11 +77,11 @@ More details can be found in \cite{van_landeghem_micro-swimming_2025}.
 
 \subsubsection{Ray-Tracing with BVH}
 \begin{enumerate}
-  \item \textbf{Preprocessing:} Build a Bounding Volume Hierarchy (BVH) over the mesh boundary faces or directly on the analytic cube faces.
-  \item \textbf{Directional Sampling:} Since the cube geometry is known, but the nearest boundary direction is unknown, for each vertex $\mathbf{x}_i$ we uniformly sample directions on the unit sphere. Let $M$ be the number of rays per point, which becomes a key parameter for accuracy and cost.
+  \item \textbf{Preprocessing:} Build a Bounding Volume Hierarchy (BVH) over the mesh faces carrying the physical marker \texttt{boundary}.
+  \item \textbf{Directional Sampling:} For each interior vertex $\mathbf{x}_i$, use $M>0$ deterministic, approximately uniform directions on the unit sphere. The same direction set is used for each origin; $M$ controls accuracy and cost.
   \item \textbf{Ray Casting:} For each sampled direction, cast a ray from $\mathbf{x}_i$ into the BVH and record the intersection distance. The estimated distance is the minimum over all sampled rays:
-  \[ d_h(\mathbf{x}_i) = \min_{1\le j\le M} t_j, \]
-  where $t_j$ is the distance along ray $j$ to the boundary.
+  \[ d_h(\mathbf{x}_i) = \min_{j\in\mathcal{H}_i} t_j, \]
+  where $\mathcal{H}_i$ contains rays with a valid intersection and $t_j$ is the first-hit distance along ray $j$. A missed ray does not contribute a zero distance; an all-miss batch supplies no intersection estimate and is covered separately by the unit tests.
   \item \textbf{Output:} A P1 field $d_h(\mathbf{x})$ by assigning the computed distance at each vertex.
 \end{enumerate}
 
@@ -101,14 +97,25 @@ More details can be found in \cite{van_landeghem_micro-swimming_2025}.
 Let $d_h$ be the discrete distance field computed by either method. We compute the error norms
 \begin{subequations}
 \begin{align}
-  \Vert d_h - d_{\mathrm{exact}}\Vert_{L^2} &= \left( \sum_{i=1}^N (d_h(\mathbf{x}_i) - d_{\mathrm{exact}}(\mathbf{x}_i))^2
+  \Vert d_h - d_{\mathrm{exact}}\Vert_{L^2(\Omega)} &= \left( \int_\Omega |d_h(\mathbf{x}) - d_{\mathrm{exact}}(\mathbf{x})|^2\,\mathrm{d}\mathbf{x}
     \right)^{1/2},\\
-  \Vert d_h - d_{\mathrm{exact}}\Vert_{L^\infty} &= \max_{i=1,\dots,N} |d_h(\mathbf{x}_i) - d_{\mathrm{exact}}(\mathbf{x}_i)|.
+  E_{\infty,\mathrm{nodes}} &= \max_{i=1,\dots,N} |d_h(\mathbf{x}_i) - d_{\mathrm{exact}}(\mathbf{x}_i)|.
 \end{align}
 \label{eq:specs:feelpp:distance:error}
 \end{subequations}
 
-We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, verifying that FMM yields $O(h)$ convergence, while ray tracing achieves machine precision at vertices.
+The executable reports the finite-element $L^2$ norm using \texttt{normL2};
+it does not currently log the optional nodal maximum error defined above.
+Mesh refinement and ray-count sweeps assess observed convergence. Finite
+directional sampling does not generally attain machine precision: a sampled
+ray need not point toward the nearest boundary point, even on the unit cube.
+Interpolation and geometry errors must also be distinguished from directional
+sampling error.
+
+The recorded FMM time covers distance computation after mesh and function-space
+creation. The BVH time includes hierarchy construction, directions, ray casting
+and distance assignment. Field export and analytical-error evaluation occur
+after these timers; they are not part of the reported FMM/BVH timings.
 
 
 
@@ -129,11 +136,25 @@ We perform a convergence study over meshes with $h = h_0, h_0/2, h_0/4, \dots$, 
 
 \subsubsection{Output Data:}
 
-The output data monitored are the $L^2$ error committed by the two methods on the benchmark, as described in \Cref{eq:specs:feelpp:distance:error},
-as well as the time of execution to compute the distance for all points $\mathbf{x}_i$ in the mesh.
+For both methods, the benchmark reports the $L^2$ error defined in
+\Cref{eq:specs:feelpp:distance:error} and the time to compute the distance
+at all mesh points $\mathbf{x}_i$.
+The executable writes \texttt{measures.json} with
+\nolinkurl{error.L2_error_FMM}, \nolinkurl{error.L2_error_BVH},
+\nolinkurl{time.time_FMM} and \nolinkurl{time.time_BVH}, plus
+\texttt{mesh\_stats.csv}. Its analytical reference is specific to $[0,1]^3$;
+using another geometry requires a corresponding reference before interpreting
+these verification errors.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\paragraph{Scope of the measurements.}
+The serial and MPI tests verify distance on the unit cube. Scaling and GPU
+performance of the corrected implementation remain to be measured.
+
 \subsection{Results summary}
 \ApplicationBenchmarkResults{app-feelpp-distance}
+
+\input{chapters/applications/meshes/app-feelpp-distance}

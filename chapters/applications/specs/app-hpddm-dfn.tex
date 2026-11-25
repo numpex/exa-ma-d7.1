@@ -12,17 +12,8 @@ performance to be studied separately from mesh generation and assembly.
 
 \Cref{tab:app-hpddm-dfn} describes the specifications of the application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-hpddm-dfn} \\
+\begin{FicheMetadataTable}[Description of the demonstrator \texttt{app-hpddm-dfn}.\label{tab:app-hpddm-dfn}]
+id & \texttt{app-hpddm-dfn} \\
         name & Preconditioning DFN systems \\
         Partners & Sorbonne U \\
         PC & PC1 - ExaMA \\
@@ -31,13 +22,7 @@ performance to be studied separately from mesh generation and assembly.
         work\_package & WP3 \\
         application\_type & mini-app \\
         purpose & Test numerical and algorithm performance of PETSc preconditioners for DFN problems \\
-        Method-Algorithm WP1 & \\
-        Method-Algorithm WP2 & \\
         Method-Algorithm WP3 & domain decomposition, multi-precision, Krylov solvers, preconditioning \\
-        Method-Algorithm WP4 & \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         outputs & PETSc binary, YAML config, CSV logs, XML reports \\
         metrics & \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{time-to-solution}, \texttt{io-scaling}, \texttt{relative-error} \\
         status & benchmark-ready \\
@@ -45,12 +30,7 @@ performance to be studied separately from mesh generation and assembly.
         Framework & HPDDM, PETSc, MUMPS, PaStiX \\
         parallel\_framework & MPI, Multithread, Multithread - OpenMP, GPU - CUDA \\
         spec\_due & 6/15/2025 \\
-        proto\_due & \\
-        repo\_url & \\
-    \end{tblr}
-    \caption{Description of the demonstrator \texttt{app-hpddm-dfn}.}
-    \label{tab:app-hpddm-dfn}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Description of the benchmark}
 
@@ -157,9 +137,8 @@ For each identified DFN problem at fixed residual and solution-error targets, re
 \item MUMPS direct solve: factorization and solve times, memory use and resources
 \end{itemize}
 
-\todo{Publish the versioned driver, datasets, numerical acceptance criteria,
-machine and allocation requirements, measurement methods, repetition count,
-raw logs and analysis scripts; reconcile the declared application status.}
+The original executable, run configuration and raw logs have not been
+identified for the historical results reported below.
 
 \subsection{Input/Output Dataset Description}
 

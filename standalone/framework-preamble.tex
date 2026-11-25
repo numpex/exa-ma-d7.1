@@ -37,7 +37,20 @@
 \setlength{\footskip}{28.91753pt}
 \graphicspath{{graphics/}}
 \input{defs}
+% Provenance is printed beside the identity panel. Remove the inherited Git
+% background watermark so it cannot overlap this standalone fiche's footer.
+\ClearShipoutPictureBG
+% Missing catalogue URLs in legacy sources must not become links to None.pdf.
+% This presentation guard is confined to standalone framework fiches.
+\LetLtxMacro{\PortfolioOriginalHref}{\href}
+\renewcommand{\href}[3][]{%
+  \ifstrequal{#2}{None}{\textit{Not supplied}}{\PortfolioOriginalHref[#1]{#2}{#3}}}
+\input{standalone/portfolios/acronyms}
 \urlstyle{same}
+\providecommand{\FrameworkReferenceAux}{}
+\ifx\FrameworkReferenceAux\empty\else
+  \externaldocument{\FrameworkReferenceAux}[exa-ma-deliverables.pdf]
+\fi
 
 \newcommand{\FrameworkReportVersion}{local preview}
 \newcommand{\FrameworkBuildRef}{local preview}
@@ -51,4 +64,4 @@
 \fancyhead[L]{\small Exa-MA}
 \fancyhead[R]{\small\nolinkurl{\FrameworkId} -- framework fiche}
 \fancyfoot[C]{\small\thepage{} of \pageref{LastPage}}
-\hypersetup{pdftitle={Exa-MA framework fiche: \FrameworkId}}
+\hypersetup{pdftitle={Exa-MA framework and applications: \FrameworkId}}
