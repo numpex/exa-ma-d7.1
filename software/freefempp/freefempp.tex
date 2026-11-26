@@ -146,11 +146,22 @@ FreeFEM implements both finite element methods (FEM) and boundary element method
 
 Relevant developments in 2026 include:
 
-\paragraph{Rewrite parallel data structures} Define new data structures for distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential to a parallel script with minimal changes, e.g. by changing the type of the mesh variable from 'mesh' to 'Dmesh'. Ongoing developments are done in the \textit{distributed-meshes} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/distributed-meshes}.
+\paragraph{Rewrite parallel data structures} Define new data structures for distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential to a parallel script with minimal changes, e.g. by changing the type of the mesh variable from 'mesh' to 'Dmesh'. New features have been implemented and are being validated and tested, including:
+\begin{itemize}
+\item a \textit{Dmesh} constructor taking a global mesh as input, centralized or duplicated, with optional parameters controlling the choice of the partitioner (scotch, metis, parmetis, user-supplied), amount of overlap, etc.
+\item distributed FE spaces on a \textit{Dmesh} using standard \textit{fespace} syntax, allowing to define and solve variational problems in a distributed way transparently using the standard \textit{problem}, \textit{solve} or \textit{varf} syntax. The distributed linear system is then passed to PETSc ; PETSc parameters can then be specified as usual on the command line or by an optional \textit{sparams} parameter.
+\item automatic parallel interpolation between different distributed FE spaces as simple as writing \textit{u = v}.
+\end{itemize}
 
-\paragraph{Implement new low-rank approximation techniques for BEM matrices} Interface the \textit{theia} library from Igor Chollet in HTOOL and FreeFEM implementing new hybrid cross approximation (HCA) techniques for low-rank compression of BEM operators. Ongoing developments are done in the \textit{add\_HCA} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/add_HCA}.
+Ongoing developments are done in the \textit{distributed-meshes} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/distributed-meshes}.
 
-\paragraph{Write a FreeFEM debugger} The debugger will allow the user to pause the execution at any time and inspect FreeFEM variables. Ongoing developments are done in the \textit{debugger} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/debugger}.
+\paragraph{Implement new low-rank approximation techniques for BEM matrices} Interface the \textit{theia} library from Igor Chollet in HTOOL and FreeFEM implementing new hybrid cross approximation (HCA) techniques for low-rank compression of BEM operators. 
+A first implementation of the interface is done and currently being validated and tested.
+We plan to implement a demonstrator \texttt{app-freefem-lowrank} to evaluate the performance of different low-rank compression techniques such as ACA and HCA for a high-frequency acoustic BEM problem.
+Ongoing developments are done in the \textit{add\_HCA} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/add_HCA}.
+
+\paragraph{Write a FreeFEM debugger} The debugger will allow the user to pause the execution at any time and inspect FreeFEM variables. A first implementation of the debugger allowing to add breakpoints and inspecting variables is in test. The FreeFEM extension of Microsoft Visual Studio Code is also being updated to allow the use of the VSCode debugging interface with FreeFEM. The new feature allowing to place  breakpoints and inspecting variables through the VSCode debugging interface is being validated.
+Ongoing developments are done in the \textit{debugger} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/debugger}.
 
 
 \subsection{Relevant Publications}
