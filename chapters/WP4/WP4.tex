@@ -5,24 +5,77 @@
 \section{Objectives \& Context}
 \label{sec:wp4:objectives}
 
-WP4 develops inverse methods that combine observations with
-large-scale simulations. Its tasks cover variational inversion
-(T4.1), stochastic inversion (T4.2), observation design and error
-models (T4.3), and the use and scheduling of models at several
-fidelity levels (T4.4 and T4.5). The work draws on discretizations
-from WP1, reduced models from WP2 and solvers from WP3.
+WP4 focuses on combining observations with large-scale physical models
+through the formulation and solution of inverse problems at exascale
+(led by UNISTRA with major contributions from Inria, and in collaboration
+with \exadost{} and \exaatow{}). The work covers both deterministic and
+stochastic formulations, addresses observation sparsity, error models and
+experimental design, and exploits multi-fidelity model hierarchies---including
+reduced-order and AI-based surrogates---in coordination with discretizations
+from WP1, reduced models from WP2 and solvers from WP3. In practice, WP4
+comprises the following tasks:
 
-\paragraph{Doctoral work.}
-\href{https://theses.fr/s371978}{Hélène Hénon} studies multi-fidelity
+\begin{itemize}
+\item[T4.1] Deterministic methods. Variational methods are inherently
+  sequential, so additional sources of parallelism are needed. Promising
+  avenues include time-parallel weak-constraint formulations, exploiting
+  distinct physical, spatial and temporal scales, parallelizable
+  preconditioning strategies, and hybrid ensemble--variational approaches
+  using ensembles to better represent error covariances.
+\item[T4.2] Stochastic methods. Realistic representations of physical
+  systems can be formulated through stochastic processes governed by
+  stochastic differential equations (Itô SDEs) or stochastic partial
+  differential equations (SPDEs). This task investigates and compares
+  such stochastic formulations, alongside ensemble-based inversion, on
+  inverse and data assimilation problems made tractable by exascale
+  computing.
+\item[T4.3] Observations. Beyond the classical assumption of uncorrelated
+  Gaussian observation errors, this task studies more general observation
+  error statistics, alternative discrepancy metrics (such as transport-based
+  metrics for position-dominated forecast errors), and observation-network
+  or experimental design strategies.
+\item[T4.4] Taking advantage of multi-fidelity modeling. Conducted
+  conjointly with WP2 (Task~2.5), this task leverages hierarchies of
+  lower-fidelity models, reduced-order models and AI-based surrogates
+  (such as PINNs) to accelerate the solution of inverse problems.
+\item[T4.5] Challenges of multi-fidelity in inverse problems: criteria to
+  update reduced models. Passing across levels in a multi-fidelity
+  hierarchy requires model-management and scheduling criteria to combine
+  high-fidelity and lower-fidelity models optimally---either to reduce
+  computational cost or to maximize precision and minimize variance---while
+  scaling to exascale architectures.
+\end{itemize}
+
+\paragraph{Doctoral work.} % TODO On garde ça ?
+\href{https://theses.fr/s371978}{Hélène Hénon} started her PhD in 2023, she studies multi-fidelity
 variational data assimilation for ocean forecasts.
 \href{https://theses.fr/s420025}{Mohamed Doumbouya}, enrolled since
 October 2025, studies Bayesian sensor placement for ocean models.
-The project personnel register records Bruno Latre's recruitment in
-January 2026 under Hélène Barucq's supervision.
+\href{https://theses.fr/s446600}{Bruno Latre} started his thesis in October 2026 on ensemble Kalman inversion for 
+wave propagation problems.
+% TODO: Si on garde, est-ce que la thèse CIFRE (en contribution en nature, AVNIR Energy / Cemosis) d'Hanna Chetouane doit être mentionnée ici.
 
 \clearpage
+
 \section{Main advances in 2026}
 \label{sec:wp4-main-advances-2026}
+
+% LJK / Inria Grenoble multi-fidelity 4D-Var preconditioning contribution.
+\begin{WPAdvanceRecord}{WP4-A2026-1}
+Exa-MA task and bottleneck & T4.1 (deterministic methods), T4.4 (multi-fidelity modeling), T4.5 (multi-fidelity criteria); B7 (Exascale Algorithms), B8 (Discovery, design and decision algorithms) \\
+Concise description of the 2026 advance & Second-level spectral limited-memory preconditioners (LF-LMP and hybrid MF-LMP) for the first outer iteration of incremental 4D-Var, built from randomized Nyström low-rank approximations using low-fidelity and multi-fidelity Hessians, together with canonical-angle projection error bounds for ranking low-fidelity models. \\
+Responsible contributors and institutions & Hélène Hénon and Arthur Vidard (Univ.\ Grenoble Alpes, Inria, CNRS, Grenoble INP, LJK, Grenoble) \\
+Implementing software & 2D shallow-water incremental 4D-Var research prototype \\
+Software release, commit or PR & No public release yet \\
+Associated application ID & None formalized yet \\
+Associated benchmark ID & None formalized yet \\
+Scientific or numerical result & Evaluated on a 2D nonlinear shallow-water double-gyre with three low-fidelity models: single precision, coarse-grid multigrid, and stationary/3D-FGAT. LF-LMP reduces total cost for single precision and multigrid but not stationary. MF-LMP recovers HF-LMP convergence for single precision and improves both PCG convergence and total cost for multigrid and stationary/3D-FGAT. Proposed canonical-angle bounds correctly rank the low-fidelity models. \\
+Performance or scalability result & Cost analyzed in units of one HF Hessian--vector product assuming parallel computing units for independent sketching products. \\
+References and supporting data & Preprint \cite{henon_multifidelity_2026} (\href{https://hal.science/hal-05874752v1}{\texttt{hal-05874752v1}}); Ocean Sciences Meeting presentation (\href{https://hal.science/hal-05652339v1}{\texttt{hal-05652339v1}}); \href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{January 2026 General Assembly}. \\
+Maturity & Method analysis and numerical prototype \\
+Limitations and next step & Tested on an idealized 2D double-gyre with two fidelity levels. Next: extend to more than two fidelity levels, realistic ocean data assimilation systems, and parallel HPC runtime measurements. \\
+Cross-WP contribution or dependency & WP2 (T2.5 multi-fidelity modeling); WP3 (preconditioned Krylov solvers) \\
+\end{WPAdvanceRecord}
 
 % Cemosis / Feel++ 2026 contribution.
 \begin{WPAdvanceRecord}{WP4-A2026-2}
@@ -41,73 +94,175 @@ Limitations and next step & Application-level objectives, derivative checks and 
 Cross-WP contribution or dependency & Shared implementation with WP5; WP1: finite-element state models; WP7: framework interface \\
 \end{WPAdvanceRecord}
 
+% LJK / Inria Grenoble Bayesian optimal experimental design contribution.
+\begin{WPAdvanceRecord}{WP4-A2026-3}
+Exa-MA task and bottleneck & T4.3 (observations and experimental design); B8 (Discovery, design and decision algorithms), B13 (Integration of Uncertainties) \\
+Concise description of the 2026 advance & Certified upper and lower Signal-to-Noise Ratio (SNR) bounds on Expected Information Gain (EIG) via dimensional logarithmic Sobolev inequalities for nonlinear, non-Gaussian Bayesian optimal experimental design (standard, nuisance-parameter, and goal-oriented settings), with incremental (\texttt{i-SNR}) and conservative (\texttt{c-SNR}) criteria and offline diagnostic-matrix estimators. \\
+Responsible contributors and institutions & Mohamed Doumbouya, Arthur Vidard, and Olivier Zahm (Univ.\ Grenoble Alpes, Inria, CNRS, Grenoble INP, LJK, Grenoble) \\
+Implementing software & \texttt{CBOED}; \href{https://github.com/mohamed495/CBOED}{\nolinkurl{github.com/mohamed495/CBOED}} \\
+Software release, commit or PR & Public GitHub repository (\texttt{CBOED}) \\
+Associated application ID & None formalized yet \\
+Associated benchmark ID & None formalized yet \\
+Scientific or numerical result & On a 1D viscous Burgers PDE ($N = 200$ interior points, $\nu = 0.003$, $T = 0.1$, Matérn-3/2 GP prior, $10^4$ samples, greedy placement up to $m = 15$ sensors). Effect of non-linearity are studied thanks to the addition of a parameter $\lambda \in [0, 1]$ in front of the non linear term, across standard, nuisance, and goal-oriented settings, the bounds recover the exact EIG at $\lambda = 0$ and widen with $\lambda$. Incremental bounds are tighter for small $m$, whereas conservative bounds tighten for larger $m$. Gradient-based diagnostics preserve certification and are tighter at weak nonlinearity ($\lambda = 0.05$). \\
+Performance or scalability result & $\mathcal{O}(N)$ offline diagnostic assembly ($N$ forward solves for approximation-based, $2N$ for pick-and-freeze, $N$ Jacobian evaluations for gradient-based) decouples forward solves from algebraic $m \times m$ determinant evaluations in greedy design search, eliminating $\mathcal{O}(N^2)$ nested Monte Carlo evaluations per candidate design. Multi-node HPC campaign remains to be done. \\
+References and supporting data & Preprint \cite{doumbouya_certified_2026} (\href{https://arxiv.org/abs/2609.32282}{\texttt{arXiv:2609.32282}}); code at \href{https://github.com/mohamed495/CBOED}{\nolinkurl{github.com/mohamed495/CBOED}}. \\
+Maturity & Method analysis and public numerical prototype \\
+Limitations and next step & Evaluated up to $p = 200$ observables; Jacobian assembly scales with $p$ (adjoint) or $q$ (forward sensitivities). Next: scale diagnostic estimation to $p = \mathcal{O}(10^6)$ observables, study reversed $(\theta, Y)$ parameter selection, and apply transport-based preconditioning. \\
+Cross-WP contribution or dependency & WP6 (uncertainty quantification) \\
+\end{WPAdvanceRecord}
+
 \section{Scientific Advances}
 
-\subsection{Task 4.1 - Deterministic methods}
-\label{sec:wp4:double-gyre}
+During the reporting period, we have progressed on the following tasks:
 
-In incremental four-dimensional variational data assimilation
-(4D-Var), conjugate gradients solve the linear systems in the inner
-loop. Hénon and Vidard construct a limited-memory spectral
-preconditioner for the first outer iteration using a randomized
-Nyström approximation. The sketch is assembled from independent
-matrix--vector products. Using a lower-fidelity propagator in this
-step reduces setup cost. Bounds based on Löwner ordering specify
-when the resulting preconditioner improves the condition number of
-the high-fidelity system.
+\begin{itemize}
+\item[T4.1] \phantomsection\label{sec:wp4:double-gyre}%
+  In incremental four-dimensional variational data assimilation (4D-Var),
+  conjugate gradients solve the symmetric positive definite quadratic subproblems
+  in the inner loop, where preconditioning by the background error covariance
+  $B = L L^\top$ leaves a preconditioned Hessian $A = I + \sum_n L^\top (G_n^k)^\top R_n^{-1} G_n^k L$
+  whose smallest eigenvalue is $1$ and whose condition number is $\lambda_{\max}(A)$. In
+  Hénon and Vidard~\cite{henon_multifidelity_2026} we construct a second-level scaled
+  spectral limited-memory preconditioner (LMP),
+  $P_r = I + S_r(\sqrt{\theta}\,\Lambda_r^{-1/2} - I_r)S_r^\top$ with scaling factor
+  $\theta = \lambda_r(A)$, using a randomized Nyström low-rank approximation of $A$
+  (\Cref{tab:advance:WP4-A2026-1}). Unlike Krylov/Ritz-pair LMPs that only become
+  available from the second outer iteration onwards, the randomized sketch $Y = A^q\Omega$
+  with Gaussian test matrix $\Omega \in \mathbb{R}^{n\times \ell}$ ($\ell = r + p$)
+  is assembled from $\ell$ independent matrix--vector products and is immediately
+  available during the first outer iteration, where the largest cost-function reduction
+  occurs. Using $q$ power iterations improves spectral clustering at cost
+  $\mathcal{O}(q\ell C_A + qn\ell^2)$, motivating the multi-fidelity extensions studied
+  under T4.4 and T4.5. Early version of the method was showcased at the
+  \href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{January General Assembly}
+  and application on a two-dimensional shallow-water
+  double-gyre problem presented at the Ocean Sciences Meeting in February
+  (\href{https://hal.science/hal-05652339v1}{\texttt{hal-05652339v1}}).
 
-The team also developed a hybrid sketch that enriches a random
-subspace with low-fidelity applications and refines it with
-high-fidelity products. The numerical study uses a two-dimensional
-shallow-water model for double-gyre circulation. The
-\href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{January
-assembly} showed a test on a $120\times120$ grid with a
-single-precision low-fidelity model. Hénon and Vidard presented the
-\href{https://hal.science/hal-05652339v1}{preconditioner} at the
-Ocean Sciences Meeting in February.
+  \paragraph{Variational parameter identification (Feel++ / HiFiMagnet).}
+  The HiFiMagnet inverse-problem specification seeks material, contact and
+  cooling parameters from voltage, temperature and optional magnetic
+  observations at several imposed-current operating points. The formulation
+  combines a weighted multi-experiment data misfit with regularization,
+  subject to the thermo-electric state equations and parameter bounds.
+  Adjoint derivatives support optimization of the reduced objective.
+  The proposed verification uses Taylor-gradient tests, parameter
+  recovery and observation misfit
+  (\cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
+  The shared variational optimization interface is recorded in
+  \Cref{tab:advance:WP4-A2026-2} and implemented in WP7
+  (\Cref{sec:Feelpp:implementation-2026:tao}).
+  
+\item[T4.2] \phantomsection\label{sec:wp4:stochastic methods}%
 
-\paragraph{Variational parameter identification (T4.1).}
-The HiFiMagnet inverse-problem specification seeks material, contact and
-cooling parameters from voltage, temperature and optional magnetic
-observations at several imposed-current operating points. The formulation
-combines a weighted multi-experiment data misfit with regularization,
-subject to the thermo-electric state equations and parameter bounds.
-Adjoint derivatives support optimization of the reduced objective.
-The proposed verification uses Taylor-gradient tests, parameter
-recovery and observation misfit
-(\cref{sec:app:specs:app-feelpp-hifimagnet-inverse}).
-The shared variational optimization interface is recorded in
-\Cref{tab:advance:WP4-A2026-2} and implemented in WP7
-(\Cref{sec:Feelpp:implementation-2026:tao}).
+The aim of Bayesian inversion is to provide a full description of a posterior probability distribution of the sought for parameters. An ensemble Kalman filter approach can treat nonlinearities, and is easily parallelised. To begin, MCMC inversion has been performed for the acoustic wave equation in two-dimensional domains, with varying material density. The results appear in the M2 (masters) thesis of B. Latre.
+%TODO On garde ça ?
+The proposed \hyperref[sec:app:specs:app-eki]{Ensemble Kalman Inversion (EKI) mini-app}
+  targets geophysical parameter estimation on a simplified wave equation using
+  PETSc and GeoS with MPI-distributed ensembles (\cref{sec:app:specs:app-eki}).
+%%%%%
+\item[T4.3] \phantomsection\label{sec:wp4:sensor-placement}%
+  In Doumbouya, Vidard and Zahm~\cite{doumbouya_certified_2026} we develop a
+  tractable, certified framework for Bayesian optimal experimental design (BOED)
+  that avoids the $\mathcal{O}(N^2)$ nested Monte Carlo bottleneck of Expected
+  Information Gain (EIG) estimation (\Cref{tab:advance:WP4-A2026-3}).
+  Using dimensional logarithmic Sobolev inequalities and bounds on the Fisher
+  information matrices ($\Sigma_{\mathrm{noise}}^{-1} \succeq \mathbb{E}[I_{Y|\theta}]$
+  and $\Sigma_{\mathrm{signal}}^{-1} \succeq I_Y$), we derive upper
+  and lower bounds on $\mathrm{EIG}(W_m)$ expressed purely as Signal-to-Noise
+  Ratios (SNRs) built from four $p \times p$ diagnostic matrices
+  ($\Sigma_Y$, $\Sigma_{Y|\theta}$, $\Sigma_{\mathrm{signal}}$, $\Sigma_{\mathrm{noise}}$).
+  The formulation unifies the standard ($Y = G(\theta) + \varepsilon$),
+  nuisance-parameter ($Y = G(\theta, \eta) + \varepsilon$), and goal-oriented
+  or likelihood-free ($Y = G(\eta) + \varepsilon$, $\theta = H(\eta) + \xi$)
+  settings. Two complementary design criteria emerge: an incremental bound
+  (\texttt{i-SNR}) tailored to sequential selection at small observation budgets $m$,
+  and a conservative bound (\texttt{c-SNR}) aimed at retaining global information
+  content for larger $m$. Both yield proven quasi-optimality guarantees controlled
+  by the generalized eigenvalues of $(\Sigma_Y, \Sigma_{\mathrm{signal}})$ and
+  $(\Sigma_{Y|\theta}, \Sigma_{\mathrm{noise}})$, recovering the exact EIG in
+  the linear-Gaussian limit.
 
-\subsection{Task 4.3 - Observation}
-\label{sec:wp4:sensor-placement}
+  Three strategies are proposed to assemble the diagnostic matrices offline in
+  $\mathcal{O}(N)$ model evaluations, completely decoupling forward PDE solves
+  from the algebraic $m \times m$ determinant evaluations of greedy sensor search:
+  (i) pick-and-freeze sample estimators ($2N$ evaluations of $G$) for $\Sigma_Y$
+  and $\Sigma_{Y|\theta}$; (ii) approximation-based denoiser estimators
+  (\texttt{affine+nn}, using an affine map plus a three-layer GELU MLP of width $2p$)
+  requiring $N$ solves; and (iii) gradient-based estimators using model Jacobians
+  ($N$ Jacobian evaluations) that guarantee the Fisher-information inequalities and
+  thereby preserve mathematical certification. In numerical experiments on a
+  one-dimensional viscous Burgers equation (\href{https://github.com/mohamed495/CBOED}{\texttt{CBOED}}),
+  varying the nonlinearity $\lambda \in [0, 1]$ confirms that the bounds collapse
+  to the exact EIG at $\lambda = 0$, that gradient-based bounds are tighter at weak
+  nonlinearity ($\lambda = 0.05$), and that \texttt{affine+nn} offers tighter
+  intervals at strong nonlinearity ($\lambda = 1$) at the cost of losing strict
+  certification.
 
-\href{https://arxiv.org/abs/2609.32282}{Doumbouya, Vidard and Zahm}
-derive upper and lower bounds on expected information gain from
-dimensional logarithmic Sobolev inequalities. The bounds use covariance
-and Fisher information matrices. A conservative bound guides selection
-for an entire observation network, and an incremental bound guides
-sequential placement. The authors use model gradients to approximate
-the Fisher terms during setup. Once the matrices are assembled, the
-sensor search uses matrix operations with no further forward solves.
+\item[T4.4] \phantomsection\label{sec:wp4:multifidelity}%
+  To reduce the cost of the sequential power iterations $q$ in randomized
+  Nyström preconditioning for incremental 4D-Var, we introduce two multi-fidelity
+  preconditioners exploiting a cheaper low-fidelity Hessian $A_{\mathrm{LF}}$
+  with relative application cost $\nu = C_{A_{\mathrm{LF}}}/C_A \in (0, 1)$
+  (\Cref{tab:advance:WP4-A2026-1}):
+  \begin{itemize}
+  \item \emph{Low-fidelity LMP (LF-LMP):} computes the entire randomized
+    Nyström eigendecomposition on $A_{\mathrm{LF}}$, reducing sketching complexity
+    to $\mathcal{O}(q\ell\nu C_A + qn\ell^2)$.
+  \item \emph{Multi-fidelity LMP (MF-LMP):} constructs a hybrid sketch
+    $Y = A^{q_{\mathrm{HF}}} A_{\mathrm{LF}}^{q_{\mathrm{LF}}} \Omega$ that
+    enriches the random subspace with $q_{\mathrm{LF}}$ applications of
+    $A_{\mathrm{LF}}$ before applying $q_{\mathrm{HF}} = 1$ high-fidelity
+    Hessian product, at complexity
+    $\mathcal{O}((q_{\mathrm{HF}} + \nu q_{\mathrm{LF}})\ell C_A + (q_{\mathrm{HF}} + q_{\mathrm{LF}})n\ell^2)$.
+  \end{itemize}
+  Three low-fidelity models are evaluated on a two-dimensional shallow-water
+  double-gyre assimilation problem ($40 \times 40$ and $120 \times 120$ grids):
+  a single-precision model ($\nu_{\mathrm{SP}} = 0.75$), a $20 \times 20$
+  coarse-grid multigrid model with Shapiro-filtered transfer operators and a
+  positive-semidefinite correction ($\nu_{\mathrm{MG}} = 0.2$ on $40 \times 40$,
+  $0.15$ on $120 \times 120$), and a stationary/3D-FGAT model setting
+  $M_{\mathrm{LF}} = I$ ($\nu_{\mathrm{stat}} \approx 0.007$--$0.009$).
+  While LF-LMP depends strongly on the spectral fidelity of $A_{\mathrm{LF}}$
+  (reducing total cost for single precision with $q = 1, 2$ and multigrid with
+  $q = 1$, but offering no convergence gain for stationary), MF-LMP with
+  $q_{\mathrm{HF}} = 1$ improves both PCG iteration counts and overall
+  computational cost for multigrid ($q_{\mathrm{LF}} = 2$) and even for the
+  inexpensive 3D-FGAT model ($q_{\mathrm{LF}} = 3$).
 
-The \href{https://github.com/mohamed495/CBOED}{numerical experiments}
-vary the nonlinearity in a viscous Burgers model. The bounds recover
-the exact information gain in the linear-Gaussian case with jointly
-Gaussian parameters and observations. Their tightness varies with the
-nonlinearity of the forward model.
+\item[T4.5] To assess when a low-fidelity model is suitable within a
+  multi-fidelity preconditioning hierarchy, we decompose the spectral-norm
+  range-approximation error $\Vert A - Q_{\mathrm{MF}} Q_{\mathrm{MF}}^\top A\Vert_2$
+  into the standard high-fidelity randomized range error plus a multi-fidelity
+  sketching perturbation $\Vert(Q Q^\top - Q_{\mathrm{MF}} Q_{\mathrm{MF}}^\top) A\Vert_2$
+  (\Cref{tab:advance:WP4-A2026-1}). Using canonical angles between the orthogonal
+  projectors $Q Q^\top$ and $Q_{\mathrm{MF}} Q_{\mathrm{MF}}^\top$, the projector
+  distance is bounded by
+  $\sqrt{2}\big(\sum_{i=1}^r (1 - \sigma_i(Q_{\mathrm{MF}}^\top Q)^2)\big)^{1/2}$
+  (and analogously relative to the exact target projector $Q_* Q_*^\top$).
+  Because $Q_{\mathrm{MF}}^\top Q \in \mathbb{R}^{r \times r}$ is small, these
+  bounds are inexpensive to evaluate, establish a clear hierarchy among single
+  precision, multigrid and stationary/3D-FGAT models, and explain the observed
+  PCG convergence trends.
+
+\end{itemize}
 
 \section{Application Showcase}
 \label{sec:wp4:applications}
 
-\paragraph{Variational assimilation and sensor placement.}
-The \hyperref[sec:wp4:double-gyre]{double-gyre study} tests low-fidelity
-Nystr\"om preconditioning for the inner solve of incremental 4D-Var
-on a two-dimensional shallow-water model. The
-\hyperref[sec:wp4:sensor-placement]{viscous Burgers study} tests how
-information-gain bounds guide sensor placement as the model's
-nonlinearity varies.
+\paragraph{Two-dimensional shallow-water double-gyre 4D-Var.}
+The \hyperref[sec:wp4:double-gyre]{double-gyre assimilation study}~\cite{henon_multifidelity_2026}
+evaluates LF-LMP and hybrid MF-LMP preconditioning on the first outer loop of
+incremental 4D-Var over a 15-day assimilation window with altimetry-like surface
+elevation observations, comparing single-precision, multigrid and stationary
+(3D-FGAT) low-fidelity models.
+
+\paragraph{Viscous Burgers Bayesian sensor placement.}
+The \hyperref[sec:wp4:sensor-placement]{sensor-placement study}~\cite{doumbouya_certified_2026}
+applies the \texttt{i-SNR} and \texttt{c-SNR} criteria on a one-dimensional
+viscous Burgers model under standard, nuisance-parameter and goal-oriented
+formulations, assessing bound tightness and sensor layouts as model nonlinearity
+varies.
 
 \paragraph{HiFiMagnet parameter identification.}
 The \hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
@@ -125,36 +280,96 @@ test and a weak-scaling protocol under \nolinkurl{BM-EKI-01}.
 
 \section{Software Framework Contributions}
 \label{sec:wp4:software}
-Feel++ implements the variational optimization interface over PETSc
-TAO, with functional and variational-form tests
-(\cref{sec:Feelpp:implementation-2026:tao}). WP5 uses the same
-interface for optimal control. The proposed EKI mini-app uses PETSc
-for ensemble execution and GeoS for its application setting.
 
-\section{Benchmarks}
+\subsection{Main Software Frameworks: Feel++ and Hawen}
+
+Feel++ implements the variational optimization interface over PETSc TAO
+(\href{https://github.com/feelpp/feelpp/pull/2504}{PR~2504}), connecting
+objectives, gradients, Hessians, constraints and bounds to solver configuration
+and convergence monitoring, with functional and variational-form tests
+(\cref{sec:Feelpp:implementation-2026:tao}). WP5 uses the same interface for
+optimal control. Hawen provides frequency-domain HDG modeling and iterative
+nonlinear inversion for wave-propagation problems (\cref{sec:Hawen:software}).
+
+\subsection{Additional Software and Research Prototypes}
+
+\begin{itemize}
+\item \textbf{CBOED} (\href{https://github.com/mohamed495/CBOED}{github.com/mohamed495/CBOED}):
+  public research code accompanying \cite{doumbouya_certified_2026} that
+  implements the diagnostic matrix estimators (pick-and-freeze, \texttt{affine+nn}
+  denoiser, gradient-based) and greedy SNR sensor-placement experiments on the
+  viscous Burgers benchmark.
+\item \textbf{Multi-fidelity 4D-Var prototype:} implements the randomized
+  Nyström LF-LMP and MF-LMP preconditioners on the 2D shallow-water
+  double-gyre assimilation test case~\cite{henon_multifidelity_2026}.
+\item \textbf{EKI mini-app:} proposed PETSc/GeoS workflow for MPI-parallel
+  ensemble Kalman inversion (\cref{sec:app:specs:app-eki}).
+\end{itemize}
+
+\paragraph{Frameworks mapping.}
+\begin{itemize}
+\item Feel++: Section~\ref{sec:Feelpp:software}\,;
+\item Hawen: Section~\ref{sec:Hawen:software}.
+\end{itemize}
+
+\section{Preliminary Benchmarks \& Trends}
 \label{sec:wp4:benchmarks}
 
-The \hyperref[sec:wp4:double-gyre]{double-gyre test} uses a
-$120\times120$ grid to evaluate a 4D-Var preconditioner with a
-single-precision low-fidelity model. The
-\hyperref[sec:wp4:sensor-placement]{sensor-placement study} uses
-viscous Burgers cases to assess the tightness of information-gain
-bounds as nonlinearity varies.
+\paragraph{Multi-fidelity 4D-Var preconditioning benchmarks.}
+The \hyperref[sec:wp4:double-gyre]{double-gyre benchmark}~\cite{henon_multifidelity_2026}
+tests $40 \times 40$ ($\ell = 40$, $r = 35$, $n = 4\,880$) and $120 \times 120$
+($\ell = 100$, $r = 80$) grids with relative low-fidelity operator costs
+$\nu_{\mathrm{SP}} = 0.75$, $\nu_{\mathrm{MG}} = 0.2$ ($0.15$ at $120 \times 120$),
+and $\nu_{\mathrm{stat}} \approx 0.007$--$0.009$. Under $n_{\mathrm{CU}} = \ell$
+parallel sketching units, MF-LMP ($q_{\mathrm{HF}} = 1$) reduces overall
+computational cost (measured in units of $C_A$) for multigrid ($q_{\mathrm{LF}} = 2$)
+and 3D-FGAT ($q_{\mathrm{LF}} = 3$) on both grids, demonstrating that cheap
+low-fidelity models ineffective in standalone LF-LMP can still accelerate
+high-fidelity convergence when combined with one HF sketching pass.
 
+\paragraph{Certified BOED sensor-placement benchmarks.}
+The \hyperref[sec:wp4:sensor-placement]{viscous Burgers benchmark}~\cite{doumbouya_certified_2026}
+($N = 200$ interior grid points, $10^4$ samples, up to $m = 15$ greedily selected
+sensors) quantifies bound tightness across $\lambda \in \{0, 0.05, 0.2, 0.75, 1\}$
+for standard, nuisance and goal-oriented settings. Results confirm exact EIG
+recovery at $\lambda = 0$, tighter \texttt{i-SNR} vs.\ \texttt{c-SNR} brackets
+in the small- vs.\ large-$m$ regimes, and the trade-off between certified
+gradient-based bounds (tighter at weak nonlinearity) and uncertified
+\texttt{affine+nn} estimates (tighter at strong nonlinearity).
+
+\paragraph{Proposed registry benchmarks.}
 Two proposed protocols are recorded in the
-\hyperref[tab:v3-benchmark-registry]{benchmark registry}. The
+\hyperref[tab:v3-benchmark-registry]{benchmark registry}: the
 \hyperref[sec:app:specs:app-feelpp-hifimagnet-inverse]{HiFiMagnet
-inversion benchmark} (\nolinkurl{BM-FEEL-HIFI-INV-01}) specifies
-derivative checks and parameter recovery. The
+inversion benchmark} (\nolinkurl{BM-FEEL-HIFI-INV-01}), specifying
+Taylor-gradient checks and parameter recovery, and the
 \hyperref[sec:app:specs:app-eki]{ensemble Kalman inversion benchmark}
-(\nolinkurl{BM-EKI-01}) specifies manufactured-solution verification
+(\nolinkurl{BM-EKI-01}), specifying manufactured-solution verification
 and ensemble weak scaling.
 
-\section{Next steps}
+\section{Roadmap \& Next Steps}
 \label{sec:wp4:roadmap}
 
-For HiFiMagnet, the next step is to run the parameter-recovery and
-derivative checks on the variational interface. For the ensemble Kalman
-inversion mini-app, the development target is a forward solver and
-inversion loop in PETSc and GeoS, followed by the tests in
-\Cref{sec:app:specs:app-eki}.
+The following deliverables are planned:
+\begin{itemize}
+\item D4.1-MR-TR-P: Activity report included in annual report D0.2-TR (M12, M24, M36, M48, M60)
+\item D4.2-S: Software package for inverse problems and data assimilation (T4.1, T4.2, T4.3; M24, M36, M48, M60)
+\item D4.3-BR: Benchmarking analysis report, bottlenecks and breakthroughs (T4.*, T7.1; M12, M24, M36, M48, M60)
+\end{itemize}
+
+Benchmarking activities will require close interaction with WP7, and in particular T7.1.
+Technical priorities for 2027 include:
+\begin{itemize}
+\item completing parameter-recovery and Taylor-gradient verification on the
+  Feel++/PETSc TAO variational interface for HiFiMagnet (\nolinkurl{BM-FEEL-HIFI-INV-01});
+\item implementing the forward solver and inversion loop of the EKI mini-app in
+  PETSc and GeoS (target January 2027) and executing the verification and
+  weak-scaling tests in \Cref{sec:app:specs:app-eki} (\nolinkurl{BM-EKI-01});
+\item scaling the BOED diagnostic-matrix estimators to $p = \mathcal{O}(10^6)$
+  observables, investigating reversed $(\theta, Y)$ parameter selection, and
+  exploring transport-based preconditioning to improve bound tightness~\cite{doumbouya_certified_2026};
+\item extending multi-fidelity spectral LMP preconditioning beyond two fidelity
+  levels to realistic ocean data assimilation systems and parallel HPC runtime
+  benchmarks~\cite{henon_multifidelity_2026}.
+
+\end{itemize}
