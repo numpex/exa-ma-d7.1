@@ -71,7 +71,7 @@ Associated application ID & None formalized yet \\
 Associated benchmark ID & None formalized yet \\
 Scientific or numerical result & Evaluated on a 2D nonlinear shallow-water double-gyre with three low-fidelity models: single precision, coarse-grid multigrid, and stationary/3D-FGAT. LF-LMP reduces total cost for single precision and multigrid but not stationary. MF-LMP recovers HF-LMP convergence for single precision and improves both PCG convergence and total cost for multigrid and stationary/3D-FGAT. Proposed canonical-angle bounds correctly rank the low-fidelity models. \\
 Performance or scalability result & Cost analyzed in units of one HF Hessian--vector product assuming parallel computing units for independent sketching products. \\
-References and supporting data & Preprint \cite{henon_multifidelity_2026} (\href{https://hal.science/hal-05874752v1}{\texttt{hal-05874752v1}}); Ocean Sciences Meeting presentation (\href{https://hal.science/hal-05652339v1}{\texttt{hal-05652339v1}}); \href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{January 2026 General Assembly}. \\
+References and supporting data & Preprint \cite{hal-05874752} (\href{https://hal.science/hal-05874752v1}{\texttt{hal-05874752v1}}); Ocean Sciences Meeting presentation (\href{https://hal.science/hal-05652339v1}{\texttt{hal-05652339v1}}); \href{https://exa-ma.numpex.fr/news/2026/20260119-21-ag.html}{January 2026 General Assembly}. \\
 Maturity & Method analysis and numerical prototype \\
 Limitations and next step & Tested on an idealized 2D double-gyre with two fidelity levels. Next: extend to more than two fidelity levels, realistic ocean data assimilation systems, and parallel HPC runtime measurements. \\
 Cross-WP contribution or dependency & WP2 (T2.5 multi-fidelity modeling); WP3 (preconditioned Krylov solvers) \\
@@ -105,7 +105,7 @@ Associated application ID & None formalized yet \\
 Associated benchmark ID & None formalized yet \\
 Scientific or numerical result & On a 1D viscous Burgers PDE ($N = 200$ interior points, $\nu = 0.003$, $T = 0.1$, Matérn-3/2 GP prior, $10^4$ samples, greedy placement up to $m = 15$ sensors). Effect of non-linearity are studied thanks to the addition of a parameter $\lambda \in [0, 1]$ in front of the non linear term, across standard, nuisance, and goal-oriented settings, the bounds recover the exact EIG at $\lambda = 0$ and widen with $\lambda$. Incremental bounds are tighter for small $m$, whereas conservative bounds tighten for larger $m$. Gradient-based diagnostics preserve certification and are tighter at weak nonlinearity ($\lambda = 0.05$). \\
 Performance or scalability result & $\mathcal{O}(N)$ offline diagnostic assembly ($N$ forward solves for approximation-based, $2N$ for pick-and-freeze, $N$ Jacobian evaluations for gradient-based) decouples forward solves from algebraic $m \times m$ determinant evaluations in greedy design search, eliminating $\mathcal{O}(N^2)$ nested Monte Carlo evaluations per candidate design. Multi-node HPC campaign remains to be done. \\
-References and supporting data & Preprint \cite{doumbouya_certified_2026} (\href{https://arxiv.org/abs/2609.32282}{\texttt{arXiv:2609.32282}}); code at \href{https://github.com/mohamed495/CBOED}{\nolinkurl{github.com/mohamed495/CBOED}}. \\
+References and supporting data & Preprint \cite{hal-05768497} (\href{https://arxiv.org/abs/2609.32282}{\texttt{arXiv:2609.32282}}); code at \href{https://github.com/mohamed495/CBOED}{\nolinkurl{github.com/mohamed495/CBOED}}. \\
 Maturity & Method analysis and public numerical prototype \\
 Limitations and next step & Evaluated up to $p = 200$ observables; Jacobian assembly scales with $p$ (adjoint) or $q$ (forward sensitivities). Next: scale diagnostic estimation to $p = \mathcal{O}(10^6)$ observables, study reversed $(\theta, Y)$ parameter selection, and apply transport-based preconditioning. \\
 Cross-WP contribution or dependency & WP6 (uncertainty quantification) \\
@@ -122,7 +122,7 @@ During the reporting period, we have progressed on the following tasks:
   in the inner loop, where preconditioning by the background error covariance
   $B = L L^\top$ leaves a preconditioned Hessian $A = I + \sum_n L^\top (G_n^k)^\top R_n^{-1} G_n^k L$
   whose smallest eigenvalue is $1$ and whose condition number is $\lambda_{\max}(A)$. In
-  Hénon and Vidard~\cite{henon_multifidelity_2026} we construct a second-level scaled
+  Hénon and Vidard~\cite{hal-05874752} we construct a second-level scaled
   spectral limited-memory preconditioner (LMP),
   $P_r = I + S_r(\sqrt{\theta}\,\Lambda_r^{-1/2} - I_r)S_r^\top$ with scaling factor
   $\theta = \lambda_r(A)$, using a randomized Nyström low-rank approximation of $A$
@@ -162,7 +162,7 @@ The proposed \hyperref[sec:app:specs:app-eki]{Ensemble Kalman Inversion (EKI) mi
   PETSc and GeoS with MPI-distributed ensembles (\cref{sec:app:specs:app-eki}).
 %%%%%
 \item[T4.3] \phantomsection\label{sec:wp4:sensor-placement}%
-  In Doumbouya, Vidard and Zahm~\cite{doumbouya_certified_2026} we develop a
+  In Doumbouya, Vidard and Zahm~\cite{hal-05768497} we develop a
   tractable, certified framework for Bayesian optimal experimental design (BOED)
   that avoids the $\mathcal{O}(N^2)$ nested Monte Carlo bottleneck of Expected
   Information Gain (EIG) estimation (\Cref{tab:advance:WP4-A2026-3}).
@@ -251,14 +251,14 @@ The proposed \hyperref[sec:app:specs:app-eki]{Ensemble Kalman Inversion (EKI) mi
 \label{sec:wp4:applications}
 
 \paragraph{Two-dimensional shallow-water double-gyre 4D-Var.}
-The \hyperref[sec:wp4:double-gyre]{double-gyre assimilation study}~\cite{henon_multifidelity_2026}
+The \hyperref[sec:wp4:double-gyre]{double-gyre assimilation study}~\cite{hal-05874752}
 evaluates LF-LMP and hybrid MF-LMP preconditioning on the first outer loop of
 incremental 4D-Var over a 15-day assimilation window with altimetry-like surface
 elevation observations, comparing single-precision, multigrid and stationary
 (3D-FGAT) low-fidelity models.
 
 \paragraph{Viscous Burgers Bayesian sensor placement.}
-The \hyperref[sec:wp4:sensor-placement]{sensor-placement study}~\cite{doumbouya_certified_2026}
+The \hyperref[sec:wp4:sensor-placement]{sensor-placement study}~\cite{hal-05768497}
 applies the \texttt{i-SNR} and \texttt{c-SNR} criteria on a one-dimensional
 viscous Burgers model under standard, nuisance-parameter and goal-oriented
 formulations, assessing bound tightness and sensor layouts as model nonlinearity
@@ -295,13 +295,13 @@ nonlinear inversion for wave-propagation problems (\cref{sec:Hawen:software}).
 
 \begin{itemize}
 \item \textbf{CBOED} (\href{https://github.com/mohamed495/CBOED}{github.com/mohamed495/CBOED}):
-  public research code accompanying \cite{doumbouya_certified_2026} that
+  public research code accompanying \cite{hal-05768497} that
   implements the diagnostic matrix estimators (pick-and-freeze, \texttt{affine+nn}
   denoiser, gradient-based) and greedy SNR sensor-placement experiments on the
   viscous Burgers benchmark.
 \item \textbf{Multi-fidelity 4D-Var prototype:} implements the randomized
   Nyström LF-LMP and MF-LMP preconditioners on the 2D shallow-water
-  double-gyre assimilation test case~\cite{henon_multifidelity_2026}.
+  double-gyre assimilation test case~\cite{hal-05874752}.
 \item \textbf{EKI mini-app:} proposed PETSc/GeoS workflow for MPI-parallel
   ensemble Kalman inversion (\cref{sec:app:specs:app-eki}).
 \end{itemize}
@@ -316,7 +316,7 @@ nonlinear inversion for wave-propagation problems (\cref{sec:Hawen:software}).
 \label{sec:wp4:benchmarks}
 
 \paragraph{Multi-fidelity 4D-Var preconditioning benchmarks.}
-The \hyperref[sec:wp4:double-gyre]{double-gyre benchmark}~\cite{henon_multifidelity_2026}
+The \hyperref[sec:wp4:double-gyre]{double-gyre benchmark}~\cite{hal-05874752}
 tests $40 \times 40$ ($\ell = 40$, $r = 35$, $n = 4\,880$) and $120 \times 120$
 ($\ell = 100$, $r = 80$) grids with relative low-fidelity operator costs
 $\nu_{\mathrm{SP}} = 0.75$, $\nu_{\mathrm{MG}} = 0.2$ ($0.15$ at $120 \times 120$),
@@ -328,7 +328,7 @@ low-fidelity models ineffective in standalone LF-LMP can still accelerate
 high-fidelity convergence when combined with one HF sketching pass.
 
 \paragraph{Certified BOED sensor-placement benchmarks.}
-The \hyperref[sec:wp4:sensor-placement]{viscous Burgers benchmark}~\cite{doumbouya_certified_2026}
+The \hyperref[sec:wp4:sensor-placement]{viscous Burgers benchmark}~\cite{hal-05768497}
 ($N = 200$ interior grid points, $10^4$ samples, up to $m = 15$ greedily selected
 sensors) quantifies bound tightness across $\lambda \in \{0, 0.05, 0.2, 0.75, 1\}$
 for standard, nuisance and goal-oriented settings. Results confirm exact EIG
@@ -367,9 +367,9 @@ Technical priorities for 2027 include:
   weak-scaling tests in \Cref{sec:app:specs:app-eki} (\nolinkurl{BM-EKI-01});
 \item scaling the BOED diagnostic-matrix estimators to $p = \mathcal{O}(10^6)$
   observables, investigating reversed $(\theta, Y)$ parameter selection, and
-  exploring transport-based preconditioning to improve bound tightness~\cite{doumbouya_certified_2026};
+  exploring transport-based preconditioning to improve bound tightness~\cite{hal-05768497};
 \item extending multi-fidelity spectral LMP preconditioning beyond two fidelity
   levels to realistic ocean data assimilation systems and parallel HPC runtime
-  benchmarks~\cite{henon_multifidelity_2026}.
+  benchmarks~\cite{hal-05874752}.
 
 \end{itemize}
