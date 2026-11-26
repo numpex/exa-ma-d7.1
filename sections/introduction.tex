@@ -4,19 +4,30 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \clearpage
-\section{Introduction}
+\section{Report scope and organisation}
 \label{sec:introduction}
 
-\subsection{Purpose and Scope of the Document}
+\subsection{Scientific scope}
 \label{sec:purpose}
 
-
 Exa-MA develops numerical methods and scientific software for
-exascale computing within PEPR NumPEx. This edition presents work
-reported in 2026 and retains earlier results where they provide a
-baseline. The mega-deliverable includes the D7.1 benchmarking report
-(\cref{chap:methodology,chap:applications}) and assembles the related
-project deliverables.
+simulation and inference on heterogeneous supercomputers within
+PEPR NumPEx. The work addresses different sources of computational
+cost, from refining a discretisation to solving many instances of
+the same model in optimisation or uncertainty quantification.
+This edition follows the work reported in 2026 from its numerical
+formulation to the software and experiments that implement and test it.
+Earlier results are retained where they provide a reference for comparison.
+
+The mega-deliverable assembles the contractual reports for this period.
+D0.2 reports the consortium's activities, publications and progress
+against the October milestones (\cref{sec:management-milestones-2026}).
+D7.1 describes the benchmarking methodology, application cases and
+campaigns (\cref{chap:methodology,chap:applications}).
+\Cref{chap:exadi-demonstrators} connects the Exa-DI demonstrators to the
+Exa-MA methods, software and benchmark cases they use.
+D7.3 and D7.4 cover training and WP7 coordination, respectively
+(\cref{chap:training,chap:wp7}).
 
 \subsection{Correspondence with contractual deliverables}
 \label{sec:deliverable-correspondence}
@@ -69,24 +80,27 @@ D6.1 & Activity report included in annual report D0.2 & \Cref{chap:wp6,chap:mana
 D6.2 & Software release of URANIE & \Cref{chap:software,chap:wp6} \\
 D6.3 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:applications,chap:methodology} \\
 D7.1 & Benchmarking analysis report, including bottlenecks and breakthroughs & \Cref{chap:methodology,chap:applications} \\
-D7.2 & co-design report & \Cref{sec:wp7:codesign-initial-feedback} (initial feedback) \\
+D7.2 & co-design report & \Cref{chap:exadi-demonstrators,sec:wp7:codesign-initial-feedback} (initial feedback) \\
 D7.3 & Training material & \Cref{chap:training} \\
 D7.4 & Activity report included in annual report D0.2 & \Cref{chap:wp7,chap:management} \\
 \end{longtable}
 \endgroup
 
 D0.1, \emph{Project management Handbook}, has already been delivered separately.
-D7.2, \emph{co-design report}, is scheduled at M48 and M60. Initial feedback
-is recorded in \Cref{sec:wp7:codesign-initial-feedback}, ahead of those deliveries.
+D7.2, \emph{co-design report}, is scheduled at M48 and M60. The WP7
+activity report and the demonstrator chapter record initial feedback
+ahead of those deliveries.
 
 \subsection{Structure of the Document}
 \label{sec:structure}
 
-The work package chapters explain the methods. The software fiches
-identify the implementations and versions. Application fiches describe
-the test problems and report the available measurements. For example,
-the WP3 Composyx advance links to the software fiche and the
-heterogeneous-diffusion study
-(\cref{tab:advance:WP3-A2026-5,sec:Composyx:software,sec:app:specs:app-composyx-diffusion}).
-\Cref{tab:framework-application-map,tab:v3-benchmark-registry} provide
-entry points from the software and benchmark catalogues.
+The scientific chapters describe the methods and point to their
+implementations. The software fiches identify the versions and tested
+configurations. The application fiches specify the numerical reference,
+the computational protocol and the results where available. For example,
+the thermal-bridge case checks finite-element solutions against ISO~10211
+reference values and reports scaling on Discoverer
+(\cref{sec:app:specs:app-feelpp-discr-1}).
+\Cref{tab:framework-application-map,tab:v3-benchmark-registry} connect
+the software, applications and benchmark campaigns. Earlier KPI figures
+are retained in \hyperref[sec:appendix-b1]{Appendix~B.1}.
