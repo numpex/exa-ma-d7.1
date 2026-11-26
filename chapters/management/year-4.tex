@@ -196,13 +196,50 @@ Eurométropole de Strasbourg and RTE, and is developing further
 partnerships. These collaborations give the building and district-scale
 models a use beyond the research project, for example to compare
 renovation or energy scenarios with the partners.
-\Cref{fig:exama-ecosystem-2026} places the two projects in Exa-MA's
-wider partnership network.
+
+% Thesis topic: Inria MACARON 2025 activity report, section 11.2.2.
+\textbf{ENACT.} Exa-MA and the Grand Est AI cluster co-fund Vincent Italiano's
+doctorate at the University of Strasbourg. He develops neural operators in WP2
+to speed up forward wave simulations and the corresponding inverse calculations.
+
+% Partnership updates from Hélène Barucq and Luc Giraud, 25 November 2026.
+In passive imaging, correlations between recordings of ambient
+waves carry information about the medium through which they travel.
+Florian Faucher's ERC Starting Grant INCORWAVE develops nonlinear
+inversion of the full correlation waveforms in the frequency domain.
+It targets viscoelastic properties for subsurface monitoring and
+three-dimensional flows for studies of solar convection. The team
+studies how to introduce data, frequencies and unknown parameters
+in stages to improve the convexity of the misfit and the resolution
+when prior information is limited. The need to repeat large wave
+simulations connects the inverse methods in WP4 with optimisation
+in WP5.
+\href{https://cordis.europa.eu/project/id/101116288}{INCORWAVE project summary}.
+
+Through the ANR--DFG project BUTTERFLY, Inria Makutu and the
+Göttingen helioseismology group, including the Max Planck Institute
+for Solar System Research, worked with the MUMPS team on a 3D solver
+for time-harmonic oscillations throughout the Sun and its
+photosphere. Hawen adapts the polynomial order to the local
+wavelength and eliminates element-interior unknowns before the
+global solve. The team validated the solver against an axisymmetric
+reference and used it to study how active regions and convection
+affect wave propagation. The October 2026 paper describes systems
+of up to 376 million global unknowns and reports a factorisation of
+310 million on 100 Adastra nodes. In a 50-node comparison, block
+low-rank factors and mixed-precision storage reduced factorisation
+memory from 12.4 to 6.7~TB. The results show how WP1 discretisation
+and the Exa-SofT (PC2) sparse solver complement each other at scale.
+\href{https://link.springer.com/article/10.1007/s10915-026-03489-0}{Journal article} and
+\href{https://arxiv.org/abs/2511.22530v1}{open preprint (Section 5.4)}.
+
+\Cref{fig:exama-ecosystem-2026,tab:exama-ecosystem-2026} summarise
+the wider partnership network.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=\linewidth]{graphics/management/ecosystem-2026.pdf}
-\caption{Projects and organisations linked to Exa-MA in November 2026.}
+\caption{Selected projects and organisations linked to Exa-MA in November 2026.}
 \label{fig:exama-ecosystem-2026}
 \end{figure}
 
@@ -210,21 +247,79 @@ wider partnership network.
 
 \subsection{Industrial partnerships}
 
-Exa-MA co-funds four doctorates with industrial partners, including
-the TotalEnergies project with Inria's Makutu team in Pau
-(\cref{tab:exama-industrial-phds-2026}). The projects span multiphysics
-coupling, numerical software for PDEs and solvers for large sparse systems.
+\Cref{tab:exama-industrial-phds-2026} lists the four doctorates
+co-funded by Exa-MA and its industrial partners alongside other
+industrial collaborations.
 
 \input{chapters/management/industrial-phds-2026}
 
-In October, Hanna Chetouane began a
-\href{https://www.cemosis.fr/en/news/cifre-avnir-energy/}{CIFRE doctorate
-with AVNIR Energy and Cemosis}. Its funding is external to Exa-MA, and
-the work contributes research capacity in kind. The project combines
-Feel++ simulations and experimental measurements to study vibroacoustics
-and detect defects in thin structures. It draws on multiphysics
-coupling at the PDE level in WP1, fast solver strategies for CPUs and
-GPUs in WP3, and inverse methods for structural monitoring in WP4.
+% Funding applications and follow-up for the four co-funded doctorates:
+% IFPEN--ONERA: https://drive.google.com/file/d/1p_qcfyeSpq4WGzIYy4E6LV_zAqWkt0vQ/view
+% ONERA--SafranTech: https://drive.google.com/file/d/1VhROImSQyZ_9KCINXJFVHqVnGm-tKm-w/view
+% EDF: https://drive.google.com/file/d/1wDycXWxD9R_5YHLuf9S7y8PC85FdZLau/view
+% TotalEnergies: https://app.doctorat.gouv.fr/proposition?id=15465
+% Consortium follow-up: https://docs.google.com/document/d/1jpxB9UWpdkh3dGlcHHHV7YGBVX4xEY1H5xQg1-SKmNk/edit
+\textbf{IFPEN and ONERA.}
+Graph neural networks supply preconditioners and initial guesses for Krylov
+solvers. The project targets large sparse systems from subsurface hydrogen
+and CO$_2$ storage at IFPEN and compressible turbulent flow at ONERA (WP2 and WP3).
+
+\textbf{ONERA and SafranTech.}
+High-order time coupling adapts when multiphysics solvers exchange data.
+The project targets integration into CWIPI and testing on a fire-safety
+case where a reacting flow heats and degrades a solid material (WP1 and WP3).
+
+\textbf{EDF.}
+The project develops scalable preconditioners for nonsymmetric saddle-point
+systems in fluid and solid mechanics. It uses HPDDM and PETSc with EDF test
+cases in \texttt{code\_saturne} and \texttt{code\_aster} (WP3 and WP7).
+
+\textbf{TotalEnergies.}
+Reduced models built from spectral-element simulations aim to accelerate elastic
+full-waveform inversion. The project estimates errors from model reduction and
+from seismic shot sampling separately to guide stochastic optimisation.
+
+\begin{samepage}
+\subsubsection*{Other industrial collaborations}
+
+Hanna Chetouane began her CIFRE doctorate with AVNIR Energy and
+Cemosis in October. The project aims to monitor thin industrial
+structures by inferring defects from their vibration and acoustic
+response. It will combine experimental measurements with high-order
+finite-element models in Feel++ that account for the interaction
+between the structure and the surrounding fluid. The mathematical
+work draws on multiphysics coupling in WP1, fast solvers for CPUs
+and GPUs in WP3 and inverse methods in WP4. The CIFRE provides
+research capacity in kind to Exa-MA.
+\href{https://www.cemosis.fr/en/news/cifre-avnir-energy/}{AVNIR Energy CIFRE project}.
+\end{samepage}
+
+Simulating aircraft noise requires fine finite-element meshes where
+the flow varies sharply, for instance in the engine jet.
+In her CIFRE doctorate with Airbus and Inria Makutu, Andréa Lagardère
+uses generalised plane waves that approximate the wave equation
+with the local flow coefficients in each element. These
+quasi-Trefftz basis functions allow larger elements and fewer
+unknowns in the discontinuous Galerkin model. The team coupled the
+method in the frequency domain to a boundary element solver for
+the surrounding region, where the flow is taken to be uniform.
+It integrated the coupling into Airbus's HPC code Actipole and
+validated it on an industrial case, linking WP1's discretisation
+work to aircraft noise simulation.
+\href{https://trefftz2026.univie.ac.at/}{September 2026 workshop}.
+
+Concace (Inria, Airbus Central R\&T and Cerfacs) develops neural
+preconditioners for simulating aircraft noise near urban airports.
+Self-supervised training uses equation residuals in single precision
+(32 bit). The network preconditions a flexible GMRES solve carried
+out in double precision (64 bit). On the two-dimensional Helmholtz reference
+tests, the solver reached a backward error of $10^{-10}$ in fewer
+than 20 iterations. The team reused a network trained on systems
+of 4\,096 unknowns on problems with up to 262\,144 unknowns and tested
+it with sound speeds outside the training range. The work links
+learning in WP2 to solvers in WP3. It relies primarily on team
+resources, with support from ANR Maturation.
+\href{https://arxiv.org/abs/2610.16542}{2026 study}.
 
 \subsection{Training and exchanges between teams}
 
