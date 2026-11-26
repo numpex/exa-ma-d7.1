@@ -110,12 +110,12 @@ The implementation is documented by
 \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148} and
 \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}.
 
-The supporting dense-matrix interfaces
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9117}{PETSc MR !9117}
+introduced two dense-matrix interfaces:
 \texttt{MatCreateDenseWithMemType()} and
-\texttt{MatDenseReplaceArrayWithMemType()} were added in
-\href{https://gitlab.com/petsc/petsc/-/merge_requests/9117}{PETSc MR !9117};
-their adoption in HPDDM is recorded in
-\href{https://github.com/hpddm/hpddm/pull/146}{PR \#146}.
+\texttt{MatDenseReplaceArrayWithMemType()}.
+\href{https://github.com/hpddm/hpddm/pull/146}{HPDDM PR \#146}
+records their adoption.
 \href{https://gitlab.com/petsc/petsc/-/merge_requests/9130}{PETSc MR !9130}
 adds \texttt{MatDiagonalScale()} for sequential CUDA/HIP dense matrices.
 The HPDDM backend described here targets CUDA; HIP support in an individual
