@@ -142,27 +142,35 @@ FreeFEM is used in several applications described in Chapter~\ref{chap:applicati
 FreeFEM implements both finite element methods (FEM) and boundary element methods (BEM) for the solution of partial differential equations (PDEs) in complex geometries. It uses various mathematically sound numerical algorithms to enhance the accuracy and speed of the simulations, from metric-based adaptive mesh refinement to provably robust multilevel domain decomposition solvers. It allows for the joint use of real and complex variables.
 
 \subsection{Ongoing developments}
-\label{sec:Freefem++:ongoing}
+\label{sec:Freefem++:implementation-2026}
 
 Relevant developments in 2026 include:
 
-\paragraph{Rewrite parallel data structures} Define new data structures for distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential to a parallel script with minimal changes, e.g. by changing the type of the mesh variable from 'mesh' to 'Dmesh'. New features have been implemented and are being validated and tested, including:
+\subsubsection{Rewrite parallel data structures}
+\label{sec:Freefem++:implementation-2026:distrib}
+
+Define new data structures for distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential to a parallel script with minimal changes, e.g. by changing the type of the mesh variable from 'mesh' to 'Dmesh'. New features have been implemented and are being validated and tested, including:
 \begin{itemize}
 \item a \textit{Dmesh} constructor taking a global mesh as input, centralized or duplicated, with optional parameters controlling the choice of the partitioner (scotch, metis, parmetis, user-supplied), amount of overlap, etc.
 \item distributed FE spaces on a \textit{Dmesh} using standard \textit{fespace} syntax, allowing to define and solve variational problems in a distributed way transparently using the standard \textit{problem}, \textit{solve} or \textit{varf} syntax. The distributed linear system is then passed to PETSc ; PETSc parameters can then be specified as usual on the command line or by an optional \textit{sparams} parameter.
 \item automatic parallel interpolation between different distributed FE spaces as simple as writing \textit{u = v}.
 \end{itemize}
 
-Ongoing developments are done in the \textit{distributed-meshes} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/distributed-meshes}.
+Current state for these ongoing developments is at commit \href{https://github.com/FreeFem/FreeFem-sources/commit/5f885eefd49a9375c0fdf431b215e4c6b8e964d7}{\texttt{5f885ee}} (25 November 2026).
 
-\paragraph{Implement new low-rank approximation techniques for BEM matrices} Interface the \textit{theia} library from Igor Chollet in HTOOL and FreeFEM implementing new hybrid cross approximation (HCA) techniques for low-rank compression of BEM operators. 
+\subsubsection{Implement new low-rank approximation techniques for BEM matrices}
+\label{sec:Freefem++:implementation-2026:lowrank}
+
+Interface the \textit{theia} library from Igor Chollet in HTOOL and FreeFEM implementing new hybrid cross approximation (HCA) techniques for low-rank compression of BEM operators. 
 A first implementation of the interface is done and currently being validated and tested.
 We plan to implement a demonstrator \texttt{app-freefem-lowrank} to evaluate the performance of different low-rank compression techniques such as ACA and HCA for a high-frequency acoustic BEM problem.
-Ongoing developments are done in the \textit{add\_HCA} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/add_HCA}.
+Current state for these ongoing developments is at commit \href{https://github.com/FreeFem/FreeFem-sources/commit/ad3aa6d0b207c3725e46f82a45fbbcebc217dfdd}{\texttt{ad3aa6d}} (22 September 2026).
 
-\paragraph{Write a FreeFEM debugger} The debugger will allow the user to pause the execution at any time and inspect FreeFEM variables. A first implementation of the debugger allowing to add breakpoints and inspecting variables is in test. The FreeFEM extension of Microsoft Visual Studio Code is also being updated to allow the use of the VSCode debugging interface with FreeFEM. The new feature allowing to place  breakpoints and inspecting variables through the VSCode debugging interface is being validated.
-Ongoing developments are done in the \textit{debugger} feature branch \url{https://github.com/FreeFem/FreeFem-sources/tree/debugger}.
+\subsubsection{Write a FreeFEM debugger}
+\label{sec:Freefem++:implementation-2026:debugger}
 
+The debugger will allow the user to pause the execution at any time and inspect FreeFEM variables. A first implementation of the debugger allowing to add breakpoints and inspecting variables is in test. The FreeFEM extension of Microsoft Visual Studio Code is also being updated to allow the use of the VSCode debugging interface with FreeFEM. The new feature allowing to place  breakpoints and inspecting variables through the VSCode debugging interface is being validated.
+Current state for these ongoing developments is at commit \href{https://github.com/FreeFem/FreeFem-sources/commit/d8ff1cdc9289a263d630bef4dc2d73b52d7e1794}{\texttt{d8ff1cd}} (4 November 2026).
 
 \subsection{Relevant Publications}
 \label{sec:Freefem++:publications}
