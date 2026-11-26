@@ -186,9 +186,10 @@ The October work plan called for updates to 20 deliverables and set
 
 % Exa-MA coordination minutes, 19 November 2026, milestone follow-up.
 % https://docs.google.com/document/d/15KD_WxgQ_Ps4G5Bv9tOC8ejM-LT3CVVKpcomfIj0q78/edit
+% MS3 status updated on 26 November after Luc Giraud's Composyx update.
 \begin{table}[!htb]
 \centering
-\caption{Milestones due on 14 October 2026, reviewed on 19 November.}
+\caption{Milestones due on 14 October 2026 and their status on 26 November.}
 \label{tab:exama-milestones-october-2026}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -202,18 +203,23 @@ The October work plan called for updates to 20 deliverables and set
 \textbf{Milestone} & \textbf{Status} & \textbf{Work reported in this collection}\\
 \midrule
 \textbf{MS2}\newline Software stack releases & Achieved &
-Feel++~0.112.0 includes distributed geometry queries and preCICE coupling.
-Scimba~1.4.0 provides differentiable discretisations in JAX.
-HPDDM~2.4.0 and PETSc~3.25 provide a CUDA path for preconditioning%
+Feel++~0.112.0 adds distributed geometry queries and preCICE coupling.
+Scimba~1.4.0 adds differentiable JAX discretisations.
+Composyx~1.7.1 supplies CUDA and HIP drivers.
+HPDDM~2.4.0 and PETSc~3.25 support CUDA preconditioning%
 \ExaMAMilestoneReference{chap:software}.\\
 \addlinespace
-\textbf{MS3}\newline Benchmarking at exascale & In progress &
+\textbf{MS3}\newline Benchmarking at exascale & Achieved &
+Composyx benchmarks on the
+\href{https://www.fz-juelich.de/en/jsc/systems/supercomputers/jupiter}{JUPITER exascale system}
+and LUMI reached 4\,096 GPUs.
+On LUMI it solved a system with over one billion unknowns in 90\,s.
 The \href{https://exa-ma.numpex.fr/highlights/ktirio-paris-8km.html}{Ktirio Paris 8\,km run}
-completed at 32\,768 MPI ranks on Discoverer with field output disabled.
-The Exa-Zellij optimisation workflow ran at 1,000 LUMI-G nodes.
-The benchmark index records pending campaigns alongside the
-results%
-\ExaMAMilestoneReference{tab:exadi-ktirio-results,sec:wp5:benchmarks,tab:v3-benchmark-registry}.\\
+used 32\,768 MPI ranks on Discoverer with field output disabled%
+\ExaMAMilestoneReference{tab:exadi-ktirio-results}.
+Exa-Zellij ran on 1,000 LUMI-G nodes%
+\ExaMAMilestoneReference{sec:wp5:benchmarks}.
+See \cref{tab:exama-computing-platforms-2026} for deployments.\\
 \addlinespace
 \textbf{MS4}\newline Level~1 demonstrator releases & Achieved &
 Ktirio Urban Building combines Ktirio-Geom for terrain and building
@@ -336,9 +342,12 @@ in progress or awaiting publication of results.\\
 \end{tabular}
 \end{table}
 
-The benchmark count covers registered campaigns. The collection also
-reports separate studies, including solar-mask scaling on Discoverer
-and the Exa-Zellij optimisation workflow on LUMI-G.
+The benchmark count includes the Composyx diffusion runs on Jean Zay
+and Adastra by Inria's CONCACE team (Emmanuel Agullo, Luc Giraud and
+Gilles Marait). The collection also reports the team's follow-up runs
+on JUPITER and LUMI, Ktirio's solar-mask scaling on Discoverer and the
+Exa-Zellij optimisation workflow on LUMI-G
+(\cref{sec:management-scientific-computing}).
 
 \subsection{Staffing and recruitment}
 

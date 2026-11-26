@@ -95,7 +95,7 @@ time series to decisions about a housing portfolio or a district.
 The HiDALGO2 implementation work at Strasbourg is led by
 Christophe Prud'homme with Vincent Chabannes, Javier Cladellas,
 Philippe Pinçon and Gwennolé Chappron. The
-\href{https://doi.org/10.1007/978-3-031-85703-4_2}{PPAM study}
+\href{https://doi.org/10.1007/978-3-031-85703-4_2}{PPAM 2024 study}
 describes the architecture and its deployment on EuroHPC systems
 \cite{prudhomme_ktirio_2024}.
 
@@ -176,6 +176,11 @@ computed in situ and which trajectories need to be written for later
 analysis. The
 \ExaDIRef{sec:app:specs:app-feelpp-io}{Feel++ I/O benchmark}{https://exa-ma.numpex.fr/deliverables.html}
 measures preparation, writing and reloading separately.
+
+The ReproHPC study links versioned software, input data and run records.
+It uses a short Ktirio rerun to check the execution chain and inspects
+archived files to verify the identity and integrity of the retained
+outputs \cite{cladellas_layered_2026}.
 
 \subsection{Results and benchmarks}
 \label{sec:pc5:ktirio-results}
@@ -264,6 +269,14 @@ Up to five tasks ran concurrently, using 485 cores. The full campaign
 used 21,813.6 allocated core-hours including the build and qualification
 runs (HiDALGO2 D4.10).
 
+The paper accepted for the PPAM 2026 proceedings compares overheating
+under paired night-ventilation scenarios with the same weather and
+sampled building properties.
+In the reported cases, computing degree-hours from the ensemble-mean
+temperature underestimated mean exposure. Computing them for each
+realisation first preserves the effect of crossing the temperature
+threshold \cite{antonczak_ktirio_2026}.
+
 \subsection{Use and next steps}
 
 The heat-exposure ranking shows how the simulations can inform a
@@ -281,9 +294,6 @@ Within NumPEx, Exa-AToW supported deployment on Jean Zay.
 \section{FUnTiDES -- Wave Propagation}
 \label{sec:pc5:funtides}
 
-% Team input requested: application challenge and target observable,
-% reference models and boundaries, application-scale performance,
-% link to a reproducible run and scope of industrial use.
 \begin{FicheMetadataTable}[FUnTiDES demonstrator profile.]
 Domain & Computational geophysics and seismic wave propagation. \\
 Application team & Inria Makutu and an industrial partner in the energy sector. \\
@@ -294,8 +304,8 @@ operators. WP7 benchmarking and co-design coordination. \\
 Software and data &
 \ExaDIRef{sec:FUnTiDES:software}{FUnTiDES}{https://github.com/FUnTiDES-sim/FUnTiDES}
 with a Kokkos C++ backend. Proxy-Fun and Proxy-Kernels for spectral-element operators. \\
-Reference cases & Acoustic and elastic operator tests. Two synthetic
-seismic models selected for distributed application runs. \\
+Reference cases & Acoustic and elastic operator tests, and a coupled
+DG--SEM example in a layered acoustic medium. \\
 \end{FicheMetadataTable}
 
 \subsection{Context and objectives}
@@ -319,14 +329,48 @@ discontinuous Galerkin and coupled DG--SEM discretisations.
 \href{https://github.com/FUnTiDES-sim/FUnTiDES/releases/tag/0.2.0}{FUnTiDES 0.2.0}
 provides a Kokkos C++ backend for CPUs and GPUs. The
 \ExaDIRef{sec:wp1:t1.4}{WP1/T1.4 wave-proxy work}{https://exa-ma.numpex.fr/deliverables.html}
-examines matrix-free high-order operators. Exa-DI's Proxy-Fun covers
-acoustic and elastic SEM operators. Proxy-Kernels isolates the operator
-application to compare classical quadrature with tensor contractions
-using batched dense matrix multiplication.
+examines matrix-free high-order operators. The CDT in Exa-DI WG1 is
+consolidating Proxy-Fun, which covers acoustic and elastic SEM operators,
+and Proxy-Kernels, which isolates the operator application. The latter
+compares classical quadrature with tensor contractions expressed as
+batched dense matrix multiplications (GEMM).
+
+In the layered acoustic example in \cref{fig:exadi-funtides-dgsem},
+SEM subdomains use polynomial orders 2, 4 and 6. Thin DG layers
+couple subdomains of different orders. The wavefield snapshots show
+propagation through the layered medium.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.485\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{graphics/funtides/acoustic-model.png}
+    \caption{Acoustic wave speed (m/s).}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.485\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{graphics/funtides/dg-sem-orders.png}
+    \caption{SEM orders and DG interfaces.}
+  \end{subfigure}
+  \par\medskip
+  \begin{subfigure}[t]{0.485\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{graphics/funtides/wavefield-early.png}
+    \caption{Earlier wavefield snapshot.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.485\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{graphics/funtides/wavefield-late.png}
+    \caption{Later wavefield snapshot.}
+  \end{subfigure}
+  \caption{Coupled DG--SEM simulation in a layered acoustic medium.
+  Figures courtesy of Aurélien Citrain (Inria Makutu).}
+  \label{fig:exadi-funtides-dgsem}
+\end{figure}
 
 \subsection{Results and benchmarks}
 
-% Alice Recoque plans: Aurélien Citrain, Inria, 25 November 2026.
+% Campaign plans and adoption of the GEMM operator: Aurélien Citrain, Inria, November 2026.
 \begin{table}[H]
 \centering\small
 \caption{Reported and planned wave-propagation benchmarks.}
@@ -341,13 +385,13 @@ Proxy-Kernels spectral-element comparison &
 Measured on GPU &
 The CDT reported shorter runtimes for the tensor/GEMM implementations
 at polynomial orders four and five, relative to classical quadrature
-in the tested configurations. The comparison concerns the SEM proxy.\\
+in the tested configurations. FUnTiDES has adopted the GEMM operator.\\
 \addlinespace
 FUnTiDES seismic simulations on Alice Recoque &
 Planned &
-Two synthetic seismic models with more than one billion degrees of
-freedom are selected for multi-GPU and multi-node runs. Higher polynomial
-orders will also be considered.\\
+Two synthetic seismic cases are being prepared for multi-GPU and
+multi-node runs targeting more than one billion degrees of freedom.
+Higher polynomial orders will also be considered.\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -358,6 +402,8 @@ The planned seismic cases extend the operator measurements to the
 distributed application, where communication and the complete
 time-stepping loop also contribute to runtime. They will test
 whether the kernel gains carry through to the simulation workload.
+Local time stepping is planned for cases where the stability
+constraint varies across the mesh.
 
 \clearpage
 \section{Samurai -- Adaptive Cartesian Meshes}
