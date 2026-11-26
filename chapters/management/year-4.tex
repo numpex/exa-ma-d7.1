@@ -2,7 +2,7 @@
 \section{2026 management and activity report}
 \label{sec:management-year-4}
 
-\noindent\emph{1 January--18 November 2026}
+\noindent\emph{1 January--26 November 2026}
 
 Exa-MA develops numerical methods and software for exascale
 scientific computing within NumPEx. Its work covers discretisation,
@@ -79,21 +79,74 @@ benchmarks. NumPEx announced the resulting
 \href{https://numpex.org/4252/}{position paper} on 6 November.
 
 \subsection{Scientific execution and computing resources}
+\label{sec:management-scientific-computing}
 
 At the May NumPEx Operational Committee, Exa-MA raised the need to
 deploy the same benchmarks on different CPU and GPU systems. In WP3,
 PETSc~3.25 added a CUDA backend for the HPDDM preconditioner. The June
 discussion with the HPDDM team then identified two application cases
 for follow-up, a discrete fracture network mini-app and a
-thermo-mechanical benchmark. For heterogeneous diffusion with
-Composyx, the additive Schwarz solver reached 88\% weak-scaling
-efficiency on 32 Jean Zay nodes with NVIDIA V100 GPUs and 89\% on
-128 Adastra nodes with AMD MI250X GPUs. Each series used its own
-one-node reference.
+thermo-mechanical benchmark.
 
-WP5 tested a distributed optimiser with a variational quantum
-eigensolver. The coupled workflow retained 60.98\% strong-scaling
-efficiency on 1,000 LUMI-G nodes (8,000 GPUs).
+% CONCACE collaboration update from Luc Giraud, 26 November 2026,
+% following exchanges with Gilles Marait and Emmanuel Agullo.
+In the CONCACE team's three-dimensional diffusion benchmark, the
+Composyx additive Schwarz solver reached 88\% weak-scaling efficiency
+on 128 NVIDIA V100 GPUs on Jean Zay and 89\% on 512 AMD MI250X GPUs on
+Adastra. Each series used its own one-node reference. Subsequent runs
+on the EuroHPC systems JUPITER and LUMI extended the campaign to
+4\,096 GPUs. On LUMI, the team reports solving a linear system with
+more than one billion unknowns in 90\,s. These GPU campaigns are part
+of the preparation for Alice Recoque.
+
+Ktirio Urban Building runs on Jean Zay and several EuroHPC systems.
+For the Paris 8\,km case, the run on 32\,768 MPI ranks on Discoverer
+measured the compute workload with field output disabled. The same
+Feel++ workflow runs with Open MPI on Discoverer and MPICH on LUMI-C.
+In WP5, the Exa-Zellij optimisation workflow coupled to a variational
+quantum eigensolver retained 60.98\% strong-scaling efficiency
+on 1,000 LUMI-G nodes (8,000 GPUs).
+\Cref{tab:exama-computing-platforms-2026} gives representative deployments
+and runs on French and EuroHPC systems.
+
+% Platform and workload details: Feel++ deployment fiche (HiDALGO2 D3.3),
+% HiDALGO2 D4.10 Strasbourg campaign, Exa-DI demonstrator chapter,
+% Composyx application fiche and CONCACE update, WP5 benchmark chapter.
+\begingroup
+\small
+\setlength{\LTleft}{0pt plus 1fill}
+\setlength{\LTright}{0pt plus 1fill}
+\begin{longtable}{@{}>{\raggedright\arraybackslash\bfseries}p{0.24\linewidth}
+  >{\raggedright\arraybackslash}p{\dimexpr0.76\linewidth-2\tabcolsep\relax}@{}}
+\caption{Selected Exa-MA software deployments and workloads run on French and EuroHPC systems in 2026.}
+\label{tab:exama-computing-platforms-2026}\\
+\toprule
+System & \textbf{Deployment or run}\\
+\midrule
+\endfirsthead
+\toprule
+System & \textbf{Deployment or run (continued)}\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{2}{@{}l}{\textit{National and university systems in France}}\\
+\addlinespace[2pt]
+Jean Zay & Composyx diffusion on NVIDIA V100 GPUs. Ktirio Urban Building deployed with Exa-AToW.\\
+Adastra & Composyx diffusion on AMD MI250X GPUs.\\
+Gaya (Strasbourg) & Ktirio Urban Building heat-exposure ensemble, 384 realisations across 4,169 buildings.\\
+\addlinespace
+\multicolumn{2}{@{}l}{\textit{EuroHPC systems}}\\
+\addlinespace[2pt]
+JUPITER (Germany) & Composyx GPU runs. WP5 also evaluated distributed optimisation configurations on up to 40 GPUs.\\
+LUMI (Finland) & Composyx GPU runs and Exa-Zellij optimisation with a quantum simulation on LUMI-G. Ktirio Urban Building Paris 4\,km on LUMI-C, 1\,024 MPI ranks with MPICH.\\
+Discoverer (Bulgaria) & Ktirio Urban Building Paris 8\,km, 32\,768 MPI ranks\space
+(\href{https://exa-ma.numpex.fr/highlights/ktirio-paris-8km.html}{campaign results}).\\
+MeluXina (Luxembourg) & Ktirio Urban Building Paris 8\,km, 16\,384 MPI ranks.\\
+Karolina (Czechia) & Ktirio Urban Building Paris 4\,km, 8\,192 MPI ranks.\\
+Leonardo (Italy) & Ktirio Urban Building Paris 8\,km, 4\,096 MPI ranks on the DCGP partition.\\
+\end{longtable}
+\endgroup
 
 The consortium submitted proposals to NumPEx in July for large runs on
 the MI300A extension at CINES. The allocations under that call were
@@ -105,10 +158,11 @@ work packages, including discretisation and solvers. For WP4,
 HiFiMagnet provides a case for estimating the parameters of a high-field
 magnet from observations. The variational interface in Feel++ has
 functional tests, and the application fiche specifies a benchmark for
-parameter recovery. In the Ktirio Urban Building collaboration, WP6
-implemented statistical processing for ensembles of urban-energy
-simulations. WP6 has yet to validate that processing at application
-scale, and the WP4 parameter-recovery benchmark remains planned.
+parameter recovery. The WP4 benchmark remains planned. WP6 verified
+the streaming temperature statistics and heat-exposure indicators
+against an independent reconstruction in the Ktirio Strasbourg study,
+which ran 384 realisations across 4,169 buildings%
+\ifdefined\ExaMAStandaloneManagement\else\space(\cref{sec:pc5:ktirio-results})\fi.
 
 In a separate collaboration between WP5 and WP6, tests with
 Uranie's sensitivity indices improved optimisation on small problems.
@@ -119,22 +173,172 @@ results (\cref{chap:wp3,chap:wp4,chap:wp5,chap:wp6,chap:applications}).
 \fi
 
 \subsection{Deliverables, milestones and indicators}
+\label{sec:management-milestones-2026}
 
-After the June ANR review, PC0 asked the targeted projects for further
-evidence on scientific results, risks, recruitment and collaborations.
+After the June ANR review, PC0 asked the targeted projects for more detail
+on scientific results, risks, recruitment and collaborations.
 Exa-MA contributed that material to the programme's midterm assessment
 in September.
 
-The October work plan called for updates to 20 deliverables. It covered
-software releases (MS2), benchmarking (MS3), Level~1 demonstrators
-(MS4) and mini-apps (MS5). The June schedule listed 14 June for MS4
-and MS5. By September, the planned date for both was 14 October.
-The 14 October submission was still outstanding on 18 November.
+The October work plan called for updates to 20 deliverables and set
+14 October as the due date for the four milestones in
+\cref{tab:exama-milestones-october-2026}.
 
-The October report counted 33 HAL records for 2026 through 14 October.
-These included 11 journal articles, four conference papers, 17 preprints
-or unpublished items, and one report. The project target over its
-lifetime is more than 50 international peer-reviewed papers.
+% Exa-MA coordination minutes, 19 November 2026, milestone follow-up.
+% https://docs.google.com/document/d/15KD_WxgQ_Ps4G5Bv9tOC8ejM-LT3CVVKpcomfIj0q78/edit
+\begin{table}[!htb]
+\centering
+\caption{Milestones due on 14 October 2026, reviewed on 19 November.}
+\label{tab:exama-milestones-october-2026}
+\small
+\setlength{\tabcolsep}{4pt}
+\newcommand{\ExaMAMilestoneReference}[1]{%
+  \ifdefined\ExaMAStandaloneManagement\else\space(\cref{#1})\fi}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{0.21\linewidth}
+  >{\raggedright\arraybackslash}p{0.14\linewidth}
+  >{\raggedright\arraybackslash}p{0.60\linewidth}@{}}
+\toprule
+\textbf{Milestone} & \textbf{Status} & \textbf{Work reported in this collection}\\
+\midrule
+\textbf{MS2}\newline Software stack releases & Achieved &
+Feel++~0.112.0 includes distributed geometry queries and preCICE coupling.
+Scimba~1.4.0 provides differentiable discretisations in JAX.
+HPDDM~2.4.0 and PETSc~3.25 provide a CUDA path for preconditioning%
+\ExaMAMilestoneReference{chap:software}.\\
+\addlinespace
+\textbf{MS3}\newline Benchmarking at exascale & In progress &
+The \href{https://exa-ma.numpex.fr/highlights/ktirio-paris-8km.html}{Ktirio Paris 8\,km run}
+completed at 32\,768 MPI ranks on Discoverer with field output disabled.
+The Exa-Zellij optimisation workflow ran at 1,000 LUMI-G nodes.
+The benchmark index records pending campaigns alongside the
+results%
+\ExaMAMilestoneReference{tab:exadi-ktirio-results,sec:wp5:benchmarks,tab:v3-benchmark-registry}.\\
+\addlinespace
+\textbf{MS4}\newline Level~1 demonstrator releases & Achieved &
+Ktirio Urban Building combines Ktirio-Geom for terrain and building
+geometry with the released Feel++ ray tracer for solar masks. WP7
+describes how these components fit into the urban-energy workflow%
+\ExaMAMilestoneReference{sec:pc5:ktirio-urban-building}.\\
+\addlinespace
+\textbf{MS5}\newline Mini-app releases & Achieved &
+The catalogue links mini-apps to their software and test configurations.
+The Feel++ thermal-bridge mini-app, for example, provides a runnable
+case with ISO~10211 verification and scaling results on Discoverer%
+\ExaMAMilestoneReference{sec:app:specs:app-feelpp-discr-1}.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\ifdefined\ExaMAStandaloneManagement
+The \href{https://exa-ma.numpex.fr/deliverables.html}{Exa-MA deliverables
+collection} includes the software, demonstrator and benchmark chapters.
+\fi
+
+WP leads were due to review the report on 26 November. The project team plans
+to send it to the ANR and the Scientific Advisory Board on 30 November.
+
+% HAL API snapshot, 26 November 2026. Query:
+% anrProjectReference_s:"ANR-22-EXNU-0002", publicationDateY_i:[2023 TO 2026],
+% with publication and deposit dates through 26 November.
+% Merge hal-05482283 into hal-05343702 (preprint) and hal-04872041 into
+% hal-05234063 (the published version of the report).
+% The scientific proposal sets the target of more than 50 international
+% peer-reviewed papers over the project lifetime. For the published subset,
+% use HAL peerReviewing_s:1 and audience_s:2, checking proceedings and
+% publication status against publisher records.
+% Published journal articles still flagged in press in HAL:
+% hal-04525918 (10.1093/imanum/draf049), hal-05066310 (10.1137/24M1683925),
+% hal-05640503 (10.1145/3860897), hal-05641535 (10.1145/3857919).
+% Published international conference papers: hal-04138279, hal-04440186,
+% hal-04590586, hal-04611343, hal-04740924, hal-04781629 (IEEE DOI
+% 10.1109/ICONS62911.2024.00016), hal-05231852 (Springer DOI
+% 10.1007/978-3-031-99872-0_6), hal-05373220 (ddm.org/DD29/Proc-29.php),
+% hal-05464629 and hal-05780801, hal-05763710 (ACM DOI 10.1145/3795095.3805189).
+\begin{table}[!htb]
+\centering
+\caption{Exa-MA research outputs recorded in HAL through 26 November 2026.}
+\label{tab:exama-publications-2026}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}
+  >{\raggedright\arraybackslash}p{0.52\linewidth}rrr@{}}
+\toprule
+\textbf{Category} & \textbf{2026} & \textbf{Since 2023} & \textbf{Project target}\\
+\midrule
+Journal articles & 17 & 27 & \\
+Conference communications & 8 & 17 & \\
+Papers indexed as proceedings & 0 & 2 & \\
+Preprints and unpublished manuscripts & 21 & 27 & \\
+Reports & 1 & 1 & \\
+Posters & 0 & 2 & \\
+Habilitation dissertations & 0 & 1 & \\
+\midrule
+\textbf{Total} & \textbf{47} & \textbf{77} & \\
+\addlinespace
+Of which published international peer-reviewed papers &
+18 & 37 & \(>50\)\\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+Journal output in 2026 exceeds that of the first three project years
+combined. The published papers identified in
+\cref{tab:exama-publications-2026} account for just over 70\% of the
+minimum needed to meet the project target. The count groups
+\href{https://anr.hal.science/search/index/?q=*&anrProjectReference_s=ANR-22-EXNU-0002}{HAL records linked to the Exa-MA grant}
+by publication year and combines duplicate deposits of the same work.
+
+\Cref{tab:exama-software-applications-benchmarks-2026} summarises the
+software releases and the status of the application and benchmark
+catalogues in this edition.
+
+% Software scope: the 13 included entries in data/frameworks.csv. One public
+% release per family: CGAL 6.2.1, Composyx 1.7.1, Feel++ 0.112.0, FreeFEM 4.17,
+% FUnTiDES 0.2.0, Hawen 1.5.2, HPDDM 2.4.0, Samurai 0.35.0, Scimba 1.4.0,
+% TRUST 1.9.8 and Uranie 4.11.0.
+% Release sources: the project release pages and WP2/WP3 for Scimba,
+% Composyx and HPDDM. Hawen: https://ffaucher.gitlab.io/hawen-website/
+% TRUST: https://cea-trust-platform.github.io/news/
+% Uranie: https://uranie.cea.fr/index
+% Applications and benchmarks: data/application-reconciliation-v3.csv and
+% data/benchmark-registry-v3.csv. The nine registered cases with reported
+% measurements include BM-FEEL-NLCRB-01. Among the seven unindexed cases,
+% Samurai--CWIPI reports convergence and the Feel++ toolbox pools existing
+% results. The other five have no dedicated measurements in the collection.
+% Dated 2026 measurements: thermal bridges, Feel++ I/O, Burgers and
+% Composyx HIP diffusion.
+\begin{table}[!htb]
+\centering
+\caption{Software releases, applications and benchmarks in the 2026 edition.}
+\label{tab:exama-software-applications-benchmarks-2026}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}
+  >{\raggedright\arraybackslash}p{0.21\linewidth}
+  >{\raggedright\arraybackslash}p{0.17\linewidth}
+  >{\raggedright\arraybackslash}p{0.57\linewidth}@{}}
+\toprule
+\textbf{Output} & \textbf{Total} & \textbf{Status}\\
+\midrule
+Software families & 13 with fiches &
+11 have a confirmed public release in 2026.\\
+\addlinespace
+Applications & 32 entries &
+10 report measurements for their own case, 21 have benchmark results
+still to report, and one groups cases counted elsewhere in the catalogue.\\
+\addlinespace
+Benchmarks & 25 registered &
+9 have reported results, including preliminary and earlier measurements.
+At least four include measurements from 2026. The other 16 are planned,
+in progress or awaiting publication of results.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The benchmark count covers registered campaigns. The collection also
+reports separate studies, including solar-mask scaling on Discoverer
+and the Exa-Zellij optimisation workflow on LUMI-G.
 
 \subsection{Staffing and recruitment}
 
@@ -201,6 +405,17 @@ renovation or energy scenarios with the partners.
 \textbf{ENACT.} Exa-MA and the Grand Est AI cluster co-fund Vincent Italiano's
 doctorate at the University of Strasbourg. He develops neural operators in WP2
 to speed up forward wave simulations and the corresponding inverse calculations.
+
+% Partnership update from Stéphane Lanteri, 26 November 2026.
+Inria Atlantis and Thales Research \& Technology study how to use
+time-harmonic Maxwell models to design radio-frequency components in
+the ANR-ASTRID project MAXINET. The project investigates how
+physics-informed neural networks handle complex geometries, boundary
+conditions and interfaces between materials. It also develops neural
+operator surrogates for repeated solves across many parameter settings,
+with inverse design as the intended application. MAXINET brings an
+electromagnetic design case to WP2's work on scientific machine learning.
+\href{https://anr.fr/Project-ANR-24-ASTR-0005}{ANR project summary}.
 
 % Partnership updates from Hélène Barucq and Luc Giraud, 25 November 2026.
 In passive imaging, correlations between recordings of ambient
@@ -274,10 +489,13 @@ The project develops scalable preconditioners for nonsymmetric saddle-point
 systems in fluid and solid mechanics. It uses HPDDM and PETSc with EDF test
 cases in \texttt{code\_saturne} and \texttt{code\_aster} (WP3 and WP7).
 
+\begin{samepage}
 \textbf{TotalEnergies.}
 Reduced models built from spectral-element simulations aim to accelerate elastic
 full-waveform inversion. The project estimates errors from model reduction and
 from seismic shot sampling separately to guide stochastic optimisation.
+\par
+\end{samepage}
 
 \begin{samepage}
 \subsubsection*{Other industrial collaborations}
@@ -320,6 +538,23 @@ it with sound speeds outside the training range. The work links
 learning in WP2 to solvers in WP3. It relies primarily on team
 resources, with support from ANR Maturation.
 \href{https://arxiv.org/abs/2610.16542}{2026 study}.
+The team also carried out the Composyx GPU diffusion studies
+reported in \cref{sec:management-scientific-computing}.
+
+Thales Research \& Technology works with Stéphane Lanteri and his
+colleagues at Inria Atlantis on the design of radio-frequency
+components. Comparing candidate designs requires repeated
+electromagnetic simulations. In WP2, this industrial use case
+motivates the study of neural surrogates to reduce the cost of those
+simulations.
+
+% Partnership update from Emmanuel Franck, 26 November 2026.
+Thales AVS and the University of Strasbourg have proposed a joint
+doctorate on physics-informed neural networks for magnetostatic
+problems involving several materials and many parameters. The aim is
+to assess whether these models can support design optimisation across
+a large parameter space. The project connects WP2's work on scientific
+machine learning with industrial design.
 
 \subsection{Training and exchanges between teams}
 
@@ -334,6 +569,11 @@ The project officers set up shared GitHub boards for the frameworks
 to record actions by work package and institution and follow the
 preparation of mini-applications. The slides and recordings are linked
 in \cref{tab:exama-news-2026}.
+
+The September AISSAI--NumPEx hackathon at IDRIS paired introductory
+JAX training with work on scientific applications and an advanced
+track on scaling across GPUs and nodes on Jean Zay.
+
 \ifdefined\ExaMAStandaloneManagement
 The \href{https://exa-ma.numpex.fr/deliverables.html}{deliverables
 collection} includes D7.3, the training report.

@@ -1,0 +1,20 @@
+%% Adapted from the Ktirio reproducibility presentation at PPAM, 26 August 2026, and the 21 October technical meeting.
+%% Render with Mermaid CLI 12.0.0 and graphics/management/mermaid-config.json.
+flowchart LR
+    scenarios["`**Scenario set**
+Cases to compare`"]
+    lock["`**Scenario lock**
+Resolved inputs`"]
+    plan["`**Ensemble plan**
+Draws and resources`"]
+    simulation["`**MPI simulation**
+Building time series`"]
+    indicators["`**Indicators**
+Maps and uncertainty`"]
+
+    scenarios --> lock --> plan --> simulation --> indicators
+
+    class simulation project
+    class lock,plan,indicators primary
+    classDef project fill:#2a2e80,stroke:#2a2e80,stroke-width:1.5px,color:#ffffff
+    classDef primary fill:#f1f1f8,stroke:#2a2e80,stroke-width:1.5px,color:#1d1d1f

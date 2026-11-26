@@ -55,7 +55,7 @@ Associated benchmark ID & No benchmark registry ID assigned \\
 Scientific or numerical result & Online uncertainty summaries, exact and approximate quantiles, exceedance probabilities and empirical tail-risk indicators \\
 Performance or scalability result & Mergeable summaries do not require an archive of all sample trajectories. No end-to-end scalability or I/O reduction is quantified here \\
 References and supporting data & Ktirio \nolinkurl{src/cpp/tests/test_ensemble_streaming.cpp}; Feel++ \nolinkurl{testsuite/feelstats} \\
-Maturity & Implemented ensemble framework with MPI workflow, streaming and reducer tests \\
+Maturity & Streaming temperature statistics and heat-exposure indicators verified by independent reconstruction for the Strasbourg ensemble (\cref{sec:pc5:ktirio-results}) \\
 Limitations and next step & Measure peak memory, output volume and tail accuracy at demonstrator scale. Exact sample-based statistics still store selected values \\
 Cross-WP contribution or dependency & WP1: urban and building models; WP7: implementation and verification; PC5 and HiDALGO2: building-energy application and decision support \\
 \end{WPAdvanceRecord}
@@ -129,8 +129,9 @@ demonstrator} runs ensembles for building-energy uncertainty with
 components}. The \hyperref[sec:wp6:ensemble-streaming]{MPI ensemble
 workflow} computes quantiles, threshold exceedances and tail-risk
 indicators during execution. Its tests cover MPI execution and
-streaming reductions. End-to-end measurements of memory, output
-volume and tail accuracy are planned.
+streaming reductions. \Cref{sec:pc5:ktirio-results} reports the
+Strasbourg heat-exposure study, including the size of the ensemble and
+the stability of the highest-exposure group across three replications.
 The separate \hyperref[sec:app:specs:app-feelpp-ktirio-geom]{Ktirio-Geom
 benchmark} measures the demonstrator's terrain-generation stage.
 
@@ -220,8 +221,10 @@ Python implementations of the selected kernels are planned.
 
 \paragraph{Ensemble execution and sensitivity.}
 The \hyperref[sec:wp6:ensemble-streaming]{Ktirio ensemble workflow}
-has MPI and streaming-reduction tests. Measuring peak memory, output
-volume and tail accuracy at demonstrator scale is the next step.
+reproduced independently reconstructed temperature statistics and
+heat-exposure indicators in the Strasbourg ensemble
+(\cref{sec:pc5:ktirio-results}). The next performance measurements will
+quantify peak memory, output volume and error in approximate tail statistics.
 \hyperref[sec:Uranie:software]{Uranie} provides HSIC, Sobol and
 Cram\'er--von Mises sensitivity methods. The proposed
 \hyperref[sec:app:specs:app-eki]{EKI protocol} in WP4 specifies a

@@ -117,17 +117,19 @@ also supports closest-hit queries in two and three dimensions
 (\FeelppImplementationAdvance{WP1-A2026-3}).
 
 \paragraph{Solar-mask scaling on Discoverer.}
-The Paris 8\,km campaign used order-two quadrature with three points per
+For the \href{https://exa-ma.numpex.fr/highlights/ktirio-paris-8km.html}{Paris 8\,km Building-only case},
+Ktirio Urban Building simulated 207,624 buildings on 32\,768 MPI ranks
+across 342 Discoverer nodes with field output disabled. It traced
+471,821,112 solar rays over a total wall time of 14\,min 55\,s.
+
+The phase comparison covers both variants through 16\,384 ranks.
+The campaign used order-two quadrature with three points per
 target triangle. Building-only samples building surfaces. Allfaces samples
 the entire LoD1 mesh. \Cref{tab:Feelpp:solar-mask-discoverer} reports the
 solar-mask phase, including preparation and ray tracing, summed over
 steps 3--6 and averaged across MPI ranks. When the number of nodes doubled
 from 64 to 128 at 128 ranks per node, the mean Building-only time fell by
 38\% to 15.33\,s. The Allfaces time was close to 50\,s at both layouts.
-The Building-only case also completed at 32\,768 MPI ranks on 342
-allocated Discoverer nodes, with simulation output disabled. The
-timing comparison in \Cref{tab:Feelpp:solar-mask-discoverer} covers
-both variants through 16\,384 ranks.
 The runs and mesh data are documented in HiDALGO2 D3.3, UNISTRA
 contribution v0.2 (19 November 2026), Tables 2, 3 and 5 and Figure 4.
 The phase times use the corresponding campaign timing records.

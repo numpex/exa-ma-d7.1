@@ -3,6 +3,8 @@
 % Filtered out: 1 empty entries
 % Generated: 2025-10-17 06:56:49}
 
+@comment{% Thermomechanical coupling: primary references checked on 17 October 2026.}
+
 @article{abboud2026,
  abstract = {Predicting fuel assembly bow in pressurized water reactors requires solving tightly coupled fluid-structure interaction problems, whose direct simulations can be computationally prohibitive, making large-scale uncertainty quantification very challenging. This work introduces a general mathematical framework for coupling Gaussian process surrogate models representing distinct physical solvers, aimed at enabling rigorous uncertainty quantification in coupled multiphysics systems. A theoretical analysis establishes that the predictive variance of the coupled GP system remains bounded under mild regularity and stability assumptions, ensuring that uncertainty does not grow uncontrollably through the iterative coupling process. The methodology is then applied to the coupled hydraulic-structural simulation of the fuel assembly bow, enabling global sensitivity analysis and full uncertainty quantification at a fraction of the computational cost of direct code coupling. The results demonstrate accurate uncertainty propagation and stable predictions, establishing a solid mathematical basis for surrogate-based coupling in large-scale multiphysics simulations.},
  author = {Abboud, Ali and De Lambert, Stanislas and Garnier, Josselin and Leturcq, Bertrand},
@@ -1802,6 +1804,28 @@ Funding: Exa-MA / NumPEx, ANR-22-EXNU-0002},
  zotero-key = {2AKTLA2W}
 }
 
+@misc{hal-05768497,
+ abstract = {Optimal experimental design is often formulated as the maximization of the Expected Information Gain (EIG), which measures the expected reduction in uncertainty about a parameter of interest after observing the data. For nonlinear forward models and nonGaussian priors, computing the EIG typically requires costly nested Monte Carlo estimators or sophisticated density-approximation techniques. In this work, we derive new upper and lower bounds on the EIG using dimensional logarithmic Sobolev inequalities. The proposed bounds are expressed in terms of signal-to-noise ratios (SNR), preserving the simple matrix-based structure of the EIG in the linear-Gaussian setting and depending solely on covariance matrices and Fisher information matrices. We introduce two families of bounds: conservative bounds, designed to retain the entire information content, and incremental bounds, that prioritize early information acquisition for sequential experimental design. When model gradients are available, we further derive computable approximations of the Fisher-information terms that require only a small number of gradient evaluations, yielding substantial computational savings. The tightness of these bounds is controlled by the nonlinearity of the forward model, and in the linear-Gaussian setting, these bounds recover the exact value of the EIG. By eliminating the nested-sampling bottleneck, the proposed framework offers a tractable and theoretically grounded alternative to direct EIG estimation for large-scale Bayesian experimental design, while retaining the interpretability of the SNR-based bounds.},
+ author = {Doumbouya, Mohamed and Vidard, Arthur and Zahm, Olivier},
+ keywords = {Bayesian optimal experimental design, Dimensional logarithmic Sobolev inequality, Expected information gain, Fisher information, Signal-to-Noise Ratio},
+ month = {September},
+ title = {Certified {Bayesian} optimal experimental design: from {Expected} {Information} {Gain} to {Signal}-to-{Noise} {Ratio}},
+ url = {https://hal.science/hal-05768497},
+ year = {2026},
+ zotero-key = {YNJ45HSX}
+}
+
+@misc{hal-05874752,
+ abstract = {Advances in computational power have enabled the use of increasingly accurate ocean models, but reducing the computational cost of data assimilation remains an important challenge. This study investigates how multi-fidelity approaches can reduce the cost of variational data assimilation algorithms by exploiting cheaper ocean models. We consider a high-fidelity (HF) model that accurately represents ocean dynamics but is computationally expensive, and a low-fidelity (LF) model that is less accurate but significantly cheaper to run. In addition to the traditional use of the background error covariance matrix (B) as a preconditioner, we propose two approaches to construct a second-level limited-memory preconditioner (LMP). The first, the LF-LMP, uses the LF Hessian to compute the randomized low-rank approximation, reducing the cost of preconditioner construction. The second, the MF-LMP, combines information from the LF and HF Hessians during the sketching phase to improve the approximation while limiting the number of HF Hessian applications to one. We also derive error bounds to assess the impact of using LF information and to compare the different LF models. The methods are evaluated on a simplified ocean data assimilation test case using three LF models: single precision, multigrid and stationary. The results show that the efficiency of the LF-LMP depends on the accuracy of the LF model, while the MF-LMP can improve convergence and reduce the overall computational cost even with poorly accurate LF models. These results highlight the potential of multi-fidelity preconditioning to make variational data assimilation more computationally efficient.},
+ author = {Hénon, Hélène and Vidard, Arthur},
+ keywords = {Limited-Memory Preconditioner, Multi-fidelity, Randomized Low-rank Approximation, Variational Data Assimilation},
+ month = {November},
+ title = {Multi-{Fidelity} {Spectral} {Limited} {Memory} {Preconditioner} for {Variational} {Data} {Assimilation}},
+ url = {https://hal.science/hal-05874752},
+ year = {2026},
+ zotero-key = {5RFGBG68}
+}
+
 @inproceedings{hal_04076075,
  abstract = {Neural architecture search (NAS) is the use of a search algorithm to find, according to one or many criteria, the most suitable neural architecture for a given task, within a search space of neural network architectures. Among prominent search methods used in NAS literature, we can find reinforcement learning (RL)[1], evolutionary algorithms (EAs)[2, 3], and bayesian optimization (BO)[4, 5]. In this paper, we present a BO-based method, where instead of using Gaussian Processes which are usually associated with BO, we use deep ensembles as performance predictors for candidate neural networks. Specifically, we explore the potential of pretraining the ensemble networks as a way to mitigate their need for more data compared to GPs The idea is to use pretraining to accelerate the training of the deep ensemble, in order to obtain a good prediction performance early on in the optimization process. In the case of NAS, we have access to zero-cost metrics, which can be calculated quickly and without the need to train the candidate networks, by far the most costly part of evaluating them. By using existing and widely used NAS benchmarks, we show the improvement pretraining brings to the deep-ensemble based method, as a result accelerating the search process.},
  author = {Ouertatani, Houssem and Maxim, Cristian and Niar, Smail and Talbi, El-Ghazali},
@@ -2519,6 +2543,16 @@ DistBag‐DFS
  url = {https://arxiv.org/abs/2607.19425},
  year = {2026},
  zotero-key = {X2HN624G}
+}
+
+@article{introiini_alcyone_2024,
+ author = {Introïni, C. and Ramière, I. and Sercombe, J. and Michel, B. and Helfer, T. and Fauque, J.},
+ doi = {10.1016/j.anucene.2024.110711},
+ journal = {Annals of Nuclear Energy},
+ pages = {110711},
+ title = {{ALCYONE}: the fuel performance code of the {PLEIADES} platform dedicated to {PWR} fuel rods behavior},
+ volume = {207},
+ year = {2024}
 }
 
 @article{jain2015fireworks,
@@ -3258,6 +3292,17 @@ DistBag‐DFS
  url = {https://arxiv.org/abs/2606.29100},
  year = {2026},
  zotero-key = {THGZNJK2}
+}
+
+@article{novascone_coupling_2015,
+ author = {Novascone, S. R. and Spencer, B. W. and Hales, J. D. and Williamson, R. L.},
+ doi = {10.1016/j.nucengdes.2015.07.005},
+ journal = {Nuclear Engineering and Design},
+ pages = {910--921},
+ title = {Evaluation of coupling approaches for thermomechanical simulations},
+ url = {https://www.osti.gov/servlets/purl/1248174},
+ volume = {295},
+ year = {2015}
 }
 
 @article{novikov2025alphaEvolve,
@@ -4792,26 +4837,4 @@ Reproducibility crisis urge scientists to promote transparency which allows peer
  url = {https://inria.hal.science/hal-05741323v1},
  year = {2025},
  zotero-key = {KVIIHMFC}
-}
-
-% Thermomechanical coupling: primary references checked on 17 October 2026.
-@article{novascone_coupling_2015,
- author = {Novascone, S. R. and Spencer, B. W. and Hales, J. D. and Williamson, R. L.},
- title = {Evaluation of coupling approaches for thermomechanical simulations},
- journal = {Nuclear Engineering and Design},
- volume = {295},
- pages = {910--921},
- year = {2015},
- doi = {10.1016/j.nucengdes.2015.07.005},
- url = {https://www.osti.gov/servlets/purl/1248174}
-}
-
-@article{introiini_alcyone_2024,
- author = {Introïni, C. and Ramière, I. and Sercombe, J. and Michel, B. and Helfer, T. and Fauque, J.},
- title = {{ALCYONE}: the fuel performance code of the {PLEIADES} platform dedicated to {PWR} fuel rods behavior},
- journal = {Annals of Nuclear Energy},
- volume = {207},
- pages = {110711},
- year = {2024},
- doi = {10.1016/j.anucene.2024.110711}
 }

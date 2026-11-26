@@ -1,0 +1,26 @@
+%% Adapted from the Ktirio workflow shown at the 1 June webinar and the HiDALGO2 General Assembly on 30 June 2026.
+%% Render with Mermaid CLI 12.0.0 and graphics/management/mermaid-config.json.
+flowchart LR
+    geometry["`**Ktirio-Geom**
+Urban meshes`"]
+    model["`**Modelica**
+Building models`"]
+    data["`**CemDB**
+Locations and simulators`"]
+    runtime["`**Ktirio Urban Building**
+Feel++ · MPI · FMI`"]
+    analysis["`**Ktirio Dashboard**
+Maps and comparisons`"]
+    deploy["`**KUB-CD and Slurm**
+Build and launch`"]
+
+    geometry --> data
+    model --> data
+    data --> runtime
+    deploy -.-> runtime
+    runtime --> analysis
+
+    class runtime project
+    class data,analysis primary
+    classDef project fill:#2a2e80,stroke:#2a2e80,stroke-width:1.5px,color:#ffffff
+    classDef primary fill:#f1f1f8,stroke:#2a2e80,stroke-width:1.5px,color:#1d1d1f
