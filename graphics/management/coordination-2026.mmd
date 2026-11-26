@@ -1,0 +1,22 @@
+%% Cadence confirmed by the project leads. The SAB advises at the assembly.
+flowchart TB
+    coordination["`**Exa-MA coordination**
+Project co-leads and project officers
+Weekly, usually on Tuesday`"]
+    workPackages["`**WP1–WP7 leads**
+Work plan and joint actions
+Thursday morning
+every three weeks`"]
+    programme["`**NumPEx programme leadership (PC0)**
+Weekly on Thursday evenings`"]
+    advisoryBoard["`**Scientific Advisory Board**
+Advice at the General Assembly`"]
+
+    coordination --- workPackages
+    coordination --- programme
+    coordination -.- advisoryBoard
+
+    class coordination project
+    class workPackages primary
+    classDef project fill:#2a2e80,stroke:#2a2e80,stroke-width:1.5px,color:#ffffff
+    classDef primary fill:#f1f1f8,stroke:#2a2e80,stroke-width:1.5px,color:#1d1d1f

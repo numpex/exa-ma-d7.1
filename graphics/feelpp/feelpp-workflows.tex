@@ -1,0 +1,39 @@
+% Compact overview of the existing CI and benchmark workflow figures.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  flow/.style={rounded corners=2pt,fill=numpexblue!10,draw=numpexblue,
+    text=numpexblue,align=center,font=\sffamily\small,
+    text width=3.05cm,minimum height=15mm,inner sep=3pt},
+  node distance=4mm
+]
+\node[flow] (event) {GitHub events\\PR / merge / schedule};
+\node[flow,right=of event] (build) {Build and test\\CI environments};
+\node[flow,right=of build] (docker) {Publish packages\\and Docker images};
+\node[flow,right=of docker] (apptainer) {Publish Apptainer\\images};
+\draw[->,thick,numpexblue] (event)--(build);
+\draw[->,thick,numpexblue] (build)--(docker);
+\draw[->,thick,numpexblue] (docker)--(apptainer);
+\end{tikzpicture}
+\caption{\Feelpp continuous integration and delivery: build, test and publish.}
+\label{fig:feelpp-ci}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  flow/.style={rounded corners=2pt,fill=numpexblue!10,draw=numpexblue,
+    text=numpexblue,align=center,font=\sffamily\small,
+    text width=3.05cm,minimum height=15mm,inner sep=3pt},
+  node distance=4mm
+]
+\node[flow] (image) {New Apptainer\\image};
+\node[flow,right=of image] (run) {GitHub Actions\\Reframe / Slurm};
+\node[flow,right=of run] (hpc) {Benchmark runs\\on HPC systems};
+\node[flow,right=of hpc] (report) {Reports / database\\Dashboard};
+\draw[->,thick,numpexblue] (image)--(run);
+\draw[->,thick,numpexblue] (run)--(hpc);
+\draw[->,thick,numpexblue] (hpc)--(report);
+\end{tikzpicture}
+\caption{\Feelpp continuous benchmarking: execute, collect and report.}
+\label{fig:feelpp-cb}
+\end{figure}

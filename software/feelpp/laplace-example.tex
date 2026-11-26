@@ -1,0 +1,32 @@
+% The Problem API natural-boundary and Dirichlet tests exercise these builders.
+\begin{listing}[H]
+        \caption{Variable-coefficient diffusion with the \Feelpp Problem API.}
+        \label{lst:feelpp:diffusion-problem-api}
+\begin{minted}[
+        linenos,                % Line numbers
+        fontsize=\scriptsize,        % Reduce font size
+        bgcolor=bgcolor,        % Slightly gray background
+        frame=lines,            % Delimiters around the code
+        framesep=2mm,           % Space between code and frame
+        rulecolor=\color{gray}, % Color of the frame
+        breaklines              % Allow line breaks in long lines
+      ]{cpp}
+auto Vh = Pch<4>(mesh);
+auto uh = Vh->element("solution");
+auto u = trial(Vh);
+auto v = test(Vh);
+auto cells = elements(mesh);
+
+auto problem = ellipticProblem(_space = Vh, _name = "diffusion")
+    .lhs(integrate(_range = cells, _expr = inner(k * grad(u), grad(v))))
+    .rhs(integrate(_range = cells, _expr = f * v))
+    .neumann(_range = markedfaces(mesh, "Neumann"), _test = v, _expr = -qN)
+    .robin(_range = markedfaces(mesh, "Robin"), _trial = u, _test = v,
+           _alpha = r1, _expr = -r2)
+    .dirichlet(_range = markedfaces(mesh, "Dirichlet"),
+               _element = uh, _expr = g);
+
+auto system = problem.assemble();
+auto result = system.solve(_solution = uh);
+\end{minted}
+\end{listing}

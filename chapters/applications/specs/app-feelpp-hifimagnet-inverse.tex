@@ -1,10 +1,16 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
-\VThreeApplicationDraft{app-feelpp-hifimagnet-inverse}
-{HiFiMagnet thermoelectric parameter inversion}
-{C. Prud'homme; V. Chabannes}
-{WP1, WP2, WP3, WP4, WP6}{extended-mini-app}
-{Estimate electrical, thermal, contact and cooling parameters from voltage, temperature and optional magnetic observations at several imposed-current operating points.}
-{Feel++, PETSc/TAO, HPDDM; MPI, Kokkos and HIP}{spec-only}
+%!TEX root = ../../../exa-ma-deliverables.tex
+\ApplicationFicheHeading{app-feelpp-hifimagnet-inverse}
+\label{sec:app:specs:app-feelpp-hifimagnet-inverse}
+\begin{FicheMetadataTable}
+id & \nolinkurl{app-feelpp-hifimagnet-inverse} \\
+name & HiFiMagnet parameter inversion \\
+Responsible & C. Prud'homme; V. Chabannes \\
+work\_package & WP1, WP2, WP3, WP4, WP6 \\
+application\_type & extended-mini-app \\
+Framework & Feel++, PETSc, HPDDM \\
+Scientific / delivery status & Specification; optimizer workflow planned \\
+\end{FicheMetadataTable}
+
 \subsection{Description of the benchmark}
 Inverse application: estimate nonlinear electrical-conductivity, thermal-conductivity, contact and cooling parameters from voltage-drop, temperature and optional magnetic-field observations collected at several imposed-total-current operating points.
 \paragraph{Specification boundary.}
@@ -12,8 +18,39 @@ The output is a calibrated parameter vector or field and reconstructed
 observables, not an operating control.  \texttt{BM-FEEL-HIFI-INV-01} is a
 proposed verification/scalability record based on Taylor-gradient tests,
 parameter recovery and observation misfit.
-\todo{Supply the reviewed objective/regularization, synthetic or measured data,
-identifiability protocol, implementation commit, machine and raw evidence.}
+\paragraph{Planned contribution.} Review the objective below with the case owner; choose parameter bounds, observation uncertainties and regularization before implementing the optimization workflow.
+
+
+\paragraph{Proposed mathematical problem.}
+For experiments $e=1,\ldots,N_e$ at fixed imposed currents, solve the shared
+forward equations in \Cref{sec:app:feelpp:shared-thermoelectric} for
+$u_e(p)=(T_e,V_e,\Delta V_e)$. Estimate material, contact or cooling parameters
+by
+\[
+ \min_{p_{\min}\le p\le p_{\max}}
+ \frac12\sum_e\|W_e(H_e(u_e(p))-y_e)\|_2^2
+ +\frac{\alpha}{2}\|L(p-p_{\rm ref})\|_2^2.
+\]
+Here $y_e$ contains voltage-drop and temperature observations, optionally
+magnetic measurements only when the operator $\mathcal B$ is supplied.
+$W_e$ scales observables by their stated uncertainty/units; $L$ and $\alpha$
+define the regularization. Parameter units, bounds, reference values,
+observation positions, noise model and units are input data still to be
+selected; no numerical values or identifiability claim are assumed.
+
+\paragraph{Verification and delivery plan.}
+Begin with a manufactured synthetic parameter-recovery case and an independent
+forward mesh or controlled perturbation to avoid validating only a repeated
+identical solve. Separate noise-free recovery, noisy data and regularization
+sensitivity. Verify gradients with a directional Taylor test: the
+first-order-corrected objective remainder should decrease quadratically until
+solver error/roundoff dominates. Inspect sensitivity rank and parameter
+correlation before treating a low misfit as unique recovery.
+The forward model is delivered by CFG/JSON; optimizer, observation and
+adjoint/gradient orchestration are additional workflow components and remain
+planned. TAO/ROM capabilities in the wider framework do not establish an
+implemented adapter for this case. Report objective terms, projected-gradient
+or bound-stationarity measure, PDE solves, errors and time-to-inference.
 
 \subsection{Benchmarking methodology}
 
@@ -29,7 +66,7 @@ identifiability protocol, implementation commit, machine and raw evidence.}
   \item[Benchmark scope:] multi-node, multi-gpu, full-system, method-verification, solver-scaling, ensemble-mode
   \item[metrics:] Taylor-gradient-test, parameter-recovery-error, observation-misfit by observable, regularization contribution, identifiability, time-to-inference, PDE-solves-to-solution, TAO-iterations, strong-scalability, weak-scalability, experiment-throughput
 \end{description}
-\todo[app-feelpp-hifimagnet-inverse / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+\paragraph{Planned contribution.} Review the proposed protocol and select the case-specific tolerances and parameter values before implementation.
 
 \subsection{Input/Output Dataset Description}
 
@@ -40,4 +77,6 @@ Gmsh, JSON config, nonlinear material laws, imposed currents, voltage-drop and t
 Calibrated parameter vector or fields p*, forward and adjoint fields per experiment, predicted observables, residual decomposition, gradient/Hessian information, sensitivities, uncertainty estimates, objective histories, JSON/CSV reports
 
 \subsection{Results summary}
-\todo[app-feelpp-hifimagnet-inverse / results summary]{Results summary to be supplied by contributors.}
+Campaign results are planned; the present contribution is a scientific and execution specification.
+
+\input{chapters/applications/meshes/app-feelpp-hifimagnet-inverse}

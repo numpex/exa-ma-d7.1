@@ -3,42 +3,32 @@
 
 
 
-\begin{table}[h!]
-    \centering
-    { \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{!{\color{numpexgray}\vrule}p{.4\textwidth}!{\color{numpexgray}\vrule}p{.6\textwidth}!{\color{numpexgray}\vrule}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Field} & {\rule{0pt}{2.5ex}\color{white}\bf Details} \\
-        \rowcolor{white}\textbf{Consortium} & \begin{tabular}{l}
+\begin{FicheMetadataTable}[HPDDM Information]
+\textbf{Consortium} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Exa-MA Partners} & \begin{tabular}{l}
+        \textbf{Exa-MA Partners} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Inria PARIS\\
 Sorbonne U\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Contact Emails} & \begin{tabular}{l}
+        \textbf{Contact Emails} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 pierre@joliv.et\\
+erik.fabrizzi@lip6.fr\\
 \end{tabular} \\
-        \rowcolor{numpexlightergray}\textbf{Supported Architectures} & \begin{tabular}{l}
+        \textbf{Supported Architectures} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 CPU or GPU\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Repository} & \href{https://github.com/hpddm/hpddm}{https://github.com/hpddm/hpddm} \\
-        \rowcolor{numpexlightergray}\textbf{License} & \begin{tabular}{l}
+        \textbf{Repository} & \href{https://github.com/hpddm/hpddm}{https://github.com/hpddm/hpddm} \\
+        \textbf{License} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 OSS:: LGPL v*\\
 \end{tabular} \\
-        \rowcolor{white}\textbf{Bottlenecks roadmap} & \begin{tabular}{l}
+        \textbf{Bottlenecks roadmap} & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 B10 - Scientific Productivity\\
 B11 - Reproducibility and Replicability of Computation\\
 B6 - Data Management\\
 B7 - Exascale Algorithms\\
 \end{tabular} \\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{HPDDM Information}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Software summary}
 \label{sec:HPDDM:summary}
@@ -64,46 +54,38 @@ to solve linear systems in parallel.
 
 The following table summarizes these aspects for HPDDM, providing a  view of its programming and computational capabilities.
 
-\begin{table}[h!]
-    \centering
-    {
-    \setlength{\parindent}{0pt}
-    \def\arraystretch{1.25}
-    \arrayrulecolor{numpexgray}
-    {\fontsize{9}{11}\selectfont
-    \begin{tabular}{lp{.3\textwidth}p{.5\textwidth}}
-        \rowcolor{numpexgray}{\rule{0pt}{2.5ex}\color{white}\bf Category}  & {\rule{0pt}{2.5ex}\color{white}\bf Details} & {\rule{0pt}{2.5ex}\color{white}\bf Description}\\
-        \rowcolor{white}Languages  & \begin{tabular}{l}
+\begin{FicheEnvironmentTable}[HPDDM programming and computational environment]
+Languages  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 C\\
 C++\\
 Fortran\\
 Python\\
 \end{tabular} & The software is header-only in C++ but there are bindings to other languages and libraries.\\
-        \rowcolor{numpexlightergray}Parallelism  & \begin{tabular}{l}
+        Parallelism  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 GPU\\
 MPI\\
 Multithread\\
-\end{tabular} & Subdomains are typically bound to an MPI process, which can then exploit OpenMP or CUDA.\\
-        \rowcolor{white}Data Formats  & \begin{tabular}{l}
+\end{tabular} & Subdomains are typically bound to an MPI process, which can then exploit OpenMP or CUDA. Since 2026, device execution in \texttt{PCHPDDM} is delegated to PETSc; support for subdomains shared by several MPI processes is in development.\\
+        Data Formats  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 in-house format\\
 \end{tabular} & The software mostly relies on the data formats of calling libraries, e.g., PETSc.\\
-        \rowcolor{numpexlightergray}Resilience  & \begin{tabular}{l}
+        Resilience  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Currently no recovery mechanisms.\\
-        \rowcolor{white}DevOps & \begin{tabular}{l}
+        DevOps & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Continuous Integration\\
-\end{tabular} & GitHub Actions is used for running a test suite with MPI and CUDA examples. Codecov is used for the code coverage.  \\
-        \rowcolor{numpexlightergray}Packaging  & \begin{tabular}{l}
+\end{tabular} & GitHub Actions is used for running a test suite with MPI and CUDA examples. \texttt{clang-format} and \texttt{clang-tidy} are enforced. Codecov is used for the code coverage.  \\
+        Packaging  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Available in Spack, MacPorts, PETSc, SLEPc, and FreeFEM.\\
-        \rowcolor{white}Testing  & \begin{tabular}{l}
+        Testing  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Unit\\
 Verification\\
 \end{tabular} & Regression tests with respect to number of iterations, time to solution, and other preconditioner metrics.\\
-        \rowcolor{numpexlightergray}Containerization  & \begin{tabular}{l}
+        Containerization  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 None\\
 \end{tabular} & Not applicable.\\
-        \rowcolor{white}Interfaces  & \begin{tabular}{l}
+        Interfaces  & \begin{tabular}[t]{@{}p{\linewidth}@{}}
 Feel++\\
 Freefem++\\
 MUMPS\\
@@ -112,18 +94,72 @@ PaStiX\\
 HTOOL\\
 \\
 \end{tabular} & The library can use PaStiX and MUMPS. The library is used by Feel++, Freefem++, PETSc, and HTOOL, all through the C++ API.\\
-        \bottomrule
-    \end{tabular}
-    }}
-    \caption{HPDDM programming and computational environment}
-\end{table}
+\end{FicheEnvironmentTable}
 
+
+\subsection{Developments in 2026}
+\label{sec:HPDDM:2026}
+
+\paragraph{PETSc-native CPU/CUDA backend.}
+The \texttt{PCHPDDM} integration in HPDDM 2.4.0 and PETSc 3.25 uses PETSc
+\texttt{Vec} and \texttt{Mat} objects for the partition of unity, deflation
+vectors and coarse-correction work vectors.
+The corresponding operations use PETSc's CPU or CUDA implementations,
+with storage chosen consistently with the input operators.
+The implementation is documented by
+\href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148} and
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}.
+
+The supporting dense-matrix interfaces
+\texttt{MatCreateDenseWithMemType()} and
+\texttt{MatDenseReplaceArrayWithMemType()} were added in
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9117}{PETSc MR !9117};
+their adoption in HPDDM is recorded in
+\href{https://github.com/hpddm/hpddm/pull/146}{PR \#146}.
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9130}{PETSc MR !9130}
+adds \texttt{MatDiagonalScale()} for sequential CUDA/HIP dense matrices.
+The HPDDM backend described here targets CUDA; HIP support in an individual
+PETSc operation does not establish support for the complete HPDDM path.
+
+The numerical method is unchanged. Coarse-operator assembly and
+factorization remain on the host, and the deflation implementation still
+contains host accesses during application.
+Performance evaluation must therefore account for host work and transfers
+during both setup and solve. A device-resident coarse operator and Kokkos
+support remain development objectives.
+
+\paragraph{Subdomains shared by several MPI processes.}
+A separate, unreleased prototype groups the processes of a subdomain in a
+sub-communicator, enabling parallel direct solvers for local problems.
+The processes contribute collectively to the coarse operator, with assembly
+coordinated by a leader; \texttt{PCGASM} provides the one-level smoother.
+The prototype is restricted to two levels and excludes block splitting,
+harmonic overlap, \texttt{-pc\_hpddm\_levels\_1\_st\_pc\_type mat}, and
+Schur-complement preconditioning.
+Its current validation uses a local driver; regression tests of the
+one-subdomain-per-process path do not validate the new shared-subdomain path.
+A versioned implementation reference and a registered test are still needed.
+
+\paragraph{Evidence and application evaluation.}
+The released sources are available as
+\href{https://github.com/hpddm/hpddm/tree/v2.4.0}{HPDDM 2.4.0} and
+\href{https://github.com/petsc/petsc/tree/v3.25.0}{PETSc 3.25.0}.
+Registered CUDA regression cases are included in
+\href{https://github.com/petsc/petsc/blob/v3.25.0/src/ksp/ksp/tutorials/ex76.c}{\texttt{ex76.c}};
+the dense diagonal-scaling tests are in
+\href{https://github.com/petsc/petsc/blob/v3.25.0/src/mat/tests/ex69.c}{\texttt{ex69.c}}.
+These test definitions provide reproducible entry points; benchmark results
+require the run configurations and raw measurements described in
+\cref{sec:app:specs:app-hpddm-dfn}.
+The maturity and limitations of the two developments are summarized in
+\cref{tab:advance:WP3-A2026-3,tab:advance:WP3-A2026-4}.
 
 \subsection{Application entry points}
 \label{sec:HPDDM:apps}
-HPDDM underpins domain decomposition preconditioning in multiple applications:
+Applications using or evaluating HPDDM domain decomposition preconditioning include:
 \begin{itemize}
-        \item Discrete Fracture Networks (DFN) demonstrator: Section~\ref{sec:app:specs:app-hpddm-dfn}.
+        \item Discrete Fracture Networks (DFN) demonstrator: \cref{sec:app:specs:app-hpddm-dfn}; benchmark \texttt{BM-HPDDM-DFN-01}, with versioned application evidence pending.
+        \item PETSc mixed-precision study: \cref{sec:app:specs:app-petsc-mixed-precision}; benchmark \texttt{BM-PETSC-MIXED-01}, with supported precision configurations and accuracy criteria to be specified.
         \item FreeFEM integration in mesh adaptation workflows (see Section~\ref{sec:app:specs:app-freefem-parmmg}).
         \item Feel++‑based demonstrators using HPDDM preconditioning (see Sections~\ref{sec:app:specs:app-feelpp-discr-1} and~\ref{sec:app:specs:app-feelpp-discr-2}).
 \end{itemize}
@@ -136,7 +172,6 @@ HPDDM underpins domain decomposition preconditioning in multiple applications:
 \subsection{Relevant Publications}
 \label{sec:HPDDM:publications}
 
-Here is a list of relevant publications related to the software:
 \begin{itemize}
 \item \fullcite{jolivet_scalable_2013} presents a two-level domain decomposition preconditioner tested to solve elliptic problems in parallel with up to 22 billion unknowns in 2D and 2 billion unknowns in 3D.
 \item \fullcite{jolivet_block_2016} presents block iterative methods and recycling strategies to solve linear systems with multiple right-hand sides and millions of unknwons while preserving a good scalability.

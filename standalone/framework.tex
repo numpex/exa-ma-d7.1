@@ -1,0 +1,37 @@
+% Shared wrapper: no scientific content is copied here.
+\documentclass[11pt]{report}
+\input{standalone/framework-preamble}
+\input{standalone/identity-panel}
+\newcommand{\PortfolioApplication}[3]{%
+  \clearpage
+  \begingroup
+    \def\ApplicationId{#1}%
+    \def\ApplicationSpec{#2}%
+    \def\ApplicationGroupedSource{#3}%
+    \FicheIdentityPanel{#1}%
+    \gdef\FicheDocumentLabel{Framework and applications}%
+    {\small\hyperref[portfolio:overview]{Application index}\enspace\textbar\enspace
+      \hyperref[portfolio:framework]{Framework description}\par}\medskip
+    \input{standalone/application-content}%
+    \clearpage
+  \endgroup}
+\begin{document}
+\setcounter{chapter}{1}
+\FicheIdentityPanel{\FrameworkId}
+\gdef\FicheDocumentLabel{Framework and applications}
+{\scriptsize
+\ifdefstring{\FrameworkId}{feelpp}
+  {Report \FrameworkReportVersion.}
+  {Report \FrameworkReportVersion{}; build \FrameworkBuildRef{}; source revision \FrameworkBuildRevision.}%
+\par}
+\medskip
+\raggedbottom
+\renewcommand{\thesection}{\arabic{section}}
+\phantomsection\label{portfolio:overview}
+\input{standalone/portfolios/\FrameworkId-index}
+\phantomsection\label{portfolio:framework}
+\input{\FrameworkSource}
+\input{standalone/portfolios/\FrameworkId-applications}
+\bibliography{references}
+\bibliographystyle{apacite}
+\end{document}

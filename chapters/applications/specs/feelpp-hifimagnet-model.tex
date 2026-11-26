@@ -1,0 +1,41 @@
+% Shared scientific specification, included by the HL-31 fiche.
+\subsubsection{Shared nonlinear thermoelectric forward model}
+\label{sec:app:feelpp:shared-thermoelectric}
+The forward model used to specify the CPU, MI300A, inverse and control cases is
+steady electric conduction with Joule heating~\cite{daver2016,Hild2020}:
+\begin{gather}
+ \nabla\cdot j=0,\qquad j=-\sigma(T,p)\nabla V,\label{eq:feelpp:hifi:electric}\\
+ -\nabla\cdot(k(T,p)\nabla T)=\sigma(T,p)|\nabla V|^2.
+ \label{eq:feelpp:hifi:heat}
+\end{gather}
+Here $V$ is in V, $T$ in K, $j$ in A\,m$^{-2}$, electrical conductivity
+$\sigma$ in S\,m$^{-1}$ and thermal conductivity $k$ in
+W\,m$^{-1}$\,K$^{-1}$. The vector $p$ collects the material/cooling parameters
+of the selected model. On cooling surfaces,
+$-k\nabla T\cdot n=h(T-T_c)$, with $h$ in W\,m$^{-2}$\,K$^{-1}$ and coolant
+reference temperature $T_c$ in K; remaining thermal surfaces are insulated
+unless the input deck specifies otherwise. Electrical surfaces other than the
+terminals are insulating in the baseline model. Contact/interface laws, when
+used, must be supplied explicitly rather than absorbed into an unspecified
+conductivity.
+
+The \href{https://docs.feelpp.org/toolboxes/latest/thermoelectric/theory.html}{toolbox theory}
+describes potential-driven terminals. To specify the imposed-total-current
+HiFiMagnet variant, ground one terminal and introduce a uniform unknown
+potential drop $\Delta V$ on the other, with
+\[
+  \int_{\Gamma_+}j\cdot n\,ds=I_\star.
+\]
+The current sign uses the outward normal. The exact integral constraint and
+its nonlinear coupling settings must be checked in the HL-31 CFG/model files;
+the existence of a generic potential-driven toolbox does not establish that
+this particular current-controlled input deck is ready.
+
+The shared validation outputs are terminal current balance, electrical power
+$P=\int_\Omega\sigma|\nabla V|^2\,dx$ in W, heat balance and peak temperature.
+Temperature-dependent material laws, cooling regions and coefficients,
+finite-element order, nonlinear tolerances and interface conditions are part
+of the case definition. For new comparisons, select a mesh-convergence
+criterion and freeze it before performance measurements. A magnetic-field
+observation $\mathcal B(j)$ requires a separately specified magnetic evaluation
+operator; it is not an output of the conduction equations alone.

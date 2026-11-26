@@ -1,43 +1,160 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
-\VThreeApplicationDraft{app-feelpp-thermomeca-1}
-{Thermomechanical coupling}
-{V. Chabannes; C. Prud'homme; I. Rami\`ere; H. Barucq}
-{WP1, WP3}{demonstrator}
-{Demonstrate partitioned static linear thermoelastic coupling on a fixed reference mesh with displacement-dependent effective thermal conductivity; verify equivalence with explicit mesh deformation and assess HPC scalability.}
-{Feel++, MPI}{implementation-in-progress}
+%!TEX root = ../../../exa-ma-deliverables.tex
+\ApplicationFicheHeading{app-feelpp-thermomeca-1}
+\label{sec:app:specs:app-feelpp-thermomeca-1}
+\begin{FicheMetadataTable}
+id & \nolinkurl{app-feelpp-thermomeca-1} \\
+name & Thermomechanical coupling \\
+Responsible & V. Chabannes; C. Prud'homme; I. Rami\`ere; H. Barucq \\
+work\_package & WP1, WP3 \\
+application\_type & demonstrator \\
+purpose & Verify partitioned thermoelastic coupling using a displacement-dependent effective conductivity on a fixed mesh; assess solver performance and HPC scalability. \\
+Framework & Feel++, MPI \\
+operational status & implementation-in-progress \\
+scientific reference & Dubois et al., CSMA 2026; \href{https://cea.hal.science/cea-05590574}{cea-05590574} \\
+Feel++ configuration & Heat and solid models and coupling settings planned \\
+benchmark data & Published Cast3M/MFEM study; Feel++ run archive pending \\
+\end{FicheMetadataTable}
+
 \subsection{Description of the benchmark}
-Demonstrate partitioned static linear thermoelastic coupling on a fixed reference mesh using displacement-dependent effective thermal conductivity; verify equivalence with explicit mesh deformation and assess HPC scalability.
+This application studies static linear thermoelasticity with two-way coupling.
+Thermal expansion changes the geometry seen by the heat equation, while temperature
+drives the mechanical loading. The reference study by
+\citeA{dubois_couplage_2026} formulates heat conduction on the initial geometry
+using a displacement-dependent effective conductivity, verifies equivalence
+with explicit mesh deformation in Cast3M, and studies parallel performance in
+MFEM. It acknowledges Exa-MA support under ANR-22-EXNU-0002.
+The article and its benchmark descriptions are publicly available through
+\href{https://cea.hal.science/cea-05590574}{HAL (cea-05590574)} and the
+\href{https://csma2026.sciencesconf.org/688246/document}{CSMA 2026 proceedings}.
+
+\paragraph{Application scope and maturity.}
+The Feel++ demonstrator adopts this study as a scientific reference for WP1
+multiphysics coupling and WP3 solver/preconditioner evaluation. The published
+Cast3M/MFEM measurements below are reference results, not completed Feel++ runs.
+The dedicated Feel++ thermomechanics case is still in development under
+\nolinkurl{BM-FEEL-THERMOMECA-01}.
+
+\paragraph{Coupled model.}
+Let $\Omega$ be the reference domain, $x=X+u(X)$ the deformation,
+$F=I+\nabla u$ and $J=\det F$. In the small-strain, static setting of
+\citeA{dubois_couplage_2026}, the reference-configuration problem is
+\begin{gather}
+ -\nabla\cdot(K(u)\nabla T)=J s,
+ \qquad K(u)=JF^{-1}kF^{-T},\label{eq:app:thermomeca:heat}\\
+ -\nabla\cdot\sigma(u,T)=B,
+ \qquad\varepsilon(u)=\tfrac12(\nabla u+\nabla u^T),\label{eq:app:thermomeca:mechanics}\\
+ \sigma(u,T)=\lambda\operatorname{tr}(\varepsilon(u))I
+ +2\mu\varepsilon(u)-(3\lambda+2\mu)\alpha(T-T_{\mathrm{ref}})I.
+ \label{eq:app:thermomeca:stress}
+\end{gather}
+Here $k$ and $s$ are conductivity and volumetric heat source on the deformed
+domain; $K$ and $Js$ are their effective reference-domain counterparts.
+Temperature is in K, displacement in m, conductivity in
+$\mathrm{W\,m^{-1}\,K^{-1}}$, stress in Pa, heat source in
+$\mathrm{W\,m^{-3}}$, and body force $B$ in $\mathrm{N\,m^{-3}}$.
+The Piola heat flux $Q=JF^{-1}q$, with $q=-k\nabla_xT$, preserves integrated
+normal heat flux. Neumann data must be transformed consistently using
+$n\,da=JF^{-T}N\,dA$; homogeneous Neumann data remain homogeneous.
+Dirichlet data are pulled back through $x=X+u(X)$.
+The comparison formulation solves heat conduction on the explicitly deformed
+mesh and mechanics on the reference mesh.
+
+\paragraph{Reference cases.}
+The bar follows \citeA{novascone_coupling_2015}; the second case is a fuel-pellet
+fragment inspired by the ALCYONE setting \cite{introiini_alcyone_2024}.
+\begin{table}[!ht]
+\centering\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+\textbf{Parameter} & \textbf{Heated bar} & \textbf{Fuel-pellet fragment} \\
+\midrule
+Geometry & Length $5$ m; section $1\times1$ m$^2$ & Height $7$ mm; radius $4$ mm \\
+Thermal loading & End temperatures $100$ K and $1100$ K; no volumetric source & Surface facing the cladding at $600$ K; volumetric heat source \\
+Mechanical constraints & Axial deformation only & Constraints representing stacking and confinement; exact boundary masks to be supplied \\
+Material data & Taken from the Novascone reference; exact input deck to be confirmed & $k=2.5I$ W\,m$^{-1}$\,K$^{-1}$; $E=190$ GPa; $\nu=0.3$; $\alpha=10^{-5}$ K$^{-1}$; $T_{\mathrm{ref}}=96.8$ K \\
+Published meshes & $2560$ nodes for field plots; $100\,000$ for sequential timings; $83\times10^6$ for MFEM scaling & $120\,221$ nodes for Cast3M verification \\
+\bottomrule
+\end{tabularx}
+\caption{Case data from Dubois et al. (2026), Sections 3.1--3.3. Node counts are not degree-of-freedom counts.}
+\label{tab:app:thermomeca:cases}
+\end{table}
 
 \subsection{Benchmarking methodology}
+\paragraph{Numerical verification (WP1).}
+Use partitioned Gauss--Seidel iterations, solving the thermal and mechanical
+problems successively. The paper stops when the relative change in the
+Euclidean displacement norm falls below $10^{-6}$. Its exact residual
+normalization must be recorded with the Feel++ input deck.
+Compare both coupling formulations at identical mesh resolution, material data,
+boundary conditions and solver tolerances. Compare temperature and displacement
+after mapping to the same reference geometry, and report coupling iteration
+counts and relative field errors. The paper reports near-roundoff agreement;
+a Feel++ acceptance tolerance must be fixed before its runs.
 
+\paragraph{Solver and scaling protocol (WP3).}
+The MFEM reference compares MUMPS with conjugate gradients preconditioned by
+HypreBoomerAMG (HMIS coarsening, strong threshold $0.25$, absolute residual
+tolerance $10^{-6}$). It reuses the mechanical factorization for the direct
+solver and the previous coupling iterate as the initial guess for the iterative
+solver. These are reference settings, not verified Feel++ command-line options.
+Measure thermal preparation/assembly, thermal solve, mechanical
+preparation/assembly, mechanical solve and total coupling time separately.
+Record linear and coupling iteration counts alongside timing.
 
-\paragraph{Benchmark contract.}
-Scope: multi-node, solver scaling and method verification.  Candidate metrics:
-relative error, time-to-solution and strong scaling.  No dedicated implementation
-path, run date, machine configuration or raw-data URL was observed in the sources
-inspected for this draft; therefore \texttt{BM-FEEL-THERMOMECA-01} remains
-\emph{implementation in progress}.
-
-\paragraph{Required owner input.}
-\todo{Provide the reviewed coupling equations, equivalence tolerance, reference
-dataset, Feel++ commit, launch configuration, machine description and raw results.}
-\begin{description}
-  \item[Method-Algorithm WP1:] finite element, multiphysics coupling
-  \item[Method-Algorithm WP3:] multiphysics coupling, domain decomposition methods, preconditioning
-  \item[Framework:] Feel++
-  \item[parallel\_framework:] MPI
-  \item[Benchmark scope:] multi-node, solver-scaling, method-verification
-  \item[metrics:] strong-scalability, time-to-solution, relative-error
-\end{description}
-\todo[app-feelpp-thermomeca-1 / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+For strong scaling, hold the global problem and accuracy fixed. The published
+MFEM campaign uses $83\times10^6$ mesh nodes and $64$--$4096$ MPI processes,
+one CPU core per process, on CCRT TOPAZE: AMD EPYC Milan 7763 at $2.45$ GHz,
+$128$ cores and $256$ GB RAM per node. For a future Feel++ campaign,
+report $S(p)=t(p_0)/t(p)$ and
+$E(p)=S(p)/(p/p_0)$ with an explicitly stated baseline $p_0$, together with
+repeated-run variability and all machine/software settings.
 
 \subsection{Input/Output Dataset Description}
+\paragraph{Available reference documentation.}
+The open CSMA paper provides the formulation, case descriptions, sequential
+timing Tables 1--2 and the TOPAZE strong-scaling plot (Figure 4).
+The original bar study has a
+\href{https://doi.org/10.1016/j.nucengdes.2015.07.005}{publisher record} and an
+\href{https://www.osti.gov/servlets/purl/1248174}{open INL manuscript}.
+The article documents the problem and published timings but does not supply
+an executable benchmark package with the input decks, mesh generator and
+raw scaling measurements.
 
-\subsubsection{Input Data}
-Gmsh, JSON config
-
-\subsubsection{Output Data}
-HDF5 fields, CSV predictions
+\paragraph{Feel++ inputs and outputs to archive.}
+The catalogue specifies Gmsh meshes and JSON configuration as inputs, with HDF5
+fields and CSV outputs. Supply both reference cases with material values,
+boundary labels, source amplitude, finite-element order, quadrature and solver
+settings. Export $T$, $u$, coupling/linear residual histories, field-comparison
+errors and phase timings. Record the software versions, launch commands,
+mesh identifiers, dependency versions, MPI placement and repeated-run
+measurements before validating the benchmark.
 
 \subsection{Results summary}
-\todo[app-feelpp-thermomeca-1 / results summary]{Results summary to be supplied by contributors.}
+\paragraph{Published reference results: Cast3M and MFEM.}
+\citeA{dubois_couplage_2026} reports three coupling iterations for the bar and
+five for the pellet. The Cast3M formulations agree to approximately $10^{-15}$
+for the bar; maximum normalized discrepancies for the pellet are of order
+$10^{-13}$ in temperature and $10^{-14}$ in displacement. The bar comparison
+also agrees with the MOOSE/BISON reference solution.
+
+On the $100\,000$-node sequential bar case, the reported total Cast3M times are
+$249.188$ s for effective conductivity and $253.180$ s for explicit deformation.
+MFEM totals are $62.26$ s with MUMPS and $72.23$ s with CG/AMG. Both timing
+tables identify an Intel Core Ultra 5 135H machine (18 threads, 16 GB RAM);
+these measurements are not a general cross-framework speedup claim.
+
+For MFEM strong scaling, the mechanical solve accounts for over $90\%$ of total
+time and scales nearly ideally through $1024$ MPI processes, with further gains
+but reduced efficiency beyond that. The thermal solve scales well through
+$2048$ processes, then its time rises slightly at $4096$; at $2048$ it contributes
+less than $1\%$ of total time. Exact scaling timings are plotted in the paper,
+not tabulated as an accompanying raw dataset.
+
+\paragraph{Feel++ validation and benchmark results still required.}
+No measured Feel++ verification error, timing or scalability result is claimed
+for \nolinkurl{BM-FEEL-THERMOMECA-01}.
+\paragraph{Planned contribution.} Obtain the authors' reference
+input decks and raw data; confirm all bar material parameters, pellet source
+and boundary masks, discrete spaces and stopping-test definition; supply reviewed heat/solid CFG and JSON models plus coupling settings, using a custom driver only if needed; select acceptance tolerances. A Feel++ run archive remains planned.
+
+\input{chapters/applications/meshes/app-feelpp-thermomeca-1}

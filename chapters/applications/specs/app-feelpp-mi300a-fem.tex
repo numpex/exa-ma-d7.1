@@ -1,10 +1,16 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
-\VThreeApplicationDraft{app-feelpp-mi300a-fem}
-{MI300A high-order finite-element kernels and HiFiMagnet}
-{C. Prud'homme; V. Chabannes; P. Jolivet}
-{WP1, WP3, WP7}{extended-mini-app}
-{Benchmark the forward nonlinear thermoelectric high-field-magnet model at fixed accuracy, including solver behaviour, device residency and CPU/APU performance.}
-{Feel++, PETSc, HPDDM; MPI, Kokkos and HIP}{implementation-in-progress}
+%!TEX root = ../../../exa-ma-deliverables.tex
+\ApplicationFicheHeading{app-feelpp-mi300a-fem}
+\label{sec:app:specs:app-feelpp-mi300a-fem}
+\begin{FicheMetadataTable}
+id & \nolinkurl{app-feelpp-mi300a-fem} \\
+name & HiFiMagnet forward model on MI300A \\
+Responsible & C. Prud'homme; V. Chabannes \\
+work\_package & WP1, WP3, WP7 \\
+application\_type & extended-mini-app \\
+Framework & Feel++, PETSc, HPDDM \\
+Scientific / delivery status & Implementation planned; CPU case available \\
+\end{FicheMetadataTable}
+
 \subsection{Description of the benchmark}
 Forward-performance benchmark: solve the nonlinear thermo-electric high-field-magnet model at fixed accuracy and expose state fields, nonlinear/linear solver behaviour, device residency and CPU/APU performance; no inverse or control objective is introduced in this application.
 \paragraph{Scope boundary.}
@@ -14,17 +20,36 @@ campaign; this integration draft does not present that allocation or campaign as
 a completed result.
 
 
+
+\paragraph{Scientific baseline and configuration delivery.}
+Use the shared HL-31 operator in
+\Cref{sec:app:feelpp:shared-thermoelectric}, with identical geometry, material
+laws, current loading and cooling on CPU and APU. A versioned toolbox CFG,
+model JSON and native/container launch configuration are sufficient delivery;
+new C++ is not a prerequisite. Backend availability and full device residency
+must be checked for the selected discretization and solver stack.
+
+\paragraph{Proposed comparison.}
+First verify current/heat balance, peak temperature and field differences
+against the CPU solution at predeclared tolerances. Fix mesh/order and nonlinear
+and linear stopping tests, then compare elapsed assembly, solve and total time,
+iterations, memory use and host/device transfers. State whether initialization,
+JIT/setup, transfers and synchronization are included. Use repeated runs and
+report variability, MPI/rank-to-device placement, native package version or
+container digest. Multi-APU sweeps remain planned. Assembly/kernel experiments
+are optional separate studies; they must not be substituted for an end-to-end
+forward solve at fixed accuracy.
+
 \subsection{Benchmarking methodology}
 
 
-\paragraph{Evidence and benchmark contract.}
-The inspected \href{https://github.com/numpex/apps-feelpp/commit/bf1febf41cd615c20928e1bb4ef70678533c0587}{application commit}
-contains a HiFiMagnet thermoelectric JSON configuration under
-\texttt{src/app-feelpp-toolbox/thermoelectric/hifimagnet}.  It does not yet
-establish a dedicated executable benchmark or MI300A result for this ID.
-\texttt{BM-FEEL-MI300A-01} therefore remains implementation in progress.
-\todo{Pin the executable/config, input data, native and container environments,
-MI300A topology, fixed-accuracy baseline, repetitions and raw-data location.}
+\paragraph{CPU reference and planned MI300A comparison.}
+The \href{https://github.com/numpex/apps-feelpp/tree/main/src/app-feelpp-toolbox/thermoelectric/hifimagnet}{HiFiMagnet thermoelectric configuration}
+provides the CPU reference case. The MI300A backend and launch configuration,
+verification at matched accuracy, and performance measurements are still
+pending for \texttt{BM-FEEL-MI300A-01}.
+\paragraph{Planned contribution.} Pin the executable/config, input data, native and container environments,
+MI300A topology, fixed-accuracy baseline, repetitions and raw-data location.
 \begin{description}
   \item[Method-Algorithm WP1:] high-order cG/H1 and HDG, full/partial/matrix-free assembly, homogeneous worksets, facets, traces, coupled blocks, skeleton terms
   \item[Method-Algorithm WP3:] PETSc/HPDDM Krylov solvers, preconditioning, nonlinear and block solvers, device-resident sparse algebra
@@ -33,7 +58,7 @@ MI300A topology, fixed-accuracy baseline, repetitions and raw-data location.}
   \item[Benchmark scope:] single-node, multi-node, multi-gpu, full-system, method-verification, solver-scaling
   \item[metrics:] forward-residual, discretization-error, fixed-accuracy, time-to-solution, time-to-precision, nonlinear-and-linear-iterations, assembly-cost, solve-cost, memory-residency, host-device-transfers, strong-scalability, weak-scalability, multi-APU-scalability
 \end{description}
-\todo[app-feelpp-mi300a-fem / benchmarking methodology]{Benchmarking methodology to be supplied by contributors.}
+\paragraph{Planned contribution.} Review the proposed protocol and select the case-specific tolerances and parameter values before implementation.
 
 \subsection{Input/Output Dataset Description}
 
@@ -44,4 +69,6 @@ Gmsh, JSON config, Spack environment, Apptainer image
 Electric potential $\varphi$, temperature T, unknown potential drop $\Delta$V, current density J, Joule losses, JSON/CSV performance reports, profiles, HDF5 fields, reproducible native and container environments
 
 \subsection{Results summary}
-\todo[app-feelpp-mi300a-fem / results summary]{Results summary to be supplied by contributors.}
+Campaign results are planned; the present contribution is a scientific and execution specification.
+
+\input{chapters/applications/meshes/app-feelpp-mi300a-fem}

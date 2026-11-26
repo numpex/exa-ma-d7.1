@@ -1,31 +1,42 @@
-% Authored results moved from the application fiche; shared with its standalone.
+% Authored results shared by the full deliverable and the application preview.
 
+\paragraph{Faster sampling does not make storage faster.}
+For a DG P0 tensor on 8.43~million cells and 256 ranks on Discoverer,
+direct sampling cut warm EnSight preparation from 1.104 to 0.109~s,
+while field packing and write moved only from 0.324 to 0.309~s.
+The matched exports agree byte for byte, excluding the SOS launchers.
+The gain is in preparation, not storage bandwidth.
 
+\paragraph{Geometry, fields and reloading scale differently.}
+At fixed mesh size, increasing from 256 to 2,048 ranks raised warm
+rank-zero EnSight tensor packing and write from 0.309 to 0.417~s.
+\Cref{fig:app-feelpp-io:scaling-by-operation} separates that cost
+and the first geometry write from native HDF5 mesh and field save
+and reload. The curves use one verified run per point and different
+weak layouts. For moving meshes, measure geometry at the intended
+output cadence rather than using the first static write as a proxy.
 
+\begin{samepage}
+\paragraph{The best writer depends on payload and layout.}
+At 8.43~million cells and 512 ranks on Lustre, independent EnSight writes
+raised median warm packing and write for the nodal tensor (0.123 to
+0.247~s) but reduced it for the cell tensor (0.312 to 0.228~s) versus
+rank zero. One of three independent cell repeats was slower.
+Darshan observed four writing ranks for eight requested aggregators:
+tune for the measured payload and actual writers.
+\par\end{samepage}
+\pagebreak[0]
 
-We present in \Cref{fig:specs:app-feelpp-io:np} results over the mesh family for various numbers of parallel tasks.
-The mini-app is run on the cluster Gaya.
-The results presented are obtained with the degree of discretization $\mathP_1$.
-Similar behavior is observed for other discretization orders.
+\begin{samepage}
+\paragraph{Reusing an HDF5 file amortizes repeated writes.}
+On the 8.43-million-cell mesh at 512 ranks, writing six fields over
+16 steps (16.43~GB of logical data) took 14.920~s with separate files
+using independent transfers. Write wall time fell
+to 3.985~s with one file and a flush every four steps. Exact coefficient
+readback passed in both cases. The transfer mode is a separate choice:
+the collective request was borne out for field writes in the probe,
+but mesh writes remained independent. This does not establish a best
+flush cadence or a cold-cache restart time.
+\par\end{samepage}
 
-Note that some points are missing, either because the memory required exceeded what was available on a node of Gaya, or because the iterative process took longer than the job time limit (1 hour).
-
-We see that mesh reading and function-space creation scale well with the number of parallel processes, as shown in \Cref{fig:specs:app-feelpp-io:np:loadmesh,fig:specs:app-feelpp-io:np:functionspace,fig:specs:app-feelpp-io:np:functionspaceV}, with a limit reached at $\texttt{np}=128$ for the small meshes.
-
-Conversely, the steps writing data to disk do not scale with more parallel processes.
-Times increase (\Cref{fig:specs:app-feelpp-io:np:savemesh,fig:specs:app-feelpp-io:np:exportfield,fig:specs:app-feelpp-io:np:exportfieldv}) or stagnate (\Cref{fig:specs:app-feelpp-io:np:export}).
-This loss of performance stems from coordination among parallel processes when writing to a single destination.
-Because the mesh is pre-partitioned, the reading step does not suffer the same issue.
-
-\import{chapters/applications/specs/data/app-feelpp-io}{figure-np.tex}
-
-
-\vspace{\baselineskip}
-
-Now, we present in \Cref{fig:specs:app-feelpp-io:disc} the evolution of the time taken by each step, depending on the degree of discretization considered.
-Specifically, we see in \Cref{fig:specs:app-feelpp-io:disc:loadmesh,fig:specs:app-feelpp-io:disc:savemesh} that the mesh manipulation is indeed independent of the degree of discretization.
-
-Conversely, other steps are impacted by the discretization order through the increased number of degrees of freedom (see \Cref{tab:spec:app-feelpp:eye2brain:mesh_stats}).
-In \Cref{fig:specs:app-feelpp-io:disc:functionspace,fig:specs:app-feelpp-io:disc:functionspaceV}, time increases roughly linearly with order, with a larger increase for disk writes (\Cref{fig:specs:app-feelpp-io:disc:exportfield,fig:specs:app-feelpp-io:disc:exportfieldv,fig:specs:app-feelpp-io:disc:export}).
-
-\import{chapters/applications/specs/data/app-feelpp-io}{figure-order.tex}
+\import{chapters/applications/specs/data/app-feelpp-io}{figure-scaling-by-operation.tex}

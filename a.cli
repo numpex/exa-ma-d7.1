@@ -118,7 +118,7 @@ clean() {
 # Function for fast compilation
 compile() {
     PART=${1:-"all"}
-    DOC="exa-ma-d7.1.tex"
+    DOC="exa-ma-deliverables.tex"
     
     echo "🚀 Fast compilation for: $PART"
     
@@ -173,9 +173,9 @@ compile() {
         echo "✅ Compilation successful!"
         
         # Show PDF size and page count
-        if [ -f "exa-ma-d7.1.pdf" ]; then
-            SIZE=$(du -h exa-ma-d7.1.pdf | cut -f1)
-            PAGES=$(pdfinfo exa-ma-d7.1.pdf 2>/dev/null | grep Pages | awk '{print $2}')
+        if [ -f "exa-ma-deliverables.pdf" ]; then
+            SIZE=$(du -h exa-ma-deliverables.pdf | cut -f1)
+            PAGES=$(pdfinfo exa-ma-deliverables.pdf 2>/dev/null | grep Pages | awk '{print $2}')
             echo "📄 PDF: $SIZE, $PAGES pages"
         fi
     else

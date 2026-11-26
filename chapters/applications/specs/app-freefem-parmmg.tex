@@ -1,4 +1,4 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
+%!TEX root = ../../../exa-ma-deliverables.tex
 
 \ApplicationFicheHeading{app-freefem-parmmg}
 \textbf{Demonstrator: Parallel Anisotropic Mesh Adaptation with ParMmg}
@@ -9,32 +9,17 @@ This demonstrator evaluates ParMmg for distributed anisotropic mesh adaptation w
 
 \Cref{tab:app-freefem-parmmg} describes the specifications of the application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-freefem-parmmg} \\
+\begin{FicheMetadataTable}[Description of the demonstrator \texttt{app-freefem-parmmg}.\label{tab:app-freefem-parmmg}]
+id & \texttt{app-freefem-parmmg} \\
         name & Fichera corner with ParMmg \\
         Partners & Sorbonne U, Inria PARIS \\
         PC & PC1 - ExaMA \\
         Responsible (Permanent) & P. Jolivet; P.-H. Tournier \\
-        WP7 Engineer & \\
         work\_package & WP1, WP3 \\
         application\_type & extended-mini-app \\
         purpose & Test ParMmg performance for distributed anisotropic mesh adaptation \\
         Method-Algorithm WP1 & mesh adaptation, unstructured mesh, finite element \\
-        Method-Algorithm WP2 & \\
         Method-Algorithm WP3 & preconditioning \\
-        Method-Algorithm WP4 & \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         outputs & in-house, YAML config, VTK, PETSc binary, XML reports \\
         metrics & \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling} \\
         status & benchmark-ready \\
@@ -42,12 +27,7 @@ This demonstrator evaluates ParMmg for distributed anisotropic mesh adaptation w
         Framework & Freefem++, MMG/ParMMG, PETSc \\
         parallel\_framework & MPI \\
         spec\_due & 6/15/2025 \\
-        proto\_due & \\
-        repo\_url & \\
-    \end{tblr}
-    \caption{Description of the demonstrator \texttt{app-freefem-parmmg}.}
-    \label{tab:app-freefem-parmmg}
-\end{table}
+\end{FicheMetadataTable}
 
 \subsection{Description of the benchmark}
 
@@ -89,17 +69,7 @@ in-house, YAML config
 \subsubsection{Output Data}
 VTK, PETSc binary, XML reports
 
-\subsection{Results summary}
-\todo[app-freefem-parmmg / results summary]{Results summary to be supplied by contributors.}
-
-\subsubsection{Expected results}
-
-The demonstrator validates:
-\begin{itemize}
-\item Effective anisotropic mesh adaptation near singularities
-\item Strong scaling up to 128-256 cores
-\item Weak scaling with proportional mesh growth
-\item I/O performance for mesh and solution data
-\end{itemize}
-
-\textbf{Status:} \texttt{benchmark-ready} - validated and ready for systematic HPC benchmarking.
+The planned study includes strong scaling to 128--256 cores, weak
+scaling with proportional mesh growth, and I/O measurements for mesh
+and solution data. The catalogue lists the application as
+\texttt{benchmark-ready}. No timings are reported for this campaign.

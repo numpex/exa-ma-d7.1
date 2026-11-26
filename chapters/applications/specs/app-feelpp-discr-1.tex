@@ -1,10 +1,8 @@
-%!TEX root = ../../../../exa-ma-d7.1.tex
+%!TEX root = ../../../exa-ma-deliverables.tex
 
 \ApplicationFicheHeading{app-feelpp-discr-1}
 \textbf{Demonstrator: Elliptic linear PDE: CG}
 
-
-\todo{Update benchmarking results}
 
 \label{sec:app:specs:app-feelpp-discr-1}
 
@@ -12,17 +10,8 @@ This demonstrator solves an elliptic linear PDE (heat equation) using a continuo
 
 \Cref{tab:app-feelpp-discr-1} describes the specifications of the application.
 
-\begin{table}[ht]
-    \centering
-    \begin{tblr}{
-        colspec = {l X[10cm]},
-        row{odd} = {numpexlightergray},
-        hlines = {0.1pt, numpexgray},
-        vlines = {numpexgray},
-        row{1} = {numpexgray, fg=white, font=\bfseries},
-    }
-        Field & Details \\
-        id & \texttt{app-feelpp-discr-1} \\
+\begin{FicheMetadataTable}[Description of the demonstrator \texttt{app-feelpp-discr-1}.\label{tab:app-feelpp-discr-1}]
+id & \texttt{app-feelpp-discr-1} \\
         name & Discretization \\
         Partners & Unistra \\
         PC & PC1 - ExaMA, PC2 - ExaSoft \\
@@ -32,12 +21,7 @@ This demonstrator solves an elliptic linear PDE (heat equation) using a continuo
         application\_type & extended-mini-app \\
         purpose &  Solve a PDE (heat, solid mech) with different discretization methods from low to high order \\
         Method-Algorithm WP1 & unstructured mesh, finite element, dG/hdG, cG, spectral element \\
-        Method-Algorithm WP2 & \\
         Method-Algorithm WP3 & domain decomposition methods, Krylov solver, preconditioning \\
-        Method-Algorithm WP4 & \\
-        Method-Algorithm WP5 & \\
-        Method-Algorithm WP6 & \\
-        WP7 & \\
         outputs & Gmsh, JSON config	JSON small-data, JSON reports, in-house, Markdown or Asciidoc \\
         metrics & \texttt{benchmark-verification}, \texttt{strong-scalability}, \texttt{weak-scalability}, \texttt{io-scaling} \\
         status & benchmark-ready \\
@@ -47,10 +31,16 @@ This demonstrator solves an elliptic linear PDE (heat equation) using a continuo
         spec\_due & 6/15/2025 \\
         proto\_due & 7/1/2025 \\
         repo\_url & \url{https://github.com/numpex/apps-feelpp}\\
-    \end{tblr}
-    \caption{Description of the demonstrator \texttt{app-feelpp-discr-1}.}
-    \label{tab:app-feelpp-discr-1}
-\end{table}
+\end{FicheMetadataTable}
+
+\paragraph{Current case and published results.}
+The \href{https://github.com/numpex/apps-feelpp/blob/main/src/app-feelpp-discr-1/ThermalBridgesENISO10211/heat_thermalbridges.json}{thermal-bridges configuration}
+launches the installed \nolinkurl{feelpp_toolbox_heat} executable and specifies
+the mesh, finite-element order, MPI layout and solver settings. The dashboard provides a
+\href{https://numpex.github.io/apps-feelpp/apps-feelpp/leaves/gaya-feelpp_toolbox_heat-ThermalBridgesENISO10211-2026_01_16T14_41_50/leaf.html}{Gaya report dated 16 January 2026}.
+The plots below report that campaign; no new full-system or weak-scaling
+results are presented here. This heat case also contributes to the toolbox umbrella
+application in \Cref{sec:app:specs:app-feelpp-toolbox}.
 
 
 
@@ -105,6 +95,17 @@ of this benchmark and the domain decomposition by material.% the 3D temperature 
 
 
 
+
+
+\paragraph{Case scope and verification.}
+The current heat-toolbox campaign uses continuous Galerkin P1--P3. The broader
+dG/HDG/spectral-method catalogue fields describe potential framework coverage,
+not measured variants of this ISO case. For each selected ISO 10211 case,
+archive prescribed temperatures, conductivities, material interfaces and
+boundary fluxes. Compare the reference temperature probes and integrated
+heat flows with the standard's case-specific criteria; report heat balance
+and mesh/order convergence before scaling. The owner must confirm the exact
+reference values, masks and acceptance tolerances in the versioned input deck.
 
 \subsection{Benchmarking methodology}
 \subsubsection{Benchmarking tools used}
@@ -179,3 +180,5 @@ Metric:
 
 \subsection{Results summary}
 \ApplicationBenchmarkResults{app-feelpp-discr-1}
+
+\input{chapters/applications/meshes/app-feelpp-discr-1}

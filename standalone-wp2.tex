@@ -1,73 +1,23 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Standalone WP2 - Fast compilation for Overleaf
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Compile from the repository root; see scripts/workpackage_previews.py.
 \documentclass[11pt]{report}
-
-\usepackage{numpex}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{textcomp}
-\usepackage{amsmath}
-\usepackage{empheq}
-\usepackage{fancybox}
-\usepackage{anyfontsize}
-\usepackage{cleveref}
-\usepackage{standalone}
-\usepackage[]{acronym}
-\usepackage{import}
-\usepackage{booktabs}
-\usepackage{geometry}
-\usepackage{tabularx,longtable}
-\usepackage{paralist}
-\usepackage{multirow}
-\usepackage{pgf-pie}
-\usepackage{tikz}
-\usepackage{xspace,float,relsize}
-\usepackage{minted}
-\usepackage{siunitx}
-\usepackage{pgfplots}
-\usepackage{pgfplotstable}
-\usepackage{tabularray}
-\AtBeginEnvironment{tikzpicture}{\tracinglostchars=0\relax}
-\pgfplotsset{compat=newest}
-\usetikzlibrary{positioning,fit,matrix}
-
-\definecolor{bgcolor}{gray}{0.95}
-\definecolor{CustomBlue}{rgb}{0.25, 0.41, 0.88}
-
-\hypersetup{
-    pdftitle={WP2 - Model Order Reduction (Standalone)},
-    pdfauthor={Exa-MA Consortium},
-    colorlinks=true,
-    citecolor=CustomBlue,
-    linkcolor=CustomBlue,
-    urlcolor=blue
-}
-
-\graphicspath{ {graphics/} }
-\input{defs}
-\urlstyle{same}
-
+\def\WPNumber{2}
+\input{standalone/workpackage-preamble}
+\hypersetup{pdftitle={Exa-MA WP2 contribution}}
 \begin{document}
-
 \title{WP2 - Model Order, Surrogate, Scientific Machine Learning\\
-\large Exa-MA D7.1 v2.90.0 integration draft - Standalone Chapter\\
+\large Exa-MA D2.1 v2.98.1 integration draft - Standalone Chapter\\
 \normalsize Final target v3.0.0 -- 14 October 2026}
 \author{WP2 Team}
-\date{\today}
+\date{24/11/2026}
 \maketitle
-
+\input{standalone/workpackage-reading-note}
 \tableofcontents
 \clearpage
-
-\chapter{WP2 - Model Order, Surrogate, Scientific Machine Learning}
+\input{sections/abbreviations}
+\chapter{WP2 -- Model Order Reduction, Surrogates and Scientific Machine Learning}
 \label{chap:wp2}
-
 \subimport{chapters/WP2/}{WP2}
-
 \clearpage
 \bibliography{references}
 \bibliographystyle{apacite}
-
 \end{document}
