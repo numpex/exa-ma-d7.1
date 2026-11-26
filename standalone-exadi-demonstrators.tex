@@ -1,0 +1,29 @@
+% Compile from the repository root.
+\documentclass[11pt]{report}
+\PassOptionsToPackage{sectionbib}{apacite}
+\usepackage{numpex}
+\usepackage[T1]{fontenc}
+\usepackage{booktabs,fiche-metadata,float,placeins,tabularx}
+\usepackage{cleveref}
+
+\setlength{\headheight}{37.92728pt}
+\addtolength{\topmargin}{-1.02pt}
+\setlength{\footskip}{28.91753pt}
+\urlstyle{same}
+
+\delivShortTile{Exa-DI Demonstrators -- 2026}
+\delivFooterLabel{Exa-MA 2026}
+\doiNumber{}
+\hypersetup{
+  pdftitle={Exa-MA 2026 -- Application Demonstrators and Co-design with Exa-DI},
+  pdfauthor={Exa-MA Consortium}
+}
+\newcommand{\ExaDIRef}[3]{\href{#3}{#2}}
+
+\begin{document}
+\fancypagestyle{plain}{}
+\input{chapters/pc5-demonstrators}
+\FloatBarrier
+\bibliography{references}
+\bibliographystyle{apacite}
+\end{document}

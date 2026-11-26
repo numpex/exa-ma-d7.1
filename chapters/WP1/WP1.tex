@@ -75,7 +75,7 @@ Software release & \href{https://github.com/feelpp/feelpp/releases/tag/v0.112.0}
 Associated application & PC5 \KtirioUrbanBuildingContext{} solar masks \\
 Associated benchmark & Paris 8\,km on Discoverer (\Cref{tab:Feelpp:solar-mask-discoverer}) \\
 Scientific or numerical result & Solar occlusion on a mesh of \num{68207038} triangles. The Building-only and Allfaces variants trace \num{78636852} and \num{204621114} rays per sunlit step, respectively. \\
-Performance or scalability result & The timing comparison covers both variants through 16\,384 MPI ranks on 128 nodes. The Building-only mask time fell by 38\%, to 15.33\,s, from 8\,192 to 16\,384 ranks. Building-only also completed at 32\,768 ranks on 342 nodes with simulation output disabled. \\
+Performance or scalability result & The Building-only case ran at 32\,768 MPI ranks on 342 nodes with field output disabled. Mask timings for both variants extend to 16\,384 ranks. Building-only mask time fell by 38\%, to 15.33\,s, from 8\,192 to 16\,384 ranks. \\
 References and supporting data & HiDALGO2 D3.3, UNISTRA contribution v0.2. The \href{https://github.com/feelpp/feelpp/pull/2494}{merged BVH implementation} is described in \cref{sec:Feelpp:implementation-2026:bvh}. \\
 Maturity & Released and benchmarked for solar occlusion \\
 Query scope & The campaign uses any-hit queries. The parallel all-intersections mode can return partial results. \\
@@ -354,9 +354,9 @@ partition boxes, and the rank-local hierarchies find triangle
 intersections. An any-hit search is sufficient to decide occlusion.
 Feel++~v0.112.0 provides this search for the PC5
 \KtirioUrbanBuildingContext{} demonstrator. The Paris 8\,km campaign
-compared the mask timings of both variants through 16\,384 ranks on
-Discoverer. Building-only also completed at 32\,768 MPI ranks on 342
-allocated nodes with simulation output disabled.
+ran the Building-only case at 32\,768 MPI ranks on 342 Discoverer nodes
+with field output disabled. It compared the mask timings of both
+variants through 16\,384 ranks.
 \Cref{sec:Feelpp:implementation-2026:bvh,tab:Feelpp:solar-mask-discoverer}
 describe the implementation and scaling results.
 
@@ -520,10 +520,10 @@ demonstrator under development.
 \paragraph{Urban and industrial demonstrators.}
 The \hyperref[sec:pc5:ktirio-urban-building]{PC5 Ktirio Urban Building
 demonstrator} brings together the work with HiDALGO2 on distributed
-solar-mask calculation and preCICE coupling. The
-\hyperref[tab:Feelpp:solar-mask-discoverer]{Paris 8\,km solar-mask results}
-compare both variants through 16\,384 MPI ranks on Discoverer. The
-Building-only run reached 32\,768 ranks with simulation output disabled.
+solar-mask calculation and preCICE coupling. The Paris 8\,km Building-only
+run reached 32\,768 MPI ranks on Discoverer with field output disabled. The
+\hyperref[tab:Feelpp:solar-mask-discoverer]{solar-mask timings}
+compare both variants through 16\,384 ranks.
 The \hyperref[tab:advance:WP1-A2026-4]{preCICE advance record} describes the
 coupling work. The \hyperref[tab:advance:WP1-A2026-2]{SB9 shell work} with
 AVNIR Energy and INSA Lyon prepares an industrial demonstrator for 2027.
@@ -590,9 +590,10 @@ reports historical BVH and FMM convergence and timing results.
 The \hyperref[sec:app:specs:app-feelpp-discr-1]{thermal-bridge benchmark}
 checks ISO~10211:2017 tolerances for $\mathP_1$, $\mathP_2$ and $\mathP_3$
 elements and reports strong scaling on Discoverer up to 96 processes.
-The \hyperref[tab:Feelpp:solar-mask-discoverer]{Paris 8\,km solar-mask
-campaign} compares both variants through 16\,384 MPI ranks on Discoverer.
-Building-only also ran at 32\,768 ranks with simulation output disabled.
+The Paris 8\,km Building-only run reached 32\,768 MPI ranks on Discoverer
+with field output disabled. The
+\hyperref[tab:Feelpp:solar-mask-discoverer]{solar-mask phase timings}
+compare the two variants through 16\,384 ranks.
 The \hyperref[sec:app:specs:app-feelpp-io]{I/O study}
 measures preparation, writing and reloading separately.
 The \hyperref[sec:app:specs:app-feelpp-thermomeca-1]{thermomechanics fiche}
