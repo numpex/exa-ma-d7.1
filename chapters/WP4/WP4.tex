@@ -51,11 +51,10 @@ comprises the following tasks:
 variational data assimilation for ocean forecasts.
 \href{https://theses.fr/s420025}{Mohamed Doumbouya}, enrolled since
 October 2025, studies Bayesian sensor placement for ocean models.
-\href{https://theses.fr/s446600}{Bruno Latre} started his thesis in October 2026 on ensemble Kalman inversion for 
+\href{https://theses.fr/s446600}{Bruno Latre} began his PhD on
+\mbox{1 November 2026}. His research focuses on ensemble Kalman inversion for
 wave propagation problems.
 % TODO: Si on garde, est-ce que la thèse CIFRE (en contribution en nature, AVNIR Energy / Cemosis) d'Hanna Chetouane doit être mentionnée ici.
-
-\clearpage
 
 \section{Main advances in 2026}
 \label{sec:wp4-main-advances-2026}
@@ -155,12 +154,19 @@ During the reporting period, we have progressed on the following tasks:
   
 \item[T4.2] \phantomsection\label{sec:wp4:stochastic methods}%
 
-The aim of Bayesian inversion is to provide a full description of a posterior probability distribution of the sought for parameters. An ensemble Kalman filter approach can treat nonlinearities, and is easily parallelised. To begin, MCMC inversion has been performed for the acoustic wave equation in two-dimensional domains, with varying material density. The results appear in the M2 (masters) thesis of B. Latre.
-%TODO On garde ça ?
-The proposed \hyperref[sec:app:specs:app-eki]{Ensemble Kalman Inversion (EKI) mini-app}
-  targets geophysical parameter estimation on a simplified wave equation using
-  PETSc and GeoS with MPI-distributed ensembles (\cref{sec:app:specs:app-eki}).
-%%%%%
+  In his master's project, Bruno Latre used Bayesian full waveform
+  inversion to estimate material density from acoustic data in one and
+  two dimensions. The test cases included horizontal and wavy layers
+  and inclusions. He discretized the acoustic wave equation using
+  finite differences and discontinuous Galerkin finite elements and
+  sampled the posterior distribution with Metropolis--Hastings and
+  Hamiltonian Monte Carlo.
+
+  The master's thesis, expected to be made public in 2027, documents
+  these preliminary results. The test cases will serve as references
+  for his doctoral work on ensemble Kalman inversion, where forward
+  solves for individual ensemble members can run in parallel.
+
 \item[T4.3] \phantomsection\label{sec:wp4:sensor-placement}%
   In Doumbouya, Vidard and Zahm~\cite{hal-05768497} we develop a
   tractable, certified framework for Bayesian optimal experimental design (BOED)
