@@ -16,6 +16,7 @@
 \usepackage{stringstrings}
 \usepackage{ifthen}
 \usepackage{amssymb}
+\RequirePackage{longtable}
 
 % table of content alias
 \newcommand{\maketoc}{
@@ -114,16 +115,18 @@
 	\setcounter{@row}{0} \newwrite\chlogfile
 	\immediate\openout\chlogfile=\jobname.chl
 	\immediate\write\chlogfile{%
-		{\noexpand\fontsize{12}{15}\noexpand\bf\noexpand\color{numpexblue}Change Log}\noexpand\\[1.5ex] 
+		\noexpand\noindent{\noexpand\fontsize{12}{15}\noexpand\bf\noexpand\color{numpexblue}Change Log}\noexpand\par\noexpand\nobreak
 		\noexpand\setlength{\noexpand\parindent}{0pt}
 		\noexpand\def\noexpand\arraystretch{1.00}
 		\noexpand\def\noexpand\clinecolor{numpexgray}
-		\noexpand\begin{tabular}[t]{!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.12\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.10\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.3\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.364\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}}
+		\noexpand\begin{longtable}{!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.12\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.10\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.3\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}p{.364\noexpand\linewidth}!{\noexpand\color{\noexpand\clinecolor}\noexpand\vrule}}
 			\noexpand\rowcolor{numpexgray}
 			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Date &
 			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Version & 
 			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Author/Editor & 
-			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Summary of Changes Made \noexpand\arrayrulecolor{numpexgray}\noexpand\def\noexpand\clinecolor{numpexgray}\noexpand\\ \noexpand\hline}
+			\noexpand\footnotesize\noexpand\rule{0pt}{2.5ex}\noexpand\color{white}\noexpand\bf Summary of Changes Made \noexpand\arrayrulecolor{numpexgray}\noexpand\def\noexpand\clinecolor{numpexgray}\noexpand\\ \noexpand\hline
+		\noexpand\endhead
+		\noexpand\hline\noexpand\endfoot}
 		\whiledo{\value{@row}<\value{@changecount}}{%
 			\stepcounter{@row}
 			\ifodd\value{@row}\def\shadeofgray{white}\else\def\shadeofgray{numpexlightergray}\fi
@@ -134,7 +137,7 @@
 				\noexpand\footnotesize\csname @changesummary\arabic{@row}\endcsname \noexpand\\
 			}
 		}
-	\immediate\write\chlogfile{\noexpand\hline \noexpand\end{tabular}}
+	\immediate\write\chlogfile{\noexpand\end{longtable}}
 	\closeout\chlogfile
 }
 
