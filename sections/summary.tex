@@ -1,52 +1,27 @@
 %!TEX root = ../exa-ma-deliverables.tex
-\clearpage
 \section*{Executive Summary}
 \addcontentsline{toc}{section}{Executive Summary}
 \label{sec:summary}
 
-The 2026 Exa-MA collection brings together the work package reports,
-software fiches, application and benchmark results, and training material.
-\Cref{tab:deliverable-correspondence} locates each contractual
-deliverable. The management report covers the year through 18 November.
-It records the recruitment decisions, the AVNIR Energy CIFRE thesis and
-the revised October milestones
-(\cref{sec:management-year-4}).
+Exa-MA develops numerical methods and open-source software for exascale
+simulation and inference within NumPEx. This edition brings together the
+research advances, software releases, application benchmarks, training
+and management reports. By 26 November, HAL recorded \textbf{47 research
+outputs for 2026} and \textbf{77 since the project began}, including
+preprints. D0.2 identifies \textbf{18 published international peer-reviewed
+papers in 2026 and 37 cumulatively}, against a project target of more
+than 50 (\cref{tab:exama-publications-2026}).
 
-\begin{itemize}
-  \item \textbf{WP1, discretization.} The team implemented solid-shell
-    elements for thin structures and distributed geometric queries for
-    the Ktirio Urban Building demonstrator. The Ktirio-Geom case reports
-    terrain-generation timings (\cref{tab:advance:WP1-A2026-2,tab:advance:WP1-A2026-3,sec:app:specs:app-feelpp-ktirio-geom}).
-  \item \textbf{WP2, surrogates and scientific machine learning.}
-    Scimba~1.4.0 adds differentiable classical discretizations in JAX.
-    The team tested learned bases in discontinuous Galerkin examples.
-    The work package also reports advances on kinetic closure and
-    nonlinear reduced bases (\cref{sec:wp2-main-advances-2026}).
-  \item \textbf{WP3, solvers.} HPDDM~2.4.0 and PETSc~3.25 provide a
-    CUDA path for domain decomposition preconditioning. Composyx
-    reached 88\% weak-scaling efficiency on 32 Jean Zay nodes with
-    CUDA and 89\% on 128 Adastra nodes with HIP, each relative to its
-    one-node reference (\cref{tab:advance:WP3-A2026-5,sec:app:specs:app-composyx-diffusion}).
-  \item \textbf{WP4, inverse problems and data assimilation.} WP4
-    tested a multi-fidelity 4D-Var preconditioner on a shallow-water
-    model and derived bounds on information gain for sensor placement.
-    The Feel++ interface for variational optimization passed
-    functional and variational-form tests. HiFiMagnet and ensemble
-    Kalman inversion have proposed benchmarks (\cref{chap:wp4}).
-  \item \textbf{WP5, optimization.} On 8,000 LUMI-G GPUs, the
-    Exa-Zellij variational quantum eigensolver workflow reached
-    60.98\% strong-scaling efficiency. A separate fractal Bayesian
-    optimization study reports about 85\% on the same number of GPUs
-    (\cref{sec:wp5-main-advances-2026}).
-  \item \textbf{WP6, uncertainty quantification.} The \texttt{feelstats}
-    implementation provides streaming statistics and approximate quantiles
-    for ensembles of Ktirio Urban Building simulations
-    (\cref{tab:advance:WP6-A2026-2,sec:pc5:ktirio-urban-building}).
-\end{itemize}
+The research spans bounds on information gain for sensor placement,
+reduced models for nonlinear flows and solvers for heterogeneous
+machines. In co-design with Exa-DI and HiDALGO2, the Ktirio Urban Building
+team simulated \textbf{207,624 buildings on 32\,768 MPI ranks} on Discoverer
+in the \href{https://exa-ma.numpex.fr/highlights/ktirio-paris-8km.html}{Paris 8\,km case}, with field output disabled.
+The GPU campaigns demonstrated parallel domain decomposition on Adastra
+and large-scale optimisation on LUMI-G.
 
-WP7 coordinates co-design with Exa-DI and connects the methods to
-application tests. The benchmark index links the cases and records
-which have reported results (\cref{chap:wp7,tab:v3-benchmark-registry}).
-The training chapter includes the June JAX workshop and software
-sessions (\cref{chap:training}). Earlier KPI figures are retained in
-\hyperref[sec:appendix-b1]{Appendix~B.1}.
+Exa-MA met the October milestones for releases of software stacks,
+Level~1 demonstrators and mini-apps. \textbf{Benchmarking at exascale
+remains in progress.} WP7 and the scientific teams will extend the CPU
+and GPU campaigns and document the conditions needed to reproduce the
+application benchmarks.

@@ -67,13 +67,14 @@ stopping tolerances for \nolinkurl{BM-COMPOSYX-DIFF-01}
 (\cref{sec:app:specs:app-composyx-diffusion}).
 \fi
 
+The CONCACE team extended its GPU campaign to JUPITER and LUMI,
+with runs reaching 4\,096 GPUs. On LUMI, the team reports solving
+a linear system with more than one billion unknowns in 90\,s.
+\ifcsname r@tab:exama-computing-platforms-2026\endcsname
+\Cref{tab:exama-computing-platforms-2026} lists the systems used.
+\fi
+
 \subsubsection{Next steps}
-
-GPU development and benchmarking is going on. We expect to have
-results on the LUMI supercomputer to test scalability up to the limit:
-1024 nodes, 4096 MI250x GPUs.
-
-\paragraph{}
 
 We also want to explore mixed precision algorithms: some part of the
 computations may be done more efficiently with lower arithmetic

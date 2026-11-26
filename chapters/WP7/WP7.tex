@@ -37,7 +37,9 @@ working group on Efficient High-Order Discretization. The proxy provides
 an application setting for CPU/GPU kernels through Kokkos, with high-order
 continuous and discontinuous Galerkin formulations. Its methodological scope
 and development steps remain in WP1; the related FUnTiDES wave-propagation
-software is described separately in \Cref{sec:FUnTiDES:software}.
+software is described in \Cref{sec:FUnTiDES:software}. The
+\hyperref[sec:pc5:funtides]{FUnTiDES demonstrator} connects the
+co-design work to the Exa-DI proxy and the planned application benchmarks.
 
 The wave application guides the kernel interfaces for CPU and GPU
 execution. The Feel++ refactoring extends the discretizations
@@ -49,7 +51,9 @@ the work on fused DG face terms and transfer operators for the proxy
 \subsection{PC5 working groups on block-structured AMR and unstructured meshing}
 
 The Samurai fiche describes the Cartesian AMR methods available for
-PC5 studies (\cref{sec:Samurai:software}). WP1 reports the corresponding
+PC5 studies (\cref{sec:Samurai:software}). The
+\hyperref[sec:pc5:samurai]{Samurai demonstrator} links the WG3 roadmap
+to the Exa-MA application cases. WP1 reports the corresponding
 work on unstructured mesh adaptation and geometry processing
 (\cref{chap:wp1}). The working groups' design decisions and application
 requirements remain to be recorded for D7.2.
@@ -64,11 +68,10 @@ building energy models, and execution and analysis of building ensembles.
 The geometry workflow connects application inputs to Ktirio-Geom and its
 benchmark application, \texttt{app-feelpp-ktirio-geom}
 (\Cref{sec:app:specs:app-feelpp-ktirio-geom}). The Feel++ distributed ray
-tracer computes solar masks. The Paris 8\,km campaign measured this phase
-through 16\,384 MPI ranks on Discoverer
-(\Cref{tab:Feelpp:solar-mask-discoverer}). The Building-only case also
-completed at 32\,768 MPI ranks on 342 allocated Discoverer nodes with
-simulation output disabled. Coupling urban microclimate and
+tracer computes solar masks. For Paris 8\,km, the Building-only case
+completed at 32\,768 MPI ranks on 342 Discoverer nodes with field output
+disabled. The phase timings compare both mask variants through
+16\,384 ranks (\cref{tab:Feelpp:solar-mask-discoverer}). Coupling urban microclimate and
 building energy models motivates interface field transfer through preCICE
 and the Feel++--OpenFOAM participants
 (\Cref{sec:Feelpp:implementation-2026:precice}). For

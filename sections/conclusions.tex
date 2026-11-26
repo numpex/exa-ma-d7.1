@@ -1,27 +1,27 @@
 %!TEX root = ../exa-ma-deliverables.tex
-\clearpage
-\section{Conclusions}
 \label{sec:conclusions}
 
-Several reported advances have reached implementation or testing.
-In WP3, PETSc~3.25 exposes the CUDA path for HPDDM. Composyx has weak
-scaling results for heterogeneous diffusion on Jean Zay and Adastra
-(\cref{sec:HPDDM:2026,sec:app:specs:app-composyx-diffusion}). In WP2,
-Scimba adds differentiable classical discretizations in JAX
-(\cref{sec:wp2-main-advances-2026}). In the Ktirio Urban Building
-collaboration, WP1, WP6 and WP7 contribute meshing, coupling and
-statistical components to the same demonstrator
-(\cref{sec:pc5:ktirio-urban-building}). The terrain benchmark measures
-one part of that workflow.
+The 2026 campaigns quantify distinct costs in large simulations.
+On Discoverer, Ktirio Urban Building simulated 207,624 Paris buildings
+at 32\,768 MPI ranks with field output disabled. The phase timings show
+that doubling the ranks from 8\,192 to 16\,384 reduced the building-only
+solar-mask time by 38\%. The I/O study measures the cost of preparing, writing
+and reloading simulation outputs. Composyx and Exa-Zellij report
+parallel efficiency for GPU-based domain decomposition and distributed
+optimisation. These campaigns provide reference runs for measuring
+how the methods behave within larger workflows
+(\cref{tab:exadi-ktirio-results,tab:Feelpp:solar-mask-discoverer,sec:app:specs:app-feelpp-io,sec:app:specs:app-composyx-diffusion,sec:wp5:benchmarks}).
 
-The next application tests concern, among others, inverse parameter
-recovery for HiFiMagnet, weak scaling of ensemble Kalman inversion,
-and validation of the Ktirio coupled workflow. The FDA nozzle fiche
-specifies the experimental comparisons and scaling protocol for a
-future campaign. The benchmark index distinguishes these specifications
-from cases with recorded measurements
-(\cref{sec:wp4:benchmarks,sec:app:specs:app-feelpp-discr-2,tab:v3-benchmark-registry}).
+Exascale benchmarking remains the open October milestone. The next
+application tests include measuring the coupled Ktirio workflow with
+simulation output, checking parameter recovery in HiFiMagnet and running
+the ensemble Kalman inversion weak-scaling benchmark. The FDA nozzle
+fiche specifies comparisons against experimental data for a future
+validation and scaling campaign
+(\cref{tab:exama-milestones-october-2026,sec:pc5:ktirio-urban-building,sec:wp4:benchmarks,sec:app:specs:app-feelpp-discr-2}).
 
-The D0.2 report records the revised October schedule for MS4 and MS5
-and the status of the October submission on 18 November
-(\cref{sec:management-year-4}).
+The partnerships reported in D0.2 extend the use of these methods.
+JNL-G applies Exa-MA's multiphysics and model-reduction work to
+the LNCMI magnet digital twin. The industrial doctorates bring solver,
+coupling and inverse-problem methods to test cases defined with their
+partners (\cref{sec:management-year-4}).
