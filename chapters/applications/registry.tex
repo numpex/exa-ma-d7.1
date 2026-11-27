@@ -1,14 +1,15 @@
 %!TEX root = ../../exa-ma-deliverables.tex
 % BEGIN GENERATED APPLICATION COUNTS
-\def\ApplicationSheetCount{31}
-\def\ApplicationSheetLastRow{32}
+\def\ApplicationSheetCount{32}
+\def\ApplicationSheetLastRow{33}
 % END GENERATED APPLICATION COUNTS
 \section{Application registry}
 \label{sec:v3-application-registry}
 
-The \emph{Applications} tab of the
+The published catalogue uses a snapshot of \ApplicationSheetCount{} entries
+from the \emph{Applications} tab of the
 \href{https://docs.google.com/spreadsheets/d/19v57jpek52nQV2V0tBBON5ivGCz7Bqf3Gw-fHroVHkA/edit?gid=1301884928}{Software and Demonstrators workbook}
-provides \ApplicationSheetCount{} catalogue entries. The FDA nozzle
+saved in \nolinkurl{data/applications.csv}. The FDA nozzle
 specification (\nolinkurl{app-feelpp-discr-2}) is an additional
 repository entry. The two WP2 cases on kinetic moment closure and
 parabolic optimal control are described in \cref{chap:wp2}.
@@ -22,11 +23,11 @@ for these two cases and Scimba plasma are listed below.
 \caption{Application catalogue and associated benchmark identifiers.}
 \label{tab:v3-application-registry}\\
 \toprule
-\textbf{Application ID} & \textbf{Sheet row} & \textbf{WP(s)} & \textbf{Framework} & \textbf{Status} & \textbf{Benchmark ID} \\
+\textbf{Application ID} & \textbf{CSV row} & \textbf{WP(s)} & \textbf{Framework} & \textbf{Status} & \textbf{Benchmark ID} \\
 \midrule
 \endfirsthead
 \toprule
-\textbf{Application ID} & \textbf{Sheet row} & \textbf{WP(s)} & \textbf{Framework} & \textbf{Status} & \textbf{Benchmark ID} \\
+\textbf{Application ID} & \textbf{CSV row} & \textbf{WP(s)} & \textbf{Framework} & \textbf{Status} & \textbf{Benchmark ID} \\
 \midrule
 \endhead
 % BEGIN GENERATED APPLICATION REGISTRY
@@ -49,6 +50,7 @@ for these two cases and Scimba plasma are listed below.
 \BenchmarkRegistryApplication{app-feelpp-thermoelectric-1} & 22 & 1 & Feel++ & \nolinkurl{benchmark-ready} & \nolinkurl{BM-FEEL-THERMOELECTRIC-01} \\
 \BenchmarkRegistryApplication{app-feelpp-thermomeca-1} & 16 & 1, 3 & Feel++ & \nolinkurl{implementation-in-progress} & \nolinkurl{BM-FEEL-THERMOMECA-01} \\
 \BenchmarkRegistryApplication{app-feelpp-toolbox} & 7 & 1, 3 & Feel++ & \nolinkurl{benchmark-ready} & --- \\
+\BenchmarkRegistryApplication{app-freefem-lowrank} & 33 & 1, 3 & Freefem++ & \nolinkurl{brainstorming} & --- \\
 \BenchmarkRegistryApplication{app-freefem-parmmg} & 9 & 1, 3 & Freefem++, MMG/ParMMG, PETSc & \nolinkurl{benchmark-ready} & \nolinkurl{BM-FF-PARMMG-01} \\
 \BenchmarkRegistryApplication{app-freefem-shape-opt-fem} & 12 & 5 & Freefem++ & \nolinkurl{brainstorming} & --- \\
 \BenchmarkRegistryApplication{app-hpddm-dfn} & 8 & 3 & HPDDM, PETSc, MUMPS, PaStiX & \nolinkurl{benchmark-ready} & \nolinkurl{BM-HPDDM-DFN-01} \\

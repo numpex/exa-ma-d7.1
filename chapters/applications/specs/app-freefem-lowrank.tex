@@ -1,0 +1,33 @@
+%!TEX root = ../../../exa-ma-deliverables.tex
+% Catalogue source: Software and Demonstrators, Applications!A35:AB35.
+\ApplicationFicheHeading{app-freefem-lowrank}
+\label{sec:app:specs:app-freefem-lowrank}
+
+\input{chapters/applications/metadata/app-freefem-lowrank}
+
+\subsection{Description of the benchmark}
+
+The mini-app will compare low-rank compression methods for dense matrices
+from a high-frequency acoustic boundary element problem. The tests will
+use the FreeFEM++ interface to HTOOL to represent the operators as
+hierarchical matrices (\cref{sec:Freefem++:implementation-2026:lowrank}).
+Adaptive cross approximation (ACA) will serve as the baseline for hybrid
+cross approximation (HCA).
+
+\subsection{Benchmarking methodology}
+
+The planned single-node tests will compare ACA and HCA on the same boundary
+mesh and at the same requested approximation tolerance. Candidate metrics
+are compression time, compressed storage, and the error in the matrix
+action against an uncompressed reference on cases where it fits in memory.
+
+\subsection{Input/Output Dataset Description}
+
+The input geometry, frequency range, boundary meshes and tolerance sweep
+remain to be specified. The planned output is a record of the compression
+and accuracy measurements for each configuration.
+
+\subsection{Results summary}
+
+The catalogue records this mini-app at the concept stage. Measurements
+will be added after the test case is defined and run.

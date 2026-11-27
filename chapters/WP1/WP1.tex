@@ -573,6 +573,14 @@ for the joint HiDALGO2 / PC5 Ktirio Urban Building work are documented in
 solver components are documented in
 \Cref{sec:Feelpp:implementation-2026:solvers}.
 
+\paragraph{FreeFEM++.}
+
+Ongoing implementation efforts in FreeFEM for 2026 include:
+\begin{itemize}
+\item Rewrite parallel data structures for distributed meshes and finite element spaces. The goal is to allow the user to go from a sequential to a parallel script with minimal changes. These new developments are detailed in Section~\ref{sec:Freefem++:implementation-2026:distrib}.
+\item Implement new low-rank hybrid cross approximation (HCA) techniques for dense operators. These additions are detailed in Section~\ref{sec:Freefem++:implementation-2026:lowrank}. The \hyperref[sec:app:specs:app-freefem-lowrank]{low-rank compression mini-app} will compare HCA and ACA on a high-frequency acoustic boundary element problem.
+\end{itemize}
+
 \section{Preliminary Benchmarks \& Trends}
 \label{sec:wp1:benchmarks}
 
