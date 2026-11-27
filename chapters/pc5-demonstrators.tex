@@ -170,7 +170,7 @@ The Paris run uses a bounded number of concurrent HDF5 readers to
 load an already partitioned city mesh. During a campaign such as
 Strasbourg, dedicated statistical ranks accumulate summaries while
 the building models run. Exact quantiles can require retaining
-selected values. Mergeable sketches bound the retained data for
+selected values. Mergeable sketches bound the amount of data stored for
 approximate quantiles. These choices determine which indicators can be
 computed in situ and which trajectories need to be written for later
 analysis. The
@@ -179,7 +179,7 @@ measures preparation, writing and reloading separately.
 
 The ReproHPC study links versioned software, input data and run records.
 It uses a short Ktirio rerun to check the execution chain and inspects
-archived files to verify the identity and integrity of the retained
+archived files to verify the identity and integrity of the saved
 outputs \cite{cladellas_layered_2026}.
 
 \subsection{Results and benchmarks}
@@ -216,7 +216,7 @@ Strasbourg heat exposure &
 384 Monte Carlo realisations across 4,169 buildings produced
 1,600,896 building evaluations. The production runs used
 21,322.4 allocated core-hours on Gaya and produced 167.19\,GB
-of outputs, including retained trajectories and run files
+of outputs, including saved trajectories and run files
 (HiDALGO2 D4.10).\\
 \addlinespace
 Building physics and energy &

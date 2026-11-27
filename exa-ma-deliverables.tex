@@ -24,6 +24,7 @@
 \addtolength{\topmargin}{-1.02pt}
 \setlength{\footskip}{28.91753pt}
 \usepackage{tabularx,longtable}
+\usepackage{multicol}
 \usepackage{paralist} % For compactitem
 \usepackage{multirow} % For multirow in tables
 \usepackage{pgf-pie}  % For pie charts
@@ -157,7 +158,7 @@
 \istChange{24/11/2026}{v2.97.0}{Christophe Prud'homme (UNISTRA), Exa-MA contributors}{Consolidated the 2026 management report and scientific contributions, updated the Feel++ advances and Discoverer benchmark, and added standalone work-package and software portfolios.}
 \istChange{16/10/2026}{v2.96.0}{Christophe Prud'homme (UNISTRA), Exa-MA contributors}{Consolidated Composyx GPU developments and diffusion application, Feel++ nonlinear reduced-basis references, shared fiche identity and metadata tables, and release-version tooling; restored the Neural-IF citation}
 \istChange{15/10/2026}{v2.95.0}{Christophe Prud'homme (UNISTRA), Exa-MA contributors}{Integration milestone toward v3.0.0: consolidated 2026 scientific and software contributions, unified application specifications and benchmark results, added PC5 demonstrator context and standalone previews, and improved bibliography synchronization and CI checks}
-\istChange{23/07/2026}{v2.90.0}{Christophe Prud'homme (UNISTRA)}{Integration draft for v3.0.0: retained the v2 WP hierarchy, added annual advance records and section update notes, reconciled application and benchmark registries, and integrated D7.3 training material into the mega-deliverable}
+\istChange{23/07/2026}{v2.90.0}{Christophe Prud'homme (UNISTRA)}{Integration draft for v3.0.0: kept the v2 WP hierarchy, added annual advance records and section update notes, reconciled application and benchmark registries, and integrated D7.3 training material into the mega-deliverable}
 \istChange{12/11/2025}{v2.0.0}{Christophe Prud'homme (UNISTRA), Thomas Saigre (UNISTRA)}{Major release: Complete file inclusion tracking (31 files) with various minor updates and consistency improvements all over the document}
 \istChange{23/10/2025}{v1.93.0}{Christophe Prud'homme (UNISTRA)}{Publication statistics analysis and document type classification, minor edits}
 \istChange{23/10/2025}{v1.92.0}{Christophe Prud'homme (UNISTRA), Hélène Barucq (Inria)}{KPI table with current status; WP4 itemize fix; review patches applied; WP1-6 updates}
@@ -220,9 +221,10 @@
 %%% Deliverable Content
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\input{sections/summary}
+
 \chapter{Introduction}
 \label{chap:introduction}
-\input{sections/summary}
 \input{sections/introduction}
 \import{chapters/}{management}
 \part{WP1-6: Scientific Advances}

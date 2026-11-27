@@ -1,27 +1,87 @@
 %!TEX root = ../exa-ma-deliverables.tex
+%%% Executive Summary: standalone, unnumbered, one page, in the TOC
+\clearpage
 \section*{Executive Summary}
 \addcontentsline{toc}{section}{Executive Summary}
 \label{sec:summary}
 
-Exa-MA develops numerical methods and open-source software for exascale
-simulation and inference within NumPEx. This edition brings together the
-research advances, software releases, application benchmarks, training
-and management reports. By 26 November, HAL recorded \textbf{47 research
-outputs for 2026} and \textbf{77 since the project began}, including
-preprints. D0.2 identifies \textbf{18 published international peer-reviewed
-papers in 2026 and 37 cumulatively}, against a project target of more
-than 50 (\cref{tab:exama-publications-2026}).
+\begingroup
+\small
+\setlength{\parskip}{0.4em}
+\begin{multicols}{2}
 
-The research spans bounds on information gain for sensor placement,
-reduced models for nonlinear flows and solvers for heterogeneous
-machines. In co-design with Exa-DI and HiDALGO2, the Ktirio Urban Building
-team simulated \textbf{207,624 buildings on 32\,768 MPI ranks} on Discoverer
-in the \href{https://exa-ma.numpex.fr/highlights/ktirio-paris-8km.html}{Paris 8\,km case}, with field output disabled.
-The GPU campaigns benchmarked Composyx domain decomposition on JUPITER
-and large-scale optimisation with Exa-Zellij on LUMI-G.
+Exa-MA develops numerical methods and open-source software for
+simulation and inference on heterogeneous exascale supercomputers, as
+one of the targeted projects of the PEPR NumPEx programme funded
+through France 2030. The consortium of five beneficiary institutions
+and, with CNRS, ten associated laboratories has been extended into
+2027. This mega-deliverable collects the contractual reports of the
+project in a single document: the management and activity report
+D0.2, the scientific activity reports and software deliverables D1.1
+to D6.2, the benchmarking analyses D1.3 to D6.3 and D7.1, the
+training report D7.3 and the WP7 coordination report D7.4. It is the
+final v3.0.0 release of the 2026 collection.
 
-Exa-MA met the four milestones due in October, covering software stack
-releases, Level~1 demonstrators, mini-apps and \textbf{benchmarking at
-exascale}. WP7 and the scientific teams will extend the CPU
-and GPU campaigns and document the conditions needed to reproduce the
-application benchmarks.
+The six scientific work packages advanced on complementary sources of
+computational cost. WP1 delivered robust geometry processing and
+constrained urban meshing in CGAL and Ktirio-Geom, high-order and
+mixed finite-element discretisations in Feel++ 0.112.0, and a
+distributed ray tracer for city-scale solar masks. WP2 rebuilt Scimba
+in JAX around a differentiable discretisation layer (version 1.4.0)
+and established sensing-dimension results for nonlinear reduced bases
+with the NLCRBM++ implementation. WP3 extended domain-decomposition
+preconditioners with stability guarantees, developed mixed and
+adaptive precision Krylov methods, and released a PETSc-native GPU
+backend for PCHPDDM. WP4 derived certified bounds on the expected
+information gain for Bayesian sensor placement and a randomized
+Nyström preconditioner for incremental 4D-Var. WP5 consolidated the
+fractal decomposition family in Exa-Zellij: its fractal Bayesian
+optimisation ranked first on 103 of 108 matched objective-budget
+tasks, and its executions are now fault tolerant. WP6 combined MPI
+ensemble execution with streaming risk analysis in Ktirio Urban
+Building and released Uranie v4.9.0 with new sensitivity and
+optimisation methods.
+
+The 2026 campaigns quantify the performance of the methods at
+exascale. Ktirio Urban Building, the Level~1 demonstrator, simulated
+\textbf{207,624 buildings of the Paris 8\,km case on 32\,768 MPI
+ranks} on Discoverer, tracing 471 million solar rays in 14\,min~55\,s;
+doubling the ranks from 8\,192 to 16\,384 reduced the building-only
+mask phase by 38\%. The Composyx domain-decomposition campaign
+reached \textbf{4\,096 GPUs on JUPITER and LUMI} and solved a system
+with more than one billion unknowns in 90\,s on LUMI, with
+weak-scaling efficiency of 88 to 89\% on GPU partitions. Exa-Zellij
+maintained 85\% strong-scaling efficiency for surrogate-based
+optimisation and 61\% for a variational quantum eigensolver on
+8\,000 LUMI-G GPUs. The Feel++ I/O study measured the cost of
+preparing, writing and reloading simulation outputs, and a ReproHPC
+audit verified the identity and integrity of the archived Ktirio
+outputs. \textbf{The four milestones due on 14 October were achieved}:
+software stack releases (MS2), benchmarking at exascale (MS3),
+Level~1 demonstrator releases (MS4) and mini-app releases (MS5)
+(\cref{tab:exama-milestones-october-2026}).
+
+By 26 November, HAL recorded \textbf{47 research outputs for 2026}
+and \textbf{77 since the project began}. The project counts
+\textbf{18 published international peer-reviewed papers in 2026 and
+37 cumulatively}, against a project target of more than 50
+(\cref{tab:exama-publications-2026}); journal output in 2026 alone
+exceeds that of the first three project years combined. Eleven of the
+thirteen documented software families have a confirmed public release
+in 2026. Exa-MA funds 31 appointments, of which 23 are in post
+(\cref{tab:exama-staffing-2026}), and the 2026 training programme
+continued with the MAJSC workshop on automatic differentiation in JAX
+and four software exchange sessions with the HPDDM/PETSc, TRUST,
+FreeFEM++ and Samurai teams (\cref{chap:training}).
+
+The edition also records what remains open. Twenty-one of the
+thirty-two documented applications and sixteen of the twenty-five
+registered benchmarks have results still to report
+(\cref{tab:exama-software-applications-benchmarks-2026}), and the
+maturity of the WP4 and WP6 test cases flagged at the June review is
+progressing. WP7 and the
+scientific teams will document the conditions needed to reproduce
+each application benchmark.
+
+\end{multicols}
+\endgroup
