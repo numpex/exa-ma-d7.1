@@ -11,7 +11,7 @@
       "title": "Tetrahedral cube meshes for I/O",
       "geometry_units": "Prepartitioned linear tetrahedral cubes for the November 2026 I/O campaign.",
       "referenced_levels": "Nodal P1-P3 and cell DG P0-P3 fields",
-      "availability": "The campaign evidence records the tested layouts and verification results.",
+      "availability": "The run records list the tested layouts and verification results.",
       "required": "Archive the matching mesh and partition files with the recorded process layout.",
       "repository_files": [],
       "reference_url": "",
@@ -185,7 +185,7 @@
       "external_repository": "",
       "present_material": "Heat launch configuration and historical CPU results.",
       "remaining": "Archive the ISO case model, boundary/material markers and mesh downloads; fix validation tolerances before a new campaign.",
-      "results_status": "Historical results retained; no new campaign claimed.",
+      "results_status": "Results from an earlier campaign.",
       "priority": "Normal",
       "fiche_review": "Scientific description ready for owner review; dataset completion separate."
     },
@@ -227,7 +227,7 @@
       "external_repository": "",
       "present_material": "C++ source, configuration and serial/MPI regression checks; historical plots predate the corrected solver.",
       "remaining": "Archive mesh/ray sweeps with geometry hashes; rerun accuracy checks before replacing historical scaling plots.",
-      "results_status": "Historical results retained; no new campaign claimed.",
+      "results_status": "Results from an earlier campaign.",
       "priority": "Normal",
       "fiche_review": "Scientific description ready for owner review; dataset completion separate."
     },
@@ -282,7 +282,7 @@
         "src/app-feelpp-io/feelpp-io.cpp"
       ],
       "external_repository": "",
-      "present_material": "C++ source, launch configuration and November 2026 campaign evidence.",
+      "present_material": "C++ source, launch configuration and November 2026 run records.",
       "remaining": "Publish partitioned inputs and manifests, complete scaling points and repeat writer comparisons with controlled cache state.",
       "results_status": "Verified preparation, writing and readback measurements from the November 2026 campaign.",
       "priority": "Normal",
@@ -305,7 +305,7 @@
       "external_repository": "https://github.com/feelpp/ktirio-geom",
       "present_material": "Grenoble and seeded Perlin launch configurations; historical Tokyo illustration.",
       "remaining": "Pin Ktirio version and GIS rights/extent or Perlin seed; add explicit thread-count sweeps and mesh-quality/output statistics.",
-      "results_status": "Historical results retained; no new campaign claimed.",
+      "results_status": "Results from an earlier campaign.",
       "priority": "Normal",
       "fiche_review": "Scientific description ready for owner review; dataset completion separate."
     },
@@ -399,7 +399,7 @@
       "external_repository": "",
       "present_material": "Launch configuration and historical CPU campaign; shared nonlinear forward model specified.",
       "remaining": "Archive the exact model CFG/JSON, material/contact laws, current-control settings and mesh dataset identifiers; confirm validation tolerances.",
-      "results_status": "Historical results retained; no new campaign claimed.",
+      "results_status": "Results from an earlier campaign.",
       "priority": "Normal",
       "fiche_review": "Scientific description ready for owner review; dataset completion separate."
     },
@@ -444,7 +444,7 @@
       "external_repository": "",
       "present_material": "Four physics configurations indexed separately; public heat report available.",
       "remaining": "Attach case-specific validation observables and thresholds and resolve external model/mesh dependencies. Link component results rather than duplicate campaigns.",
-      "results_status": "Historical results retained; no new campaign claimed.",
+      "results_status": "Results from an earlier campaign.",
       "priority": "Normal",
       "fiche_review": "Scientific description ready for owner review; dataset completion separate."
     }
