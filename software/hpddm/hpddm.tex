@@ -110,12 +110,12 @@ The implementation is documented by
 \href{https://github.com/hpddm/hpddm/pull/148}{HPDDM PR \#148} and
 \href{https://gitlab.com/petsc/petsc/-/merge_requests/9136}{PETSc MR !9136}.
 
-The supporting dense-matrix interfaces
+\href{https://gitlab.com/petsc/petsc/-/merge_requests/9117}{PETSc MR !9117}
+introduced two dense-matrix interfaces:
 \texttt{MatCreateDenseWithMemType()} and
-\texttt{MatDenseReplaceArrayWithMemType()} were added in
-\href{https://gitlab.com/petsc/petsc/-/merge_requests/9117}{PETSc MR !9117};
-their adoption in HPDDM is recorded in
-\href{https://github.com/hpddm/hpddm/pull/146}{PR \#146}.
+\texttt{MatDenseReplaceArrayWithMemType()}.
+\href{https://github.com/hpddm/hpddm/pull/146}{HPDDM PR \#146}
+records their adoption.
 \href{https://gitlab.com/petsc/petsc/-/merge_requests/9130}{PETSc MR !9130}
 adds \texttt{MatDiagonalScale()} for sequential CUDA/HIP dense matrices.
 The HPDDM backend described here targets CUDA; HIP support in an individual
@@ -140,7 +140,7 @@ Its current validation uses a local driver; regression tests of the
 one-subdomain-per-process path do not validate the new shared-subdomain path.
 A versioned implementation reference and a registered test are still needed.
 
-\paragraph{Evidence and application evaluation.}
+\paragraph{Regression tests and application evaluation.}
 The released sources are available as
 \href{https://github.com/hpddm/hpddm/tree/v2.4.0}{HPDDM 2.4.0} and
 \href{https://github.com/petsc/petsc/tree/v3.25.0}{PETSc 3.25.0}.
@@ -158,7 +158,7 @@ The maturity and limitations of the two developments are summarized in
 \label{sec:HPDDM:apps}
 Applications using or evaluating HPDDM domain decomposition preconditioning include:
 \begin{itemize}
-        \item Discrete Fracture Networks (DFN) demonstrator: \cref{sec:app:specs:app-hpddm-dfn}; benchmark \texttt{BM-HPDDM-DFN-01}, with versioned application evidence pending.
+        \item Discrete Fracture Networks (DFN) demonstrator: \cref{sec:app:specs:app-hpddm-dfn}; benchmark \texttt{BM-HPDDM-DFN-01}, with versioned application records pending.
         \item PETSc mixed-precision study: \cref{sec:app:specs:app-petsc-mixed-precision}; benchmark \texttt{BM-PETSC-MIXED-01}, with supported precision configurations and accuracy criteria to be specified.
         \item FreeFEM integration in mesh adaptation workflows (see Section~\ref{sec:app:specs:app-freefem-parmmg}).
         \item Feel++‑based demonstrators using HPDDM preconditioning (see Sections~\ref{sec:app:specs:app-feelpp-discr-1} and~\ref{sec:app:specs:app-feelpp-discr-2}).

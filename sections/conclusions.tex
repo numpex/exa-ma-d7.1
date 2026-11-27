@@ -1,28 +1,104 @@
 %!TEX root = ../exa-ma-deliverables.tex
 \label{sec:conclusions}
 
-The 2026 campaigns quantify distinct costs in large simulations.
-On Discoverer, Ktirio Urban Building simulated 207,624 Paris buildings
-at 32\,768 MPI ranks with field output disabled. The phase timings show
-that doubling the ranks from 8\,192 to 16\,384 reduced the building-only
-solar-mask time by 38\%. The I/O study measures the cost of preparing, writing
-and reloading simulation outputs. Composyx and Exa-Zellij report
-parallel efficiency for GPU-based domain decomposition and distributed
-optimisation. These campaigns provide reference runs for measuring
-how the methods behave within larger workflows
+The 2026 edition of the mega-deliverable assembles the twenty
+contractual reports due this period into a single document: the D0.2
+management and activity report, the scientific and software
+deliverables D1.1 to D6.2, the benchmarking analyses D1.3 to D6.3 and
+D7.1, the training report D7.3 and the WP7 coordination report D7.4
+(\cref{tab:deliverable-correspondence}). In its fourth year, extended
+into 2027, Exa-MA has moved from method development to measured
+exascale results: released software, reproducible campaigns and
+demonstrators that connect the work packages end to end.
+
+The scientific work of the period addresses each multiplier of
+computational cost identified in the project. Discretisation and
+adaptivity advanced from robust geometry processing and constrained
+urban meshing to high-order and mixed formulations, with 22
+registered verification cases for the mixed solid-shell
+discretisation and a distributed ray tracer for city-scale solar
+masks (WP1). Model reduction gained a differentiable JAX
+discretisation layer in Scimba 1.4.0 and sensing-dimension results
+for nonlinear reduced bases (WP2). Solvers progressed on three
+fronts: domain-decomposition preconditioners with stability
+guarantees for approximate subsolves, mixed and adaptive precision
+Krylov methods, and GPU-native implementations of PCHPDDM in
+PETSc~3.25 (WP3). Inverse problems gained certified bounds on the
+expected information gain for sensor placement and a randomized
+Nyström preconditioner for incremental 4D-Var (WP4). Optimisation
+consolidated the fractal decomposition family, with fractal Bayesian
+optimisation ranking first on 103 of 108 matched tasks and
+fault-tolerant executions that survive changes in the MPI worker set
+(WP5). Uncertainty quantification combined MPI ensemble execution
+with streaming tail-risk analysis, verified by independent
+reconstruction, and extended Uranie with new sensitivity indices and
+optimisation methods (WP6)
+(\cref{chap:wp1,chap:wp2,chap:wp3,chap:wp4,chap:wp5,chap:wp6}).
+The Ktirio Urban Building demonstrator shows this chain end to end:
+urban meshing from WP1, Feel++ solvers and coupling from WP1 and
+WP3, and ensemble execution with streaming statistics from WP6,
+coordinated by WP7 (\cref{sec:pc5:ktirio-urban-building}).
+
+The 2026 campaigns quantify the distinct costs of large simulations
+and provide reference runs for measuring how the methods behave
+within larger workflows
 (\cref{tab:exadi-ktirio-results,tab:Feelpp:solar-mask-discoverer,sec:app:specs:app-feelpp-io,sec:app:specs:app-composyx-diffusion,sec:wp5:benchmarks}).
+On Discoverer, Ktirio Urban Building simulated 207,624 Paris
+buildings at 32\,768 MPI ranks, tracing 471 million solar rays in
+14\,min~55\,s; doubling the ranks from 8\,192 to 16\,384 reduced the
+building-only solar-mask phase by 38\%. The Composyx campaign
+reached 4\,096 GPUs on JUPITER and LUMI and solved a system of more
+than one billion unknowns in 90\,s with 88 to 89\% weak-scaling
+efficiency. Exa-Zellij maintained 85\% strong-scaling efficiency for
+surrogate-based optimisation and 61\% for a variational quantum
+eigensolver on 8\,000 LUMI-G GPUs. The Feel++ I/O study measured
+preparation, writing and reloading separately, and the ReproHPC audit
+verified the identity and integrity of the archived Ktirio outputs.
+These campaigns, together with the Composyx runs on JUPITER, met the
+October benchmarking milestone (MS3); all four milestones due on
+14~October were achieved (\cref{tab:exama-milestones-october-2026}).
 
-The 2026 campaigns, including the Composyx runs on JUPITER, met the
-October benchmarking milestone. The next
-application tests include measuring the coupled Ktirio workflow with
-simulation output, checking parameter recovery in HiFiMagnet and running
-the ensemble Kalman inversion weak-scaling benchmark. The FDA nozzle
-fiche specifies comparisons against experimental data for a future
-validation and scaling campaign
-(\cref{tab:exama-milestones-october-2026,sec:pc5:ktirio-urban-building,sec:wp4:benchmarks,sec:app:specs:app-feelpp-discr-2}).
+Software production and verification are the second achievement of
+the period. Eleven of the thirteen documented software families have
+a confirmed public release in 2026, including Feel++ 0.112.0,
+Scimba 1.4.0, Composyx 1.7.1, HPDDM 2.4.0, PETSc 3.25, FUnTiDES 0.2.0
+and Uranie v4.9.0 (\cref{chap:software}). Verification is anchored in
+external references where they exist: the thermal-bridge case against
+ISO~10211 (\cref{sec:app:specs:app-feelpp-discr-1}), building-energy
+results against the ANSI/ASHRAE~140 BESTEST acceptance criteria, and
+streaming statistics against independent reconstruction. Co-design
+with the NumPEx PC5 working groups on high-order discretisation,
+block-structured AMR and unstructured meshing, and with the Exa-DI
+demonstrators Ktirio Urban Building, FUnTiDES and Samurai, records
+the initial feedback that will structure the D7.2 co-design reports
+at M48 and M60
+(\cref{sec:wp7:codesign-initial-feedback,chap:exadi-demonstrators}).
 
-The partnerships reported in D0.2 extend the use of these methods.
-JNL-G applies Exa-MA's multiphysics and model-reduction work to
-the LNCMI magnet digital twin. The industrial doctorates bring solver,
-coupling and inverse-problem methods to test cases defined with their
-partners (\cref{sec:management-year-4}).
+The project's research record and community continue to grow. HAL
+recorded 47 research outputs in 2026 and 77 since the project began,
+including 18 published international peer-reviewed papers this year
+and 37 cumulatively against a target of more than 50; journal output
+in 2026 exceeds that of the first three project years combined
+(\cref{tab:exama-publications-2026}). Thirty-one appointments are
+wholly or partly funded by the project, 23 currently in post,
+including six that started in 2026
+(\cref{tab:exama-staffing-2026}). The training programme reached the
+community through the MAJSC workshop on automatic differentiation
+and four software exchange sessions (\cref{chap:training}). The
+partnerships reported in D0.2 extend the reach of these methods:
+JNL-G applies the multiphysics and model-reduction work to the
+digital twin of the LNCMI high-field magnet facility, HiDALGO2
+carries the urban-energy workflow into a European centre of
+excellence, and MAXINET, INCORWAVE, BUTTERFLY, ENACT and the
+industrial doctorates bring solver, coupling and inverse-problem
+methods to test cases defined with their partners
+(\cref{sec:management-year-4}).
+
+The outlook for 2027 follows the priorities set at the June review:
+verification and validation, GPU readiness, reproducible software
+releases and integration across NumPEx.
+Twenty-two of the thirty-three documented applications and sixteen of
+the twenty-five registered benchmarks have results still to report
+(\cref{tab:exama-software-applications-benchmarks-2026}); documenting
+them, and the conditions needed to reproduce every reported run, is
+the main editorial objective for the 2027 collection.
