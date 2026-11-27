@@ -131,6 +131,7 @@ IPOPT\\
 FreeFEM is used in several applications described in Chapter~\ref{chap:applications}:
 \begin{itemize}
         \item Parallel mesh adaptation with ParMMG (extended mini‑app): Section~\ref{sec:app:specs:app-freefem-parmmg}.
+        \item Planned low-rank compression benchmark for acoustic BEM: \cref{sec:app:specs:app-freefem-lowrank}.
         \item Proposed shape optimization with FEM: Section~\ref{sec:app:specs:app-freefem-shape-opt-fem}.
 \end{itemize}
 
@@ -163,7 +164,7 @@ Current state for these ongoing developments is at commit \href{https://github.c
 
 Interface the \textit{theia} library from Igor Chollet in HTOOL and FreeFEM implementing new hybrid cross approximation (HCA) techniques for low-rank compression of BEM operators. 
 A first implementation of the interface is done and currently being validated and tested.
-We plan to implement a demonstrator \texttt{app-freefem-lowrank} to evaluate the performance of different low-rank compression techniques such as ACA and HCA for a high-frequency acoustic BEM problem.
+The \hyperref[sec:app:specs:app-freefem-lowrank]{low-rank compression mini-app} will compare ACA and HCA on a high-frequency acoustic BEM problem.
 Current state for these ongoing developments is at commit \href{https://github.com/FreeFem/FreeFem-sources/commit/ad3aa6d0b207c3725e46f82a45fbbcebc217dfdd}{\texttt{ad3aa6d}} (22 September 2026).
 
 \subsubsection{Write a FreeFEM debugger}

@@ -15,6 +15,11 @@
     "app-feelpp-parmmg": {
       "range": "Applications!A32:AB32",
       "change": "New catalogue application, spec-only; case, contributors and benchmark evidence pending."
+    },
+    "app-freefem-lowrank": {
+      "range": "Applications!A35:AB35",
+      "retrieved_on": "2026-11-27",
+      "change": "Imported the FreeFEM++ mini-app entry for low-rank compression."
     }
   }
 }
