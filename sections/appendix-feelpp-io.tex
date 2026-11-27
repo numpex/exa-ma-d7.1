@@ -1,7 +1,7 @@
 %!TEX root = ../exa-ma-deliverables.tex
 \clearpage
-\section*{Appendix C. Feel++ I/O campaign evidence}
-\addcontentsline{toc}{section}{Appendix C. Feel++ I/O campaign evidence}
+\section*{Appendix C. Feel++ I/O campaign records}
+\addcontentsline{toc}{section}{Appendix C. Feel++ I/O campaign records}
 \label{sec:appendix-feelpp-io}
 
 The reference curves and the extended test matrix are separate datasets.
@@ -15,7 +15,7 @@ dataset. The benchmark implementation and run protocol are in
 \small
 \begin{tabular}{@{}p{0.25\linewidth}p{0.65\linewidth}@{}}
 \toprule
-Evidence & Verified Discoverer job records \\
+Benchmark case & Verified Discoverer job records \\
 \midrule
 EnSight strong, 8.43M & 4520625, 4520626, 4520627, 4520630 (256 to 2,048 ranks) \\
 EnSight weak & 4520625, 4520631, 4520632, 4520633, 4520634 (8.43M to 127.52M) \\
@@ -48,8 +48,8 @@ limits are 8M cells for the full tensor, 32M for the vector and 64M for
 the scalar. Gaya HDF5 timings are restricted to one NFS client after
 two-client readback failed; they are not pooled with Discoverer Lustre.
 
-\paragraph{Targeted repeats retained.}
-The retained 8.43M/512-rank slice (4520927) rotates the order of the
+\paragraph{Targeted repeat tests.}
+The 8.43-million-cell test at 512 ranks (4520927) rotates the order of the
 three EnSight writer strategies across paired repeats, verifies payloads
 against rank zero and tests independent versus collective HDF5 on the
 same allocation. A paired Darshan job (4520931) is intended to check

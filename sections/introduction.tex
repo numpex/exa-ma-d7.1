@@ -3,21 +3,33 @@
 %%% Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\clearpage
 \section{Report scope and organisation}
 \label{sec:introduction}
 
 \subsection{Scientific scope}
 \label{sec:purpose}
 
+Version 3.0.0 of the Exa-MA mega-deliverable gathers the contractual
+deliverables for the 2026 reporting period in a single report, continuing
+the collection format of earlier editions. It replaces the separate
+deliverable PDFs of the first project years.
+\Cref{tab:deliverable-correspondence} maps every chapter to its
+contractual deliverable, and the standalone work-package and software
+extracts are generated from the same source.
+
 Exa-MA develops numerical methods and scientific software for
 simulation and inference on heterogeneous supercomputers within
-PEPR NumPEx. The work addresses different sources of computational
-cost, from refining a discretisation to solving many instances of
-the same model in optimisation or uncertainty quantification.
+PEPR NumPEx. The work addresses the different sources of
+computational cost in a simulation workflow: refining a discretisation
+(WP1), reducing or learning surrogate models (WP2), solving the
+resulting linear systems on heterogeneous machines (WP3), inferring
+parameters from observations (WP4), optimising designs and controls
+(WP5), and propagating uncertainty through ensembles (WP6). WP7
+integrates these methods into common software, application and
+benchmark portfolios and coordinates co-design across NumPEx.
 This edition follows the work reported in 2026 from its numerical
 formulation to the software and experiments that implement and test it.
-Earlier results are retained where they provide a reference for comparison.
+Earlier results are kept where they provide a reference for comparison.
 
 The mega-deliverable assembles the contractual reports for this period.
 D0.2 reports the consortium's activities, publications and progress
@@ -86,10 +98,12 @@ D7.4 & Activity report included in annual report D0.2 & \Cref{chap:wp7,chap:mana
 \end{longtable}
 \endgroup
 
-D0.1, \emph{Project management Handbook}, has already been delivered separately.
-D7.2, \emph{co-design report}, is scheduled at M48 and M60. The WP7
-activity report and the demonstrator chapter record initial feedback
-ahead of those deliveries.
+D0.1, \emph{Project management Handbook}, has already been delivered
+separately. D7.2, \emph{co-design report}, is scheduled at M48 and
+M60; following the project's extension into 2027, the second
+instalment falls within the extended period. The WP7 activity report
+and the demonstrator chapter record initial feedback ahead of those
+deliveries.
 
 \subsection{Structure of the Document}
 \label{sec:structure}
@@ -102,5 +116,9 @@ the thermal-bridge case checks finite-element solutions against ISO~10211
 reference values and reports scaling on Discoverer
 (\cref{sec:app:specs:app-feelpp-discr-1}).
 \Cref{tab:framework-application-map,tab:v3-benchmark-registry} connect
-the software, applications and benchmark campaigns. Earlier KPI figures
-are retained in \hyperref[sec:appendix-b1]{Appendix~B.1}.
+the software, applications and benchmark campaigns. Earlier KPI
+figures are kept in \hyperref[sec:appendix-b1]{Appendix~B.1}. The
+appendices complete the record: they list the computing and data
+storage infrastructures used in 2026, preserve the 2025 reporting
+baseline and its follow-up (\hyperref[sec:appendix-b]{Appendix~B}), and
+collect the Feel++ I/O campaign (\hyperref[sec:appendix-feelpp-io]{Appendix~C}).

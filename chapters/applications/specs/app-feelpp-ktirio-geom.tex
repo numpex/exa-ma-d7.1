@@ -73,8 +73,8 @@ tracks or separate highway lanes.
 CGAL's isotropic remeshing is integrated with custom sizing fields. Input
 surfaces are converted to polygon soups, using property maps to retain
 patches and constraints. Edge markers select the constraints to preserve:
-constrained edges may be split but not collapsed, and mesh markers are
-retained after remeshing. Four interfaces accept, respectively, a uniform
+constrained edges may be split but not collapsed, and remeshing preserves
+mesh markers. Four interfaces accept, respectively, a uniform
 target edge length; minimum and maximum target lengths with a tolerance
 for adaptive remeshing; pairs of triangle-marker names and target lengths
 to assign different characteristic sizes to marked regions; or a functor

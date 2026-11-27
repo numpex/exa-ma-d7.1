@@ -1,24 +1,31 @@
-%% Adapted from the ecosystem map presented at the ANR review on 11 June 2026.
+%% Based on the research and industrial partnership tables in D0.2.
 flowchart TB
     exama["`**Exa-MA**
 NumPEx PC1`"]
     programme["`**NumPEx**
-Other targeted projects (PC2–PC5)
-SAGE-HPC · DAiMOS`"]
-    research["`**Research partners**
-JNL-G · LNCMI
-HiDALGO2 · EuroHPC JU
-ENACT AI cluster`"]
-    industry["`**Industrial co-funding**
-EDF · IFPEN · ONERA
-Safran · TotalEnergies (Pau)`"]
-    cifre["`**In-kind research**
-AVNIR Energy · CIFRE`"]
+Targeted projects PC2–PC5
+SAGE-HPC · DAiMOS
+KOKTAILS (potential link)`"]
+    research["`**Research collaborations**
+HiDALGO2 / EuroHPC JU
+JNL-G / LNCMI–Grenoble
+MAXINET · INCORWAVE
+BUTTERFLY · ENACT AI cluster
+GENCI · AMD · CINES`"]
+    cofunded["`**Industry-co-funded doctorates**
+IFPEN · ONERA
+SafranTech · EDF
+TotalEnergies (Pau)`"]
+    industry["`**Other industrial collaborations**
+CIFRE: AVNIR Energy · Airbus
+Airbus R&T · Cerfacs
+Thales Research & Technology
+Thales AVS (proposed PhD)`"]
 
     exama --- programme
     exama --- research
+    exama --- cofunded
     exama --- industry
-    exama -.- cifre
 
     class exama project
     classDef project fill:#2a2e80,stroke:#2a2e80,stroke-width:1.5px,color:#ffffff

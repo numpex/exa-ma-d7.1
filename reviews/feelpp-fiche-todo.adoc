@@ -44,7 +44,7 @@ Proposed deterministic objective and constraints using the shared forward model.
 `app-feelpp-io`
 |Normal
 |Scientific description ready for owner review; dataset completion separate. +
-C++ source, launch configuration and November 2026 campaign evidence.
+C++ source, launch configuration and November 2026 run records.
 |Publish partitioned inputs and manifests, complete scaling points and repeat writer comparisons with controlled cache state.
 |Terrain generation +
 `app-feelpp-ktirio-geom`
