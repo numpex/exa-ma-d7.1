@@ -564,6 +564,26 @@ to assess whether these models can support design optimisation across
 a large parameter space. The project connects WP2's work on scientific
 machine learning with industrial design.
 
+% Tokyo timings: app-feelpp-ktirio-geom results. LNCMI mesher fixes
+% and optimisations confirmed by Exa-MA coordination.
+\begin{samepage}
+\textbf{\href{https://geometryfactory.com/CGAL/}{GeometryFactory}.}
+The company develops and maintains CGAL with its academic partners.
+Its collaboration with Exa-MA covers two WP1 meshing problems.
+The University of Strasbourg team developed Ktirio-Geom's terrain
+meshing code. GeometryFactory helped the team accelerate it by
+using CGAL algorithms more efficiently. In the Tokyo benchmark,
+constrained Delaunay triangulation of the terrain tiles
+achieved a $25.6\times$ speedup with 32 worker threads relative to one
+on a single Gaya node\ifdefined\ExaMAStandaloneManagement\else
+\space(\hyperref[sec:app:specs:app-feelpp-ktirio-geom]{Ktirio-Geom benchmark})\fi.
+Meshing complex geometries from the LNCMI high-field magnet facility
+gave the teams test cases that led to bug fixes and optimisations in
+CGAL's 3D mesher\ifdefined\ExaMAStandaloneManagement\else
+\space(\hyperref[sec:CGAL:software]{CGAL software fiche})\fi.
+\par
+\end{samepage}
+
 \subsection{Training and exchanges between teams}
 
 The June MAJSC workshop in Strasbourg combined lectures on automatic
