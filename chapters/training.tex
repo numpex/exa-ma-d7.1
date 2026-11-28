@@ -4,8 +4,8 @@
 
 The \href{https://drive.google.com/file/d/1d4AKTGNbD74n90d5RESHytOr-M56sFIm}{April 2025 edition of D7.3}
 surveyed Master's programmes and described student projects, internships and
-training activities in 2024. This chapter records subsequent courses and
-software sessions linked to Exa-MA.
+training activities in 2024. This chapter records subsequent courses,
+workshops and software sessions linked to Exa-MA.
 
 \section{Courses, workshops and software sessions}
 
@@ -16,18 +16,31 @@ energy simulation at building and city scales. In January 2026, WP1 and WP7
 returned to the same demonstrator in a webinar on built environments.
 \Cref{sec:pc5:ktirio-urban-building} describes the underlying workflow.
 
-The June 2026 MAJSC workshop in Strasbourg paired lectures on automatic
-differentiation with practical work in JAX. The programme included
-differentiable Galerkin methods and numerical linear algebra,
-neural methods for PDEs, and optimal control and inversion with Diffrax.
-The \href{https://gitlab.math.unistra.fr/majsc2026/hands-on}{practical materials}
-remain available.
+At the AISSAI--NumPEx HACE workshop in Toulouse in May 2026, Emmanuel Franck
+(WP2) chaired a session on neural surrogates for PDEs, including
+physics-informed neural networks and neural operators.
+
+In June, Emmanuel Franck co-organised the MAJSC workshop at IRMA in
+Strasbourg and taught differentiable Galerkin methods and numerical
+linear algebra. The workshop combined lectures and practical sessions
+on JAX and automatic differentiation, including neural methods for PDEs
+and differentiable simulation with Diffrax for optimal control and
+inverse problems. The programme links to the
+\href{https://gitlab.math.unistra.fr/majsc2026/hands-on}{practical materials}.
 
 In June, Exa-MA also held four software exchanges with the HPDDM/PETSc,
 TRUST, FreeFEM++ and Samurai teams. The sessions addressed GPU
 preconditioners, Kokkos porting, finite-element solver interfaces and
-adaptive mesh refinement. \Cref{tab:v3-training-initiatives} links the
-programmes and recordings.
+adaptive mesh refinement.
+
+Emmanuel Franck taught an introductory JAX session at the
+AISSAI--NumPEx hackathon at IDRIS in September. The introductory track
+paired JAX training with hands-on scientific computing projects. The
+advanced track focused on scaling JAX applications across GPUs and nodes
+on Jean Zay. Rémi Imbach's
+\href{https://gist.github.com/rimbach/ee711e50d892906e3574684af5b747e7}{introductory JAX notebook}
+accompanies the introductory track.
+\Cref{tab:v3-training-initiatives} links the event programmes and recordings.
 
 \begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.34\textwidth}>{\raggedright\arraybackslash}p{0.39\textwidth}@{}}
 \caption{Selected training events and software exchanges, 2025--2026.}
@@ -44,11 +57,13 @@ programmes and recordings.
 17--19 Nov 2025 & \href{https://team.inria.fr/makutu/master-class-by-prof-mark-asch/}{Bayesian inversion masterclass} & Inverse problems and uncertainty quantification. WP4 reported about 20 participants.\\
 26--28 Nov 2025 & \href{https://www.hidalgo2.eu/hidalgo2-training-from-building-to-city-energy-simulation-with-ncc-czechia-ncc-germany/}{Ktirio Urban Building course} & Energy simulation from building to city scale.\\
 12 Jan 2026 & \href{https://exa-ma.numpex.fr/training.html}{Built environments webinar} & Ktirio Urban Building, from input data to HPC simulation and decision support.\\
+26--28 May 2026 & \href{https://aissai-hace.sciencesconf.org/?lang=en}{AISSAI--NumPEx HACE workshop, Toulouse} & HPC and AI hybridisation. WP2 chaired the session on neural surrogates for PDEs.\\
 8--12 Jun 2026 & \href{https://majsc2026.pages.math.unistra.fr/program.html}{MAJSC workshop, Strasbourg} & JAX and automatic differentiation for scientific computing.\\
 22 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260622-hpddm-petsc-framework-webinar.html}{HPDDM/PETSc session} & GPU domain decomposition and candidate mini-apps.\\
 23 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260623-trust-framework-webinar.html}{TRUST session} & Kokkos porting, solver choices and links to Uranie.\\
 25 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260625-freefem-framework-webinar.html}{FreeFEM++ session} & Multiphysics, PETSc integration and mini-apps.\\
 26 Jun 2026 & \href{https://exa-ma.numpex.fr/news/2026/20260626-samurai-framework-webinar.html}{Samurai session} & Adaptive meshes, parallelism and NumPEx benchmark plans.\\
+7--9 Sep 2026 & \href{https://aissai-jaxhack.sciencesconf.org/}{AISSAI--NumPEx JAX hackathon, IDRIS} & WP2 contributed introductory JAX training. The advanced track focused on multi-GPU and multi-node scaling on Jean Zay.\\
 \bottomrule
 \end{longtable}
 
